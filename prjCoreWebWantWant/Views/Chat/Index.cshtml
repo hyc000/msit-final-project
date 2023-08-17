@@ -7,13 +7,13 @@
 
 <div class="container">
 
-<div class="row my-5 border" style="height:69vh">
-        <div class="col-md-3 list-group custom-list-group card" id="userList" style="max-height: 66vh; overflow-y: auto;">
+<div class="row my-5" style="height:69vh">
+        <div class="col-md-3 list-group custom-list-group card" id="userList" style="max-height: 69vh; overflow-y: auto;">
     </div>
-    <div class="col-md-9 card justify-content-end align-items-center">
-        <div class="" id="chatDetail" style="overflow-y: auto;">請選擇聊天對象以開始對話</div>
+        <div class="col-md-9 card align-items-center" style="height:69vh">
+            <div class="" id="chatDetail" style="height:100vh;overflow-y: auto;">請選擇聊天對象以開始對話</div>
 
-        <span class="input-group">
+            <span class="input-group">
             <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="sendMessage" tabindex="101" value="">
             <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-send"></i></button>
         </span>
@@ -106,14 +106,14 @@
 
                         if (chat.receiverId === currentLoginId) {
                             chatMessage.classList.add('message-left', 'chat-bubble', 'go-left');//訊息樣式
-                            chatAvatar.classList.add('chat-avatar', 'img-thumbnail', 'go-left');
+                            chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-left');
                             messageTimeEle.classList.add('message-time', 'small', 'go-left');
                             chatContainer.appendChild(messageTimeEle);//加入對話時間
                             chatContainer.appendChild(chatAvatar);//加入頭像
                             chatContainer.appendChild(chatMessage);//加入對話
                         } else {
                             chatAvatar.src = @Html.Raw(Json.Serialize(ViewBag.currentLoginAvatarUrl));
-                            chatAvatar.classList.add('chat-avatar', 'img-thumbnail', 'go-right');
+                            chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
                             chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
                             messageTimeEle.classList.add('message-time', 'small', 'go-right');
                             chatContainer.appendChild(messageTimeEle);//加入對話時間
@@ -241,7 +241,6 @@
 
         #chatDetail {
             width: 100%;
-            max-height: 300px;
             overflow-y: auto;
         }
 
