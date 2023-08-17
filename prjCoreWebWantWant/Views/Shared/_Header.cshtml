@@ -1,0 +1,59 @@
+﻿<head>
+    <!--== Icofont Icon CSS ==-->
+    <link rel="stylesheet" href="~/Mstyles/icofont.css" />
+
+    <!--== CSS Styles ==-->
+    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true" />
+</head>
+
+<body>
+    <!--== header start ==-->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/Images/LOGO.png" class="img-fluid" alt="Logo">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark nav-a-link" asp-area="" asp-controller="Home" asp-action="Index">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark nav-a-link" asp-area="" asp-controller="Task" asp-action="List">找工作</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark nav-a-link" asp-area="" asp-controller="Expert" asp-action="ExpertMainPage">找專家</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark nav-a-link" asp-area="" asp-controller="Forum" asp-action="CategoryList">討論區</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto pe-5">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark ps-3" asp-area="" asp-controller="BackstageManagement" asp-action="Index">後台</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">登入/註冊</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <!--== header end ==-->
+    <!--== Javascript ==-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>                       

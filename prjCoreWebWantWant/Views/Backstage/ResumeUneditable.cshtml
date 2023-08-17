@@ -1,0 +1,1163 @@
+﻿
+@{
+    ViewData["Title"] = "ResumeUneditable";
+    // Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
+     Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>Profile | Minia - Minimal Admin &amp; Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="Premium Multipurpose Admin &amp; Dashboard Template"
+          name="description" />
+    <meta content="Themesbrand" name="author" />
+    <style>
+
+        .badge-soft-primary {
+            background-color: #528EAF;
+            color: #fff;
+        }
+
+    </style>
+</head>
+
+<body class="pace-done pace-done"
+      data-bs-theme="light"
+      data-topbar="light"
+      data-sidebar="light">
+    <div class="pace pace-inactive">
+        <div class="pace-progress"
+             data-progress-text="100%"
+             data-progress="99"
+             style="transform: translate3d(100%, 0px, 0px)">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <div class="pace pace-inactive">
+        <div class="pace-progress"
+             data-progress-text="100%"
+             data-progress="99"
+             style="transform: translate3d(100%, 0px, 0px)">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <div class="pace pace-inactive">
+        <div class="pace-progress"
+             data-progress-text="100%"
+             data-progress="99"
+             style="transform: translate3d(100%, 0px, 0px)">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <div class="pace pace-inactive">
+        <div class="pace-progress"
+             data-progress-text="100%"
+             data-progress="99"
+             style="transform: translate3d(100%, 0px, 0px)">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <div class="pace pace-inactive">
+        <div class="pace-progress"
+             data-progress-text="100%"
+             data-progress="99"
+             style="transform: translate3d(100%, 0px, 0px)">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <!-- <body data-layout="horizontal"> -->
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+
+                    <button type="button"
+                            class="btn btn-sm px-3 font-size-16 header-item"
+                            id="vertical-menu-btn">
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+
+                    <!-- App Search-->
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative"></div>
+                    </form>
+                </div>
+
+               @*  <div class="d-flex">
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button"
+                                class="btn header-item"
+                                id="page-header-search-dropdown"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-search icon-lg">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                             aria-labelledby="page-header-search-dropdown">
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Search ..."
+                                               aria-label="Search Result" />
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="mdi mdi-magnify"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-none d-sm-inline-block">
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item language"
+                               data-lang="en">
+                                <img src="~/Backstage/static/picture/us.jpg"
+                                     alt="user-image"
+                                     class="me-1"
+                                     height="12" />
+                                <span class="align-middle">English</span>
+                            </a>
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item language"
+                               data-lang="sp">
+                                <img src="~/Backstage/static/picture/spain.jpg"
+                                     alt="user-image"
+                                     class="me-1"
+                                     height="12" />
+                                <span class="align-middle">Spanish</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item language"
+                               data-lang="gr">
+                                <img src="~/Backstage/static/picture/germany.jpg"
+                                     alt="user-image"
+                                     class="me-1"
+                                     height="12" />
+                                <span class="align-middle">German</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item language"
+                               data-lang="it">
+                                <img src="~/Backstage/static/picture/italy.jpg"
+                                     alt="user-image"
+                                     class="me-1"
+                                     height="12" />
+                                <span class="align-middle">Italian</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);"
+                               class="dropdown-item notify-item language"
+                               data-lang="ru">
+                                <img src="~/Backstage/static/picture/russia.jpg"
+                                     alt="user-image"
+                                     class="me-1"
+                                     height="12" />
+                                <span class="align-middle">Russian</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-none d-sm-inline-block">
+                        <button type="button"
+                                class="btn header-item"
+                                id="mode-setting-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-moon icon-lg layout-mode-dark">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-sun icon-lg layout-mode-light">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button"
+                                class="btn header-item"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-grid icon-lg">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end"
+                             style="">
+                            <div class="p-2">
+                                <div class="row g-0">
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/github.png"
+                                                 alt="Github" />
+                                            <span>GitHub</span>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/bitbucket.png"
+                                                 alt="bitbucket" />
+                                            <span>Bitbucket</span>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/dribbble.png"
+                                                 alt="dribbble" />
+                                            <span>Dribbble</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row g-0">
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/dropbox.png"
+                                                 alt="dropbox" />
+                                            <span>Dropbox</span>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/mail_chimp.png"
+                                                 alt="mail_chimp" />
+                                            <span>Mail Chimp</span>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a class="dropdown-icon-item"
+                                           href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">
+                                            <img src="~/Backstage/static/picture/slack.png"
+                                                 alt="slack" />
+                                            <span>Slack</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button"
+                                class="btn header-item noti-icon position-relative"
+                                id="page-header-notifications-dropdown"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-bell icon-lg">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span class="badge bg-danger rounded-pill">5</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                             aria-labelledby="page-header-notifications-dropdown"
+                             style="">
+                            <div class="p-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0">Notifications</h6>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#!"
+                                           class="small text-reset text-decoration-underline">
+                                            Unread (3)
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-simplebar="init" style="max-height: 230px">
+                                <div class="simplebar-wrapper" style="margin: 0px">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                        <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                        <div class="simplebar-offset"
+                                             style="right: 0px; bottom: 0px">
+                                            <div class="simplebar-content-wrapper"
+                                                 style="height: auto; overflow: hidden">
+                                                <div class="simplebar-content" style="padding: 0px">
+                                                    <a href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#!"
+                                                       class="text-reset notification-item">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3">
+                                                                <img src="~/Backstage/static/picture/avatar-3.jpg"
+                                                                     class="rounded-circle avatar-sm"
+                                                                     alt="user-pic" />
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1">James Lemire</h6>
+                                                                <div class="font-size-13 text-muted">
+                                                                    <p class="mb-1">
+                                                                        It will seem like simplified English.
+                                                                    </p>
+                                                                    <p class="mb-0">
+                                                                        <i class="mdi mdi-clock-outline"></i>
+                                                                        <span>1 hour ago</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#!"
+                                                       class="text-reset notification-item">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 avatar-sm me-3">
+                                                                <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                                                    <i class="bx bx-cart"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1">Your order is placed</h6>
+                                                                <div class="font-size-13 text-muted">
+                                                                    <p class="mb-1">
+                                                                        If several languages coalesce the grammar
+                                                                    </p>
+                                                                    <p class="mb-0">
+                                                                        <i class="mdi mdi-clock-outline"></i>
+                                                                        <span>3 min ago</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#!"
+                                                       class="text-reset notification-item">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 avatar-sm me-3">
+                                                                <span class="avatar-title bg-success rounded-circle font-size-16">
+                                                                    <i class="bx bx-badge-check"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1">Your item is shipped</h6>
+                                                                <div class="font-size-13 text-muted">
+                                                                    <p class="mb-1">
+                                                                        If several languages coalesce the grammar
+                                                                    </p>
+                                                                    <p class="mb-0">
+                                                                        <i class="mdi mdi-clock-outline"></i>
+                                                                        <span>3 min ago</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+
+                                                    <a href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#!"
+                                                       class="text-reset notification-item">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3">
+                                                                <img src="~/Backstage/static/picture/avatar-6.jpg"
+                                                                     class="rounded-circle avatar-sm"
+                                                                     alt="user-pic" />
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1">Salena Layfield</h6>
+                                                                <div class="font-size-13 text-muted">
+                                                                    <p class="mb-1">
+                                                                        As a skeptical Cambridge friend of mine
+                                                                        occidental.
+                                                                    </p>
+                                                                    <p class="mb-0">
+                                                                        <i class="mdi mdi-clock-outline"></i>
+                                                                        <span>1 hour ago</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="simplebar-placeholder"
+                                         style="width: 0px; height: 0px"></div>
+                                </div>
+                                <div class="simplebar-track simplebar-horizontal"
+                                     style="visibility: hidden">
+                                    <div class="simplebar-scrollbar"
+                                         style="
+                        transform: translate3d(0px, 0px, 0px);
+                        display: none;
+                      "></div>
+                                </div>
+                                <div class="simplebar-track simplebar-vertical"
+                                     style="visibility: hidden">
+                                    <div class="simplebar-scrollbar"
+                                         style="
+                        transform: translate3d(0px, 0px, 0px);
+                        display: none;
+                        height: 129px;
+                      "></div>
+                                </div>
+                            </div>
+                            <div class="p-2 border-top d-grid">
+                                <a class="btn btn-sm btn-link font-size-14 text-center"
+                                   href="javascript:void(0)">
+                                    <i class="mdi mdi-arrow-right-circle me-1"></i>
+                                    <span>View More..</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button"
+                                class="btn header-item right-bar-toggle me-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="feather feather-settings icon-lg">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item"
+                               href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html">
+                                <i class="mdi mdi-face-man font-size-16 align-middle me-1"></i>
+                                Profile
+                            </a>
+                            <a class="dropdown-item"
+                               href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/auth-lock-screen.html">
+                                <i class="mdi mdi-lock font-size-16 align-middle me-1"></i>
+                                Lock Screen
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/auth-logout.html">
+                                <i class="mdi mdi-logout font-size-16 align-middle me-1"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div> *@
+            </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-28">履歷</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm order-2 order-sm-1">
+                                            <div class="d-flex align-items-start mt-3 mt-sm-0">
+                                                <div class="flex-shrink-0">
+                                                    <div class="avatar-xl me-3">
+                                                        <img src="~/Backstage/static/picture/avatar-2.jpg"
+                                                             alt=""
+                                                             class="img-fluid rounded-circle d-block" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <div>
+                                                        <h5 class="font-size-16 mb-1">
+                                                            姓名：李芷帆
+                                                        </h5>
+
+                                                        <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
+                                                            <div>性別：女</div>
+                                                        </div>
+                                                        <br />
+                                                        @*<div>
+                                                        <input type="file"
+                                                        class="form-control"
+                                                        id="inputProfilePicture"
+                                                        style="width: 32rem" />
+                                                        </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-auto order-1 order-sm-2">
+                                            <div class="d-flex align-items-start justify-content-end gap-2">
+                                                <div></div>
+                                                <div>
+                                                    <div class="dropdown">
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Action</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Another action</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Something else here</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ul class="nav nav-tabs-custom card-header-tabs border-top mt-4"
+                                        id="pills-tab"
+                                        role="tablist">
+                                       @*  <li class="nav-item" role="presentation">
+                                            <a class="nav-link px-3 active"
+                                               data-bs-toggle="tab"
+                                               href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#overview"
+                                               role="tab"
+                                               aria-selected="true">履歷總覽</a>
+                                        </li> *@
+                                        <li class="nav-item" role="presentation"></li>
+                                        <li class="nav-item" role="presentation"></li>
+                                    </ul>
+                                </div>
+                                <!-- end card body -->
+                            </div>
+                            <!-- end card -->
+
+                            <div class="tab-content">
+                                <div class="tab-pane active show"
+                                     id="overview"
+                                     role="tabpanel">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title mb-0">個人資料</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div>
+                                                <div class="pb-3">
+                                                    <div class="row">
+                                                        <div class="col-xl-1">
+                                                            <div>
+                                                                <h5 class="font-size-15" width="50px">生日：</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl">
+                                                            <div class="text-muted">
+                                                                <p class="mb-2"></p>
+                                                                <p class="mb-0">1997/01/01</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="py-3">
+                                                    <div class="row">
+                                                        <div class="col-xl-1">
+                                                            <div>
+                                                                <h5 class="font-size-15" width="50px">城市:</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl">
+                                                            <div class="text-muted">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <p>台北市</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="py-3">
+                                                    <div class="row">
+                                                        <div class="col-xl-1">
+                                                            <div>
+                                                                <h5 class="font-size-15" width="50px">區域:</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl">
+                                                            <div class="text-muted">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <p>大安區</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pb-3">
+                                                    <div class="row">
+                                                        <div class="col-xl-1">
+                                                            <div>
+                                                                <h5 class="font-size-15"  width="50px">詳細地址：</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl">
+                                                            <div class="text-muted">
+                                                                <p class="mb-2"></p>
+                                                                <p class="mb-0">復興南路一段390號2樓</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="card-title mb-0">求職條件</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div>
+                                                <div class="pb-3">
+                                                    <div class="row">
+                                                        <div class="col-xl-1">
+                                                            <div>
+                                                                <h5 class="font-size-15">上班時段：</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl">
+                                                            <div class="text-muted">
+                                                                <p>日班</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="pb-3">
+                                                        <div class="row">
+                                                            <div class="col-xl-1">
+                                                                <div>
+                                                                    <h5 class="font-size-15">可上班日：</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl">
+                                                                <div class="text-muted">
+                                                                    <p>錄取後一週</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pb-3">
+                                                        <div class="row">
+                                                            <div class="col-xl-1">
+                                                                <div>
+                                                                    <h5 class="font-size-15">遠端工作：</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl">
+                                                                <div class="text-muted">
+                                                                    <p>對遠端工作有意願</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- end col -->
+                                                </div>
+                                                <!-- end row -->
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="card">
+                                                            <h5 class="card-header">
+                                                                <div class="d-flex">
+                                                                    <div class="flex-grow-1">
+                                                                        <h5 class="card-title mb-0">語言能力</h5>
+                                                                    </div>
+                                                                </div>
+                                                            </h5>
+                                                            <div class="card-body">
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <div class="accordion-body">
+                                                                            <p>
+                                                                                外文種類： 英文 聽：中等 說：中等
+                                                                                讀：中等 寫：中等
+                                                                            </p>
+                                                                        </div>
+                                                                        <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="card">
+                                                            <h5 class="card-header">
+                                                                <div class="d-flex">
+                                                                    <div class="flex-grow-1">
+                                                                        <h5 class="card-title mb-0">履歷技能</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <!-- <a href="#" class="btn btn-primary">
+                                                                                        新增履歷技能 +
+                                                                                      </a> -->
+                                                                        <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+                                                                </div>
+                                                            </h5>
+                                                            <div class="card-body">
+                                                                <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                    <a class="badge badge-soft-primary">Photoshop</a>
+                                                                    <a class="badge badge-soft-primary">illustrator</a>
+                                                                    <a class="badge badge-soft-primary">HTML</a>
+                                                                    <a class="badge badge-soft-primary">CSS</a>
+                                                                    <a class="badge badge-soft-primary">Javascript</a>
+                                                                    <a class="badge badge-soft-primary">Php</a>
+                                                                    <a class="badge badge-soft-primary">Python</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="card">
+                                                            <h5 class="card-header">
+                                                                <div class="d-flex">
+                                                                    <div class="flex-grow-1">
+                                                                        <h5 class="card-title mb-0">履歷證照</h5>
+                                                                    </div>
+                                                                </div>
+                                                            </h5>
+                                                            <div class="card-body">
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                            <a class="badge badge-soft-primary">會計師</a>
+                                                                            <a class="badge badge-soft-primary">律師</a>
+                                                                        </div>
+                                                                        <!-- <a href="#" class="btn btn-primary">
+                                                                                        新增履歷證照 +
+                                                                                      </a> -->
+                                                                        <!-- end col -->
+                                                                    </div>
+                                                                    <!-- end row -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="card-title mb-0">自傳</h5>
+                                                </div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div>
+                                                <div class="row">
+                                                    <textarea rows="10"
+                                                              class="form-control"
+                                                              placeholder="您好！我是李芷帆，畢業於東吳大學資工系，會c、c++、python，閒暇時會獨立接案，將客戶要求做到最好。"></textarea>
+                                                    <!-- end col -->
+                                                </div>
+                                                <!-- end row -->
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                                <!-- end tab pane -->
+
+                                <div class="tab-pane active show" id="about" role="tabpanel">
+                                    <!-- end card -->
+                                </div>
+                                <!-- end tab pane -->
+
+                                <div class="tab-pane active show" id="post" role="tabpanel">
+                                    <!-- end card -->
+                                </div>
+                                <!-- end tab pane -->
+                            </div>
+                            <!-- end tab content -->
+                        </div>
+                        <!-- end col -->
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+        </div>
+        <!-- end main content-->
+    </div>
+    <!-- END layout-wrapper -->
+    <!-- Right Sidebar -->
+   @*  <div class="right-bar">
+        <div data-simplebar="init" class="h-100">
+            <div class="simplebar-wrapper" style="margin: 0px">
+                <div class="simplebar-height-auto-observer-wrapper">
+                    <div class="simplebar-height-auto-observer"></div>
+                </div>
+                <div class="simplebar-mask">
+                    <div class="simplebar-offset" style="right: -15px; bottom: 0px">
+                        <div class="simplebar-content-wrapper"
+                             style="height: 100%; overflow: hidden scroll">
+                            <div class="simplebar-content" style="padding: 0px">
+                                <div class="rightbar-title d-flex align-items-center p-3">
+                                    <h5 class="m-0 me-2">Theme Customizer</h5>
+
+                                    <a href="javascript:void(0);"
+                                       class="right-bar-toggle ms-auto">
+                                        <i class="mdi mdi-close noti-icon"></i>
+                                    </a>
+                                </div> *@
+
+                                <!-- Settings -->
+                               @*  <hr class="m-0" />
+
+                                <div class="p-4">
+                                    <h6 class="mb-3">Layout</h6>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout"
+                                               id="layout-vertical"
+                                               value="vertical" />
+                                        <label class="form-check-label" for="layout-vertical">Vertical</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout"
+                                               id="layout-horizontal"
+                                               value="horizontal" />
+                                        <label class="form-check-label" for="layout-horizontal">Horizontal</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2">Layout Mode</h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-mode"
+                                               id="layout-mode-light"
+                                               value="light" />
+                                        <label class="form-check-label" for="layout-mode-light">Light</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-mode"
+                                               id="layout-mode-dark"
+                                               value="dark" />
+                                        <label class="form-check-label" for="layout-mode-dark">Dark</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2">Layout Width</h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-width"
+                                               id="layout-width-fuild"
+                                               value="fuild"
+                                               onchange="document.body.setAttribute(&#39;data-layout-size&#39;, &#39;fluid&#39;)" />
+                                        <label class="form-check-label" for="layout-width-fuild">Fluid</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-width"
+                                               id="layout-width-boxed"
+                                               value="boxed"
+                                               onchange="document.body.setAttribute(&#39;data-layout-size&#39;, &#39;boxed&#39;)" />
+                                        <label class="form-check-label" for="layout-width-boxed">Boxed</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2">Layout Position</h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-position"
+                                               id="layout-position-fixed"
+                                               value="fixed"
+                                               onchange="document.body.setAttribute(&#39;data-layout-scrollable&#39;, &#39;false&#39;)" />
+                                        <label class="form-check-label"
+                                               for="layout-position-fixed">Fixed</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-position"
+                                               id="layout-position-scrollable"
+                                               value="scrollable"
+                                               onchange="document.body.setAttribute(&#39;data-layout-scrollable&#39;, &#39;true&#39;)" />
+                                        <label class="form-check-label"
+                                               for="layout-position-scrollable">Scrollable</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2">Topbar Color</h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="topbar-color"
+                                               id="topbar-color-light"
+                                               value="light"
+                                               onchange="document.body.setAttribute(&#39;data-topbar&#39;, &#39;light&#39;)" />
+                                        <label class="form-check-label" for="topbar-color-light">Light</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="topbar-color"
+                                               id="topbar-color-dark"
+                                               value="dark"
+                                               onchange="document.body.setAttribute(&#39;data-topbar&#39;, &#39;dark&#39;)" />
+                                        <label class="form-check-label" for="topbar-color-dark">Dark</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Size</h6>
+
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-size"
+                                               id="sidebar-size-default"
+                                               value="default"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar-size&#39;, &#39;lg&#39;)" />
+                                        <label class="form-check-label" for="sidebar-size-default">Default</label>
+                                    </div>
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-size"
+                                               id="sidebar-size-compact"
+                                               value="compact"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar-size&#39;, &#39;md&#39;)" />
+                                        <label class="form-check-label" for="sidebar-size-compact">Compact</label>
+                                    </div>
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-size"
+                                               id="sidebar-size-small"
+                                               value="small"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar-size&#39;, &#39;sm&#39;)" />
+                                        <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2 sidebar-setting">
+                                        Sidebar Color
+                                    </h6>
+
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-color"
+                                               id="sidebar-color-light"
+                                               value="light"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar&#39;, &#39;light&#39;)" />
+                                        <label class="form-check-label" for="sidebar-color-light">Light</label>
+                                    </div>
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-color"
+                                               id="sidebar-color-dark"
+                                               value="dark"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar&#39;, &#39;dark&#39;)" />
+                                        <label class="form-check-label" for="sidebar-color-dark">Dark</label>
+                                    </div>
+                                    <div class="form-check sidebar-setting">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sidebar-color"
+                                               id="sidebar-color-brand"
+                                               value="brand"
+                                               onchange="document.body.setAttribute(&#39;data-sidebar&#39;, &#39;brand&#39;)" />
+                                        <label class="form-check-label" for="sidebar-color-brand">Brand</label>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3 pt-2">Direction</h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-direction"
+                                               id="layout-direction-ltr"
+                                               value="ltr" />
+                                        <label class="form-check-label" for="layout-direction-ltr">LTR</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="layout-direction"
+                                               id="layout-direction-rtl"
+                                               value="rtl" />
+                                        <label class="form-check-label" for="layout-direction-rtl">RTL</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="simplebar-placeholder"
+                     style="width: auto; height: 843px"></div>
+            </div>
+            <div class="simplebar-track simplebar-horizontal"
+                 style="visibility: hidden">
+                <div class="simplebar-scrollbar"
+                     style="transform: translate3d(0px, 0px, 0px); display: none"></div>
+            </div>
+            <div class="simplebar-track simplebar-vertical"
+                 style="visibility: visible">
+                <div class="simplebar-scrollbar"
+                     style="
+              transform: translate3d(0px, 0px, 0px);
+              display: block;
+              height: 683px;
+            "></div>
+            </div>
+        </div>
+        <!-- end slimscroll-menu-->
+    </div>
+    <!-- /Right-bar -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div> *@
+</body>
+</html>

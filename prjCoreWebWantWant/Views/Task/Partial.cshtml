@@ -1,0 +1,70 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+
+<!-- Featured_job_start -->
+<section class="featured-job-area">
+    <div class="container">
+        <!-- Count of Job list Start -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="count-job mb-35">
+                    <span>共 @Model.Count() 筆資料</span>
+                    <!-- Select job items start -->
+                    <div class="select-job-items">
+                        <span>排序</span>
+                        <form id="sort">
+                            <select id="selectSort">
+                                <option value="">無</option>
+                                <option value="">更新 新->舊</option>
+                                <option value="salaryHighToLow">薪資 高->低</option>
+                                <option value="">薪資 低->高</option>
+                            </select>
+                        </form>
+                    </div>
+                    <!--  Select job items End-->
+                </div>
+            </div>
+        </div>
+        <!-- Count of Job list End -->
+        <!-- single-job-content -->        
+            @foreach (var item in Model)
+            {
+                <div class="single-job-items mb-30" style="border:groove;">
+                    @*工作列表*@
+                    <div class="job-items">
+                        @*<div class="company-img">
+                    <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+                    </div>*@
+                        <div class="job-tittle job-tittle2">
+                            <a href="#">
+                                <h4> @Html.DisplayFor(modelItem => item.TaskTitle)</h4>
+                            </a>
+                            <ul>
+                                @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
+                                <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1) @*@ViewBag.CITY*@</li>
+                                <li>薪資：@Html.DisplayFor(modelItem => item.PayFrom) 元</li>
+                                <li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="items-link items-link2 f-right">
+                        @*<a href="Details" onclick="Alert()">詳細資訊</a>*@
+                        @*@Html.ActionLink("詳細資訊", "Detail", new { id=item.CaseId })*@
+                        <a href="@Url.Action("Detail", new { id=item.CaseId })" target="_blank" style="color: #528eaf">詳細資訊</a>
+                        @*<a href="job_details.html">收藏</a>*@
+                        @*<span> @Html.DisplayFor(modelItem => item.TaskStart)</span>*@
+                    </div>
+                </div>
+            }           
+        </div>
+
+        <script>
+        const selSort = document.querySelector('#selectSort');
+        selSort.addEventListener('change', () => {
+            console.log('排序');
+        })
+        </script>
+</section>
+<!-- Featured_job_end -->
+
+
+

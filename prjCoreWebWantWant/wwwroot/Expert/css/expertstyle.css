@@ -1,0 +1,390 @@
+.expertlisttitle{
+    background-color: black; height: 30em; width: 100%; 
+}
+.expertlisttitle>p{
+    color: bisque; position: absolute; top: 5%; left: 40%; font-size: 5em;
+}
+
+
+
+
+.expertlsit{
+    margin: -20%; 
+    background-color: rgb(255, 255, 255); 
+    width: 1200px; 
+    align-content: center;
+     border: 2px ; 
+    border-radius: 5%;
+    border-color: rgb(233, 233, 233); 
+    border-style:solid; 
+}
+/*歷史委託的樣式表*/
+.tab_outer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tab_outer input {
+    display: none
+}
+
+.tab_outer label {
+    margin: 0 5px 5px 0;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    
+
+    opacity: 0.5;
+}
+
+.displayno {
+    display: none;
+}
+
+.tab_content {
+    order: 1;
+    
+    width: 100%;
+    border-bottom: 3px solid #ddd;
+    line-height: 1.6;
+    font-size: .9em;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.tab_outer input:checked+label,
+.tab_outer label:hover {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.tab_outer input:checked+label+.tab_content {
+    display: initial;
+}
+.tab_content >table{
+    justify-content: center;
+
+
+}
+ 
+.tab_button {
+   padding: 15.5px 31px;
+   border: 1px solid #FFFFFF;
+   background: -webkit-gradient(linear, left top, left bottom, from(#CCD7FF), to(#65A7E0));
+   background: -webkit-linear-gradient(top, #CCD7FF, #65A7E0);
+   background: -moz-linear-gradient(top, #CCD7FF, #65A7E0);
+   background: -ms-linear-gradient(top, #CCD7FF, #65A7E0);
+   background: -o-linear-gradient(top, #CCD7FF, #65A7E0);
+   background-color: #65A7E0;
+   box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+   -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+   -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+   -webkit-border-radius: 28px;
+   -moz-border-radius: 28px;
+   border-radius: 28px;
+   text-shadow: #5E70CC 1px 1px 0px;
+   color: #000000;
+   font-size: 21px;
+
+   text-decoration: none;
+   font-weight: bold;
+   -webkit-transition: 0.5s;
+   -moz-transition: 0.5s;
+   -o-transition: 0.5s;
+   cursor: pointer;
+   }
+.tab_button:hover {
+   background: none;
+   background-color: #65A7E0;
+   box-shadow: 0px 0px 5px 0px #AAAAAA;
+   -webkit-box-shadow: 0px 0px 5px 0px #AAAAAA;
+   -moz-box-shadow: 0px 0px 5px 0px #AAAAAA;
+   border: 1px solid #ffffff;
+   color: #000000;
+   }
+.tab_button:active {
+   top: 1px;
+   position: relative;
+   }
+   
+   /*tab第二種-草稿*/
+   .tab_button2 {
+    padding: 15.5px 31px;
+    border: 1px solid #feb473;
+    background: -webkit-gradient(linear, left top, left bottom, from(#feb473), to(#feb473));
+    background: -webkit-linear-gradient( #feb473);
+    background: -moz-linear-gradient(top, #feb473);
+    background: -ms-linear-gradient(top, #feb473);
+    background: -o-linear-gradient(top, #feb473);
+    background-color: #fede73;
+    box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    text-shadow: #feb473 1px 1px 0px;
+    color: #000000;
+    font-size: 21px;
+ 
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    cursor: pointer;
+    }
+ .tab_button2:hover {
+    background: none;
+    background-color: #fede73;
+    box-shadow: 0px 0px 5px 0px #feb473;
+    -webkit-box-shadow: 0px 0px 5px 0px #feb473;
+    -moz-box-shadow: 0px 0px 5px 0px #feb473;
+    border: 1px solid #ffffff;
+    color: #000000;
+    }
+ .tab_button2:active {
+    top: 1px;
+    position: relative;
+    }
+
+    /*tab第三種-已完成*/
+   .tab_button3 {
+    padding: 15.5px 31px;
+    border: 1px solid #FFFFFF;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccffd5), to(#4eb58d));
+    background: -webkit-linear-gradient(top, #ccffd5, #4eb58d);
+    background: -moz-linear-gradient(top, #ccffd5, #4eb58d);
+    background: -ms-linear-gradient(top, #ccffd5, #4eb58d);
+    background: -o-linear-gradient(top, #ccffd5, #4eb58d);
+    background-color: #65A7E0;
+    box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 3px #FFFFFF;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    text-shadow: #4eb58d 1px 1px 0px;
+    color: #000000;
+    font-size: 21px;
+ 
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    cursor: pointer;
+    }
+ .tab_button3:hover {
+    background: none;
+    background-color: #4eb58d;
+    box-shadow: 0px 0px 5px 0px #4eb58d;
+    -webkit-box-shadow: 0px 0px 5px 0px #4eb58d;
+    -moz-box-shadow: 0px 0px 5px 0px #4eb58d;
+    border: 1px solid #ffffff;
+    color: #000000;
+    }
+ .tab_button3:active {
+    top: 1px;
+    position: relative;
+    }
+.div-expert-title
+{
+
+margin: 10px auto;
+padding: 10px;
+text-align: center;
+
+}
+
+  /*下拉式選單*/
+.dropexpert-item,.dropexpert-header {
+    display: block;
+    width: 100%;
+   /* padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);*/
+  
+   margin: auto;
+    clear: both;
+    font-weight: 400;
+    color: var(--bs-dropdown-link-color);
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    border-radius: var(--bs-dropdown-item-border-radius, 0);
+  }
+  .dropexpert-header>hr,p {
+    /* padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);*/
+   margin-top: -5px; 
+   margin-bottom: -5px;
+
+  }
+ 
+  .dropexpert-item:hover, .dropexpert-item:focus {
+    color: var(--bs-dropdown-link-hover-color);
+    background-color: rgb(210, 210, 210);
+  }
+  .dropexpert-item.active, .dropexpert-item:active {
+    color: var(--bs-dropdown-link-active-color);
+    text-decoration: none;
+    background-color: var(--bs-dropdown-link-active-bg);
+  }
+  .dropexpert-item.disabled, .dropexpert-item:disabled {
+    color: var(--bs-dropdown-link-disabled-color);
+    pointer-events: none;
+    background-color: transparent;
+  }
+/* 履歷頁面的按鈕*/
+.btnResume {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #62779d;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    position: relative;
+    top: 85%
+}
+.labelResume {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #62779d;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    position: relative;
+    top: 85%
+}
+
+.btnResume:hover {
+    position: relative;
+    top: 55%;
+    transition: 1s;
+    color: oldlace;
+}
+
+.labelResume:hover {
+    position: relative;
+    top: 55%;
+    transition: 1s;
+    color:oldlace;
+}
+
+  .btnResume span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .btnResume span:after {
+    content: '�';
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+.labelResume span:after {
+
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    right: -20px;
+    transition: 0.5s;
+}
+
+
+  
+  .btnResume:hover span {
+    padding-right: 25px;
+  }
+  
+  .btnResume:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+ 
+  .img-class{
+    height: 730px;
+    width: 600px;
+  }
+
+  /*橫向*/
+  .expertrow {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    /*flex-wrap: wrap;*/
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+  }
+.w-10 {
+    width:10%
+}
+.w-15 {
+    width: 15%
+}
+.w-20 {
+    width: 20%
+}
+.w-30 {
+    width: 30%
+}
+.w-40 {
+    width: 40%
+}
+.w-60 {
+    width: 60%
+}
+.w-70 {
+    width: 70%
+}
+.w-80 {
+    width: 80%
+}
+.w-90 {
+    width: 90%
+}
+.w-25 {
+    width: 25%
+}
+.w-75 {
+    width: 75%
+}
+
+.ExpertContainer {
+  
+    background-image: url("~/Expert/images/background1.jpg");
+    height:50vh;
+    width:50vw;
+}
+.expertTbody {
+    overflow-y: auto;
+    height:55vh; 
+    width:80vw;
+}
+.expertThead {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+}
+

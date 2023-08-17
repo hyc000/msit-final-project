@@ -1,0 +1,170 @@
+﻿@model prjCoreWantMember.ViewModels.CExpertInfoViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<body class="bg-dark">
+    <div>
+
+        <div class="container container-fluid">
+            <div class="row">
+
+                <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3 bg-body-tertiary " style="height: 70vh;">
+
+                    <div class=" me-md-3 ps-3 pt-md-5 ps-md-4 text-center overflow-hidden my-3 py-3">
+                        <img src="~/Expert/images/3.jpg" class="img-fluid" style="height:90%">
+                    </div>
+
+                    <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
+                        <div class="m-3 p-4 ">
+                            <h2 class="display-5">@Html.DisplayFor(model =>model.memberAccount.Name)</h2>
+                            <span class="lead me-md-3">主要工作地點：</span>
+                            <span class="lead">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</span>
+                            <p class="lead pt-3">介紹：</p>
+                            <p class="lead pt-3 container-fluid">
+                                @Html.DisplayFor(model => model.expertResume.Introduction)
+                            </p>
+                            <p class="lead pt-3">基本報價：</p>
+                            <p class="lead py-3">@Html.DisplayFor(model =>model.expertResume.CommonPrice)</p>
+
+
+
+                        </div>
+                        <!--按鈕-->
+                        <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
+                            <a class="btnResume pt-3" href="#details" onclick="clickdeploy(details,works)"
+                               data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
+                            <a class="btnResume pt-3"  href="#works" onclick="clickdeploy(works,details)"
+                               data-loading-text="Loading..." id="A"><span>作品集</span></a>
+                            @Html.ActionLink("委託","Create","ExpertTask",null,new{ @class="labelResume pt-3"} )
+                            <div class="labelResume pt-3">
+                                <span> 點閱次數：5 @Html.DisplayFor(model => model.expertResume.HistoricalViews)</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div style="display: none; " id="details">
+                    <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-body-tertiary " style="height:90vh">
+                        <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
+                            <div class="m-3 p-4 ">
+                                <span class="lead me-md-3">收費方式:</span>
+                                <span class="lead">@Html.DisplayFor(model => model.expertResume.PaymentMethod)</span>
+                                <p class="lead pt-3">服務內容:</p>
+                                <p class="lead pt-3 container-fluid">
+
+                                    @Html.DisplayFor(model =>model.expertResume.ServiceMethod)
+
+                                </p>
+                                <p class="lead pt-3">聯絡方式:</p>
+                                <p class="lead pt-3 container-fluid">
+                                    @Html.DisplayFor(model => model.expertResume.ContactMethod)
+                                </p>
+                                <p class="lead pt-3">相關問題：</p>
+                                <p class="lead pt-3 container-fluid">
+                                    @Html.DisplayFor(model => model.expertResume.Problem)
+                                </p>
+                                <div>
+                                    <p class="lead  pt-3">相關網址：</p>
+                                    <p class="lead  pt-3">@Html.DisplayFor(model => model.expertResume.WorksUrl)</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--作品集-->
+                <div style="display: none;  height: 100vm;width: 100vm;" id="works">
+                    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3 bg-body-tertiary ">
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/2.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/3.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/4.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/5.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/6.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/7.webp" class="img-fluid">
+                            </button>
+                        </div>
+                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
+                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                <img src="~/Expert/images/8.webp" class="img-fluid">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div style="justify-content:end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-header" style="justify-content:center; ">
+                                <img src="~/Expert/images/2.webp" class="img-fluid" style="height:600px;">
+
+                            </div>
+
+                            <div class="modal-footer" style="justify-content:center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                </div>
+
+
+            </div>
+        </div>
+
+
+</body>
+
+<div>
+
+    <a asp-action="Index">返回</a>
+</div>
+
+@section Styles{
+        
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+        }
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+        }

@@ -1,0 +1,275 @@
+﻿@using Microsoft.AspNetCore
+@using prjCoreWantMember.ViewModels
+@model IEnumerable<CExpertInfoViewModel>
+@{
+    ViewData["Title"] = "ExpertMainPage";
+    Layout = "~/Views/Shared/_Layout_Task.cshtml";
+}
+
+
+
+
+<main>
+
+    <!-- Job List Area Start -->
+    <div class="job-listing-area pt-120 pb-120">
+        <div class="container">
+            <div class="row">
+                <!-- Left content -->
+                <div class="col-xl-3 col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="small-section-tittle2 mb-45">
+                                <div class="ion">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="20px" height="12px">
+                                        <path fill-rule="evenodd" fill="rgb(27, 207, 107)"
+                                              d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z" />
+                                    </svg>
+                                </div>
+                                <h4>篩選</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Job Category Listing start -->
+                    <div class="job-category-listing mb-50">
+                        <!-- single one -->
+                        <div class="single-listing">
+
+                            <div class="small-section-tittle2">
+                                @using (Html.BeginForm())
+                                {
+                                    <h4>關鍵字</h4> @*@Html.TextBox("txtKeyword")*@ <input type="text" id="txtKeyword" name="txtKeyword" style="width:156px" />
+                                    <input type="submit" value="查詢">
+                                }
+                            </div>
+                            <br />
+                            <div class="small-section-tittle2">
+                                <h4>專長類別</h4>
+                            </div>
+                            <!-- Select job items start -->
+                            <div class="select-job-items2">
+                                @using (Html.BeginForm())
+                                {
+                                    <select name="selectCategory">
+                                        <option value="all">所有類別</option>
+                                        <option value="1">居家服務</option>
+                                        <option value="2">程式語言</option>
+                                        <option value="3">活動籌備</option>
+                                        <option value="4">學習</option>
+                                        <option value="5">運動</option>
+                                        <option value="6">商業</option>
+                                        <option value="7">設計</option>
+                                        <option value="8">其他</option>
+                                    </select>
+                                }
+                            </div>
+                            <!--  Select job items End-->
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pt-80 pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>付款方式</h4>
+                                </div>
+                                <label class="container">
+                                    現金付款
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    匯款
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                                <div class="small-section-tittle2">
+                                    <h4>工作地點</h4>
+                                </div>
+                                <!-- Select job items start -->
+                                <div class="select-job-items2">
+                                    <select name="select">
+                                        <option value="">任意地點</option>
+                                        <option value="">北部</option>
+                                        <option value="">中部</option>
+                                        <option value="">南部</option>
+                                        <option value="">外島</option>
+                                    </select>
+                                </div>
+                                <!--  Select job items End-->
+                            </div>
+
+                        </div>
+                        <!-- select-Categories End -->
+
+
+                        <div class="single-listing">
+                            <!-- Range Slider Start -->
+                            @*   <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
+                            <div class="small-section-tittle2">
+                            <h4>薪資過濾</h4>
+                            </div>
+                            <div class="widgets_inner">
+                            <div class="range_item">
+                            <!-- <div id="slider-range"></div> -->
+                            <input type="text" class="js-range-slider" value="" />
+                            <div class="d-flex align-items-center">
+                            <div class="price_text">
+                            <p>薪資 :</p>
+                            </div>
+                            <div class="price_value d-flex justify-content-center">
+                            <input type="text" class="js-input-from" id="amount" readonly />
+                            <span>到</span>
+                            <input type="text" class="js-input-to" id="amount" readonly />
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </aside> *@
+                            <!-- Range Slider End -->
+                        </div>
+                    </div>
+                    <!-- Job Category Listing End -->
+                </div>
+                <!-- Right content -->
+                <div class="col-xl-9 col-lg-9 col-md-8">
+                    <!-- Featured_job_start -->
+                    <section class="featured-job-area">
+                        <div class="container">
+                            <!-- Count of Job list Start -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="count-job mb-35">
+                                        <span>共 @Model.Count() 筆資料</span>
+                                        <!-- Select job items start -->
+                                        <div class="select-job-items">
+                                            <span>排序</span>
+                                            <select name="select">
+                                                <option value="">無</option>
+                                                <option value="">更新 新->舊</option>
+                                                <option value="">薪資 高->低</option>
+                                                <option value="">薪資 低->高</option>
+                                            </select>
+                                        </div>
+                                        <!--  Select job items End-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Count of Job list End -->
+                            <!-- single-job-content -->
+                            @foreach (var item in Model)
+                            {
+                                string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
+                                <div class="single-job-items mb-30" style="border:groove;">
+                                    @*工作列表*@
+                                    <div class="job-items">
+                                        @* <div class="company-img">
+                                    <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+                                    </div>*@
+                                        <div class="job-tittle job-tittle2">
+                                            <a href="#">
+                                                <h4> @Html.DisplayFor(modelItem => item.memberAccount.Name)</h4>
+                                            </a>
+                                            <ul>
+                                                @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
+                                                <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.cityName)</li>
+
+                                                <li>基本報價：@Html.DisplayFor(modelItem => item.expertResume.CommonPrice) 元</li>
+                                                @*<li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>*@
+
+                                            </ul>
+                                            <ul>
+                                                <li>服務項目：@ServiceInfo</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="items-link items-link2  f-right">
+                                        @* <a href="@Url.Action("Detail", new { id=item.resume.ResumeId}) target="_blank">詳細資訊</a> *@
+                                        @Html.ActionLink("詳細資訊","Details","ExpertResumes",new { id=item.resume.ResumeId},null)
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </section>
+                    <!-- Featured_job_end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Job List Area End -->
+    <!--Pagination Start  -->
+    <div class="pagination-area pb-115 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="single-wrap d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                                <li class="page-item"><a class="page-link" href="#"><span class="ti-angle-right"></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Pagination End  -->
+
+</main>
+@section Styles{
+    <link rel="stylesheet" href="~/assetsForExpert/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/price_rangs.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/flaticon.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/slicknav.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/animate.min.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/themify-icons.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/slick.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/nice-select.css">
+    <link rel="stylesheet" href="~/assetsForExpert/css/style.css">
+    <link href="~/assetsForExpert/js/SweetAlert.js" />
+}
+@* @section Scripts{
+    <!-- All JS Custom Plugins Link Here here -->
+    <script src="~/assetsForExpert/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/assetsForExpert/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/assetsForExpert/js/popper.min.js"></script>
+    <script src="~/assetsForExpert/js/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="~/assetsForExpert/js/jquery.slicknav.min.js"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Range -->
+    <script src="~/assetsForExpert/js/owl.carousel.min.js"></script>
+    <script src="~/assetsForExpert/js/slick.min.js"></script>
+    <script src="~/assetsForExpert/js/price_rangs.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="~/assetsForExpert/js/wow.min.js"></script>
+    <script src="~/assetsForExpert/js/animated.headline.js"></script>
+    <script src="~/assetsForExpert/js/jquery.magnific-popup.js"></script>
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="~/assetsForExpert/js/jquery.scrollUp.min.js"></script>
+    <script src="~/assetsForExpert/js/jquery.nice-select.min.js"></script>
+    <script src="~/assetsForExpert/js/jquery.sticky.js"></script>
+
+    <!-- contact js -->
+    <script src="~/assetsForExpert/js/contact.js"></script>
+    <script src="~/assetsForExpert/js/jquery.form.js"></script>
+    <script src="~/assetsForExpert/js/jquery.validate.min.js"></script>
+    <script src="~/assetsForExpert/js/mail-script.js"></script>
+    <script src="~/assetsForExpert/js/jquery.ajaxchimp.min.js"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="~/assetsForExpert/js/plugins.js"></script>
+    <script src="~/assetsForExpert/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/assetsForExpert/js/SweetAlert.js"> </script>
+} *@

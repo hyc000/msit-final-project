@@ -1,0 +1,98 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Product>
+
+@{
+    ViewData["Title"] = "List";
+    //Layout = "~/Views/Member/LayoutForMem.cshtml";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">垃圾桶</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                       @* <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Starter Page</li>*@
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="container mt-4">
+
+        <div class="row mt-3">
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-danger">永久刪除</button>
+
+
+                <button type="button" class="btn btn-outline-danger">清空垃圾桶</button>
+
+
+                <button type="button" class="btn btn-outline-warning">復原</button>
+
+
+                @*<button type="button" class="btn btn-primary" href="@Url.Content("~/product/list")">回到商品列表</button>*@
+                <a class="btn btn-outline-primary" href="@Url.Content("~/product/list")">回到商品列表</a>
+            </div>
+        </div>
+
+        <br>
+
+        <table id="table" class="table table-striped mt-3">
+            <thead align="center">
+                <tr>
+                    <td><i class='bx bx-checkbox-minus' style="font-size: 1.3rem;"></i></td>
+                    <td>商品</td>
+                    <td>類別</td>
+                    <td>復原</td>
+                    <td>永久刪除</td>
+                </tr>
+            </thead>
+            <tbody align="center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td><input type="checkbox" name="color1" value="blue"></td>
+                        <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                        <td><a class='bx bx-reply bx-tada' style="font-size: 2rem; color:black" asp-action="GoBack" asp-route-id="@item.ProductId"></a></td>
+                        <td><a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'></a></td>
+                    </tr>
+                }
+                @*<tr>
+                <td><input type="checkbox" name="color1" value="blue"></td>
+                <td>1000元</td>
+                <td>點數商品</td>
+                <td><a class='bx bx-reply bx-tada' style="font-size: 2rem;"></a></td>
+                <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
+                </tr>*@
+            </tbody>
+        </table>
+    </div>
+                </div> <!-- /.col-md-6 -->
+            </div> <!-- /.row -->
+        </div> <!-- /.container-fluid -->
+    </div> <!-- /.content -->
+</div> <!-- /.content-wrapper -->
+
+<!-- 新增按鈕區域 -->
+
+
+@section Scripts{
+    @*box icons*@
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        td > a {
+            text-decoration: none;
+        }
+    </style>
+}

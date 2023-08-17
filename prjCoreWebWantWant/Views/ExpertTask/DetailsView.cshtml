@@ -1,0 +1,140 @@
+﻿@model prjCoreWebWantWant.Models.TaskList
+
+@{
+    ViewData["Title"] = "DetailsView";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+<div class="container ExpertContainer">
+    <div class="" >
+        <h2 class="col-7 ">查看委託</h2>
+
+    </div>
+    <div class=" mx-auto">
+
+        <div class="mx-auto w-70 p-5">
+            <div class="mb-3 form-control-lg">
+                委託者:王筱麗
+            </div>
+            <div class="mb-3 form-control-lg">
+                接案者:牛笨笨
+            </div>
+
+            <div class=""></div>
+            <hr>
+            <div class="mb-3 form-control-lg ">
+                委託內容:
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea class="form-control" readonly id="TaskTextarea" style="height: 400px">需要優雅、引人注目的海報設計，軟體限制使用Adobe Photoshop。圖片跟文宣會提供。
+
+                </textarea>
+
+            </div>
+            <!--委託時間-->
+            <div class=" border mb-3">
+                <div class="form-control-lg">
+                    委託時間:
+                </div>
+
+                <div class="mb-3 row p-3">
+                    <div class="form-floating col-5 p-3">
+                        <input type="text" readonly class="form-control list" id="floatingPtimeone"
+                               placeholder="委託截止日" value="2023/07/01">
+
+                    </div>
+                    <div class="col-1 p-3 mx-auto">
+                        ~
+                    </div>
+                    <div class="form-floating col-5 p-3">
+
+                        <input type="text" readonly class="form-control list" id="floatingPtimeone"
+                               placeholder="委託截止日" value="2023/07/01">
+                    </div>
+                </div>
+            </div>
+            <!--委託時間結束-->
+            <!--委託預算-->
+            <div class=" border mb-3">
+                <div class="form-control-lg ">
+                    委託預算:
+                </div>
+                <div class="form-floating col-12 p-3 ">
+
+                    <input type="text" readonly class="form-control list" value="10000">
+                </div>
+            </div>
+            <!--委託預算結束-->
+            <!--委託地點-->
+
+            <div class="border p-3  mb-3">
+                <div class="form-control-lg">
+                    委託工作地點:
+                </div>
+                <div class="mb-3 row p-3">
+                    <div class="form-floating col-12 p-3">
+                        <input type="text" readonly class="form-control list" value="在家工作">
+
+                    </div>
+                    <div class="form-control-lg">
+                        指定工作地址:
+                    </div>
+                    <div class="form-floating col-12 p-3">
+
+                        <input type="text" readonly class="form-control list" value="無">
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!--委託地點END-->
+            <!--委託付款-->
+            <div class="border p-3 mb-3">
+                <div class="form-control-lg">
+                    委託付款方式:
+                </div>
+                <div class="form-floating col-12 p-3 ">
+
+                    <input type="text" readonly class="form-control list" value="現金預付">
+                </div>
+            </div>
+            <!--委託付款END-->
+
+            <div class="row">
+
+
+                <div class="form-floating col-3 mx-auto p-3">
+                    @Html.ActionLink("返回","ExpertList","ExpertTask",null,new{ @class="btn btn-outline-secondary"} )
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+        }
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

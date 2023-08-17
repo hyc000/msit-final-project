@@ -1,0 +1,91 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+
+
+@*<div class="card-body" id="Publish">*@
+<div class="table-responsive mb-4">
+    <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 50px;">序號</th>
+                <th style="width: 150px;">任務名稱</th>
+                <th style="width: 300px;">任務內容</th>
+                <th style="width: 100px;">任務日期</th>
+                @* <th>更改狀態</th>*@
+                <th style="width: 50px;">查看</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @{
+                int count = 0;
+
+                foreach (var item in Model)
+                {
+                    int maxDisplayLength = 10; // 設定要顯示的最大字數
+                    string taskDetail = item.TaskDetail;
+
+                    if (taskDetail.Length > maxDisplayLength)
+                    {
+                        taskDetail = taskDetail.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
+                    }
+
+                    count++;
+                    <tr data-id="1">
+                        <td data-field="id" style="width: 80px">@count</td>
+                        <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                        <td data-field="age">@Html.DisplayFor(modelItem => taskDetail)</td>
+                        <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
+                        @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
+                        <td style="width: 100px">
+                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")" id="jobdetail">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@*</div>*@
+<!--Approve js-->
+<!--JAVASCRIPT-- >
+   <script src="~/backstage1/static/js/jquery.min.js" ></script>
+   <script src="~/backstage1/static/js/bootstrap.bundle.min.js"></script>
+   <script src="~/backstage1/static/js/metisMenu.min.js"></script>
+   <script src="~/backstage1/static/js/simplebar.min.js"></script>
+   <script src="~/backstage1/static/js/waves.min.js"></script>
+   <script src="~/backstage1/static/js/feather.min.js"></script>
+
+@*   <!-- pace js -->
+   <script src="~/backstage/static/js/pace.min.js"></script>*@
+
+   <!-- Required datatable js -->
+<script src="~/backstage1/static/js/jquery.dataTables.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/backstage1/static/js/dataTables.responsive.min.js"></script>
+<script src="~/backstage1/static/js/responsive.bootstrap4.min.js"></script>
+
+<!-- init js show 10 頁   previous next -->
+<script src="~/backstage1/static/js/datatable-pages.init.js"></script>
+<script src="~/backstage1/static/js/dataTables.bootstrap4.min.js"></script>
+
+
+<!-- Table Editable plugin -->
+<script src="~/backstage1/static/js/table-edits.min.js"></script>
+
+<script src="~/backstage1/static/js/table-editable.int.js"></script>
+
+<script src="~/backstage1/static/js/app.js"></script>
+
+<!-- JobdetailBackstage js -->
+<!-- glightbox js -->
+<script src="~/backstage1/static/js/glightbox.min.js"></script>
+
+<!-- lightbox init -->
+<script src="~/backstage1/static/js/lightbox.init.js"></script>
+

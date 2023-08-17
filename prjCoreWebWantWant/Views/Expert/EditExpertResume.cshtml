@@ -1,0 +1,112 @@
+﻿@using prjCoreWantMember.ViewModels
+@model IEnumerable<CExpertInfoViewModel>
+
+@{
+    ViewData["Title"] = "EditExpertResume";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+
+}
+
+<h1>專家履歷</h1>
+
+<h4>Resume</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditExpertResume">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="@Model.FirstOrDefault().resume.AccountId" class="form-control" type="hidden" />
+            <input asp-for="@Model.FirstOrDefault().resume.ResumeId" class="form-control" type="hidden" />
+            <input asp-for="@Model.FirstOrDefault().resume.TownId" class="form-control" type="hidden" />
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().cityName" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().cityName" class="form-control" /> @*這裡的cityName因為只有get，所以在設定上可能會有問題*@
+                <span asp-validation-for="@Model.FirstOrDefault().cityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().townName" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().townName" class="form-control" /> @*這裡的cityName因為只有get，所以在設定上可能會有問題*@
+                <span asp-validation-for="@Model.FirstOrDefault().townName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().resume.Address" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().resume.Address" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().resume.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().resume.Autobiography" class="control-label"></label>
+                <textarea asp-for="@Model.FirstOrDefault().resume.Autobiography" class="form-control"></textarea>
+                <span asp-validation-for="@Model.FirstOrDefault().resume.Autobiography" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+            <label asp-for="@Model.FirstOrDefault().resume.WorkingHoursId" class="control-label"></label>
+            <input asp-for="@Model.FirstOrDefault().resume.WorkingHoursId" class="form-control" />
+            <span asp-validation-for="@Model.FirstOrDefault().resume.WorkingHoursId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().resume.Photo" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().resume.Photo" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().resume.Photo" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="@Model.FirstOrDefault().resume.OnTop" class="control-label"></label>
+            <input asp-for="@Model.FirstOrDefault().resume.OnTop" class="form-control" />
+            <span asp-validation-for="@Model.FirstOrDefault().resume.OnTop" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="@Model.FirstOrDefault().resume.TaskNameId" class="control-label"></label>
+            <input asp-for="@Model.FirstOrDefault().resume.TaskNameId" class="form-control" />
+            <span asp-validation-for="@Model.FirstOrDefault().resume.TaskNameId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.Introduction" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.Introduction" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.Introduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.WorksUrl" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.WorksUrl" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.WorksUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.ServiceMethod" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.ServiceMethod" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.ServiceMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.PaymentMethod" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.PaymentMethod" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.Problem" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.Problem" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.Problem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FirstOrDefault().expertResume.CommonPrice" class="control-label"></label>
+                <input asp-for="@Model.FirstOrDefault().expertResume.CommonPrice" class="form-control" />
+                <span asp-validation-for="@Model.FirstOrDefault().expertResume.CommonPrice" class="text-danger"></span>
+            </div>
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+            <input class="form-check-input" asp-for="@Model.FirstOrDefault().resume.IsExpertOrNot" /> @Html.DisplayNameFor(model => model.resume.IsExpertOrNot)
+            </label>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="ExpertMemberPage">返回</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

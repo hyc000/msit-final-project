@@ -1,0 +1,64 @@
+﻿@model prjCoreWebWantWant.Models.Rating
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Rating</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RatingId" />
+            <div class="form-group">
+                <label asp-for="RatingStar" class="control-label"></label>
+                <input asp-for="RatingStar" class="form-control" />
+                <span asp-validation-for="RatingStar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatingContent" class="control-label"></label>
+                <input asp-for="RatingContent" class="form-control" />
+                <span asp-validation-for="RatingContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatingDate" class="control-label"></label>
+                <input asp-for="RatingDate" class="form-control" />
+                <span asp-validation-for="RatingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceRoleId" class="control-label"></label>
+                <input asp-for="SourceRoleId" class="form-control" />
+                <span asp-validation-for="SourceRoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceAccountId" class="control-label"></label>
+                <input asp-for="SourceAccountId" class="form-control" />
+                <span asp-validation-for="SourceAccountId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetRoleId" class="control-label"></label>
+                <input asp-for="TargetRoleId" class="form-control" />
+                <span asp-validation-for="TargetRoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetAccountId" class="control-label"></label>
+                <input asp-for="TargetAccountId" class="form-control" />
+                <span asp-validation-for="TargetAccountId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

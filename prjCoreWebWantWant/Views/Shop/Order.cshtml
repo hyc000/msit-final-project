@@ -1,0 +1,132 @@
+﻿@{
+    //ViewData["Title"] = "Order";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+@*<h1>Order</h1>*@
+<div class="header-container">
+    <h2>曝光紀錄</h2>
+</div>
+<div class="container mt-4">
+    <div class="row align-items-center">
+
+
+        <div class="row mt-3">
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-primary">全部訂單</button>
+                <button type="button" class="btn btn-outline-primary">履歷訂單</button>
+                <button type="button" class="btn btn-outline-primary">任務訂單</button>
+                <button type="button" class="btn btn-outline-primary">今日訂單</button>
+                <button type="button" class="btn btn-outline-primary">過去7天</button>
+                <button type="button" class="btn btn-outline-primary">過去31天</button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <table id="table" class="table table-striped mt-5">
+        <thead align="center">
+            <tr>
+                <td></td>
+                <td>日期</td>
+                <td>類別</td>
+                <td>名稱</td>
+                <td>回饋紅利</td>
+                <td>總金額</td>
+
+
+            </tr>
+        </thead>
+        <tbody align="center">
+            <tr>
+                <td>
+                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
+                        <i class="bx bxs-show"></i>
+                    </a>
+                </td>
+                <td>2023/08/03</td>
+                <td>履歷</td>
+                <td>XX履歷</td>
+                <td>60</td>
+                <td>600</td>
+            </tr>
+            <!-- 可展開/收起的內容 -->
+            <tr>
+                <td colspan="6" class="hiddenRow">
+                    <div class="collapse" id="orderDetails1" data-bs-parent="#table">
+                        <!-- 在這裡填入訂單明細內容 -->
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>商品名稱</th>
+                                    <th>數量</th>
+                                    <th>單價</th>
+                                    <th>小計</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>商品1</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>商品2</td>
+                                    <td>3</td>
+                                    <td>300</td>
+                                    <td>900</td>
+                                </tr>
+                                <tr>
+                                    <td>商品3</td>
+                                    <td>1</td>
+                                    <td>100</td>
+                                    <td>100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
+                        <i class="bx bxs-show"></i>
+                    </a>
+                </td>
+                <td>2023/08/02</td>
+                <td> 任務</td>
+                <td>XX任務</td>
+                <td>60</td>
+                <td>600</td>
+            </tr>
+            <!-- 可展開/收起的內容 -->
+            <tr>
+                <td colspan="6" class="hiddenRow">
+                    <div class="collapse" id="orderDetails2">
+                        <!-- 在這裡填入訂單明細內容 -->
+                        <p>這裡是訂單002的明細內容</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Styles {
+    <!--box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* 將外層容器設置為相對定位 */
+        .header-container {
+            position: relative;
+        }
+
+        .bx.bxs-show {
+            font-size: 1.5rem;
+        }
+    </style>
+}

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.MemberStatusList>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/BackstageManagement/_LayoutForBackstage.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Starter Page</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Starter Page</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+
+                            <p class="card-text">
+                                Some quick example text to build on the card title and make up the bulk of the card's
+                                content.
+                            </p>
+
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div> <!-- /.card -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+
+                            <p class="card-text">
+                                Some quick example text to build on the card title and make up the bulk of the card's
+                                content.
+                            </p>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div> <!-- /.card -->
+                </div> <!-- /.col-md-6 -->                
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="m-0">Featured</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Special title treatment</h6>
+
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="m-0">Featured</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Special title treatment</h6>
+
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div> <!-- /.col-md-6 -->               
+            </div> <!-- /.row -->            
+        </div> <!-- /.container-fluid -->
+    </div> <!-- /.content -->   
+</div> <!-- /.content-wrapper -->
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusChangeReason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateUserNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@*@{
+    foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusChangeReason.StatusChangeReasonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateUserNavigation.AccountId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StatusChangeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StatusChangeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StatusChangeId">Delete</a>
+            </td>
+        </tr>
+}}*@
+    </tbody>
+</table>

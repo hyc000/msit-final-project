@@ -1,0 +1,77 @@
+.mainphoto {
+    width: 50%;
+    height: 50%;
+    background-color: rgb(236, 237, 255);
+    margin: 0PX auto;
+    transition: 0.5s;
+    /*轉場特效時間*/
+}
+
+.MiddenContent {
+    width: 80%;
+    padding: 30px;
+    background-color: rgb(214, 235, 243);
+    margin: 0PX auto;
+    transition: 0.5s;
+    /*轉場特效時間*/
+    color: rgb(12, 11, 58);
+    z-index: 5;
+}
+
+.Midden {
+    text-align: center;
+}
+
+.m1 {
+    margin-left: 30px;
+}
+
+table,
+th,
+td {
+    border: 2px double rgb(24, 52, 104);
+    border-collapse: collapse;
+}
+
+.Expertphoto {
+    width: 80%;
+    height: 80%;
+    margin: 0PX auto;
+    transition: 0.5s;
+    /*轉場特效時間*/
+    border-radius: 50%;
+}
+
+.borderexpert {
+    border-radius: 10px;
+    --bs-border-opacity: 1;
+    border-color: rgba(var(--bs-primary-rgb), var(--bs-border-opacity)) !important;
+}
+
+.tran {
+    position: absolute;
+    background-color: rgb(86, 116, 118);
+    border-radius: 20px 0px 20px 0px;
+    --bs-border-opacity: 1;
+    border-color: rgba(var(--bs-primary-rgb), var(--bs-border-opacity)) !important;
+    width: 75%;
+    height: 800px;
+    z-index: 1;
+    /*top: auto;*/
+    left: 10%;
+    margin: 1% 0.5% -39% 7%;
+}
+
+.taskcontant {
+    border-radius: 10px;
+    --bs-border-opacity: 1;
+    border-color: rgba(var(--bs-primary-rgb), var(--bs-border-opacity)) !important;
+}
+
+.trancontant {
+    align-content: center;
+    padding: 4% 50px 50px 200px;
+}
+
+
+

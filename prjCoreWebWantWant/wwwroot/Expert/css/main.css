@@ -1,0 +1,56 @@
+.mainphoto {
+
+    width: 100%;
+    height: 200px;
+    background-color: rgb(236, 237, 255);
+    margin: 0PX;
+    transition: 0.5s;/*轉場特效時間*/
+    color: blueviolet;
+}
+.MiddenContent {
+
+    width: 80%;
+    padding: 30px;
+    background-color: rgb(214, 235, 243);
+    margin: 0PX auto;
+    transition: 0.5s;/*轉場特效時間*/
+    color: rgb(12, 11, 58);
+}
+.Midden {
+
+    text-align: center;
+    
+}
+.m1 {
+
+    
+    margin-left: 30px;
+    
+}
+table, th, td {
+    border: 2px double rgb(24, 52, 104);
+    border-collapse: collapse;
+    
+    
+    
+}
+.list:hover{
+ 
+    box-shadow:3px 3px 10px rgb(139, 129, 129);
+color: brown;
+
+
+}
+.btn{
+    background-color: rgb(119, 78, 78);
+    color: rgb(189, 144, 136);
+    }
+    
+.btn:hover{
+background-color: brown;
+color: tomato;
+}
+.asda{
+box-shadow:3px 3px 10px black;}
+
+

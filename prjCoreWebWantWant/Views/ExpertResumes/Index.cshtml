@@ -1,0 +1,83 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.ExpertResume>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Introduction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorksUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommonPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HistoricalViews)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resume)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Introduction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorksUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommonPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HistoricalViews)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resume.ResumeId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ResumeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ResumeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ResumeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

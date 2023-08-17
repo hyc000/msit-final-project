@@ -1,0 +1,300 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@*@model IEnumerable<WantTask.ViewModels.CTaskListDetailItem>*@
+@*@model List<TaskList>*@
+
+@{
+    ViewData["Title"] = "TablesEditable";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<head>
+       
+
+    <!-- Icons Css -->
+    <link href="~/backstage1/static/css/icons.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="~/backstage1/static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+  
+
+
+    <style>
+
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5; /* 或者你想要的其他背景顏色 */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #528EAF; /* 更改滑鼠滑過的背景顏色 */
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #fff; /* 更改滑鼠滑過的文字顏色 */
+        }
+    </style>
+</head>
+<body>
+
+        <div id="layout-wrapper">
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+          @*   <div class="main-content">
+ *@
+               @*  <div class="page-content"> *@
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">任務列表</h4>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <!--已上架未上架 任務類型 關鍵字-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+
+                                    <div class="card-header">
+
+                                        <div class="row">
+                                            <div class="card-body col-4">
+                                                <!-- Nav tabs -->
+                                                <!--已上架 未上架-->
+                                                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                                    <li class="nav-item" onclick="showPublish();">
+                                                        <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab">
+                                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                            <span class="d-none d-sm-block" style="color:#528EAF">已上架</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item" onclick="showNoPublish();">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab">
+                                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                                            <span class="d-none d-sm-block" style="color:#528EAF">未上架</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- end card-body -->
+                                            <!--標籤  選擇任務類型-->
+                                            <!--已上架的標籤-->
+                                            <div class="col-4 mb-3" id="PublishSelect">
+                                                <form class="app-search d-none d-lg-block">
+                                                    @{
+                                                        NewIspanProjectContext _context = new NewIspanProjectContext();
+                                                        var q = from p in _context.TaskNameLists
+                                                                select p.TaskName;
+                                                    }
+
+                                                    <select class="form-select" id="selTaskNamePublish">
+                                                        <option value="">請選擇任務類型</option>
+                                                        @foreach (var item in q)
+                                                        {
+                                                            <option name="category">@item</option>
+                                                        }
+                                                    </select>
+                                                </form>
+                                            </div>
+
+                                            <!--未上架的標籤-->
+                                            <div class="col-4 mb-3" style="display:none" id="NoPublishSelect">
+                                                <form class="app-search d-none d-lg-block">
+                                                    @{
+                                                        NewIspanProjectContext _context2 = new NewIspanProjectContext();
+                                                        var qq = from p in _context2.TaskNameLists
+                                                                 select p.TaskName;
+
+                                                    }
+
+                                                    <select class="form-select" id="selTaskNameNoPublish">
+                                                        <option value="">請選擇任務類型</option>
+                                                        @foreach (var item in qq)
+                                                        {
+                                                            <option name="category">@item</option>
+                                                        }
+                                                    </select>
+                                                </form>
+                                            </div>
+
+                                            <!--關鍵字搜尋-->
+                                            <!-- App Search-->
+
+                                            <div class="col-4 mb-3">
+                                                <form class="app-search d-none d-lg-block">
+                                                    <div class="position-relative">
+                                                        <input type="text" class="form-control" placeholder="請輸入關鍵字" name="keyword">
+                                                        <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!--已上架-->
+                                    <div class="card-body" id="Publish">
+                                    </div>
+
+                                    <!--未上架-->
+                                    <div class="card-body" style="display:none" id="NoPublish">
+                                    </div>
+
+                                    <!--點選tab切換表格-->
+                                    <script>
+                                        function showPublish() {
+                                            //先取得要操作的標籤
+                                            let Publish = document.querySelector("#Publish");
+                                            let NoPublish = document.querySelector("#NoPublish");
+                                            let PublishSelect = document.querySelector("#PublishSelect");
+                                            let NoPublishSelect = document.querySelector("#NoPublishSelect");
+
+                                            //再對標籤做操作
+                                            Publish.style.display = "block";
+                                            NoPublish.style.display = "none";
+                                            PublishSelect.style.display = "block";
+                                            NoPublishSelect.style.display = "none";
+                                        }
+
+                                        function showNoPublish() {
+                                            //先取得要操作的標籤
+                                            let Publish = document.querySelector("#Publish");
+                                            let NoPublish = document.querySelector("#NoPublish");
+                                            let PublishSelect = document.querySelector("#PublishSelect");
+                                            let NoPublishSelect = document.querySelector("#NoPublishSelect");
+
+                                            //再對標籤做操作
+                                            Publish.style.display = "none";
+                                            NoPublish.style.display = "block";
+                                            PublishSelect.style.display = "none";
+                                            NoPublishSelect.style.display = "block";
+                                        }
+                                    </script>
+
+
+                                </div>
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container-fluid -->
+              @*   </div> *@
+                <!-- End Page-content -->
+            @* </div> *@
+            <!-- end main content-->
+        </div>
+     
+
+
+                @section Scripts{
+                    <script>
+                        //    const seltaskName=document.querySelector('#selTaskName');
+                        //    const optaskName = document.querySelector('#taskname');
+
+                        //    async function loadTaskName() {
+                        //    const response = await fetch('@Url.Content("/BackstageTask/TaskName")')
+                        //    const datas = await response.json()
+                        //    const taskname = datas.map(taskname => `<option value="${taskname}">${taskname}</option>`);
+                        //    document.querySelector('#selTaskName').innerHTML = taskname.join("");
+                        //}
+
+                        //loadTaskName();
+
+                        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
+
+                        selTaskNamePublish.addEventListener('change', () => {
+
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('POST', '@Url.Content("~/BackstageTask/PartialPublish")');
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.send(`category=${selTaskNamePublish.value}`);
+                            xhr.addEventListener('load', () => {
+                                const Publish = document.querySelector('#Publish')
+                                Publish.innerHTML = xhr.responseText;
+                            })
+                        })
+
+
+
+                        const selTaskNameNoPublish = document.querySelector('#selTaskNameNoPublish');
+
+                        selTaskNameNoPublish.addEventListener('change', () => {
+
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('POST', '@Url.Content("~/BackstageTask/PartialNoPublish")');
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.send(`category=${selTaskNameNoPublish.value}`);
+                            xhr.addEventListener('load', () => {
+                                const NoPublish = document.querySelector('#NoPublish')
+                                NoPublish.innerHTML = xhr.responseText;
+                            })
+                        })
+
+
+
+
+                        const jobdetailBackstage = document.querySelector('#jobdetail');
+
+                        jobdetailBackstage.addEventListener('click', () => {
+                             location.href = '@Url.Content("/BackstageTask/JobdetailBackstage")';
+                        })
+
+                    </script>
+                }
+
+
+
+
+    @* <script src="~/backstage1/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/backstage1/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/backstage1/js/site.js" asp-append-version="true"></script>
+ *@
+
+
+    <!--Approve js-->
+    <!--JAVASCRIPT-- >
+       <script src="~/backstage1/static/js/jquery.min.js" ></script>
+       <script src="~/backstage1/static/js/bootstrap.bundle.min.js"></script>
+       <script src="~/backstage1/static/js/metisMenu.min.js"></script>
+       <script src="~/backstage1/static/js/simplebar.min.js"></script>
+       <script src="~/backstage1/static/js/waves.min.js"></script>
+       <script src="~/backstage1/static/js/feather.min.js"></script>
+ 
+
+       <!-- Required datatable js -->
+    <script src="~/backstage1/static/js/jquery.dataTables.min.js"></script>
+
+    <!-- Responsive examples -->
+    <script src="~/backstage1/static/js/dataTables.responsive.min.js"></script>
+    <script src="~/backstage1/static/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- init js show 10 頁   previous next -->
+    <script src="~/backstage1/static/js/datatable-pages.init.js"></script>
+    <script src="~/backstage1/static/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <!-- Table Editable plugin -->
+    <script src="~/backstage1/static/js/table-edits.min.js"></script>
+
+    <script src="~/backstage1/static/js/table-editable.int.js"></script>
+
+    <script src="~/backstage1/static/js/app.js"></script>
+
+    <!-- JobdetailBackstage js -->
+    <!-- glightbox js -->
+    <script src="~/backstage1/static/js/glightbox.min.js"></script>
+
+    <!-- lightbox init -->
+    <script src="~/backstage1/static/js/lightbox.init.js"></script>
+
+
+</body>
+</html>
+
+   
+

@@ -1,0 +1,281 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modernize Free</title>
+    @*<link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />*@
+    <link rel="stylesheet" href="~/assets/css/styles.min.css" />
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-header-position="fixed" data-sidebar-position="position-relative">
+        <!--把上方div的data-sidebar-position="fixed"拿掉，就可以接在下面ㄌ-->
+        <!--  Header Start 上方工具列-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="~/Images/LOGO.png" class="img-fluid" alt="Logo">
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="切換導覽" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">找工作</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">找專家</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">部落格</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end"> -->
+                <p class="text-decoration-none pe-2">
+                    <a href="#" class="nav-link">會員專區</a>
+                </p>
+                <p>
+                    <a href="#" class="btn btn btn-outline-primary me-md-2">註冊</a>
+                </p>
+                <p>
+                    <a href="#" class="btn btn-primary">登入</a>
+                </p>
+                <!-- <button class="btn btn btn-outline-primary me-md-2" type="button">註冊</button> -->
+                <!-- <button class="btn btn-primary" type="button">登入</button> -->
+            </div>
+        </nav>
+        <!--  Header End -->
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <!-- Sidebar navigation 左側工具列-->
+                <!--拿掉左邊logo跟區塊-->
+@*               <div>
+                    <div class="brand-logo d-flex align-items-center justify-content-between">
+                        <a href="./index.html" class="text-nowrap logo-img">
+                            <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" />
+                        </a>
+
+                        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                            <i class="ti ti-x fs-8"></i>
+                        </div>
+                    </div>*@
+
+                <nav class="sidebar-nav @*scroll-sidebar*@" data-simplebar="" margin-top="70px">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">會員專區</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="~/Member/MemberAccount" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                    <!--<i class="ti ti-layout-dashboard"></i>-->
+                                </span>
+                                <span class="hide-menu">會員資料管理</span>
+                            </a>
+                        </li>
+                        <!--<li class="sidebar-item">
+        <a class="sidebar-link" href="./index.html" aria-expanded="false">
+            <span>
+                <i class="ti ti-layout-dashboard"></i>
+            </span>
+            <span class="hide-menu">會員暫時不知道要放啥</span>
+        </a>
+    </li>-->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">找工作</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">求職履歷管理</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-alert-circle"></i>-->
+                                    <i class="ti ti-heart"></i>
+                                </span>
+                                <span class="hide-menu">已收藏工作</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">應徵記錄</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">找人才</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-login"></i>-->
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">發案管理</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-user-plus"></i>-->
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">發案紀錄</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-plus"></i>
+                                </span>
+                                <span class="hide-menu">已收藏人才</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">找專家</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-mood-happy"></i>-->
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">專家履歷管理</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-aperture"></i>-->
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">專家成案紀錄</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-aperture"></i>-->
+                                    <i class="ti ti-award"></i>
+                                </span>
+                                <span class="hide-menu">評分管理</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">論壇</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <!--<i class="ti ti-layout-dashboard"></i>-->
+                                    <i class="ti ti-aperture"></i>
+                                </span>
+                                <span class="hide-menu">已發布文章</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-layout-dashboard"></i>
+                                </span>
+                                <span class="hide-menu">留言區管理</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">點數商城</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cash"></i>
+                                </span>
+                                <span class="hide-menu">商城購物</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cash"></i>
+                                </span>
+                                <span class="hide-menu">購物記錄</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cash"></i>
+                                </span>
+                                <span class="hide-menu">儲值紀錄</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">聯絡客服</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-mood-smile"></i>
+                                </span>
+                                <span class="hide-menu">聯絡客服</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+        
+    </div>
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/sidebarmenu.js"></script>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="~/assets/js/dashboard.js"></script>
+    @*內建*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @* @Html.Partial("_Footer") *@
+</body>
+
+</html>

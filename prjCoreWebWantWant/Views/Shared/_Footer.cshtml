@@ -1,0 +1,83 @@
+﻿<head>
+    <!--== Icofont Icon CSS ==-->
+    <link rel="stylesheet" href="~/Mstyles/icofont.css" />
+
+    <!--== CSS Styles ==-->
+    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true" />
+</head>
+
+
+<body>
+    <!--== footer start ==-->
+    <footer id="footer" class="pt-5 bg-color text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 footer-list">
+                    <img src="~/Images/LOGO.png" class="img-fluid" alt="Logo"><br>
+                    <a href="mailto:service@wantwant.com" class="a-email">service@wantwant.com</a>
+                </div>
+                <div class="col-md-3 col-sm-6 footer-list">
+                    <h5 class="text-uppercase fw-bold">Company</h5>
+                    <ul class="footer-menu py-3">
+                        <li>
+                            @Html.ActionLink("Careers", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("About Us", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Blog", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Press", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Bonus", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6 footer-list">
+                    <h5 class="text-uppercase fw-bold">Product</h5>
+                    <ul class="footer-menu py-3">
+                        <li>
+                            @Html.ActionLink("Enterprice", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Pricing", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Security", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6 footer-list">
+                    <h5 class="text-uppercase fw-bold">Resource</h5>
+                    <ul class="footer-menu py-3">
+                        <li>
+                            @Html.ActionLink("Guilde", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Help Center", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("API", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Events", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-end bg-dark mt-5 py-2">
+            <p class="text-center">&copy; @DateTime.Now.Year WantWant Company Ltd. <span id="yearShow"></span></p>
+        </div>
+    </footer>
+    <!--== footer end ==-->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>

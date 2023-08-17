@@ -1,0 +1,49 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.ChatMessage>
+
+@{
+    ViewData["Title"] = "ChatMS";
+}
+
+<h1>聊天管理</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ChatMessageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiverId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChatMessageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiverId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ChatMessageId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ChatMessageId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

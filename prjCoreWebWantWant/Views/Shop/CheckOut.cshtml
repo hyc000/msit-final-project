@@ -1,0 +1,267 @@
+﻿@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+<div class="container">
+    <div class="table-container">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col">
+                            <h4><b>購物車內容</b></h4>
+                        </div>
+                        <div class="col align-self-center text-right text-muted">2 items</div>
+                    </div>
+                </div>
+                <table class="table table-striped mt-5">
+                    <thead align="center">
+                        <tr>
+                            <td>圖片</td>
+                            <td>商品</td>
+                            <td>單價</td>
+                            <td>數量</td>
+                            <td>小計</td>
+                            <td>刪除</td>
+                        </tr>
+                    </thead>
+                    <tbody align="center">
+                        <tr>
+                            <td><img class="img-fluid" src="/shopimg/任務置頂1天.png"></td>
+                            <td>任務置頂1天</td>
+                            <td>50元</td>
+                            <td><select name="" id=""></select></td>
+                            <td>50元</td>
+                            <td>
+                                <a href="">
+                                    <i class='bx bx-trash bx-tada'
+                                       style='color:#ea0b0b ; font-size: 2rem'></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="img-fluid" src="path_to_image2.jpg"></td>
+                            <td>任務置頂3天</td>
+                            <td>150元</td>
+                            <td><select name="" id=""></select></td>
+                            <td>150元</td>
+                            <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="back-to-shop"><a href="#" style="color:black" onclick="history.back(); return false;">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+            </div>
+
+
+
+            <div class="col-md-4 summary">
+                <div>
+                    <h5><b>結帳金額</b></h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left: 0;">商品總計</div>
+                    <div class="col text-right">1000元</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left: 0;">稅額</div>
+                    <div class="col text-right">50元</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left: 0;">預估可獲得紅利</div>
+                    <div class="col text-right">50元</div>
+                </div>
+
+                <div class="row" style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
+                    <div class="col" style="padding-left: 0;color: brown;">紅利折抵</div>
+                    <div class="col text-right" style="color: brown;">32元</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left: 0;">應付金額</div>
+                    <div class="col text-right" style="font-size: 1.5REM;">950元</div>
+                </div>
+                <button class="btn1">結帳</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles
+    {
+    <!--box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .body {
+            background: #fffdfd;
+            min-height: 100vh;
+            vertical-align: middle;
+            display: flex;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .title {
+            margin-bottom: 5vh;
+        }
+
+        .table-container {
+            margin-top: 10vh;
+            /*margin: auto;*/
+            max-width: 1200px;
+            width: 90%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 1rem;
+            border: transparent;
+        }
+
+            .table-container .cart {
+                background-color: #fff;
+                padding: 4vh 5vh;
+                border-bottom-left-radius: 1rem;
+                border-top-left-radius: 1rem;
+            }
+
+            .table-container .summary {
+                background-color: #ddd;
+                border-top-right-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+                padding: 4vh;
+                color: rgb(65, 65, 65);
+            }
+
+            .table-container .col-2 {
+                padding: 0;
+            }
+
+            .table-container .col-10 {
+                padding: 0;
+            }
+
+        .row {
+            margin: 0;
+        }
+
+        .title b {
+            font-size: 1.5rem;
+        }
+
+        .main {
+            margin: 0;
+            padding: 2vh 0;
+            width: 100%;
+        }
+
+        .col-2,
+        .col {
+            padding: 0 1vh;
+        }
+
+        a {
+            padding: 0 1vh;
+        }
+
+        .close {
+            margin-left: auto;
+            font-size: 0.7rem;
+        }
+
+        img {
+            width: 50px;
+        }
+
+        .back-to-shop {
+            margin-top: 4.5rem;
+            color: black;
+        }
+
+        h5 {
+            margin-top: 4vh;
+        }
+
+        hr {
+            margin-top: 1.25rem;
+        }
+
+        form {
+            padding: 2vh 0;
+        }
+
+        select {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1.5vh 1vh;
+            margin-bottom: 4vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
+
+        input {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1vh;
+            margin-bottom: 4vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
+
+            input:focus::-webkit-input-placeholder {
+                color: transparent;
+            }
+
+        .btn1 {
+            background-color: #000;
+            border-color: #000;
+            color: white;
+            width: 100%;
+            font-size: 0.7rem;
+            margin-top: 4vh;
+            padding: 1vh;
+            border-radius: 0;
+        }
+
+            .btn1:focus {
+                box-shadow: none;
+                outline: none;
+                box-shadow: none;
+                color: white;
+                -webkit-box-shadow: none;
+                transition: none;
+            }
+
+            .btn1:hover {
+                color: white;
+            }
+
+        a {
+            color: black;
+        }
+
+            a:hover {
+                color: black;
+                text-decoration: none;
+            }
+
+        #code {
+            background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185));
+        }
+
+        img.img-fluid {
+            width: 50px;
+            height: 50px;
+        }
+
+        h4 > b {
+            color: black
+        }
+
+        h5 > b {
+            color: black
+        }
+
+        .back-to-shop a {
+            color: black
+        }
+    </style>
+}

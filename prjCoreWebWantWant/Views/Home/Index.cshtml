@@ -1,0 +1,543 @@
+﻿@* @using prjCoreWebWantWant.ViewModels
+@model IEnumerable<CIndexInfoViewModel> *@
+@model prjCoreWebWantWant.ViewModels.CIndexInfoViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/Mstyles/Carousel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/index.css" asp-append-version="true" />
+}
+
+<!-- main-title start -->
+<section class="main-title-section text-center py-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-start">
+                <h1>開啟自由工作之旅，你的選擇，無限可能。</h1>
+            </div>
+            <div class="col-md-8">
+                <img src="@Url.Content("~/Images/main-title.jpg")" alt="My Image" class="img-width" />
+            </div>
+            @*<div class="container">
+            <div class="col-md-4">
+            <a>@Html.ActionLink("找專家", "Index", "Home", new { area = "" }, new { @class = "a" })</a>
+            <a>@Html.ActionLink("找接案", "Index", "Home", new { area = "" }, new { @class = "a" })</a>
+            </div>
+            <div></div>
+            </div>*@
+        </div>
+    </div>
+</section>
+<!-- main-title end -->
+
+<!-- search start -->
+<section class="search-section py-3">
+    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+        <div class="container">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control border-0" placeholder="Keyword" />
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select border-0">
+                                <option selected>Category</option>
+                                <option value="1">Category 1</option>
+                                <option value="2">Category 2</option>
+                                <option value="3">Category 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select border-0">
+                                <option selected>Location</option>
+                                <option value="1">Location 1</option>
+                                <option value="2">Location 2</option>
+                                <option value="3">Location 3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-dark border-0 w-100" asp-area="" asp-controller="Task" asp-action="List">搜尋</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- search end -->
+
+<!-- job-listing start  -->
+@* @foreach (var item in Model)
+{ *@
+
+
+<section class="job_listing-section py-3">
+    <div class="job_listing_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="section_title">
+                        <h3>特色工作</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="job_lists">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        @* <h4>Software Engineer</h4> *@
+                                        <h4>@Html.DisplayFor(model => model.taskList.TaskTitle)</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        <h4>Digital Marketer</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        <h4>Wordpress Developer</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        <h4>Visual Designer</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        <h4>Software Engineer</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="jobs_conetent">
+                                    <a href="job_details.html">
+                                        <h4>Creative Designer</h4>
+                                    </a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i> California, USA</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> Part-time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                </div>
+                                <div class="date">
+                                    <p>Date line: 31 Jan 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- job_listing_area_end  -->
+</section>
+<!-- job-listing end  -->
+
+<!-- expert start -->
+<section class="expert-section py-3">
+    <div class="container" data-aos="fade-down">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="title">精選專家</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+                <!--== Start Team Item ==-->
+                <div class="team-item">
+                    <div class="thumb">
+                        <a href="candidate-details.html">
+                            <img src="~/Images/1.jpg"
+                                 width="160"
+                                 height="160"
+                                 alt="Image-HasTech" />
+                        </a>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">
+                            <a href="candidate-details.html">Marco</a>
+                        </h4>
+                        <h5 class="sub-title">溜狗專家</h5>
+                        <div class="rating-box">
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                        </div>
+                        <p class="desc">
+                            This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                        </p>
+                        @*         <a class="btn-theme btn-white btn-sm"
+                        href="candidate-details.html">詳細資料</a>*@
+                        @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
+                    </div>
+                </div>
+                <!--== End Team Item ==-->
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+                <!--== Start Team Item ==-->
+                <div class="team-item">
+                    <div class="thumb">
+                        <a href="candidate-details.html">
+                            <img src="~/Images/2.jpg"
+                                 width="160"
+                                 height="160"
+                                 alt="Image-HasTech" />
+                        </a>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">
+                            <a href="candidate-details.html">Selina</a>
+                        </h4>
+                        <h5 class="sub-title">餵貓大師</h5>
+                        <div class="rating-box">
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                        </div>
+                        <p class="desc">
+                            This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                        </p>
+                        @*                <a class="btn-theme btn-white btn-sm"
+                        href="candidate-details.html">詳細資料</a>*@
+                        @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
+                    </div>
+                </div>
+                <!--== End Team Item ==-->
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+                <!--== Start Team Item ==-->
+                <div class="team-item">
+                    <div class="thumb">
+                        <a href="candidate-details.html">
+                            <img src="~/Images/3.jpg"
+                                 width="160"
+                                 height="160"
+                                 alt="Image-HasTech" />
+                        </a>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">
+                            <a href="candidate-details.html">Ann</a>
+                        </h4>
+                        <h5 class="sub-title">垃圾大王</h5>
+                        <div class="rating-box">
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                        </div>
+                        <p class="desc">
+                            This is a longer card with supporting text below as a natural lead-in to additional content.
+                        </p>
+                        @*                        <a class="btn-theme btn-white btn-sm"
+                        href="candidate-details.html">詳細資料</a>*@
+                        @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
+                    </div>
+                </div>
+                <!--== End Team Item ==-->
+            </div>
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+                <!--== Start Team Item ==-->
+                <div class="team-item">
+                    <div class="thumb">
+                        <a href="candidate-details.html">
+                            <img src="~/Images/4.jpg"
+                                 width="160"
+                                 height="160"
+                                 alt="Image-HasTech" />
+                        </a>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">
+                            <a href="candidate-details.html">Leo</a>
+                        </h4>
+                        <h5 class="sub-title">洗碗高手</h5>
+                        <div class="rating-box">
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                            <i class="icofont-star"></i>
+                        </div>
+                        <p class="desc">
+                            This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                        </p>
+                        @*         <a class="btn-theme btn-white btn-sm"
+                        href="candidate-details.html">詳細資料</a>*@
+                        @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
+                    </div>
+                </div>
+                <!--== End Team Item ==-->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- expert end -->
+
+<!-- job-searcing-wrap start  -->
+<section class="searcing-wrap-section py-3">
+    <div class="job_searcing_wrap overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 offset-lg-1 col-md-6">
+                    <div class="searching_text">
+                        <h3 class="searching_text">Looking for a Job?</h3>
+                        <p>發現你的自由之旅，打造多元職涯。</p>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Task" asp-action="List">找工作</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 col-md-6">
+                    <div class="searching_text">
+                        <h3 class="searching_text">Looking for a Expert?</h3>
+                        <p>尋找專家，一同創造未來，無論何時何地。</p>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Expert" asp-action="ExpertMainPage">找專家</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- job-searcing-wrap end  -->
+
+<!-- customer start -->
+<section class="customer-section py-3">
+    <div class="container">
+        <h3>客戶怎麼說</h3>
+        <div class="slider">
+            <input type="radio" name="testimonial" id="t-1">
+            <input type="radio" name="testimonial" id="t-2">
+            <input type="radio" name="testimonial" id="t-3" checked>
+            <input type="radio" name="testimonial" id="t-4">
+            <input type="radio" name="testimonial" id="t-5">
+            <div class="testimonials">
+                <label class="item" for="t-1">
+                    <img src="./Images/11.jpg" alt="picture">
+                    <p>"Raw denim you probably haven't heard of them jean short austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse."</p>
+                    <h2>- Princy, Web Developer</h2>
+                </label>
+                <label class="item" for="t-2">
+                    <img src="./Images/22.jpg" alt="picture">
+                    <p>"Raw denim you probably haven't heard of them jean short austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse."</p>
+                    <h2>- Princy, Web Developer</h2>
+                </label>
+                <label class="item" for="t-3">
+                    <img src="./Images/33.jpg" alt="picture">
+                    <p>"Raw denim you probably haven't heard of them jean short austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse."</p>
+                    <h2>- Princy, Web Developer</h2>
+                </label>
+                <label class="item" for="t-4">
+                    <img src="./Images/44.jpg" alt="picture">
+                    <p>"Raw denim you probably haven't heard of them jean short austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse."</p>
+                    <h2>- Princy, Web Developer</h2>
+                </label>
+                <label class="item" for="t-5">
+                    <img src="./Images/55.jpg" alt="picture">
+                    <p>"Raw denim you probably haven't heard of them jean short austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse."</p>
+                    <h2>- Princy, Web Developer</h2>
+                </label>
+            </div>
+            <div class="dots">
+                <label for="t-1"></label>
+                <label for="t-2"></label>
+                <label for="t-3"></label>
+                <label for="t-4"></label>
+                <label for="t-5"></label>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- customer end -->
+
+@*<!-- Section -->
+<section class="-section py-3 mb-4">
+    <div class="container">
+        <h3>文章區</h3>
+        <div class="row  text-center">
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section -->*@
+
+@*                @foreach(var item in Model){
+    <h4>@Html.DisplayFor(modelItem => item.taskList.TaskTitle)</h4>
+
+                }*@

@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "Apply";
+    Layout = "~/Views/Shared/_Layout_Task.cshtml";
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous" />
+    <style>
+        .card {
+            color: #6C6C6C;
+        }
+
+        .card-title {
+            color: #28395a;
+        }
+
+        .margin {
+            margin-top: 25px;
+        }
+               
+    </style>
+</head>
+<body>
+    <div class="row row-cols-6 row-cols-md-6 g-6 justify-content-center margin">
+        <div class="col">
+            <div class="card h-100">
+                <!-- <img src="..." class="card-img-top" alt="..." /> -->
+                <div class="card-body">
+                    <h5 class="card-title text-center">第一份履歷</h5>
+                    <p class="card-text">
+                        您好！我是王小華，個性溫和，喜歡與人交談。專長領域在於商務開發與專案管理，希望有機會承接此份工作。
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <form action="@Url.Content("~/Task/List")" method="post">
+                        <!-- 使用表單元素包裹 -->
+                        <input onclick="Alert()"
+                               class="btn btn-primary"
+                               style="background-color: #528EAF"
+                               type="submit"
+                               value="以此履歷應徵" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <!-- <img src="..." class="card-img-top" alt="..." /> -->
+                <div class="card-body">
+                    <h5 class="card-title text-center">第二份履歷</h5>
+                    <p class="card-text">
+                        您好！I'm
+                        John，有5年以上工作經驗，精通中文、德文、英文，若能錄取是我的榮幸！
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <form action="@Url.Content("~/Task/List")" method="post">
+                        <!-- 使用表單元素包裹 -->
+                        <input onclick="Alert()"
+                               class="btn btn-primary"
+                               style="background-color: #528EAF"
+                               type="submit"
+                               value="以此履歷應徵" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <!-- <img src="..." class="card-img-top" alt="..." /> -->
+                <div class="card-body">
+                    <h5 class="card-title text-center">第三份履歷</h5>
+                    <p class="card-text">
+                        您好！我是王小華，畢業於東吳大學資工系，會c、c++、python，閒暇時會獨立接案，將客戶要求做到最好。
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <form action="@Url.Content("~/Task/List")" method="post">
+                        <!-- 使用表單元素包裹 -->
+                        <input onclick="Alert()"
+                               class="btn btn-primary"
+                               style="background-color: #528EAF"
+                               type="submit"
+                               value="以此履歷應徵" />
+                    </form>
+                </div>
+            </div>
+        </div>
+      @*   <div class="col">
+            <div class="card h-100">
+                <!-- <img src="..." class="card-img-top" alt="..." /> -->
+                <div class="card-body">
+                    <h5 class="card-title text-center">第四份履歷</h5>
+                    <p class="card-text">
+                        Hi!I'm
+                        Jhon!擔任流行運動產業品牌公關行銷逾十年時間，專精於操作品牌聲量推廣與公關行銷規劃有多方經驗，希望有機會進一步洽談合作。
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <form action="@Url.Content("~/Task/List")" method="post">
+                        <!-- 使用表單元素包裹 -->
+                        <input onclick="Alert()"
+                               class="btn btn-primary"
+                               style="background-color: #528EAF"
+                               type="submit"
+                               value="以此履歷應徵" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <button onclick="Alert()">測試</button> *@
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @*<script src="~/myjs/apply.js"></script>*@
+    <script src="~/js/SweetAlert.js"></script>
+</body>
+</html>
+

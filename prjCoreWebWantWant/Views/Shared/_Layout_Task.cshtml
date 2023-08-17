@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+    <link rel="stylesheet" href="~/Task/assets/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="~/Task/assets/css/owl.carousel.min.css"> 
+    <link rel="stylesheet" href="~/Task/assets/css/price_rangs.css">
+    <link rel="stylesheet" href="~/Task/assets/css/flaticon.css">  
+    <link rel="stylesheet" href="~/Task/assets/css/slicknav.css"> 
+    <link rel="stylesheet" href="~/Task/assets/css/animate.min.css"> 
+    <link rel="stylesheet" href="~/Task/assets/css/magnific-popup.css"> 
+    <link rel="stylesheet" href="~/Task/assets/css/fontawesome-all.min.css"> 
+     <link rel="stylesheet" href="~/Task/assets/css/themify-icons.css"> 
+     <link rel="stylesheet" href="~/Task/assets/css/slick.css"> 
+     @* <link rel="stylesheet" href="~/Task/assets/css/nice-select.css">   *@
+     
+      <link rel="stylesheet" href="~/Task/assets/css/style.css">   
+
+    <link href="~/js/SweetAlert.js" /> 
+
+    @await RenderSectionAsync("Styles",required:false)
+</head>
+<body>
+    @Html.Partial("_Header")
+    <header>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+    </footer>
+
+
+     <!-- All JS Custom Plugins Link Here here -->
+    <script src="~/Task/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/Task/assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/Task/assets/js/popper.min.js"></script>
+    <script src="~/Task/assets/js/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="~/Task/assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Range -->
+    <script src="~/Task/assets/js/owl.carousel.min.js"></script>
+    <script src="~/Task/assets/js/slick.min.js"></script>
+    <script src="~/Task/assets/js/price_rangs.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="~/Task/assets/js/wow.min.js"></script>
+    <script src="~/Task/assets/js/animated.headline.js"></script> 
+    <script src="~/Task/assets/js/jquery.magnific-popup.js"></script>
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="~/Task/assets/js/jquery.scrollUp.min.js"></script>
+    @* <script src="~/Task/assets/js/jquery.nice-select.min.js"></script> *@
+    <script src="~/Task/assets/js/jquery.sticky.js"></script>
+
+    <!-- contact js -->
+    <script src="~/Task/assets/js/contact.js"></script>
+    <script src="~/Task/assets/js/jquery.form.js"></script>
+    <script src="~/Task/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Task/assets/js/mail-script.js"></script>
+    <script src="~/Task/assets/js/jquery.ajaxchimp.min.js"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="~/Task/assets/js/plugins.js"></script>
+    <script src="~/Task/assets/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"> </script> 
+
+
+    @Html.Partial("_Footer")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

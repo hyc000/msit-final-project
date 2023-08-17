@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+
+}
+
+
+
+
+<!-- RenderBody() Placeholder -->
+<div class="container">
+    <div class="row align-items-start" style="height:660px;">@* 粗暴修改登入頁的高度 *@
+        <div class="col-8">
+            @* One of three columns *@
+        </div>
+        <div class="col-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="signIn-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">登入</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="signUp-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">註冊</button>
+        </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        @*"登入"要顯示的內容*@
+        <div class="tab-pane fade show active m-3" id="home" role="tabpanel" aria-labelledby="signIn-tab">
+            <h1 class ="m-3">登入</h1>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group m-3">
+                        帳號 (註冊時的Email)
+                        <div class="col-md-10">
+                            @Html.TextBox("txtAccount", "marco@gmail.com", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group m-3">
+                        密碼
+                        <div class="col-md-10">
+                            @Html.TextBox("txtPassword", "", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group m-3">
+                        <div class="col-md-offset-0 col-md-10">
+                            <input type="submit" value="登入" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        @*"註冊"要顯示的內容*@
+        <div class="tab-pane fade m-3" id="profile" role="tabpanel" aria-labelledby="signUp-tab">
+            <h1 class="m-3">註冊</h1>
+            <div class="m-3">請輸入您的個人資料</div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group m-3">
+                        帳號 (電子郵件)
+                        <div class="col-md-10">
+                            @Html.TextBox("txtAccount", "marco@gmail.com", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group m-3">
+                        密碼(6-12個英數字，大小寫不同)
+                        <div class="col-md-10">
+                            @Html.TextBox("txtPassword", "", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-check m-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                        <label class="form-check-label" for="flexCheckIndeterminate">
+                            我已詳閱並同意遵守WantWant會員規約與隱私權政策
+                        </label>
+                    </div>
+                    <div class="form-group m-3">
+                        <div class="col-md-offset-0 col-md-10">
+                            <input type="submit" value="註冊" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+         </div>
+    </div>
+        </div>
+    </div>
+</div>

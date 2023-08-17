@@ -1,0 +1,171 @@
+﻿@model prjCoreWebWantWant.Models.TaskList
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<h1>修改委託單</h1>
+
+
+
+<div class="container"> 
+
+    <div >
+
+        <div class="mx-auto w-70 p-5">
+            <div class="mb-3 form-control-lg">
+                接案者:
+            </div>
+
+            <hr class="mb-3">
+
+
+
+            <!--委託內容-->
+            <div class="border p-5" id="retry">
+                <div class="form-group " style="display:none">
+                    <label asp-for="TaskNameId" class="control-label"></label>
+                    <input asp-for="TaskNameId" class="form-control" />
+                    <span asp-validation-for="TaskNameId" class="text-danger"></span>
+                </div>
+                <div class=" form-control-lg">
+                    委託內容:
+
+                </div>
+
+                <div class="mb-3 dropdown-header">
+                    <li>提醒您，委託內容越詳細可以減少您跟專家在委託案件中所花費的溝通時間。
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="請輸入要委託的工作內容" id="TaskDetail" style="height: 400px"></textarea>
+                    <label for="TaskDetail">請輸入要委託的工作內容</label>
+                </div>
+                <!--委託時間-->
+                <div class=" border mb-3">
+                    <div class="form-control-lg">
+                        委託時間:
+                    </div>
+                    <div class="p-3">
+                        <div class="mb-3 form-control-lg">
+                            <input type="button" data-bs-toggle="button" class="btn-check" id="option1" autocomplete="off">
+                            <label class="btn btn-secondary" for="option1" onclick="clickdeploy(timeone,times)">指定日期前完成 +</label>
+
+                            <input type="button" data-bs-toggle="button" class="btn-check" id="option2" autocomplete="off">
+                            <label class="btn btn-secondary" for="option2" onclick="clickdeploy(times,timeone)">指定時段內完成 +</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-floating col-3" id="timeone" style="display: none;">
+                                <input type="date" class="form-control list" id="floatingPtimeone" placeholder="委託截止日">
+                                <label for="floatingtimeone">委託截止日</label>
+                            </div>
+                        </div>
+                        <div id="times" style="display: none ;" class="row ">
+
+                            <div class="form-floating  col-3">
+                                <input type="date" class="form-control list" id="floatingtimesup" placeholder="委託期限(起)">
+                                <label for="floatingtimesup">委託期限(起)</label>
+                            </div>
+                            <div class="col-1 ">
+                                ~
+                            </div>
+                            <div class="form-floating col-3">
+                                <input type="date" class="form-control list" id="floatingtimesdown" placeholder="委託期限(訖)">
+                                <label for="floatingtimesdown">委託期限(訖)</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--委託時間結束-->
+                <!--委託預算-->
+                <div class=" border mb-3">
+                    <div class="form-control-lg ">
+                        委託預算:
+                    </div>
+                    <div class="mb-3 form-floating col-12 p-3">
+                        <input type="text" value="$" class="form-control list" id="PayFrom" placeholder="委託期限(訖)">
+                        <label for="PayFrom">委託價格</label>
+                    </div>
+                </div>
+                <!--委託預算結束-->
+                <!--委託地點-->
+
+                <div class="border p-3  mb-3">
+                    <div class="form-control-lg">
+
+                        委託工作地點:
+                    </div>
+                    <div class=" form-control-lg">
+
+                        <select class="form-select" onchange="clickdeployone(placeaddress) id="WorkPlace">
+
+                            <option>在家工作</option>
+                            <option>指定地點工作</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3 " style="display: none;" id="placeaddress">
+                        <div class="form-floating col-12">
+                            <input type="text" class="form-control list" id="Address" placeholder="指定工作地址">
+                            <label for="Address">指定工作地址</label>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!--委託地點END-->
+                <!--委託付款-->
+                <div class="border p-3 mb-3">
+                    <div class="form-control-lg">
+                        委託付款方式:
+                    </div>
+                    <div class="">
+                        <div class=" form-control-lg">
+                            <select class="form-select" id="PaymentId">
+
+                                <option>簽約後付全額款</option>
+                                <option>完成後付全額款</option>
+                                <option>預付訂金50%，完成後在付50%</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--委託付款END-->
+
+                <div class="row">
+
+                    <div class="form-floating col-3 mx-auto p-3">
+                        <input type="submit" value="修改並送出" class="btn btn-outline-secondary" id="submit" placeholder="Password">
+
+                    </div>
+                    <div class="form-floating col-3 mx-auto p-3">
+                        <input type="submit" value="取消" class="btn btn-outline-secondary" id="submit" placeholder="Password">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+        }
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

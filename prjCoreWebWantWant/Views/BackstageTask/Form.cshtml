@@ -1,0 +1,574 @@
+﻿
+@{
+    ViewData["Title"] = "Form";
+    // Layout = "~/Views/Shared/_FormLayout.cshtml";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @* <link rel="stylesheet" href="~/backstage1/css/site.css" asp-append-version="true" /> *@
+    @* <link rel="stylesheet" href="~/Backstage.styles.css" asp-append-version="true" /> *@
+
+
+
+    <!--Form css-->
+    <!-- Favicon -->
+    @* <link href="~/backstage/img/favicon.ico" rel="icon"> *@
+
+    <!-- Google Web Fonts -->
+   @*  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet"> *@
+
+    <!-- Icon Font Stylesheet -->
+  @*   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"> *@
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/backstage1/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/backstage1/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+  @*   <link href="~/backstage1/css/bootstrap.min.css" rel="stylesheet"> *@
+
+    <!-- Template Stylesheet -->
+    <link href="~/backstage1/css/style.css" rel="stylesheet">
+
+    <!-- CSS here -->
+
+    <link rel="stylesheet" href="~/backstage/css/price_rangs.css">
+
+    <!--slider會變-->
+    <link rel="stylesheet" href="~/backstage/css/slider.css">
+
+
+
+
+
+</head>
+
+<body>
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+       
+        <form id="form" form action="~/Backstage/Form" method="post">
+
+        <!-- Content Start -->
+        <div class="content">
+         
+            <!-- Form Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">   <!--任務內容-->
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">任務內容</h6>
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="SelTaskName"
+                                            aria-label="Floating label select example">
+                                        <option>跑腿</option>
+                                    </select>
+                                    <label for="floatingSelectTown">請選擇任務類型</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputTaskTitle" class="form-label">任務標題</label>
+                                    <input type="text" class="form-control" id="TaskTitle">
+                                    <!-- <div id="tasktitleinput" class="form-text">We'll never share your email with anyone else.
+                                    </div> -->
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputTaskDetail" class="form-label">任務內容</label>
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="TaskDetail" style="height: 150px;"></textarea>
+                                    <label for="floatingTextarea"></label>
+                                </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputRequiredNum" class="form-label">需求人數</label>
+                                    <input type="text" class="form-control" id="RequiredNum">
+                                    <!-- <div id="tasktitleinput" class="form-text">We'll never share your email with anyone else.
+                                    </div> -->
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
+                                    <!-- <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+                                </div>
+                                <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">   <!--任務時間-->
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">任務時間</h6>                             
+                                <div class="mb-3">
+                                    <label for="example-date-input" class="form-label">開始日期</label>
+                                <input class="form-control" type="date" value="DateTime.Now.Date" id="TaskStartDate">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="example-date-input" class="form-label">結束日期</label>
+                                <input class="form-control" type="date" value="DateTime.Now.Date" id="TaskEndDate">
+                                </div>
+                              
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="TaskStartHour">
+                                <label for="floatingInputTaskPeriod">請輸入時段，例如：早班：08：00~16：00</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="TaskEndHour">
+                                <label for="floatingInputTaskPeriod2">請輸入時段，例如：中班：13：00~17：00，若無則免填</label>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">   <!--任務地點-->
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">任務地點</h6>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioHome"
+                                        value="option1">
+                                    <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOtherPlace"
+                                        value="option2">
+                                    <label class="form-check-label" for="inlineRadioOtherPlace">指定地點</label>
+                                </div>
+                                <p></p>
+                                </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selCity">
+                                    <!-- <option selected>請選擇縣市</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇縣市</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selTown">
+                                    <!-- <option selected>請選擇縣市</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectTown">請選擇區域</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInputAddress"
+                                    placeholder="name@example.com">
+                                <label for="floatingInputAddress">請輸入地址</label>
+                            </div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xl-6">   <!--任務報酬-->
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">任務報酬</h6>
+                        
+                                    <div class="widgets_inner">
+                                        <div class="range_item">
+                                            <!-- <div id="slider-range"></div> -->
+                                               
+                                         
+                                            <div class="d-flex align-items-center">
+                                        <div class="price_text">
+                                            <input type="text" class="js-range-slider" value="" />
+                                            <p>Price :</p>
+                                                </div>
+                                               @*  <div class="price_value d-flex justify-content-center">
+                                                    <input type="text" class="js-input-from" id="amountPayFrom" readonly />
+                                                    <span>to</span>
+                                                    <input type="text" class="js-input-to" id="amountPayTo" readonly />
+                                                </div> *@
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </aside> -->
+                              <!-- Range Slider End -->
+                            <!-- </div> -->
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelPayment"
+                                        aria-label="Floating label select example">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectPayment">支薪方式</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelPaymentDate"
+                                        aria-label="Floating label select example">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectPaymentDate">支薪日</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--專業需求-->
+                    <div class="col-sm-12 col-xl-6">   
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">專業需求(選填)</h6>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照</label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                      <!--任務照片-->
+                    <div class="col-sm-12 col-xl-6">   
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">任務照片(選填)</h6>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Default file input example</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                            </div>
+                          
+                        </div>
+                    </div>
+                  
+                  
+                </div>
+                <p></p>
+                <!--送出-->
+            <div class="d-flex justify-content-center">    
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <div class="d-flex justify-content-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioPublish"
+                                value="option1">
+                            <label class="form-check-label" for="inlineRadioPublish">立即上架</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioNoPublish"
+                                value="option2">
+                            <label class="form-check-label" for="inlineRadioNoPublish">延後上架</label>
+                        </div>
+                     </div>
+                     <div class="d-flex justify-content-center mt-3">
+                        <div>
+                            <button type="submit" class="btn btn-primary" style="background-color:#528EAF" id="btn">送出</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>            
+        </div>
+        </form>
+
+
+        <!-- Back to Top -->
+        @*<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>*@
+
+
+
+    @section Styles{
+
+    }
+
+    @section Scripts{
+        <script>
+
+            //任務類型
+            const SelTaskName = document.querySelector('#SelTaskName');
+
+            //select的任務名
+            async function loadSelTaskName() {
+                const response = await fetch('@Url.Content("~/BackstageTask/TaskName")')
+                const datas = await response.json()
+                const taskName = datas.map(TaskName => `<option value="${TaskName}">${TaskName}</option>`);
+                document.querySelector('#SelTaskName').innerHTML = taskName.join("");
+
+            }
+
+            loadSelTaskName();
+
+            //SelTaskName.addEventListener('change', () => {
+            //    loadDistrict();
+            //});
+
+            //支薪方式
+            const SelPayment = document.querySelector('#SelPayment');
+
+            //select的支薪方式
+            async function loadSelPayment() {
+                const response = await fetch('@Url.Content("~/BackstageTask/Payment")')
+                const datas = await response.json()
+                const payment = datas.map(Payment => `<option value="${Payment}">${Payment}</option>`);
+                document.querySelector('#SelPayment').innerHTML = payment.join("");
+
+            }
+
+            loadSelPayment();
+
+            //SelPayment.addEventListener('change', () => {
+            //    loadDistrict();
+            //});
+
+
+            //支薪日
+            const SelPaymentDate = document.querySelector('#SelPaymentDate');
+
+            //select的支薪日
+            async function loadSelPaymentDate() {
+                const response = await fetch('@Url.Content("~/BackstageTask/PaymentDate")')
+                const datas = await response.json()
+                const paymentDate = datas.map(PaymentDate => `<option value="${PaymentDate}">${PaymentDate}</option>`);
+                document.querySelector('#SelPaymentDate').innerHTML = paymentDate.join("");
+
+            }
+            loadSelPaymentDate();
+
+            //SelPaymentDate.addEventListener('change', () => {
+            //    loadDistrict();
+            //});
+
+
+
+
+            //城市和鄉鎮的標籤
+            const selCity = document.querySelector('#selCity');
+            const selTown = document.querySelector('#selTown');
+
+            //select的城市
+            async function loadCity() {
+                const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
+                const datas = await response.json()
+                const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+                document.querySelector('#selCity').innerHTML = cities.join("");
+
+                loadDistrict();
+            }
+
+            loadCity();
+
+            //select的區域
+            async function loadDistrict() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+                const datas = await response.json()
+                const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+                selTown.innerHTML = districts.join("");
+            }
+
+            loadDistrict();
+
+            selCity.addEventListener('change', () => {
+                loadDistrict();
+            });
+
+
+            //技能的標籤
+            const SelSkillBig = document.querySelector('#SelSkillBig');
+            const SelSkillSmall = document.querySelector('#SelSkillSmall');
+
+            //select的技能分類
+            async function loadSelSkillBig() {
+                const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+                const datas = await response.json()
+                const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+                document.querySelector('#SelSkillBig').innerHTML = skillBig.join("");
+
+                loadSelSkillSmall();
+            }
+
+            loadSelSkillBig();
+
+            //select的技能小項
+            async function loadSelSkillSmall() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBig.value}`);
+                const datas = await response.json()
+                const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+                SelSkillSmall.innerHTML = skillSmall.join("");
+            }
+
+            loadSelSkillSmall();
+
+            SelSkillBig.addEventListener('change', () => {
+                loadSelSkillSmall();
+            });
+
+
+
+            //證照的標籤
+            const SelCerBig = document.querySelector('#SelCerBig');
+            const SelCerSmall = document.querySelector('#SelCerSmall');
+
+            //select的證照分類
+            async function loadSelCerBig() {
+                const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+                const datas = await response.json()
+                const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+                document.querySelector('#SelCerBig').innerHTML = CerBig.join("");
+
+                loadSelCerSmall();
+            }
+
+            loadSelCerBig();
+
+            //select的證照小項
+            async function loadSelCerSmall() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBig.value}`);
+                const datas = await response.json()
+                const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+                SelCerSmall.innerHTML = CerSmall.join("");
+            }
+
+            loadSelCerSmall();
+
+            SelCerBig.addEventListener('change', () => {
+                loadSelCerSmall();
+            });
+
+
+
+
+
+
+
+
+
+            // //const btn = document.querySelector('#button1');
+            // ////const theA = document.querySelector('#a1')
+            // ////const theDiv2 = document.querySelector('#div2')
+            // ////const userName = document.querySelector('#userName')
+            // ////const theDiv = document.querySelector('#div1')
+
+            // //btn.addEventListener('click', event => {              
+
+            // //    const xhr = new XMLHttpRequest();
+            // //    xhr.open('Post', '~/Backstage/Form');   //改成用ApiController裡面的Register方法，直接新增至DB
+            // //    //xhr.open('POST', '@Url.Content("~/Backstage/Form")')
+
+            // //    xhr.addEventListener('load', () => {
+            // //        const data = xhr.responseText;
+            // //        theDiv.innerHTML = data;
+            // //    })
+
+            // //    //改用 fetch 傳送FormData到server端
+            // //    const formData = new FormData(document.querySelector('#form'));
+            // //    fetch('@Url.Content("~/Backstage/Form")', {
+            // //        body: formData,
+            // //        method: 'POST'
+            // //    })
+            // //        .then(response => {
+            // //            if (response.ok) {
+            // //                alert("新增成功")
+            // //                location.href = '@Url.Content("~/Backstage/TablesEditable")'    //新增完後跳轉到TablesEditable畫面
+            // //            } else {
+            // //                alert("有錯誤!!")
+            // //            }
+            // //        })
+            // //    })
+
+
+
+            // //test
+            // //步驟一，建立ajax物件
+            // var xhr = new XMLHttpRequest();
+
+            // //步驟二，對伺服器發出要求
+            // //api是controller，GetDemo是方法名
+            // //網址要輸入Home/Ajax，因是在HomeController/View/Home下面Ajax.cshtml，因是在Ajax送出請求，要傳回自己的頁面
+            // //xhr.open('GET', '/api/GetDemo')
+
+            // // xhr.open('GET', '/api/getdemo?name=Mary&age=28')
+
+            // //改用Url.Content產生路徑↓
+            // //若指定值↓
+            // const name = "Jack";
+            // const age = 25;
+            // //xhr.open('GET', '@Url.Content("~/Backstage/Form")?name=Mary&age=28')
+            // xhr.open('GET', `@Url.Content("~/Backstage/Form")?TaskTitle=${TaskTitle}&TaskDetail=${TaskDetail}`)
+
+
+
+            // xhr.send();
+
+            // //步驟三，接收伺服器回傳的結果(用load事件接收)
+            // xhr.addEventListener('load', function () {
+            //     var data = xhr.responseText;
+
+            //     //步驟四，讀出回傳的結果
+            //     //步驟五，把讀出的結果顯示在網頁上
+            //     document.querySelector('#div1').innerHTML = `<h3>${data}</h3>`
+
+            // })
+
+
+
+        </script>
+
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+
+
+    <!--Form js-->
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/backstage1/lib/chart/chart.min.js"></script>
+    <script src="~/backstage1/lib/easing/easing.min.js"></script>
+    <script src="~/backstage1/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/backstage1/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/backstage1/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="~/backstage1/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="~/backstage1/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="~/backstage1/js/main.js"></script>
+
+    <!-- slider會變-->
+    <script src="~/backstage1/js/price_rangs.js"></script>
+
+    
+</body>
+
+</html>
+

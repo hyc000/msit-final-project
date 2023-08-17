@@ -1,0 +1,354 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@*@model IEnumerable<prjWantWant_yh_CoreMVC.Models.CTask>     匿名型別*@
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_Task.cshtml";
+    // Layout = "~/Views/Shared/_Layout_Task.cshtml";
+}
+
+@section Styles{
+    <style>
+        /* .a:hover {
+            color:pink;
+        }
+
+        .items-link items-link2 f-right {
+            color: #8b92dd;
+        } */
+    </style>
+}
+
+@section Scripts{
+    <script>
+        const selCategory = document.querySelector('#selectCategory');
+
+        selCategory.addEventListener('change', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`Category=${selCategory.value}`);
+            xhr.addEventListener('load', () => {
+                const Partial = document.querySelector('#Partial');
+                Partial.innerHTML = xhr.responseText;
+            })
+        })
+
+    </script>
+}
+<head>
+    <style>
+        .a{
+            color: #8b92dd;
+        }
+
+        .items-link items-link2 f-right{
+            color: #8b92dd;
+        }
+
+       
+
+    </style>
+</head>
+
+<main>
+
+    
+    <!-- Job List Area Start -->
+    <div class="job-listing-area pt-120 pb-120">
+        <div class="container">
+            <div class="row">
+                <!-- Left content -->
+                <div class="col-xl-3 col-lg-3 col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="small-section-tittle2 mb-45">
+                                <div class="ion">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="20px" height="12px">
+                                        <path fill-rule="evenodd" fill="rgb(27, 207, 107)"
+                                              d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z" />
+                                    </svg>
+                                </div>
+                                <h4>篩選</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Job Category Listing start -->
+                    <div class="job-category-listing mb-50">
+                        <!-- single one -->
+                        <div class="single-listing">
+                          
+                            <div class="small-section-tittle2">
+                             @using (Html.BeginForm())
+                             {
+                                <h4>關鍵字</h4> @*@Html.TextBox("txtKeyword")*@ <input type="text" id="txtKeyword" name="txtKeyword" style="width:156px"/>
+                                <input type="submit" value="查詢"  >
+                             }
+                            </div>
+                            <br />
+                            <div class="small-section-tittle2">
+                                <h4>類別</h4>
+                            </div>
+                            <!-- Select job items start -->
+                            <div class="select-job-items2">
+                                @{
+                                    NewIspanProjectContext db = new NewIspanProjectContext();
+                                    var q = from tn in db.TaskNameLists
+                                            select tn.TaskName;
+                                }
+
+                                @using (Html.BeginForm())
+                                {
+                                    <select id="selectCategory" name="selectCategory">
+                                        <option>請選擇任務類型</option>
+                                        @foreach (var item in q)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    </select>
+                                }
+                            </div>
+                            <!--  Select job items End-->
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pt-80 pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>工作型態</h4>
+                                </div>
+                                <label class="container">
+                                    全職
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    兼職
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    遠端
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    自由接案
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <!-- single two -->
+                        <div class="single-listing">
+                            <div class="small-section-tittle2">
+                                <h4>工作地點</h4>
+                            </div>
+                            <!-- Select job items start -->
+                            <div class="select-job-items2">
+                                <select name="select">
+                                    <option value="">任意地點</option>
+                                    <option value="">北部</option>
+                                    <option value="">中部</option>
+                                    <option value="">南部</option>
+                                    <option value="">外島</option>
+                                </select>
+                            </div>
+                            <!--  Select job items End-->
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pt-80 pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>工作經驗</h4>
+                                </div>
+                                <label class="container">
+                                    1-2 年
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    2-3 年
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    3-6 年
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    6 年以上
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <!-- single three -->
+                        <div class="single-listing">
+                            <!-- select-Categories start -->
+                            <div class="select-Categories pb-50">
+                                <div class="small-section-tittle2">
+                                    <h4>刊登時間</h4>
+                                </div>
+                                <label class="container">
+                                    任意時間
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    今天
+                                    <input type="checkbox" checked="checked active">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    過去 2 天
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    過去 3 天
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    過去 5 天
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="container">
+                                    過去 10 天
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <!-- select-Categories End -->
+                        </div>
+                        <div class="single-listing">
+                            <!-- Range Slider Start -->
+                            <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
+                                <div class="small-section-tittle2">
+                                    <h4>薪資過濾</h4>
+                                </div>
+                                <div class="widgets_inner">
+                                    <div class="range_item">
+                                        <!-- <div id="slider-range"></div> -->
+                                        <input type="text" class="js-range-slider" value="" />
+                                        <div class="d-flex align-items-center">
+                                            <div class="price_text">
+                                                <p>薪資 :</p>
+                                            </div>
+                                            <div class="price_value d-flex justify-content-center">
+                                                <input type="text" class="js-input-from" id="amount" readonly />
+                                                <span>到</span>
+                                                <input type="text" class="js-input-to" id="amount" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+                            <!-- Range Slider End -->
+                        </div>
+                    </div>
+                    <!-- Job Category Listing End -->
+                </div>
+                <!-- Right content -->
+                <div class="col-xl-9 col-lg-9 col-md-8" id="Partial">
+                    <!-- Featured_job_start -->
+                    <section class="featured-job-area">
+                        <div class="container">
+                            <!-- Count of Job list Start -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="count-job mb-35">
+                                        <span>共 @Model.Count() 筆資料</span>
+                                        <!-- Select job items start -->
+                                        <div class="select-job-items">
+                                            <span>排序</span>
+
+                                            <form id="sort">
+                                                <select name="selectSort">
+                                                <option value="">無</option>
+                                                <option value="">更新 新->舊</option>
+                                                <option value="salaryHighToLow">薪資 高->低</option>
+                                                <option value="">薪資 低->高</option>
+                                                </select>
+                                            </form>
+                                            
+                                        </div>
+                                        <!--  Select job items End-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Count of Job list End -->
+                            <!-- single-job-content -->
+                            @foreach (var item in Model)
+                            {
+                                <div class="single-job-items mb-30" style="border:groove;">
+                                    @*工作列表*@
+                                    <div class="job-items">
+                                        @*<div class="company-img">
+                                    <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+                                          </div>*@
+                                        <div class="job-tittle job-tittle2">
+                                            <a href="#">
+                                                <h4> @Html.DisplayFor(modelItem => item.TaskTitle)</h4>
+                                            </a>
+                                            <ul>
+                                                @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
+                                                <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1) @*@ViewBag.CITY*@</li>
+                                                <li>薪資：@Html.DisplayFor(modelItem => item.PayFrom) 元</li>
+                                                <li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="items-link items-link2 f-right">
+                                        @*<a href="Details" onclick="Alert()">詳細資訊</a>*@
+                                        @*@Html.ActionLink("詳細資訊", "Detail", new { id=item.CaseId })*@
+                                        <a href="@Url.Action("Detail", new { id=item.CaseId })" target="_blank" style="color: #528eaf">詳細資訊</a>
+                                        @*<a href="job_details.html">收藏</a>*@
+                                        @*<span> @Html.DisplayFor(modelItem => item.TaskStart)</span>*@
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </section>
+                    <!-- Featured_job_end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Job List Area End -->
+    <!--Pagination Start  -->
+    <div class="pagination-area pb-115 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="single-wrap d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                                <li class="page-item"><a class="page-link" href="#"><span class="ti-angle-right"></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Pagination End  -->
+
+</main>
+
+        
+
+            <td>
+@*                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        @* </tr> *@
+
+
+

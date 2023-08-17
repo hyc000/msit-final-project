@@ -1,0 +1,44 @@
+﻿@using prjCoreWantMember.ViewModels
+@model IEnumerable<CExpertInfoViewModel>
+
+@{
+    ViewData["Title"] = "ExpertMemberPage";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<h1>ExpertMemberPage</h1>
+
+@foreach (var item in Model)
+{
+    string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
+    <div class="single-job-items mb-30" style="border:groove;">
+        @*工作列表*@
+        <div class="job-items">
+            @* <div class="company-img">
+        <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
+        </div>*@
+            <div class="job-tittle job-tittle2">
+                <a href="#">
+                    <h4> @Html.DisplayFor(modelItem => item.memberAccount.Name)</h4>
+                </a>
+                <ul>
+                    @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
+                    <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.cityName)</li>
+
+                    <li>基本報價：@Html.DisplayFor(modelItem => item.expertResume.CommonPrice) 元</li>
+                    @*<li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>*@
+
+                </ul>
+                <ul>
+                    <li>服務項目：@ServiceInfo</li>
+                </ul>
+            </div>
+        </div>
+        <div class="items-link items-link2  f-right">
+            <a href="@Url.Action("EditExpertResume", new { id=item.resume.ResumeId})" target="_blank" class="btn btn-primary">編輯</a>
+        </div>
+    </div>
+}
+
+@Html.ActionLink("新增專家履歷","AddExpertResume","Expert",new{id = Model.FirstOrDefault().resume.AccountId},new{@class="btn btn-primary"})
+

@@ -1,0 +1,126 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+
+@model prjCoreWantMember.ViewModels.ForumPostListModel
+
+@{
+    ViewData["Title"] = "討論區";
+    int categoryId = ViewBag.CategoryId;
+}
+
+<div class="container" style="">
+
+    <nav class="breadcrumb  mt-4">
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/Forum/CategoryList")">討論區</a></li>
+            <li class="breadcrumb-item active">@ViewBag.CategoryTitle</ li >
+    </ol>
+</nav>
+
+<div class="d-inline-flex mb-3">
+        <span class="btn-group  me-3 btn btn-round">
+        <i class="bi bi-pen-fill pe-1"></i>
+        @Html.ActionLink("發表文章", "CreatePost", new { categoryId = categoryId })
+    </span>
+
+@using (Html.BeginForm())
+{
+        <span class="input-group">
+            <input type="text" placeholder="Search forums..." class="form-control" autocomplete="off" name="q" tabindex="101" value="@ViewBag.CurrentQ">
+            <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-search"></i></button>
+    </span>
+}
+</div>
+
+<div class="row m-1">
+    <table class="table text-start align-middle">
+        <thead class="table-primary">
+        <tr >
+        <th class="col-4">
+            文章標題
+        </th>
+        <th class="text-center col-2">
+            回覆數/觀看次數
+        </th>
+        <th class="text-center col-2">
+            發文時間
+
+            @Html.ActionLink(" ", "PostList", "Forum", new { categoryId = categoryId, OrderBy = "Date" ,q=ViewBag.CurrentQ}, new { @class = "bi bi-arrow-up-square link-underline link-underline-opacity-0" })
+
+            @Html.ActionLink(" ", "PostList", "Forum", new { categoryId = categoryId, OrderBy = "Date_desc",q=ViewBag.CurrentQ }, new { @class = "bi bi-arrow-down-square link-underline link-underline-opacity-0" })
+        </th>
+        <th class="text-center col-2">
+            最後更新時間
+        </th>
+        <th class="text-center col-2">
+            最新回覆時間
+        </th>
+    </tr>
+        </thead>
+    @foreach (var item in Model.PagedPosts)
+    {
+        <tr>
+            <td>
+                <span class="h6 link-offset-1-hover">@Html.ActionLink(item.Title, "PostView", "Forum", new { postID = item.PostId }, null)</span><br />
+                <span class="text-secondary">@Html.DisplayFor(modelItem => item.Account.UserName)</span>
+            </td>
+                    <td class="text-center small">
+                    @{
+                        int postID = item.PostId;
+                        int replyCount = Model.ReplyCounts.ContainsKey(postID) ? Model.ReplyCounts[postID] : 0;
+
+                    }
+                    @replyCount <i class="bi bi-reply-fill"></i> / @Html.DisplayFor(modelItem => item.ViewCount)  <i class="bi bi-eye-fill"></i>
+            </td>
+                    <td class="text-center small">
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+                    <td class="text-center small">
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td class="text-center small">
+                    @Html.DisplayFor(modelItem => item.ForumPostComments.OrderByDescending(c => c.Created).FirstOrDefault().Created)
+                    @Html.DisplayFor(modelItem => item.ForumPostComments.OrderByDescending(c => c.Created).FirstOrDefault().Account.UserName)
+            </td>
+        </tr>
+    }
+
+</table>
+</div>
+
+<div class="pagination justify-content-center my-5">
+
+
+@Html.PagedListPager(Model.PagedPosts, page => Url.Action("PostList", new { page, OrderBy=ViewBag.CurrentSort, q=ViewBag.CurrentQ,categoryId=categoryId}),new PagedListRenderOptions {
+    DisplayLinkToIndividualPages = true,
+    DisplayPageCountAndCurrentLocation = false,
+    MaximumPageNumbersToDisplay = 10,
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" },
+    UlElementClasses = new string[] { "pagination pagination-sm" }
+})
+</div>
+
+</div>
+
+@section Styles{
+    <style>
+        a:link {
+            color: #46576b;
+        }
+
+        a:visited {
+            color: #434b53;
+        }
+
+        a:hover {
+            color: #5c6570;
+        }
+
+        a:active {
+            color: #445971;
+        }
+    </style>
+
+}

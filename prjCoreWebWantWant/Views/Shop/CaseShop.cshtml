@@ -1,0 +1,367 @@
+﻿@{
+    ViewData["Title"] = "CaseShop";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+
+<div class="header-container">
+    <h2>任務曝光</h2>
+</div>
+<div class="container mt-5">
+    <!-- 新增顯示會員累積點數的標題 -->
+    <h3>您的紅利點數：100</h3>
+    <br>
+    <div class="row">
+        <div class="col-md-3">
+            <!-- 任務類別選單 -->
+            <div class="form-group">
+                <label for="categorySelect">選擇您的任務：</label>
+                <select class="form-control" id="categorySelect">
+                    <option value="category1">類別1</option>
+                    <option value="category2">類別2</option>
+                    <option value="category3">類別3</option>
+                    <!-- 添加更多的選項，根據您的需求 -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-5 bg-light">
+            <!-- 右邊說明文字在這裡 -->
+            <h4>曝光規則</h4>
+            <ul>
+                <li>此加值服務，讓你的曝光度UP，快速招募合適人選！。</li>
+                <li>曝光商品後，會根據您選擇的任務職缺來進行曝光。</li>
+                <li>購買後，將立刻開始進行曝光。</li>
+                <li>置頂中的職缺仍可關閉，但置頂期限不會因中斷而延長。只要在置頂期限內再次開啟職缺，仍會照常執行。</li>
+            </ul>
+        </div>
+
+
+
+        <div class="col-md-3 text-right">
+            <!-- 使用 text-right 來靠右對齊 -->
+            <!-- 購物車按鈕  跳出視窗-->
+            <a style="color: rgb(16, 15, 15);" href="#" type="button" data-bs-toggle="modal"
+               data-bs-target="#cartModal" class="shopping-cart-btn">
+                <i class='bx bxs-cart'></i>
+            </a>
+            <span class="cart-item-count">0</span>
+        </div>
+    </div>
+
+    <!-- 跳出視窗 -->
+    <div class="modal fade" id="cartModal">
+        <div class="modal-dialog modal-dialog-end">
+            <div class="modal-content">
+                <!-- header -->
+                <div class="modal-header">
+                    <h3>購物車</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- body -->
+                <div class="modal-body">
+                    <h5 class="text-center">您所要加值的任務是</h5>
+                    <table class="table table-striped mt-5">
+                        <thead align="center">
+                            <tr>
+                                <td></td>
+                                <td>商品</td>
+                                <td>單價</td>
+                                <td>數量</td>
+                                <td>小計</td>
+                                <td>刪除</td>
+                            </tr>
+                        </thead>
+                        <tbody align="center">
+                            <tr>
+                                <td><img class="img-fluid" src="/shopimg/任務置頂1天.png"></td>
+                                <td>任務置頂1天</td>
+                                <td>200元</td>
+                                <td><select name="" id=""></select></td>
+                                <td>200元</td>
+                                <td>
+                                    <a href="">
+                                        <i class='bx bx-trash bx-tada'
+                                           style='color:#ea0b0b ; font-size: 2rem'></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img class="img-fluid" src="path_to_image2.jpg"></td>
+                                <td>任務置頂3天</td>
+                                <td>350元</td>
+                                <td><select name="" id=""></select></td>
+                                <td>350元</td>
+                                <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+
+
+                </div>
+                <!-- footer -->
+                <div class="modal-footer">
+                    <h5 align="right">Total:</h5>
+                    @*<input type="submit" value="buynow" class="btn btn-primary" href="@Url.Content("~/shop/checkout")" />*@
+                    <form action="@Url.Content("~/shop/checkout")" method="post">
+                        <input type="submit" value="buynow" class="btn btn-primary" />
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <!-- 輪播圖片 -->
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/shopimg/BN1.png" class="d-block w-100" alt="Slide 1">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/shopimg/BN2.png" class="d-block w-100" alt="Slide 2">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/shopimg/BN3.png" class="d-block w-100" alt="Slide 3">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <hr>
+    <!-- 所有商品區域 -->
+    <div class="col-12 col-md-6 col-lg-12  justify-content-center">
+        <div class="shop-products-area">
+            <div class="row">
+                <!-- 單個商品區域 -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card mb-4 single-product-area">
+                        <div class="card-image flex-grow-1" style="background-image: url('@Url.Content("~/shopimg/任務置頂1天.png")')">
+                            <a class="btn btn-danger" style="border-radius: 20px;">熱銷</a>
+                        </div>
+
+
+                        <div class="card-body flex-grow-0">
+                            <div class="text-center">
+                                <h5 class="card-title">任務置頂1天</h5>
+                            </div>
+                            <h6 class="text-center">$10.99</h6>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                            <!-- 將<i>元素放在右邊最下面 -->
+                            <a href="" style="color: black;">
+                                <i class='bx bxs-shopping-bag'
+                                   style="font-size: 2em; margin-left: auto;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 在這裡添加更多的商品卡片 -->
+                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
+                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card mb-4 single-product-area">
+                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
+
+                        <div class="card-body flex-grow-0">
+                            <div class="text-center">
+                                <h5 class="card-title">任務置頂3天</h5>
+                            </div>
+                            <h6 class="text-center">$10.99</h6>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                            <!-- 將<i>元素放在右邊最下面 -->
+                            <a href="" style="color: black;">
+                                <i class='bx bxs-shopping-bag'
+                                   style="font-size: 2em; margin-left: auto;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加更多商品卡片 -->
+                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
+                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card mb-4 single-product-area">
+                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
+                        <!-- <img src="./圖庫/500.png" class="card-img-top" alt="商品 1"> -->
+                        <div class="card-body flex-grow-0">
+                            <div class="text-center">
+                                <h5 class="card-title">任務置頂7天</h5>
+                            </div>
+                            <h6 class="text-center">$10.99</h6>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                            <!-- 將<i>元素放在右邊最下面 -->
+                            <a href="" style="color: black;">
+                                <i class='bx bxs-shopping-bag'
+                                   style="font-size: 2em; margin-left: auto;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加更多商品卡片 -->
+                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
+                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card mb-4 single-product-area">
+                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
+                        <!-- <img src="./圖庫/500.png" class="card-img-top" alt="商品 1"> -->
+                        <div class="card-body flex-grow-0">
+                            <div class="text-center">
+                                <h5 class="card-title">任務置頂30天</h5>
+                            </div>
+                            <h6 class="text-center">$10.99</h6>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                            <!-- 將<i>元素放在右邊最下面 -->
+                            <a><i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加更多商品卡片 -->
+                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
+                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card mb-4 single-product-area">
+                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
+                        <!-- <img src="./圖庫/500.png" class="card-img-top" alt="商品 1"> -->
+                        <div class="card-body flex-grow-0 ">
+                            <div class="text-center">
+                                <h5 class="card-title">任務置頂90天</h5>
+                            </div>
+                            <h6 class="text-center">$10.99</h6>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                            <!-- 將<i>元素放在右邊最下面 -->
+                            <a><i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加更多商品卡片 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles
+    {
+    <style>
+        /* 自定義 Single Product Area 的寬度和高度 */
+        .card.single-product-area {
+            transition: box-shadow 0.3s ease;
+            border-radius: 20px;
+            /* 添加過渡效果 */
+        }
+
+        /* 保持 Product Image 在容器中居中，並控制圖片的填充方式 */
+        .product-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            /* 保持圖片比例並填充整個容器，超出的部分會被裁剪 */
+        }
+
+        /* 滑鼠懸停時的陰影效果 */
+        .single-product-area:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            /* 添加陰影效果 */
+            transform: scale(1.05);
+            /* 略微放大 */
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            /* 這裡可以調整您想要的固定高度 */
+            background-image: url('~/圖庫/500.png');
+            background-size: 100% 100%;
+            /* 確保背景圖片填滿div */
+            background-repeat: no-repeat;
+            /* 添加圓角效果 */
+            border-radius: 20px;
+        }
+
+            /* 讓商品卡片中圖片範圍長一點，文字範圍小一點 */
+            .card-image.flex-grow-1 {
+                height: 300px;
+            }
+
+        .card-body.flex-grow-0 {
+            height: 30px;
+        }
+
+        .shopping-cart-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            font-size: 3em;
+            cursor: pointer;
+            position: absolute;
+            right: 100px;
+            top: 40px;
+        }
+
+        .cart-item-count {
+            padding: 10px;
+            border: none;
+            border-radius: 20%;
+            font-size: 0.4em;
+            color: white;
+            background-color: rgb(238, 38, 61);
+            cursor: pointer;
+            position: absolute;
+            right: 80px;
+            top: 60px;
+        }
+
+        .col-md-3 {
+            margin-right: 90px;
+        }
+
+        /* 自訂 Modal 彈出視窗的樣式 */
+        .modal-dialog.modal-dialog-end {
+            margin-left: auto;
+            /* 靠右邊對齊 */
+            margin-right: 0px;
+            /* 可自行調整與右邊的間距 */
+            margin-top: 0px;
+        }
+
+        /* 調整 Modal 彈出時的寬度 */
+
+        .modal-dialog.modal-dialog-end {
+            max-width: 30%;
+            /* 可自行調整寬度 */
+        }
+
+        .modal-content {
+            height: 80vh;
+            /* 調整為你需要的高度，這裡使用 vh 單位表示視窗高度的百分比 */
+        }
+
+        .modal img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    }
+
+@section Scripts
+    {
+
+    }

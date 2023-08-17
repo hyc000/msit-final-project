@@ -1,0 +1,95 @@
+﻿@model MemberAccount
+
+@{
+    ViewBag.Title = "MemberAccount";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+    // Layout = "~/Views/Shared/LayoutForMem.cshtml";
+    // 使用 ToString 方法將日期格式化為 "yyyy/M/d" 字串
+    string formattedDate = string.Format("{0:yyyy/M/d}", Model.BitrhDay);
+    string formattedPassword = new string(Model.Password.Select(c => '*').ToArray());
+    string formattedIDCardNo = Model.IdcardNo.Substring(0, 3) + // 保持前三個字元不變
+                         new string('*', Model.IdcardNo.Length - 6) + // 中間的字元轉換為星號(減去的數字 = 前面留的字數+後面留的字數
+                         Model.IdcardNo.Substring(Model.IdcardNo.Length - 3); // 保持最後三個字元不變
+}
+
+<h2>會員基本資料</h2>
+
+@* <p>
+    @Html.ActionLink("Create New", "Create")
+</p> *@
+
+<table class="table table-hover">
+    <tr>
+        <th width="120px">
+            會員姓名：
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Name)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            電子郵件：
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Email)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            密碼：
+        </th>
+        <td>
+            @Html.DisplayFor(model => formattedPassword)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            身分證字號：
+        </th>
+        <td>
+            @Html.DisplayFor(model => formattedIDCardNo)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            性別：
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Gender)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            聊天室暱稱：
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.UserName)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            生日：
+        </th>
+        <td>
+            @Html.DisplayFor(model => formattedDate)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            電話號碼：
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @Html.ActionLink("編輯", "EditMemberInfo", new { /* id=item.PrimaryKey */ }) @* |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
+        </td>
+    </tr>
+</table>

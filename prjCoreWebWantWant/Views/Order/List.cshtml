@@ -1,0 +1,272 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+@*<h1>List</h1>*@
+<div class="content-wrapper">
+    <div class="header-container">
+        <h2>訂單列表</h2>
+    </div>
+    <div class="container mt-4">
+        <div class="row align-items-center">
+
+            <div class="col-md-2">
+                <label for="productName">關鍵字搜尋：</label>
+                <input class="form-control form-control-sm" type="text" id="productName">
+            </div>
+            <div class="col-md-4">
+                <label for="createdDate">創建日期：</label>
+                <div class="d-flex align-items-center">
+                    <input type="date" class="form-control">
+                    <span class="mx-2">~</span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary">查詢</button>
+                <button type="button" class="btn btn btn-info">匯出訂單</button>
+            </div>
+            <div class="row mt-3 ">
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
+                    <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
+                    <button type="button" class="btn btn-primary">訂單分析圖表</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <table id="table" class="table table-striped mt-5">
+            <thead align="center">
+                <tr>
+                    <td></td>
+                    <td>訂單編號</td>
+                    <td>日期</td>
+                    <td>顧客</td>
+                    <td>付款狀態</td>
+                    <td>總金額</td>
+
+
+                </tr>
+            </thead>
+            <tbody align="center">
+                <tr>
+                    <td>
+                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
+                            <i class="bx bxs-show"></i>
+                        </a>
+                    </td>
+                    <td>001</td>
+                    <td>2023/08/03</td>
+                    <td>林XX</td>
+                    <td> 已付款</td>
+                    <td>600</td>
+                </tr>
+                <!-- 可展開/收起的內容 -->
+                <tr>
+                    <td colspan="6" class="hiddenRow">
+                        <div class="collapse" id="orderDetails1" data-bs-parent="#table">
+                            <!-- 在這裡填入訂單明細內容 -->
+                            <table class="table table-bordered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>商品名稱</th>
+                                        <th>數量</th>
+                                        <th>單價</th>
+                                        <th>小計</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>商品1</td>
+                                        <td>2</td>
+                                        <td>200</td>
+                                        <td>400</td>
+                                    </tr>
+                                    <tr>
+                                        <td>商品2</td>
+                                        <td>3</td>
+                                        <td>300</td>
+                                        <td>900</td>
+                                    </tr>
+                                    <tr>
+                                        <td>商品3</td>
+                                        <td>1</td>
+                                        <td>100</td>
+                                        <td>100</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
+                            <i class="bx bxs-show"></i>
+                        </a>
+                    </td>
+                    <td>002</td>
+                    <td>2023/08/02</td>
+                    <td>林XX</td>
+                    <td> 已付款</td>
+                    <td>600</td>
+                </tr>
+                <!-- 可展開/收起的內容 -->
+                <tr>
+                    <td colspan="6" class="hiddenRow">
+                        <div class="collapse" id="orderDetails2">
+                            <!-- 在這裡填入訂單明細內容 -->
+                            <p>這裡是訂單002的明細內容</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- /.content -->
+</div> <!-- /.content-wrapper -->
+@*<div class="header-container">
+    <h2>訂單列表</h2>
+</div>
+<div class="container mt-4">
+    <div class="row align-items-center">
+
+        <div class="col-md-2">
+            <label for="productName">關鍵字搜尋：</label>
+            <input class="form-control form-control-sm" type="text" id="productName">
+        </div>
+        <div class="col-md-4">
+            <label for="createdDate">創建日期：</label>
+            <div class="d-flex align-items-center">
+                <input type="date" class="form-control">
+                <span class="mx-2">~</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <button type="button" class="btn btn-primary">查詢</button>
+            <button type="button" class="btn btn btn-info">匯出訂單</button>
+        </div>
+        <div class="row mt-3 ">
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
+                <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
+                <button type="button" class="btn btn-primary">訂單分析圖表</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <table id="table" class="table table-striped mt-5">
+        <thead align="center">
+            <tr>
+                <td></td>
+                <td>訂單編號</td>
+                <td>日期</td>
+                <td>顧客</td>
+                <td>付款狀態</td>
+                <td>總金額</td>
+
+
+            </tr>
+        </thead>
+        <tbody align="center">
+            <tr>
+                <td>
+                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
+                        <i class="bx bxs-show"></i>
+                    </a>
+                </td>
+                <td>001</td>
+                <td>2023/08/03</td>
+                <td>林XX</td>
+                <td> 已付款</td>
+                <td>600</td>
+            </tr>
+            <!-- 可展開/收起的內容 -->
+            <tr>
+                <td colspan="6" class="hiddenRow">
+                    <div class="collapse" id="orderDetails1" data-bs-parent="#table">
+                        <!-- 在這裡填入訂單明細內容 -->
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>商品名稱</th>
+                                    <th>數量</th>
+                                    <th>單價</th>
+                                    <th>小計</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>商品1</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>商品2</td>
+                                    <td>3</td>
+                                    <td>300</td>
+                                    <td>900</td>
+                                </tr>
+                                <tr>
+                                    <td>商品3</td>
+                                    <td>1</td>
+                                    <td>100</td>
+                                    <td>100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
+                        <i class="bx bxs-show"></i>
+                    </a>
+                </td>
+                <td>002</td>
+                <td>2023/08/02</td>
+                <td>林XX</td>
+                <td> 已付款</td>
+                <td>600</td>
+            </tr>
+            <!-- 可展開/收起的內容 -->
+            <tr>
+                <td colspan="6" class="hiddenRow">
+                    <div class="collapse" id="orderDetails2">
+                        <!-- 在這裡填入訂單明細內容 -->
+                        <p>這裡是訂單002的明細內容</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>*@
+
+@section Styles
+    {
+    <!--box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* 將外層容器設置為相對定位 */
+        .header-container {
+            position: relative;
+        }
+
+        .bx.bxs-show {
+            font-size: 1.5rem;
+        }
+    </style>
+}

@@ -1,0 +1,196 @@
+﻿@model prjCoreWebWantWant.Models.Rating
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<h1>評價</h1>
+
+<hr />
+
+<div class="container">
+
+    <div class=" mx-auto">
+
+        <div class="p-5">
+            <div class="mb-3 form-control-lg">
+                委託者:
+            </div>
+            <div class="mb-3 form-control-lg">
+                接案者:
+            </div>
+            <hr>
+            <div class="mb-3 form-control-lg">
+                評價分數:
+            </div>
+            <!--star-->
+            <div>
+                <div class="star">
+                    @* <input asp-for="RatingStar" class="form-control" /> *@
+                    <ul class="stars">
+                        <li>★★★★★</li>
+                        
+                    </ul>
+                </div>
+
+            </div>
+            <!--star end-->
+            <hr>
+            <div class="mb-3 form-control-lg">
+                評價內容:
+            </div>
+            <div class="border p-3 mb-3 border-4 bg-body-secondary" id="response">
+                <div class="mb-3 ">
+                    <div class="form-floating">
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="RatingContent"
+                                      style="height: 400px; width: 100%;"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="mb-3 form-control-lg">
+                        評價圖片:
+                    </div>
+                    <div class="mb-3 form-control-lg">
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02"></label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02"></label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02"></label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02"></label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-floating col-3 mx-auto p-3 ">
+                        <input type="submit" value="送出評價" class="btn btn-outline-secondary bg-white" id="submit"
+                               placeholder="Password">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--展開詳細按鈕-->
+        <div class="form-floating col-3 mx-auto p-3">
+            <input type="submit" value="查看本次委託內容" class="btn btn-outline-secondary " id="submit"
+                   onclick="clickdeployone(detail)" placeholder="detail">
+
+        </div>
+        <div style="display: none;" id="detail">
+            <div class="mx-auto w-70 p-5">
+
+                <div class="mb-3 form-control-lg ">
+                    委託內容:
+                </div>
+
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" readonly id="TaskTextarea" style="height: 400px"></textarea>
+
+                </div>
+                <!--委託時間-->
+                <div class=" border mb-3">
+                    <div class="form-control-lg">
+                        委託時間:
+                    </div>
+
+                    <div class="mb-3 row p-3">
+                        <div class="form-floating col-5 p-3">
+                            <input type="text" readonly class="form-control list" id="floatingPtimeone"
+                                   placeholder="委託截止日">
+
+                        </div>
+                        <div class="col-1 p-3 mx-auto">
+                            ~
+                        </div>
+                        <div class="form-floating col-5 p-3">
+
+                            <input type="text" readonly class="form-control list" id="floatingPtimeone"
+                                   placeholder="委託截止日">
+                        </div>
+                    </div>
+                </div>
+                <!--委託時間結束-->
+                <!--委託預算-->
+                <div class=" border mb-3">
+                    <div class="form-control-lg ">
+                        委託預算:
+                    </div>
+                    <div class="form-floating col-12 p-3 ">
+
+                        <input type="text" readonly class="form-control list">
+                    </div>
+                </div>
+                <!--委託預算結束-->
+                <!--委託地點-->
+
+                <div class="border p-3  mb-3">
+                    <div class="form-control-lg">
+                        委託工作地點:
+                    </div>
+                    <div class="mb-3 row p-3">
+                        <div class="form-floating col-12 p-3">
+                            <input type="text" readonly class="form-control list">
+
+                        </div>
+                        <div class="form-control-lg">
+                            指定工作地址:
+                        </div>
+                        <div class="form-floating col-12 p-3">
+
+                            <input type="text" readonly class="form-control list">
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!--委託地點END-->
+                <!--委託付款-->
+                <div class="border p-3 mb-3">
+                    <div class="form-control-lg">
+                        委託付款方式:
+                    </div>
+                    <div class="form-floating col-12 p-3 ">
+
+                        <input type="text" readonly class="form-control list">
+                    </div>
+                </div>
+                <!--委託付款END-->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">返回</a>
+</div>
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+        }
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

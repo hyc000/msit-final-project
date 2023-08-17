@@ -1,0 +1,108 @@
+﻿@model prjCoreWebWantWant.Models.ForumPost
+
+@{
+    ViewData["Title"] = "CreatePost";
+}
+<div class="container">
+<h1 class="text-body text-center">發表文章</h1>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-10 m-auto">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+            <div class="form-group col-10 m-auto">
+            @Html.LabelFor(model => model.PostContent, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                <textarea id="tiny" name="PostContent"></textarea>
+                @Html.ValidationMessageFor(model => model.PostContent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+            <div class="form-group col-10 m-auto">
+                    <input type="submit" value="確定發表" class="btn btn-primary opacity-50 go-right mt-2" />
+        </div>
+    </div>
+}
+
+
+    <div class="text-center my-5">
+    @{
+        int categoryId = int.Parse(Context.Request.Query["categoryId"]);
+    }
+
+    @Html.ActionLink("回上一頁", "PostList", new { categoryId = categoryId })
+</div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny',
+            menubar: false,
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify |' +
+                'bullist numlist checklist outdent indent | removeformat | code table help'
+        })
+    </script>
+}
+
+
+@section Styles{
+    <style>
+        a:link {
+            color: #46576b;
+        }
+
+        a:visited {
+            color: #434b53;
+        }
+
+        a:hover {
+            color: #5c6570;
+        }
+
+        a:active {
+            color: #445971;
+        }
+
+        .mybg-color{
+            background: #eaf0f6;
+        }
+
+        .go-right{
+            float:right;
+        }
+
+        .end-float{
+            clear: both;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        }
+
+    </style>
+    }
