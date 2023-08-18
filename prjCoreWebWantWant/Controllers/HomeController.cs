@@ -16,18 +16,6 @@ namespace prjCoreWebWantWant.Controllers
             _logger = logger;
         }
 
-        public IActionResult List(CKeywordViewModel vm)
-        {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            IEnumerable<TaskList> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
-                datas = from t in db.TaskLists
-                        select t;
-            else
-                datas = db.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
-            return View(datas);
-        }
-
         public IActionResult Index(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
