@@ -65,7 +65,7 @@
                         <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td><a class='bx bx-reply bx-tada' style="font-size: 2rem; color:black" asp-action="GoBack" asp-route-id="@item.ProductId"></a></td>
-                        <td><a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'></a></td>
+                        <td><a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' asp-action="RealDelete" asp-route-id="@item.ProductId"></a></td>
                     </tr>
                 }
                 @*<tr>
@@ -78,11 +78,10 @@
             </tbody>
         </table>
     </div>
-                </div> <!-- /.col-md-6 -->
-            </div> <!-- /.row -->
-        </div> <!-- /.container-fluid -->
-    </div> <!-- /.content -->
-</div> <!-- /.content-wrapper -->
+              
+           
+    </div> <!-- /content-wrapper-->
+
 
 <!-- 新增按鈕區域 -->
 

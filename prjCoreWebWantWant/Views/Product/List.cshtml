@@ -41,7 +41,7 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="createdDate">創建日期：</label>
+                        <label for="createdDate">創建時間：</label>
                         <div class="d-flex align-items-center">
                             <input type="date" class="form-control">
                             <span class="mx-2">~</span>
@@ -96,10 +96,12 @@
         <table id="table" class="table table-striped mt-5">
             <thead align="center">
                 <tr>
+                    <td></td>
                     <td>商品</td>
                     <td>類別</td>
                     <td>單價</td>
                     <td>庫存</td>
+                    <td>創建時間</td>
                     <td>狀態</td>
                     <td>編輯</td>
                     <td>刪除</td>
@@ -111,11 +113,14 @@
                 {
 
                     <tr>
-
+                        <td>      
+                                <img src="~/shopimg/@item.CoverPhoto" style="width:40px;height:40px" alt="Image 1"> 
+                           </td>
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnitsInStock)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PostStartDate)</td>
                         <td>
                             @if (item.Status == "上架")
                             {
@@ -240,9 +245,9 @@
         </div>
     </div>
 
-                 
-    </div> <!-- /.content -->
+
 </div> <!-- /.content-wrapper -->
+
 @*<div class="header-container">
     <h2>商品列表</h2>
 </div>
@@ -503,7 +508,8 @@
     </style>
     @*box icons*@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+    <link rel="stylesheet" href="path_to_lightbox/lightbox.min.css">
+    
 }
 
 @section Scripts
@@ -540,5 +546,6 @@
             });
         }
     </script>
+    <script src="path_to_lightbox/lightbox.min.js"></script>
 }
 

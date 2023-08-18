@@ -1,4 +1,5 @@
-﻿@{
+﻿@model prjCoreWebWantWant.Models.Product
+@{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
@@ -25,50 +26,52 @@
      @*   <h2>新增曝光商品</h2>*@
     </div>
     <div class="container mt-4 bg-light p-4">
-        <form>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-group row mb-3">
                 <label for="category" class="col-sm-2 col-form-label">商品類別：</label>
                 <div class="col-sm-4">
-                    <select id="category" class="form-control">
+                    <select id="category" class="form-control" name="CategoryId">
                         <option value="">請選擇</option>
                         <!-- 在這裡加入商品類別的選項 -->
                     </select>
                 </div>
                 <label for="product-name" class="col-sm-2 col-form-label">商品名稱：</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="product-name">
+                    <input type="text" class="form-control" id="product-name" name="ProductName">
                 </div>
             </div>
             <div class="form-group row mb-3">
                 <label for="exposure-channel" class="col-sm-2 col-form-label">曝光管道：</label>
                 <div class="col-sm-4">
-                    <select id="exposure-channel" class="form-control">
+                    <select id="exposure-channel" class="form-control" name="TopType">
                         <option value="">請選擇</option>
+                        <option value="專家置頂">專家置頂</option>
+                        <option value="任務置頂">任務置頂</option>
                         <!-- 在這裡加入曝光管道的選項 -->
                     </select>
                 </div>
                 <label for="days" class="col-sm-2 col-form-label">曝光天數：</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="days">
+                    <input type="text" class="form-control" id="days" name="TopDate">
                 </div>
             </div>
             <div class="form-group row mb-3">
                 <label for="product-description" class="col-sm-2 col-form-label">商品描述：</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="product-description" rows="3"></textarea>
+                    <textarea class="form-control" id="product-description" rows="3" name="ProductDesc"></textarea>
                 </div>
             </div>
             <div class="form-group row mb-3">
                 <label for="price" class="col-sm-2 col-form-label">商品單價：</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control" id="price">
+                    <input type="number" class="form-control" id="price" name="UnitPrice">
                 </div>
                 <label for="status" class="col-sm-2 col-form-label">上架狀態：</label>
                 <div class="col-sm-4">
-                    <select id="status" class="form-control">
+                    <select id="status" class="form-control" name="Status">
                         <option value="">請選擇</option>
-                        <option value="1">上架</option>
-                        <option value="0">下架</option>
+                        <option value="上架">上架</option>
+                        <option value="下架">下架</option>
                     </select>
                 </div>
             </div>
@@ -76,14 +79,14 @@
 
                 <label for="cover-image" class="col-sm-2 col-form-label">商品封面：</label>
                 <div class="col-sm-4">
-                    <div class="image-frame-square">
-                        <input type="file" class="form-control-file" id="cover-image" onchange="previewImage(event)">
+                    <div class="image-frame-square">     
+                        <input type="file" class="form-control-file" id="cover-image" onchange="previewImage(event)" name="file" required>
                         <img id="image-preview" src="#" alt="商品封面預覽" style="max-width: 100%; max-height: 100%; display: none;">
                     </div>
                 </div>
                 <label for="stock" class="col-sm-2 col-form-label">商品庫存：</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control" id="stock">
+                    <input type="number" class="form-control" id="stock" name="UnitsInStock">
                 </div>
             </div>
 
@@ -92,15 +95,15 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <button type="submit" class="btn btn-primary">新增商品</button>
-                    <button type="reset" class="btn btn-secondary">一鍵輸入</button>
-                    <button type="reset" class="btn btn-secondary">清除</button>
+                    <button type="button" class="btn btn-secondary" id="autoFillButton">一鍵輸入</button>
+                    <button type="reset" class="btn btn-secondary" id="clearButton">清除</button>
                 </div>
             </div>
         </form>
     </div>
 
-</div> <!-- /.content -->
-</div> <!-- /.content-wrapper -->
+</div> <!-- / content-wrapper -->
+
 
 
 @*<div class="header-container">
@@ -216,6 +219,49 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        //載入類別
+        loadCategory();
+        async function loadCategory() {
+            const response = await fetch('@Url.Content("~/Product/Category")');
+            const datas = await response.json();
+
+            const selectElement = $('#category');
+
+            // 填充資料到選項中
+            datas.map(function (category) {
+                selectElement.append($('<option>', { value: category.categoryId, text: category.categoryName }));
+            });
+        }
+        //一鍵輸入
+        document.addEventListener("DOMContentLoaded", function () {
+            const autoFillButton = document.getElementById("autoFillButton");
+
+            autoFillButton.addEventListener("click", function () {
+               
+                document.getElementById("category").value = "2"; // 商品類別
+                document.getElementById("exposure-channel").value = "專家置頂"; // 曝光管道
+                document.getElementById("status").value = "上架"; // 上下架
+                document.getElementById("product-name").value = "專家置頂90天";
+                document.getElementById("product-description").value = "專家置頂90天";
+                document.getElementById("price").value = 100;
+                document.getElementById("stock").value = 50;
+                document.getElementById("days").value = 90;
+        
+            });
+        });
+
+        //清除按鈕 清除預覽圖片
+        document.addEventListener("DOMContentLoaded", function () {
+            const clearButton = document.getElementById("clearButton");
+            const imagePreview = document.getElementById("image-preview");
+
+            clearButton.addEventListener("click", function () {
+                imagePreview.src = ""; 
+                imagePreview.style.display = "none"; 
+            });
+        });
+  
 
     </script>
                     }
