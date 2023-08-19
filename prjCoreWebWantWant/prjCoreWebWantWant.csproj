@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\ServiceContacts\Create.cshtml" />
+    <Content Remove="Views\ServiceContacts\Delete.cshtml" />
+    <Content Remove="Views\ServiceContacts\Details.cshtml" />
+    <Content Remove="Views\ServiceContacts\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />

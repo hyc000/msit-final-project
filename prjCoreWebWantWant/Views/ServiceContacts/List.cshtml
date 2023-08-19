@@ -1,0 +1,89 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.ServiceContact>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+
+
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="mb-2">訊息列表</h1>
+                    <form method="post" class="mb-2">
+                        關鍵字 <input type="text" name="txtKeyword" /> <input type="submit" value="查詢" class="btn btn-primary" />
+                    </form>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                序
+                            </th>
+                            <th>
+                                會員名稱
+                            </th>
+                            <th>
+                                會員帳號
+                            </th>
+                            <th>
+                                會員訊息標題
+                            </th>
+                            <th>
+                                會員訊息內容
+                            </th>
+                            <th>
+                                處理狀態
+                            </th>
+                        </tr>
+                    </thead>
+
+
+
+
+                    <tbody>
+                        @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td>
+                                        @count
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Account.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Account.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ComplaintTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ComplaintContent)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProcessStatus)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("修改", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                        
+                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
