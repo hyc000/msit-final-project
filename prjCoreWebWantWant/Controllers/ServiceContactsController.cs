@@ -25,9 +25,19 @@ namespace prjCoreWebWantWant.Controllers
 			NewIspanProjectContext db = new NewIspanProjectContext();
 			IEnumerable<ServiceContact> datas = null;
 			if (string.IsNullOrEmpty(vm.txtKeyword))
-				datas = from s in db.ServiceContacts
-						select s;
-			else
+                datas = from s in db.ServiceContacts
+                        join m in db.MemberAccounts
+                        on s.AccountId equals m.AccountId
+                        select new ServiceContact
+                        {
+                            ServiceContactId = s.ServiceContactId,
+                            AccountId = s.AccountId,
+                            ComplaintTitle = s.ComplaintTitle,
+                            ComplaintContent = s.ComplaintContent,
+                            ProcessStatus = s.ProcessStatus,
+                            Account = m
+                        };
+            else
 				datas = db.ServiceContacts.Where(s => s.Account.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
 					|| s.Account.PhoneNo.ToUpper().Contains(vm.txtKeyword.ToUpper())
 					|| s.Account.Email.ToUpper().Contains(vm.txtKeyword.ToUpper()));
