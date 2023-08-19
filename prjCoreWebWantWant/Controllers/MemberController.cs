@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
+using System.Text.Json;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -26,6 +28,20 @@ namespace prjCoreWantMember.Controllers
         }
         public IActionResult Login()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(CLoginViewModel vm)
+        {
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            MemberAccount user = db.MemberAccounts.FirstOrDefault(
+                m => m.Email.Equals(vm.txtAccount) && m.Password.Equals(vm.txtPassword));
+            if (user != null && user.Password.Equals(vm.txtPassword))
+            {
+                string json = JsonSerializer.Serialize(user);
+                HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
+                return RedirectToAction("MemberAccount");
+            }
             return View();
         }
         public IActionResult ForgetPassword()
