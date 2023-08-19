@@ -25,7 +25,7 @@
     <!-- Main content -->
     <div class="container pt-4 px-4">
 
-        <form>
+        <form  method="post" enctype="multipart/form-data">
             <div class="containerXX-Large">
                 <div class="row">
                     <div class="col-md-3">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <input type="submit" value="查詢" class="btn btn-primary">
+                        <input type="submit" value="查詢" class="btn btn-primary" onclick="searchProducts(); return false;">
                         <input type="reset" value="清除" class="btn btn-secondary">
                     </div>
                 </div>
@@ -85,7 +85,7 @@
             <div class="col-md-12 d-flex justify-content-end">
 
                 <a class="btn btn-warning" id="trashButton" href="@Url.Content("~/product/trash")">垃圾桶</a>
-                <a class="btn btn-primary" id="trashButton" href="@Url.Content("~/product/create")">新增商品</a>
+                <a class="btn btn-primary" id="createButton" href="@Url.Content("~/product/create")">新增商品</a>
             </div>
         </div>
 
@@ -146,8 +146,10 @@
                         <!-- 修改的跳出視窗BUTTON -->
                         <td>
                             <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#EditModal"
+                               data-product-id="@item.ProductId"
                                style="font-size:36px; color: black;"
-                               class="courseEditBtn bx bxs-edit bx-tada bx-rotate-90"></a>
+                               class="courseEditBtn bx bxs-edit bx-tada bx-rotate-90"
+                               onclick="openEditModal('@item.ProductId')"></a>
                         </td>
                         <td>
                             <a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'
@@ -170,57 +172,66 @@
                 </div>
                 <div class="modal-body">
                     <div class="container mt-4 bg-light p-4">
-                        <form>
+                        <form id="editForm">
                             <div class="form-group row mb-3">
                                 <label for="category" class="col-sm-2 col-form-label">商品類別：</label>
                                 <div class="col-sm-4">
-                                    <select id="category" class="form-control">
+                                    <select id="category1" class="form-control" name="CategoryId" disabled>
                                         <option value="">請選擇</option>
+                                        @foreach (var category in ViewBag.Categories)
+                                        {
+                                            <option value="@category.CategoryId">@category.CategoryName</option>
+                                        }
                                         <!-- 在這裡加入商品類別的選項 -->
                                     </select>
                                 </div>
                                 <label for="product-name" class="col-sm-2 col-form-label">商品名稱：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="product-name">
+                                    <input type="text" class="form-control" id="product-id" name="ProductId" hidden>
+                                    <input type="text" class="form-control" id="product-name" name="ProductName" disabled>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="exposure-channel" class="col-sm-2 col-form-label">曝光管道：</label>
                                 <div class="col-sm-4">
-                                    <select id="exposure-channel" class="form-control">
+                                    <select id="exposure-channel" class="form-control" name="TopType" disabled>
                                         <option value="">請選擇</option>
+                                        @foreach (var item in Model)
+                                        {
+                                            <option value="@item.TopType">@item.TopType</option>
+                                        }
                                         <!-- 在這裡加入曝光管道的選項 -->
                                     </select>
                                 </div>
                                 <label for="days" class="col-sm-2 col-form-label">天數：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="days">
+                                    <input type="text" class="form-control" id="days" name="TopDate" disabled>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="product-description" class="col-sm-2 col-form-label">商品描述：</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="product-description" rows="3"></textarea>
+                                    <textarea class="form-control" id="product-description" rows="3" name="ProductDesc"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="price" class="col-sm-2 col-form-label">商品單價：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="price">
+                                    <input type="text" class="form-control" id="price" name="UnitPrice">
                                 </div>
                                 <label for="status" class="col-sm-2 col-form-label">上架狀態：</label>
                                 <div class="col-sm-4">
-                                    <select id="status" class="form-control">
+                                    <select id="status1" class="form-control" name="Status">
                                         <option value="">請選擇</option>
-                                        <option value="1">上架</option>
-                                        <option value="0">下架</option>
+                                        <option value="上架">上架</option>
+                                        <option value="下架">下架</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="stock" class="col-sm-2 col-form-label">商品庫存：</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="stock">
+                                    <input type="text" class="form-control" id="stock" name="UnitsInStock">
                                 </div>
 
                             </div>
@@ -228,14 +239,14 @@
                                 <label for="cover-image" class="col-sm-2 col-form-label">商品封面：</label>
                                 <div class="col-sm-4">
                                     <div class="image-frame-square">
-                                        <input type="file" class="form-control-file" id="cover-image" onchange="previewImage(event)">
+                                        <input type="file" class="form-control-file" id="cover-image" onchange="previewImage(event)" name="file">
                                         <img id="image-preview" src="#" alt="商品封面預覽" style="max-width: 100%; max-height: 100%; display: none;">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary">更新商品</button>
+                                    <button type="submit" class="btn btn-primary" id="saveButton">更新商品</button>
                                 </div>
                             </div>
                         </form>
@@ -246,229 +257,7 @@
     </div>
 
 
-</div> <!-- /.content-wrapper -->
-
-@*<div class="header-container">
-    <h2>商品列表</h2>
 </div>
-
-<div class="container pt-4 px-4">
-
-    <form>
-        <div class="containerXX-Large">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="category">商品類別：</label>
-                    <select name="category" id="category" class="form-control">
-                        <option value="">請選擇</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="status">上架狀態：</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="">請選擇</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="createdDate">創建日期：</label>
-                    <div class="d-flex align-items-center">
-                        <input type="date" class="form-control">
-                        <span class="mx-2">~</span>
-                        <input type="date" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-3">
-                    <label for="productName">商品名稱：</label>
-                    <input class="form-control" type="text" id="productName">
-                </div>
-                <div class="col-md-9">
-                    <label for="priceRange">單價區間：</label>
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <input class="form-control" type="text" id="minPrice">
-                        </div>
-                        <div class="mx-2">~</div>
-                        <div class="flex-grow-1">
-                            <input class="form-control" type="text" id="maxPrice">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <input type="submit" value="查詢" class="btn btn-primary">
-                    <input type="reset" value="清除" class="btn btn-secondary">
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-
-
-
-
-<div class="container mt-6">
-    <div class="row">
-        <div class="col-md-12 d-flex justify-content-end">
-
-            <a class="btn btn-warning" id="trashButton" href="@Url.Content("~/product/trash")">垃圾桶</a>
-            <a class="btn btn-primary" id="trashButton" href="@Url.Content("~/product/create")">新增商品</a>
-        </div>
-    </div>
-
-
-
-
-
-    <table id="table" class="table table-striped mt-5">
-        <thead align="center">
-            <tr>
-                <td>商品</td>
-                <td>類別</td>
-                <td>單價</td>
-                <td>庫存</td>
-                <td>狀態</td>
-                <td>編輯</td>
-                <td>刪除</td>
-            </tr>
-        </thead>
-        <tbody align="center">
-
-            @foreach (var item in Model)
-            {
-
-                <tr>
-
-                    <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UnitsInStock)</td>
-                    <td>
-                        @if (item.Status == "上架")
-                        {
-                            <button class="con" style="width:45px; border-radius:3px; background-color:#3ddc97; ">
-                                ON
-                            </button>
-                            <button class="coff" style="width:45px; border-radius:3px;"
-                                    onclick="changeStatus('@item.ProductId', '下架')">
-                                OFF
-                            </button>
-                        }
-                        else
-                        {
-                            <button class="con" style="width:45px; border-radius:3px;"
-                                    onclick="changeStatus('@item.ProductId', '上架')">
-                                ON
-                            </button>
-                            <button class="coff active" style="width:45px; border-radius:3px; background-color: #e0777d;">
-                                OFF
-                            </button>
-                        }
-                    </td>
-                    <!-- 修改的跳出視窗BUTTON -->
-                    <td>
-                        <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#EditModal"
-                           style="font-size:36px; color: black;"
-                           class="courseEditBtn bx bxs-edit bx-tada bx-rotate-90"></a>
-                    </td>
-                    <td>
-                        <a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'
-                       asp-action="Delete" asp-route-id="@item.ProductId"></a>
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<!-- 跳出視窗內容 -->
-<div class="modal" id="EditModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>修改商品</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container mt-4 bg-light p-4">
-                    <form>
-                        <div class="form-group row mb-3">
-                            <label for="category" class="col-sm-2 col-form-label">商品類別：</label>
-                            <div class="col-sm-4">
-                                <select id="category" class="form-control">
-                                    <option value="">請選擇</option>
-                                    <!-- 在這裡加入商品類別的選項 -->
-                                </select>
-                            </div>
-                            <label for="product-name" class="col-sm-2 col-form-label">商品名稱：</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" id="product-name">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="exposure-channel" class="col-sm-2 col-form-label">曝光管道：</label>
-                            <div class="col-sm-4">
-                                <select id="exposure-channel" class="form-control">
-                                    <option value="">請選擇</option>
-                                    <!-- 在這裡加入曝光管道的選項 -->
-                                </select>
-                            </div>
-                            <label for="days" class="col-sm-2 col-form-label">天數：</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" id="days">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="product-description" class="col-sm-2 col-form-label">商品描述：</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="product-description" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="price" class="col-sm-2 col-form-label">商品單價：</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" id="price">
-                            </div>
-                            <label for="status" class="col-sm-2 col-form-label">上架狀態：</label>
-                            <div class="col-sm-4">
-                                <select id="status" class="form-control">
-                                    <option value="">請選擇</option>
-                                    <option value="1">上架</option>
-                                    <option value="0">下架</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="stock" class="col-sm-2 col-form-label">商品庫存：</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" id="stock">
-                            </div>
-
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="cover-image" class="col-sm-2 col-form-label">商品封面：</label>
-                            <div class="col-sm-4">
-                                <div class="image-frame-square">
-                                    <input type="file" class="form-control-file" id="cover-image" onchange="previewImage(event)">
-                                    <img id="image-preview" src="#" alt="商品封面預覽" style="max-width: 100%; max-height: 100%; display: none;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12 text-center">
-                                <button type="submit" class="btn btn-primary">更新商品</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-*@
 
 
 @section Styles
@@ -508,14 +297,14 @@
     </style>
     @*box icons*@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="path_to_lightbox/lightbox.min.css">
+ 
     
 }
 
 @section Scripts
     {
     <script>
-
+        //預覽圖片
         function previewImage(event) {
             var imagePreview = document.getElementById('image-preview');
             var file = event.target.files[0];
@@ -528,24 +317,81 @@
                 reader.readAsDataURL(file);
             }
         }
-
+        //上下架狀態
         function changeStatus(productId, newStatus) {
-            $.ajax({
-                url: '@Url.Action("ChangeStatus", "Product")',
+            $.ajax({          
+                url: '@Url.Content("~/Product/ChangeStatus")',
                 type: 'POST',
                 data: { id: productId, status: newStatus },
                 success: function (result) {
                     // 在成功回調中，你可以根據需要執行一些操作
                     // 例如重新載入部分頁面或更新畫面數據
                     alert('商品狀態已更新');
-                    window.location.reload(); // 這是重新載入整個頁面的例子
+                    window.location.reload(); // 這是重新載入整個頁面
                 },
                 error: function () {
                     alert('操作失敗');
                 }
             });
         }
+
+        // 加載修改頁數據
+        function openEditModal(productId) {
+            $.ajax({
+                url: '@Url.Content("~/Product/Edit")',
+                type: 'GET',
+                data: { id: productId },
+                success: function (result) {
+                    $('#product-id').val(result.productId);
+                    $('#product-name').val(result.productName);
+                    $('#category1').val(result.categoryId);
+                    $('#exposure-channel').val(result.topType);
+                    $('#days').val(result.topDate);
+                    $('#product-description').val(result.productDesc);
+                    $('#price').val(result.unitPrice);
+                    $('#stock').val(result.unitsInStock);
+                    $('#status1').val(result.status);
+
+                    $('#image-preview').attr('src', '@Url.Content("~/shopimg/")' + result.coverPhoto);
+                    $('#image-preview').show();
+                  
+                },
+                error: function () {
+                    alert('失敗。');
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('#editForm').submit(async function (e) {
+                e.preventDefault(); // 阻止表單默認提交
+
+                var formData = new FormData($(this)[0]); // 獲得表單數據
+
+                try {
+                    const response = await fetch('@Url.Content("~/Product/Edit")', {
+                        method: 'POST',
+                        body: formData,
+                       
+                    });
+
+                    if (response.ok) {
+                        alert('商品已成功更新');
+                        window.location.reload(); 
+                    } else {
+                        alert('更新失敗。');
+                    }
+                } catch (error) {
+                    console.error('更新失败：', error);
+                    alert('更新失敗。');
+                }
+            });
+        });
+
+
+
     </script>
-    <script src="path_to_lightbox/lightbox.min.js"></script>
+   
 }
 

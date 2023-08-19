@@ -10,7 +10,7 @@ namespace prjShop.Controllers
 
     {
         private readonly NewIspanProjectContext _context;
-        private readonly IWebHostEnvironment _host=null;
+        private readonly IWebHostEnvironment _host = null;
         public ProductController(NewIspanProjectContext context, IWebHostEnvironment host)
         {
             _context = context;
@@ -21,7 +21,7 @@ namespace prjShop.Controllers
             var q = _context.Products
                 .Include(t => t.Category)
                 .Where(p => p.Status == "上架" || p.Status == "下架");
-
+            ViewBag.Categories = _context.Categories.ToList();
             return View(q);
         }
 
@@ -31,10 +31,10 @@ namespace prjShop.Controllers
         }
         [HttpPost]
         //新增商品
-        public IActionResult Create(Product p, IFormFile file) 
+        public IActionResult Create(Product p, IFormFile file)
         {
-        
-                string uniqueFileName = Guid.NewGuid().ToString().Substring(0, 8) + file.FileName;
+
+            string uniqueFileName = Guid.NewGuid().ToString().Substring(0, 8) + file.FileName;
             string filePath = Path.Combine(_host.WebRootPath, "shopimg", uniqueFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -53,12 +53,13 @@ namespace prjShop.Controllers
         //類別載入用
         public IActionResult Category()
         {
-            var category = _context.Categories.Select(c => new {
+            var category = _context.Categories.Select(c => new
+            {
                 categoryId = c.CategoryId,
                 categoryName = c.CategoryName
             }).ToList();
 
-        return Json(category);
+            return Json(category);
         }
         //垃圾桶頁
         public IActionResult Trash()
@@ -70,10 +71,7 @@ namespace prjShop.Controllers
             return View(q);
         }
 
-        public IActionResult Edit()
-        {
-            return View();
-        }
+    
         //移到垃圾車
         public IActionResult Delete(int? id)
         {
@@ -131,6 +129,53 @@ namespace prjShop.Controllers
                 }
             }
             return RedirectToAction("Trash");
+        }
+
+        //載入要修改資料到MODAL
+        public IActionResult Edit(int id)
+        {
+            var product = _context.Products            
+                .FirstOrDefault(p => p.ProductId == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Json(product);
+        }
+        //送出修改資料
+        [HttpPost]
+        public IActionResult Edit(Product Pln, IFormFile file)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == Pln.ProductId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }       
+            // 更新封面
+            if (file != null)
+            {
+              
+                string uniqueFileName = Guid.NewGuid().ToString().Substring(0, 8) + file.FileName;            
+                string filePath = Path.Combine(_host.WebRootPath, "shopimg", uniqueFileName);            
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+   
+                product.CoverPhoto = uniqueFileName;
+            }
+
+            product.ProductDesc=Pln.ProductDesc;
+            product.UnitPrice = Pln.UnitPrice;
+            product.Status = Pln.Status;
+            product.UnitsInStock = Pln.UnitsInStock;
+            product.GetPoint = product.UnitPrice/10;
+
+            _context.SaveChanges();
+
+            return Json(new { success = true });
         }
     }
 }
