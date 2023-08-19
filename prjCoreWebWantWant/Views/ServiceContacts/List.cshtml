@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "List";
-    Layout = "~/Views/BackstageManagement/_LayoutForBackstage.cshtml";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
 
 <div class="content-wrapper">
@@ -40,6 +40,12 @@
                             <th>
                                 處理狀態
                             </th>
+                            <th>
+                                回覆
+                            </th>
+                            <th>
+                                刪除
+                            </th>
                         </tr>
                     </thead>
 
@@ -75,10 +81,10 @@
                                         @Html.DisplayFor(modelItem => item.ProcessStatus)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("修改", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                        
-                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                        @Html.ActionLink("回覆", "Edit", new { /* id=item.PrimaryKey */ })
+                                    </td>
+                                    <td>                         
+                                        @Html.ActionLink("刪除", "Delete", new { /* id=item.PrimaryKey */ })
                                     </td>
                                 </tr>
                             }
