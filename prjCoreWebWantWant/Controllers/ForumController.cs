@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
+using System.Text.Json;
 using X.PagedList;
+using CDictionary = prjCoreWebWantWant.Models.CDictionary;
 
 namespace WantTask.Controllers
 {
@@ -15,7 +17,6 @@ namespace WantTask.Controllers
             _memoryCache = memoryCache;
         }
 
-        int loginID = 56;//先綁死ID登入
         NewIspanProjectContext _db = new NewIspanProjectContext();
 
         // GET: Forum
@@ -164,15 +165,27 @@ namespace WantTask.Controllers
 
         public IActionResult CreatePost(int? categoryId)
         {
-            if (categoryId == null)
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+
+                if (categoryId == null)
                 return RedirectToAction("CategoryList");
             return View();
+            }
+            else
+                return RedirectToAction("Login", "Member");
         }
         [HttpPost]
         public IActionResult CreatePost(ForumPost post)
         {
-            ForumPost x = new ForumPost();
-            x.AccountId = loginID;
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                ForumPost x = new ForumPost();
+            x.AccountId = loggedInUser.AccountId;
             x.Title = post.Title;
             x.PostContent = post.PostContent;
             x.Created = DateTime.Now;
@@ -190,6 +203,9 @@ namespace WantTask.Controllers
             _db.ForumPostCategories.Add(category);
             _db.SaveChanges();
             return RedirectToAction("PostList", new { categoryId = categoryId });
+            }
+            else
+                return RedirectToAction("Login","Member");
         }
 
 
