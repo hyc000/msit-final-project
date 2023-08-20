@@ -253,7 +253,7 @@ text-align: center;
     cursor: pointer;
     margin: 5px;
     position: relative;
-    top: 85%
+    top: 25%
 }
 .labelResume {
     display: inline-block;
@@ -269,19 +269,19 @@ text-align: center;
     cursor: pointer;
     margin: 5px;
     position: relative;
-    top: 85%
+    top: 25%
 }
 
 .btnResume:hover {
     position: relative;
-    top: 55%;
+    top: 5%;
     transition: 1s;
     color: oldlace;
 }
 
 .labelResume:hover {
     position: relative;
-    top: 55%;
+    top: 5%;
     transition: 1s;
     color:oldlace;
 }
