@@ -56,10 +56,17 @@ namespace prjCoreWantMember.Controllers
             {
                 string json = JsonSerializer.Serialize(user);
                 HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                Console.WriteLine(json);
-                return RedirectToAction("MemberAccount");
+                if (vm.txtAccount.Contains("want.com"))
+                    return RedirectToAction("Index","BackstageManagement");
+                else
+                    return RedirectToAction("MemberAccount");
             }
             return View();
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove(CDictionary.SK_LOGINED_USER);
+            return RedirectToAction("Login");
         }
         public IActionResult ForgetPassword()
         {

@@ -1,6 +1,14 @@
 ﻿@using System;
 @model MemberAccount
 
+@*判斷是否有登入*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    bool userName = HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
+    //有登入T，未登入F
+}
+<div>@userName</div>
+
 @{
     ViewBag.Title = "MemberAccount";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
@@ -12,7 +20,6 @@
                          new string('*', Model.IdcardNo.Length - 6) + // 中間的字元轉換為星號(減去的數字 = 前面留的字數+後面留的字數
                          Model.IdcardNo.Substring(Model.IdcardNo.Length - 3); // 保持最後三個字元不變
 }
-
 <h2 class="mt-5">會員基本資料</h2>
 
 @* <p>

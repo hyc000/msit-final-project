@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor(); //為了讓cshtml檔案可以加入Session
 
 builder.Services.AddDbContext<NewIspanProjectContext>(
 options => options.UseSqlServer(
