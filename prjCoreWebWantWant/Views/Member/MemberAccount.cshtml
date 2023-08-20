@@ -1,14 +1,6 @@
 ﻿@using System;
 @model MemberAccount
 
-@*判斷是否有登入*@
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@{
-    bool userName = HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
-    //有登入T，未登入F
-}
-<div>@userName</div>
-
 @{
     ViewBag.Title = "MemberAccount";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
