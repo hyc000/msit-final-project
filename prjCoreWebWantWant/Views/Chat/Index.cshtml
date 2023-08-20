@@ -7,10 +7,10 @@
 
 <div class="container">
 
-<div class="row my-5" style="height:69vh">
-        <div class="col-md-3 list-group custom-list-group card" id="userList" style="max-height: 69vh; overflow-y: auto;">
+<div class="chat-row my-5" style="height:69vh">
+        <div class=" col-md-3  card" id="userList" style="max-height: 69vh; overflow-y: auto;">
     </div>
-        <div class="col-md-9 card align-items-center" style="height:69vh">
+        <div class=" col-md-9 card" style="height:69vh">
             <div class="" id="chatDetail" style="height:100vh;overflow-y: auto;">請選擇聊天對象以開始對話</div>
 
             <span class="input-group">
@@ -67,12 +67,12 @@
                 chatLink.classList.add('chatLink', 'link-underline', 'link-underline-opacity-0');
                 chatLink.setAttribute('inChatWithId', u.accountId);//與誰聊天
                 chatLink.setAttribute('inPage', '1');//設定讀取第幾頁，因為要讀最新的所以都是設定1
-                chatLink.setAttribute('data-index',chatAvaCount);//儲存頭像的Index
+                chatLink.setAttribute('data-index', chatAvaCount);//儲存頭像的Index
                 chatLink.innerHTML = //裡面包的html
-                    `<div class="chat-list-group list-group-item-action list-group-flush d-flex align-items-center" style="height:100px">
+                    `<div class="chat-list-group list-group-flush d-flex align-items-center p-3" style="height:100px" id=${chatAvaCount} onclick="toggleBackgroundColor(this)">
                                 <img src="${chatAvaterUrl[chatAvaCount]}" class="rounded-circle img-thumbnail user-image col-2 ">
                          <div class="col-10 mx-2">
-                              <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
+                                      <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
                               </br>
                               <span class="small">${u.latestMessage.message}</span>
                            </div>
@@ -84,9 +84,6 @@
                     event.preventDefault();//防止連結預設的#
                     const clickedElement = event.currentTarget;//要找到使用者按下了誰
                     const index =clickedElement.getAttribute('data-index');//抓取按下的那個index值
-                    console.log(clickedElement);
-
-                    console.log(index);
 
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
                     const jsPage = chatLink.getAttribute('inPage');
@@ -140,7 +137,20 @@
             })
         }
 
-            loadUser()
+            loadUser();
+
+
+        function toggleBackgroundColor(element) {
+            element.classList.add('active');
+            for (const ta of document.getElementsByClassName('chat-list-group')){
+                if (ta.id !== element.id){
+                    ta.classList.remove('active');
+                }
+            }
+        }
+
+
+
     </script>
 }
 
@@ -149,26 +159,41 @@
     <style>
 
         ::-webkit-scrollbar { /* 調整捲軸寬度 */
-            width: 8px;
+            width: 7px;
         }
 
         ::-webkit-scrollbar-thumb { /* 調整捲軸拉把部分 */
-            background: #ddd;
-            border-radius: 10px;
+            background: #f1f1f1;
+            border-radius: 7px;
         }
 
         ::-webkit-scrollbar-track { /* 調整捲軸滑軌部分 */
-            background: #f1f1f1;
-            border-radius: 10px;
+            background: #fff;
+            border-radius: 7px;
+        }
+
+        .chat-row{
+            display: flex;
+            flex-wrap: wrap;
+            padding-right: calc(var(--bs-gutter-x) * 0.5);
+            padding-left: calc(var(--bs-gutter-x) * 0.5);
         }
 
         .chat-list-group{
-            
+            border-bottom: 1px solid #f1f1f1;
         }
 
-        .custom-list-group {
-            padding-right: 0; /* 調整list-group 右側padding的空間 */
+        .chat-list-group:hover {
+                border-bottom: 1px solid #a7bed2;
+                background-color: #f8fbfd;
+                transition: border-bottom 1s ease; /* 添加過渡效果，使底線出現時有平滑的過渡 */
+
         }
+
+       .chat-list-group.active {
+                background-color: #f0f8fa;
+                border-left: 1px solid #a7bed2;
+            }
 
         .user-image {
             max-width: 50px; /* 最大寬度 */

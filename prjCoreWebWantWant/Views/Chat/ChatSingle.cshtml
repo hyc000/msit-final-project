@@ -20,7 +20,7 @@
         async function chatDetail() {
             const jsChatWithId = @Html.Raw(Json.Serialize(ViewBag.chatWithId));
             const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
-            console.log(currentLoginId)
+
             const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=1`);
 
             const chatDetailData = await response.json();
