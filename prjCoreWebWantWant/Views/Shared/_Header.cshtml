@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true" />
 </head>
 
+@{
+    string loginText = User.Identity.IsAuthenticated ? "登出" : "登入/註冊";
+}
+
 <body>
     <!--== header start ==-->
     <header>
@@ -44,11 +48,10 @@
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">登入/註冊</a>
+                            <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">@loginText</a>
                         </li>
                     </ul>
                 </div>
-
             </div>
         </nav>
     </header>
@@ -56,4 +59,4 @@
     <!--== Javascript ==-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-</body>                       
+</body>                  
