@@ -51,30 +51,30 @@ namespace prjCoreWantMember.Controllers
             return View(datas);
         }
 
-        public IActionResult EditExpertResume(int? idforResume)
+        public IActionResult EditExpertResume(int? id)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
 
             IEnumerable<CExpertInfoViewModel> datas = null;
-            idforResume = 22;
+            id = 22;
 
             datas = from r in db.Resumes
                     join m in db.MemberAccounts
                     on r.AccountId equals m.AccountId
                     join er in db.ExpertResumes
                    on r.ResumeId equals er.ResumeId
-                    where r.IsExpertOrNot == true && r.ResumeId == idforResume
+                    where r.IsExpertOrNot == true && r.ResumeId == id
                     select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
             return View(datas);
         }
-        public IActionResult AddExpertResume(int? idforAccount)
+        public IActionResult AddExpertResume(int? id)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            idforAccount = 33;
+            id = 33;
             CExpertInfoViewModel data = null;
             //data.resume.AccountId = (int)idforAccount;
             data = (from m in db.MemberAccounts
-                    where m.AccountId == idforAccount
+                    where m.AccountId == id
                     select new CExpertInfoViewModel { memberAccount = m }).FirstOrDefault();
             return View(data);
         }

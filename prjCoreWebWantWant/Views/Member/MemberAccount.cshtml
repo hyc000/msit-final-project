@@ -12,13 +12,13 @@
                          Model.IdcardNo.Substring(Model.IdcardNo.Length - 3); // 保持最後三個字元不變
 }
 
-<h2>會員基本資料</h2>
+<h2 class="mt-5">會員基本資料</h2>
 
 @* <p>
     @Html.ActionLink("Create New", "Create")
 </p> *@
 
-<table class="table table-hover">
+<table class="table table-hover mt-3">
     <tr>
         <th width="120px">
             會員姓名：
@@ -87,7 +87,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            @Html.ActionLink("編輯", "EditMemberInfo", new { /* id=item.PrimaryKey */ }) @* |
+            @Html.ActionLink("編輯", "EditMemberInfo", new {  id=Model.AccountId  }) @* |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
         </td>
