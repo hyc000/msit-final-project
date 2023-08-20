@@ -21,13 +21,16 @@
 </div>
 
 </div>
+
+
 @section Scripts{
     <script>
         const userList = document.querySelector('#userList');
         async function loadUser() {
             const response = await fetch('@Url.Content("~/ChatApi/UserList/")');
             const data = await response.json();
-            let chatAvaterUrl;//存聊天對象頭像備用
+            let chatAvaterUrl=[];//存聊天對象頭像備用
+            let chatAvaCount=0;
 
             const user = data.map(u =>{//抓左邊聊天對象列表的map
                 const messageTime = new Date(u.latestMessage.created);//這個是以毫秒為單位
@@ -57,30 +60,37 @@
                     timeDisplay = messageTime.toLocaleDateString(undefined, options);
                 }
 
-                chatAvaterUrl =`data:image/png;base64,${u.memberPhoto}`;
+
+                chatAvaterUrl.push(`data:image/jpeg;base64,${u.memberPhoto}`);//存路徑
                 const chatLink=document.createElement('a');//自動生成的a標籤
                 chatLink.href='#';
                 chatLink.classList.add('chatLink', 'link-underline', 'link-underline-opacity-0');
                 chatLink.setAttribute('inChatWithId', u.accountId);//與誰聊天
-                chatLink.setAttribute('inPage', '1');
+                chatLink.setAttribute('inPage', '1');//設定讀取第幾頁，因為要讀最新的所以都是設定1
+                chatLink.setAttribute('data-index',chatAvaCount);//儲存頭像的Index
                 chatLink.innerHTML = //裡面包的html
-                `<div class="list-group-item list-group-item-action list-group-flush d-flex align-items-center" style="height:100px">
-                             <img src="${chatAvaterUrl}" class="rounded-circle img-thumbnail user-image col-2 ">
+                    `<div class="chat-list-group list-group-item-action list-group-flush d-flex align-items-center" style="height:100px">
+                                <img src="${chatAvaterUrl[chatAvaCount]}" class="rounded-circle img-thumbnail user-image col-2 ">
                          <div class="col-10 mx-2">
                               <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
                               </br>
                               <span class="small">${u.latestMessage.message}</span>
                            </div>
                  </div>`;
-                 
+                chatAvaCount++;
 
                 //點下聊天對象監聽器
                 chatLink.addEventListener('click', async (event) => {
                     event.preventDefault();//防止連結預設的#
+                    const clickedElement = event.currentTarget;//要找到使用者按下了誰
+                    const index =clickedElement.getAttribute('data-index');//抓取按下的那個index值
+                    console.log(clickedElement);
+
+                    console.log(index);
+
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
                     const jsPage = chatLink.getAttribute('inPage');
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
-                    console.log(currentLoginId)
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);
 
                     const chatDetailData = await response.json();
@@ -88,11 +98,12 @@
                     const chatDetailDiv = document.querySelector('#chatDetail');
                     chatDetailDiv.innerHTML = ''; // 清空原內容
                     chatDetailData.map(chat => {
+
                         const chatContainer = document.createElement('div');
                         chatContainer.classList.add('chat-container');
 
                         let chatAvatar = document.createElement('img');
-                        chatAvatar.src = chatAvaterUrl;
+                        chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
 
                         const chatMessage = document.createElement('span');
                         chatMessage.textContent = chat.message;
@@ -121,14 +132,13 @@
                             chatContainer.appendChild(chatMessage);//加入對話
                         }
                         chatDetailDiv.appendChild(chatContainer);
-
                     })
                 })
 
                 userList.appendChild(chatLink);
             
             })
-        }          
+        }
 
             loadUser()
     </script>
@@ -150,6 +160,10 @@
         ::-webkit-scrollbar-track { /* 調整捲軸滑軌部分 */
             background: #f1f1f1;
             border-radius: 10px;
+        }
+
+        .chat-list-group{
+            
         }
 
         .custom-list-group {
@@ -242,6 +256,10 @@
         #chatDetail {
             width: 100%;
             overflow-y: auto;
+        }
+
+        .border-tb{
+            border: 1px solid #EEEEEE;
         }
 
     </style>
