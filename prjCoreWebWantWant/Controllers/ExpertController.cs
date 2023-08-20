@@ -44,7 +44,7 @@ namespace prjCoreWantMember.Controllers
         public IActionResult ExpertMemberPage()
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            string userDataJson = HttpContext.Session.GetString(ViewModels.CDictionary.SK_LOGINED_USER);
+            string userDataJson = HttpContext.Session.GetString(ViewModels.CDictionary.SK_LOINGED_USER);
             MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
                                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
 

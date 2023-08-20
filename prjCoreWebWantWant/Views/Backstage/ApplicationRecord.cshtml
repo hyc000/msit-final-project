@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore
+
+@{
     ViewData["Title"] = "ApplicationRecord";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
@@ -158,36 +160,17 @@
                                                     查看
                                                 </button>
                                             </div>
-                                            <!-- <div class="d-flex flex-wrap gap-3 my-3">
-
-                                                               </div> -->
+                                            
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
-
+                                    @*@foreach (var item in q)*@
+                                    {
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck2">
-                                                                <label class="form-check-label" for="contacusercheck2"></label>
-                                                            </div>
-                                                        </th> -->
 
                                         <td data-field="id" style="text-align: center">2</td>
 
                                         <td>
-                                            <a href="#" class="text-body">James Nix</a>
+                                            @*<a href="#" class="text-body">@item.</a>*@
                                         </td>
                                         <td>Frontend Developer</td>
                                         <td>500</td>
@@ -210,29 +193,10 @@
                                                 </button>
                                             </div>
                                         </th>
-
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
+                                    }
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck3">
-                                                                <label class="form-check-label" for="contacusercheck3"></label>
-                                                            </div>
-                                                        </th> -->
-
                                         <td data-field="id" style="text-align: center">3</td>
 
                                         <td>
@@ -259,27 +223,9 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck4">
-                                                                <label class="form-check-label" for="contacusercheck4"></label>
-                                                            </div>
-                                                        </th> -->
 
                                         <td data-field="id" style="text-align: center">4</td>
 
@@ -307,28 +253,9 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck5">
-                                                                <label class="form-check-label" for="contacusercheck5"></label>
-                                                            </div>
-                                                        </th> -->
-
                                         <td data-field="id" style="text-align: center">5</td>
 
                                         <td>
@@ -355,28 +282,9 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck6">
-                                                                <label class="form-check-label" for="contacusercheck6"></label>
-                                                            </div>
-                                                        </th> -->
-
                                         <td data-field="id" style="text-align: center">6</td>
 
                                         <td>
@@ -401,27 +309,10 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck7">
-                                                                <label class="form-check-label" for="contacusercheck7"></label>
-                                                            </div>
-                                                        </th> -->
+               
 
                                         <td data-field="id" style="text-align: center">7</td>
 
@@ -447,28 +338,9 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck8">
-                                                                <label class="form-check-label" for="contacusercheck8"></label>
-                                                            </div>
-                                                        </th> -->
-
                                         <td data-field="id" style="text-align: center">8</td>
 
                                         <td>
@@ -493,28 +365,10 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
+                                       
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck9">
-                                                                <label class="form-check-label" for="contacusercheck9"></label>
-                                                            </div>
-                                                        </th> -->
-
                                         <td data-field="id" style="text-align: center">9</td>
 
                                         <td>
@@ -541,27 +395,9 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck10">
-                                                                <label class="form-check-label" for="contacusercheck10"></label>
-                                                            </div>
-                                                        </th> -->
                                         <td data-field="id" style="text-align: center">10</td>
 
                                         <td>
@@ -586,18 +422,6 @@
                                                 </button>
                                             </div>
                                         </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
 
                                     <tr>

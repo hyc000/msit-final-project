@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Resume>
+@{
     ViewData["Title"] = "Management";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
@@ -29,22 +30,82 @@
            style="background-color: #4f9d9d">新增履歷表 +</a>
     </div>
     <div class="container">
-        <p style="text-align: right">您已使用 3/6 份履歷</p>
+        <p style="text-align: right">您已使用 @Model.Count()/3 份履歷</p>
     </div>
 
     <div class="container">
+        @{
+        int count = 0;
+        @foreach (var item in Model)
+        {
+            
+            count++;
+
         <div class="row">
             <div class="col">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">履歷表 1</h5>
-                        <p class="card-text">這是第一份履歷表的內容。</p>
+                        <h5 class="card-title">履歷表 @count</h5>
+                        <p class="card-text">這是第 @count 份履歷表的內容。</p>
                         <!-- <input type="checkbox" class="toggle-checkbox" > -->
                         <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>
-                        <a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>
-                        <a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>
+                        @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
-                        <!-- 開關 -->
+                        <a href="#" title="檢視" class="btn btn-success btn-sm"  data-bs-target="#ResumeModal">檢視</a>
+                        @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
+                                @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
+                                <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>
+                                @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+                                
+
+
+                               @* <div class="modal " id="ResumeModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Header -->
+                                            <div class="modal-header">
+                                                <h3>履歷表 @count</h3>
+                                                <button type="button"
+                                                        class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <!-- Body -->
+                                            <div class="modal-body">
+                                                <!-- 登入表單 -->
+                                                <form>
+                                                    <!-- email -->
+                                                    <div class="form-group">
+                                                        <input type="email"
+                                                               class="account form-control"
+                                                               placeholder="Email" />
+                                                    </div>
+                                                    <!-- password -->
+                                                    <div class="form-group">
+                                                        <input type="password"
+                                                               class="password form-control"
+                                                               placeholder="Password" />
+                                                    </div>
+                                                    <!-- checkbox -->
+                                                    <div class="form-group">
+                                                        <input type="checkbox" class="remember" />記住我的密碼
+                                                    </div>
+                                                    <!-- 送出按鈕 -->
+                                                    <button type="button" class="btn btn-info">登入</button>
+                                                </form>
+                                            </div>
+                                            <!-- Footer -->
+                                            <div class="modal-footer">
+                                                <div class="signup">
+                                                    <span>尚未成為會員</span>
+                                                    <a href="#" type="button" class="member"> 立即加入 </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                         *@
+                       
+@*                        <!-- 開關 -->
                         <div class="form-check form-switch" style="float: right">
                             <div class="form-check form-switch">
                                 <input class="form-check-input"
@@ -55,58 +116,14 @@
                                        for="flexSwitchCheckDefault"
                                        id="switchLabel"></label>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">履歷表 2</h5>
-                        <p class="card-text">這是第二份履歷表的內容。</p>
-                        <a href="" title="編輯" class="btn btn-primary btn-sm">編輯</a>
-                        <a href="" title="複製" class="btn btn-success btn-sm">複製</a>
-                        <a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>
-                        <div class="form-check form-switch" style="float: right">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       role="switch"
-                                       id="flexSwitchCheckDefault" />
-                                <label class="form-check-label"
-                                       for="flexSwitchCheckDefault"
-                                       id="switchLabel"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">履歷表 3</h5>
-                        <p class="card-text">這是第三份履歷表的內容。</p>
-                        <a href="" title="編輯" class="btn btn-primary btn-sm">編輯</a>
-                        <a href="" title="複製" class="btn btn-success btn-sm">複製</a>
-                        <a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>
-                        <div class="form-check form-switch" style="float: right">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       role="switch"
-                                       id="flexSwitchCheckDefault" />
-                                <label class="form-check-label"
-                                       for="flexSwitchCheckDefault"
-                                       id="switchLabel"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
+        }
     </div>
+
+    <script src="~/js/SweetAlert.js"></script>
 </body>

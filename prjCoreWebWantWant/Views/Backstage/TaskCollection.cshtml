@@ -1,5 +1,9 @@
-﻿@{
-    ViewData["Title"] = "List";
+﻿@*@model IEnumerable<prjCoreWebWantWant.Models.TaskList>;*@
+
+    @model IEnumerable<WantTask.ViewModels.CApproveViewModel>
+
+@{
+    ViewData["Title"    ] = "List";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
@@ -328,7 +332,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    @{
+                                        NewIspanProjectContext _context = new NewIspanProjectContext();
+                                        var q2 = from mc in _context.MemberCollections
+                                                 join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                                                 where mc.AccountId == 33 && mc.CaseId != null
+                                                 select new
+                                                 {
+                                                     tasktitle =  tl.TaskTitle,
+                                                     taskdetail = tl.TaskDetail.Substring(0, 15),
+                                                     taskpay = tl.PayFrom,
+                                                 };
+                                        //var q = q2.ToList();
+                                        @foreach (var item in q2)
+                                        {
+
+                                        
+                                        <tr>
                                         <!-- <th scope="row">
                                                             <div class="form-check font-size-16">
                                                                 <input type="checkbox" class="form-check-input" id="contacusercheck2">
@@ -339,11 +359,14 @@
                                         <td data-field="id" style="text-align: center">1</td>
 
                                         <td>
-                                            <a href="#" class="text-body">Phyllis Gatlin</a>
+                                            @*<a href="#" class="text-body">Phyllis Gatlin</a>*@
+                                             <a href="#" class="text-body">@item.tasktitle</a>
                                         </td>
                                         <td>UI/UX Designer</td>
+                                                <td>@item.taskdetail.Substring(0,15)</td>
                                         <td>2000</td>
                                         <td>
+                                
                                             <div class="d-flex gap-2">
                                                 <a href="#" class="badge badge-soft-primary">Photoshop</a>
                                                 <a href="#" class="badge badge-soft-primary">illustrator</a>
@@ -429,6 +452,9 @@
                                                             </div>
                                                         </td> -->
                                     </tr>
+
+                                        }
+                                    }
 
                                     <tr>
                                         <!-- <th scope="row">
