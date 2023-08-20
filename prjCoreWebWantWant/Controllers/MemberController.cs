@@ -21,13 +21,13 @@ namespace prjCoreWantMember.Controllers
         }
         public IActionResult MemberAccount()
         {
-            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
                 // 现在 loggedInUser 对象包含了从会话中取出的用户信息
 
-                int id = loggedInUser.AccountId;
+                int id = loggedInUser.AccountId; //抓登入者的id
                 NewIspanProjectContext db = new NewIspanProjectContext();
                 MemberAccount datas = db.MemberAccounts.FirstOrDefault(p => (int)p.AccountId == (int)id);
                 return View(datas);
