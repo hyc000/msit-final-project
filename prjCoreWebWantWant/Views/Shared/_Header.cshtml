@@ -3,9 +3,9 @@
     <link rel="stylesheet" href="~/Mstyles/icofont.css" />
 
     <!--== CSS Styles ==-->
-    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true"/>
 </head>
 
 @*判斷是否有登入*@
@@ -13,8 +13,9 @@
 @{
     bool isLogin = HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
     //有登入T，未登入F
-    string loginInnerHtml = "<a class=\"btn btn-outline-primary me-md-2\" asp-area=\"\" asp-controller=\"Member\" asp-action=\"Login\" id=\"btnInOut\">登入/註冊</a>";
-    string logoutInnerHtml = "<a class=\"btn btn-outline-primary me-md-2\" asp-area=\"\" asp-controller=\"Member\" asp-action=\"Logout\" id=\"btnInOut\">登出</a>";
+    
+    string loginInnerHtml = "<a class=\"btn btn-outline - primary me - md - 2\" href=\"/Member/Login\">登入/註冊</a>";
+    string logoutInnerHtml = "<a class=\"btn btn-outline-primary me-md-2\" href=\"/Member/Logout\">登出</a>";
     string loginoutInnerHtml = isLogin ? logoutInnerHtml : loginInnerHtml;
 }
 
@@ -55,7 +56,9 @@
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
                         </li>
                         <li class="nav-item">
-                            <a  id="btnInOut">aa</a>
+                            
+                            @*Html.Raw(loginInnerHtml.Replace("\"", "\\\""))*@
+                            <a id="btnInOut"></a>
                             @*<a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login" id="btnInOut">登入/註冊</a>*@
                             @*<a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Logout" id="btnInOut">登出</a>*@
                         </li>
@@ -66,17 +69,16 @@
     </header>
     <!--== header end ==-->
     <!--== Javascript ==-->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
-        const btnLoginout = document.querySelector('#btnInOut');
-        const loginoutInnerHtml = `@Html.Raw(loginoutInnerHtml.Replace("\"", "\\\"").Replace("\n", "\\n"))`;
-        window.addEventListener('load', () => {
-            btnLoginout.innerHTML=loginoutInnerHtml
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const btnLoginout = document.querySelector('#btnInOut');
+            const loginoutInnerHtml = `@Html.Raw(loginoutInnerHtml.Replace("\"", "\\\"").Replace("\n", "\\n"))`;
+            btnLoginout.innerHTML = loginoutInnerHtml
         })
 
-        //document.addEventListener("DOMContentLoaded",()=>{
-        //    btnLoginout.innerHTML = loginoutInnerHtml
-        //})
     </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    
 </body>                  
