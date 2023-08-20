@@ -1,0 +1,67 @@
+﻿@model prjCoreWebWantWant.Models.Resume
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<h1>新增履歷</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input asp-for="AccountId" class="form-control" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="TownId" class="control-label"></label>
+                <input asp-for="TownId" class="form-control" />
+                <span asp-validation-for="TownId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autobiography" class="control-label"></label>
+                <input asp-for="Autobiography" class="form-control" />
+                <span asp-validation-for="Autobiography" class="text-danger"></span>
+            </div>
+  
+          @*  <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>*@
+        
+            <div class="form-group">
+                <label asp-for="TaskNameId" class="control-label"></label>
+                <input asp-for="TaskNameId" class="form-control" />
+                <span asp-validation-for="TaskNameId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsExpertOrNot" /> @Html.DisplayNameFor(model => model.IsExpertOrNot)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="送出並新增" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ResumeList">取消並返回</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

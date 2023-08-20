@@ -15,6 +15,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _context = context;
             _host = host;
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Resume p)
+        {
+            _context.Resumes.Add(p);
+            _context.SaveChanges();
+            return RedirectToAction("ResumeList");
+        }
+
         public IActionResult ResumeUneditable()
         {
             return View();

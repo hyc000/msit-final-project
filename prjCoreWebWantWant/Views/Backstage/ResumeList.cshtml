@@ -24,10 +24,11 @@
 <body>
     <hr />
     <div class="container">
-        <a href=""
+        <a href="@Url.Content("~/backstage/create")"
            title="新增履歷表"
            class="btn btn-primary btn-sm"
-           style="background-color: #4f9d9d">新增履歷表 +</a>
+           style="background-color: #4f9d9d"
+           id="CreateResume">新增履歷表 +</a>
     </div>
     <div class="container">
         <p style="text-align: right">您已使用 @Model.Count()/3 份履歷</p>
@@ -125,5 +126,13 @@
         }
     </div>
 
-    <script src="~/js/SweetAlert.js"></script>
+ 
+
+  <script src="~/js/SweetAlert.js" ></script>
+  <script>
+    if ("@Model.Count()"==3){
+        const CreateResume = document.querySelector('#CreateResume')
+        CreateResume.ariaDisabled = true;
+    }
+  </script>
 </body>
