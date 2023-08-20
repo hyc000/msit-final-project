@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "ResumesShop";
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Product>
+@{
+    ViewData["Title"] = "ExpertShop";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
@@ -101,7 +102,6 @@
                 <!-- footer -->
                 <div class="modal-footer">
                     <h5 align="right">Total:</h5>
-                    @*<input type="submit" value="buynow" class="btn btn-primary" />*@
                     <form action="@Url.Content("~/shop/checkout")" method="post">
                         <input type="submit" value="buynow" class="btn btn-primary" />
                     </form>
@@ -138,19 +138,26 @@
     <div class="col-12 col-md-6 col-lg-12  justify-content-center">
         <div class="shop-products-area">
             <div class="row">
+                @foreach (var item in Model)
+                {
                 <!-- 單個商品區域 -->
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card mb-4 single-product-area">
-                        <div class="card-image flex-grow-1" style="background-image: url('@Url.Content("~/shopimg/專家置頂1天2.png")')">
-                            <a class="btn btn-danger" style="border-radius: 20px;">熱銷</a>
+                        <div class="card-image flex-grow-1" style="background-image: url('@Url.Content("~/shopimg/"+@item.CoverPhoto)')">
+                                @if (item.UnitsInStock < 50)
+                                {
+                                    <a class="btn btn-danger" style="border-radius: 20px;">限量優惠</a>
+                                }
                         </div>
 
 
                         <div class="card-body flex-grow-0">
                             <div class="text-center">
-                                <h5 class="card-title">專家置頂1天</h5>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal-@item.ProductId">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                                    </a>
                             </div>
-                            <h6 class="text-center">$100</h6>
+                                <h6 class="text-center">$@Html.DisplayFor(modelItem => item.UnitPrice)</h6>
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
                             <!-- 將<i>元素放在右邊最下面 -->
@@ -162,94 +169,42 @@
                     </div>
                 </div>
 
-                <!-- 在這裡添加更多的商品卡片 -->
-                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
-                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="card mb-4 single-product-area">
-                        <div class="card-image flex-grow-1" style="background-image: url('@Url.Content("~/shopimg/專家置頂3天2.png")')"></div>
+                    <!-- 商品資訊Modal  -->
+                    <div class="modal fade" id="productModal-@item.ProductId">
+                        <div class="modal-dialog modal-dialog-centered modal-m">
+                            <div class="modal-content short-modal">
+                               
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@item.ProductName</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body ">
 
-                        <div class="card-body flex-grow-0">
-                            <div class="text-center">
-                                <h5 class="card-title">專家置頂3天</h5>
+                                    <img src="~/shopimg/@item.CoverPhoto" class="img-fluid mx-auto d-block" alt="@item.ProductName" align="center">
+                                   
+                                    <br>
+                                    <div><p>商品描述: @item.ProductDesc</p></div>
+                                    
+     
+                                   
+                                </div>
+                                <div class="modal-footer text-center">
+                                    <div>
+                                        <p>價格: $@item.UnitPrice</p>
+                                    </div>
+                                    <div>
+                                        <p>庫存: @item.UnitsInStock</p>
+                                    </div>
+                                </div>
                             </div>
-                            <h6 class="text-center">$300</h6>
-                        </div>
-                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 將<i>元素放在右邊最下面 -->
-                            <a href="" style="color: black;">
-                                <i class='bx bxs-shopping-bag'
-                                   style="font-size: 2em; margin-left: auto;"></i>
-                            </a>
                         </div>
                     </div>
-                </div>
-                <!-- 添加更多商品卡片 -->
-                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
-                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="card mb-4 single-product-area">
-                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
-
-                        <div class="card-body flex-grow-0">
-                            <div class="text-center">
-                                <h5 class="card-title">專家置頂7天</h5>
-                            </div>
-                            <h6 class="text-center">$400</h6>
-                        </div>
-                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 將<i>元素放在右邊最下面 -->
-                            <a href="" style="color: black;">
-                                <i class='bx bxs-shopping-bag'
-                                   style="font-size: 2em; margin-left: auto;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- 添加更多商品卡片 -->
-                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
-                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="card mb-4 single-product-area">
-                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
-
-                        <div class="card-body flex-grow-0">
-                            <div class="text-center">
-                                <h5 class="card-title">專家置頂30天</h5>
-                            </div>
-                            <h6 class="text-center">$800</h6>
-                        </div>
-                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 將<i>元素放在右邊最下面 -->
-                            <a><i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- 添加更多商品卡片 -->
-                <!-- 每個商品卡片都添加 flex-grow-1 類別，讓圖片佔滿可用空間 -->
-                <!-- 同時添加 flex-grow-0 類別，讓文字只佔用所需空間 -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="card mb-4 single-product-area">
-                        <div class="card-image flex-grow-1" style="background-image: url('~/圖庫/500.png');"></div>
-
-                        <div class="card-body flex-grow-0 ">
-                            <div class="text-center">
-                                <h5 class="card-title">專家置頂90天</h5>
-                            </div>
-                            <h6 class="text-center">$3000</h6>
-                        </div>
-                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 將<i>元素放在右邊最下面 -->
-                            <a><i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- 添加更多商品卡片 -->
-            </div>
+                }
+               
         </div>
     </div>
 </div>
-
+</div>
 @section Styles
     {
     <style>
@@ -353,6 +308,18 @@
             width: 50px;
             height: 50px;
         }
+        /*商品資訊MODAL*/
+            .short-modal {
+                max-height: 500px; 
+                max-width: 400px; 
+            }
+
+                .short-modal .img-fluid {
+                    width: auto;
+                    height:auto;
+                    max-height: 200px; 
+                  
+                }
     </style>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     }

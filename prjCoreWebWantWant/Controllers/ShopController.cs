@@ -1,16 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using prjCoreWebWantWant.Models;
 
 namespace prjShop.Controllers
 {
     public class ShopController : Controller
     {
-        public IActionResult ResumesShop()
+        private readonly NewIspanProjectContext _context;
+        private readonly IWebHostEnvironment _host = null;
+
+        public ShopController(NewIspanProjectContext context, IWebHostEnvironment host)
         {
-            return View();
+            _context = context;
+            _host = host;
+        }
+
+        public IActionResult ExpertShop()
+        {
+            var q = _context.Products
+                .Include(t => t.Category)
+                .Where(p => p.Status == "上架" && p.CategoryId == 1);
+
+            return View(q);
         }
         public IActionResult CaseShop()
         {
-            return View();
+            var q = _context.Products
+              .Include(t => t.Category)
+              .Where(p => p.Status == "上架" && p.CategoryId == 2);
+            return View(q);
         }
         public IActionResult CheckOut()
         {

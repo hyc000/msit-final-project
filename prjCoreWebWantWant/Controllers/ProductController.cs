@@ -94,7 +94,16 @@ namespace prjShop.Controllers
             var prod = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if (prod != null)
             {
-                prod.Status = status;
+                if (prod.UnitsInStock == 0)
+                {
+                    prod.Status = "下架"; // 如果庫存為0，無論原本狀態是什麼，都變更為下架
+                }
+                else
+                {
+                    prod.Status = status; // 否則保持原本的狀態
+                }
+
+
                 _context.SaveChanges();
                 return Json(new { success = true });
             }

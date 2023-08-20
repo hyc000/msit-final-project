@@ -13,6 +13,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/adminlte/dist/css/adminlte.min.css">
     @await RenderSectionAsync("Styles", required: false)
+    <!-- Bootstrap 5 -->
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
     <partial name="_NavbarForBackstage" />
@@ -29,6 +31,8 @@
     <script src="~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/adminlte/dist/js/adminlte.min.js"></script>
+          <!-- Bootstrap 5 -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -119,7 +119,20 @@
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
-                        <td>@Html.DisplayFor(modelItem => item.UnitsInStock)</td>
+                        <td>
+                            @if (item.UnitsInStock < 10)
+                            {
+                                <span class="text-danger" title="庫存低於10">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                            }
+                            else if (item.UnitsInStock < 50)
+                            {
+                                <span class="text-warning" title="庫存低於50">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            }
+                        </td>
                         <td>@Html.DisplayFor(modelItem => item.PostStartDate)</td>
                         <td>
                             @if (item.Status == "上架")
@@ -335,6 +348,8 @@
             });
         }
 
+       
+
         // 加載修改頁數據
         function openEditModal(productId) {
             $.ajax({
@@ -389,7 +404,7 @@
             });
         });
 
-
+        changeStatus(productId, newStatus);
 
     </script>
    
