@@ -35,25 +35,6 @@
     </div>
 </div>
 
-@*<div class="d-inline-flex column-gap-3 flex-wrap row justify-content-center align-items-center m-auto mt-5">
-    @foreach (var item in Model)
-    {
-        <div class="col-3">
-            <a href="@Url.Action("PostList", "Forum", new { categoryId = item.CategoryId})" class="link-underline link-underline-opacity-0">
-                <table class="table table-borderless table-hover">
-                    <tr>
-                        <td class="rounded-4 text-center table-borderless"
-                            style="background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); width:auto ;height: 10vh;">
-                            <div class="h4 fw-bold text-dark-emphasis link-underline link-underline-opacity-0">@Html.DisplayFor(modelItem => item.Title)</div>
-                            <div class="text-secondary-emphasis bg-white bg-opacity-75 p-1 border rounded-bottom-3 link-underline link-underline-opacity-0" style="height:130px">@Html.DisplayFor(modelItem => item.Depiction)</div>
-                        </td>
-
-                    </tr>
-                </table>
-            </a>
-        </div>
-    }
-</div>*@
 
 @section Styles{
     <style>
@@ -64,7 +45,6 @@
         }
 
         .shadow {
-            /* box-shadow: 5px 5px 10px -1px rgba(10, 10, 10, 0.09); */
             box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
         }
 
@@ -73,7 +53,11 @@
         }
 
         .ca-card{
-            background-color: #f8fafc;
+            background-image: url('/images/borderbg.png');
+            background-color: #fafdff;
+            border:1px dotted #eee;
+            border-collapse: separate; /* 使用分離的邊框排列 */
+            border-spacing: 5px; /* 設定邊框間的間距 */
 
         }
 
@@ -85,6 +69,9 @@
             color: #757575;
         }
 
+        body{
+
+        }
 
     </style>
 }
