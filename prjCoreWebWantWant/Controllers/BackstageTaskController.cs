@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
@@ -24,6 +25,17 @@ namespace WantTask.Controllers
         }
 
         #region TableEditable表
+
+        //不分partialView的已上架
+        public IActionResult TablesEditable()
+        {
+            var q = from t in _context.TaskLists
+                    join tt in _context.TaskNameLists on t.TaskNameId equals tt.TaskNameId
+                    where t.PublishOrNot == "立刻上架" && t.TaskNameId == tt.TaskNameId
+                    select t;
+            return View(q);
+        }
+
         //選擇任務類別+已上架
         public IActionResult PartialPublish(string category)
         {
@@ -51,22 +63,49 @@ namespace WantTask.Controllers
 
 
         //已上架未上架的modal修改畫面
-        [HttpPost]
-        public IActionResult UpdateTask(int CaseId, string updatedTaskTitle, string updatedTaskDetail, bool isPublished)
+        
+        public IActionResult Edit(int ? id)
         {
-            var taskToUpdate = _context.TaskLists.FirstOrDefault(t => t.CaseId == CaseId);
+            if (id == null)
+                return View("TablesEditable");
 
-            if (taskToUpdate != null)
+            NewIspanProjectContext _context = new NewIspanProjectContext();
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if ( task==null)  
+                return RedirectToAction("TablesEditable");
+
+            return View(task);
+            //方法裡的int CaseId, string updatedTaskTitle, string updatedTaskDetail, bool isPublished
+            //var taskToUpdate = _context.TaskLists.FirstOrDefault(t => t.CaseId == CaseId);
+
+            //if (taskToUpdate != null)
+            //{
+            //    taskToUpdate.TaskTitle = updatedTaskTitle;
+            //    taskToUpdate.TaskDetail = updatedTaskDetail;
+            //    taskToUpdate.PublishOrNot = isPublished ? "已上架" : "未上架";
+
+            //    _context.SaveChanges();
+            //    return Json(new { success = true });
+            //}
+
+            //return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public IActionResult Edit (TaskList tasknew)
+        {
+            NewIspanProjectContext _context = new NewIspanProjectContext();
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == tasknew.CaseId);
+
+            if (task != null)
             {
-                taskToUpdate.TaskTitle = updatedTaskTitle;
-                taskToUpdate.TaskDetail = updatedTaskDetail;
-                taskToUpdate.PublishOrNot = isPublished ? "已上架" : "未上架";
-
+                task.TaskTitle = tasknew.TaskTitle;
+                task.TaskDetail=tasknew.TaskDetail;
+                task.PublishOrNot = tasknew.PublishOrNot;          
+            
                 _context.SaveChanges();
-                return Json(new { success = true });
             }
-
-            return Json(new { success = false });
+            return RedirectToAction("TablesEditable");
         }
 
 
@@ -324,14 +363,7 @@ namespace WantTask.Controllers
         //    return View("JobdetailBackstage");
         //}
 
-        public IActionResult TablesEditable()
-        {            
-            var q = from t in _context.TaskLists
-                    join tt in _context.TaskNameLists on t.TaskNameId equals tt.TaskNameId
-                          where t.PublishOrNot == "立刻上架" && t.TaskNameId == tt.TaskNameId
-                          select t;
-            return View(q);
-        }
+     
 
 
 

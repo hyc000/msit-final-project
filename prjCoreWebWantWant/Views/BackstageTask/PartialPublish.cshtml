@@ -74,8 +74,9 @@
                         <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
                         @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
                         <td style="width: 100px">
-                           @* <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")" id="jobdetail">*@
-                                <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">
+                           <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/Edit")" id="jobdetail">
+                           @Html.ActionLink("修改","Edit",new {id = item.CaseId})
+                                @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
                                     <i class="fas fa-pencil-alt"></i>
                             </a>
                         </td>
