@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
 
 namespace prjCoreWantMember.ViewModels
@@ -8,15 +10,14 @@ namespace prjCoreWantMember.ViewModels
 
         public ExpertResume expertResume { get; set; }
 
-
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public ExpertWork expertwork { get; set; }
         public ExpertWorkList expertWorkList { get; set; }
 
 
         //Resume
         public Resume resume { get; set; }
 
+        public FileResult photo { get; set; }
 
 
         public string townName
@@ -50,9 +51,47 @@ namespace prjCoreWantMember.ViewModels
         }
 
 
-
         //MemberAccount
         public MemberAccount memberAccount { get; set; }
 
+
+        //SKILL  要可以複選
+        public SkillType skillType { get; set; }
+        public ResumeSkill resumeskill { get; set; }
+        public Skill skill { get; set; }
+        //證照 要可以複選
+        public CertificateType certificatetype { get; set; }
+        public Certificate certificate { get; set; }
+        
+        public ResumeCertificate resumecertificate { get; set; }
+        private List <CCertificateName> FindCertificate()
+        {
+            //有多數的話
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            List<CCertificateName> certificateName = db.Certificates
+                .Include(x => x.ResumeCertificates.Where(x => x.ResumeId == resume.ResumeId))
+                .Select(x=>new CCertificateName { CertificateName= x.CertificateName, 
+                    CertificateTypeName= x.CertificateType.CertificateTypeName})
+                .ToList();
+             
+            return certificateName;
+        }
+        public IEnumerable<string> certificatename { get
+            {
+                List<CCertificateName> name = FindCertificate();
+                return name.Select(x=>x.CertificateName); }  }
+
+        public IEnumerable<string> certificatetypename
+        {
+            get
+            {
+                List<CCertificateName> name = FindCertificate();
+                return name.Select(x => x.CertificateTypeName);
+            }
+        }
+
+
+        //評價
+        public Rating rating { get; set; }
     }
 }
