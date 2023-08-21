@@ -15,8 +15,8 @@ namespace WantTask.ViewModels
         public string ? PublishStart { get; set; }
         public string ? TaskStart { get; set; }
         public string ? TaskTitle { get; set; }
-        public string ? TaskDetail { get; set; }
-
+        public string ? TaskDetail { get; set; }        
+        public string? TaskName { get; set; }
         public List<TaskList>? taskList { get; set; }       
         public List<ApplicationList>? applicationList { get; set; }
         public List<CaseStatusList>? caseStatusList { get; set; }

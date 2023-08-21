@@ -1,17 +1,53 @@
 ﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 
 
-@*<div class="card-body" id="Publish">*@
-<div class="table-responsive mb-4">
-    <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+<head>
+
+    <link href="~/backstage1/static/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+    <!-- preloader css -->
+    <link rel="stylesheet" href="~/backstage1/static/css/preloader.min.css" type="text/css">
+
+    <!-- Bootstrap Css -->
+    @* <link href="~/backstage1/static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> *@
+
+    <!-- Icons Css -->
+    <link href="~/backstage1/static/css/icons.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="~/backstage1/static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <!-- JobdetailBackstage css -->
+    <!-- glightbox css -->
+    <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
+
+    <style>
+
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5; /* 或者你想要的其他背景顏色 */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #528EAF; /* 更改滑鼠滑過的背景顏色 */
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #fff; /* 更改滑鼠滑過的文字顏色 */
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="table-responsive mb-4" id="publishedTasks">
+    <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;"> 
+        
         <thead>
             <tr>
                 <th style="width: 50px;">序號</th>
                 <th style="width: 150px;">任務名稱</th>
                 <th style="width: 300px;">任務內容</th>
                 <th style="width: 100px;">任務日期</th>
-                @* <th>更改狀態</th>*@
-                <th style="width: 50px;">查看</th>
+                @*<th style="width: 50px;">更改狀態</th>*@
+                <th style="width: 50px;">修改</th>
             </tr>
         </thead>
 
@@ -19,9 +55,9 @@
 
             @{
                 int count = 0;
-
+                               
                 foreach (var item in Model)
-                {
+                    {
                     int maxDisplayLength = 10; // 設定要顯示的最大字數
                     string taskDetail = item.TaskDetail;
 
@@ -38,11 +74,60 @@
                         <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
                         @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
                         <td style="width: 100px">
-                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")" id="jobdetail">
-                                <i class="fas fa-pencil-alt"></i>
+                           @* <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")" id="jobdetail">*@
+                                <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">
+                                    <i class="fas fa-pencil-alt"></i>
                             </a>
                         </td>
                     </tr>
+
+                        <div class="modal" tabindex="-1" id="myModal_@item.CaseId" style="display:none">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">修改任務內容</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <input type="hidden" id="modalCaseId" value="@item.CaseId">
+                                    </div>
+                                    <div class="modal-body">
+                                        @*修改任務內容*@
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">任務標題</label>
+                                                <input type="text" class="form-control" id="TaskTitle" value="@Html.DisplayFor(modelItem => item.TaskTitle)">
+                                            </div>
+                                            <p class="card-text">
+                                                <div class="mb-3">
+                                                    <label for="exampleFormControlTextarea1" class="form-label">任務內容</label>
+                                                    <textarea class="form-control" id="TaskDetail" rows="3">@Html.DisplayFor(modelItem => item.TaskDetail)</textarea>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                        下架此任務
+                                                    </label>
+                                                </div>
+
+                                            </p>
+
+                                            <div class="card-footer text-center">
+                                                <form action="@Url.Content("~/BackstageTask/TablesEditable")" method="post" style="justify-content: center ; align-items: center ">
+                                                    <input onclick="Alert()"
+                                                           id="saveBtn"
+                                                           class="btn btn-primary"
+                                                           style="background-color: #528EAF"
+                                                           type="submit"
+                                                           value="送出"
+                                                           a href="@Url.Content("~/BackstageTask/UpdateTask")" />
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 }
             }
         </tbody>
@@ -50,8 +135,14 @@
     </table>
 </div>
 
+
+    
+
 @*</div>*@
 <!--Approve js-->
+
+ 
+
 <!--JAVASCRIPT-- >
    <script src="~/backstage1/static/js/jquery.min.js" ></script>
    <script src="~/backstage1/static/js/bootstrap.bundle.min.js"></script>
@@ -60,8 +151,7 @@
    <script src="~/backstage1/static/js/waves.min.js"></script>
    <script src="~/backstage1/static/js/feather.min.js"></script>
 
-@*   <!-- pace js -->
-   <script src="~/backstage/static/js/pace.min.js"></script>*@
+
 
    <!-- Required datatable js -->
 <script src="~/backstage1/static/js/jquery.dataTables.min.js"></script>
@@ -77,9 +167,7 @@
 
 <!-- Table Editable plugin -->
 <script src="~/backstage1/static/js/table-edits.min.js"></script>
-
 <script src="~/backstage1/static/js/table-editable.int.js"></script>
-
 <script src="~/backstage1/static/js/app.js"></script>
 
 <!-- JobdetailBackstage js -->
@@ -89,3 +177,64 @@
 <!-- lightbox init -->
 <script src="~/backstage1/static/js/lightbox.init.js"></script>
 
+</body>
+
+
+@section Scripts{
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity = "sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin = "anonymous" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+        <script src="~/js/SweetAlert.js"></script>
+
+        <script>
+        $('#saveBtn').click(function () {
+            var taskId = $('#modalCaseId').val();
+            var updatedTaskTitle = $('#TaskTitle').val();
+            var updatedTaskDetail = $('#TaskDetail').val();
+            var isPublished = $('#flexCheckDefault').is(':checked');
+
+            // 使用 Ajax 發送數據到後端進行保存
+            $.ajax({
+                url: '@Url.Content("~/BackstageTask/UpdateTask")', // 替換成你的後端控制器的 URL
+                type: 'POST',
+                data: {
+                    taskId: taskId,
+                    updatedTaskTitle: updatedTaskTitle,
+                    updatedTaskDetail: updatedTaskDetail,
+                    isPublished: isPublished
+                },
+                success: function (data) {
+                    // 儲存成功後的處理，如關閉 modal 或刷新頁面
+                    if (data.success) 
+
+                        function Alert() {
+                        // 儲存成功，顯示 SweetAlert
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function () {
+                            // SweetAlert 確定按鈕被點擊後，重新載入相關的內容
+                            location.reload();
+                        }
+                       });
+                    } else {
+                        // 儲存失敗，可能需要顯示錯誤消息
+                    }
+                },
+                error: function () {
+                    // 儲存失敗後的處理
+                    alert("儲存失敗，請稍後再試。");
+                }
+            });
+        });
+
+
+</script>
+
+}

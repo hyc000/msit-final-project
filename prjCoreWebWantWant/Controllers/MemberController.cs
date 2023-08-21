@@ -24,7 +24,7 @@ namespace prjCoreWantMember.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
                 // 现在 loggedInUser 对象包含了从会话中取出的用户信息
 
                 int id = loggedInUser.AccountId; //抓登入者的id
@@ -50,16 +50,39 @@ namespace prjCoreWantMember.Controllers
         public IActionResult Login(CLoginViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            MemberAccount user = db.MemberAccounts.FirstOrDefault(
-                m => m.Email.Equals(vm.txtAccount) && m.Password.Equals(vm.txtPassword));
+            CLoginUser user = db.MemberAccounts.Where(
+                m => m.Email.Equals(vm.txtAccount)).Select(m => new CLoginUser
+                {
+                    AccountId = m.AccountId,
+                    Name=m.Name,
+                    Email = m.Email,
+                    Password = m.Password
+                }).FirstOrDefault();
+            if (user == null)
+            {
+                //想要跳通知提醒:請先註冊密碼
+                return RedirectToAction("Register");
+            }
             if (user != null && user.Password.Equals(vm.txtPassword))
             {
                 string json = JsonSerializer.Serialize(user);
                 HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                if (vm.txtAccount.Contains("want.com"))
+                LoginHistory loghis = new LoginHistory();
+                CLoginUser.setLogHis(loghis,user.AccountId,user.LastFailCount, 0, true);
+                db.LoginHistories.Add(loghis);
+                db.SaveChanges();
+                if (user.UserRole==2)
+                    //客服人員
                     return RedirectToAction("Index","BackstageManagement");
-                else
+                else if(user.UserRole==1)
                     return RedirectToAction("MemberAccount");
+            }
+            else
+            {
+                LoginHistory loghis = new LoginHistory();
+                CLoginUser.setLogHis(loghis, user.AccountId, user.LastFailCount, 1, false);
+                db.LoginHistories.Add(loghis);
+                db.SaveChanges();
             }
             return View();
         }

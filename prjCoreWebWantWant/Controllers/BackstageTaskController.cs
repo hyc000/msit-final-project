@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
+using System.Runtime.ConstrainedExecution;
 using WantTask.ViewModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -22,6 +23,8 @@ namespace WantTask.Controllers
             _host = host;
         }
 
+        #region TableEditable表
+        //選擇任務類別+已上架
         public IActionResult PartialPublish(string category)
         {
             var taskName = _context.TaskLists.
@@ -42,10 +45,36 @@ namespace WantTask.Controllers
             //{
             //    c.City
             //}).Distinct();
-            return PartialView(taskName);
+
+             return PartialView(taskName);
         }
 
 
+        //已上架未上架的modal修改畫面
+        [HttpPost]
+        public IActionResult UpdateTask(int CaseId, string updatedTaskTitle, string updatedTaskDetail, bool isPublished)
+        {
+            var taskToUpdate = _context.TaskLists.FirstOrDefault(t => t.CaseId == CaseId);
+
+            if (taskToUpdate != null)
+            {
+                taskToUpdate.TaskTitle = updatedTaskTitle;
+                taskToUpdate.TaskDetail = updatedTaskDetail;
+                taskToUpdate.PublishOrNot = isPublished ? "已上架" : "未上架";
+
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
+
+        #endregion
+
+        #region Approve表
+
+        //app表的未處理tab，AllResume
         public IActionResult Approve()
         {
                  var query =( from app in _context.ApplicationLists
@@ -82,7 +111,7 @@ namespace WantTask.Controllers
 
         }
 
-
+        //app表未處理AllResume的錄取btn
         public IActionResult Accept(int? id)
         {
             ApplicationList task = _context.ApplicationLists.FirstOrDefault(p => p.CaseId == id);
@@ -93,7 +122,125 @@ namespace WantTask.Controllers
             }
             return RedirectToAction("Approve");
         }
-       
+
+        
+        //approve表點選錄取btn後的已錄取tab
+        public IActionResult ApproveAcceptPartialView(string category)
+        {
+            var query = (from app in _context.ApplicationLists
+                         join task in _context.TaskLists on app.CaseId equals task.CaseId
+                         join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
+                         join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
+                         join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+                         join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+                         join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+                         join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+
+                         where app.CaseStatusId == 1
+
+                         select new CApproveViewModel
+                         {
+                             CaseId = task.CaseId,
+                             ResumeId = resume.ResumeId,
+                             TaskNameId = task.TaskNameId,
+                             CaseStatusId = app.CaseStatusId,
+                             Name = member.Name,
+                             SkillName = skill.SkillName,
+                             CertificateName = cer.CertificateName,
+                             Autobiography = resume.Autobiography,
+                             PublishStart = task.PublishStart,
+                             TaskStart = task.TaskStartDate,
+                             TaskTitle = task.TaskTitle,
+                             TaskDetail = task.TaskDetail
+                         }).AsEnumerable()
+
+                         .Where(app => app.TaskName == category )  // 此處是在客戶端進行過濾
+                         .Distinct();
+
+
+            //var viewModelList = query.ToList();
+
+            return PartialView("ApproveAcceptPartialView", query.ToList());
+
+            //        IQueryable<CApproveViewModel> query = _context.ApplicationLists
+            //   .Join(
+            //       _context.TaskLists,
+            //       app => app.CaseId,
+            //       task => task.CaseId,
+            //       (app, task) => new { Application = app, Task = task }
+            //   )
+            //   .Join(
+            //       _context.Resumes,
+            //       combined => combined.Application.ResumeId,
+            //       resume => resume.ResumeId,
+            //       (combined, resume) => new { combined.Application, combined.Task, Resume = resume }
+            //   )
+            //   .Join(
+            //       _context.MemberAccounts,
+            //       combined => combined.Resume.AccountId,
+            //       member => member.AccountId,
+            //       (combined, member) => new { combined.Application, combined.Task, combined.Resume, Member = member }
+            //   )
+            //   .Join(
+            //    _context.ResumeSkills,
+            //    combined => combined.Resume.ResumeId,
+            //    resumeskill => resumeskill.ResumeId,
+            //    (combined, resumeskill) => new { combined.Application, combined.Task, combined.Resume, combined.Member, ResumeSkill = resumeskill }
+            //)
+            //.Join(
+            //    _context.Skills,
+            //    combined => combined.ResumeSkill.SkillId,
+            //    skill => skill.SkillId,
+            //    (combined, skill) => new { combined.Application, combined.Task, combined.Resume, combined.Member, combined.ResumeSkill, Skill = skill }
+            //)
+            //.Join(
+            //    _context.ResumeCertificates,
+            //    combined => combined.Resume.ResumeId,
+            //    resumecer => resumecer.ResumeId,
+            //    (combined, resumecer) => new { combined.Application, combined.Task, combined.Resume, combined.Member, combined.ResumeSkill, combined.Skill, ResumeCertificate = resumecer }
+            //)
+            //.Join(
+            //    _context.Certificates,
+            //    combined => combined.ResumeCertificate.CertificateId,
+            //    cer => cer.CertificateId,
+            //    (combined, cer) => new { combined.Application, combined.Task, combined.Resume, combined.Member, combined.ResumeSkill, combined.Skill, combined.ResumeCertificate, Certificate = cer }
+            //)
+            //.Join(
+            //    _context.TaskNameLists,
+            //    combined => combined.Task.TaskNameId,
+            //        taskName => taskName.TaskNameId,
+            //    (combined, taskName) => new { combined.Application, combined.Task, combined.Resume, combined.Member, combined.ResumeSkill, combined.Skill, combined.ResumeCertificate, combined.Certificate, TaskNameList=taskName}
+            //   )
+
+            //   .Where(combined => combined.Application.CaseStatusId == 1 && combined.TaskNameList.TaskName == category)
+            //   .Select(combined => new CApproveViewModel
+            //   {
+            //       CaseId = combined.Task.CaseId,
+            //       ResumeId = combined.Resume.ResumeId,
+            //       TaskNameId = combined.Task.TaskNameId,
+            //       CaseStatusId = combined.Application.CaseStatusId,
+            //       Name = combined.Member.Name,
+            //       SkillName = combined.Skill.SkillName, // Assuming you have the skill entity joined
+            //       CertificateName = combined.Certificate.CertificateName, // Assuming you have the certificate entity joined
+            //       Autobiography = combined.Resume.Autobiography,
+            //       PublishStart = combined.Task.PublishStart,
+            //       TaskStart = combined.Task.TaskStartDate,
+            //       TaskTitle = combined.Task.TaskTitle,
+            //       TaskDetail = combined.Task.TaskDetail
+            //   });
+
+            //        if (!string.IsNullOrEmpty(category))
+            //        {
+            //            query = query.Where(combined => combined.TaskName== category);
+            //        }
+
+            //        var viewModelList = query.ToList();
+
+            //        return PartialView("ApproveAcceptPartialView", viewModelList);
+        }
+
+
+        //app表未處理AllResume的婉拒btn
         public IActionResult Refuse(int? id)
         {
             ApplicationList task = _context.ApplicationLists.FirstOrDefault(p => p.CaseId == id);
@@ -105,6 +252,44 @@ namespace WantTask.Controllers
             return RedirectToAction("Approve");
         }
 
+        //approve表點選婉拒後的已婉拒tab
+        public IActionResult ApproveRefusePartialView(string category)
+        {
+            var query = (from app in _context.ApplicationLists
+                         join task in _context.TaskLists on app.CaseId equals task.CaseId
+                         join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
+                         join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
+                         join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+                         join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+                         join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+                         join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+
+                         where app.CaseStatusId == 2
+
+                         select new CApproveViewModel
+                         {
+                             CaseId = task.CaseId,
+                             ResumeId = resume.ResumeId,
+                             TaskNameId = task.TaskNameId,
+                             CaseStatusId = app.CaseStatusId,
+                             Name = member.Name,
+                             SkillName = skill.SkillName,
+                             CertificateName = cer.CertificateName,
+                             Autobiography = resume.Autobiography,
+                             PublishStart = task.PublishStart,
+                             TaskStart = task.TaskStartDate,
+                             TaskTitle = task.TaskTitle,
+                             TaskDetail = task.TaskDetail
+                         }).AsEnumerable()
+
+                         .Where(app => app.TaskName == category)  
+                         .Distinct();
+
+                return PartialView("ApproveAcceptPartialView", query.ToList());            
+        }
+
+        #endregion
+
         //public IActionResult Form()
         //{
         //    return View("Form");
@@ -112,8 +297,8 @@ namespace WantTask.Controllers
 
         //public IActionResult Form( CCreateTask createTask)
         //{  
-            
-            
+
+
         //    return View("Form");
         //}
 
@@ -210,7 +395,7 @@ namespace WantTask.Controllers
 
 
 
-
+        //任務名稱
         public IActionResult TaskName()
         {
             var taskName = _context.TaskNameLists.Select(c => c.TaskName).Distinct();
@@ -235,7 +420,8 @@ namespace WantTask.Controllers
 
         //}
 
-        //支薪方式
+        //支薪方式        
+        
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();
@@ -259,7 +445,7 @@ namespace WantTask.Controllers
         }
 
 
-
+        //城市
         public IActionResult Cities()
         {
             var cities = _context.Cities.Select(c => c.City1).Distinct();

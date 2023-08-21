@@ -54,25 +54,25 @@
 
 <body>
 
-        <!-- Spinner Start -->
+    @*    <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <!-- Spinner End -->
+        <!-- Spinner End -->*@
 
 
        
         <form id="form" form action="~/Backstage/Form" method="post">
 
-        <!-- Content Start -->
-        <div class="content">
-         
+        
             <!-- Form Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">   <!--任務內容-->
+                    <div class="col-sm-12 col-xl-6">
+
+                    <!--任務內容-->
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4">任務內容</h6>
                             <form>
@@ -85,9 +85,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputTaskTitle" class="form-label">任務標題</label>
-                                    <input type="text" class="form-control" id="TaskTitle">
-                                    <!-- <div id="tasktitleinput" class="form-text">We'll never share your email with anyone else.
-                                    </div> -->
+                                    <input type="text" class="form-control" id="TaskTitle">                                  
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputTaskDetail" class="form-label">任務內容</label>
@@ -98,19 +96,17 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputRequiredNum" class="form-label">需求人數</label>
-                                    <input type="text" class="form-control" id="RequiredNum">
-                                    <!-- <div id="tasktitleinput" class="form-text">We'll never share your email with anyone else.
-                                    </div> -->
+                                    <input type="text" class="form-control" id="RequiredNum">                                 
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
-                                    <!-- <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
-                                </div>
-                                <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
+                                <div class="mb-3 form-check">                                  
+                                </div>                            
                             </form>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">   <!--任務時間-->
+
+
+                <!--任務時間-->
+                    <div class="col-sm-12 col-xl-6">   
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4">任務時間</h6>                             
                                 <div class="mb-3">
@@ -129,11 +125,12 @@
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="TaskEndHour">
                                 <label for="floatingInputTaskPeriod2">請輸入時段，例如：中班：13：00~17：00，若無則免填</label>
-                            </div>
-                           
+                            </div>                           
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">   <!--任務地點-->
+
+                <!--任務地點-->
+                    <div class="col-sm-12 col-xl-6">  
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4">任務地點</h6>
                             <div>
@@ -173,31 +170,23 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-xl-6">   <!--任務報酬-->
+                <!--任務報酬-->
+                    <div class="col-sm-12 col-xl-6">  
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4">任務報酬</h6>
-                        
-                                    <div class="widgets_inner">
-                                        <div class="range_item">
-                                            <!-- <div id="slider-range"></div> -->
-                                               
-                                         
-                                            <div class="d-flex align-items-center">
-                                        <div class="price_text">
-                                            <input type="text" class="js-range-slider" value="" />
-                                            <p>Price :</p>
-                                                </div>
-                                               @*  <div class="price_value d-flex justify-content-center">
-                                                    <input type="text" class="js-input-from" id="amountPayFrom" readonly />
-                                                    <span>to</span>
-                                                    <input type="text" class="js-input-to" id="amountPayTo" readonly />
-                                                </div> *@
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- </aside> -->
-                              <!-- Range Slider End -->
-                            <!-- </div> -->
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="InputPayFrom"
+                                   placeholder="name@example.com" data-bs-toggle="tooltip" data-bs-placement="top" title="請輸入數字">
+                            <label for="floatingInputAddress">請輸入最低金額</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="InputPayTo"
+                                   placeholder="name@example.com" data-bs-toggle="tooltip" data-bs-placement="top" title="請輸入數字">
+                            <label for="floatingInputAddress">請輸入最高金額</label>
+                        </div>                              
+
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelPayment"
                                         aria-label="Floating label select example">
@@ -205,6 +194,7 @@
                                 </select>
                                 <label for="floatingSelectPayment">支薪方式</label>
                             </div>
+
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelPaymentDate"
                                         aria-label="Floating label select example">
@@ -295,14 +285,11 @@
                     </div>
                 </div>
             </div>
-            </div>            
-        </div>
+            </div>                   
         </form>
 
 
-        <!-- Back to Top -->
-        @*<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>*@
-
+        
 
 
     @section Styles{
@@ -463,6 +450,7 @@
             });
 
 
+            
 
 
 
