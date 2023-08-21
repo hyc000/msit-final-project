@@ -31,13 +31,13 @@
         <div class="row mt-3">
             <div class="d-flex">
                 <button type="button" class="btn btn-outline-danger">永久刪除</button>
-
-
-                <button type="button" class="btn btn-outline-danger">清空垃圾桶</button>
-
-
-                <button type="button" class="btn btn-outline-warning">復原</button>
-
+     
+                 <form asp-action="DeleteAll" method="post">
+                    <button type="submit" class="btn btn-outline-danger">清空垃圾桶</button>
+                </form>
+                <form asp-action="GobackSelect" method="post">
+                <button type="submit" class="btn btn-outline-warning">復原</button>
+                </form>
 
                 @*<button type="button" class="btn btn-primary" href="@Url.Content("~/product/list")">回到商品列表</button>*@
                 <a class="btn btn-outline-primary" href="@Url.Content("~/product/list")">回到商品列表</a>

@@ -25,52 +25,58 @@
     <!-- Main content -->
     <div class="container pt-4 px-4">
 
-        <form  method="post" enctype="multipart/form-data">
+        <form method="get" enctype="multipart/form-data">
             <div class="containerXX-Large">
                 <div class="row">
                     <div class="col-md-3">
                         <label for="category">商品類別：</label>
                         <select name="category" id="category" class="form-control">
                             <option value="">請選擇</option>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.CategoryName</option>
+                            }
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label for="status">上架狀態：</label>
                         <select name="status" id="status" class="form-control">
                             <option value="">請選擇</option>
+                            <option value="上架">上架</option>
+                            <option value="下架">下架</option>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label for="createdDate">創建時間：</label>
                         <div class="d-flex align-items-center">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" name="startDate">
                             <span class="mx-2">~</span>
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" name="endDate">
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-3">
                         <label for="productName">商品名稱：</label>
-                        <input class="form-control" type="text" id="productName">
+                        <input class="form-control" type="text" id="productName" name="productName">
                     </div>
                     <div class="col-md-9">
                         <label for="priceRange">單價區間：</label>
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="minPrice">
+                                <input class="form-control" type="text" id="minPrice" name="minPrice">
                             </div>
                             <div class="mx-2">~</div>
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="maxPrice">
+                                <input class="form-control" type="text" id="maxPrice" name="maxPrice">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <input type="submit" value="查詢" class="btn btn-primary" onclick="searchProducts(); return false;">
-                        <input type="reset" value="清除" class="btn btn-secondary">
+                        <input type="submit" value="查询" class="btn btn-primary">
+                        <input type="reset" value="清除" class="btn btn-secondary">               
                     </div>
                 </div>
             </div>
@@ -130,7 +136,7 @@
                             }
                             else
                             {
-                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                                @Html.DisplayFor(modelItem => item.UnitsInStock)
                             }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.PostStartDate)</td>
@@ -337,8 +343,8 @@
                 type: 'POST',
                 data: { id: productId, status: newStatus },
                 success: function (result) {
-                    // 在成功回調中，你可以根據需要執行一些操作
-                    // 例如重新載入部分頁面或更新畫面數據
+                    
+                    // 重新載入部分頁面或更新畫面數據
                     alert('商品狀態已更新');
                     window.location.reload(); // 這是重新載入整個頁面
                 },
@@ -377,7 +383,7 @@
             });
         }
 
-
+        //修改頁送出
         $(document).ready(function () {
             $('#editForm').submit(async function (e) {
                 e.preventDefault(); // 阻止表單默認提交
@@ -398,7 +404,7 @@
                         alert('更新失敗。');
                     }
                 } catch (error) {
-                    console.error('更新失败：', error);
+                    console.error('更新失拜：', error);
                     alert('更新失敗。');
                 }
             });
@@ -406,6 +412,43 @@
 
         changeStatus(productId, newStatus);
 
+//搜尋
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                e.preventDefault(); // 阻止表單默認提交行為
+
+                // 獲取表單數據
+                var category = $('#category').val();
+                var status = $('#status').val();
+                var startDate = $('#start-date').val();
+                var endDate = $('#end-date').val();
+                var productName = $('#product-name').val();
+                var minPrice = $('#min-price').val();
+                var maxPrice = $('#max-price').val();
+
+                // 跟action連結
+                $.ajax({
+                    url: '@Url.Action("List", "Product")',
+                    type: 'GET',
+                    data: {
+                        category: category,
+                        status: status,
+                        startDate: startDate,
+                        endDate: endDate,
+                        productName: productName,
+                        minPrice: minPrice,
+                        maxPrice: maxPrice
+                    },
+                    success: function (result) {
+                        // 更新頁面
+                        $('#table tbody').html(result); 
+                    },
+                    error: function () {
+                        alert('失敗。');
+                    }
+                });
+            });
+        });
     </script>
    
 }
