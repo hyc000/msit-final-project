@@ -349,7 +349,6 @@ namespace WantTask.Controllers
             //    createTask.TaskTitle = "guest";
             //}
             //return Content($"Hello {createTask.TaskTitle} , you are {createTask.TaskDetail} years old.");
-            
             _context.TaskLists.Add(taskList);
             _context.SaveChanges();
 
