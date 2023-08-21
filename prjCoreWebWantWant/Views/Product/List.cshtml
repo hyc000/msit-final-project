@@ -119,20 +119,28 @@
                 {
 
                     <tr>
-                        <td>      
-                                <img src="~/shopimg/@item.CoverPhoto" style="width:40px;height:40px" alt="Image 1"> 
-                           </td>
+                        <td>
+                            <div class="image-container">
+                                <div class="image-wrapper">
+                                    <img src="~/shopimg/@item.CoverPhoto" alt="Image 1" class="small-image">
+                                </div>
+                                <div class="hover-overlay">
+                                    <img src="~/shopimg/@item.CoverPhoto" alt="Image 1" class="large-image">
+                                </div>
+                            </div>
+                        </td>
+                       
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
                         <td>
                             @if (item.UnitsInStock < 10)
                             {
-                                <span class="text-danger" title="庫存低於10">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                                <span class="text-danger" title="庫存低於10"><strong>@Html.DisplayFor(modelItem => item.UnitsInStock)</strong> </span>
                             }
                             else if (item.UnitsInStock < 50)
                             {
-                                <span class="text-warning" title="庫存低於50">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                                <span class="text-warning" title="庫存低於50"><strong> @Html.DisplayFor(modelItem => item.UnitsInStock)</strong></span>
                             }
                             else
                             {
@@ -310,14 +318,47 @@
             text-decoration: none;
         }
 
-        .bx bx-trash bx-tada {
-            color: black
+
+        /*設定滑鼠過去就變大圖*/
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-wrapper {
+            position: relative;
+        }
+
+        .large-image {
+            width: 120px;
+            height: 120px;
+        }
+        .small-image {
+            width: 40px;
+            height: 40px;
+        }
+       
+        .hover-overlay {
+            display: none;
+            position: absolute;
+            top: -80px; /* 將 top 設置為負的大圖高度，這樣它就會出現在小圖的上方 */
+            left: 0;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .image-wrapper:hover + .hover-overlay {
+            display: block;
+            opacity: 1;
         }
     </style>
     @*box icons*@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
- 
-    
+
 }
 
 @section Scripts
@@ -410,7 +451,7 @@
             });
         });
 
-        changeStatus(productId, newStatus);
+
 
 //搜尋
         $(document).ready(function () {
@@ -449,7 +490,9 @@
                 });
             });
         });
+
     </script>
-   
+
+
 }
 
