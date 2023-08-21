@@ -125,7 +125,7 @@ public partial class NewIspanProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=124.219.117.33;Initial Catalog=NewIspanProject;Persist Security Info=True;User ID=msit150;Password=aaaa;Multiple Active Result Sets=True;Trust Server Certificate=True;Application Name=EntityFramework");
+        => optionsBuilder.UseSqlServer("Data Source=124.219.117.33;Initial Catalog=NewIspanProject;Persist Security Info=True;User ID=msit150;Password=aaaa;Multiple Active Result Sets=True;Application Name=EntityFramework;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -665,7 +665,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CreateTime).HasColumnType("datetime");
             entity.Property(e => e.PayWayId).HasColumnName("PayWayID");
-            entity.Property(e => e.StatusId).HasColumnName("StatusID");
+            entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.AccountId)

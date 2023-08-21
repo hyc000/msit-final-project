@@ -13,7 +13,7 @@ public partial class Order
 
     public int? CategoryId { get; set; }
 
-    public int? StatusId { get; set; }
+    public string? Status { get; set; }
 
     public int? OrderPrice { get; set; }
 

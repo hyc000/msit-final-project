@@ -1,4 +1,9 @@
-﻿@{
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
+@{
+    var cases = ViewBag.Cases as Dictionary<int, string>;
+    var resumes = ViewBag.Resumes as Dictionary<int, string>;
+}
+@{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
@@ -26,7 +31,7 @@
                 <input class="form-control form-control-sm" type="text" id="productName">
             </div>
             <div class="col-md-4">
-                <label for="createdDate">創建日期：</label>
+                <label for="createdDate">訂單日期：</label>
                 <div class="d-flex align-items-center">
                     <input type="date" class="form-control">
                     <span class="mx-2">~</span>
@@ -52,10 +57,13 @@
 
         <table id="table" class="table table-striped mt-5">
             <thead align="center">
+  
                 <tr>
                     <td></td>
                     <td>訂單編號</td>
-                    <td>日期</td>
+                    <td>訂單類別</td>
+                    <td>加值項目</td>
+                    <td>購買時間</td>
                     <td>顧客</td>
                     <td>付款狀態</td>
                     <td>總金額</td>
@@ -64,77 +72,72 @@
                 </tr>
             </thead>
             <tbody align="center">
+                           @foreach (var item in Model)
+    {
+                    var caseId = item.OrderDetails.FirstOrDefault()?.CaseId;
+                    var resuemeId = item.OrderDetails.FirstOrDefault()?.ResumeId;
                 <tr>
                     <td>
-                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
+                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails@(item.OrderId)" class="accordion-toggle">
                             <i class="bx bxs-show"></i>
                         </a>
                     </td>
-                    <td>001</td>
-                    <td>2023/08/03</td>
-                    <td>林XX</td>
-                    <td> 已付款</td>
-                    <td>600</td>
+                    <td>@item.OrderId</td>
+                        <td>@item.Category.CategoryName</td>
+                        <td>
+                            @if (caseId != null && ViewBag.Cases.ContainsKey(caseId.Value))
+                            {
+                                var caseName = ViewBag.Cases[caseId.Value];
+                                <span>@(caseName.Length > 10 ? caseName.Substring(0, 20) : caseName)...</span>
+                            }
+                            else if (resuemeId != null && ViewBag.Resumes.ContainsKey(resuemeId.Value))
+                            {
+                                var resuemeName = ViewBag.Resumes[resuemeId.Value];
+                                <span>您的專業履歷@(resuemeName.Length > 10 ? resuemeName.Substring(0, 10) : resuemeName)</span>
+                            }
+                            else
+                            {
+                                <span>未知加值項目</span>
+                            }
+                        </td>
+                    <td>@item.CreateTime</td>
+                    <td>@item.Account.Name</td>
+                    <td></td>
+                    <td>@item.OrderPrice</td>
                 </tr>
                 <!-- 可展開/收起的內容 -->
                 <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="collapse" id="orderDetails1" data-bs-parent="#table">
+                    <td colspan="8" class="hiddenRow">
+                            <div class="collapse" id="orderDetails@(item.OrderId)" data-bs-parent="#table">
                             <!-- 在這裡填入訂單明細內容 -->
-                            <table class="table table-bordered">
+                                <table class="table table-bordered">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>商品名稱</th>
                                         <th>數量</th>
                                         <th>單價</th>
                                         <th>小計</th>
+                                           
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var detail in item.OrderDetails)
+                                    {
                                     <tr>
-                                        <td>商品1</td>
-                                        <td>2</td>
-                                        <td>200</td>
-                                        <td>400</td>
+                                        <td>@detail.Product.ProductName</td>
+                                        <td>@detail.Quantity</td>
+                                        <td>@detail.UnitPrice</td>
+                                        <td>@(detail.UnitPrice*detail.Quantity)</td>
+                                      
                                     </tr>
-                                    <tr>
-                                        <td>商品2</td>
-                                        <td>3</td>
-                                        <td>300</td>
-                                        <td>900</td>
-                                    </tr>
-                                    <tr>
-                                        <td>商品3</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>100</td>
-                                    </tr>
+                                        }
+                                   
                                 </tbody>
-                            </table>
+                        </table>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
-                            <i class="bx bxs-show"></i>
-                        </a>
-                    </td>
-                    <td>002</td>
-                    <td>2023/08/02</td>
-                    <td>林XX</td>
-                    <td> 已付款</td>
-                    <td>600</td>
-                </tr>
-                <!-- 可展開/收起的內容 -->
-                <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="collapse" id="orderDetails2">
-                            <!-- 在這裡填入訂單明細內容 -->
-                            <p>這裡是訂單002的明細內容</p>
-                        </div>
-                    </td>
-                </tr>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
