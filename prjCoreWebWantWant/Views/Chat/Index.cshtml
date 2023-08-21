@@ -39,12 +39,25 @@
     <script>
         //建立signalR連線
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl('@Url.Content("~/Hubs/ChatHub")') // 填寫Hub端點URL
+            .withUrl("/hubs/chat") // 填寫Hub端點URL
             .build();
 
-        connection.start().then(() => {
-            // 連線成功 目前還沒想到要甚麼功能暫留白
-        }).catch(err => console.error(err));
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        // Start the connection.
+        start();
 
         //聊天發出功能
         const btnSentMessage = document.getElementById("btnSentMessage");
@@ -56,7 +69,8 @@
             const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
             if (message.trim() !== "") {
                 // 呼叫 SendPrivateMessage 方法傳送訊息
-                connection.invoke(message, senderId, receiverId, message).catch(err => console.error(err));
+                connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err));
+
             }
         })
 
@@ -124,6 +138,7 @@
 
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
                     receiverId = chatLink.getAttribute('inChatWithId')
+                    console.log(receiverId)
                     const jsPage = chatLink.getAttribute('inPage');
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);

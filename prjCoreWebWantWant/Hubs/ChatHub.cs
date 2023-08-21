@@ -13,6 +13,7 @@ namespace prjCoreWebWantWant.Hubs
         {
             _db = dbContext;
         }
+
         public async Task SendPrivateMessage(int senderId, int receiverId, string message)
         {
             //先存入資料庫
@@ -27,7 +28,7 @@ namespace prjCoreWebWantWant.Hubs
             await _db.SaveChangesAsync();
 
             // 將訊息傳送給特定的使用者
-            await Clients.User(receiverId.ToString()).SendAsync("ReceiveMessage", message);
+            await Clients.User(receiverId.ToString()).SendAsync("ReceiveMessage", senderId, message);
 
         }
     }
