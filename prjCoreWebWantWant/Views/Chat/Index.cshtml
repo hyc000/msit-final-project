@@ -23,8 +23,8 @@
             <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
             <div class="p-3" id="chatDetail" style="height:100vh;">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
             <span class="input-group">
-            <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="sendMessage" tabindex="101" value="">
-            <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-send"></i></button>
+            <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
+            <button tabindex="102" class="input-group-text" type="submit" id="btnSentMessage"><i class="bi bi-send"></i></button>
         </span>
     </div>
 </div>
@@ -33,7 +33,35 @@
 
 
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script> @* 這個要在連線建立前加入 *@
+
+
     <script>
+        //建立signalR連線
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl('@Url.Content("~/Hubs/ChatHub")') // 填寫Hub端點URL
+            .build();
+
+        connection.start().then(() => {
+            // 連線成功 目前還沒想到要甚麼功能暫留白
+        }).catch(err => console.error(err));
+
+        //聊天發出功能
+        const btnSentMessage = document.getElementById("btnSentMessage");
+        const messageInput = document.querySelector("input[name='jsSendMessage']");
+        let receiverId = 0;
+
+        btnSentMessage.addEventListener('click', () => {
+            const message = messageInput.value; // 取得使用者輸入的訊息
+            const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+            if (message.trim() !== "") {
+                // 呼叫 SendPrivateMessage 方法傳送訊息
+                connection.invoke(message, senderId, receiverId, message).catch(err => console.error(err));
+            }
+        })
+
+
+        //這邊是左方聊天對象
         const userList = document.querySelector('#userList');
         async function loadUser() {
             const response = await fetch('@Url.Content("~/ChatApi/UserList/")');
@@ -88,13 +116,14 @@
                  </div>`;
                 chatAvaCount++;
 
-                //點下聊天對象監聽器
+                //點下聊天對象監聽器(到右邊聊天詳細)
                 chatLink.addEventListener('click', async (event) => {
                     event.preventDefault();//防止連結預設的#
                     const clickedElement = event.currentTarget;//要找到使用者按下了誰
                     const index =clickedElement.getAttribute('data-index');//抓取按下的那個index值
 
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
+                    receiverId = chatLink.getAttribute('inChatWithId')
                     const jsPage = chatLink.getAttribute('inPage');
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);
@@ -164,8 +193,8 @@
         }
 
 
-
     </script>
+
 }
 
 

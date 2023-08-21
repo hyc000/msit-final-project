@@ -116,7 +116,6 @@ namespace WantTask.Controllers
                         .Where(c => c.PostId == postID && (c.Status == 1 || c.Status == 4))
                         .ToList();
 
-            //todo 搜尋關鍵字後這邊會出錯
 
             List<ForumPostComment> postReply = new List<ForumPostComment>();
             if (replies.FirstOrDefault() != null)
