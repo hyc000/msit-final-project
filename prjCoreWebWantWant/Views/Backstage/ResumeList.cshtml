@@ -57,7 +57,11 @@
                                 <h5 class="card-title">履歷表 @count</h5>
                                 <p class="card-text">這是第 @count 份履歷表的內容。</p>
                                 <!-- <input type="checkbox" class="toggle-checkbox" > -->
-                                <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>
+
+                               @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
+
+                                @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId })
+
                                 @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
                                 <a href="#" title="檢視" class="btn btn-success btn-sm"  data-bs-target="#ResumeModal">檢視</a>

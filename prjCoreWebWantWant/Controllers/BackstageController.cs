@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
-
+using System.Text.Json;
 
 namespace prjWantWant_yh_CoreMVC.Controllers
 {
@@ -55,9 +55,32 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("ResumeList");
         }
 
-        public IActionResult ResumeEdit()
+        //public IActionResult ResumeEdit()
+        //{
+        //    return View();
+        //}
+
+        public IActionResult ResumeEdit(int? id)
         {
-            return View();
+            if (id == null)
+                return RedirectToAction("ResumeList");
+            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+            if (resume == null)
+                return RedirectToAction("ResumeList");
+            return View(resume);
+        }
+
+        [HttpPost]
+        public IActionResult ResumeEdit(Resume pIn)
+        {
+            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == pIn.ResumeId);
+            if (resume != null)
+            {
+                resume.Address = pIn.Address;
+                resume.AccountId = pIn.AccountId;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ResumeList");
         }
 
         public IActionResult TaskCollection()
