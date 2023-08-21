@@ -19,13 +19,13 @@ namespace prjCoreWebWantWant.Controllers
         public IActionResult Index(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            var viewModel = db.TaskLists.Select(taskList => new CIndexInfoViewModel
-            {
-                taskList = taskList,
-                // 其他屬性的賦值
-            }).FirstOrDefault();
+            //var viewModel = db.TaskLists.Select(taskList => new CIndexInfoViewModel
+            //{
+            //    taskList = taskList,
+            //    // 其他屬性的賦值
+            //}).FirstOrDefault();
 
-            return View(viewModel);
+            return View(/*viewModel*/);
         }
 
         public IActionResult Privacy()

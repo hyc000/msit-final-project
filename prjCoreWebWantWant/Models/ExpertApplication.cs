@@ -24,4 +24,5 @@ public partial class ExpertApplication
     public virtual CaseStatusList? CaseStatus { get; set; }
 
     public virtual Rating? Rating { get; set; }
+    public virtual ICollection<TaskList> ExpertApplications { get; set; } = new List<TaskList>();
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.Rating>
+﻿@model prjCoreWebWantWant.ViewModels.CRatingViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,30 @@
 
 
 
+<div>
+    <h1>DataTables</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>被評論者</th>
+                <th>評論者</th>
+                <th>評論星數</th>
+                <th>評論內容</th>
+                <th>評論日期</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>被評論者</th>
+                <th>評論者</th>
+                <th>評論星數</th>
+                <th>評論內容</th>
+                <th>評論日期</th>
+            </tr>
+        </tfoot>
+    </table>
 
+</div>
 
 <div class="container">
     <div class="justify-content-center p-4">
@@ -52,37 +75,34 @@
                     <table class="table table-hover">
                             <thead class="expertThead">
                             <tr>
-                                <td style="display:none;">評論ID</td>
-                                <td>評論對象</td>
+                               
+                                    <td>被評論者</td>
                                 <td>評論星數</td>
                                 <td class="w-auto">評論內容</td>
                                 <td>評論日期</td>
-                                <td>修改評論</td>
+                                
 
                             </tr>
                         </thead>
                             <tbody >
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.ForOtherRatings)
                             {
                                 <tr>
-                                    <td style="display:none">
-                                        @Html.DisplayFor(modelItem => item.RatingId)
+                                  
+                                    <td>
+                                        @item.被評論者 
+                                        
                                     </td>
                                     <td>
-                                        <!--Html.DisplayFor(modelItem => item.SourceAccountId) -->麥安琪
-                                    </td>
-                                    <td>
-                                       ★★★★★
+                                            @item.評論星數
                                     </td>
 
 
                                     <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.RatingContent)!這位繪師的技術很出色，但有時候她可能過於堅持自己的風格，不夠靈活地適應我的要求。儘管如此，她的藝術才華值得稱讚。
+                                        @Html.DisplayFor(modelItem => item.評論內容)
                                     </td>
-                                    <td>2021/7/21</td>
-                                    <td>
-                                        @Html.ActionLink("修改評論","Edit","ExpertRatings",null )
-                                    </td>
+                                        <td>@Html.DisplayFor(modelItem => item.評論日期)</td>
+                                   
 
                                 </tr>
                             }
@@ -120,20 +140,21 @@
                         </thead>
                         <tbody class="expertTbody">
                             
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.MyRatings)
                             {
                                 <tr>
                                     <td class="w-15">
-                                        <!-- Html.DisplayFor(modelItem => item.TargetAccountId)-->莊大衛
+                                        @Html.DisplayFor(modelItem => item.評論者) 
+                                        
                                     </td>
                                     <td class="w-15">
-                                        ★★★★★
+                                        @Html.DisplayFor(modelItem => item.評論星數)
                                     </td>
                                     <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.RatingContent)
-                                        !這位裁縫師的專業技能和細心工作令我印象深刻。她能夠精準地根據我的需求製作服裝，修補也做得很好。唯一稍微可惜的是交付時間有時會稍微延遲。
+                                        @Html.DisplayFor(modelItem => item.評論內容)
+                                        
                                     </td>
-                                    <td class="w-20">2023/8/15</td>
+                                    <td class="w-20">@Html.DisplayFor(modelItem => item.評論日期)</td>
                                 </tr>
                              
                                
@@ -153,14 +174,33 @@
 @section Styles{
 
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
         }
 @section Scripts{
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        var datas = @Html.Raw(Model.ForOtherRatings);
+        new DataTable('#example', {
+            data: datas,
+            columns: [
+                { data: '被評論者' },
+                { data: '評論星數' },
+                { data: '評論內容' },
+                { data: '評論日期' },
+                { data: '評論者' },
+          
+            ]
+        });
+
+
+    </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+   
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
