@@ -11,13 +11,15 @@ namespace WantTask.Controllers
 {
     public class ForumController : Controller
     {
+
+        private readonly NewIspanProjectContext _db;
+
         private readonly IMemoryCache _memoryCache;
-        public ForumController(IMemoryCache memoryCache)
+        public ForumController(IMemoryCache memoryCache, NewIspanProjectContext dbContext)
         {
             _memoryCache = memoryCache;
+            _db = dbContext;
         }
-
-        NewIspanProjectContext _db = new NewIspanProjectContext();
 
         // GET: Forum
         public IActionResult CategoryList()
@@ -168,11 +170,11 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 if (categoryId == null)
-                return RedirectToAction("CategoryList");
-            return View();
+                    return RedirectToAction("CategoryList");
+                return View();
             }
             else
                 return RedirectToAction("Login", "Member");
@@ -183,29 +185,30 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
                 ForumPost x = new ForumPost();
-            x.AccountId = loggedInUser.AccountId;
-            x.Title = post.Title;
-            x.PostContent = post.PostContent;
-            x.Created = DateTime.Now;
-            x.Status = 1;
-            x.ViewCount = 0;
-            _db.ForumPosts.Add(x);
-            _db.SaveChanges();
+                x.AccountId = loggedInUser.AccountId;
+                x.Title = post.Title;
+                x.PostContent = post.PostContent;
+                x.Created = DateTime.Now;
+                x.Status = 1;
+                x.ViewCount = 0;
+                _db.ForumPosts.Add(x);
+                _db.SaveChanges();
 
-            int categoryId = 0;
-            int.TryParse(Request.Query["categoryId"], out categoryId);
+                int categoryId = 0;
+                int.TryParse(Request.Query["categoryId"], out categoryId);
 
-            ForumPostCategory category = new ForumPostCategory();
-            category.PostId = x.PostId;
-            category.CategoryId = categoryId;
-            _db.ForumPostCategories.Add(category);
-            _db.SaveChanges();
-            return RedirectToAction("PostList", new { categoryId = categoryId });
+                ForumPostCategory category = new ForumPostCategory();
+                category.PostId = x.PostId;
+                category.CategoryId = categoryId;
+                _db.ForumPostCategories.Add(category);
+                _db.SaveChanges();
+                return RedirectToAction("PostList", new { categoryId = categoryId });
             }
             else
-                return RedirectToAction("Login","Member");
+                return RedirectToAction("Login", "Member");
         }
 
 
@@ -213,7 +216,7 @@ namespace WantTask.Controllers
 
         public IActionResult ForumMS()
         {
-            var postlist = _db.ForumPosts.Include(p=>p.StatusNavigation).ToArray();
+            var postlist = _db.ForumPosts.Include(p => p.StatusNavigation).ToArray();
             return View(postlist);
         }
 

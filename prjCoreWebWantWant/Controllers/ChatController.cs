@@ -6,15 +6,19 @@ namespace WantTask.Controllers
 {
     public class ChatController : Controller
     {
-        NewIspanProjectContext _db = new NewIspanProjectContext();
+        private readonly NewIspanProjectContext _db;
+
+        public ChatController(NewIspanProjectContext dbContext)
+        {
+            _db = dbContext;
+        }
 
         public IActionResult Index()
         {
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
-
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 var ava = _db.MemberAccounts.Where(p => p.AccountId == loggedInUser.AccountId).Select(p => p.MemberPhoto).FirstOrDefault();
                 byte[] userAvatarBytes = ava;
@@ -33,8 +37,7 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
-
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
                 var ava = _db.MemberAccounts.Where(p => p.AccountId == loggedInUser.AccountId).Select(p => p.MemberPhoto).FirstOrDefault();
                 byte[] userAvatarBytes = ava;
                 string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);
@@ -53,7 +56,7 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 var chatManager = _db.ChatMessages.ToArray();
                 return View(chatManager);

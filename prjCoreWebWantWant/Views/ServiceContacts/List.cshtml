@@ -1,4 +1,4 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.ServiceContact>
+﻿@model IEnumerable<prjCoreWebWantWant.ViewModels.CServiceContactViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -12,9 +12,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="mb-2">訊息列表</h1>
-                    <form method="post" class="mb-2">
-                        關鍵字 <input type="text" name="txtKeyword" /> <input type="submit" value="查詢" class="btn btn-primary" />
-                    </form>
+                    @using (Html.BeginForm())
+                    {
+                        @:關鍵字 @Html.TextBox("txtKeyword")
+                        <input type="submit" value="查詢" />
+                    }
                 </div>
                 <table class="table table-hover">
                     <thead>
@@ -63,22 +65,22 @@
                                         @count
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Account.Name)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Account.PhoneNo)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.PhoneNo)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Account.Email)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.Email)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ComplaintTitle)
+                                        @Html.DisplayFor(modelItem => item.ServiceContact.ComplaintTitle)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ComplaintContent)
+                                        @Html.DisplayFor(modelItem => item.ServiceContact.ComplaintContent)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ProcessStatus)
+                                        @Html.DisplayFor(modelItem => item.ServiceContact.ProcessStatus)
                                     </td>
                                     <td>
                                         @Html.ActionLink("回覆", "Edit", new { /* id=item.PrimaryKey */ })
