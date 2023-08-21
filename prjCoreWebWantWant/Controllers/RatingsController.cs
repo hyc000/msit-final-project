@@ -114,118 +114,78 @@ namespace prjCoreWebWantWant.Controllers
 
 
 
-
-
-        #region 暫時沒用
-        // GET: Ratings/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Ratingdata()
         {
-            if (id == null || _context.Ratings == null)
-            {
-                return NotFound();
-            }
+            
+            List<CRatings> ratingsForOther = new List<CRatings>();
+            CRatings datarating = new CRatings();
 
-            var rating = await _context.Ratings
-                .FirstOrDefaultAsync(m => m.RatingId == id);
-            if (rating == null)
+            if (_context.Ratings != null)
             {
-                return NotFound();
-            }
+                //給別人的評論
+                var ratingdata = await _context.Ratings
+                    .Where(x => x.SourceAccountId == _memberID)
+                    .Select(u => u)
+                    .ToListAsync();
 
-            return View(rating);
-        }
-        
-        // GET: Ratings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Ratings == null)
-            {
-                return NotFound();
-            }
 
-            var rating = await _context.Ratings.FindAsync(id);
-            if (rating == null)
-            {
-                return NotFound();
-            }
-            return View(rating);
-        }
 
-        // POST: Ratings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RatingId,RatingStar,RatingContent,RatingDate,SourceRoleId,SourceAccountId,TargetRoleId,TargetAccountId")] Rating rating)
-        {
-            if (id != rating.RatingId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                foreach (var item in ratingdata)
                 {
-                    _context.Update(rating);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RatingExists(rating.RatingId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    datarating.被評論者 = _context.MemberAccounts
+                        .Where(x => x.AccountId == item.TargetAccountId)
+                        .Select(u => u.Name)
+                        .FirstOrDefault();
+
+                    datarating.評論者 = "自己";
+                    datarating.評論星數 = item.RatingStar;
+                    datarating.評論內容 = item.RatingContent;
+                    datarating.評論日期 = item.RatingDate;
+                    ratingsForOther.Add(datarating);
+                };
+                 ;
+                var data = ratingsForOther;
+                return Json(data);
+
+                //List<CRatings> MyRatings = new List<CRatings>();
+                //CRatings datamy = new CRatings();
+
+
+                ////自己收到評論
+                //var ratingdatamy = await _context.Ratings
+                //    .Where(x => x.TargetAccountId == _memberID)
+                //    .Select(u => u)
+                //    .ToListAsync();
+                //foreach (var item in ratingdatamy)
+                //{
+                //    datamy.被評論者 = "自己";
+
+                //    datamy.評論者 = _context.MemberAccounts
+                //        .Where(x => x.AccountId == item.SourceAccountId)
+                //        .Select(u => u.Name)
+                //        .FirstOrDefault();
+                //    datamy.評論星數 = item.RatingStar;
+                //    datamy.評論內容 = item.RatingContent;
+                //    datamy.評論日期 = item.RatingDate;
+                //    MyRatings.Add(datamy);
+                //};
+                //vm.MyRatings = MyRatings;
+                //var data = vm.ForOtherRatings;
+                //return Json(data);
             }
-            return View(rating);
-        }
-
-        // GET: Ratings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Ratings == null)
-            {
-                return NotFound();
-            }
-
-            var rating = await _context.Ratings
-                .FirstOrDefaultAsync(m => m.RatingId == id);
-            if (rating == null)
-            {
-                return NotFound();
-            }
-
-            return View(rating);
-        }
-
-        // POST: Ratings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Ratings == null)
+            else
             {
                 return Problem("Entity set 'NewIspanProjectContext.Ratings'  is null.");
             }
-            var rating = await _context.Ratings.FindAsync(id);
-            if (rating != null)
-            {
-                _context.Ratings.Remove(rating);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+
         }
-        #endregion
-        private bool RatingExists(int id)
+
+
+        public async Task<IActionResult> RatingList()
         {
-          return (_context.Ratings?.Any(e => e.RatingId == id)).GetValueOrDefault();
+            return View();
         }
+
     }
 }
