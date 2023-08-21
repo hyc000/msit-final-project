@@ -187,6 +187,33 @@ namespace prjShop.Controllers
 
             return RedirectToAction("Trash");
         }
+        // 垃圾桶-選定商品復原
+        [HttpPost]
+        public IActionResult GoBackSelect(List<int> selectedIds)
+        {
+            var productsToRestore = _context.Products.Where(p => selectedIds.Contains(p.ProductId)).ToList();
+            foreach (var prod in productsToRestore)
+            {
+                prod.Status = "下架";
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Trash");
+        }
+
+        // 垃圾桶-永久删除選定商品
+        [HttpPost]
+        public IActionResult DeleteSelected(List<int> selectedIds)
+        {
+            var productsToDelete = _context.Products.Where(p => selectedIds.Contains(p.ProductId)).ToList();
+            foreach (var prod in productsToDelete)
+            {
+                prod.Status = "刪除";
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Trash");
+        }
 
         //載入要修改資料到MODAL
         public IActionResult Edit(int id)

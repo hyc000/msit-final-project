@@ -30,13 +30,16 @@
 
         <div class="row mt-3">
             <div class="d-flex">
-                <button type="button" class="btn btn-outline-danger">永久刪除</button>
-     
-                 <form asp-action="DeleteAll" method="post">
+                <form asp-action="DeleteSelected" method="post">
+                    <button type="submit" id="deleteButton" class="btn btn-outline-danger">永久刪除</button>
+                </form>
+
+                <form asp-action="DeleteAll" method="post">
                     <button type="submit" class="btn btn-outline-danger">清空垃圾桶</button>
                 </form>
-                <form asp-action="GobackSelect" method="post">
-                <button type="submit" class="btn btn-outline-warning">復原</button>
+
+                <form asp-action="GoBackSelect" method="post">
+                    <button type="submit" id="restoreButton" class="btn btn-outline-warning">復原</button>
                 </form>
 
                 @*<button type="button" class="btn btn-primary" href="@Url.Content("~/product/list")">回到商品列表</button>*@
@@ -61,7 +64,7 @@
                 {
                     <tr>
 
-                        <td><input type="checkbox" name="color1" value="blue"></td>
+                        <td><input type="checkbox" name="selectedProducts" value="@item.ProductId"></td>
                         <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td><a class='bx bx-reply bx-tada' style="font-size: 2rem; color:black" asp-action="GoBack" asp-route-id="@item.ProductId"></a></td>
@@ -86,7 +89,7 @@
 <!-- 新增按鈕區域 -->
 
 
-@section Scripts{
+@section Styles{
     @*box icons*@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
@@ -95,3 +98,53 @@
         }
     </style>
 }
+    @section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const restoreButton = document.querySelector('#restoreButton');
+            const deleteButton = document.querySelector('#deleteButton');
+            const selectedProducts = document.querySelectorAll('input[name="selectedProducts"]');
+
+            restoreButton.addEventListener('click', function (event) {
+                event.preventDefault(); // 阻止按钮的默认提交行为
+                updateProductStatus('Restore');
+            });
+
+            deleteButton.addEventListener('click', function (event) {
+                event.preventDefault(); // 阻止按钮的默认提交行为
+                updateProductStatus('Delete');
+            });
+
+            function updateProductStatus(action) {
+                const selectedIds = [];
+                selectedProducts.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        selectedIds.push(checkbox.value);
+                    }
+                });
+
+                console.log(selectedIds); // 在控制台输出选中的商品ID数组
+
+                if (selectedIds.length > 0) {
+                    const form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = action === 'Restore' ? '@Url.Action("GoBackSelect", "Product")' : '@Url.Action("DeleteSelected", "Product")';
+
+                    selectedIds.forEach(function (id) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'selectedIds';
+                        input.value = id;
+                        form.appendChild(input);
+                    });
+
+                    document.body.appendChild(form);
+                    form.submit();
+                } else {
+                    alert('Please select products to ' + action.toLowerCase());
+                }
+            }
+        });
+    </script>
+}
+
