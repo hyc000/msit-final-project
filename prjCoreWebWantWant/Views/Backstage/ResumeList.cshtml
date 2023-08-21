@@ -42,7 +42,7 @@
             
             count++;
 
-        <div class="row">
+        <div class="row" id="ResumeList">
             <div class="col">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -55,9 +55,9 @@
                         <a href="#" title="檢視" class="btn btn-success btn-sm"  data-bs-target="#ResumeModal">檢視</a>
                         @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
                                 @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
-                                <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>
+                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
                                 @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
-                                
+                                <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除嗎?')">刪除</a>
 
 
                                @* <div class="modal " id="ResumeModal">
@@ -127,12 +127,21 @@
     </div>
 
  
-
-  <script src="~/js/SweetAlert.js" ></script>
   <script>
-    if ("@Model.Count()"==3){
+    if (@Model.Count()==3){
         const CreateResume = document.querySelector('#CreateResume')
-        CreateResume.ariaDisabled = true;
+        CreateResume.addEventListener('click',() => {
+            CreateResume.href = '#';
+                Swal.fire({
+                    icon: 'warning',
+                    title: '警告',
+                    text: '您的履歷數量已達上限，無法新增履歷',
+                })
+        });
     }
+
   </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"></script>
 </body>
