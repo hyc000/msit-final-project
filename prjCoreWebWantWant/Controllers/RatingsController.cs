@@ -42,15 +42,15 @@ namespace prjCoreWebWantWant.Controllers
 
                 foreach(var item in ratingdata)
                 {
-                    data.被評論者 = _context.MemberAccounts
+                    data.ratedperson = _context.MemberAccounts
                         .Where(x => x.AccountId == item.TargetAccountId)
                         .Select(u => u.Name)
                         .FirstOrDefault();
 
-                    data.評論者 = "自己";
-                    data.評論星數 = item.RatingStar;
-                    data.評論內容 = item.RatingContent;
-                    data.評論日期 = item.RatingDate;
+                    data.ratingforperson = "自己";
+                    data.ratingstar = item.RatingStar;
+                    data.ratingcontent = item.RatingContent;
+                    data.ratingdate = item.RatingDate;
                     ratingsForOther.Add(data);
                 };
                 vm.ForOtherRatings = ratingsForOther;
@@ -67,15 +67,15 @@ namespace prjCoreWebWantWant.Controllers
                     .ToListAsync();
                 foreach (var item in ratingdatamy)
                 {
-                    datamy.被評論者 = "自己";
+                    datamy.ratedperson = "自己";
 
-                    datamy.評論者 =  _context.MemberAccounts
+                    datamy.ratingforperson =  _context.MemberAccounts
                         .Where(x => x.AccountId == item.SourceAccountId)
                         .Select(u => u.Name)
                         .FirstOrDefault();
-                    datamy.評論星數 = item.RatingStar;
-                    datamy.評論內容 = item.RatingContent;
-                    datamy.評論日期 = item.RatingDate;
+                    datamy.ratingstar = item.RatingStar;
+                    datamy.ratingcontent = item.RatingContent;
+                    datamy.ratingdate = item.RatingDate;
                     MyRatings.Add(datamy);
                 };
                 vm.MyRatings = MyRatings;
@@ -132,16 +132,17 @@ namespace prjCoreWebWantWant.Controllers
 
                 foreach (var item in ratingdata)
                 {
-                    datarating.被評論者 = _context.MemberAccounts
+                    datarating.ratedperson = _context.MemberAccounts
                         .Where(x => x.AccountId == item.TargetAccountId)
                         .Select(u => u.Name)
                         .FirstOrDefault();
 
-                    datarating.評論者 = "自己";
-                    datarating.評論星數 = item.RatingStar;
-                    datarating.評論內容 = item.RatingContent;
-                    datarating.評論日期 = item.RatingDate;
+                    datarating.ratingforperson = "自己";
+                    datarating.ratingstar = item.RatingStar;
+                    datarating.ratingcontent = item.RatingContent;
+                    datarating.ratingdate = item.RatingDate;
                     ratingsForOther.Add(datarating);
+                   
                 };
                  ;
                 var data = ratingsForOther;

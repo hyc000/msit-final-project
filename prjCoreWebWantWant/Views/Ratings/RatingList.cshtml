@@ -63,37 +63,65 @@
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        // var datas = Json.Serialize(Url.Content("~/Ratings/Ratingdata"));
-        var datas = [
-            {
-                "被評論者": "Tiger Nixon",
-                "評論者": "System Architect",
-                "評論星數": "1303682400",
-                "評論內容": "Edinburgh",
-                "評論日期": "Edinburgh"
-            },
-            // 可以加入更多資料
-            {
-                "被評論者": "Tiger Nixon",
-                "評論者": "System Architect",
-                "評論星數": "1303682400",
-                "評論內容": "Edinburgh",
-                "評論日期": "Edinburgh"
-            }
-        ];
+        
+    //    var datas = [
+    //        {
+    //           "被評論者": "陳捷恪",
+    //"評論者": "自己",
+    //"評論星數": "5",
+    //"評論內容": "棒!!這位繪師的技術很出色，但有時候她可能過於堅持自己的風格，不夠靈活地適應我的要求。",
+    //"評論日期": "2023-07-04T00:00:00"
+    //        },
+    //        // 可以加入更多資料
+    //        {
+    //            "被評論者": "陳捷恪",
+    //    "評論者": "自己",
+    //        "評論星數": "5",
+    //            "評論內容": "棒!!這位繪師的技術很出色，但有時候她可能過於堅持自己的風格，不夠靈活地適應我的要求。",
+    //                "評論日期": "2023-07-04T00:00:00"
+    //        }
+    //    ];
+        var datas=null;
+        fetch('@Url.Content("~/Ratings/Ratingdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
+                console.log(data);
+                datas = data;
+               
+                $('#forratings').DataTable({
+                    data: datas,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        { data: 'ratingforperson', title: "評論者" },
+                        { data: 'ratingstar', title: "評論星數" },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
 
-        console.log(datas);
-        new DataTable('#forratings', {
-            data: datas,
-            columns: [
-                { data: '被評論者' },
-                { data: '評論者' },
-                { data: '評論星數' },
-                { data: '評論內容' },
-                { data: '評論日期' },
 
-            ]
-        });
+       
+        //console.log(data);
+           
+
+
+            //ajax:  'Url.Content("~/Ratings/Ratingdata")',
+           
+            //columns: [
+            //    { data: 'ratedperson', title: "被評論者" },
+            //    { data: 'ratingforperson', title: "評論者" },
+            //    { data: 'ratingstar', title: "評論星數" },
+            //    { data: 'ratingcontent', title: "評論內容" },
+            //    { data: 'ratingdate', title: "評論日期" }
+            //]
+        //});
+
 
 
     </script>

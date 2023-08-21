@@ -65,18 +65,18 @@
                                 <tr>
                                   
                                     <td>
-                                        @item.被評論者 
+                                        @item.ratedperson 
                                         
                                     </td>
                                     <td>
-                                            @item.評論星數
+                                            @item.ratingstar
                                     </td>
 
 
                                     <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.評論內容)
+                                        @Html.DisplayFor(modelItem => item.ratingcontent)
                                     </td>
-                                        <td>@Html.DisplayFor(modelItem => item.評論日期)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ratingdate)</td>
                                    
 
                                 </tr>
@@ -119,17 +119,17 @@
                             {
                                 <tr>
                                     <td class="w-15">
-                                        @Html.DisplayFor(modelItem => item.評論者) 
+                                        @Html.DisplayFor(modelItem => item.ratingforperson) 
                                         
                                     </td>
                                     <td class="w-15">
-                                        @Html.DisplayFor(modelItem => item.評論星數)
+                                        @Html.DisplayFor(modelItem => item.ratingstar)
                                     </td>
                                     <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.評論內容)
+                                        @Html.DisplayFor(modelItem => item.ratingcontent)
                                         
                                     </td>
-                                    <td class="w-20">@Html.DisplayFor(modelItem => item.評論日期)</td>
+                                    <td class="w-20">@Html.DisplayFor(modelItem => item.ratingdate)</td>
                                 </tr>
                              
                                
