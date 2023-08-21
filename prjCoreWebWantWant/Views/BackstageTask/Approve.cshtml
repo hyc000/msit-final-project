@@ -3,17 +3,11 @@
 
 
 
-
-
 @{
     ViewData["Title"] = "approve";
     // Layout = "~/Views/Shared/_BackstageLayout.cshtml";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
-
-
-<!doctype html>
-<html lang="en">
 
 
 
@@ -81,30 +75,18 @@
 
 <body>
 
-    <!-- <body data-layout="horizontal"> -->
-    <!-- Begin page -->
     <div id="layout-wrapper">
 
 
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         @* <div class="main-content"> *@
 
-            <div class="page-content">
+           @* <div class="page-content">*@
                 <div class="container-fluid">
 
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                       
-                                </div>
+              
 
-                            </div>
-                        </div>
                     </div>
-                    <!-- end page title -->
+                 
                     <!--未處理 已錄取 未錄取 任務類型 關鍵字-->
                     <div class="row">
                         <div class="col-12">
@@ -116,41 +98,88 @@
                                             <!--未處理 已錄取 未錄取-->
                                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                 <li class="nav-item" onclick="showAllResume();">
-                                                    <a class="nav-link active" data-bs-toggle="tab" href="#AllResume" role="tab" style="color:#528EAF">
+                                                    <a class="nav-link active" data-bs-toggle="tab" href="#tabAllResume" role="tab" style="color:#528EAF">
                                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                                         <span class="d-none d-sm-block" style="color:#528EAF">未處理</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item" onclick="showApprove();">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#Approve" role="tab">
+                                                <li class="nav-item" onclick="showAccept();">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                         <span class="d-none d-sm-block" style="color:#528EAF">已錄取</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item" onclick="showReject();">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#Reject" role="tab">
+                                                <li class="nav-item" onclick="showRefuse();">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                         <span class="d-none d-sm-block" style="color:#528EAF">未錄取</span>
                                                     </a>
                                                 </li>
                                             </ul>                                      
                                         </div>
-                                        <!-- end card-body -->
+             
 
-                                        <!--選擇任務類型-->
+                                           <!--選擇任務類型  未處理的標籤-->
+                                              <div class="col-4 mb-3" id="selAll">
+                                                <form class="app-search d-none d-lg-block">
+                                                    @{
+                                                        NewIspanProjectContext _context1 = new NewIspanProjectContext();
+                                                        var q = from p in _context1.TaskNameLists
+                                                                select p.TaskName;
+                                                    }
 
-                                        <div class="col-4 mb-3">
-                                            <form class="app-search d-none d-lg-block">
-                                                <!-- <label class="form-label">Select</label> -->
-                                                <select class="form-select">
-                                                    <option>請選擇任務類型</option>
-                                                    <option>跑腿</option>
-                                                    <option>活動支援</option>
-                                                    <option>其他</option>
-                                                </select>
-                                            </form>
-                                        </div>
-                                 
+                                                    <select class="form-select" id="selTaskNameAll">
+                                                        <option value="">請選擇任務類型</option>
+                                                        @foreach (var item in q)
+                                                        {
+                                                            <option name="category">@item</option>
+                                                        }
+                                                    </select>
+                                                </form>
+                                            </div>
+
+                                        <!--選擇任務類型  已錄取的標籤-->
+                                              <div class="col-4 mb-3" id="selAccept"  style="display:none">
+                                                <form class="app-search d-none d-lg-block">
+                                                    @{
+                                                        NewIspanProjectContext _context2 = new NewIspanProjectContext();
+                                                        var q2 = from p in _context2.TaskNameLists
+                                                                select p.TaskName;
+                                                    }
+
+                                                    <select class="form-select" id="selTaskNameAccept">
+                                                        <option value="">請選擇任務類型</option>
+                                                        @foreach (var item in q2)
+                                                        {
+                                                            <option name="category">@item</option>
+                                                        }
+                                                    </select>
+                                                </form>
+                                            </div>
+
+                                             <!--選擇任務類型  已婉拒的標籤-->
+                                              <div class="col-4 mb-3" id="selRefuse" style="display:none">
+                                                <form class="app-search d-none d-lg-block">
+                                                    @{
+                                                        NewIspanProjectContext _context3 = new NewIspanProjectContext();
+                                                        var q3 = from p in _context3.TaskNameLists
+                                                                select p.TaskName;
+                                                    }
+
+                                                    <select class="form-select" id="selTaskNameRefuse">
+                                                        <option value="">請選擇任務類型</option>
+                                                        @foreach (var item in q3)
+                                                        {
+                                                            <option name="category">@item</option>
+                                                        }
+                                                    </select>
+                                                </form>
+                                            </div>
+
+
+
+
+
                                         <!-- App Search--> <!--關鍵字搜尋-->
                                         <div class="col-4">
                                             <form class="app-search d-none d-lg-block">
@@ -162,15 +191,13 @@
                                         </div>
 
                                     </div>
-                                    <!-- <h4 class="card-title">Table Edit</h4> -->
-                                    <!-- <p class="card-title-desc">Table Edits is a lightweight jQuery plugin for making table rows editable.</p> -->
-                                </div>
-                                <div class="card-body" id="AllResume">
+                                     </div>
+                             
                                     
                                     
                                     <!--正在用的舊表格-->
                                 <!--未處理-->
-
+                                   <div class="card-body" id="AllResume">
                                     <div class="table-responsive mb-4">
                                         <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
                                             <thead>
@@ -242,234 +269,85 @@
 
 
                             <!--已錄取-->
-                                <div class="card-body" style="display:none" id="Approve">
-                                    <div class="table-responsive mb-4">
-                                        <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                            <thead>
-                                                <tr>
-
-                                                <th style="width: 50px;">序號</th>
-                                                <th style="width: 100px;">投遞任務</th>
-                                                <th style="width: 50px;">申請人名稱</th>
-                                                <th style="width: 100px;">履歷內容</th>
-                                                <th style="width: 50px;">語言</th>
-                                                <th style="width: 50px;">證照</th>
-                                                <th style="width: 50px;">技能</th>
-                                            <th style="width: 50px;">查看</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @{
-
-                                                NewIspanProjectContext _context = new NewIspanProjectContext();
-
-                                                //var q = from app in _context.ApplicationLists.AsEnumerable()
-                                                //        where app.CaseStatusId == 1
-                                                //        select app;
-
-                                                var query =( from app in _context.ApplicationLists                                                         
-
-                                                            join task in _context.TaskLists on app.CaseId equals task.CaseId
-                                                            join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
-                                                            join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
-                                                            join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                                                            join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-                                                            join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                                                            join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId                                                 
-
-                                                            where app.CaseStatusId == 1
-
-                                                            select new 
-                                                            {
-                                                                CaseId = task.CaseId,
-                                                                ResumeId = resume.ResumeId,
-                                                                TaskNameId = task.TaskNameId,
-                                                                CaseStatusId = app.CaseStatusId,
-                                                                Name = member.Name,
-                                                                SkillName = skill.SkillName,
-                                                                CertificateName = cer.CertificateName,
-                                                                Autobiography = resume.Autobiography,
-                                                                PublishStart = task.PublishStart,
-                                                                TaskStart = task.TaskStartDate,
-                                                                TaskTitle = task.TaskTitle,
-                                                                TaskDetail = task.TaskDetail
-                                                            }).Distinct();
-
-                                                int count1=0;
-
-                                                foreach (var item in query)
-                                                {
-                                                     int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                                    string autobiography = item.Autobiography;
-
-                                                    if (autobiography.Length > maxDisplayLength)
-                                                    {
-                                                        autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                                    }
-                                                    count1++;
-
-                                                <tr data-id="1">
-                                                    <td data-field="id" style="width: 80px">@count1</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
-                                                        <td data-field="age">@Html.DisplayFor(modelItem => item.Autobiography)</td>
-                                                        <td data-field="gender">@*@Html.DisplayFor(modelItem => taskDetail)*@</td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 100px">
-                                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </a>
-                                                        </td>
-                                                </tr>
-                                            }
-                                            }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="card-body" style="display:none" id="Accept">
+                                    
                                 </div>
 
 
                             <!--已婉拒-->
-                                <div class="card-body" style="display:none" id="Reject">
-                              <div class="table-responsive mb-4">
-                                            <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;"> 
-                                            <thead>
-                                                <tr>                                                   
-
-                                                <th style="width: 50px;">序號</th>
-                                                <th style="width: 100px;">投遞任務</th>
-                                                <th style="width: 50px;">申請人名稱</th>
-                                                <th style="width: 100px;">履歷內容</th>
-                                                <th style="width: 50px;">語言</th>
-                                                <th style="width: 50px;">證照</th>
-                                                <th style="width: 50px;">技能</th>
-                                                <th style="width: 50px;">查看</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                 @{
-
-                                                NewIspanProjectContext _context2 = new NewIspanProjectContext();
-
-                                                     var query2 =( from app in _context.ApplicationLists                                                         
-
-                                                            join task in _context.TaskLists on app.CaseId equals task.CaseId
-                                                            join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
-                                                            join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
-                                                            join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                                                            join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-                                                            join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                                                            join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
-
-                                                            where app.CaseStatusId == 2
-
-                                                            select new 
-                                                            {
-                                                                CaseId = task.CaseId,
-                                                                ResumeId = resume.ResumeId,
-                                                                TaskNameId = task.TaskNameId,
-                                                                CaseStatusId = app.CaseStatusId,
-                                                                Name = member.Name,
-                                                                SkillName = skill.SkillName,
-                                                                CertificateName = cer.CertificateName,
-                                                                Autobiography = resume.Autobiography,
-                                                                PublishStart = task.PublishStart,
-                                                                TaskStart = task.TaskStartDate,
-                                                                TaskTitle = task.TaskTitle,
-                                                                TaskDetail = task.TaskDetail
-                                                            }).Distinct();
-
-                                                int count2=0;
-
-                                                foreach (var item in query)
-                                                {
-                                                     int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                                    string autobiography = item.Autobiography;
-
-                                                    if (autobiography.Length > maxDisplayLength)
-                                                    {
-                                                        autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                                    }
-                                                    count2++;
-
-                                                <tr data-id="1">
-                                                    <td data-field="id" style="width: 80px">@count2</td>
-                                                    <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                    <td data-field="name">@Html.DisplayFor(modelItem => item.Name)</td>
-                                                    <td data-field="age">@Html.DisplayFor(modelItem => item.Autobiography)</td>
-                                                    <td data-field="gender">@*@Html.DisplayFor(modelItem => taskDetail)*@</td>
-                                                    <td>
-                                                        <div class="d-flex gap-2">
-                                                            <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>                                                            
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                            <div class="d-flex gap-2">                                                              
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
-                                                            </div>
-                                                    </td>
-                                                    <td style="width: 100px">
-                                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
-                                                    </td>
-
-                                                </tr>
-                                              }
-                                              }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="card-body" style="display:none" id="Refuse">
+                              
 
                                 </div>
 
                                 <script>
                                     function showAllResume() {
-                                        //先取得要操作的標籤
+                                        //先取得要操作的標籤，表格
                                         let AllResume = document.querySelector("#AllResume");
-                                        let Approve = document.querySelector("#Approve");
-                                        let Reject = document.querySelector("#Reject");
+                                        let Accept = document.querySelector("#Accept");
+                                        let Refuse = document.querySelector("#Refuse");
 
-                                        //再對標籤做操作
+                                        //先取得要操作的標籤，select
+                                        let selAll=document.querySelector("#selAll");
+                                        let selAccept=document.querySelector("#selAccept");
+                                        let selRefuse=document.querySelector("#selRefuse");
+
+
+                                        //再對標籤做操作，表格
                                         AllResume.style.display = "block";
-                                        Approve.style.display = "none";
-                                        Reject.style.display = "none";
-                                    }
+                                        Accept.style.display = "none";
+                                        Refuse.style.display = "none";
 
-                                    function showApprove() {
-                                        //先取得要操作的標籤
-                                        let AllResume = document.querySelector("#AllResume");
-                                        let Approve = document.querySelector("#Approve");
-                                        let Reject = document.querySelector("#Reject");
-
-                                        //再對標籤做操作
-                                        AllResume.style.display = "none";
-                                        Approve.style.display = "block";
-                                        Reject.style.display = "none";
+                                        //再對標籤做操作，select
+                                        selAll.style.display = "block";
+                                        selAccept.style.display = "none";
+                                        selRefuse.style.display = "none";
 
                                     }
 
-                                    function showReject() {
+                                    function showAccept() {
                                         //先取得要操作的標籤
                                         let AllResume = document.querySelector("#AllResume");
-                                        let Approve = document.querySelector("#Approve");
-                                        let Reject = document.querySelector("#Reject");
+                                        let Accept = document.querySelector("#Accept");
+                                        let Refuse = document.querySelector("#Refuse");
 
-                                        //再對標籤做操作
+                                         //先取得要操作的標籤，select
+                                        let selAll=document.querySelector("#selAll");
+                                        let selAccept=document.querySelector("#selAccept");
+                                        let selRefuse=document.querySelector("#selRefuse");
+
+                                        //再對標籤做操作，表格
                                         AllResume.style.display = "none";
-                                        Approve.style.display = "none";
-                                        Reject.style.display = "block";
+                                        Accept.style.display = "block";
+                                        Refuse.style.display = "none";
+
+                                        //再對標籤做操作，select
+                                        selAll.style.display = "none";
+                                        selAccept.style.display = "block";
+                                        selRefuse.style.display = "none";
+
+                                    }
+
+                                    function showRefuse() {
+                                        //先取得要操作的標籤
+                                        let AllResume = document.querySelector("#AllResume");
+                                        let Accept = document.querySelector("#Accept");
+                                        let Refuse = document.querySelector("#Refuse");
+
+                                         //先取得要操作的標籤，select
+                                        let selAll=document.querySelector("#selAll");
+                                        let selAccept=document.querySelector("#selAccept");
+                                        let selRefuse=document.querySelector("#selRefuse");
+
+                                      //再對標籤做操作，表格
+                                        AllResume.style.display = "none";
+                                        Accept.style.display = "none";
+                                        Refuse.style.display = "block";
+
+                                        //再對標籤做操作，select
+                                        selAll.style.display = "none";
+                                        selAccept.style.display = "none";
+                                        selRefuse.style.display = "block";
 
                                     }
                                 </script>
@@ -477,8 +355,8 @@
                             </div>
                         </div> <!-- end col -->
                     </div> <!-- end row -->
-
-                </div> <!-- container-fluid -->
+            <!-- container-fluid -->
+                @*</div> *@
             </div>
      
 
@@ -487,44 +365,38 @@
 
     @section Scripts{
         <script>
-            const seltaskName = document.querySelector('#selTaskName');
-            const optaskName = document.querySelector('#taskname');
 
-            async function loadTaskName() {
-                const response = await fetch('@Url.Content("/Backstage/TaskName")')
-                const datas = await response.json()
-                const taskname = datas.map(taskname => `<option value="${taskname}">${taskname}</option>`);
-                document.querySelector('#selTaskName').innerHTML = taskname.join("");
-            }
-
-            loadTaskName();
-
-            const jobdetailBackstage = document.querySelector('#jobdetail');
-
-            jobdetailBackstage.addEventListener('click', () => {
-                location.href = '@Url.Content("/Backstage/JobdetailBackstage")';
-            })
-
-
-            const formData = new FormData(document.querySelector('#AllResume'));
-            fetch('@Url.Content("~/Api/Approve")', {
-                body: formData,
-                method: 'POST'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert("新增成功")
-                        location.href = '@Url.Content("~/Form")'
-                    } else {
-                        alert("有錯誤!!")
+            //已錄取的表格
+            $(document).ready(function () {
+             $('#selAccept').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("ApproveAcceptPartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                            $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
                     }
-                })
+                });
+            });
+        });
 
 
+            //已婉拒的表格
+            $(document).ready(function () {
+                $('#selRefuse').change(function () {
+                    var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                    $.ajax({
+                        url: '@Url.Action("ApproveRefusePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                        type: 'GET',
+                        data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                        success: function (data) {
+                            $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+                        }
+                    });
+                });
+            });
 
-            $('#yes').click(function () {
-                $('#Approve').load('@Url.Content("~/Backstage/yes")')
-            })
 
 
         </script>
@@ -544,9 +416,6 @@
        <script src="~/backstage1/static/js/simplebar.min.js"></script>
        <script src="~/backstage1/static/js/waves.min.js"></script>
        <script src="~/backstage1/static/js/feather.min.js"></script>
-
-    @*   <!-- pace js -->
-       <script src="~/backstage/static/js/pace.min.js"></script>*@
 
        <!-- Required datatable js -->
     <script src="~/backstage1/static/js/jquery.dataTables.min.js"></script>
