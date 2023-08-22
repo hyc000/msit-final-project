@@ -55,13 +55,16 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                     <h5 class="mb-4" style="color:#528EAF">任務內容</h5>
-                            <div class="form-floating mb-3">
+
+
+                        <input type="hidden" id="hiddenTaskNameIdInput" name="selectedTaskNameId" />
+                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelTaskName"
                                         aria-label="Floating label select example">
-                                    <option>跑腿</option>
+                                    <option></option>
                                 </select>
                                 <label for="floatingSelectTown">請選擇任務類型</label>
-                            </div>                
+                            </div>       
                                 <div class="form-group">
                                     <label asp-for="TaskTitle" class="control-label"></label>
                                     <input asp-for="TaskTitle" class="form-control" />
@@ -175,11 +178,24 @@
                         <input asp-for="PayTo" class="form-control" />
                         <span asp-validation-for="PayTo" class="text-danger"></span>
                     </div>
+@*
+                   <input type="hidden" id="hiddenPaymentIdInput" name="selectedPaymentId"/>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="SelPayment"
+                                    aria-label="Floating label select example">
+                                <option></option>
+                            </select>
+                            <label for="floatingSelectPayment">支薪方式</label>
+                        </div>
+*@
+
                     <div class="form-group">
                         <label asp-for="PaymentId" class="control-label"></label>
                         <input asp-for="PaymentId" class="form-control" />
                         <span asp-validation-for="PaymentId" class="text-danger"></span>
                     </div>
+
+                   <input type="hidden" id="hiddenPaymentDateIdInput" name="selectedPaymentDateId" />
                     <div class="form-group">
                         <label asp-for="PaymentDateId" class="control-label"></label>
                         <input asp-for="PaymentDateId" class="form-control" />
@@ -371,6 +387,57 @@
         }
 
        <script>
+        //任務類型
+        const SelTaskName = document.querySelector('#SelTaskName');
+        const hiddenTaskNameIdInput = document.querySelector('#hiddenTaskNameIdInput');
+
+        //select的任務名
+        async function loadSelTaskName() {
+            const response = await fetch('@Url.Content("~/BackstageTask/TaskName")')
+            const datas = await response.json()
+            const taskName = datas.map(TaskName=>`<option value="${TaskName}">${TaskName}</option>`);
+            document.querySelector('#SelTaskName').innerHTML = taskName.join("");
+            getTaskNameId();
+        }
+
+        loadSelTaskName();
+
+        async function getTaskNameId() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetTaskNameId")?taskname=${SelTaskName.value}`);
+            const data = await response.json();
+            const selectedTaskNameId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TaskNameId>，這裡選取第一個元素
+            hiddenTaskNameIdInput.value = selectedTaskNameId;
+        }
+
+        SelTaskName.addEventListener('change', () => {
+            getTaskNameId();
+        });
+
+        //支薪方式
+        const SelPayment = document.querySelector('#SelPayment');
+
+        //select的支薪方式
+        async function loadSelPayment() {
+            const response = await fetch('@Url.Content("~/BackstageTask/Payment")')
+            const datas = await response.json()
+            const payment = datas.map(Payment =>`<option value="${Payment}">${Payment}</option>`);
+            document.querySelector('#SelPayment').innerHTML = payment.join("");
+        }
+
+        loadSelPayment();
+
+        async function getPaymentId() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetPaymentId")?payment=${SelPayment.value}`);
+            const data = await response.json();
+            const selectedPaymenId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TaskNameId>，這裡選取第一個元素
+            hiddenPaymentIdInput.value = selectedPaymenId;
+        }
+
+        SelPayment.addEventListener('change', () => {
+            getPaymentId();
+        });
+
+
 
         //城市和鄉鎮的標籤
         const selCity = document.querySelector('#selCity');
@@ -381,7 +448,7 @@
         async function loadCity() {
             const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
             const datas = await response.json()
-            const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            const cities = datas.map(City =>`<option value="${City}">${City}</option>`);
             document.querySelector('#selCity').innerHTML = cities.join("");
 
             loadDistrict();
@@ -400,7 +467,7 @@
 
         
         async function getTownId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetTownId")? City = ${ selCity.value } & District=${ selTown.value }`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
             const data = await response.json();
             const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenTownIdInput.value = selectedTownId;

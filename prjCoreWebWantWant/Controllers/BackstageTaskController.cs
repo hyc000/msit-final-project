@@ -335,16 +335,29 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTownId)
-        { // 
-           task.TownId = selectedTownId;
+        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymenId, int selectedPaymenDateId )
+        { 
+            task.TaskNameId = selectedTaskNameId;
+            task.TownId = selectedTownId;
+            task.PaymentId = selectedPaymenId;
+            task.PaymentDateId= selectedPaymenDateId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
-            return RedirectToAction("Create");        
-        
+            return RedirectToAction("Create");  
+
         }
 
+        //取得任務類型的selectIndex
+        public IActionResult GetTaskNameId(string taskname)
+        {
+            var taskName = _context.TaskNameLists
+                         .Where(a => a.TaskName == taskname)
+                         .Select(c => c.TaskNameId);
+
+            return Json(taskName);
+        }
+        //取得鄉鎮和城市的selectIndex
         public IActionResult GetTownId(string City, string District)
         {
             var townId = _context.Cities
@@ -357,10 +370,29 @@ namespace WantTask.Controllers
         }
 
 
+        //取得支薪方式的selectIndex
+        public IActionResult GetPaymentId(string payment)
+        {
+            var Payment = _context.Payments
+                         .Where(a => a.Payment1 == payment)
+                         .Select(c => c.PaymentId);
+
+            return Json(Payment);
+        }
+
+        //取得支薪日的selectIndex
+        public IActionResult GetPaymenDateId(string paymenDate)
+        {
+            var PaymenDate = _context.PaymentDates
+                         .Where(a => a.PaymentDate1 == paymenDate)
+                         .Select(c => c.PaymentDateId);
+
+            return Json(PaymenDate);
+        }
+
 
         public IActionResult Form(TaskList taskList)
-        {
-          
+        {          
             _context.TaskLists.Add(taskList);
             _context.SaveChanges();
 
@@ -465,8 +497,7 @@ namespace WantTask.Controllers
 
         //}
 
-        //支薪方式        
-        
+        //支薪方式      
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();
