@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace prjWantWant_yh_CoreMVC.Controllers
@@ -14,6 +17,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             _context = context;
             _host = host;
+        }
+
+        public int GetAccountID()
+        {
+            string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); 
+            int id = loggedInUser.AccountId; //抓登入者的id                                                                             
+            return id;
         }
 
         public IActionResult Create()
@@ -37,8 +48,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult ResumeList()
         {
-            var q = _context.Resumes                                   //李芷帆         
-                    .Where(r => r.IsExpertOrNot == false && r.AccountId == 33 && r.CaseStatusId != 22);
+            var q = _context.Resumes                                           
+                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
             return View(q);
         }
         public IActionResult ResumeDelete(int? id)
@@ -111,7 +122,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ApplicationRecord()
         {
             var q = from al in _context.ApplicationLists
-                    where al.CaseStatusId == 21 && al.Resume.AccountId == 33
+                    where al.CaseStatusId == 21 && al.Resume.AccountId == GetAccountID()
                     select new
                     {
                         

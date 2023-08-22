@@ -1,8 +1,9 @@
-﻿@model prjCoreWebWantWant.Models.Resume 
-@* @model prjCoreWebWantWant.ViewModels.CResumeViewModel *@
+﻿@model prjCoreWebWantWant.Models.Resume  
+@* @model prjCoreWebWantWant.ViewModels.CResumeViewModel  *@
 
 @{
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+    // Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
 
 <body>
@@ -10,7 +11,7 @@
     <div class="col-md-4">
         <form asp-action="ResumeEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="ResumeId" value="@Model.ResumeId" />
+            @* <input type="hidden" name="ResumeId" value="@Model.ResumeId" /> *@
 
 
                 <div class="card">
