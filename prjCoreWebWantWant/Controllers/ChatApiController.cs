@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
 using System;
+using System.Linq;
 using System.Text.Json;
 
 namespace WantTask.Controllers
@@ -83,6 +84,7 @@ namespace WantTask.Controllers
                                         .Skip((page - 1) * perpage)
                                         .Take(perpage)
                                         .ToList();
+                chatInfo= chatInfo.OrderBy(chat => chat.Created).ToList();
                 return Json(chatInfo);
             }
             else

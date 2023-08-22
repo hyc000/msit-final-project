@@ -7,7 +7,7 @@
 
 <div class="container">
 
-<div class="chat-row my-5" style="height:69vh">
+<div class="chat-row my-4" style="height:69vh">
     
         <div class="col-md-3  card">
             <div class="chat-list-header pt-3" style="height:100px">
@@ -46,8 +46,11 @@
             console.log("SignalR Connected.")
         }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
-        connection.on("ReceiveMessage", (message) => {
-            loadUser();
+        connection.on("ReceiveMessage", function (senderId, message) {
+            console.log("到底有沒有跑到這");
+
+            console.log(message);
+            console.log(senderId);
             // 處理訊息的顯示等操作
         });
 
@@ -64,6 +67,7 @@
                 connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
                     loadUser();
                     messageInput.value = '';
+                    keepDown();
                 });
             }
         })
@@ -80,11 +84,20 @@
                     connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
                         loadUser();
                         messageInput.value = ''; // 清空輸入框
+                        keepDown();
                     });
                 }
             }
         });
         //聊天發出功能--------------------end--------------------
+
+        //聊天室預設捲軸在最下方--------------------start--------------------
+        function keepDown() {
+            const chatDetailDiv = document.querySelector('#chatDetail');
+            chatDetailDiv.scrollTop = chatDetailDiv.scrollHeight;
+        }
+
+        //聊天室預設捲軸在最下方--------------------end--------------------
 
         //這邊是左方聊天對象--------------------start--------------------
         const userList = document.querySelector('#userList');
@@ -165,7 +178,7 @@
                     chatDetailData.map(chat => {
 
                         const chatContainer = document.createElement('div');
-                        chatContainer.classList.add('chat-container');
+                        chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');
 
                         let chatAvatar = document.createElement('img');
                         chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
@@ -203,6 +216,7 @@
                         }
                         chatDetailDiv.appendChild(chatContainer);
                     })
+                    keepDown();
                 })
 
                 userList.appendChild(chatLink);
