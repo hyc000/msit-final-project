@@ -4,7 +4,7 @@ namespace prjCoreWebWantWant.ViewModels
 {
     public class CServiceContactViewModel
     {
-        public ServiceContact ServiceContact { get; set; }
+        public ServiceContact serviceContact { get; set; }
         public MemberAccount memberAccount { get; set; }
     }
 }

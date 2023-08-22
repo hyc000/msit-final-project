@@ -1,7 +1,7 @@
 ﻿ <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="@Url.Content("~/BackstageManagement/Index")" class="brand-link">
+    <a href="@Url.Content("~/BackstageManagement/List")" class="brand-link">
         <img src="~/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -21,6 +21,14 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="@Url.Content("~/BackstageManagement/List")" class="nav-link">
+                        <i class="fa-solid fa-table"></i>
+                        <p>
+                            會員狀態列表
+                        </p>
+                    </a>
+                </li>                
                 <li class="nav-item">
                     <a href="@Url.Content("~/ServiceContacts/List")" class="nav-link">
                         <i class="fa-solid fa-envelopes-bulk"></i>

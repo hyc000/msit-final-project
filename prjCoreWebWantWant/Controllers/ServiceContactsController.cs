@@ -30,7 +30,7 @@ namespace prjCoreWebWantWant.Controllers
                         on s.AccountId equals m.AccountId
                         select new CServiceContactViewModel
                         {
-                            ServiceContact=s,
+                            serviceContact=s,
                             memberAccount=m
                         };
             else
@@ -42,7 +42,7 @@ namespace prjCoreWebWantWant.Controllers
                         m.PhoneNo.Contains(vm.txtKeyword)
                         select new CServiceContactViewModel
                         {
-                            ServiceContact = s,
+                            serviceContact = s,
                             memberAccount = m
                         };
 
