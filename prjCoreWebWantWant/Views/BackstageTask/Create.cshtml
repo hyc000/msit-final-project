@@ -178,8 +178,8 @@
                         <input asp-for="PayTo" class="form-control" />
                         <span asp-validation-for="PayTo" class="text-danger"></span>
                     </div>
-@*
-                   <input type="hidden" id="hiddenPaymentIdInput" name="selectedPaymentId"/>
+
+                  <input type="hidden" id="hiddenPaymentIdInput" name="selectedPaymentId"/>
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelPayment"
                                     aria-label="Floating label select example">
@@ -187,27 +187,43 @@
                             </select>
                             <label for="floatingSelectPayment">支薪方式</label>
                         </div>
-*@
 
-                    <div class="form-group">
+
+                
+                    @*<div class="form-group">
                         <label asp-for="PaymentId" class="control-label"></label>
                         <input asp-for="PaymentId" class="form-control" />
                         <span asp-validation-for="PaymentId" class="text-danger"></span>
-                    </div>
+                        </div>*@
 
                    <input type="hidden" id="hiddenPaymentDateIdInput" name="selectedPaymentDateId" />
-                    <div class="form-group">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="SelPaymentDate"
+                                    aria-label="Floating label select example">
+                                <option></option>
+                            </select>
+                            <label for="floatingSelectPaymentDate">支薪日</label>
+                        </div>
+
+                        
+                      @*  <div class="form-group">
                         <label asp-for="PaymentDateId" class="control-label"></label>
                         <input asp-for="PaymentDateId" class="form-control" />
                         <span asp-validation-for="PaymentDateId" class="text-danger"></span>
+                    </div>*@
+                        
+
+
                     </div>
-                    </div>
-                        </div>
+               </div>
 
                 <!--專業需求(選填)-->
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                         <h5 class="mb-4" style="color:#528EAF">專業需求(選填)</h5>
+
+                        <input type="hidden" id="hiddenSkillIdInput" name="selectedSkillId" />
+                        
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelSkillBig">
                                 <option></option>
@@ -222,6 +238,7 @@
                             <label for="floatingSelectCity">請選擇技能</label>
                         </div>
 
+                        <input type="hidden" id="hiddenCerIdInput" name="selectedCerId" />
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelCerBig">
                                 <option></option>
@@ -235,12 +252,7 @@
                             </select>
                             <label for="floatingSelectCity">請選擇證照</label>
                         </div>
-
-                        <div class="form-group">
-                            <label asp-for="PublishOrNot" class="control-label"></label>
-                            <input asp-for="PublishOrNot" class="form-control" />
-                            <span asp-validation-for="PublishOrNot" class="text-danger"></span>
-                        </div>
+                        
 
                     </div>
                 </div>
@@ -377,7 +389,13 @@
     <label asp-for="HumanList" class="control-label"></label>
     <input asp-for="HumanList" class="form-control" />
     <span asp-validation-for="HumanList" class="text-danger"></span>
-    </div>*@
+    </div>
+    
+     <div class="form-group">
+    <label asp-for="PublishOrNot" class="control-label"></label>
+    <input asp-for="PublishOrNot" class="form-control" />
+    <span asp-validation-for="PublishOrNot" class="text-danger"></span>
+    </div>  *@
 
 </body>
 
@@ -415,13 +433,14 @@
 
         //支薪方式
         const SelPayment = document.querySelector('#SelPayment');
+        const hiddenPaymentIdInput = document.querySelector('#hiddenPaymentIdInput');
 
         //select的支薪方式
         async function loadSelPayment() {
             const response = await fetch('@Url.Content("~/BackstageTask/Payment")')
             const datas = await response.json()
-            const payment = datas.map(Payment =>`<option value="${Payment}">${Payment}</option>`);
-            document.querySelector('#SelPayment').innerHTML = payment.join("");
+            const Payment = datas.map(Payment =>`<option value="${Payment}">${Payment}</option>`);
+            document.querySelector('#SelPayment').innerHTML = Payment.join("");
         }
 
         loadSelPayment();
@@ -429,13 +448,128 @@
         async function getPaymentId() {
             const response = await fetch(`@Url.Content("~/BackstageTask/GetPaymentId")?payment=${SelPayment.value}`);
             const data = await response.json();
-            const selectedPaymenId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TaskNameId>，這裡選取第一個元素
-            hiddenPaymentIdInput.value = selectedPaymenId;
+            const selectedPaymentId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TaskNameId>，這裡選取第一個元素
+            hiddenPaymentIdInput.value = selectedPaymentId;
         }
 
         SelPayment.addEventListener('change', () => {
             getPaymentId();
         });
+
+
+        //支薪日
+        const SelPaymentDate = document.querySelector('#SelPaymentDate');
+        const hiddenPaymentDateIdInput = document.querySelector('#hiddenPaymentDateIdInput');
+
+        //select的支薪日
+        async function loadSelPaymentDate() {
+            const response = await fetch('@Url.Content("~/BackstageTask/PaymentDate")')
+            const datas = await response.json()
+            const PaymentDate = datas.map(PaymentDate =>`<option value="${PaymentDate}">${PaymentDate}</option>`);
+            document.querySelector('#SelPaymentDate').innerHTML=PaymentDate.join("");
+        }
+
+        loadSelPaymentDate();
+
+        async function getPaymentDateId() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetPaymentDateId")?paymentDate=${SelPaymentDate.value}`);
+            const data = await response.json();
+            const selectedPaymentDateId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<PaymenDateId>，這裡選取第一個元素
+            hiddenPaymentDateIdInput.value = selectedPaymentDateId;
+        }
+
+        SelPaymentDate.addEventListener('change', () => {
+            getPaymentDateId();
+        });
+
+        //技能大小項       
+        const SelSkillBig = document.querySelector('#SelSkillBig');
+        const SelSkillSmall = document.querySelector('#SelSkillSmall');
+        const hiddenSkillIdInput = document.querySelector('#hiddenSkillIdInput');
+
+        //select的技能分類
+        async function loadSelSkillBig() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBig').innerHTML = skillBig.join("");
+
+            loadSelSkillSmall();
+        }
+
+        loadSelSkillBig();
+
+        //select的技能小項
+        async function loadSelSkillSmall() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBig.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmall.innerHTML = skillSmall.join("");
+            getSkillId();
+        }
+
+        async function getSkillId() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?SkillTypeName=${SelSkillBig.value}&SkillName=${SelSkillSmall.value}`);
+            const data = await response.json();
+            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput.value = selectedTownId;
+        }
+
+
+        //loadSelSkillSmall();
+
+        SelSkillBig.addEventListener('change', () => {
+            loadSelSkillSmall();
+        });
+
+        SelSkillSmall.addEventListener('change', () => {
+            getSkillId();
+        });
+
+        //證照的標籤
+        const SelCerBig = document.querySelector('#SelCerBig');
+        const SelCerSmall = document.querySelector('#SelCerSmall');
+        const hiddenCerIdInput = document.querySelector('#hiddenCerIdInput');
+
+        //select的證照分類
+        async function loadSelCerBig() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBig').innerHTML = CerBig.join("");
+
+            loadSelCerSmall();
+        }
+
+        loadSelCerBig();
+
+        //select的證照小項
+        async function loadSelCerSmall() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBig.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmall.innerHTML = CerSmall.join("");
+            getCerId()
+        }
+
+        loadSelCerSmall();
+
+        async function getCerId() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?CertificateTypeName=${SelCerBig.value}&SkillName=${SelCerSmall.value}`);
+            const data = await response.json();
+            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenCerIdInput.value = selectedTownId;
+        }
+
+        SelCerBig.addEventListener('change', () => {
+            loadSelCerSmall();
+        });
+
+        SelCerSmall.addEventListener('change', () => {
+            getCerId();
+        });
+
+
 
 
 

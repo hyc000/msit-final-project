@@ -335,12 +335,12 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymenId, int selectedPaymenDateId )
+        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId )
         { 
             task.TaskNameId = selectedTaskNameId;
             task.TownId = selectedTownId;
-            task.PaymentId = selectedPaymenId;
-            task.PaymentDateId= selectedPaymenDateId;
+            task.PaymentId = selectedPaymentId;
+            task.PaymentDateId= selectedPaymentDateId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
@@ -381,14 +381,40 @@ namespace WantTask.Controllers
         }
 
         //取得支薪日的selectIndex
-        public IActionResult GetPaymenDateId(string paymenDate)
+        public IActionResult GetPaymentDateId(string paymentDate)
         {
-            var PaymenDate = _context.PaymentDates
-                         .Where(a => a.PaymentDate1 == paymenDate)
+            var PaymentDate = _context.PaymentDates
+                         .Where(a => a.PaymentDate1 == paymentDate)
                          .Select(c => c.PaymentDateId);
 
-            return Json(PaymenDate);
+            return Json(PaymentDate);
         }
+
+        //取得技能的selectIndex
+        public IActionResult GetSkillId(string skillBig, string skillSmall)
+        {
+            var skillBigId = _context.SkillTypes
+                         .Where(a => a.SkillTypeName== skillBig)
+                         .SelectMany(c => c.Skills)
+                         .Where(c => c.SkillName == skillSmall)
+                         .Select(c => c.SkillId);
+
+            return Json(skillBigId);
+        }
+
+        //取得證照的selectIndex
+        public IActionResult GetCerId(string cerBig, string cerSmall)
+        {
+            var cerBigId = _context.CertificateTypes
+                         .Where(a => a.CertificateTypeName == cerBig)
+                         .SelectMany(c => c.Certificates)
+                         .Where(c => c.CertificateName == cerSmall)
+                         .Select(c => c.CertificateId);
+
+            return Json(cerBigId);
+        }
+
+
 
 
         public IActionResult Form(TaskList taskList)
