@@ -75,20 +75,7 @@ namespace WantTask.Controllers
                 return RedirectToAction("TablesEditable");
 
             return View(task);
-            //方法裡的int CaseId, string updatedTaskTitle, string updatedTaskDetail, bool isPublished
-            //var taskToUpdate = _context.TaskLists.FirstOrDefault(t => t.CaseId == CaseId);
-
-            //if (taskToUpdate != null)
-            //{
-            //    taskToUpdate.TaskTitle = updatedTaskTitle;
-            //    taskToUpdate.TaskDetail = updatedTaskDetail;
-            //    taskToUpdate.PublishOrNot = isPublished ? "已上架" : "未上架";
-
-            //    _context.SaveChanges();
-            //    return Json(new { success = true });
-            //}
-
-            //return Json(new { success = false });
+                     
         }
 
         [HttpPost]
@@ -348,8 +335,9 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task)
+        public IActionResult Create(TaskList task )
         { 
+           // task.TownId = selectedTownId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
@@ -358,18 +346,23 @@ namespace WantTask.Controllers
         }
         public IActionResult Form(TaskList taskList)
         {
-            //test
-            //if (string.IsNullOrEmpty(createTask.TaskTitle))
-            //{
-            //    createTask.TaskTitle = "guest";
-            //}
-            //return Content($"Hello {createTask.TaskTitle} , you are {createTask.TaskDetail} years old.");
+          
             _context.TaskLists.Add(taskList);
             _context.SaveChanges();
 
             return View("Form");
+         
+        }
 
-            //return Content("新增成功!!");
+        public IActionResult GetTownId(string City, string District)
+        {
+            var townId = _context.Cities
+                         .Where(a => a.City1 == City)
+                         .SelectMany(c => c.Towns)
+                         .Where(c => c.Town1 == District)
+                         .Select(c => c.TownId);
+
+            return Json(townId);
         }
 
         #endregion

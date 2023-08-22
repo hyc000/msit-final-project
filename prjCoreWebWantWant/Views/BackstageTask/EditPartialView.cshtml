@@ -1,0 +1,16 @@
+﻿@model prjCoreWebWantWant.Models.TaskList
+
+@{
+    Layout = null; // 這是局部視圖，不需要使用 Layout
+}
+
+<div class="col">
+    <div class="mb-3">
+        <label for="TaskTitle" class="form-label">任務標題</label>
+        <input type="text" class="form-control" id="TaskTitle" value="@Model.TaskTitle">
+    </div>
+    <!-- 其他編輯表單的項目 -->
+    <div class="form-group">
+        <input type="button" value="Save" class="btn btn-primary" id="saveBtn" />
+    </div>
+</div>
