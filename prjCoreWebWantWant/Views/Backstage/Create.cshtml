@@ -16,7 +16,7 @@
     int id = loggedInUser.AccountId; //抓登入者的id
 }
 
-<h1>新增履歷</h1>
+<h3>新增履歷</h3>
 
 <hr />
 <div class="row">
@@ -32,9 +32,17 @@
             <div class="form-group" >                @*帶入真實帳號並隱藏欄位*@
                 @* <label asp-for="AccountId"  class="control-label"></label> *@
                 <input asp-for="AccountId" type="hidden" value="@id" />
-                <span asp-validation-for="AccountId"  class="text-danger"></span>
+                <span asp-validation-for="AccountId" class="text-danger"></span>
             </div>
 
+
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" type="file" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+
+            <br />
            @*  <div class="form-group form-floating mb-3">
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
@@ -58,7 +66,90 @@
 
             <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
 
+            @*多技能*@
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能分類</label>
+            </div>
 
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能分類</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能分類</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelSkillSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇技能</label>
+            </div>
+
+            @*多證照*@
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照分類</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照分類</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerBig">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照分類</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="SelCerSmall">
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇證照</label>
+            </div>
 
             @* <div class="form-group">
                 <label asp-for="TownId" class="control-label"></label>
@@ -82,11 +173,11 @@
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>*@
         
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="TaskNameId" class="control-label"></label>
                 <input asp-for="TaskNameId" class="form-control" />
                 <span asp-validation-for="TaskNameId" class="text-danger"></span>
-            </div>
+            </div> *@
 
             <div class="form-group form-check">  @*隱藏的欄位 預設值為False*@
                 <label class="form-check-label">
@@ -207,6 +298,68 @@
 
         selTown.addEventListener('change', () => {
             getTownId();
+        });
+
+
+        const SelSkillBig = document.querySelector('#SelSkillBig');
+        const SelSkillSmall = document.querySelector('#SelSkillSmall');
+
+        //select的技能分類
+        async function loadSelSkillBig() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBig').innerHTML = skillBig.join("");
+
+            loadSelSkillSmall();
+        }
+
+        loadSelSkillBig();
+
+        //select的技能小項
+        async function loadSelSkillSmall() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBig.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmall.innerHTML = skillSmall.join("");
+        }
+
+        loadSelSkillSmall();
+
+        SelSkillBig.addEventListener('change', () => {
+            loadSelSkillSmall();
+        });
+
+
+
+        //證照的標籤
+        const SelCerBig = document.querySelector('#SelCerBig');
+        const SelCerSmall = document.querySelector('#SelCerSmall');
+
+        //select的證照分類
+        async function loadSelCerBig() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBig').innerHTML = CerBig.join("");
+
+            loadSelCerSmall();
+        }
+
+        loadSelCerBig();
+
+        //select的證照小項
+        async function loadSelCerSmall() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBig.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmall.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmall();
+
+        SelCerBig.addEventListener('change', () => {
+            loadSelCerSmall();
         });
 
      </script>        
