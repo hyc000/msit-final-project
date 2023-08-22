@@ -1,9 +1,19 @@
-﻿@* @model prjCoreWebWantWant.Models.Resume *@
+﻿@using Microsoft.AspNetCore.Mvc;
+@using System.Text.Json;
+
+@* @model prjCoreWebWantWant.Models.Resume *@
 @model prjCoreWebWantWant.ViewModels.CResumeViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+    CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+    int id = loggedInUser.AccountId; //抓登入者的id
 }
 
 <h1>新增履歷</h1>
@@ -13,10 +23,16 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">                    @*帳號(需導入)真實帳號並隱藏*@
+            @* <div class="form-group">                  
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>  *@
+
+            <div class="form-group" >                @*帶入真實帳號並隱藏欄位*@
+                @* <label asp-for="AccountId"  class="control-label"></label> *@
+                <input asp-for="AccountId" type="hidden" value="@id" />
+                <span asp-validation-for="AccountId"  class="text-danger"></span>
             </div>
 
            @*  <div class="form-group form-floating mb-3">
