@@ -48,7 +48,7 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
                             <div class="form-group">
-                                  <label asp-for="Photo" class="control-label"></label>
+                                 @*<label asp-for="Photo" class="control-label"></label>*@
                                   <input asp-for="Photo" class="form-control" type="file" />
                                   <span asp-validation-for="Photo" class="text-danger"></span>
                              </div>                                
@@ -58,7 +58,7 @@
                     <!--任務地點-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
-                            <h5 class="mb-4" style="color:#528EAF">任務地點</h5>
+                            <h5 class="mb-4" style="color:#528EAF">居住地點</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="selCity">
                                     <!-- <option selected>請選擇縣市</option> -->
@@ -87,7 +87,7 @@
                     <!--技能-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
-
+                            <h5 class="mb-4" style="color:#528EAF">履歷技能</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillBigOne">
                                     <option></option>
@@ -137,6 +137,7 @@
                     <!--證照-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
+                        <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigOne">
                                     <option></option>
@@ -184,8 +185,9 @@
                     <!--自傳-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
+                        <h5 class="mb-4" style="color:#528EAF">履歷自傳</h5>
                             <div class="form-group">
-                                <label asp-for="Autobiography" class="control-label"></label>
+                                @*<label asp-for="Autobiography" class="control-label"></label>*@
                                 <textarea asp-for="Autobiography" class="form-control" style="height:300px;resize:none"> </textarea>
                                 <span asp-validation-for="Autobiography" class="text-danger"></span>
                             </div>
