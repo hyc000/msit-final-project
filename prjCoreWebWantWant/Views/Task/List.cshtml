@@ -305,6 +305,7 @@
                                         @*<a href="Details" onclick="Alert()">詳細資訊</a>*@
                                         @*@Html.ActionLink("詳細資訊", "Detail", new { id=item.CaseId })*@
                                         <a href="@Url.Action("Detail", new { id=item.CaseId })" target="_blank" style="color: #528eaf">詳細資訊</a>
+                                        <a href="#" style="color: #528eaf">收藏</a>
                                         @*<a href="job_details.html">收藏</a>*@
                                         @*<span> @Html.DisplayFor(modelItem => item.TaskStart)</span>*@
                                     </div>

@@ -335,23 +335,14 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task )
-        { // ,int selectedTownId
-          // task.TownId = selectedTownId;
+        public IActionResult Create(TaskList task, int selectedTownId)
+        { // 
+           task.TownId = selectedTownId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
             return RedirectToAction("Create");        
         
-        }
-        public IActionResult Form(TaskList taskList)
-        {
-          
-            _context.TaskLists.Add(taskList);
-            _context.SaveChanges();
-
-            return View("Form");
-         
         }
 
         public IActionResult GetTownId(string City, string District)
@@ -365,6 +356,19 @@ namespace WantTask.Controllers
             return Json(townId);
         }
 
+
+
+        public IActionResult Form(TaskList taskList)
+        {
+          
+            _context.TaskLists.Add(taskList);
+            _context.SaveChanges();
+
+            return View("Form");
+         
+        }
+
+     
         #endregion
 
         //public IActionResult JobdetailBackstage()

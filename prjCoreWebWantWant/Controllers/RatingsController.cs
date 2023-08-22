@@ -28,65 +28,7 @@ namespace prjCoreWebWantWant.Controllers
         // GET: Ratings
         public async Task<IActionResult> Index()
         {
-            CRatingViewModel vm =new CRatingViewModel();
-            List<CRatings> ratingsForOther = new List<CRatings>();
-            CRatings data=new CRatings();
-
-            if (_context.Ratings != null) {
-                //給別人的評論
-                var ratingdata = await _context.Ratings
-                    .Where(x => x.SourceAccountId == _memberID)
-                    .Select(u => u)
-                    .ToListAsync();
-
-
-
-                foreach(var item in ratingdata)
-                {
-                    data.ratedperson = _context.MemberAccounts
-                        .Where(x => x.AccountId == item.TargetAccountId)
-                        .Select(u => u.Name)
-                        .FirstOrDefault();
-
-                    data.ratingforperson = "自己";
-                    data.ratingstar = item.RatingStar;
-                    data.ratingcontent = item.RatingContent;
-                    data.ratingdate = item.RatingDate;
-                    ratingsForOther.Add(data);
-                };
-                vm.ForOtherRatings = ratingsForOther;
-
-
-                List<CRatings> MyRatings = new List<CRatings>();
-                CRatings datamy = new CRatings();
-
-            
-                //自己收到評論
-                var ratingdatamy = await _context.Ratings
-                    .Where(x => x.TargetAccountId == _memberID)
-                    .Select(u => u)
-                    .ToListAsync();
-                foreach (var item in ratingdatamy)
-                {
-                    datamy.ratedperson = "自己";
-
-                    datamy.ratingforperson =  _context.MemberAccounts
-                        .Where(x => x.AccountId == item.SourceAccountId)
-                        .Select(u => u.Name)
-                        .FirstOrDefault();
-                    datamy.ratingstar = item.RatingStar;
-                    datamy.ratingcontent = item.RatingContent;
-                    datamy.ratingdate = item.RatingDate;
-                    MyRatings.Add(datamy);
-                };
-                vm.MyRatings = MyRatings;
-
-                return View(vm);
-            }
-            else
-            {
-                return Problem("Entity set 'NewIspanProjectContext.Ratings'  is null.");
-            }
+            return View();
 
 
         }

@@ -16,11 +16,22 @@
     int id = loggedInUser.AccountId; //抓登入者的id
 }
 
+<head>
+    <style>
+        <link href="~/backstage1/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" >
+        <link href="~/backstage1/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" / >
+        <!-- Template Stylesheet -->
+        <link href="~/backstage1/css/style.css" rel="stylesheet" >
+        <!-- CSS here -->
+        <link rel="stylesheet" href="~/backstage1/css/price_rangs.css" ></style>
+
+</head>
+
 <h3>新增履歷</h3>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+@* <div class="row">
+    <div class="col-md-4"> *@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @* <div class="form-group">                  
@@ -30,30 +41,170 @@
             </div>  *@
 
             <div class="container-fluid pt-4 px-4">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- Card Content Here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row g-4">
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- Card Content Here -->
-                                </div>
+                    <!--履歷照片-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
+                            <div class="form-group">
+                                  <label asp-for="Photo" class="control-label"></label>
+                                  <input asp-for="Photo" class="form-control" type="file" />
+                                  <span asp-validation-for="Photo" class="text-danger"></span>
+                             </div>                                
+                        </div>
+                    </div>
+
+                    <!--任務地點-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">任務地點</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selCity">
+                                    <!-- <option selected>請選擇縣市</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇縣市</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selTown" @* asp-for="TownId" *@>
+                                    <!-- <option selected>請選擇區域</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectTown">請選擇區域</label>
+                            </div>
+
+                            <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label"></label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                   </div>
+
+                    <!--技能-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能</label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!--證照-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBig">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmall">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照</label>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+
+                    <!--自傳-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <div class="form-group">
+                                <label asp-for="Autobiography" class="control-label"></label>
+                                <textarea asp-for="Autobiography" class="form-control" style="height:300px"> </textarea>
+                                <span asp-validation-for="Autobiography" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--送出+取消並返回-->
+           
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                    <div class="bg-light rounded h-100 p-4  d-flex justify-content-center align-items-center">
+                                <div class="form-group">
+                            <input type="submit" value="送出並新增" class="btn btn-outline-success" />
+                            <a asp-action="ResumeList" class="btn btn-outline-warning">取消並返回</a>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+           
 
 
 
@@ -65,137 +216,21 @@
             </div>
 
 
-            <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" type="file" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
-
-            <br />
+            
            @*  <div class="form-group form-floating mb-3">
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
             </div> *@
 
-            <div class="form-floating mb-3">
-                <select class="form-select" id="selCity">
-                    <!-- <option selected>請選擇縣市</option> -->
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇縣市</label>
-            </div>
-            <div class="form-floating mb-3">
-                <select class="form-select" id="selTown" @* asp-for="TownId" *@>
-                    <!-- <option selected>請選擇區域</option> -->
-                    <option></option>
-                </select>
-                <label for="floatingSelectTown">請選擇區域</label>
-            </div>
-
-            <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
-
-            @*多技能*@
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能</label>
-            </div>
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能</label>
-            </div>
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelSkillSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇技能</label>
-            </div>
-
-            @*多證照*@
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerBig">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照分類</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <select class="form-select" id="SelCerSmall">
-                    <option></option>
-                </select>
-                <label for="floatingSelectCity">請選擇證照</label>
-            </div>
-
+           
+          
             @* <div class="form-group">
                 <label asp-for="TownId" class="control-label"></label>
                 <input asp-for="TownId" class="form-control" />
                 <span asp-validation-for="TownId" class="text-danger"></span>
             </div> *@
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Autobiography" class="control-label"></label>
-                <input asp-for="Autobiography" class="form-control" />
-                <span asp-validation-for="Autobiography" class="text-danger"></span>
-            </div>
-  
+           
           @*  <div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
                 <input asp-for="Photo" class="form-control" />
@@ -215,12 +250,21 @@
                 </label>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="送出並新增" class="btn btn-primary" />
+            
+           
             </div>
+          </div>
+
+
+       
+
+          
+
+   
         </form>
-    </div>
-</div>
+      
+   @* </div>
+</div>*@
 @* 
 <div class="row">
     <div class="col-md-4">
@@ -274,13 +318,13 @@
     </div>
 </div> *@
 
-<div>
-    <a asp-action="ResumeList">取消並返回</a>
-</div>
+
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
     <script>
         const selCity = document.querySelector('#selCity');

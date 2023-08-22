@@ -125,7 +125,7 @@ public partial class NewIspanProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=124.219.117.33;Initial Catalog=NewIspanProject;User ID=msit150;Password=aaaa;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=124.219.117.33;Initial Catalog=NewIspanProject;Persist Security Info=True;User ID=msit150;Password=aaaa;Multiple Active Result Sets=True;Trust Server Certificate=True;Application Name=EntityFramework");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -792,7 +792,6 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.ResumeId).HasColumnName("ResumeID");
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Autobiography).HasMaxLength(400);
             entity.Property(e => e.CaseStatusId).HasColumnName("CaseStatusID");
             entity.Property(e => e.TaskNameId).HasColumnName("TaskNameID");
             entity.Property(e => e.TownId).HasColumnName("TownID");

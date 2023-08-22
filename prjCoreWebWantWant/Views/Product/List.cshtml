@@ -14,7 +14,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    @*    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        @*    <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Starter Page</li>*@
                     </ol>
                 </div><!-- /.col -->
@@ -76,7 +76,7 @@
                 <div class="row mt-4">
                     <div class="col-md-12">
                         <input type="submit" value="查询" class="btn btn-primary">
-                        <input type="reset" value="清除" class="btn btn-secondary">               
+                        <input type="reset" value="清除" class="btn btn-secondary">
                     </div>
                 </div>
             </div>
@@ -120,27 +120,19 @@
 
                     <tr>
                         <td>
-                            <div class="image-container">
-                                <div class="image-wrapper">
-                                    <img src="~/shopimg/@item.CoverPhoto" alt="Image 1" class="small-image">
-                                </div>
-                                <div class="hover-overlay">
-                                    <img src="~/shopimg/@item.CoverPhoto" alt="Image 1" class="large-image">
-                                </div>
-                            </div>
+                            <img src="~/shopimg/@item.CoverPhoto" style="width:40px;height:40px" alt="Image 1">
                         </td>
-                       
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
                         <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
                         <td>
                             @if (item.UnitsInStock < 10)
                             {
-                                <span class="text-danger" title="庫存低於10"><strong>@Html.DisplayFor(modelItem => item.UnitsInStock)</strong> </span>
+                                <span class="text-danger" title="庫存低於10">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
                             }
                             else if (item.UnitsInStock < 50)
                             {
-                                <span class="text-warning" title="庫存低於50"><strong> @Html.DisplayFor(modelItem => item.UnitsInStock)</strong></span>
+                                <span class="text-warning" title="庫存低於50">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
                             }
                             else
                             {
@@ -318,46 +310,13 @@
             text-decoration: none;
         }
 
-
-        /*設定滑鼠過去就變大圖*/
-        .image-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .image-wrapper {
-            position: relative;
-        }
-
-        .large-image {
-            width: 120px;
-            height: 120px;
-        }
-        .small-image {
-            width: 40px;
-            height: 40px;
-        }
-       
-        .hover-overlay {
-            display: none;
-            position: absolute;
-            top: -80px; /* 將 top 設置為負的大圖高度，這樣它就會出現在小圖的上方 */
-            left: 0;
-            width: 80px;
-            height: 80px;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .image-wrapper:hover + .hover-overlay {
-            display: block;
-            opacity: 1;
+        .bx bx-trash bx-tada {
+            color: black
         }
     </style>
     @*box icons*@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 
 }
 
@@ -379,12 +338,12 @@
         }
         //上下架狀態
         function changeStatus(productId, newStatus) {
-            $.ajax({          
+            $.ajax({
                 url: '@Url.Content("~/Product/ChangeStatus")',
                 type: 'POST',
                 data: { id: productId, status: newStatus },
                 success: function (result) {
-                    
+
                     // 重新載入部分頁面或更新畫面數據
                     alert('商品狀態已更新');
                     window.location.reload(); // 這是重新載入整個頁面
@@ -395,7 +354,7 @@
             });
         }
 
-       
+
 
         // 加載修改頁數據
         function openEditModal(productId) {
@@ -416,7 +375,7 @@
 
                     $('#image-preview').attr('src', '@Url.Content("~/shopimg/")' + result.coverPhoto);
                     $('#image-preview').show();
-                  
+
                 },
                 error: function () {
                     alert('失敗。');
@@ -435,12 +394,12 @@
                     const response = await fetch('@Url.Content("~/Product/Edit")', {
                         method: 'POST',
                         body: formData,
-                       
+
                     });
 
                     if (response.ok) {
                         alert('商品已成功更新');
-                        window.location.reload(); 
+                        window.location.reload();
                     } else {
                         alert('更新失敗。');
                     }
@@ -451,9 +410,9 @@
             });
         });
 
+        changeStatus(productId, newStatus);
 
-
-//搜尋
+        //搜尋
         $(document).ready(function () {
             $('form').submit(function (e) {
                 e.preventDefault(); // 阻止表單默認提交行為
@@ -482,7 +441,7 @@
                     },
                     success: function (result) {
                         // 更新頁面
-                        $('#table tbody').html(result); 
+                        $('#table tbody').html(result);
                     },
                     error: function () {
                         alert('失敗。');
@@ -490,9 +449,7 @@
                 });
             });
         });
-
     </script>
-
 
 }
 
