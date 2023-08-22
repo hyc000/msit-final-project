@@ -48,10 +48,7 @@
 <body>
 
         <div id="layout-wrapper">
-
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
+          
           @*   <div class="main-content">
  *@
                @*  <div class="page-content"> *@
@@ -76,7 +73,7 @@
 
                                         <div class="row">
                                             <div class="card-body col-4">
-                                                <!-- Nav tabs -->
+                                             
                                                 <!--已上架 未上架-->
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
@@ -92,7 +89,7 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div><!-- end card-body -->
+                                            </div>
                                             <!--標籤  選擇任務類型-->
 
                                             <!--已上架的標籤-->
@@ -134,8 +131,7 @@
                                                 </form>
                                             </div>
 
-                                            <!--關鍵字搜尋-->
-                                            <!-- App Search-->
+                                            <!--關鍵字搜尋-->                               
 
                                             <div class="col-4 mb-3">
                                                 <form class="app-search d-none d-lg-block">
@@ -194,10 +190,13 @@
                                                         @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
                                                             @*<i class="fas fa-pencil-alt"></i>*@
                                                         <a href="@Url.Action("Edit", new { id = item.CaseId })">
-                                                            <i class="fas fa-pencil-alt"></i>
+                                                            <i class="fas fa-pencil-alt" data-id="@item.CaseId"></i>
                                                         </a>
                                                 </td>
                                             </tr>
+
+
+                                            @*modal*@
 
                                             <div class="modal" tabindex="-1" id="myModal_@item.CaseId" style="display:none">
                                                 <div class="modal-dialog">
