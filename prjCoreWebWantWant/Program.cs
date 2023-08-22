@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Hubs;
 using prjCoreWebWantWant.Models;
@@ -9,7 +10,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor(); //為了讓cshtml檔案可以加入Session
 builder.Services.AddSignalR();//即時通訊用
-
 
 builder.Services.AddDbContext<NewIspanProjectContext>(
 options => options.UseSqlServer(

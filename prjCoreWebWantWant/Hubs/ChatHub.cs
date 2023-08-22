@@ -28,7 +28,8 @@ namespace prjCoreWebWantWant.Hubs
             await _db.SaveChangesAsync();
 
             // 將訊息傳送給特定的使用者
-            await Clients.User(receiverId.ToString()).SendAsync("ReceiveMessage", senderId, message);
+            //await Clients.User(receiverId.ToString()).SendAsync("ReceiveMessage", senderId, message);
+            await Clients.User(Context.UserIdentifier).SendAsync("ReceiveMessage", senderId, message);
 
         }
     }
