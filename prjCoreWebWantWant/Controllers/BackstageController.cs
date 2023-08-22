@@ -33,7 +33,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, CResumeViewModel resumeViewModel)
+        public IActionResult Create(Resume p,int selectedTownId)
         {
             p.TownId = selectedTownId;
             _context.Resumes.Add(p);

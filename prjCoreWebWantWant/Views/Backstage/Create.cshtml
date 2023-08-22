@@ -29,6 +29,35 @@
                 <span asp-validation-for="AccountId" class="text-danger"></span>
             </div>  *@
 
+            <div class="container-fluid pt-4 px-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Card Content Here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Card Content Here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
             <div class="form-group" >                @*帶入真實帳號並隱藏欄位*@
                 @* <label asp-for="AccountId"  class="control-label"></label> *@
                 <input asp-for="AccountId" type="hidden" value="@id" />
@@ -279,7 +308,7 @@
             // datas.sort();
             const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
             selTown.innerHTML = districts.join("");
-            getTownId()
+            getTownId();
         }
 
         async function getTownId() {
