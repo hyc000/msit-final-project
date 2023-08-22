@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using prjCoreWebWantWant.Models;
 
 namespace prjShop.Controllers
@@ -56,5 +58,8 @@ namespace prjShop.Controllers
 
             return View(filteredOrders);
         }
+
+       
     }
 }
+

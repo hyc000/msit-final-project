@@ -57,8 +57,8 @@
         <div class="row mt-3">
             <div class="col-md-4">
                     <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
-                 
-                <button type="button" class="btn btn btn-info">匯出訂單</button>
+
+                    <button type="button" class="btn btn btn-info" id="exportButton">匯出訂單</button>
        
             </div>
        
@@ -209,5 +209,41 @@
                 });
             });
         });
+        document.getElementById('exportButton').addEventListener('click', function () {
+            var rows = document.querySelectorAll('#table tbody tr:not(.hiddenRow)'); // Exclude detail rows
+            var data = [['訂單編號', '訂單類別', '購買時間', '會員', '總金額']];
+
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.getElementsByTagName('td');
+
+                // 获取表格中第2到第8列的数据（跳过第1列）
+                for (var i = 1; i < cells.length - 1; i++) {
+                    if (i === 3) { // 跳过订单明细那一列
+                        continue;
+                    }
+                    rowData.push(cells[i].textContent.trim());
+                }
+
+                data.push(rowData);
+            });
+
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.aoa_to_sheet(data);
+            var wscols = [
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 20 },
+                { wch: 15 },
+                { wch: 15 }
+            ];
+
+            ws['!cols'] = wscols;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+            XLSX.writeFile(wb, 'orders.xlsx');
+        });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
     }
