@@ -2,6 +2,7 @@
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using prjCoreWantMember.ViewModels;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace prjCoreWebWantWant.Controllers
 {
@@ -19,19 +20,43 @@ namespace prjCoreWebWantWant.Controllers
             NewIspanProjectContext db = new NewIspanProjectContext();
             IEnumerable<CBackstageManagementViewModel> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
-                datas = from ms in db.MemberStatusLists
-                        join m in db.MemberAccounts on ms.AccountId equals m.AccountId
-                        join l in db.LoginHistories on ms.AccountId equals l.AccountId
-                        let lastLoginTime = (from ms in db.MemberStatusLists
-                                             where ms.AccountId == m.AccountId
-                                             orderby ms.UpdateTime descending
-                                             select ms.UpdateTime).FirstOrDefault()
-                        select new CBackstageManagementViewModel
-                        {
-                            memberStatusList = ms,
-                            memberAccount = m,
-                            loginHistory = l,
-                        };
+                //datas = (from m in db.MemberAccounts
+                //         join ms in db.MemberStatusLists on m.AccountId equals ms.AccountId
+                //         join l in db.LoginHistories on m.AccountId equals l.AccountId
+                //         let lastStatusChannge = (from ms in db.MemberStatusLists
+                //                                  where ms.AccountId == m.AccountId
+                //                                  orderby ms.StatusChangeId descending
+                //                                  select ms).FirstOrDefault()
+                //         let lastLoginTime = (from l in db.LoginHistories
+                //                              where l.AccountId == m.AccountId
+                //                              orderby l.LoginId descending
+                //                              select l).FirstOrDefault()
+                //         select new CBackstageManagementViewModel
+                //         {
+                //             memberAccount = m,
+                //             memberStatusList = ms,
+                //             loginHistory = lastLoginTime,
+                //         }).AsEnumerable().DistinctBy(vm => vm.memberAccount.AccountId);
+                datas = (from m in db.MemberAccounts
+                         join ms in db.MemberStatusLists on m.AccountId equals ms.AccountId into msGroup
+                         from ms in msGroup.DefaultIfEmpty() // 左外連接
+                         join l in db.LoginHistories on m.AccountId equals l.AccountId into lGroup
+                         from l in lGroup.DefaultIfEmpty() // 左外連接
+                         let lastStatusChannge = (from ms in db.MemberStatusLists
+                                                  where ms.AccountId == m.AccountId
+                                                  orderby ms.StatusChangeId descending
+                                                  select ms).FirstOrDefault()
+                         let lastLoginTime = (from l in db.LoginHistories
+                                              where l.AccountId == m.AccountId
+                                              orderby l.LoginId descending
+                                              select l).FirstOrDefault()
+                         select new CBackstageManagementViewModel
+                         {
+                             memberAccount = m,
+                             memberStatusList = ms,
+                             loginHistory = lastLoginTime,
+                         }).AsEnumerable().DistinctBy(vm => vm.memberAccount.AccountId);
+
             else
                 datas = from ms in db.MemberStatusLists
                         join m in db.MemberAccounts
