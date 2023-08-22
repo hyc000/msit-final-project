@@ -68,7 +68,7 @@ namespace prjCoreWebWantWant.Controllers
 
 
 
-
+        //不用了改回INDEX
 
         public async Task<IActionResult> RatingList()
         {

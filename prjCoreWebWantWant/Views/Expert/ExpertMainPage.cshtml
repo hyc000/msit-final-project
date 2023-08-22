@@ -52,16 +52,10 @@
                             <div class="select-job-items2">
                                 @using (Html.BeginForm())
                                 {
-                                    <select name="selectCategory">
-                                        <option value="all">所有類別</option>
-                                        <option value="1">居家服務</option>
-                                        <option value="2">程式語言</option>
-                                        <option value="3">活動籌備</option>
-                                        <option value="4">學習</option>
-                                        <option value="5">運動</option>
-                                        <option value="6">商業</option>
-                                        <option value="7">設計</option>
-                                        <option value="8">其他</option>
+
+                                    <select name="selectCategory" id="skilltypeselect" >
+                                    </select>
+                                    <select name="selectCategory" id="skillselect">
                                     </select>
                                 }
                             </div>
@@ -221,20 +215,114 @@
 
 </main>
 @section Styles{
-    <link rel="stylesheet" href="~/assetsForExpert/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/price_rangs.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/flaticon.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/slicknav.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/animate.min.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/themify-icons.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/slick.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/nice-select.css">
-    <link rel="stylesheet" href="~/assetsForExpert/css/style.css">
+    
     <link href="~/assetsForExpert/js/SweetAlert.js" />
 }
+
+@section Scripts{
+    <script>
+        //const skilltypeselect =  document.querySelector('#skilltypeselect');
+        //const skillselect = document.querySelector('#skillselect');
+
+        //function Loadskilltype(){
+        //    document.addEventListener('DOMContentLoaded', findskilltype);
+
+        //    function findskilltype(){
+        //        fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
+        //            .then(response => response.json())
+        //            .then(data => {
+        //                console.log(data);
+        //                let options = "<option>請選擇專長</option>"
+        //                options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
+
+                          
+        //                skilltypeselect.innerHTML=options;
+        //                Loadskilltype();
+        //            });  //then最後一個THEN
+        //    };
+        //};
+            
+        
+
+        //const skilltypeselectvalue = skilltypeselect.value;
+        //function Loadskilltype() {
+        //    document.addEventListener('DOMContentLoaded', findskill);
+
+        //    function findskill() {
+        //        fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?=${skilltypeselectvalue}`)
+        //            .then(response => response.json())
+        //            .then(data => {
+        //                console.log(data);
+                       
+        //                options += data.map(skill => `<option value="1">${skill}</option>`).join('');
+
+
+        //                skillselect.innerHTML = options;
+        //            });  //then最後一個THEN
+        //    };
+        //};
+
+        //Loadskilltype();//使用載入資料
+
+        //===============================
+
+        const skilltypeselect = document.querySelector('#skilltypeselect');
+        const skillselect = document.querySelector('#skillselect');
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            Loadskilltype();
+
+           
+            skilltypeselect.addEventListener('change', function () {
+                Loadskill();
+            });
+        });
+
+        //專長大項資料來
+        function Loadskilltype() {
+                fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        let options = "<option>請選擇專長</option>";
+                        options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
+                    
+                        skilltypeselect.innerHTML = options;
+                         });  //then最後一個THEN
+            };
+     
+        function Loadskill() {
+                    const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
+            console.log(skilltypeselecttext);
+            if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext ==null) {
+            skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
+            return;
+        }
+            fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
+                    .then(response => response.json())
+                    .then(datas => {
+                    let options = ""
+                        options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                        skillselect.innerHTML = options;
+                    });  //then最後一個THEN
+            };
+
+      
+
+        /*Loadskilltype();*///使用載入資料
+
+
+
+
+    </script>
+   
+
+  
+}
+
+
+
 @* @section Scripts{
     <!-- All JS Custom Plugins Link Here here -->
     <script src="~/assetsForExpert/js/vendor/modernizr-3.5.0.min.js"></script>
