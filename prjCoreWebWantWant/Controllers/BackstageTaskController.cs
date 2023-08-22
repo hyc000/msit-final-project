@@ -336,12 +336,12 @@ namespace WantTask.Controllers
         }
         [HttpPost]
         public IActionResult Create(TaskList task )
-        { 
-           // task.TownId = selectedTownId;
+        { // ,int selectedTownId
+          // task.TownId = selectedTownId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
-            return RedirectToAction("Form");        
+            return RedirectToAction("Create");        
         
         }
         public IActionResult Form(TaskList taskList)
