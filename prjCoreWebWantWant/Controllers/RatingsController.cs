@@ -91,8 +91,11 @@ namespace prjCoreWebWantWant.Controllers
         }
       
         // GET: Ratings/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            //_context.MemberAccounts
+
+
             return View();
         }
 
@@ -114,74 +117,7 @@ namespace prjCoreWebWantWant.Controllers
 
 
 
-        public async Task<IActionResult> Ratingdata()
-        {
-            
-            List<CRatings> ratingsForOther = new List<CRatings>();
-            CRatings datarating = new CRatings();
-
-            if (_context.Ratings != null)
-            {
-                //給別人的評論
-                var ratingdata = await _context.Ratings
-                    .Where(x => x.SourceAccountId == _memberID)
-                    .Select(u => u)
-                    .ToListAsync();
-
-
-
-                foreach (var item in ratingdata)
-                {
-                    datarating.ratedperson = _context.MemberAccounts
-                        .Where(x => x.AccountId == item.TargetAccountId)
-                        .Select(u => u.Name)
-                        .FirstOrDefault();
-
-                    datarating.ratingforperson = "自己";
-                    datarating.ratingstar = item.RatingStar;
-                    datarating.ratingcontent = item.RatingContent;
-                    datarating.ratingdate = item.RatingDate;
-                    ratingsForOther.Add(datarating);
-                   
-                };
-                 ;
-                var data = ratingsForOther;
-                return Json(data);
-
-                //List<CRatings> MyRatings = new List<CRatings>();
-                //CRatings datamy = new CRatings();
-
-
-                ////自己收到評論
-                //var ratingdatamy = await _context.Ratings
-                //    .Where(x => x.TargetAccountId == _memberID)
-                //    .Select(u => u)
-                //    .ToListAsync();
-                //foreach (var item in ratingdatamy)
-                //{
-                //    datamy.被評論者 = "自己";
-
-                //    datamy.評論者 = _context.MemberAccounts
-                //        .Where(x => x.AccountId == item.SourceAccountId)
-                //        .Select(u => u.Name)
-                //        .FirstOrDefault();
-                //    datamy.評論星數 = item.RatingStar;
-                //    datamy.評論內容 = item.RatingContent;
-                //    datamy.評論日期 = item.RatingDate;
-                //    MyRatings.Add(datamy);
-                //};
-                //vm.MyRatings = MyRatings;
-                //var data = vm.ForOtherRatings;
-                //return Json(data);
-            }
-            else
-            {
-                return Problem("Entity set 'NewIspanProjectContext.Ratings'  is null.");
-            }
-
-
-        }
-
+        
 
         public async Task<IActionResult> RatingList()
         {

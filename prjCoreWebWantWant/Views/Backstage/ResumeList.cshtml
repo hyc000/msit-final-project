@@ -60,7 +60,7 @@
 
                                @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
 
-                                @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId })
+                                @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })
 
                                 @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
@@ -146,7 +146,7 @@
             CreateResume.href = '#';
                 Swal.fire({
                     icon: 'warning',
-                    title: '警告',
+                    title: '注意',
                     text: '您的履歷數量已達上限，無法新增履歷',
                 })
         });

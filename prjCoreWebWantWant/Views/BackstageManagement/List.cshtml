@@ -1,4 +1,4 @@
-﻿@model IEnumerable<prjCoreWebWantWant.ViewModels.CServiceContactViewModel>
+﻿@model IEnumerable<prjCoreWebWantWant.ViewModels.CBackstageManagementViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="mb-2">訊息列表</h1>
+                    <h1 class="mb-2">會員狀態列表</h1>
                     @using (Html.BeginForm())
                     {
                         @:關鍵字 @Html.TextBox("txtKeyword")
@@ -34,16 +34,25 @@
                                 會員電話
                             </th>
                             <th>
-                                會員訊息標題
+                                會員建立時間
                             </th>
                             <th>
-                                會員訊息內容
+                                帳號狀態
                             </th>
                             <th>
-                                處理狀態
+                                登入狀態
                             </th>
                             <th>
-                                回覆
+                                登入時間
+                            </th>
+                            <th>
+                                客服人員
+                            </th>
+                            <th>
+                                客服更新時間
+                            </th>
+                            <th>
+                                停權原因
                             </th>
                         </tr>
                     </thead>
@@ -62,22 +71,35 @@
                                         @Html.DisplayFor(modelItem => item.memberAccount.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.PhoneNo)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.memberAccount.Email)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.serviceContact.ComplaintTitle)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.PhoneNo)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.serviceContact.ComplaintContent)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.CreateTime)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.serviceContact.ProcessStatus)
+                                        @Html.DisplayFor(modelItem => item.memberAccount.AccountStatus)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("回覆", "Edit", new { id=item.memberAccount.AccountId })
+                                        @Html.DisplayFor(modelItem => item.loginHistory.LoginSF)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.loginHistory.LoginTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.UpdateUser)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.UpdateTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id=item.memberAccount.AccountId })
                                     </td>
                                 </tr>
                             }
