@@ -19,6 +19,7 @@ namespace prjCoreWebWantWant.Controllers
         private int _memberID;
         public RatingsController(NewIspanProjectContext context)
         {
+
             _context = context;
             _ratings = new List<CRatings>();
             _memberID = 17;//登入者我自己memberID
@@ -93,31 +94,39 @@ namespace prjCoreWebWantWant.Controllers
         // GET: Ratings/Create
         public IActionResult Create(int? id)
         {
-            //_context.MemberAccounts
+            CRatingCreatViewModel vm=new CRatingCreatViewModel();
+            vm.taskprincipal = _context.MemberAccounts
+                .Where(x => x.AccountId == _memberID)
+                .Select(u => u.Name)
+                .FirstOrDefault();
+            vm.taskexperter = _context.MemberAccounts
+                .Where(x => x.AccountId == id)
+                .Select(u => u.Name)
+                .FirstOrDefault();
 
 
-            return View();
+            return View(vm);
         }
 
         // POST: Ratings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RatingId,RatingStar,RatingContent,RatingDate,SourceRoleId,SourceAccountId,TargetRoleId,TargetAccountId")] Rating rating)
+        public IActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(rating);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(rating);
+            //if (ModelState.IsValid) async
+            //{
+            //    _context.Add(rating); CRatingCreatViewModel vm
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //return View(rating);
+            return View();
         }
 
 
 
-        
+
 
         public async Task<IActionResult> RatingList()
         {

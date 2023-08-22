@@ -250,7 +250,7 @@
                                 </td>
                                 <td> @Html.DisplayFor(modelItem => item.Payment.PaymentId)</td>
                                 <td style="width:100px; padding:0;padding-block-start:5px">
-                                    @Html.ActionLink("評價","Create","Ratings", null, new {@class="btn btn-outline-secondary" })
+                                        @Html.ActionLink("評價","Create","Ratings", new { id=item.AccountId}, new {@class="btn btn-outline-secondary" })
                                 </td>
                                 <td>尚未評價</td>
                                 <td>尚未評價內容</td>
@@ -363,7 +363,7 @@
                                 </td>
                                 <td> @Html.DisplayFor(modelItem => item.Payment.PaymentId)</td>
                                 <td style="width:100px; padding:0;padding-block-start:5px">
-                                    @Html.ActionLink("評價","Create","Ratings", null, new {@class="btn btn-outline-secondary" })
+                                        @Html.ActionLink("評價","Create","Ratings",null, new {@class="btn btn-outline-secondary" })
                                 </td>
                                 <td>尚未評價</td>
                                 <td>尚未評價內容</td>
@@ -390,4 +390,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+
+             new { id=item.AccountId}
+
+
         }
