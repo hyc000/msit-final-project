@@ -12,6 +12,81 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="ResumeId" value="@Model.ResumeId" />
 
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm order-2 order-sm-1">
+                                <div class="d-flex align-items-start mt-3 mt-sm-0">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar-xl me-3">
+                                            <img src="~/Backstage/static/picture/avatar-2.jpg"
+                                                 alt=""
+                                                 class="img-fluid rounded-circle d-block" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div>
+                                            <h5 class="font-size-16 mb-1">
+                                                姓名：李芷帆
+                                            </h5>
+
+                                            <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
+                                                <div>性別：女</div>
+                                            </div>
+                                            <br />
+                                            <div>
+                                                <input type="file"
+                                                       class="form-control"
+                                                       id="inputProfilePicture"
+                                                       style="width: 32rem" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           @*  <div class="col-sm-auto order-1 order-sm-2">
+                                <div class="d-flex align-items-start justify-content-end gap-2">
+                                    <div></div>
+                                    <div>
+                                        <div class="dropdown">
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Action</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Another action</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       href="file:///C:/Users/User/Desktop/%E6%9C%9F%E6%9C%AB%E5%B0%88%E9%A1%8C/20230805/%E5%B1%A5%E6%AD%B7/apps-contacts-profile.html#">Something else here</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </div>
+
+                        <ul class="nav nav-tabs-custom card-header-tabs border-top mt-4"
+                            id="pills-tab"
+                            role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-3 active"
+                                   data-bs-toggle="tab"
+                                   role="tab"
+                                   aria-selected="true">履歷總覽</a>
+                            </li>
+                            <li class="nav-item" role="presentation"></li>
+                            <li class="nav-item" role="presentation"></li>
+                        </ul>
+                    </div>
+                    <!-- end card body -->
+                </div>
+
+
             <div class="form-group">
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />

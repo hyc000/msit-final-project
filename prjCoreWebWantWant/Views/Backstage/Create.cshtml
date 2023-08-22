@@ -13,17 +13,42 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group">                    @*帳號(需導入)真實帳號並隱藏*@
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
             </div>
-           
-            <div class="form-group">
+
+           @*  <div class="form-group form-floating mb-3">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input asp-for="AccountId" class="form-control" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="selCity">
+                    <!-- <option selected>請選擇縣市</option> -->
+                    <option></option>
+                </select>
+                <label for="floatingSelectCity">請選擇縣市</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="selTown" @* asp-for="TownId" *@>
+                    <!-- <option selected>請選擇區域</option> -->
+                    <option></option>
+                </select>
+                <label for="floatingSelectTown">請選擇區域</label>
+            </div>
+
+            <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+
+
+
+            @* <div class="form-group">
                 <label asp-for="TownId" class="control-label"></label>
                 <input asp-for="TownId" class="form-control" />
                 <span asp-validation-for="TownId" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
@@ -46,9 +71,11 @@
                 <input asp-for="TaskNameId" class="form-control" />
                 <span asp-validation-for="TaskNameId" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+
+            <div class="form-group form-check">  @*隱藏的欄位 預設值為False*@
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsExpertOrNot" /> @Html.DisplayNameFor(model => model.IsExpertOrNot)
+                   @* <input class="form-check-input" asp-for="IsExpertOrNot" /> *@
+                   @Html.HiddenFor(model => model.IsExpertOrNot, new { @Value = false })
                 </label>
             </div>
 
@@ -58,7 +85,7 @@
         </form>
     </div>
 </div>
-
+@* 
 <div class="row">
     <div class="col-md-4">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -72,8 +99,9 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">表單</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-        <div class="modal-body">
+                    </div> 
+
+         <div class="modal-body">
                         <div class="card">
                             <div class="card-body">
                                 <form asp-action="Create">
@@ -101,23 +129,69 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> 
+
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 <div>
     <a asp-action="ResumeList">取消並返回</a>
 </div>
 
-
-
-<div>
-    <a asp-action="ResumeList">取消並返回</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        const selCity = document.querySelector('#selCity');
+        const selTown = document.querySelector('#selTown');
+        const hiddenTownIdInput = document.querySelector('#hiddenTownIdInput');
+
+
+        //select的城市
+        async function loadCity() {
+            const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
+            const datas = await response.json()
+            // datas.sort();
+            const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            document.querySelector('#selCity').innerHTML = cities.join("");
+
+            loadDistrict();
+        }
+
+        loadCity();
+
+        //select的區域
+        async function loadDistrict() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+            const datas = await response.json()
+            // datas.sort();
+            const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+            selTown.innerHTML = districts.join("");
+            getTownId()
+        }
+
+        async function getTownId() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
+            const data = await response.json();
+            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenTownIdInput.value = selectedTownId;
+        }
+       
+   
+        // loadDistrict();
+
+        selCity.addEventListener('change', () => {
+            loadDistrict();
+        });
+
+        selTown.addEventListener('change', () => {
+            getTownId();
+        });
+
+     </script>        
 }

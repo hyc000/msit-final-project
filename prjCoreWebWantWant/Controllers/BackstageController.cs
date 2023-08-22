@@ -22,8 +22,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p)
+        public IActionResult Create(Resume p,int selectedTownId)
         {
+            p.TownId = selectedTownId;
             _context.Resumes.Add(p);
             _context.SaveChanges();
             return RedirectToAction("ResumeList");
@@ -116,6 +117,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         
                     };
             return View();
+        }
+
+        public IActionResult GetTownId(string City ,string District)
+        {
+            var townId = _context.Cities
+                         .Where(a => a.City1 == City)
+                         .SelectMany(c => c.Towns)
+                         .Where(c => c.Town1 == District)
+                         .Select(c => c.TownId);
+
+            return Json(townId);
         }
     }
 }

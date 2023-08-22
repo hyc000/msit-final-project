@@ -1,28 +1,28 @@
 ﻿@model prjCoreWebWantWant.Models.TaskList
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Member/LayoutForMem.cshtml";
+    ViewData["Title"] = "Create";
 }
 
+<h1>Create</h1>
 
+<h4>TaskList</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="CaseId" value="@Model.CaseId" />
-           
            @* <div class="form-group">
                 <label asp-for="CaseId" class="control-label"></label>
                 <input asp-for="CaseId" class="form-control" />
                 <span asp-validation-for="CaseId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+          @*  <div class="form-group">
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+      @*      <div class="form-group">
                 <label asp-for="TaskNameId" class="control-label"></label>
                 <input asp-for="TaskNameId" class="form-control" />
                 <span asp-validation-for="TaskNameId" class="text-danger"></span>
@@ -37,11 +37,11 @@
                 <input asp-for="TaskDetail" class="form-control" />
                 <span asp-validation-for="TaskDetail" class="text-danger"></span>
             </div>
-           @* <div class="form-group">
+            <div class="form-group">
                 <label asp-for="WorkingHoursId" class="control-label"></label>
                 <input asp-for="WorkingHoursId" class="form-control" />
                 <span asp-validation-for="WorkingHoursId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <label asp-for="PayFrom" class="control-label"></label>
                 <input asp-for="PayFrom" class="form-control" />
@@ -62,21 +62,21 @@
                 <input asp-for="PaymentDateId" class="form-control" />
                 <span asp-validation-for="PaymentDateId" class="text-danger"></span>
             </div>
-     @*       <div class="form-group">
+            <div class="form-group">
                 <label asp-for="SalaryId" class="control-label"></label>
                 <input asp-for="SalaryId" class="form-control" />
                 <span asp-validation-for="SalaryId" class="text-danger"></span>
-            </div>*@
-           @* <div class="form-group">
+            </div>
+            <div class="form-group">
                 <label asp-for="TaskPlace" class="control-label"></label>
                 <input asp-for="TaskPlace" class="form-control" />
                 <span asp-validation-for="TaskPlace" class="text-danger"></span>
-            </div>*@
-          @*  <div class="form-group">
+            </div>
+            <div class="form-group">
                 <label asp-for="TownId" class="control-label"></label>
                 <input asp-for="TownId" class="form-control" />
                 <span asp-validation-for="TownId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <label asp-for="WorkPlace" class="control-label"></label>
                 <input asp-for="WorkPlace" class="form-control" />
@@ -122,22 +122,23 @@
                 <input asp-for="Requirement" class="form-control" />
                 <span asp-validation-for="Requirement" class="text-danger"></span>
             </div>
-          @*  <div class="form-group">
+            <div class="form-group">
                 <label asp-for="HumanList" class="control-label"></label>
                 <input asp-for="HumanList" class="form-control" />
                 <span asp-validation-for="HumanList" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <label asp-for="LanguageRequired" class="control-label"></label>
                 <input asp-for="LanguageRequired" class="form-control" />
                 <span asp-validation-for="LanguageRequired" class="text-danger"></span>
-            </div>           
+            </div>
+            
             <div class="form-group">
                 <label asp-for="PublishOrNot" class="control-label"></label>
                 <input asp-for="PublishOrNot" class="form-control" />
                 <span asp-validation-for="PublishOrNot" class="text-danger"></span>
             </div>
-          @*  <div class="form-group">
+            <div class="form-group">
                 <label asp-for="PublishStart" class="control-label"></label>
                 <input asp-for="PublishStart" class="form-control" />
                 <span asp-validation-for="PublishStart" class="text-danger"></span>
@@ -147,13 +148,15 @@
                 <input asp-for="PublishEnd" class="form-control" />
                 <span asp-validation-for="PublishEnd" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="CaseStatusId" class="control-label"></label>
-                <input asp-for="CaseStatusId" class="form-control" />
-                <span asp-validation-for="CaseStatusId" class="text-danger"></span>
-            </div>      *@
+                <label asp-for="OnTop" class="control-label"></label>
+                <input asp-for="OnTop" class="form-control" />
+                <span asp-validation-for="OnTop" class="text-danger"></span>
+            </div>
+           
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
