@@ -341,6 +341,21 @@ namespace WantTask.Controllers
         //    return View("Form");
         //}
 
+        #region Form表 Create
+        public IActionResult Create()
+        { 
+            return View();      
+        
+        }
+        [HttpPost]
+        public IActionResult Create(TaskList task)
+        { 
+            _context.TaskLists.Add(task);
+            _context.SaveChanges();
+
+            return RedirectToAction("Form");        
+        
+        }
         public IActionResult Form(TaskList taskList)
         {
             //test
@@ -357,12 +372,14 @@ namespace WantTask.Controllers
             //return Content("新增成功!!");
         }
 
+        #endregion
+
         //public IActionResult JobdetailBackstage()
         //{
         //    return View("JobdetailBackstage");
         //}
 
-     
+
 
 
 

@@ -26,9 +26,8 @@
     <!-- JobdetailBackstage css -->
     <!-- glightbox css -->
     <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
-  
 
-
+   
     <style>
 
         .table-hover tbody tr:hover {
@@ -188,11 +187,15 @@
                                                 <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
                                                 @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
                                                 <td style="width: 100px">
-                                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Html.ActionLink("修改", "Edit", new { CaseID = item.CaseId })">
+                                                        @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Html.ActionLink("修改"  , "Edit", new { CaseID = item.CaseId })">   </a>*@
+                                                        @*@Html.ActionLink("修改","Edit",new {id = item.CaseId})  *@
+
                                                         @*@Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
                                                         @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
+                                                            @*<i class="fas fa-pencil-alt"></i>*@
+                                                        <a href="@Url.Action("Edit", new { id = item.CaseId })">
                                                             <i class="fas fa-pencil-alt"></i>
-                                                    </a>
+                                                        </a>
                                                 </td>
                                             </tr>
 
