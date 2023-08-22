@@ -30,6 +30,15 @@
 <table class="table table-hover mt-3">
     <tr>
         <th width="120px">
+            會員相片：
+        </th>
+        <td id='userPhoto'>
+            @* <img src="/MemberApi/{@Model.AccountId}/photo" alt="Member Photo"> *@
+            <img class="w-25 img-thumbnail" src="@Url.Action("GetMemberPhoto", "MemberApi", new { id = Model.AccountId })" alt="Member Photo">
+        </td>
+    </tr>
+    <tr>
+        <th width="120px">
             會員姓名：
         </th>
         <td id='username'>
