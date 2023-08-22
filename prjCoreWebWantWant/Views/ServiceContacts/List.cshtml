@@ -59,13 +59,13 @@
                                         @count
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.Name)
+                                        @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.PhoneNo)
+                                        @Html.DisplayFor(modelItem => item.PhoneNo)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.Email)
+                                        @Html.DisplayFor(modelItem => item.Email)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.serviceContact.ComplaintTitle)
@@ -77,7 +77,7 @@
                                         @Html.DisplayFor(modelItem => item.serviceContact.ProcessStatus)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("回覆", "Edit", new { id=item.memberAccount.AccountId })
+                                        @Html.ActionLink("回覆", "Edit", new { id=item.AccountId })
                                     </td>
                                 </tr>
                             }

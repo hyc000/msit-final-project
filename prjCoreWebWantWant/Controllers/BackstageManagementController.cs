@@ -15,6 +15,8 @@ namespace prjCoreWebWantWant.Controllers
             _context = context;
         }
 
+
+
         public IActionResult List(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
@@ -52,10 +54,15 @@ namespace prjCoreWebWantWant.Controllers
                                               select l).FirstOrDefault()
                          select new CBackstageManagementViewModel
                          {
-                             memberAccount = m,
+                             AccountId = m.AccountId,
+                             Name = m.Name,
+                             Email = m.Email,
+                             PhoneNo = m.PhoneNo,
+                             CreateTime = m.CreateTime,
+                             AccountStatus = m.AccountStatus,
                              memberStatusList = ms,
                              loginHistory = lastLoginTime,
-                         }).AsEnumerable().DistinctBy(vm => vm.memberAccount.AccountId);
+                         }).AsEnumerable().DistinctBy(vm => vm.AccountId);
 
             else
                 datas = from ms in db.MemberStatusLists
@@ -67,7 +74,9 @@ namespace prjCoreWebWantWant.Controllers
                         select new CBackstageManagementViewModel
                         {
                             memberStatusList = ms,
-                            memberAccount = m
+                            Name = m.Name,
+                            Email = m.Email,
+                            PhoneNo = m.PhoneNo
                         };
 
             return View(datas);

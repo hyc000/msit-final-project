@@ -127,7 +127,7 @@ namespace prjCoreWantMember.Controllers
                 db.SaveChanges();
                 if (user.UserRole==2)
                     //客服人員
-                    return RedirectToAction("Index","BackstageManagement");
+                    return RedirectToAction("List","BackstageManagement");
                 else if(user.UserRole==1)
                     return RedirectToAction("MemberAccount");
             }

@@ -40,9 +40,6 @@
                                 帳號狀態
                             </th>
                             <th>
-                                登入狀態
-                            </th>
-                            <th>
                                 登入時間
                             </th>
                             <th>
@@ -71,22 +68,19 @@
                                         @count
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.Name)
+                                        @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.Email)
+                                        @Html.DisplayFor(modelItem => item.Email)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.PhoneNo)
+                                        @Html.DisplayFor(modelItem => item.PhoneNo)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.CreateTime)
+                                        @Html.DisplayFor(modelItem => item.CreateTime)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.memberAccount.AccountStatus)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.loginHistory.LoginSF)
+                                        @Html.DisplayFor(modelItem => item.AccountStatus)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.loginHistory.LoginTime)
@@ -102,7 +96,7 @@
                                     </td>
 
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id=item.memberAccount.AccountId })
+                                        @Html.ActionLink("Edit", "Edit", new { id=item.AccountId })
                                     </td>
                                 </tr>
                             }

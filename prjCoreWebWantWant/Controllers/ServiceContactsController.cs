@@ -31,7 +31,10 @@ namespace prjCoreWebWantWant.Controllers
                         select new CServiceContactViewModel
                         {
                             serviceContact=s,
-                            memberAccount=m
+                            AccountId = m.AccountId,
+                            Name = m.Name,
+                            Email = m.Email,
+                            PhoneNo = m.PhoneNo
                         };
             else
 				datas = from s in db.ServiceContacts
@@ -43,7 +46,9 @@ namespace prjCoreWebWantWant.Controllers
                         select new CServiceContactViewModel
                         {
                             serviceContact = s,
-                            memberAccount = m
+                            Name = m.Name,
+                            Email = m.Email,
+                            PhoneNo = m.PhoneNo
                         };
 
             return View(datas);
