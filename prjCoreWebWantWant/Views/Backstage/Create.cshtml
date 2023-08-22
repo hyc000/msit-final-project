@@ -89,42 +89,42 @@
                         <div class="bg-light rounded h-100 p-4">
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillBig">
+                                <select class="form-select" id="SelSkillBigOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillSmall">
+                                <select class="form-select" id="SelSkillSmallOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillBig">
+                                <select class="form-select" id="SelSkillBigTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillSmall">
+                                <select class="form-select" id="SelSkillSmallTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillBig">
+                                <select class="form-select" id="SelSkillBigThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillSmall">
+                                <select class="form-select" id="SelSkillSmallThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能</label>
@@ -138,42 +138,42 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerBig">
+                                <select class="form-select" id="SelCerBigOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerSmall">
+                                <select class="form-select" id="SelCerSmallOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerBig">
+                                <select class="form-select" id="SelCerBigTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerSmall">
+                                <select class="form-select" id="SelCerSmallTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerBig">
+                                <select class="form-select" id="SelCerBigThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SelCerSmall">
+                                <select class="form-select" id="SelCerSmallThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照</label>
@@ -186,7 +186,7 @@
                         <div class="bg-light rounded h-100 p-4">
                             <div class="form-group">
                                 <label asp-for="Autobiography" class="control-label"></label>
-                                <textarea asp-for="Autobiography" class="form-control" style="height:300px"> </textarea>
+                                <textarea asp-for="Autobiography" class="form-control" style="height:300px;resize:none"> </textarea>
                                 <span asp-validation-for="Autobiography" class="text-danger"></span>
                             </div>
                         </div>
@@ -374,65 +374,180 @@
         });
 
 
-        const SelSkillBig = document.querySelector('#SelSkillBig');
-        const SelSkillSmall = document.querySelector('#SelSkillSmall');
+        const SelSkillBigOne = document.querySelector('#SelSkillBigOne');
+        const SelSkillSmallOne = document.querySelector('#SelSkillSmallOne');
 
         //select的技能分類
-        async function loadSelSkillBig() {
+        async function loadSelSkillBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
             const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
-            document.querySelector('#SelSkillBig').innerHTML = skillBig.join("");
+            document.querySelector('#SelSkillBigOne').innerHTML = skillBig.join("");
 
-            loadSelSkillSmall();
+            loadSelSkillSmallOne();
         }
 
-        loadSelSkillBig();
+        loadSelSkillBigOne();
 
         //select的技能小項
-        async function loadSelSkillSmall() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBig.value}`);
+        async function loadSelSkillSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigOne.value}`);
             const datas = await response.json()
             const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
-            SelSkillSmall.innerHTML = skillSmall.join("");
+            SelSkillSmallOne.innerHTML = skillSmall.join("");
         }
 
-        loadSelSkillSmall();
-
-        SelSkillBig.addEventListener('change', () => {
-            loadSelSkillSmall();
+        SelSkillBigOne.addEventListener('change', () => {
+            loadSelSkillSmallOne();
         });
 
 
+        const SelSkillBigTwo = document.querySelector('#SelSkillBigTwo');
+        const SelSkillSmallTwo = document.querySelector('#SelSkillSmallTwo');
+
+        //select的技能分類
+        async function loadSelSkillBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigTwo').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallTwo();
+        }
+
+        loadSelSkillBigTwo();
+
+        //select的技能小項
+        async function loadSelSkillSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigTwo.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallTwo.innerHTML = skillSmall.join("");
+        }
+
+        SelSkillBigTwo.addEventListener('change', () => {
+            loadSelSkillSmallTwo();
+        });
+
+
+        const SelSkillBigThree = document.querySelector('#SelSkillBigThree');
+        const SelSkillSmallThree = document.querySelector('#SelSkillSmallThree');
+
+        //select的技能分類
+        async function loadSelSkillBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigThree').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallThree();
+        }
+
+        loadSelSkillBigThree();
+
+        //select的技能小項
+        async function loadSelSkillSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigThree.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallThree.innerHTML = skillSmall.join("");
+        }
+
+        SelSkillBigThree.addEventListener('change', () => {
+            loadSelSkillSmallThree();
+        });
+
 
         //證照的標籤
-        const SelCerBig = document.querySelector('#SelCerBig');
-        const SelCerSmall = document.querySelector('#SelCerSmall');
+        const SelCerBigOne = document.querySelector('#SelCerBigOne');
+        const SelCerSmallOne = document.querySelector('#SelCerSmallOne');
 
         //select的證照分類
-        async function loadSelCerBig() {
+        async function loadSelCerBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
             const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
-            document.querySelector('#SelCerBig').innerHTML = CerBig.join("");
+            document.querySelector('#SelCerBigOne').innerHTML = CerBig.join("");
 
-            loadSelCerSmall();
+            loadSelCerSmallOne();
         }
 
-        loadSelCerBig();
+        loadSelCerBigOne();
 
         //select的證照小項
-        async function loadSelCerSmall() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBig.value}`);
+        async function loadSelCerSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigOne.value}`);
             const datas = await response.json()
             const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
-            SelCerSmall.innerHTML = CerSmall.join("");
+            SelCerSmallOne.innerHTML = CerSmall.join("");
         }
 
-        loadSelCerSmall();
+        loadSelCerSmallOne();
 
-        SelCerBig.addEventListener('change', () => {
-            loadSelCerSmall();
+        SelCerBigOne.addEventListener('change', () => {
+            loadSelCerSmallOne();
+        });
+
+
+        //證照的標籤
+        const SelCerBigTwo = document.querySelector('#SelCerBigTwo');
+        const SelCerSmallTwo = document.querySelector('#SelCerSmallTwo');
+
+        //select的證照分類
+        async function loadSelCerBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigTwo').innerHTML = CerBig.join("");
+
+            loadSelCerSmallTwo();
+        }
+
+        loadSelCerBigTwo();
+
+        //select的證照小項
+        async function loadSelCerSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigTwo.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallTwo.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallTwo();
+
+        SelCerBigTwo.addEventListener('change', () => {
+            loadSelCerSmallTwo();
+        });
+
+
+        //證照的標籤
+        const SelCerBigThree = document.querySelector('#SelCerBigThree');
+        const SelCerSmallThree = document.querySelector('#SelCerSmallThree');
+
+        //select的證照分類
+        async function loadSelCerBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
+
+            loadSelCerSmallThree();
+        }
+
+        loadSelCerBigThree();
+
+        //select的證照小項
+        async function loadSelCerSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigThree.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallThree.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallThree();
+
+        SelCerBigThree.addEventListener('change', () => {
+            loadSelCerSmallThree();
         });
 
      </script>        
