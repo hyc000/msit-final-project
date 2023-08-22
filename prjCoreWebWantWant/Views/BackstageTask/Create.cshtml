@@ -400,7 +400,7 @@
 
         
         async function getTownId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetTownId")? City = ${ selCity.value } & District=${ selTown.value }`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
             const data = await response.json();
             const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenTownIdInput.value = selectedTownId;
