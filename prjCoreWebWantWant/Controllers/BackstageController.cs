@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -32,7 +33,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId)
+        public IActionResult Create(Resume p,int selectedTownId, CResumeViewModel resumeViewModel)
         {
             p.TownId = selectedTownId;
             _context.Resumes.Add(p);

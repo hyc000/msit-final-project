@@ -5,7 +5,7 @@ namespace prjCoreWebWantWant.ViewModels
 {
     public class CResumeViewModel
     {
-        //[Display(Name = "帳號")]
+        [Display(Name = "帳號")]
         public int AccountId { get; set; }
 
         public int ResumeId { get; set; }
