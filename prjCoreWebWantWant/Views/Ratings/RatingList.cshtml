@@ -1,6 +1,7 @@
 ﻿@model prjCoreWebWantWant.ViewModels.CRatingViewModel
 @{
     ViewData["Title"] = "RatingList";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
 <div class="container">
@@ -9,11 +10,11 @@
 
         <ul class="nav ">
             <li class="nav-item">
-                <button class="nav-link active" onclick="clickdeploy(totask,tasked)">給別人的評價</button>
+                <button class="nav-link active" id="btnToShowForRatings">給別人的評價</button>
             </li>
             <li>|</li>
             <li class="nav-item">
-                <button class="nav-link active" onclick="clickdeploy(tasked,totask)" aria-current="page" href="#">我收到的評價</button>
+                <button class="nav-link active" id="btnToShowMyRatings" aria-current="page" href="#">我收到的評價</button>
             </li>
 
         </ul>
@@ -21,12 +22,12 @@
 
     </div>
     @* 給別人的評價 *@
-    <div>
-        <table id="forratings" class="display" style="width:100%">
+    <div id="totask">
+        <table id="forratings" class="display " style="width:100%">
             <thead>
                 <tr>
                     <th>被評論者</th>
-                    <th>評論者</th>
+                   @*  <th>評論者</th> *@
                     <th>評論星數</th>
                     <th>評論內容</th>
                     <th>評論日期</th>
@@ -36,11 +37,11 @@
         </table>
     </div>
     @* 自己的評價 *@
-    <div>
-        <table id="myratings" class="display" style="width:100%">
+    <div id="tasked" style="display:none" >
+        <table id="myratings" class="display" style="width:100%;">
             <thead>
                 <tr>
-                    <th>被評論者</th>
+                   @*  <th>被評論者</th> *@
                     <th>評論者</th>
                     <th>評論星數</th>
                     <th>評論內容</th>
@@ -63,38 +64,61 @@
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        
-    //    var datas = [
-    //        {
-    //           "被評論者": "陳捷恪",
-    //"評論者": "自己",
-    //"評論星數": "5",
-    //"評論內容": "棒!!這位繪師的技術很出色，但有時候她可能過於堅持自己的風格，不夠靈活地適應我的要求。",
-    //"評論日期": "2023-07-04T00:00:00"
-    //        },
-    //        // 可以加入更多資料
-    //        {
-    //            "被評論者": "陳捷恪",
-    //    "評論者": "自己",
-    //        "評論星數": "5",
-    //            "評論內容": "棒!!這位繪師的技術很出色，但有時候她可能過於堅持自己的風格，不夠靈活地適應我的要求。",
-    //                "評論日期": "2023-07-04T00:00:00"
-    //        }
-    //    ];
-        var datas=null;
-        fetch('@Url.Content("~/Ratings/Ratingdata")')
+      //這是按鈕部分
+        var btnToShowForRatings = document.querySelector('#btnToShowForRatings');
+        var btnToShowMyRatings = document.querySelector('#btnToShowMyRatings');
+
+        btnToShowForRatings.addEventListener('click', function () {
+            totask.style.display = 'block';
+            tasked.style.display = 'none';
+        });
+
+        btnToShowMyRatings.addEventListener('click', function () {
+            totask.style.display = 'none';
+            tasked.style.display = 'block';
+        });
+        //============================================
+       
+        //星星評價
+        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+        var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+        var starnull = '<i class="bi bi-star lablestar"></i>';
+        function renderStars(data, type, row) {
+            let score = parseInt(data);
+            let starHTML = "";
+
+            for (let i = 1; i <= 5; i++) {
+                if (score >= i) {
+                    starHTML += starfill; // 實心星星
+                } else if (score > i - 1 && score < i) {
+                    starHTML += starhelf; // 半實心星星
+                } else {
+                    starHTML += starnull; // 空心星星
+                }
+            }
+          
+            return starHTML;
+        }
+
+
+
+
+        //============================================
+        //這是跑評論內容部分--給別人
+        var datasforratings = null;
+        fetch('@Url.Content("~/RatingsAPI/ForOtherdata")')
             .then(response => response.json())
             .then(data => {
                 // 在這裡處理從 API 取得的 JSON 資料
-                console.log(data);
-                datas = data;
+
+                datasforratings = data;
                
                 $('#forratings').DataTable({
-                    data: datas,
+                    data: datasforratings,
                     columns: [
                         { data: 'ratedperson', title: "被評論者" },
-                        { data: 'ratingforperson', title: "評論者" },
-                        { data: 'ratingstar', title: "評論星數" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
                         { data: 'ratingcontent', title: "評論內容" },
                         { data: 'ratingdate', title: "評論日期" }
                     ]
@@ -104,26 +128,33 @@
                 // 處理錯誤情況
                 console.error('API request error:', error);
             });
+        //============================================
 
+        //這是跑評論內容部分--自己收到
+        var datasmyratings = null;
+        fetch('@Url.Content("~/RatingsAPI/MyRatingsdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
 
-       
-        //console.log(data);
-           
+                datasmyratings = data;
 
-
-            //ajax:  'Url.Content("~/Ratings/Ratingdata")',
-           
-            //columns: [
-            //    { data: 'ratedperson', title: "被評論者" },
-            //    { data: 'ratingforperson', title: "評論者" },
-            //    { data: 'ratingstar', title: "評論星數" },
-            //    { data: 'ratingcontent', title: "評論內容" },
-            //    { data: 'ratingdate', title: "評論日期" }
-            //]
-        //});
-
-
-
+                $('#myratings').DataTable({
+                    data: datasmyratings,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
+                     //============================================
     </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
