@@ -124,33 +124,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult TaskCollection()
         {
-            //var q = from mc in _context.MemberCollections
-            //        //join tl in _context.TaskLists on mc. equals tl.
-            //        where mc.AccountId == 33 && mc.CaseId != null
-            //        select new
-            //        {
-            //            mc.TaskList.CaseID
-            //        }
-
-            // var q2 = from mc in _context.MemberCollections
-            //          from tl in _context.TaskLists
-            //          where mc.AccountId == 33 && mc.CaseId != null
-            //          select new
-            //          {
-            //              tl.TaskTitle,
-            //              taskdetail = tl.TaskDetail.Substring(0, 15),
-            //              tl.PayFrom,
-            //          };
-            //var viewModelList = q2.ToList();
-
-            //var q = _context.MemberCollections
-            //.Where(mc => mc.AccountId == GetAccountID() && mc.CaseId != null)
-            //.Include(mc => mc.Resume).Include(mc => mc.Case.TaskSkills).ThenInclude(mc => mc.)
-            //return View(q);
-
             var q = from mc in _context.MemberCollections
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
-                    where mc.AccountId == 38 && mc.CaseId != null
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null
                     select new CMemberCollectionViewModel
                     {
                         TaskTitle = tl.TaskTitle,
@@ -162,19 +138,46 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         CaseId = mc.CaseId
                     };
 
-            //var viewModelList = 
             return View(q.ToList());
+        }
+
+        public IActionResult DeleteCollection(int? id)
+        {
+            if (id != null)
+            {
+                MemberCollection memberCollection = _context.MemberCollections.FirstOrDefault(p => p.CaseId == id && p.AccountId == GetAccountID());
+                if (memberCollection != null)
+                {
+                    _context.MemberCollections.Remove(memberCollection);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("TaskCollection");
+        }
+
+        public IActionResult Apply()
+        {
+            //todo
+            return RedirectToAction("TaskCollection");
         }
 
         public IActionResult ApplicationRecord()
         {
             var q = from al in _context.ApplicationLists
-                    where al.CaseStatusId == 21 && al.Resume.AccountId == GetAccountID()
-                    select new
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 21
+                    select new CMemberCollectionViewModel
                     {
-                        
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId = tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = al.CaseId
                     };
-            return View();
+
+            return View(q.ToList());
         }
 
         public IActionResult GetTownId(string City ,string District)
