@@ -95,8 +95,8 @@
                                         @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
                                     </td>
 
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id=item.AccountId })
+                                    <td>                                    
+                                        @Html.ActionLink("修改", "Edit","BackstageManagement", new { id=item.AccountId })
                                     </td>
                                 </tr>
                             }
