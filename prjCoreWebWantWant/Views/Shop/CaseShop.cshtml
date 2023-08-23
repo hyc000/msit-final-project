@@ -19,8 +19,6 @@
             <div class="form-group">
                 <label for="caseSelect">選擇您的任務：</label>
                 <select class="form-control" id="caseSelect">
-
-            
                     <!-- 添加更多的選項，根據您的需求 -->
                 </select>
             </div>
@@ -357,8 +355,8 @@
 
                 data.tasks.forEach(caseItem => {
                     const option = document.createElement('option');
-                    option.value = caseItem.caseId; // 假设 'caseId' 是返回的 JSON 中的属性
-                    option.textContent = caseItem.taskTitle; // 假设 'taskTitle' 是返回的 JSON 中的属性
+                    option.value = caseItem.caseId; // 假設 'caseId' 是返回的 JSON 中的屬性
+                    option.textContent = caseItem.taskTitle; // 假設 'taskTitle' 是返回的 JSON 中的屬性
                     selectElement.appendChild(option);
                 });
             } catch (error) {
@@ -369,8 +367,7 @@
         // 在页面加载时调用加载案例的函数
         loadCases();
 
-        // 在页面加载时调用加载案例的函数
-        loadCases();
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     }

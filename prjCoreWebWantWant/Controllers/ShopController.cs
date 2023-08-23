@@ -69,5 +69,19 @@ namespace prjShop.Controllers
                 .ToList();
             return Json(new { success = true, tasks = cases });
         }
+
+        public IActionResult loadExpert()
+        {
+            int id = GetAccountID();
+            var resume = _context.Resumes
+                 .Include(r => r.ExpertResume)
+                .Where(r => r.AccountId == id && r.IsExpertOrNot == true)
+                .Select(r => new { r.ResumeId,r.ExpertResume.Introduction})
+             .ToList();
+
+            return Json(resume);
+
+        }
+
     }
 }
