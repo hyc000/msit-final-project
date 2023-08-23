@@ -518,12 +518,11 @@
         }
 
         async function getSkillId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?SkillTypeName=${SelSkillBig.value}&SkillName=${SelSkillSmall.value}`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?skillBig=${SelSkillBig.value}&SkillName=${SelSkillSmall.value}`);
             const data = await response.json();
             const selectedSkillId= data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenSkillIdInput.value = selectedSkillId;
         }
-
 
         //loadSelSkillSmall();
 
@@ -564,7 +563,7 @@
         loadSelCerSmall();
 
         async function getCerId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?CertificateTypeName=${SelCerBig.value}&SkillName=${SelCerSmall.value}`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?cerBig=${SelCerBig.value}&SkillName=${SelCerSmall.value}`);
             const data = await response.json();
             const selectedCerId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenCerIdInput.value = selectedCerId;
