@@ -335,25 +335,29 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task )
+        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId )
         { 
-           // task.TownId = selectedTownId;
+            task.TaskNameId = selectedTaskNameId;
+            task.TownId = selectedTownId;
+            task.PaymentId = selectedPaymentId;
+            task.PaymentDateId= selectedPaymentDateId;
             _context.TaskLists.Add(task);
             _context.SaveChanges();
 
-            return RedirectToAction("Form");        
-        
+            return RedirectToAction("Create");  
+
         }
-        public IActionResult Form(TaskList taskList)
+
+        //取得任務類型的selectIndex
+        public IActionResult GetTaskNameId(string taskname)
         {
-          
-            _context.TaskLists.Add(taskList);
-            _context.SaveChanges();
+            var taskName = _context.TaskNameLists
+                         .Where(a => a.TaskName == taskname)
+                         .Select(c => c.TaskNameId);
 
-            return View("Form");
-         
+            return Json(taskName);
         }
-
+        //取得鄉鎮和城市的selectIndex
         public IActionResult GetTownId(string City, string District)
         {
             var townId = _context.Cities
@@ -365,6 +369,64 @@ namespace WantTask.Controllers
             return Json(townId);
         }
 
+
+        //取得支薪方式的selectIndex
+        public IActionResult GetPaymentId(string payment)
+        {
+            var Payment = _context.Payments
+                         .Where(a => a.Payment1 == payment)
+                         .Select(c => c.PaymentId);
+
+            return Json(Payment);
+        }
+
+        //取得支薪日的selectIndex
+        public IActionResult GetPaymentDateId(string paymentDate)
+        {
+            var PaymentDate = _context.PaymentDates
+                         .Where(a => a.PaymentDate1 == paymentDate)
+                         .Select(c => c.PaymentDateId);
+
+            return Json(PaymentDate);
+        }
+
+        //取得技能的selectIndex
+        public IActionResult GetSkillId(string skillBig, string skillSmall)
+        {
+            var skillBigId = _context.SkillTypes
+                         .Where(a => a.SkillTypeName== skillBig)
+                         .SelectMany(c => c.Skills)
+                         .Where(c => c.SkillName == skillSmall)
+                         .Select(c => c.SkillId);
+
+            return Json(skillBigId);
+        }
+
+        //取得證照的selectIndex
+        public IActionResult GetCerId(string cerBig, string cerSmall)
+        {
+            var cerBigId = _context.CertificateTypes
+                         .Where(a => a.CertificateTypeName == cerBig)
+                         .SelectMany(c => c.Certificates)
+                         .Where(c => c.CertificateName == cerSmall)
+                         .Select(c => c.CertificateId);
+
+            return Json(cerBigId);
+        }
+
+
+
+
+        public IActionResult Form(TaskList taskList)
+        {          
+            _context.TaskLists.Add(taskList);
+            _context.SaveChanges();
+
+            return View("Form");
+         
+        }
+
+     
         #endregion
 
         //public IActionResult JobdetailBackstage()
@@ -461,8 +523,7 @@ namespace WantTask.Controllers
 
         //}
 
-        //支薪方式        
-        
+        //支薪方式      
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();

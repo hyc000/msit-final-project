@@ -2,6 +2,8 @@
 using prjCoreWebWantWant.Models;
 using prjCoreWantMember.ViewModels;
 using System.Text.Json;
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -61,10 +63,10 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = from m in db.MemberAccounts
                         where m.AccountId == id
-                        select new CExpertInfoViewModel {memberAccount = m};
+                        select new CExpertInfoViewModel { memberAccount = m };
             }
-                return View(datas);
-            
+            return View(datas);
+
         }
 
         public IActionResult EditExpertResume(int? id)
@@ -79,7 +81,7 @@ namespace prjCoreWantMember.Controllers
                    on r.ResumeId equals er.ResumeId
                     where r.IsExpertOrNot == true && r.ResumeId == id
                     select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
-        return View(datas);
+            return View(datas);
         }
         public IActionResult AddExpertResume(int? id)
         {
@@ -93,5 +95,5 @@ namespace prjCoreWantMember.Controllers
         }
     }
 
-    
 }
+

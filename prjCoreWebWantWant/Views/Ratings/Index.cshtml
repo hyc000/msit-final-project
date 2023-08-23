@@ -3,148 +3,139 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+
+}
+@section subTitle{
+    歷史評價
 }
 
+<div id="layout-wrapper">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    歷史評價2323
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!--已上架未上架 任務類型 關鍵字-->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
 
+                    <div class="card-header">
 
-<div class="container">
-    <div class="justify-content-center p-4">
-        <h1>歷史評價</h1>
+                        <div class="row">
+                            <div class="card-body col-4">
 
-        <ul class="nav m-3 ">
-            <li class="nav-item">
-                <button class="nav-link active" onclick="clickdeploy(totask,tasked)">給別人的評價</button>
-            </li>
-            <li>|</li>
-            <li class="nav-item">
-                <button class="nav-link active" onclick="clickdeploy(tasked,totask)" aria-current="page" href="#">我收到的評價</button>
-            </li>
+                                <!--給出的評論 我收到的評價-->
+                                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                    <li class="nav-item" >
+                                        <a id="btnToShowForRatings" class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                                            @* <button class="nav-link active" id="btnToShowForRatings">給別人的評價</button> *@
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block" style="color:#528EAF">給別人的評價</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item"  >
+                                        <a class="nav-link" data-bs-toggle="tab" href="#" role="tab" id="btnToShowMyRatings">
+                                            @* <button class="nav-link active" id="btnToShowMyRatings" aria-current="page" href="#">我收到的評價</button> *@
+                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                            <span class="d-none d-sm-block"  style="color:#528EAF">我收到的評價</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--標籤-->
+                            <!--給出的評論的標籤-->
+                            <div class="col-4 mb-3" id="PublishSelect">
+                                @* <form class="app-search d-none d-lg-block">
+                                    @{
+                                        NewIspanProjectContext _context = new NewIspanProjectContext();
+                                        var q = from p in _context.TaskNameLists
+                                                select p.TaskName;
+                                    }
 
-        </ul>
-        <hr class="p-1" />
+                                    <select class="form-select" id="selTaskNamePublish">
+                                        <option value="">請選擇任務類型</option>
+                                        @foreach (var item in q)
+                                        {
+                                            <option name="category">@item</option>
+                                        }
+                                    </select>
+                                </form> *@
+                            </div>
+
+                            <!--未上架的標籤-->
+                            <div class="col-4 mb-3" style="display:none" id="NoPublishSelect">
+                                @* <form class="app-search d-none d-lg-block">
+                                    @{
+                                        NewIspanProjectContext _context2 = new NewIspanProjectContext();
+                                        var qq = from p in _context2.TaskNameLists
+                                                 select p.TaskName;
+
+                                    }
+
+                                    <select class="form-select" id="selTaskNameNoPublish">
+                                        <option value="">請選擇任務類型</option>
+                                        @foreach (var item in qq)
+                                        {
+                                            <option name="category">@item</option>
+                                        }
+                                    </select>
+                                </form> *@
+                            </div>
+
+                            <!--關鍵字搜尋-->
+
+                           
+                        </div>
+                    </div>
+
+                    <!--已上架-->
+                    <div class="card-body" id="totask">
+                        <table id="forratings" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">被評論者</th>
+                                   @*  <th style="width: 50px;">評論者</th> *@
+                                    <th style="width: 100px;">評論星數</th>
+                                    <th style="width: 300px;">評論內容</th>
+                                    <th style="width: 50px;">評論日期</th>
+                                </tr>
+                            </thead>
+                                                       
+                        </table>
+
+                    </div>
+
+                    <!--未上架-->
+                    <div class="card-body" style="display:none" id="tasked">
+                        <table id="myratings" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                   @*  <th style="width: 50px;">被評論者</th> *@
+                                    <th style="width: 50px;">評論者</th>
+                                    <th style="width: 100px;">評論星數</th>
+                                    <th style="width: 300px;">評論內容</th>
+                                    <th style="width: 50px;">評論日期</th>
+                                </tr>
+                            </thead>
+                           
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
-
-    <form style=" height:65vh " class=" border border-secondary">
-        <!-- 委託 -->
-        <div>
-            <div id="totask" >
-            <div class="row justify-content-around p-5">
-
-                <h2 class="col-5  ">給出的評論</h2>
-
-
-                <div class="justify-content-end p-4 col-7 h-50">
-                    <div class="input-group " style="height:50px;">
-                        <input type="text" placeholder="請輸入要搜尋的內容" aria-label="" aria-describedby="btnsearch" style="width: 400px;">
-                        <button class="btn btn-secondary col-1 " type="button" id="btnsearch">搜尋</button>
-                    </div>
-
-
-                </div>
-                <hr>
-                <div class="" id="nonpublic">
-
-
-                    <table class="table table-hover">
-                            <thead class="expertThead">
-                            <tr>
-                               
-                                    <td>被評論者</td>
-                                <td>評論星數</td>
-                                <td class="w-auto">評論內容</td>
-                                <td>評論日期</td>
-                                
-
-                            </tr>
-                        </thead>
-                            <tbody >
-                            @foreach (var item in Model.ForOtherRatings)
-                            {
-                                <tr>
-                                  
-                                    <td>
-                                        @item.ratedperson 
-                                        
-                                    </td>
-                                    <td>
-                                            @item.ratingstar
-                                    </td>
-
-
-                                    <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.ratingcontent)
-                                    </td>
-                                        <td>@Html.DisplayFor(modelItem => item.ratingdate)</td>
-                                   
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-           
-            </div>
-            <div id="tasked" class="displayno">
-                <div class="row justify-content-around p-5 ">
-
-                    <h2 class="col-5 ">收到的評論</h2>
-
-                    <div class="row justify-content-end p-4 col-7 h-50">
-                        <div class="input-group w">
-                            <input type="text" placeholder="請輸入要搜尋的內容" aria-label="" aria-describedby="btnsearch" style="width: 400px;">
-                            <button class="btn btn-secondary col-1 " type="button" id="btnsearch">搜尋</button>
-                        </div>
-
-
-                    </div>
-                    <hr>
-                </div>
-                <div class="">
-
-                    <table class="table table-hover ">
-                        <thead class="expertThead">
-                            <tr>
-                                <td class="w-15">評論者</td>
-                                <td class="w-15">評論星數</td>
-                                <td class="w-50">評論內容</td>
-                                <td class="w-20">評論日期</td>
-                            </tr>
-                        </thead>
-                        <tbody class="expertTbody">
-                            
-                            @foreach (var item in Model.MyRatings)
-                            {
-                                <tr>
-                                    <td class="w-15">
-                                        @Html.DisplayFor(modelItem => item.ratingforperson) 
-                                        
-                                    </td>
-                                    <td class="w-15">
-                                        @Html.DisplayFor(modelItem => item.ratingstar)
-                                    </td>
-                                    <td class="w-50">
-                                        @Html.DisplayFor(modelItem => item.ratingcontent)
-                                        
-                                    </td>
-                                    <td class="w-20">@Html.DisplayFor(modelItem => item.ratingdate)</td>
-                                </tr>
-                             
-                               
-                                
-                            }
-                          
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </form>
 </div>
-
 
 @section Styles{
 
@@ -154,20 +145,101 @@
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        var datas = @Html.Raw(Model.ForOtherRatings);
-        new DataTable('#example', {
-            data: datas,
-            columns: [
-                { data: '被評論者' },
-                { data: '評論星數' },
-                { data: '評論內容' },
-                { data: '評論日期' },
-                { data: '評論者' },
-          
-            ]
+      
+        // 添加新數據
+        // $("#myratings").DataTable().rows.add(newData).draw();
+        // //這是按鈕部分
+
+        var btnToShowForRatings = document.querySelector('#btnToShowForRatings');
+        var btnToShowMyRatings = document.querySelector('#btnToShowMyRatings');
+
+        btnToShowForRatings.addEventListener('click', function () {
+            totask.style.display = 'block';
+            tasked.style.display = 'none';
         });
 
+        btnToShowMyRatings.addEventListener('click', function () {
+            totask.style.display = 'none';
+            tasked.style.display = 'block';
+        });
+        //============================================
 
+        //星星評價
+        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+        var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+        var starnull = '<i class="bi bi-star lablestar"></i>';
+        function renderStars(data, type, row) {
+            let score = parseInt(data);
+            let starHTML = "";
+
+            for (let i = 1; i <= 5; i++) {
+                if (score >= i) {
+                    starHTML += starfill; // 實心星星
+                } else if (score > i - 1 && score < i) {
+                    starHTML += starhelf; // 半實心星星
+                } else {
+                    starHTML += starnull; // 空心星星
+                }
+            }
+
+            return starHTML;
+        }
+
+
+
+
+        //============================================
+        //這是跑評論內容部分--給別人
+        var datasforratings = null;
+        fetch('@Url.Content("~/RatingsAPI/ForOtherdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
+
+                datasforratings = data;
+
+                $('#forratings').DataTable({
+                    data: datasforratings,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                        { data: 'ratingstar', title: "評論星數", render: renderStars },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
+        //============================================
+
+        //這是跑評論內容部分--自己收到
+        var datasmyratings = null;
+        fetch('@Url.Content("~/RatingsAPI/MyRatingsdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
+
+                datasmyratings = data;
+
+                $('#myratings').DataTable({
+                    data: datasmyratings,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                        { data: 'ratingstar', title: "評論星數", render: renderStars },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
+                             //============================================
     </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
@@ -175,9 +247,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
-   
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
 }
+
+
+<!-- glightbox js -->
+<script src="~/backstage1/static/js/glightbox.min.js"></script>
+
+<!-- lightbox init -->
+<script src="~/backstage1/static/js/lightbox.init.js"></script>

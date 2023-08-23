@@ -24,36 +24,55 @@
     <!-- /.content-header -->
     <!-- Main content -->
     <div class="container mt-4">
-        <div class="row align-items-center">
-
+        <form id="searchForm" method="get" enctype="multipart/form-data">
+           
+            <div class="row align-items-center">
+                 
             <div class="col-md-2">
-                <label for="productName">關鍵字搜尋：</label>
-                <input class="form-control form-control-sm" type="text" id="productName">
+                <label for="productName">會員名稱：</label>
+                <input class="form-control form-control-sm" type="text" id="name">
+            </div>
+            <div class="col-md-2">
+                <label for="productName">訂單編號：</label>
+                <input class="form-control form-control-sm" type="text" id="orderId">
+            </div>
+            <div class="col-md-2">
+                <label for="productName">訂單類別：</label>
+                <select name="category" id="category" class="form-control">
+                        <option value="">請選擇</option>
+                        <option value="1">專家曝光</option>
+                        <option value="2">任務曝光</option>
+                    </select>
+                     
             </div>
             <div class="col-md-4">
                 <label for="createdDate">訂單日期：</label>
                 <div class="d-flex align-items-center">
-                    <input type="date" class="form-control">
+                        <input type="date" class="form-control" name="startDate" id="startDate">
                     <span class="mx-2">~</span>
-                    <input type="date" class="form-control">
+                        <input type="date" class="form-control" name="endDate" id="endDate">
                 </div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary">查詢</button>
-                <button type="button" class="btn btn btn-info">匯出訂單</button>
+                    <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
+
+                    <button type="button" class="btn btn btn-info" id="exportButton">匯出訂單</button>
+       
             </div>
+       
             <div class="row mt-3 ">
                 <div class="d-flex">
                     <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
                     <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
                     <button type="button" class="btn btn-primary">訂單分析圖表</button>
                 </div>
+
             </div>
-
+        
         </div>
-
+        </form>
 
         <table id="table" class="table table-striped mt-5">
             <thead align="center">
@@ -64,7 +83,7 @@
                     <td>訂單類別</td>
                     <td>加值項目</td>
                     <td>購買時間</td>
-                    <td>顧客</td>
+                    <td>會員</td>
                     <td>付款狀態</td>
                     <td>總金額</td>
 
@@ -158,3 +177,73 @@
         }
     </style>
 }
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                e.preventDefault();
+
+                var category = $('#category').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+                var orderId = $('#orderId').val();
+                var name = $('#name').val();
+
+                $.ajax({
+                    url: '@Url.Action("List", "Order")',
+                    type: 'GET',
+                    data: {
+                        categorys: category,
+                        startDate: startDate,
+                        endDate: endDate,
+                        orderId: orderId,
+                        name: name
+                    },
+                    success: function (result) {
+                        $('#table tbody').html($(result).find('#table tbody').html());
+                    },
+                    error: function () {
+                        alert('失敗。');
+                    }
+                });
+            });
+        });
+        document.getElementById('exportButton').addEventListener('click', function () {
+            var rows = document.querySelectorAll('#table tbody tr:not(.hiddenRow)'); // Exclude detail rows
+            var data = [['訂單編號', '訂單類別', '購買時間', '會員', '總金額']];
+
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.getElementsByTagName('td');
+
+                // 获取表格中第2到第8列的数据（跳过第1列）
+                for (var i = 1; i < cells.length - 1; i++) {
+                    if (i === 3) { // 跳过订单明细那一列
+                        continue;
+                    }
+                    rowData.push(cells[i].textContent.trim());
+                }
+
+                data.push(rowData);
+            });
+
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.aoa_to_sheet(data);
+            var wscols = [
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 20 },
+                { wch: 15 },
+                { wch: 15 }
+            ];
+
+            ws['!cols'] = wscols;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+            XLSX.writeFile(wb, 'orders.xlsx');
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+    }

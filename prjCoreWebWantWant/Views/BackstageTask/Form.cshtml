@@ -198,6 +198,8 @@
                                 </select>
                                 <label for="floatingSelectPaymentDate">支薪日</label>
                             </div>
+
+
                         </div>
                     </div>
 
@@ -297,14 +299,13 @@
 
             //任務類型
             const SelTaskName = document.querySelector('#SelTaskName');
-
+            
             //select的任務名
             async function loadSelTaskName() {
                 const response = await fetch('@Url.Content("~/BackstageTask/TaskName")')
                 const datas = await response.json()
                 const taskName = datas.map(TaskName => `<option value="${TaskName}">${TaskName}</option>`);
                 document.querySelector('#SelTaskName').innerHTML = taskName.join("");
-
             }
 
             loadSelTaskName();
@@ -420,7 +421,7 @@
             const SelCerSmall = document.querySelector('#SelCerSmall');
 
             //select的證照分類
-            async function loadSelCerBig() {
+                async function loadSelCerBig() {
                 const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
                 const datas = await response.json()
                 const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
