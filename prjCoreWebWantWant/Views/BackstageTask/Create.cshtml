@@ -7,10 +7,7 @@
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
-@*@section subTitle{
-    %發案管理%
-}
-*@
+
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
@@ -518,7 +515,7 @@
         }
 
         async function getSkillId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?skillBig=${SelSkillBig.value}&SkillName=${SelSkillSmall.value}`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?skillBig=${SelSkillBig.value}&skillSmall=${SelSkillSmall.value}`);
             const data = await response.json();
             const selectedSkillId= data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenSkillIdInput.value = selectedSkillId;
@@ -563,7 +560,7 @@
         loadSelCerSmall();
 
         async function getCerId() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?cerBig=${SelCerBig.value}&SkillName=${SelCerSmall.value}`);
+            const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?cerBig=${SelCerBig.value}&cerSmall=${SelCerSmall.value}`);
             const data = await response.json();
             const selectedCerId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenCerIdInput.value = selectedCerId;

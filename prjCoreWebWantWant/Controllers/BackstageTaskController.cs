@@ -335,28 +335,29 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
-        {    
-            task.TaskNameId = selectedTaskNameId;
-            task.TownId = selectedTownId;
-            //task.PaymentId = selectedPaymentId;
-            //task.PaymentDateId = selectedPaymentDateId;
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
+        {
 
-            _context.TaskLists.Add(task);
+            tasklist.TaskNameId = selectedTaskNameId;
+            tasklist.TownId = selectedTownId;
+            tasklist.PaymentId = selectedPaymentId;
+            tasklist.PaymentDateId = selectedPaymentDateId;
+              
+            _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
 
                 TaskSkill taskSkill = new TaskSkill()
                 {
-                    CaseId = task.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
-                    TaskSkillId = selectedSkillId
+                    CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                    SkillId = selectedSkillId
                 };
                 _context.Add(taskSkill);
                 _context.SaveChanges();
 
                 TaskCertificate taskCer = new TaskCertificate()
                 {
-                    CaseId = task.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
-                    TaskCertificateId = selectedCerId
+                    CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                    CertficateId = selectedCerId
                 };
                 _context.Add(taskCer);
                 _context.SaveChanges();
@@ -431,8 +432,6 @@ namespace WantTask.Controllers
 
             return Json(cerSmallId);
         }
-
-
 
 
         public IActionResult Form(TaskList taskList)
