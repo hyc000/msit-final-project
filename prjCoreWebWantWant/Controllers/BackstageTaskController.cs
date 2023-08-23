@@ -328,23 +328,34 @@ namespace WantTask.Controllers
         //    return View("Form");
         //}
 
-        #region Form表 Create
+        #region Form表 Create表
         public IActionResult Create()
         { 
             return View();      
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId )
-        { 
-            task.TaskNameId = selectedTaskNameId;
-            task.TownId = selectedTownId;
-            task.PaymentId = selectedPaymentId;
-            task.PaymentDateId= selectedPaymentDateId;
-            _context.TaskLists.Add(task);
-            _context.SaveChanges();
+        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId,  TaskSkill taskskill, TaskCertificate taskcer, int selectedSkillId, int selectedCerId)
+        {
+                    taskskill.CaseId = task.CaseId;
+                    taskcer.CaseId = task.CaseId;
 
-            return RedirectToAction("Create");  
+                    task.TaskNameId = selectedTaskNameId;
+                    task.TownId = selectedTownId;
+                    task.PaymentId = selectedPaymentId;
+                    task.PaymentDateId = selectedPaymentDateId;
+
+                    _context.TaskLists.Add(task);
+                    // _context.SaveChanges();
+
+                    taskskill.SkillId = selectedSkillId;
+                    taskcer.CertficateId = selectedCerId;
+
+                    _context.TaskSkills.Add(taskskill);
+                    _context.TaskCertificates.Add(taskcer);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Create");
 
         }
 
