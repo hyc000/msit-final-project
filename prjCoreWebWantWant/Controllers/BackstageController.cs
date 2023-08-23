@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
@@ -129,18 +132,38 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             //            mc.TaskList.CaseID
             //        }
 
-           // var q2 = from mc in _context.MemberCollections
-           //          from tl in _context.TaskLists
-           //          where mc.AccountId == 33 && mc.CaseId != null
-           //          select new
-           //          {
-           //              tl.TaskTitle,
-           //              taskdetail = tl.TaskDetail.Substring(0, 15),
-           //              tl.PayFrom,
-           //          };
-           //var viewModelList = q2.ToList();
+            // var q2 = from mc in _context.MemberCollections
+            //          from tl in _context.TaskLists
+            //          where mc.AccountId == 33 && mc.CaseId != null
+            //          select new
+            //          {
+            //              tl.TaskTitle,
+            //              taskdetail = tl.TaskDetail.Substring(0, 15),
+            //              tl.PayFrom,
+            //          };
+            //var viewModelList = q2.ToList();
 
-            return View();
+            //var q = _context.MemberCollections
+            //.Where(mc => mc.AccountId == GetAccountID() && mc.CaseId != null)
+            //.Include(mc => mc.Resume).Include(mc => mc.Case.TaskSkills).ThenInclude(mc => mc.)
+            //return View(q);
+
+            var q = from mc in _context.MemberCollections
+                    join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    where mc.AccountId == 38 && mc.CaseId != null
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId =tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = mc.CaseId
+                    };
+
+            //var viewModelList = 
+            return View(q.ToList());
         }
 
         public IActionResult ApplicationRecord()
