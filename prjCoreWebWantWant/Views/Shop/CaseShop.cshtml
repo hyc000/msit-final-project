@@ -11,17 +11,14 @@
 </div>
 <div class="container mt-5">
     <!-- 新增顯示會員累積點數的標題 -->
-    <h3>您的紅利點數：100</h3>
+    <h3>您的累積紅利：<span>@ViewBag.Points 點</span></h3>
     <br>
     <div class="row">
         <div class="col-md-3">
             <!-- 任務類別選單 -->
             <div class="form-group">
-                <label for="categorySelect">選擇您的任務：</label>
-                <select class="form-control" id="categorySelect">
-                    <option value="category1">類別1</option>
-                    <option value="category2">類別2</option>
-                    <option value="category3">類別3</option>
+                <label for="caseSelect">選擇您的任務：</label>
+                <select class="form-control" id="caseSelect">
                     <!-- 添加更多的選項，根據您的需求 -->
                 </select>
             </div>
@@ -75,26 +72,18 @@
                         </thead>
                         <tbody align="center">
                             <tr>
-                                <td><img class="img-fluid" src="/shopimg/任務置頂1天.png"></td>
-                                <td>任務置頂1天</td>
-                                <td>200元</td>
-                                <td><select name="" id=""></select></td>
-                                <td>200元</td>
+                                <td><img class="img-fluid" src=""></td>
+                                <td></td>
+                                <td></td>
+                                <td><number name="" id=""></number></td>
+                                <td></td>
                                 <td>
                                     <a href="">
                                         <i class='bx bx-trash bx-tada'
                                            style='color:#ea0b0b ; font-size: 2rem'></i>
                                     </a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td><img class="img-fluid" src="path_to_image2.jpg"></td>
-                                <td>任務置頂3天</td>
-                                <td>350元</td>
-                                <td><select name="" id=""></select></td>
-                                <td>350元</td>
-                                <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
-                            </tr>
+                            </tr>               
                         </tbody>
                     </table>
                     <br>
@@ -149,6 +138,10 @@
                                 @if (item.UnitsInStock < 50)
                                 {
                                     <a class="btn btn-danger" style="border-radius: 20px;">限量優惠</a>
+                                }
+                                @if (item.UnitsInStock < 1)
+                                {
+                                    <a class="btn btn-secondary" style="border-radius: 20px;">缺貨</a>
                                 }
                                 
                         </div>
@@ -323,9 +316,51 @@
             }
     </style>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     }
 
 @section Scripts
     {
+        <script>
+        async function loadCases() {
+            try {
+                const response = await fetch('/Shop/loadCase'); // 使用正确的相对 URL
+                const data = await response.json();
 
+                if (data.tasks.length === 0) {
+                    // 使用 SweetAlert 
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '您目前沒有發布中的任務',
+                        text: '無法進行任務的曝光購買',
+                        confirmButtonText: '确定'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 如果沒有就跳轉
+                            //window.location.href = '@Url.Content("~/shop/index")';
+                        }
+                    });
+                    return;
+                }
+
+                const selectElement = document.getElementById('caseSelect');
+
+                data.tasks.forEach(caseItem => {
+                    const option = document.createElement('option');
+                    option.value = caseItem.caseId; // 假設 'caseId' 是返回的 JSON 中的屬性
+                    option.textContent = caseItem.taskTitle; // 假設 'taskTitle' 是返回的 JSON 中的屬性
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('加载案例时出错：', error);
+            }
+        }
+
+        // 在页面加载时调用加载案例的函数
+        loadCases();
+
+       
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     }

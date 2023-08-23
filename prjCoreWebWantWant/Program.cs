@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using prjCoreWebWantWant.Hubs;
 using prjCoreWebWantWant.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor(); //為了讓cshtml檔案可以加入Session
+builder.Services.AddSignalR();//即時通訊用
 
 builder.Services.AddDbContext<NewIspanProjectContext>(
 options => options.UseSqlServer(
@@ -23,6 +26,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
@@ -30,9 +34,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseWebSockets();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    //pattern: "{controller=Member}/{action=MemberAccount}/{id?}");
+//pattern: "{controller=Member}/{action=MemberAccount}/{id?}");
+
+app.MapHub<ChatHub>("/hubs/chat");
+
 
 app.Run();

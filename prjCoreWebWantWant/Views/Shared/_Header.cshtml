@@ -3,24 +3,29 @@
     <link rel="stylesheet" href="~/Mstyles/icofont.css" />
 
     <!--== CSS Styles ==-->
-    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mstyles/Mstyle.css" asp-append-version="true" />
 </head>
-
-@*判斷是否有登入*@
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@{
-    bool isLogin = HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
-    //有登入T，未登入F
-    
-    string loginInnerHtml = "<a class=\"btn btn-outline - primary me - md - 2\" href=\"/Member/Login\">登入/註冊</a>";
-    string logoutInnerHtml = "<a class=\"btn btn-outline-primary me-md-2\" href=\"/Member/Logout\">登出</a>";
-    string loginoutInnerHtml = isLogin ? logoutInnerHtml : loginInnerHtml;
-}
 
 
 <body>
+    @*抓登入者的名字*@
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @using System.Text.Json;
+
+    @{
+        var httpContext = HttpContextAccessor.HttpContext;
+        string loginUserName = "";
+        if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+        {
+            string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+            loginUserName = loggedInUser.Name;
+        }
+
+    }
+
     <!--== header start ==-->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -50,17 +55,37 @@
                     </ul>
                     <ul class="navbar-nav ml-auto pe-5">
                         <li class="nav-item">
+                            @{
+                                if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+                                {
+                                // 登入狀態，顯示小人
+                                    <i class="fa-solid fa-user nav-link d-sm-flex" style="color: #528eaf;"></i>
+                                }
+                            }
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link text-dark">@loginUserName</span>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="BackstageManagement" asp-action="Index">後台</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
                         </li>
                         <li class="nav-item">
-                            
-                            @*Html.Raw(loginInnerHtml.Replace("\"", "\\\""))*@
-                            <a id="btnInOut"></a>
-                            @*<a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login" id="btnInOut">登入/註冊</a>*@
-                            @*<a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Logout" id="btnInOut">登出</a>*@
+                                @*判斷是否有登入*@
+							@{
+                                if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+                                {
+                                    // 登入狀態，顯示登出按鈕
+                                    <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Logout">登出</a>
+                                }
+                                else
+                                {
+                                    // 未登入狀態，顯示登入按鈕
+                                    <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">登入</a>
+                                }
+                            }
                         </li>
                     </ul>
                 </div>
@@ -69,16 +94,7 @@
     </header>
     <!--== header end ==-->
     <!--== Javascript ==-->
-    <script>
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const btnLoginout = document.querySelector('#btnInOut');
-            const loginoutInnerHtml = `@Html.Raw(loginoutInnerHtml.Replace("\"", "\\\"").Replace("\n", "\\n"))`;
-            btnLoginout.innerHTML = loginoutInnerHtml
-        })
-
-    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+    <script src="https://kit.fontawesome.com/7fb42f8196.js" crossorigin="anonymous"></script>
 </body>                  

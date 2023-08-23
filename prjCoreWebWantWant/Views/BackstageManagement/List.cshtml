@@ -1,0 +1,109 @@
+﻿@model IEnumerable<prjCoreWebWantWant.ViewModels.CBackstageManagementViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="mb-2">會員狀態列表</h1>
+                    @using (Html.BeginForm())
+                    {
+                        @:關鍵字 @Html.TextBox("txtKeyword")
+                        <input type="submit" value="查詢" />
+                    }
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                序
+                            </th>
+                            <th>
+                                會員名稱
+                            </th>
+                            <th>
+                                會員帳號
+                            </th>
+                            <th>
+                                會員電話
+                            </th>
+                            <th>
+                                會員建立時間
+                            </th>
+                            <th>
+                                帳號狀態
+                            </th>
+                            <th>
+                                登入時間
+                            </th>
+                            <th>
+                                客服人員
+                            </th>
+                            <th>
+                                客服更新時間
+                            </th>
+                            <th>
+                                停權原因
+                            </th>
+                            <th>
+                                修改
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td>
+                                        @count
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreateTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AccountStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.loginHistory.LoginTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.UpdateUser)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.UpdateTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id=item.AccountId })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

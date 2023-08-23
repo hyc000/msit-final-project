@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<prjCoreWebWantWant.Models.ForumCategory>
 
 @{
-    ViewData["Title"] = "CategoryList";
+    ViewData["Title"] = "討論區";
+}
+@section subTitle{
+
 }
 
 
-
 <div class="m-auto container">
-    <h2 class="text-center mt-5">
+    <h2 class="text-center mt-5 myh2">
         <span style="color:#9eb9d3">●</span>
         <span style="color:#c0d3e6">●</span>
         <span style="color:#e5edf6">●</span>
@@ -21,12 +23,16 @@
         @foreach (var item in Model)
         {
             <a href="@Url.Action("PostList", "Forum", new { categoryId = item.CategoryId})" class="link-underline link-underline-opacity-0">
-                <div class="mx-3 col-3  rounded-4 bg-white shadow ca-card" style="width:380px;min-height:200px">
-                     <div>
-                         <div class="rounded-4 text-center pt-3">
+                <div class="mx-3 col-3  rounded-4 bg-white shadow ca-card position-relative" style="width:380px;min-height:200px">
+                    <div class="">
+                        <div class="rounded-4 text-center pt-3" style="width:380px;min-height:200px">
                              <div class="h4 fw-bold text-dark-emphasis link-underline link-underline-opacity-0">@Html.DisplayFor(modelItem => item.Title)</div>
-                             <hr class="my-3" style="height:1px">
+                             <hr class="my-2 myhr" style="height:1px">
                              <div class="card-fontcolor px-4 rounded-bottom-3 link-underline link-underline-opacity-0" style="font-size:16px">@Html.DisplayFor(modelItem => item.Depiction)</div>
+                            <div class="small card-fontcolor  position-absolute bottom-0 end-0 p-3">
+                                目前文章數：
+                                <span class="text-danger h5 text-opacity-50">@item.ForumPostCategories.Where(p=>(p.Post.Status==1||p.Post.Status==4)&&p.Post.ParentId==null).Count()</span>
+                            </div>
                          </div>
                      </div>
                 </div>
@@ -35,36 +41,16 @@
     </div>
 </div>
 
-@*<div class="d-inline-flex column-gap-3 flex-wrap row justify-content-center align-items-center m-auto mt-5">
-    @foreach (var item in Model)
-    {
-        <div class="col-3">
-            <a href="@Url.Action("PostList", "Forum", new { categoryId = item.CategoryId})" class="link-underline link-underline-opacity-0">
-                <table class="table table-borderless table-hover">
-                    <tr>
-                        <td class="rounded-4 text-center table-borderless"
-                            style="background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); width:auto ;height: 10vh;">
-                            <div class="h4 fw-bold text-dark-emphasis link-underline link-underline-opacity-0">@Html.DisplayFor(modelItem => item.Title)</div>
-                            <div class="text-secondary-emphasis bg-white bg-opacity-75 p-1 border rounded-bottom-3 link-underline link-underline-opacity-0" style="height:130px">@Html.DisplayFor(modelItem => item.Depiction)</div>
-                        </td>
-
-                    </tr>
-                </table>
-            </a>
-        </div>
-    }
-</div>*@
 
 @section Styles{
     <style>
-        hr {
+        .myhr {
             border: 0;
             height: 1px;
             background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
         }
 
         .shadow {
-            /* box-shadow: 5px 5px 10px -1px rgba(10, 10, 10, 0.09); */
             box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
         }
 
@@ -73,18 +59,26 @@
         }
 
         .ca-card{
-            background-color: #f8fafc;
+            background-image: url('/images/borderbg.png');
+            background-color: #fafdff;
+            border:1px dotted #eee;
+            border-collapse: separate; /* 使用分離的邊框排列 */
+            border-spacing: 5px; /* 設定邊框間的間距 */
 
         }
 
-        h2{
-            color: #757575;
+        .myh2{
+            color: #656565;
+            font-family: 'Noto Sans TC', sans-serif;
         }
 
         .card-fontcolor{
             color: #757575;
         }
 
+        body{
+
+        }
 
     </style>
 }

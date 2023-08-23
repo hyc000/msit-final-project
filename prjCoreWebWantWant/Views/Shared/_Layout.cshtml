@@ -39,8 +39,9 @@
 }
 
 <body>
+    @Html.Partial("_Header")
     <!--== header start ==-->
-    <header class="fixed-header">
+  @*   <header class="fixed-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light text-font">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -68,7 +69,7 @@
                     </ul>
                         <ul class="navbar-nav ml-auto pe-5">
                         <li class="nav-item">
-                            <a class="nav-link text-dark ps-3" asp-area="" asp-controller="BackstageManagement" asp-action="Index" >後台</a>
+                            <a class="nav-link text-dark ps-3" asp-area="" asp-controller="BackstageManagement" asp-action="List" >後台</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
@@ -92,9 +93,9 @@
                     <a class="btn btn-primary" asp-area="" asp-controller="" asp-action="">登入</a>
                     </li>
                 </ul> *@
-            </div>
+   @*          </div>
         </nav>
-    </header>
+    </header> *@
     <!--== header end ==-->
 
     @*    <div class="container">
@@ -102,11 +103,14 @@
     @RenderBody()
     </main>
     </div>*@
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+        <h1>@await RenderSectionAsync("subTitle", required: false)</h1>
+    </div>
     @RenderBody()
 
     
     <!--== footer start ==-->
-    <footer id="footer" class="pt-5 bg-color text-white" style="background-color:#e5edf6;"  >
+   @*  <footer id="footer" class="pt-5 bg-color text-white" style="background-color:#e5edf6;"  >
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-sm-6 footer-list" style="align-content:center">
@@ -170,7 +174,8 @@
         <div class="footer-end bg-dark mt-5 py-2">
             <p class="text-center">&copy; @DateTime.Now.Year WantWant Company Ltd. <span id="yearShow"></span></p>
         </div>
-    </footer>
+    </footer> *@
+    @Html.Partial("_Footer");
     <!--== footer end ==-->
 
     <!--== Javascript ==-->

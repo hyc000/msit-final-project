@@ -44,7 +44,7 @@
                                data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
                         <a class="btnResume pt-3" href="#works"
                            data-loading-text="Loading..." id="btnworks"><span>作品集</span></a>
-                            @Html.ActionLink("委託","Create","ExpertTask",null,new{ @class="labelResume pt-3"} )
+                        @Html.ActionLink("委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume pt-3"} )
                             <div class="labelResume pt-3">
                                 <span> 點閱次數：5 @Html.DisplayFor(model => model.expertResume.HistoricalViews)</span>
 
@@ -152,6 +152,22 @@
                 <div class="p-3">
                 </div>
 
+            <!-- 評論 -->
+
+           
+                <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-body-tertiary " style="height:90vh">
+                    <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
+                        <div class="m-3 p-4 " id="ratinghere">
+                            
+                           
+
+                        </div>
+
+                    </div>
+                </div>
+           
+
+
 
             </div>
         </div>
@@ -178,18 +194,40 @@
             <script>
 
                 //星星評價
-                let score=2.7;
+                 let score=0 ;
+                fetch(`@Url.Content("~/ExpertResumes/StarRating")`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const datadiv = "";
+                        data.forEach(item => {
+                            datadiv = ` <p class="lead pt-3">${item.評論}</p>`
+                            score += item.分數;
+                    console.log(score);
+                        });
+
+
+                        document.querySelector("#ratinghere").innerHTML = datadiv;
+                    });
+
+        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+        var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+        var starnull = '<i class="bi bi-star "></i>';
+                        
                 let arr= [ ];
                 for(let i=1;i<=5;i++){
-            if (score >= i) {
-                arr.push("🌕"); // 實心星星
-            } else if (score > i - 1 && score < i) {
-                arr.push("🌗"); // 半實心星星
-            } else {
-                arr.push("🌑"); // 空心星星
-            }
+                   if (score >= i) {
+                arr.push(starfill
+                          );
+                     } // 實心星星
+                    else if (score > i - 1 && score < i) {
+                arr.push(starhelf);
+            }// 半實心星星
+                     else {
+                arr.push(starnull); // 空心星星
+                    }
                 }
-        document.querySelector("#star").innerHTML = `專家評分為${score}: ` + arr.join("");
+        console.log(arr);
+        document.querySelector("#star").innerHTML = `專家評分: ${score}分  ` + arr.join("");
              
 
 
@@ -221,13 +259,12 @@
                 .then(response => response.json())
                 .then(datas => {
                     const imgarr =[ ];
-                    console.log(datas.length);
-                    console.log("123567");
+                 
+                   
                             for (let i = 0; i < datas.length; i++){
                                 const img=new Image();
                                 img.src = `data:image/jpeg;base64,${datas[i].base64Content}`;
-                        console.log(img.src);
-                        console.log("123568");
+                       
                                 img.classList.add("img-fluid");
                                 
                                  imgarr.push(img);

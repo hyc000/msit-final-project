@@ -23,26 +23,35 @@ namespace prjCoreWebWantWant.Controllers
 		public IActionResult List(CKeywordViewModel vm)
 		{
 			NewIspanProjectContext db = new NewIspanProjectContext();
-			IEnumerable<ServiceContact> datas = null;
+			IEnumerable<CServiceContactViewModel> datas = null;
 			if (string.IsNullOrEmpty(vm.txtKeyword))
                 datas = from s in db.ServiceContacts
                         join m in db.MemberAccounts
                         on s.AccountId equals m.AccountId
-                        select new ServiceContact
+                        select new CServiceContactViewModel
                         {
-                            ServiceContactId = s.ServiceContactId,
-                            AccountId = s.AccountId,
-                            ComplaintTitle = s.ComplaintTitle,
-                            ComplaintContent = s.ComplaintContent,
-                            ProcessStatus = s.ProcessStatus,
-                            Account = m
+                            serviceContact=s,
+                            AccountId = m.AccountId,
+                            Name = m.Name,
+                            Email = m.Email,
+                            PhoneNo = m.PhoneNo
                         };
             else
-				datas = db.ServiceContacts.Where(s => s.Account.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
-					|| s.Account.PhoneNo.ToUpper().Contains(vm.txtKeyword.ToUpper())
-					|| s.Account.Email.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+				datas = from s in db.ServiceContacts
+                        join m in db.MemberAccounts
+                        on s.AccountId equals m.AccountId
+                        where m.Name.Contains(vm.txtKeyword) || 
+                        m.Email.Contains(vm.txtKeyword) || 
+                        m.PhoneNo.Contains(vm.txtKeyword)
+                        select new CServiceContactViewModel
+                        {
+                            serviceContact = s,
+                            Name = m.Name,
+                            Email = m.Email,
+                            PhoneNo = m.PhoneNo
+                        };
 
-			return View(datas);
+            return View(datas);
 		}
 
 		public IActionResult Index()

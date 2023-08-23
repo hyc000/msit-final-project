@@ -152,14 +152,26 @@ namespace prjCoreWebWantWant.Controllers
         }
 
 
-        public IActionResult starrating()
+        public IActionResult StarRating(int id)
         {
-            var star = _context.Ratings
-                  .Include(x => x.ExpertApplications)
-                  .ThenInclude(x => x)
-                  .Select(x=>x);
+            int accountid = _context.Resumes
+                .Where(x => x.ResumeId == id)
+                .Select(x=>x.AccountId)
+                .FirstOrDefault();
+
+
+            var star = _context.TaskLists
+                   .Where(a => a.AccountId == accountid)
+                  .SelectMany(x => x.ExpertApplications)
+                  
+                  .Select(b => new
+                  {
+                      評論 = b.Rating.RatingContent,
+                      分數 = b.Rating.RatingStar,
+                      評論日 = b.Rating.RatingDate,
+                  });
                
-            return View(star);
+            return Json(star);
 
         }
 

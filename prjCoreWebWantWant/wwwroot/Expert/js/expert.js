@@ -18,7 +18,7 @@ function clickdeploy(id,id2){
 
 };
 function clickdeployone(id){
-  console.log("12345");
+
  
   
   if (id.style.display == "none") {
@@ -30,6 +30,8 @@ function clickdeployone(id){
     }
 
 };
+
+
 
 
 

@@ -1,67 +1,606 @@
-﻿@model prjCoreWebWantWant.Models.Resume
+﻿@using Microsoft.AspNetCore.Mvc;
+@using System.Text.Json;
+
+@* @model prjCoreWebWantWant.Models.Resume *@
+@model prjCoreWebWantWant.ViewModels.CResumeViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
-<h1>新增履歷</h1>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+    CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+    int id = loggedInUser.AccountId; //抓登入者的id
+}
+
+<head>
+    <style>
+        <link href="~/backstage1/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" >
+        <link href="~/backstage1/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" / >
+        <!-- Template Stylesheet -->
+        <link href="~/backstage1/css/style.css" rel="stylesheet" >
+        <!-- CSS here -->
+        <link rel="stylesheet" href="~/backstage1/css/price_rangs.css" ></style>
+
+</head>
+
+<h3>新增履歷</h3>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+@* <div class="row">
+    <div class="col-md-4"> *@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @* <div class="form-group">                  
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
-            </div>
+            </div>  *@
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+
+                    <!--履歷照片-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
+                            <div class="form-group">
+                                 @*<label asp-for="Photo" class="control-label"></label>*@
+                                  <input asp-for="Photo" class="form-control" type="file" />
+                                  <span asp-validation-for="Photo" class="text-danger"></span>
+                             </div>                                
+                        </div>
+                    </div>
+
+                    <!--任務地點-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">居住地點</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selCity">
+                                    <!-- <option selected>請選擇縣市</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇縣市</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selTown" @* asp-for="TownId" *@>
+                                    <!-- <option selected>請選擇區域</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectTown">請選擇區域</label>
+                            </div>
+
+                            <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label"></label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                   </div>
+
+                    <!--技能-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷技能</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類3</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能3</label>
+                            </div>
+
+                            <input type="hidden" id="hiddenSkillIdInput1" name="selectedSkillId1" />
+                            <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2" />
+                            <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3" />
+
+                        </div>
+                    </div>
+
+                    <!--證照-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                        <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類3</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照3</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--自傳-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                        <h5 class="mb-4" style="color:#528EAF">履歷自傳</h5>
+                            <div class="form-group">
+                                @*<label asp-for="Autobiography" class="control-label"></label>*@
+                                <textarea asp-for="Autobiography" class="form-control" style="height:300px;resize:none"> </textarea>
+                                <span asp-validation-for="Autobiography" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--送出+取消並返回-->
            
-            <div class="form-group">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                    <div class="bg-light rounded h-100 p-4  d-flex justify-content-center align-items-center">
+                                <div class="form-group">
+                            <input type="submit" value="送出並新增" class="btn btn-outline-success" />
+                            <a asp-action="ResumeList" class="btn btn-outline-warning">取消並返回</a>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+           
+
+
+
+
+            <div class="form-group" >                @*帶入真實帳號並隱藏欄位*@
+                @* <label asp-for="AccountId"  class="control-label"></label> *@
+                <input asp-for="AccountId" type="hidden" value="@id" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+
+
+            
+           @*  <div class="form-group form-floating mb-3">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input asp-for="AccountId" class="form-control" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div> *@
+
+           
+          
+            @* <div class="form-group">
                 <label asp-for="TownId" class="control-label"></label>
                 <input asp-for="TownId" class="form-control" />
                 <span asp-validation-for="TownId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Autobiography" class="control-label"></label>
-                <input asp-for="Autobiography" class="form-control" />
-                <span asp-validation-for="Autobiography" class="text-danger"></span>
-            </div>
-  
+            </div> *@
+           
           @*  <div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
                 <input asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>*@
         
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="TaskNameId" class="control-label"></label>
                 <input asp-for="TaskNameId" class="form-control" />
                 <span asp-validation-for="TaskNameId" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
+            </div> *@
+
+            <div class="form-group form-check">  @*隱藏的欄位 預設值為False*@
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsExpertOrNot" /> @Html.DisplayNameFor(model => model.IsExpertOrNot)
+                   @* <input class="form-check-input" asp-for="IsExpertOrNot" /> *@
+                   @Html.HiddenFor(model => model.IsExpertOrNot, new { @Value = false })
                 </label>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="送出並新增" class="btn btn-primary" />
+            
+           
             </div>
+          </div>
+
+
+       
+
+          
+
+   
         </form>
+      
+   @* </div>
+</div>*@
+@* 
+<div class="row">
+    <div class="col-md-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            開啟表單
+        </button>
+
+        <!-- 模態框 -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">表單</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> 
+
+         <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <form asp-action="Create">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                    <!-- 第一個區塊 -->
+                                    <div class="form-group">
+                                        <label asp-for="AccountId" class="control-label"></label>
+                                        <input asp-for="AccountId" class="form-control" />
+                                        <span asp-validation-for="AccountId" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- 第二個區塊 -->
+                                    <div class="form-group">
+                                        <label asp-for="TownId" class="control-label"></label>
+                                        <input asp-for="TownId" class="form-control" />
+                                        <span asp-validation-for="TownId" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- ... 其他區塊 ... -->
+
+                                    <div class="form-group">
+                                        <input type="submit" value="送出並新增" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+
+
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</div> *@
 
-<div>
-    <a asp-action="ResumeList">取消並返回</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+@section Scripts {}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const selCity = document.querySelector('#selCity');
+        const selTown = document.querySelector('#selTown');
+        const hiddenTownIdInput = document.querySelector('#hiddenTownIdInput');
+
+
+        //select的城市
+        async function loadCity() {
+            const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
+            const datas = await response.json()
+            // datas.sort();
+            const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            document.querySelector('#selCity').innerHTML = cities.join("");
+
+            loadDistrict();
+        }
+
+        loadCity();
+
+        //select的區域
+        async function loadDistrict() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+            const datas = await response.json()
+            // datas.sort();
+            const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+            selTown.innerHTML = districts.join("");
+            getTownId();
+        }
+
+        async function getTownId() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
+            const data = await response.json();
+            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenTownIdInput.value = selectedTownId;
+        }
+       
+   
+        // loadDistrict();
+
+        selCity.addEventListener('change', () => {
+            loadDistrict();
+        });
+
+        selTown.addEventListener('change', () => {
+            getTownId();
+        });
+
+
+        const SelSkillBigOne = document.querySelector('#SelSkillBigOne');
+        const SelSkillSmallOne = document.querySelector('#SelSkillSmallOne');
+
+        //select的技能分類
+        async function loadSelSkillBigOne() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigOne').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallOne();
+        }
+
+        loadSelSkillBigOne();
+
+        //select的技能小項
+        async function loadSelSkillSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigOne.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallOne.innerHTML = skillSmall.join("");
+            getSkillIdOne();
+        }
+
+        SelSkillBigOne.addEventListener('change', () => {
+            loadSelSkillSmallOne();
+        });
+
+        SelSkillSmallOne.addEventListener('change', () => {
+            getSkillIdOne();
+        });
+
+
+        const SelSkillBigTwo = document.querySelector('#SelSkillBigTwo');
+        const SelSkillSmallTwo = document.querySelector('#SelSkillSmallTwo');
+
+        //select的技能分類
+        async function loadSelSkillBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigTwo').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallTwo();
+        }
+
+        loadSelSkillBigTwo();
+
+        //select的技能小項
+        async function loadSelSkillSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigTwo.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallTwo.innerHTML = skillSmall.join("");
+            getSkillIdTwo();
+        }
+
+        SelSkillBigTwo.addEventListener('change', () => {
+            loadSelSkillSmallTwo();
+        });
+
+        SelSkillSmallTwo.addEventListener('change', () => {
+            getSkillIdTwo();
+        });
+
+
+
+        const SelSkillBigThree = document.querySelector('#SelSkillBigThree');
+        const SelSkillSmallThree = document.querySelector('#SelSkillSmallThree');
+
+        //select的技能分類
+        async function loadSelSkillBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigThree').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallThree();
+        }
+
+        loadSelSkillBigThree();
+
+        //select的技能小項
+        async function loadSelSkillSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigThree.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallThree.innerHTML = skillSmall.join("");
+            getSkillIdThree();
+        }
+
+        SelSkillBigThree.addEventListener('change', () => {
+            loadSelSkillSmallThree();
+        });
+
+        SelSkillSmallThree.addEventListener('change', () => {
+            getSkillIdThree();
+        });
+
+
+
+        //證照的標籤
+        const SelCerBigOne = document.querySelector('#SelCerBigOne');
+        const SelCerSmallOne = document.querySelector('#SelCerSmallOne');
+
+        //select的證照分類
+        async function loadSelCerBigOne() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigOne').innerHTML = CerBig.join("");
+
+            loadSelCerSmallOne();
+        }
+
+        loadSelCerBigOne();
+
+        //select的證照小項
+        async function loadSelCerSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigOne.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallOne.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallOne();
+
+        SelCerBigOne.addEventListener('change', () => {
+            loadSelCerSmallOne();
+        });
+
+
+        //證照的標籤
+        const SelCerBigTwo = document.querySelector('#SelCerBigTwo');
+        const SelCerSmallTwo = document.querySelector('#SelCerSmallTwo');
+
+        //select的證照分類
+        async function loadSelCerBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigTwo').innerHTML = CerBig.join("");
+
+            loadSelCerSmallTwo();
+        }
+
+        loadSelCerBigTwo();
+
+        //select的證照小項
+        async function loadSelCerSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigTwo.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallTwo.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallTwo();
+
+        SelCerBigTwo.addEventListener('change', () => {
+            loadSelCerSmallTwo();
+        });
+
+
+        //證照的標籤
+        const SelCerBigThree = document.querySelector('#SelCerBigThree');
+        const SelCerSmallThree = document.querySelector('#SelCerSmallThree');
+
+        //select的證照分類
+        async function loadSelCerBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
+
+            loadSelCerSmallThree();
+        }
+
+        loadSelCerBigThree();
+
+        //select的證照小項
+        async function loadSelCerSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigThree.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallThree.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallThree();
+
+        SelCerBigThree.addEventListener('change', () => {
+            loadSelCerSmallThree();
+        });
+
+        const hiddenSkillIdInput1 = document.querySelector('#hiddenSkillIdInput1');
+        const hiddenSkillIdInput2 = document.querySelector('#hiddenSkillIdInput2');
+        const hiddenSkillIdInput3 = document.querySelector('#hiddenSkillIdInput3');
+
+        async function getSkillIdOne() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
+            const data = await response.json();
+            const selectedSkillId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput1.value = selectedSkillId1;
+            console.log(hiddenSkillIdInput1.value);
+        }
+
+        async function getSkillIdTwo() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
+            const data = await response.json();
+            const selectedSkillId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput2.value = selectedSkillId2;
+            console.log(hiddenSkillIdInput2.value);
+        }
+
+        async function getSkillIdThree() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
+            const data = await response.json();
+            const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput3.value = selectedSkillId3;
+            console.log(hiddenSkillIdInput3.value);
+        }
+
+
+     </script>  
+     
 }

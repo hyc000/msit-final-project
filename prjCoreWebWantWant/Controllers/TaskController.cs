@@ -130,5 +130,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                      Where(t => t.TaskName.TaskName == Category && t.PublishOrNot == "立刻上架");
             return PartialView(q);
         }
+
+        public IActionResult ListNew()
+        {
+            return View();
+        }
     }
 }

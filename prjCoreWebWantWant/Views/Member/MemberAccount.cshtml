@@ -1,4 +1,5 @@
 ﻿@using System;
+@using System.Text.Json;
 @model MemberAccount
 
 @{
@@ -12,13 +13,33 @@
                          new string('*', Model.IdcardNo.Length - 6) + // 中間的字元轉換為星號(減去的數字 = 前面留的字數+後面留的字數
                          Model.IdcardNo.Substring(Model.IdcardNo.Length - 3); // 保持最後三個字元不變
 }
-<h2 class="mt-5">會員基本資料</h2>
+@*抓登入者的名字*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+    string loginUserName = loggedInUser.Name;
+
+}
+@section subTitle{
+會員基本資料
+}
+
 
 @* <p>
     @Html.ActionLink("Create New", "Create")
 </p> *@
 
 <table class="table table-hover mt-3">
+    <tr>
+        <th width="120px">
+            會員相片：
+        </th>
+        <td id='userPhoto'>
+            @* <img src="/MemberApi/{@Model.AccountId}/photo" alt="Member Photo"> *@
+            <img class="w-25 img-thumbnail" src="@Url.Action("GetMemberPhoto", "MemberApi", new { id = Model.AccountId })" alt="Member Photo">
+        </td>
+    </tr>
     <tr>
         <th width="120px">
             會員姓名：
@@ -106,13 +127,15 @@
 @if (referrerPath != null && referrerPath.Contains("/Login"))
 {
     @section Scripts{
-
+       
     <script>
+        
         window.addEventListener('load', () => {
+            const username = '@loginUserName'
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `歡迎登入`,
+                title: `${username}，歡迎登入`,
                 showConfirmButton: false,
                 timer: 1500
             })

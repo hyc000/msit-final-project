@@ -1,9 +1,11 @@
-﻿@*@model IEnumerable<prjCoreWebWantWant.Models.TaskList>;*@
-
-    @model IEnumerable<WantTask.ViewModels.CApproveViewModel>
+﻿@using System.Text.Json;
+@*@model IEnumerable<prjCoreWebWantWant.Models.TaskList>;*@
+@* @model IEnumerable<WantTask.ViewModels.CApproveViewModel> *@
+@* @model IEnumerable<prjCoreWebWantWant.Models.MemberCollection> *@
+@model IEnumerable<prjCoreWebWantWant.ViewModels.CMemberCollectionViewModel>
 
 @{
-    ViewData["Title"    ] = "List";
+    ViewData["Title"] = "List";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
@@ -76,6 +78,7 @@
                                         <span class="d-none d-sm-block" style="color: #528eaf">收藏紀錄</span>
                                     </a>
                                 </li>
+                                @* 切換Tab *@
                                 <!-- <li class="nav-item" onclick="showApplied();">
                                   <a
                                     class="nav-link"
@@ -125,6 +128,8 @@
                         </div>
                     </div>
                 </div>
+   
+                @* 切換Tab *@
                 <!-- <div class="card-body" id="Collect">
                             <div class="table-responsive">
                                 <table class="table table-editable table-nowrap align-middle table-edits table-hover">
@@ -295,616 +300,65 @@
                                     </table>
                             </div>
                         </div> -->
-
+              
                 <div class="row" id="Collect">
                     <div class="col">
                         <div class="table-responsive mb-4">
                             <table class="table align-middle datatable dt-responsive table-check nowrap table table-hover"
-                                   style="
-                  border-collapse: collapse;
-                  border-spacing: 0 8px;
-                  width: 100%;
-                ">
+                                   style="border-collapse: collapse;
+                                          border-spacing: 0 8px;
+                                          width: 100%; ">
+
+                               @*  @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                                @{
+                                    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                                    CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                                    int id = loggedInUser.AccountId; //抓登入者的id
+                                } *@
+
                                 <thead>
                                     <tr>
-                                        <th scope="col">
-                                            <div class="form-check font-size-16"
-                                                 style="width: auto; text-align: center">
-                                                序號
-                                                <!-- <input type="checkbox" class="form-check-input" id="checkAll">
-                                                                 <label class="form-check-label" for="checkAll"></label>  -->
-                                            </div>
+                                        <th scope="col" style="width:50px">
+                                           <div class="form-check font-size-16" style="width: auto; text-align: center">序號</div>
                                         </th>
-
-                                        <th scope="col" style="width: auto; text-align: center">
-                                            任務名稱
-                                        </th>
-                                        <th scope="col" style="width: auto; text-align: center">
-                                            任務內容
-                                        </th>
-                                        <th scope="col" style="width: auto; text-align: center">
-                                            任務報酬
-                                        </th>
-                                        <th scope="col" style="width: auto; text-align: center">
-                                            需求技能
-                                        </th>
+                                        <th scope="col" style="width: auto; text-align: center">任務名稱</th>
+                                        <th scope="col" style="width: auto; text-align: center">任務內容</th>
+                                        <th scope="col" style="width: auto; text-align: center">任務報酬</th>
+                                        <th scope="col" style="width: auto; text-align: center">需求技能</th>
                                         <th style="width: auto; text-align: center">收藏紀錄</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @{
-                                        NewIspanProjectContext _context = new NewIspanProjectContext();
-                                        var q2 = from mc in _context.MemberCollections
-                                                 join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
-                                                 where mc.AccountId == 33 && mc.CaseId != null
-                                                 select new
-                                                 {
-                                                     tasktitle =  tl.TaskTitle,
-                                                     taskdetail = tl.TaskDetail.Substring(0, 15),
-                                                     taskpay = tl.PayFrom,
-                                                 };
-                                        //var q = q2.ToList();
-                                        @foreach (var item in q2)
-                                        {
-
-                                        
-                                        <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck2">
-                                                                <label class="form-check-label" for="contacusercheck2"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">1</td>
-
-                                        <td>
-                                            @*<a href="#" class="text-body">Phyllis Gatlin</a>*@
-                                             <a href="#" class="text-body">@item.tasktitle</a>
-                                        </td>
-                                        <td>UI/UX Designer</td>
-                                                <td>@item.taskdetail.Substring(0,15)</td>
-                                        <td>2000</td>
-                                        <td>
-                                
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                            <!-- <div class="d-flex flex-wrap gap-3 my-3">
-
-                                                               </div> -->
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
+                                @{  int count = 0;
+                                    @foreach(var item in Model)
+                                    {
+                                            count++;
+                                            string TaskDetail = item.TaskDetail;
+                                            if(TaskDetail.Length > 15)
+                                            {
+                                                TaskDetail = $"{TaskDetail.Substring(0, 15)}...";
+                                            }
                                     <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck2">
-                                                                <label class="form-check-label" for="contacusercheck2"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">2</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">James Nix</a>
-                                        </td>
-                                        <td>Frontend Developer</td>
-                                        <td>500</td>
-                                        <td>
+                                        <td data-field="id" style="text-align: left">@count</td>
+                                        <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
+                                        <td style="text-align: left">@TaskDetail</td>
+                                        <td style="text-align: center">@item.PayFrom</td>
+                                        <td style="text-align: left">
                                             <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Html</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Css</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">2 + more</a>
+                                              <a href="#" class="badge badge-soft-primary font-size-11">Php</a>
+                                              <a href="#" class="badge badge-soft-primary font-size-11">Java</a>
+                                              <a href="#" class="badge badge-soft-primary font-size-11">Python</a>
                                             </div>
                                         </td>
                                         <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
+                                            <div class="btn-group"role="group"aria-label="Basic example">
+                                              <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-secondary">取消收藏</a>
+                                              <a href="@Url.Content("~/BackStage/Apply")?id=@item.CaseId" class="btn btn-outline-secondary">應徵</a>
                                             </div>
                                         </th>
-
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
                                     </tr>
-
-                                        }
                                     }
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck3">
-                                                                <label class="form-check-label" for="contacusercheck3"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">3</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Darlene Smith</a>
-                                        </td>
-                                        <td>Backend Developer</td>
-                                        <td>7000</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Php</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Java</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Python</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck4">
-                                                                <label class="form-check-label" for="contacusercheck4"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">4</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">William Swift</a>
-                                        </td>
-                                        <td>Full Stack Developer</td>
-                                        <td>500</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Ruby</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Php</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">2 + more</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck5">
-                                                                <label class="form-check-label" for="contacusercheck5"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">5</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Kevin West</a>
-                                        </td>
-                                        <td>Frontend Developer</td>
-                                        <td>100</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Html</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Css</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">2 + more</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck6">
-                                                                <label class="form-check-label" for="contacusercheck6"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">6</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Tommy Hayes</a>
-                                        </td>
-                                        <td>UI/UX Designer</td>
-                                        <td>200</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Photoshop</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">illustrator</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck7">
-                                                                <label class="form-check-label" for="contacusercheck7"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">7</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Diana Owens</a>
-                                        </td>
-                                        <td>Graphic Designer</td>
-                                        <td>700</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Photoshop</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">illustrator</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck8">
-                                                                <label class="form-check-label" for="contacusercheck8"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">8</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Paul Sanchez</a>
-                                        </td>
-                                        <td>Angular Developer</td>
-                                        <td>600</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Php</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Javascript</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck9">
-                                                                <label class="form-check-label" for="contacusercheck9"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">9</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Peter Dryer</a>
-                                        </td>
-                                        <td>Web Designer</td>
-                                        <td>300</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Html</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Css</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">2 + more</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck10">
-                                                                <label class="form-check-label" for="contacusercheck10"></label>
-                                                            </div>
-                                                        </th> -->
-                                        <td data-field="id" style="text-align: center">10</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Gerald Moyer</a>
-                                        </td>
-                                        <td>Backend Developer</td>
-                                        <td>1000</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Php</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Javascript</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
-
-                                    <tr>
-                                        <!-- <th scope="row">
-                                                            <div class="form-check font-size-16">
-                                                                <input type="checkbox" class="form-check-input" id="contacusercheck11">
-                                                                <label class="form-check-label" for="contacusercheck11"></label>
-                                                            </div>
-                                                        </th> -->
-
-                                        <td data-field="id" style="text-align: center">11</td>
-
-                                        <td>
-                                            <a href="#" class="text-body">Gail McGuire</a>
-                                        </td>
-                                        <td>Backend Developer</td>
-                                        <td>800</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Php</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">Javascript</a>
-                                                <a href="#"
-                                                   class="badge badge-soft-primary font-size-11">2+ more</a>
-                                            </div>
-                                        </td>
-                                        <th>
-                                            <div class="btn-group"
-                                                 role="group"
-                                                 aria-label="Basic example">
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    取消收藏
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary">
-                                                    應徵
-                                                </button>
-                                            </div>
-                                        </th>
-                                        <!-- <td>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-link font-size-16 shadow-none py-0 text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td> -->
-                                    </tr>
+                                }
                                 </tbody>
                             </table>
                             <!-- end table-->

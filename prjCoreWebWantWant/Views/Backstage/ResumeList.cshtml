@@ -22,45 +22,58 @@
 </style>
 
 <body>
-    <hr />
     <div class="container">
-        <a href="@Url.Content("~/backstage/create")"
-           title="新增履歷表"
-           class="btn btn-primary btn-sm"
-           style="background-color: #4f9d9d"
-           id="CreateResume">新增履歷表 +</a>
+        <p></p>
     </div>
+
+    <div class="container" id="ResumeEdit">
+        <p style="text-align: right">
+            <a href="@Url.Content("~/backstage/create")"
+               title="新增履歷表"
+               class="btn btn-primary btn-sm"
+               style="background-color: #4f9d9d;float:left"
+               id="CreateResume">新增履歷表 +</a>
+
+            您已使用 @Model.Count()/3 份履歷</p>
+    </div>
+
+
     <div class="container">
-        <p style="text-align: right">您已使用 @Model.Count()/3 份履歷</p>
+        <p style="text-align: center" id="ResumeList"></p>
     </div>
 
     <div class="container">
         @{
         int count = 0;
-        @foreach (var item in Model)
+                            @foreach (var item in Model)
         {
             
             count++;
 
-        <div class="row">
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">履歷表 @count</h5>
-                        <p class="card-text">這是第 @count 份履歷表的內容。</p>
-                        <!-- <input type="checkbox" class="toggle-checkbox" > -->
-                        <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>
-                        @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
+                            <div class="row" >
+                                <div class="col">
+                                        <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">履歷表 @count</h5>
+                                            <p class="card-text">這是第 @count 份履歷表的內容。</p>
+                                            <!-- <input type="checkbox" class="toggle-checkbox" > -->
 
-                        <a href="#" title="檢視" class="btn btn-success btn-sm"  data-bs-target="#ResumeModal">檢視</a>
-                        @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
-                                @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
-                                <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>
-                                @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
-                                
+                                           @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
+
+                                           @* @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })*@
+                                            <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-primary btn-sm" id="btnEdit">編輯</a>
+              
+                                            @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
+
+                                            <a title="檢視" class="btn btn-success btn-sm"  data-bs-target="#ResumeModal">檢視</a>
+                                            @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
+                                                    @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
+                                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
+                                                    @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+                                                    <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除嗎?')">刪除</a>
 
 
-                               @* <div class="modal " id="ResumeModal">
+                                                   @* <div class="modal " id="ResumeModal">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <!-- Header -->
@@ -105,8 +118,8 @@
                                     </div>
                                 </div>
                          *@
-                       
-@*                        <!-- 開關 -->
+                                           
+                    @*                        <!-- 開關 -->
                         <div class="form-check form-switch" style="float: right">
                             <div class="form-check form-switch">
                                 <input class="form-check-input"
@@ -118,21 +131,35 @@
                                        id="switchLabel"></label>
                             </div>
                         </div>*@
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
         }
         }
     </div>
 
  
-
-  <script src="~/js/SweetAlert.js" ></script>
   <script>
-    if ("@Model.Count()"==3){
+    if (@Model.Count()==3){
         const CreateResume = document.querySelector('#CreateResume')
-        CreateResume.ariaDisabled = true;
+        CreateResume.addEventListener('click',() => {
+            CreateResume.href = '#';
+                Swal.fire({
+                    icon: 'warning',
+                    title: '注意',
+                    text: '您的履歷數量已達上限，無法新增履歷',
+                })
+        });
     }
+
+    if(@Model.Count() == 0){
+        const ResumeList = document.querySelector('#ResumeList');
+        ResumeList.textContent = '您尚未建立履歷，請點選左上角新增履歷表';
+    }
+
   </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"></script>
 </body>

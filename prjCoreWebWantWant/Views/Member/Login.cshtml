@@ -4,7 +4,9 @@
 
 }
 
-
+@section subTitle{
+   測試的副標題(直接加入字串就好)
+}
 
 
 <!-- RenderBody() Placeholder -->
@@ -12,6 +14,48 @@
     <div class="row align-items-start" style="height:660px;">@* 粗暴修改登入頁的高度 *@
         <div class="col-8">
             @* One of three columns *@
+            <div class="row">
+                <div class="col-4">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h5 class="card-title">夏宇(聊天室)Demo</h5>
+                            <button class="btn btn-outline-primary" id="LoginDemo1">Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h5 class="card-title">陳昊月(會員)Demo</h5>
+                            <button class="btn btn-outline-primary" id="LoginDemo2">Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h5 class="card-title">董思妤(客服)Demo</h5>
+                            <button class="btn btn-outline-primary" id="LoginDemo3">Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h5 class="card-title">林愛琳(會員)Demo</h5>
+                            <button class="btn btn-outline-primary" id="LoginDemo4">Demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                </div>
+            </div>
+            
         </div>
         <div class="col-4">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -37,18 +81,18 @@
                     <div class="form-group m-3">
                         帳號 (註冊時的Email)
                         <div class="col-md-10">
-                            @Html.TextBox("txtAccount", "aaa123@abc.com", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBox("txtAccount", "aaa123@abc.com", new { htmlAttributes = new { @class = "form-control" , id = "txtAccount"} })
                         </div>
                     </div>
                     <div class="form-group m-3">
                         密碼
                         <div class="col-md-10">
-                            @Html.TextBox("txtPassword", "123", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBox("txtPassword", "123", new { htmlAttributes = new { @class = "form-control", id = "txtPassword" } })
                         </div>
                     </div>
                     <div class="form-group m-3">
                         <div class="col-md-offset-0 col-md-10">
-                            <input type="submit" value="登入" class="btn btn-primary" id="btnLogin" />
+                                    <input type="submit" value="登入" class="btn  btn-outline-primary" id="btnLogin" />
                         </div>
                     </div>
                 </div>
@@ -95,3 +139,32 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+    <script>
+        const LoginDemo1 = document.querySelector('#LoginDemo1');
+        const LoginDemo2 = document.querySelector('#LoginDemo2');
+        const LoginDemo3 = document.querySelector('#LoginDemo3');
+        const LoginDemo4 = document.querySelector('#LoginDemo4');
+        const txtAccount = document.querySelector('#txtAccount');
+        const txtPassword = document.querySelector('#txtPassword');
+
+        LoginDemo1.addEventListener('click', () => {
+            txtAccount.value = "sora@com"
+            txtPassword.value = "123"
+        })
+        LoginDemo2.addEventListener('click', () => {
+            txtAccount.value = "aaa6868@abc.com"
+            txtPassword.value = "6868"
+        })
+        LoginDemo3.addEventListener('click', () => {
+            txtAccount.value = "emmachen@want.com"
+            txtPassword.value = "0000"
+        })
+        LoginDemo4.addEventListener('click', () => {
+            txtAccount.value = "Eileen@abc.com"
+            txtPassword.value = "0000"
+        })
+    </script>
+}

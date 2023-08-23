@@ -4,16 +4,10 @@ namespace prjCoreWebWantWant.ViewModels
 {
     public class CServiceContactViewModel
     {
-        public int ServiceContactId { get; set; }
-
+        public ServiceContact serviceContact { get; set; }
         public int AccountId { get; set; }
-
-        public string? ComplaintTitle { get; set; }
-
-        public string? ComplaintContent { get; set; }
-
-        public bool? ProcessStatus { get; set; }
-
-        public MemberAccount memberAccount { get; set; }
+        public string Email { get; set; }
+        public string? Name { get; set; }
+        public string? PhoneNo { get; set; }
     }
 }

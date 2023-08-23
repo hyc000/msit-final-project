@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
-
+using prjCoreWebWantWant.ViewModels;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace prjWantWant_yh_CoreMVC.Controllers
 {
@@ -16,17 +22,50 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _host = host;
         }
 
+        public int GetAccountID()
+        {
+            string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); 
+            int id = loggedInUser.AccountId; //抓登入者的id                                                                             
+            return id;
+        }
+
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3)
         {
-            _context.Resumes.Add(p);
-            _context.SaveChanges();
-            return RedirectToAction("ResumeList");
+                p.TownId = selectedTownId;
+                _context.Resumes.Add(p);
+                _context.SaveChanges();
+
+                 ResumeSkill resumeSkill1 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId1
+                };
+                _context.Add(resumeSkill1);
+                _context.SaveChanges();
+
+                ResumeSkill resumeSkill2 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId2
+                };
+                _context.Add(resumeSkill2);
+                _context.SaveChanges();
+
+                ResumeSkill resumeSkill3 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId3
+                };
+                _context.Add(resumeSkill3);
+                _context.SaveChanges();
+                return RedirectToAction("ResumeList");
         }
 
         public IActionResult ResumeUneditable()
@@ -36,8 +75,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult ResumeList()
         {
-            var q = _context.Resumes                                   //李芷帆         
-                    .Where(r => r.IsExpertOrNot == false && r.AccountId == 33 && r.CaseStatusId != 22);
+            var q = _context.Resumes                                           
+                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
             return View(q);
         }
         public IActionResult ResumeDelete(int? id)
@@ -55,9 +94,32 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("ResumeList");
         }
 
-        public IActionResult ResumeEdit()
+        //public IActionResult ResumeEdit()
+        //{
+        //    return View();
+        //}
+
+        public IActionResult ResumeEdit(int? id)
         {
-            return View();
+            if (id == null)
+                return RedirectToAction("ResumeList");
+            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+            if (resume == null)
+                return RedirectToAction("ResumeList");
+            return View(resume);
+        }
+
+        [HttpPost]
+        public IActionResult ResumeEdit(Resume pIn)
+        {
+            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == pIn.ResumeId);
+            if (resume != null)
+            {
+                resume.Address = pIn.Address;
+                resume.AccountId = pIn.AccountId;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ResumeList");
         }
 
         public IActionResult TaskCollection()
@@ -70,29 +132,72 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             //            mc.TaskList.CaseID
             //        }
 
-           // var q2 = from mc in _context.MemberCollections
-           //          from tl in _context.TaskLists
-           //          where mc.AccountId == 33 && mc.CaseId != null
-           //          select new
-           //          {
-           //              tl.TaskTitle,
-           //              taskdetail = tl.TaskDetail.Substring(0, 15),
-           //              tl.PayFrom,
-           //          };
-           //var viewModelList = q2.ToList();
+            // var q2 = from mc in _context.MemberCollections
+            //          from tl in _context.TaskLists
+            //          where mc.AccountId == 33 && mc.CaseId != null
+            //          select new
+            //          {
+            //              tl.TaskTitle,
+            //              taskdetail = tl.TaskDetail.Substring(0, 15),
+            //              tl.PayFrom,
+            //          };
+            //var viewModelList = q2.ToList();
 
-            return View();
+            //var q = _context.MemberCollections
+            //.Where(mc => mc.AccountId == GetAccountID() && mc.CaseId != null)
+            //.Include(mc => mc.Resume).Include(mc => mc.Case.TaskSkills).ThenInclude(mc => mc.)
+            //return View(q);
+
+            var q = from mc in _context.MemberCollections
+                    join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    where mc.AccountId == 38 && mc.CaseId != null
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId =tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = mc.CaseId
+                    };
+
+            //var viewModelList = 
+            return View(q.ToList());
         }
 
         public IActionResult ApplicationRecord()
         {
             var q = from al in _context.ApplicationLists
-                    where al.CaseStatusId == 21 && al.Resume.AccountId == 33
+                    where al.CaseStatusId == 21 && al.Resume.AccountId == GetAccountID()
                     select new
                     {
                         
                     };
             return View();
+        }
+
+        public IActionResult GetTownId(string City ,string District)
+        {
+            var townId = _context.Cities
+                         .Where(a => a.City1 == City)
+                         .SelectMany(c => c.Towns)
+                         .Where(c => c.Town1 == District)
+                         .Select(c => c.TownId);
+
+            return Json(townId);
+        }
+
+        //找出SkillId
+        public IActionResult GetSkillId(string skillType ,string skillName)
+        {
+            var skillId = _context.SkillTypes
+                         .Where(a => a.SkillTypeName == skillType)
+                         .SelectMany(c => c.Skills)
+                         .Where(c => c.SkillName == skillName)
+                         .Select(c => c.SkillId);
+
+            return Json(skillId);
         }
     }
 }

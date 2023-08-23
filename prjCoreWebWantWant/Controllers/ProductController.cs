@@ -16,13 +16,56 @@ namespace prjShop.Controllers
             _context = context;
             _host = host;
         }
-        public IActionResult List()
+        //public IActionResult List()
+        //{
+        //    var q = _context.Products
+        //        .Include(t => t.Category)
+        //        .Where(p => p.Status == "上架" || p.Status == "下架");
+        //    ViewBag.Categories = _context.Categories.ToList();
+        //    return View(q);
+        //}
+
+        public IActionResult List(int? category, string status, DateTime? startDate, DateTime? endDate, string productName, decimal? minPrice, decimal? maxPrice)
         {
-            var q = _context.Products
-                .Include(t => t.Category)
-                .Where(p => p.Status == "上架" || p.Status == "下架");
+            var query = _context.Products.Include(t => t.Category).Where(p => p.Status == "上架" || p.Status == "下架");
+
+            if (category != null)
+            {
+                query = query.Where(p => p.Category.CategoryId == category);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(p => p.Status == status);
+            }
+
+            if (startDate != null)
+            {
+                query = query.Where(p => p.PostStartDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                query = query.Where(p => p.PostStartDate <= endDate);
+            }
+
+            if (!string.IsNullOrEmpty(productName))
+            {
+                query = query.Where(p => p.ProductName.Contains(productName));
+            }
+
+            if (minPrice != null)
+            {
+                query = query.Where(p => p.UnitPrice >= minPrice);
+            }
+
+            if (maxPrice != null)
+            {
+                query = query.Where(p => p.UnitPrice <= maxPrice);
+            }
+
             ViewBag.Categories = _context.Categories.ToList();
-            return View(q);
+            return View(query.ToList());
         }
 
         public IActionResult Create()
@@ -94,16 +137,9 @@ namespace prjShop.Controllers
             var prod = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if (prod != null)
             {
-                if (prod.UnitsInStock == 0)
-                {
-                    prod.Status = "下架"; // 如果庫存為0，無論原本狀態是什麼，都變更為下架
-                }
-                else
-                {
+    
                     prod.Status = status; // 否則保持原本的狀態
-                }
-
-
+          
                 _context.SaveChanges();
                 return Json(new { success = true });
             }
@@ -124,7 +160,7 @@ namespace prjShop.Controllers
             }
             return RedirectToAction("Trash");
         }
-        //真的刪除
+        //垃圾桶-刪除
         public IActionResult RealDelete(int? id)
         {
             if (id != null)
@@ -137,6 +173,45 @@ namespace prjShop.Controllers
                     _context.SaveChanges();
                 }
             }
+            return RedirectToAction("Trash");
+        }
+        //垃圾桶刪除全部
+        public IActionResult DeleteAll()
+        {
+            var productsInTrash = _context.Products.Where(p => p.Status == "垃圾桶").ToList();
+            foreach (var prod in productsInTrash)
+            {
+                prod.Status = "刪除";
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Trash");
+        }
+        // 垃圾桶-選定商品復原
+        [HttpPost]
+        public IActionResult GoBackSelect(List<int> selectedIds)
+        {
+            var productsToRestore = _context.Products.Where(p => selectedIds.Contains(p.ProductId)).ToList();
+            foreach (var prod in productsToRestore)
+            {
+                prod.Status = "下架";
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Trash");
+        }
+
+        // 垃圾桶-永久删除選定商品
+        [HttpPost]
+        public IActionResult DeleteSelected(List<int> selectedIds)
+        {
+            var productsToDelete = _context.Products.Where(p => selectedIds.Contains(p.ProductId)).ToList();
+            foreach (var prod in productsToDelete)
+            {
+                prod.Status = "刪除";
+            }
+            _context.SaveChanges();
+
             return RedirectToAction("Trash");
         }
 

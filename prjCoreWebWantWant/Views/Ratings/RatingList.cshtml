@@ -1,0 +1,170 @@
+﻿@model prjCoreWebWantWant.ViewModels.CRatingViewModel
+@{
+    ViewData["Title"] = "RatingList";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<div class="">
+    <div class="justify-content-center p-4">
+        <h1>歷史評價</h1>
+
+        <ul class="nav ">
+            <li class="nav-item">
+                <button class="nav-link active" id="btnToShowForRatings">給別人的評價</button>
+            </li>
+            <li>|</li>
+            <li class="nav-item">
+                <button class="nav-link active" id="btnToShowMyRatings" aria-current="page" href="#">我收到的評價</button>
+            </li>
+
+        </ul>
+        <hr class="p-1" />
+
+    </div>
+    @* 給別人的評價 *@
+    <div id="totask">
+        <table id="forratings" class="display " style="width:100%">
+            <thead>
+                <tr>
+                    <th>被評論者</th>
+                   @*  <th>評論者</th> *@
+                    <th>評論星數</th>
+                    <th>評論內容</th>
+                    <th>評論日期</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+    @* 自己的評價 *@
+    <div id="tasked" style="display:none" >
+        <table id="myratings" class="display" style="width:100%;">
+            <thead>
+                <tr>
+                   @*  <th>被評論者</th> *@
+                    <th>評論者</th>
+                    <th>評論星數</th>
+                    <th>評論內容</th>
+                    <th>評論日期</th>
+                </tr>
+            </thead>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+        }
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+      //這是按鈕部分
+        var btnToShowForRatings = document.querySelector('#btnToShowForRatings');
+        var btnToShowMyRatings = document.querySelector('#btnToShowMyRatings');
+
+        btnToShowForRatings.addEventListener('click', function () {
+            totask.style.display = 'block';
+            tasked.style.display = 'none';
+        });
+
+        btnToShowMyRatings.addEventListener('click', function () {
+            totask.style.display = 'none';
+            tasked.style.display = 'block';
+        });
+        //============================================
+       
+        //星星評價
+        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+        var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+        var starnull = '<i class="bi bi-star lablestar"></i>';
+        function renderStars(data, type, row) {
+            let score = parseInt(data);
+            let starHTML = "";
+
+            for (let i = 1; i <= 5; i++) {
+                if (score >= i) {
+                    starHTML += starfill; // 實心星星
+                } else if (score > i - 1 && score < i) {
+                    starHTML += starhelf; // 半實心星星
+                } else {
+                    starHTML += starnull; // 空心星星
+                }
+            }
+          
+            return starHTML;
+        }
+        
+
+
+
+        //============================================
+        //這是跑評論內容部分--給別人
+        var datasforratings = null;
+        fetch('@Url.Content("~/RatingsAPI/ForOtherdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
+
+                datasforratings = data;
+               
+                $('#forratings').DataTable({
+                    data: datasforratings,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
+        //============================================
+
+        //這是跑評論內容部分--自己收到
+        var datasmyratings = null;
+        fetch('@Url.Content("~/RatingsAPI/MyRatingsdata")')
+            .then(response => response.json())
+            .then(data => {
+                // 在這裡處理從 API 取得的 JSON 資料
+
+                datasmyratings = data;
+
+                $('#myratings').DataTable({
+                    data: datasmyratings,
+                    columns: [
+                        { data: 'ratedperson', title: "被評論者" },
+                        // { data: 'ratingforperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
+                        { data: 'ratingcontent', title: "評論內容" },
+                        { data: 'ratingdate', title: "評論日期" }
+                    ]
+                });
+            })
+            .catch(error => {
+                // 處理錯誤情況
+                console.error('API request error:', error);
+            });
+                     //============================================
+    </script>
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

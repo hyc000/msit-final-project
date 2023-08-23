@@ -1,52 +1,89 @@
-﻿@{
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
+@{
+    var cases = ViewBag.Cases as Dictionary<int, string>;
+    var resumes = ViewBag.Resumes as Dictionary<int, string>;
+}
+@{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
 
-@*<h1>List</h1>*@
 <div class="content-wrapper">
-    <div class="header-container">
-        <h2>訂單列表</h2>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">訂單列表</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">     
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
     <div class="container mt-4">
-        <div class="row align-items-center">
-
+        <form id="searchForm" method="get" enctype="multipart/form-data">
+           
+            <div class="row align-items-center">
+                 
             <div class="col-md-2">
-                <label for="productName">關鍵字搜尋：</label>
-                <input class="form-control form-control-sm" type="text" id="productName">
+                <label for="productName">會員名稱：</label>
+                <input class="form-control form-control-sm" type="text" id="name">
+            </div>
+            <div class="col-md-2">
+                <label for="productName">訂單編號：</label>
+                <input class="form-control form-control-sm" type="text" id="orderId">
+            </div>
+            <div class="col-md-2">
+                <label for="productName">訂單類別：</label>
+                <select name="category" id="category" class="form-control">
+                        <option value="">請選擇</option>
+                        <option value="1">專家曝光</option>
+                        <option value="2">任務曝光</option>
+                    </select>
+                     
             </div>
             <div class="col-md-4">
-                <label for="createdDate">創建日期：</label>
+                <label for="createdDate">訂單日期：</label>
                 <div class="d-flex align-items-center">
-                    <input type="date" class="form-control">
+                        <input type="date" class="form-control" name="startDate" id="startDate" value="2023-08-23">
                     <span class="mx-2">~</span>
-                    <input type="date" class="form-control">
+                        <input type="date" class="form-control" name="endDate" id="endDate" value="2023-09-15">
                 </div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary">查詢</button>
-                <button type="button" class="btn btn btn-info">匯出訂單</button>
+                    <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
+
+                    <button type="button" class="btn btn btn-info" id="exportButton">匯出訂單</button>
+       
             </div>
+       
             <div class="row mt-3 ">
                 <div class="d-flex">
                     <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
                     <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
                     <button type="button" class="btn btn-primary">訂單分析圖表</button>
                 </div>
+
             </div>
-
+        
         </div>
-
+        </form>
 
         <table id="table" class="table table-striped mt-5">
             <thead align="center">
+  
                 <tr>
                     <td></td>
                     <td>訂單編號</td>
-                    <td>日期</td>
-                    <td>顧客</td>
+                    <td>訂單類別</td>
+                    <td>加值項目</td>
+                    <td>購買時間</td>
+                    <td>會員</td>
                     <td>付款狀態</td>
                     <td>總金額</td>
 
@@ -54,206 +91,76 @@
                 </tr>
             </thead>
             <tbody align="center">
+                           @foreach (var item in Model)
+    {
+                    var caseId = item.OrderDetails.FirstOrDefault()?.CaseId;
+                    var resuemeId = item.OrderDetails.FirstOrDefault()?.ResumeId;
                 <tr>
                     <td>
-                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle" >
+                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails@(item.OrderId)" class="accordion-toggle">
                             <i class="bx bxs-show"></i>
                         </a>
                     </td>
-                    <td>001</td>
-                    <td>2023/08/03</td>
-                    <td>林XX</td>
-                    <td> 已付款</td>
-                    <td>600</td>
+                    <td>@item.OrderId</td>
+                        <td>@item.Category.CategoryName</td>
+                        <td>
+                            @if (caseId != null && ViewBag.Cases.ContainsKey(caseId.Value))
+                            {
+                                var caseName = ViewBag.Cases[caseId.Value];
+                                <span>@(caseName.Length > 10 ? caseName.Substring(0, 20) : caseName)...</span>
+                            }
+                            else if (resuemeId != null && ViewBag.Resumes.ContainsKey(resuemeId.Value))
+                            {
+                                var resuemeName = ViewBag.Resumes[resuemeId.Value];
+                                <span>您的專業履歷@(resuemeName.Length > 10 ? resuemeName.Substring(0, 10) : resuemeName)</span>
+                            }
+                            else
+                            {
+                                <span>未知加值項目</span>
+                            }
+                        </td>
+                    <td>@item.CreateTime</td>
+                    <td>@item.Account.Name</td>
+                    <td></td>
+                    <td>@item.OrderPrice</td>
                 </tr>
                 <!-- 可展開/收起的內容 -->
                 <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="collapse" id="orderDetails1" data-bs-parent="#table">
+                    <td colspan="8" class="hiddenRow">
+                            <div class="collapse" id="orderDetails@(item.OrderId)" data-bs-parent="#table">
                             <!-- 在這裡填入訂單明細內容 -->
-                            <table class="table table-bordered">
+                                <table class="table table-bordered">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>商品名稱</th>
                                         <th>數量</th>
                                         <th>單價</th>
                                         <th>小計</th>
+                                           
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var detail in item.OrderDetails)
+                                    {
                                     <tr>
-                                        <td>商品1</td>
-                                        <td>2</td>
-                                        <td>200</td>
-                                        <td>400</td>
+                                        <td>@detail.Product.ProductName</td>
+                                        <td>@detail.Quantity</td>
+                                        <td>@detail.UnitPrice</td>
+                                        <td>@(detail.UnitPrice*detail.Quantity)</td>
+                                      
                                     </tr>
-                                    <tr>
-                                        <td>商品2</td>
-                                        <td>3</td>
-                                        <td>300</td>
-                                        <td>900</td>
-                                    </tr>
-                                    <tr>
-                                        <td>商品3</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>100</td>
-                                    </tr>
+                                        }
+                                   
                                 </tbody>
-                            </table>
+                        </table>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
-                            <i class="bx bxs-show"></i>
-                        </a>
-                    </td>
-                    <td>002</td>
-                    <td>2023/08/02</td>
-                    <td>林XX</td>
-                    <td> 已付款</td>
-                    <td>600</td>
-                </tr>
-                <!-- 可展開/收起的內容 -->
-                <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="collapse" id="orderDetails2">
-                            <!-- 在這裡填入訂單明細內容 -->
-                            <p>這裡是訂單002的明細內容</p>
-                        </div>
-                    </td>
-                </tr>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
-
-
 </div> <!-- /.content-wrapper -->
-@*<div class="header-container">
-    <h2>訂單列表</h2>
-</div>
-<div class="container mt-4">
-    <div class="row align-items-center">
-
-        <div class="col-md-2">
-            <label for="productName">關鍵字搜尋：</label>
-            <input class="form-control form-control-sm" type="text" id="productName">
-        </div>
-        <div class="col-md-4">
-            <label for="createdDate">創建日期：</label>
-            <div class="d-flex align-items-center">
-                <input type="date" class="form-control">
-                <span class="mx-2">~</span>
-                <input type="date" class="form-control">
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-md-4">
-            <button type="button" class="btn btn-primary">查詢</button>
-            <button type="button" class="btn btn btn-info">匯出訂單</button>
-        </div>
-        <div class="row mt-3 ">
-            <div class="d-flex">
-                <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
-                <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
-                <button type="button" class="btn btn-primary">訂單分析圖表</button>
-            </div>
-        </div>
-
-    </div>
-
-
-    <table id="table" class="table table-striped mt-5">
-        <thead align="center">
-            <tr>
-                <td></td>
-                <td>訂單編號</td>
-                <td>日期</td>
-                <td>顧客</td>
-                <td>付款狀態</td>
-                <td>總金額</td>
-
-
-            </tr>
-        </thead>
-        <tbody align="center">
-            <tr>
-                <td>
-                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
-                        <i class="bx bxs-show"></i>
-                    </a>
-                </td>
-                <td>001</td>
-                <td>2023/08/03</td>
-                <td>林XX</td>
-                <td> 已付款</td>
-                <td>600</td>
-            </tr>
-            <!-- 可展開/收起的內容 -->
-            <tr>
-                <td colspan="6" class="hiddenRow">
-                    <div class="collapse" id="orderDetails1" data-bs-parent="#table">
-                        <!-- 在這裡填入訂單明細內容 -->
-                        <table class="table table-bordered">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>商品名稱</th>
-                                    <th>數量</th>
-                                    <th>單價</th>
-                                    <th>小計</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>商品1</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>400</td>
-                                </tr>
-                                <tr>
-                                    <td>商品2</td>
-                                    <td>3</td>
-                                    <td>300</td>
-                                    <td>900</td>
-                                </tr>
-                                <tr>
-                                    <td>商品3</td>
-                                    <td>1</td>
-                                    <td>100</td>
-                                    <td>100</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
-                        <i class="bx bxs-show"></i>
-                    </a>
-                </td>
-                <td>002</td>
-                <td>2023/08/02</td>
-                <td>林XX</td>
-                <td> 已付款</td>
-                <td>600</td>
-            </tr>
-            <!-- 可展開/收起的內容 -->
-            <tr>
-                <td colspan="6" class="hiddenRow">
-                    <div class="collapse" id="orderDetails2">
-                        <!-- 在這裡填入訂單明細內容 -->
-                        <p>這裡是訂單002的明細內容</p>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>*@
 
 @section Styles
     {
@@ -270,3 +177,73 @@
         }
     </style>
 }
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                e.preventDefault();
+
+                var category = $('#category').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+                var orderId = $('#orderId').val();
+                var name = $('#name').val();
+
+                $.ajax({
+                    url: '@Url.Action("List", "Order")',
+                    type: 'GET',
+                    data: {
+                        categorys: category,
+                        startDate: startDate,
+                        endDate: endDate,
+                        orderId: orderId,
+                        name: name
+                    },
+                    success: function (result) {
+                        $('#table tbody').html($(result).find('#table tbody').html());
+                    },
+                    error: function () {
+                        alert('失敗。');
+                    }
+                });
+            });
+        });
+        document.getElementById('exportButton').addEventListener('click', function () {
+            var rows = document.querySelectorAll('#table tbody tr:not(.hiddenRow)'); // Exclude detail rows
+            var data = [['訂單編號', '訂單類別', '購買時間', '會員', '總金額']];
+
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.getElementsByTagName('td');
+
+                // 获取表格中第2到第8列的数据（跳过第1列）
+                for (var i = 1; i < cells.length - 1; i++) {
+                    if (i === 3) { // 跳过订单明细那一列
+                        continue;
+                    }
+                    rowData.push(cells[i].textContent.trim());
+                }
+
+                data.push(rowData);
+            });
+
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.aoa_to_sheet(data);
+            var wscols = [
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 20 },
+                { wch: 15 },
+                { wch: 15 }
+            ];
+
+            ws['!cols'] = wscols;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+            XLSX.writeFile(wb, 'orders.xlsx');
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+    }

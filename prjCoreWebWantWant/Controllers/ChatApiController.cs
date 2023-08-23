@@ -2,13 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
 using System;
+using System.Linq;
 using System.Text.Json;
 
 namespace WantTask.Controllers
 {
     public class ChatApiController : Controller
     {
-        NewIspanProjectContext _db = new NewIspanProjectContext();
+        private readonly NewIspanProjectContext _db;
+
+        public ChatApiController(NewIspanProjectContext dbContext)
+        {
+            _db = dbContext;
+        }
 
 
         public IActionResult UserList()//列出聊天對象清單
@@ -16,7 +22,8 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
 
                 var orderMessages = _db.ChatMessages
                                 .OrderByDescending(m => m.Created) // 按照時間戳排序，最新的在前面
@@ -63,7 +70,7 @@ namespace WantTask.Controllers
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 double countTotal = _db.ChatMessages.Where(p => p.SenderId == chatWithId || p.ReceiverId == chatWithId).Count();
                 int perpage = 15;//每頁筆數
@@ -77,11 +84,14 @@ namespace WantTask.Controllers
                                         .Skip((page - 1) * perpage)
                                         .Take(perpage)
                                         .ToList();
+                chatInfo= chatInfo.OrderBy(chat => chat.Created).ToList();
                 return Json(chatInfo);
             }
             else
                 return RedirectToAction("Login", "Member");
         }
+
+
 
     }
 }

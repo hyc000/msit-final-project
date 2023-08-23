@@ -7,11 +7,11 @@
 
 <div class="container">
 
-<div class="chat-row my-5" style="height:69vh">
+<div class="chat-row my-4" style="height:69vh">
     
         <div class="col-md-3  card">
             <div class="chat-list-header pt-3" style="height:100px">
-                <span class="h4 text-white">---Want Chat---</span>
+                <span class="h4 text-white">◆◆◆Want Chat◆◆◆</span>
                 <span class="input-group my-2 w-75 mx-auto">
                 <input type="text" placeholder="Search 暫定功能" class="form-control" autocomplete="off" name="searchUser" tabindex="101" value="">
                 <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-search-heart"></i></button>
@@ -19,12 +19,12 @@
             </div>
             <div id ="userList" style="max-height: 69vh; overflow-y: auto;"></div><!--聊天清單從這邊開始加的-->
         </div>
-        <div class="col-md-9 card" style="height:80vh">
+        <div class="col-md-9 card" style="height:80vh;flex-grow: 100;">
             <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
-            <div class="p-3" id="chatDetail" style="height:100vh;">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
+            <div class="p-3" id="chatDetail" style="height:100vh">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
             <span class="input-group">
-            <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="sendMessage" tabindex="101" value="">
-            <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-send"></i></button>
+            <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
+            <button tabindex="102" class="input-group-text" type="submit" id="btnSentMessage"><i class="bi bi-send"></i></button>
         </span>
     </div>
 </div>
@@ -33,9 +33,76 @@
 
 
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script> @* 這個要在連線建立前加入 *@
+
+
     <script>
+        //建立signalR連線
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/hubs/chat") // 填寫Hub端點URL 這邊要跟program.cs寫得一模一樣，要不然不會抓到app.MapHub<ChatHub>("/hubs/chat");
+            .build();
+
+        connection.start().then(() => {
+            console.log("SignalR Connected.")
+        }).catch(err => { console.error(err); setTimeout(start, 5000); });
+
+        connection.on("ReceiveMessage", function (senderId, message) {
+            console.log("到底有沒有跑到這");
+
+            console.log(message);
+            console.log(senderId);
+            // 處理訊息的顯示等操作
+        });
+
+        //聊天發出功能--------------------start--------------------
+        const btnSentMessage = document.getElementById("btnSentMessage");
+        const messageInput = document.querySelector("input[name='jsSendMessage']");
+        let receiverId = 0;
+
+        btnSentMessage.addEventListener('click', () => {//按下畫面上按鈕的事件
+            const message = messageInput.value; // 取得使用者輸入的訊息
+            const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+            if (message.trim() !== "") {//如果message移除空白後也不為空的話
+                // 呼叫 SendPrivateMessage 方法傳送訊息
+                connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
+                    loadUser();
+                    messageInput.value = '';
+                    keepDown();
+                });
+            }
+        })
+
+        messageInput.addEventListener('keydown', (event) => {//在messageInput按下enter的事件
+            if (event.key === 'Enter') { // 如果按下的是 Enter 鍵
+                event.preventDefault(); // 防止預設行為（換行）
+
+                const message = messageInput.value.trim(); // 取得使用者輸入的訊息，並移除前後空白
+                const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+
+                if (message !== "") {
+                    // 呼叫 SendPrivateMessage 方法傳送訊息
+                    connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
+                        loadUser();
+                        messageInput.value = ''; // 清空輸入框
+                        keepDown();
+                    });
+                }
+            }
+        });
+        //聊天發出功能--------------------end--------------------
+
+        //聊天室預設捲軸在最下方--------------------start--------------------
+        function keepDown() {
+            const chatDetailDiv = document.querySelector('#chatDetail');
+            chatDetailDiv.scrollTop = chatDetailDiv.scrollHeight;
+        }
+
+        //聊天室預設捲軸在最下方--------------------end--------------------
+
+        //這邊是左方聊天對象--------------------start--------------------
         const userList = document.querySelector('#userList');
         async function loadUser() {
+            userList.innerHTML = '';
             const response = await fetch('@Url.Content("~/ChatApi/UserList/")');
             const data = await response.json();
             let chatAvaterUrl=[];//存聊天對象頭像備用
@@ -77,24 +144,29 @@
                 chatLink.setAttribute('inChatWithId', u.accountId);//與誰聊天
                 chatLink.setAttribute('inPage', '1');//設定讀取第幾頁，因為要讀最新的所以都是設定1
                 chatLink.setAttribute('data-index', chatAvaCount);//儲存頭像的Index
+                const messagePreview = u.latestMessage.message.length > 10 ? `${(u.latestMessage.message).substring(0, 10)}...` : u.latestMessage.message;//預覽最新訊息
                 chatLink.innerHTML = //裡面包的html
                     `<div class="chat-list-group list-group-flush d-flex align-items-center p-3" style="height:100px" id=${chatAvaCount} onclick="toggleBackgroundColor(this)">
                                 <img src="${chatAvaterUrl[chatAvaCount]}" class="rounded-circle img-thumbnail user-image col-2 ">
                          <div class="col-10 mx-2">
                                       <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
                               </br>
-                              <span class="small">${u.latestMessage.message}</span>
+                            <span class="small">${messagePreview}</span>
                            </div>
                  </div>`;
                 chatAvaCount++;
+        //這邊是左方聊天對象--------------------end--------------------
 
-                //點下聊天對象監聽器
+
+                //點下聊天對象監聽器(到右邊聊天詳細)--------------------start--------------------
                 chatLink.addEventListener('click', async (event) => {
                     event.preventDefault();//防止連結預設的#
                     const clickedElement = event.currentTarget;//要找到使用者按下了誰
                     const index =clickedElement.getAttribute('data-index');//抓取按下的那個index值
 
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
+                    receiverId = chatLink.getAttribute('inChatWithId')
+                    console.log(receiverId)
                     const jsPage = chatLink.getAttribute('inPage');
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);
@@ -106,7 +178,7 @@
                     chatDetailData.map(chat => {
 
                         const chatContainer = document.createElement('div');
-                        chatContainer.classList.add('chat-container');
+                        chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');
 
                         let chatAvatar = document.createElement('img');
                         chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
@@ -144,16 +216,18 @@
                         }
                         chatDetailDiv.appendChild(chatContainer);
                     })
+                    keepDown();
                 })
 
                 userList.appendChild(chatLink);
             
             })
         }
+        //點下聊天對象監聽器(到右邊聊天詳細)--------------------end--------------------
 
             loadUser();
 
-
+        //點選作用中事件
         function toggleBackgroundColor(element) {
             element.classList.add('active');
             for (const ta of document.getElementsByClassName('chat-list-group')){
@@ -164,8 +238,8 @@
         }
 
 
-
     </script>
+
 }
 
 

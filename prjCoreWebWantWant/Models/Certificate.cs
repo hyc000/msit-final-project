@@ -14,4 +14,6 @@ public partial class Certificate
     public virtual CertificateType CertificateType { get; set; } = null!;
 
     public virtual ICollection<ResumeCertificate> ResumeCertificates { get; set; } = new List<ResumeCertificate>();
+
+    public virtual ICollection<TaskCertificate> TaskCertificates { get; set; } = new List<TaskCertificate>();
 }

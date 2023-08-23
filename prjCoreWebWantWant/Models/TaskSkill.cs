@@ -12,4 +12,6 @@ public partial class TaskSkill
     public int SkillId { get; set; }
 
     public virtual TaskList Case { get; set; } = null!;
+
+    public virtual Skill Skill { get; set; } = null!;
 }

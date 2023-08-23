@@ -12,4 +12,6 @@ public partial class TaskCertificate
     public int CertficateId { get; set; }
 
     public virtual TaskList Case { get; set; } = null!;
+
+    public virtual Certificate Certficate { get; set; } = null!;
 }
