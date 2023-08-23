@@ -63,7 +63,13 @@ namespace WantTask.Controllers
             }
             else
                 return RedirectToAction("Login", "Member");
-
         }
+
+        public IActionResult ChatIcon()
+        {
+
+            return PartialView();
+        }
+
     }
 }
