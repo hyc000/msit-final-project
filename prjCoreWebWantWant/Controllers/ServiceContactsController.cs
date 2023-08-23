@@ -20,6 +20,26 @@ namespace prjCoreWebWantWant.Controllers
             _context = context;
         }
 
+        public IActionResult SaveMessage()
+        {
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            IEnumerable<CServiceContactViewModel> datas = null;
+ 
+            datas = from m in db.MemberAccounts
+                    join s in db.ServiceContacts
+                    on m.AccountId equals s.AccountId
+                    select new CServiceContactViewModel
+                    {
+                        serviceContact = s,
+                        AccountId = m.AccountId,
+                        Name = m.Name,
+                        Email = m.Email
+                    };
+
+            db.SaveChanges();
+            return RedirectToAction("List");
+        }
+
 		public IActionResult List(CKeywordViewModel vm)
 		{
 			NewIspanProjectContext db = new NewIspanProjectContext();
