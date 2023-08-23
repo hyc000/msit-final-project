@@ -189,8 +189,13 @@
                                                         @*@Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
                                                         @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
                                                             @*<i class="fas fa-pencil-alt"></i>*@
-                                                        <a href="@Url.Action("Edit", new { id = item.CaseId })">
+
+                                                        @*<a href="@Url.Action("Edit", new { id = item.CaseId })">
                                                             <i class="fas fa-pencil-alt" data-id="@item.CaseId"></i>
+                                                        </a>*@
+
+                                                        <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId" >
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </a>
                                                 </td>
                                             </tr>
