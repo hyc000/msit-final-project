@@ -96,7 +96,9 @@
                                     </td>
 
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id=item.AccountId })
+                                        <a href="@Url.Action()">
+                                            <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }

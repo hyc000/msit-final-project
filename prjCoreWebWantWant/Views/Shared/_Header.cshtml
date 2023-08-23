@@ -54,16 +54,14 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto pe-5">
-                        <li class="nav-item">
+                        <li class="nav-item d-flex align-items-center">
                             @{
                                 if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
                                 {
                                 // 登入狀態，顯示小人
-                                    <i class="fa-solid fa-user nav-link d-sm-flex" style="color: #528eaf;"></i>
+                                    <i class="fa-solid fa-user" style="color: #528eaf;"></i>
                                 }
                             }
-                        </li>
-                        <li class="nav-item">
                             <span class="nav-link text-dark">@loginUserName</span>
                         </li>
                         <li class="nav-item">
