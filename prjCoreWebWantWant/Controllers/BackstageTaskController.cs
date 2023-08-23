@@ -316,6 +316,29 @@ namespace WantTask.Controllers
 
         #endregion
 
+
+        public IActionResult Publish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "立刻上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
+
+        public IActionResult NoPublish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "延後上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
+
         //public IActionResult Form()
         //{
         //    return View("Form");

@@ -201,6 +201,9 @@
                                                         <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId" >
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
+
+                                                        @Html.ActionLink("下架", "NoPublish","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
+                                                        @Html.ActionLink("上架", "Publish","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
                                                 </td>
                                             </tr>
 
