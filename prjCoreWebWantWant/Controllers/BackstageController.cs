@@ -33,24 +33,36 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int[] selectedSkillId)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3)
         {
-            foreach (int skillId in selectedSkillId)
-            {
-                ResumeSkill resumeSkill = new ResumeSkill()
+                p.TownId = selectedTownId;
+                _context.Resumes.Add(p);
+                _context.SaveChanges();
+
+                 ResumeSkill resumeSkill1 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
-                    SkillId = skillId
+                    SkillId = selectedSkillId1
                 };
-                _context.Add(resumeSkill);
+                _context.Add(resumeSkill1);
                 _context.SaveChanges();
-            }
-           
 
-            p.TownId = selectedTownId;
-            _context.Resumes.Add(p);
-            _context.SaveChanges();
-            return RedirectToAction("ResumeList");
+                ResumeSkill resumeSkill2 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId2
+                };
+                _context.Add(resumeSkill2);
+                _context.SaveChanges();
+
+                ResumeSkill resumeSkill3 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId3
+                };
+                _context.Add(resumeSkill3);
+                _context.SaveChanges();
+                return RedirectToAction("ResumeList");
         }
 
         public IActionResult ResumeUneditable()
@@ -159,7 +171,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             var skillId = _context.SkillTypes
                          .Where(a => a.SkillTypeName == skillType)
                          .SelectMany(c => c.Skills)
-                         .Where(c => c.SkillName.ToLower() == skillName.ToLower())
+                         .Where(c => c.SkillName == skillName)
                          .Select(c => c.SkillId);
 
             return Json(skillId);
