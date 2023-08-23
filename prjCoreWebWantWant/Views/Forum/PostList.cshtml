@@ -35,7 +35,7 @@
 
 <div class="row m-1">
     <table class="table text-start align-middle">
-        <thead class="table-primary">
+        <thead class="h5">
         <tr >
         <th class="col-4">
             文章標題
@@ -54,15 +54,15 @@
             最後更新時間
         </th>
         <th class="text-center col-2">
-            最新回覆時間
+            最新回覆
         </th>
     </tr>
         </thead>
     @foreach (var item in Model.PagedPosts)
     {
-        <tr>
+        <tr class=" myfont">
             <td>
-                <span class="h6 link-offset-1-hover">@Html.ActionLink(item.Title, "PostView", "Forum", new { postID = item.PostId }, null)</span><br />
+                <span class="h5 fw-light">@Html.ActionLink(item.Title, "PostView", "Forum", new { postID = item.PostId }, null)</span><br />
                 <span class="text-secondary">@Html.DisplayFor(modelItem => item.Account.UserName)</span>
             </td>
                     <td class="text-center small">
@@ -80,8 +80,9 @@
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
             <td class="text-center small">
-                    @Html.DisplayFor(modelItem => item.ForumPostComments.OrderByDescending(c => c.Created).FirstOrDefault().Created)
-                    @Html.DisplayFor(modelItem => item.ForumPostComments.OrderByDescending(c => c.Created).FirstOrDefault().Account.UserName)
+                    @Html.DisplayFor(modelItem => item.InverseParent.OrderByDescending(p=>p.Created).FirstOrDefault().Created)
+                    <br>
+                    @Html.DisplayFor(modelItem => item.InverseParent.OrderByDescending(p=>p.Created).FirstOrDefault().Account.UserName)
             </td>
         </tr>
     }
@@ -107,11 +108,11 @@
 @section Styles{
     <style>
         a:link {
-            color: #46576b;
+            color: #242424;
         }
 
         a:visited {
-            color: #434b53;
+            color: #242424;
         }
 
         a:hover {
@@ -120,6 +121,11 @@
 
         a:active {
             color: #445971;
+        }
+
+        .myfont{
+            font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 300;
         }
     </style>
 
