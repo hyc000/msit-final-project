@@ -46,22 +46,12 @@
 
 
 <body>
-
+      
         <div id="layout-wrapper">
           
           @*   <div class="main-content">*@
                @*  <div class="page-content"> *@
-                    <div class="container-fluid">
-
-         @*   <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">會員專區</a></li>
-                    <li class="breadcrumb-item"><a href="#">找人力</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">發案紀錄</li>
-                </ol>
-            </nav>*@
-
-                     
+                    <div class="container-fluid">              
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between"> 
@@ -69,27 +59,28 @@
                             </div>
                         </div>
                     
-                        <!--已上架未上架 任務類型 關鍵字-->
+                       <!--已上架未上架 任務類型 關鍵字-->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header">
 
-                                        <div class="row">
-                                            <div class="card-body col-4">
-                                             
-                                                <!--已上架 未上架-->
+                        @using (Html.BeginForm())
+                        {
+                                  <div class="card-header">
+                                        <div class="row">                               
+                                            <div class="card-body col-4">                                   
+                                        <!--已上架 未上架-->
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" id="publish">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" >
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                            <span class="d-none d-sm-block" style="color:#528EAF" >已上架</span>
+                                                <span class="d-none d-sm-block" style="color:#528EAF" id="tabpublish">已上架</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
-                                                        <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab" id="Nopublish">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab" >
                                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                           <span class="d-none d-sm-block" style="color:#528EAF">未上架</span>
+                                                <span class="d-none d-sm-block" style="color:#528EAF" id="tabNopublish">未上架</span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -135,19 +126,34 @@
                                                 </form>
                                             </div>
 
-                                            <!--關鍵字搜尋-->                               
-
-                                            <div class="col-4 mb-3">
+                                            <!--已上架 關鍵字搜尋-->
+                                           
+                                                 <div class="col-4 mb-3" id="publishKeyword">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="請輸入關鍵字" name="keyword">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
                                                         <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
                                                 </div>
-                                        </div>
-                                    </div>
+                                            
+                                            <!--未上架 關鍵字搜尋-->
+                                            
+                                                 <div class="col-4 mb-3"  id="NopublishKeyword" style="display:none">
+                                                <form class="app-search d-none d-lg-block">
+                                                    <div class="position-relative">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
+                                                <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            
 
+                     
+                                               </div>
+                                             </div>
+
+                            
                                     <!--已上架-->
                                    <div class="card-body" id="Publish">
                                     </div>
@@ -164,13 +170,17 @@
                                             let NoPublish = document.querySelector("#NoPublish");
                                             let PublishSelect = document.querySelector("#PublishSelect");
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
+                                            let publishKeyword = document.querySelector("#publishKeyword");
+                                            let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
 
                                             //再對標籤做操作
                                             Publish.style.display = "block";
                                             NoPublish.style.display = "none";
                                             PublishSelect.style.display = "block";
                                             NoPublishSelect.style.display = "none";
-                                        }
+                                            publishKeyword.style.display = "block";
+                                            NopublishKeyword.style.display = "none";
+                                          }
 
                                         function showNoPublish() {
                                             //先取得要操作的標籤
@@ -178,24 +188,27 @@
                                             let NoPublish = document.querySelector("#NoPublish");
                                             let PublishSelect = document.querySelector("#PublishSelect");
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
+                                            let publishKeyword = document.querySelector("#publishKeyword");
+                                            let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
+
 
                                             //再對標籤做操作
                                             Publish.style.display = "none";
                                             NoPublish.style.display = "block";
                                             PublishSelect.style.display = "none";
                                             NoPublishSelect.style.display = "block";
+                                            publishKeyword.style.display = "none";
+                                            NopublishKeyword.style.display = "block";
+
                                         }
                                     </script>
 
-
+                                    }
                                 </div>
                             </div>
-                        </div>
-                       
-
+                        </div>                       
                     </div> 
-              @*   </div> *@
-               
+              @*   </div> *@               
             @* </div> *@
             
         </div>
@@ -233,19 +246,21 @@
             })
         })
 
-            const publish = document.querySelector('#publish');
-            const Nopublish = document.querySelector('#Nopublish');
+            const tabpublish = document.querySelector('#tabpublish');
+            const tabNopublish = document.querySelector('#tabNopublish');
 
-            function showPublish() {
-                publish.style.color = 'red';
-                //publish.style.backgroundColor = '#528EAF';
-                Nopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
+            function showtabpublish() {
+                tabpublish.style.color = 'white';
+                tabpublish.style.backgroundColor = '#528EAF';
+                tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
+                tabNopublish.style.backgroundColor = '';
             }
 
-            function showNoPublish() {
-                publish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
-                Nopublish.style.color = 'red';
-                Nopublish.backgroundColor = '#528EAF';
+            function showtabNopublish() {
+                tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
+                tabpublish.style.backgroundColor = '';
+                tabNopublish.style.color = 'white';
+                tabNopublish.style.backgroundColor = '#528EAF';
             }
 
     </script>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using System.Runtime.ConstrainedExecution;
 using WantTask.ViewModels;
@@ -52,6 +53,26 @@ namespace WantTask.Controllers
                 Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");           
 
              return PartialView(taskName);
+        }
+
+        //立刻上架的keyword
+        public IActionResult publishKeyword(CKeywordViewModel vm , string category)
+        {
+            IEnumerable<TaskList> datas = null;
+            if (string.IsNullOrEmpty(vm.txtKeyword))
+            {                
+                datas = _context.TaskLists
+                        //.Include(t => t.Town.City)
+                        .Where(tl => tl.PublishOrNot == "立刻上架");
+            }
+            else
+            {
+                 datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+                );
+            }
+            return View(datas);           
         }
 
         //改狀態為立刻上架
@@ -536,10 +557,7 @@ namespace WantTask.Controllers
         public IActionResult TaskName()
         {
             var taskName = _context.TaskNameLists.Select(c => c.TaskName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+           
             return Json(taskName);
         }
 
@@ -557,14 +575,13 @@ namespace WantTask.Controllers
 
         //}
 
-        //支薪方式      
+              
+        
+        //支薪方式
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+            
             return Json(payment);
         }
 
@@ -572,10 +589,7 @@ namespace WantTask.Controllers
         public IActionResult PaymentDate()
         {
             var paymentDate = _context.PaymentDates.Select(c => c.PaymentDate1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+         
             return Json(paymentDate);
         }
 
@@ -583,10 +597,7 @@ namespace WantTask.Controllers
         public IActionResult Cities()
         {
             var cities = _context.Cities.Select(c => c.City1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+         
             return Json(cities);
         }
 
@@ -606,10 +617,7 @@ namespace WantTask.Controllers
         public IActionResult SkillBig()
         {
             var skillBig = _context.SkillTypes.Select(c => c.SkillTypeName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+          
             return Json(skillBig);
         }
 
@@ -630,10 +638,7 @@ namespace WantTask.Controllers
         public IActionResult CerBig()
         {
             var cerBig = _context.CertificateTypes.Select(c => c.CertificateTypeName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+          
             return Json(cerBig);
         }
 
