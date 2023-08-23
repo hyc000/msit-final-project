@@ -178,7 +178,7 @@
                         <input asp-for="PayTo" class="form-control" />
                         <span asp-validation-for="PayTo" class="text-danger"></span>
                     </div>
-
+                    <p></p>
                   <input type="hidden" id="hiddenPaymentIdInput" name="selectedPaymentId"/>
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelPayment"
@@ -511,8 +511,8 @@
         async function getSkillId() {
             const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?SkillTypeName=${SelSkillBig.value}&SkillName=${SelSkillSmall.value}`);
             const data = await response.json();
-            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
-            hiddenSkillIdInput.value = selectedTownId;
+            const selectedSkillId= data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput.value = selectedSkillId;
         }
 
 
@@ -557,8 +557,8 @@
         async function getCerId() {
             const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?CertificateTypeName=${SelCerBig.value}&SkillName=${SelCerSmall.value}`);
             const data = await response.json();
-            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
-            hiddenCerIdInput.value = selectedTownId;
+            const selectedCerId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenCerIdInput.value = selectedCerId;
         }
 
         SelCerBig.addEventListener('change', () => {
