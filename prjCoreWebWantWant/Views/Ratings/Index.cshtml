@@ -1,12 +1,19 @@
 ﻿@model prjCoreWebWantWant.ViewModels.CRatingViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "評價管理";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 
 }
 @section subTitle{
-    歷史評價
+  
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">評價管理</li>
+        </ol>
+    </nav>
 }
 
 <div id="layout-wrapper">
@@ -97,6 +104,7 @@
                     <!--已上架-->
                     <div class="card-body" id="totask">
                         <table id="forratings" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            
                             <thead>
                                 <tr>
                                     <th style="width: 50px;">被評論者</th>
