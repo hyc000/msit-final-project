@@ -1,363 +1,354 @@
-﻿@using Microsoft.AspNetCore
-@using prjCoreWantMember.ViewModels
-@model IEnumerable<CExpertInfoViewModel>
+﻿
 @{
     ViewData["Title"] = "ExpertMainPage";
-    Layout = "~/Views/Shared/_Layout_Task.cshtml";
 }
 
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">找專家</li>
+            @*<li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">專家成案紀錄管理</li>*@
+        </ol>
+    </nav>
+}
 
-
-
-<main>
-
-    <!-- Job List Area Start -->
-    <div class="job-listing-area pt-120 pb-120">
-        <div class="container">
-            <div class="row">
-                <!-- Left content -->
-                <div class="col-xl-3 col-lg-3 col-md-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="small-section-tittle2 mb-45">
-                                <div class="ion">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         xmlns:xlink="http://www.w3.org/1999/xlink"
-                                         width="20px" height="12px">
-                                        <path fill-rule="evenodd" fill="rgb(27, 207, 107)"
-                                              d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z" />
-                                    </svg>
-                                </div>
-                                <h4>篩選</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Job Category Listing start -->
-                    <div class="job-category-listing mb-50">
-                        <!-- single one -->
-                        <div class="single-listing">
-
-                            <div class="small-section-tittle2">
-                                @using (Html.BeginForm())
-                                {
-                                    <h4>關鍵字</h4> @*@Html.TextBox("txtKeyword")*@ <input type="text" id="txtKeyword" name="txtKeyword" style="width:156px" />
-                                    <input type="submit" value="查詢">
-                                }
-                            </div>
-                            <br />
-                            <div class="small-section-tittle2">
-                                <h4>專長類別</h4>
-                            </div>
-                            <!-- Select job items start -->
-                            <div class="select-job-items2">
-                                @using (Html.BeginForm())
-                                {
-
-                                    <select name="selectCategory" id="skilltypeselect" >
-                                    </select>
-                                    <select name="selectCategory" id="skillselect">
-                                    </select>
-                                }
-                            </div>
-                            <!--  Select job items End-->
-                            <!-- select-Categories start -->
-                            <div class="select-Categories pt-80 pb-50">
-                                <div class="small-section-tittle2">
-                                    <h4>付款方式</h4>
-                                </div>
-                                <label class="container">
-                                    現金付款
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">
-                                    匯款
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-
-                                <div class="small-section-tittle2">
-                                    <h4>工作地點</h4>
-                                </div>
-                                <!-- Select job items start -->
-                                <div class="select-job-items2">
-                                    <select name="select">
-                                        <option value="">任意地點</option>
-                                        <option value="">北部</option>
-                                        <option value="">中部</option>
-                                        <option value="">南部</option>
-                                        <option value="">外島</option>
-                                    </select>
-                                </div>
-                                <!--  Select job items End-->
-                            </div>
-
-                        </div>
-                        <!-- select-Categories End -->
-
-
-                        <div class="single-listing">
-                            <!-- Range Slider Start -->
-                            @*   <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
-                            <div class="small-section-tittle2">
-                            <h4>薪資過濾</h4>
-                            </div>
-                            <div class="widgets_inner">
-                            <div class="range_item">
-                            <!-- <div id="slider-range"></div> -->
-                            <input type="text" class="js-range-slider" value="" />
-                            <div class="d-flex align-items-center">
-                            <div class="price_text">
-                            <p>薪資 :</p>
-                            </div>
-                            <div class="price_value d-flex justify-content-center">
-                            <input type="text" class="js-input-from" id="amount" readonly />
-                            <span>到</span>
-                            <input type="text" class="js-input-to" id="amount" readonly />
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                            </aside> *@
-                            <!-- Range Slider End -->
-                        </div>
-                    </div>
-                    <!-- Job Category Listing End -->
-                </div>
-                <!-- Right content -->
-                <div class="col-xl-9 col-lg-9 col-md-8">
-                    <!-- Featured_job_start -->
-                    <section class="featured-job-area">
-                        <div class="container">
-                            <!-- Count of Job list Start -->
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="count-job mb-35">
-                                        <span>共 @Model.Count() 筆資料</span>
-                                        <!-- Select job items start -->
-                                        <div class="select-job-items">
-                                            <span>排序</span>
-                                            <select name="select">
-                                                <option value="">無</option>
-                                                <option value="">更新 新->舊</option>
-                                                <option value="">薪資 高->低</option>
-                                                <option value="">薪資 低->高</option>
-                                            </select>
-                                        </div>
-                                        <!--  Select job items End-->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Count of Job list End -->
-                            <!-- single-job-content -->
-                            @foreach (var item in Model)
-                            {
-                                string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
-                                <div class="single-job-items mb-30" style="border:groove;">
-                                    @*工作列表*@
-                                    <div class="job-items">
-                                        @* <div class="company-img">
-                                    <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
-                                    </div>*@
-                                        <div class="job-tittle job-tittle2">
-                                            <a href="#">
-                                                <h4> @Html.DisplayFor(modelItem => item.memberAccount.Name)</h4>
-                                            </a>
-                                            <ul>
-                                                @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
-                                                <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.cityName)</li>
-
-                                                <li>基本報價：@Html.DisplayFor(modelItem => item.expertResume.CommonPrice) 元</li>
-                                                @*<li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>*@
-
-                                            </ul>
-                                            <ul>
-                                                <li>服務項目：@ServiceInfo</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="items-link items-link2  f-right">
-                                        @* <a href="@Url.Action("Detail", new { id=item.resume.ResumeId}) target="_blank">詳細資訊</a> *@
-                                        @Html.ActionLink("詳細資訊","Details","ExpertResumes",new { id=item.resume.ResumeId},null)
-                                    </div>
-                                </div>
-                            }
-
-
-                        </div>
-                    </section>
-                    <!-- Featured_job_end -->
+<div class="row justify-content-center">
+    <!--Bootstrap 樣式類：用於創建一個水平的「行」容器、於在「行」容器中使內容水平居中對齊。-->
+    <div class="col-3 g-0 ps-2 pe-2 me-4">
+        <!--左側搜尋(篩選)-->
+        <!--Bootstrap：創建一個佔據父容器 25% 寬度的列，並在左側和右側添加內邊距，同時在右側添加外邊距。-->
+        <div class="filter_block ">
+            <!--白色的框框，但好像沒套到-->
+            <div class="flex-column">
+                @* 自訂 ：應該是為了包住搜尋的標籤&搜尋框框，但好像沒套到*@
+                <label class="fs-4 pl-2 pt-2">搜尋專家</label>
+                <div class="d-flex align-items-center search_container position-relative">
+                    <!--為了製作搜尋的輸入框(包含前方小圖&按鈕)-->
+                    <!--Bootstrap 樣式：d-flex：啟用 Flexbox 佈局，這將使元素的子元素能夠使用 Flexbox 屬性進行排列。-->
+                    <!--Bootstrap 樣式：align-items-center：用於在 Flexbox 容器中將子元素垂直居中對齊。-->
+                    <!--自訂 樣式：search_container：但好像沒套到-->
+                    <!--Bootstrap 樣式：position-relative：用於將元素的 position 屬性設置為 relative，從而創建相對定位的容器。這允許你在容器內使用絕對定位來放置其他元素。-->
+                    <!--實現 Flexbox 佈局、垂直居中對齊，同時創建了一個相對定位的容器-->
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="inputKeyword" name="txtKeyword" class="search-input" placeholder="搜尋專家">
+                    @* 自訂 ：可能要做Form才會送出&好像沒套到*@
+                    <button class="btn btn-outline-primary">查詢</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Job List Area End -->
-    <!--Pagination Start  -->
-    <div class="pagination-area pb-115 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="single-wrap d-flex justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-start">
-                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                <li class="page-item"><a class="page-link" href="#"><span class="ti-angle-right"></span></a></li>
-                            </ul>
-                        </nav>
+        <!--左側工具列先不要管他-->
+        <!--左側技能類別-->
+        <div class="filter_block">
+            <label class="fs-4 pl-2 pt-2">所有技能類別</label>
+            <div class="controls-display-row category-click">
+                <span class="fs-5">居家服務</span>
+                <i class="fa-solid fa-chevron-down"></i>
+
+                @*<div class="d-flex justify-content-end">
+                    <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
+                    <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
+                </div>*@
+            </div>
+            <div class="ms-lg-4 filter-block-toggle">
+                <ul class="list-unstyled divFiltered_tag">
+                    
+                        <li class=" d-flex align-items-center divide-line my-w-80-percent">
+                            @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+                            <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <span>Word</span>
+                        </li>
+
+                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
+                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <span>Excel</span>
+                    </li>
+
+                </ul>
+            </div>
+
+            @*@foreach (var c in Model.categoryAndTags)
+            {
+                <div class="controls-display-row category-click">
+                    <span class="fs-5">@Html.DisplayFor(modelItem => c.category)</span>
+                    <div class="d-flex justify-content-end">
+                        <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
+                        <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
                     </div>
+                </div>
+                <div class="ms-lg-4 filter-block-toggle">
+                    <ul class="list-unstyled divFiltered_tag">
+                        @foreach (var t in c.tags.Distinct())
+                        {
+                            <li class=" d-flex align-items-center divide-line my-w-80-percent">
+                                <img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+                                <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />
+                                <span>@Html.DisplayFor(modelItem => t)</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }*@
+        </div>
+        <!--左側證照類別-->
+        <div class="filter_block">
+            <label class="fs-4 pl-2 pt-2">所有證照類別</label>
+            <div class="controls-display-row category-click">
+                <span class="fs-5">證照大項</span>
+                <i class="fa-solid fa-chevron-down"></i>
+
+                @*<div class="d-flex justify-content-end">
+                <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
+                <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
+                </div>*@
+            </div>
+            <div class="ms-lg-4 filter-block-toggle">
+                <ul class="list-unstyled divFiltered_tag">
+
+                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
+                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <span>細項1</span>
+                    </li>
+
+                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
+                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <span>細項2</span>
+                    </li>
+
+                </ul>
+            </div>
+
+            @*@foreach (var c in Model.categoryAndTags)
+            {
+            <div class="controls-display-row category-click">
+            <span class="fs-5">@Html.DisplayFor(modelItem => c.category)</span>
+            <div class="d-flex justify-content-end">
+            <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
+            <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
+            </div>
+            </div>
+            <div class="ms-lg-4 filter-block-toggle">
+            <ul class="list-unstyled divFiltered_tag">
+            @foreach (var t in c.tags.Distinct())
+            {
+            <li class=" d-flex align-items-center divide-line my-w-80-percent">
+            <img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
+            <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />
+            <span>@Html.DisplayFor(modelItem => t)</span>
+            </li>
+            }
+            </ul>
+            </div>
+            }*@
+        </div>
+        <!--價格篩選-->@*請教亞芝姐怎麼變成同一條的，或是小C叫我用noUiSlider*@
+        <div class="filter_block">
+            <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
+            <div class="mt-4">
+                <section class="range-slider range-container pb-3">
+                    <span class="output outputOne pl-1 pr-1"></span>
+                    <span class="output outputTwo pl-1 pr-1"></span>
+                    <span class="full-range"></span>
+                    <span class="incl-range"></span>
+                    <input id="rangeOne" name="rangeOne" value="0" min="0" max="1000" step="1" type="range">
+                    <input id="rangeTwo" name="rangeTwo" value="1000" min="0" max="1000" step="1" type="range">
+                </section>
+                <div class="d-flex justify-content-center">
+                    <input id="btn_filter_price" class="btn btn-outline-secondary" type="button" value="搜尋" />
                 </div>
             </div>
         </div>
-    </div>
-    <!--Pagination End  -->
+    </div><!--左側工具列結尾-->
+    <!--先來做右側工具列-->
+    <div class="col-8 g-0 justify-content-end">
+        <!--右側的區塊(佔據2/3)-->
+        <!--Bootstrap ：g-0：用於在列之間添加間距（gutter），此時無間距-->
+        <!--Bootstrap ：justify-content-end：用於對 Flexbox 容器中的內容進行水平對齊。此時對齊到容器的右側-->
+        <div class="row g-0">
+            <!--目前第一區橫條-->
+            <div class="col-12 filter_block">
+                @*filter_block好像沒套到*@
+                <div class="divide-line pl-3">
+                    <!--專門顯示數字的第一行-->
+                    @*divide-line好像沒套到*@
+                    <!--Bootstrap ：pl-3：在元素的左側添加內邊距（padding-left），3單位-->
+                    <span id="total" class="fs-3 fw-bolder me-2">@*Model.filterProducts.Count()找計數(先寫死)*@3</span>
+                    <!--Bootstrap ：me-2：用於在元素的右側添加外邊距（margin end）-->
+                    @*fs-3 fw-bolder好像沒套到*@
+                    <span class="fs-5 my-text-primary">
+                        @*fs-5 my-text-primary好像沒套到*@
+                        @*<img src="~/icons/icons8-rhombus-loader.gif" class="d-none loading-icon" />如果沒跑出來時的動畫，需要配合jQuery寫法*@
+                        位專家，即刻為您報價
+                    </span>
+                    <div id="selected-checkboxes">
+                        <!--這裡在放被選取的類別-->
+                        <input type="button" class="btn btn-secondary d-none cleanAll mr-1" value="清除全部" onclick="clearAllFiltered()" />
+                        <!--點擊後產生clearAllFiltered()事件-->
+                        <!--btn-secondary：這個樣式類表示按鈕的次要風格，通常是灰色或其他次要顏色。
+                        d-none：這個樣式類將元素設置為不可見，即隱藏元素。這可能是根據某些條件來動態顯示或隱藏按鈕。
+                        cleanAll：這可能是自定義的樣式類，用於定義按鈕的其他風格屬性，通常在 CSS 中定義。
+                        mr-1：這個樣式類表示按鈕的右邊外邊距（margin right）為 1 單位（可能是像素或其他度量單位）。-->
+                    </div>
+                </div>
+                <div class="sort d-flex align-items-center fs-6 my-text-primary pl-3">
+                    <!--sort：這可能是自定義的樣式類，用於定義元素的特定風格，可能在你的 CSS 樣式表中進行了定義。
+                    d-flex：這是 Bootstrap 樣式類，用於將元素的 display 屬性設置為 flex，啟用 Flexbox 佈局。這將使元素的子元素能夠使用 Flexbox 屬性進行排列。
+                    align-items-center：這是 Bootstrap 樣式類，用於在 Flexbox 容器中將子元素垂直居中對齊。這將應用 Flexbox 的 align-items 屬性，並將對齊方式設置為 center。
+                    fs-6：這可能是一個用於設定文字字號（font size）的樣式類。fs-6 可能表示較小的文字字號，具體的數字可能會因所使用的框架或自定義樣式而有所不同。
+                    my-text-primary：這可能是自定義的樣式類，用於定義文字顏色。通常，my-text-primary 意味著它會設定文字為主要的文本顏色，這可能在你的 CSS 樣式表中進行了定義。
+                    pl-3：這是 Bootstrap 樣式類，用於在元素的左側添加內邊距（padding-left）。pl-3 表示左側內邊距為 3 單位，具體的單位可能是像素或其他度量單位，這也會因框架或自定義樣式而有所不同。
+                    -->
+                    <span class=" fw-bolder ">排序 : </span>
+                    <span>　</span>
+                    <a id="sortByHot" href="#" class=" fw-bolder" name="status">熱門程度</a>
+                    <span>　|　</span>
+                    <a id="sortByCommet" href="#" class=" fw-bolder" name="status">用戶評價</a>
+                    <span>　|　</span>
+                    <a id="sortByPrice" href="#" class=" fw-bolder" name="status">價格排序(低到高)</a>
+                </div>
 
-</main>
-@section Styles{
-    
-    <link href="~/assetsForExpert/js/SweetAlert.js" />
-}
+            </div>
+            @*載不出來的話會有載入中的gif，要做嗎？*@
+            <!--<div class="alert alert-light d-none">
+                <img src="~/icons/icons8-rhombus-loader.gif" class="loading-icon" />
+            </div>-->
+        </div>
+        <!--第一區橫條結束-->
+        <div id="filterBody">
+            <div id="sortBody">
+                @*接下來開始做很多個區塊*@
+                <a class="text-secondary">
+                    @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
+                    <div class="card mb-3 col-12 p-0">
+                        <div class="row g-0">
+                            <div class="col-md-4 pr-0 ">
+                                <!--放圖片-->
+                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                    <img src="~/img/任務曝光.png" height="250" />
+                                </div>
+                                @*if (item.photo != null)
+                                {
+                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.photo)" height="250" />
+                                    </div>
+                                }
+
+                                else
+                                {
+                                    <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
+                                        <img src="~/icons/logos/Logo_traveldate.png" alt="@item.productName" height="250" />
+                                    </div>
+                                }
+                                *@
+                            </div>
+                            <div class="col-md-8 pl-0">
+                                <div class="card-body d-flex justify-content-around row">
+                                    <div class="pl-4 pr-4">
+                                        <h5 class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</h5>
+                                        <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
+                                        <p class="card-text">
+                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 可以放個證照好了</small>
+                                            <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i>@*<img src="~/icons/icons8-position-16.png">*@@*Html.DisplayFor(modelItem => item.city)*@ 台北市北投區</small>
+                                        </p>
+                                    </div>
+                                    <div class="row align-items-end">
+                                        <div class="col-8 d-flex align-items-center">
+                                            <div class="rectangle-container me-2 d-flex position-relative">
+                                                <div class="rectangle"></div>
+                                                <img class="star-rating" src="~/icons/star-rating.png">
+                                                <input type="hidden" id="rating-value" value="4.0">@*value="item.commentAvgScore"*@
+                                            </div>
+                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.strComment)*@AAA</small>
+                                            <small class="text-body-secondary"> | @*salesCount*@5</small>
+                                        </div>
+                                        <div class="col">
+                                            <p class="card-text fs-5 fw-bolder text-end"><span>TWD </span>@*Html.DisplayFor(modelItem => item.price)*@6800<span class="fs-6 fw-normal">起</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!--範例二開始(以下請刪除)-->
+                <a class="text-secondary">
+                    @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
+                    <div class="card mb-3 col-12 p-0">
+                        <div class="row g-0">
+                            <div class="col-md-4 pr-0 ">
+                                <!--放圖片-->
+                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                    <img src="~/img/任務曝光.png" height="250" />
+                                </div>
+                                @*if (item.photo != null)
+                                {
+                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                <img src="data:image/jpg;base64,@Convert.ToBase64String(item.photo)" height="250" />
+                                </div>
+                                }
+
+                                else
+                                {
+                                <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
+                                <img src="~/icons/logos/Logo_traveldate.png" alt="@item.productName" height="250" />
+                                </div>
+                                }
+                                *@
+                            </div>
+                            <div class="col-md-8 pl-0">
+                                <div class="card-body d-flex justify-content-around row">
+                                    <div class="pl-4 pr-4">
+                                        <h5 class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</h5>
+                                        <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
+                                        <p class="card-text">
+                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 可以放個證照好了</small>
+                                            <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i>@*<img src="~/icons/icons8-position-16.png">*@@*Html.DisplayFor(modelItem => item.city)*@ 台北市北投區</small>
+                                        </p>
+                                    </div>
+                                    <div class="row align-items-end">
+                                        <div class="col-8 d-flex align-items-center">
+                                            <div class="rectangle-container me-2 d-flex position-relative">
+                                                <div class="rectangle"></div>
+                                                <img class="star-rating" src="~/icons/star-rating.png">@*這裡要放星星(靠前輩了)*@
+                                                <input type="hidden" id="rating-value" value="4.0">@*value="item.commentAvgScore"*@
+                                            </div>
+                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.strComment)*@AAA</small>
+                                            <small class="text-body-secondary"> | @*salesCount*@5</small>
+                                        </div>
+                                        <div class="col">
+                                            <p class="card-text fs-5 fw-bolder text-end"><span>TWD </span>@*Html.DisplayFor(modelItem => item.price)*@6800<span class="fs-6 fw-normal">起</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!--範例二結束(以上請刪除)-->
+            </div>
+            <!--製作頁數之類的東西，但沒有很懂-->
+            <div class="d-flex justify-content-center bg-transparent border-0">
+                <div class="col-7 d-flex justify-content-around">
+                    頁數的位置
+                    @*Html.PagedListPager(Model.pages, page => Url.Action("SearchList", new { page}))*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 @section Scripts{
-    <script>
-        //const skilltypeselect =  document.querySelector('#skilltypeselect');
-        //const skillselect = document.querySelector('#skillselect');
-
-        //function Loadskilltype(){
-        //    document.addEventListener('DOMContentLoaded', findskilltype);
-
-        //    function findskilltype(){
-        //        fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
-        //            .then(response => response.json())
-        //            .then(data => {
-        //                console.log(data);
-        //                let options = "<option>請選擇專長</option>"
-        //                options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
-
-                          
-        //                skilltypeselect.innerHTML=options;
-        //                Loadskilltype();
-        //            });  //then最後一個THEN
-        //    };
-        //};
-            
+    
+        @*將選取價格的滑塊連在一起*@
+        <script>
         
-
-        //const skilltypeselectvalue = skilltypeselect.value;
-        //function Loadskilltype() {
-        //    document.addEventListener('DOMContentLoaded', findskill);
-
-        //    function findskill() {
-        //        fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?=${skilltypeselectvalue}`)
-        //            .then(response => response.json())
-        //            .then(data => {
-        //                console.log(data);
-                       
-        //                options += data.map(skill => `<option value="1">${skill}</option>`).join('');
-
-
-        //                skillselect.innerHTML = options;
-        //            });  //then最後一個THEN
-        //    };
-        //};
-
-        //Loadskilltype();//使用載入資料
-
-        //===============================
-
-        const skilltypeselect = document.querySelector('#skilltypeselect');
-        const skillselect = document.querySelector('#skillselect');
-
-        document.addEventListener('DOMContentLoaded', function () {
-
-            Loadskilltype();
-
-           
-            skilltypeselect.addEventListener('change', function () {
-                Loadskill();
-            });
-        });
-
-        //專長大項資料來
-        function Loadskilltype() {
-                fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        let options = "<option>請選擇專長</option>";
-                        options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
-                    
-                        skilltypeselect.innerHTML = options;
-                         });  //then最後一個THEN
-            };
-     
-        function Loadskill() {
-                    const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
-            console.log(skilltypeselecttext);
-            if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext ==null) {
-            skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
-            return;
-        }
-            fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
-                    .then(response => response.json())
-                    .then(datas => {
-                    let options = ""
-                        options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
-                        skillselect.innerHTML = options;
-                    });  //then最後一個THEN
-            };
-
-      
-
-        /*Loadskilltype();*///使用載入資料
-
-
-
-
-    </script>
-   
-
-  
+        </script>
 }
-
-
-
-@* @section Scripts{
-    <!-- All JS Custom Plugins Link Here here -->
-    <script src="~/assetsForExpert/js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- Jquery, Popper, Bootstrap -->
-    <script src="~/assetsForExpert/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="~/assetsForExpert/js/popper.min.js"></script>
-    <script src="~/assetsForExpert/js/bootstrap.min.js"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="~/assetsForExpert/js/jquery.slicknav.min.js"></script>
-
-    <!-- Jquery Slick , Owl-Carousel Range -->
-    <script src="~/assetsForExpert/js/owl.carousel.min.js"></script>
-    <script src="~/assetsForExpert/js/slick.min.js"></script>
-    <script src="~/assetsForExpert/js/price_rangs.js"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="~/assetsForExpert/js/wow.min.js"></script>
-    <script src="~/assetsForExpert/js/animated.headline.js"></script>
-    <script src="~/assetsForExpert/js/jquery.magnific-popup.js"></script>
-
-    <!-- Scrollup, nice-select, sticky -->
-    <script src="~/assetsForExpert/js/jquery.scrollUp.min.js"></script>
-    <script src="~/assetsForExpert/js/jquery.nice-select.min.js"></script>
-    <script src="~/assetsForExpert/js/jquery.sticky.js"></script>
-
-    <!-- contact js -->
-    <script src="~/assetsForExpert/js/contact.js"></script>
-    <script src="~/assetsForExpert/js/jquery.form.js"></script>
-    <script src="~/assetsForExpert/js/jquery.validate.min.js"></script>
-    <script src="~/assetsForExpert/js/mail-script.js"></script>
-    <script src="~/assetsForExpert/js/jquery.ajaxchimp.min.js"></script>
-
-    <!-- Jquery Plugins, main Jquery -->
-    <script src="~/assetsForExpert/js/plugins.js"></script>
-    <script src="~/assetsForExpert/js/main.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/assetsForExpert/js/SweetAlert.js"> </script>
-} *@
