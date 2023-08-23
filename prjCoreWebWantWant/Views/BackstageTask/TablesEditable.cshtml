@@ -83,13 +83,13 @@
                                                     <li class="nav-item" onclick="showPublish();">
                                                         <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab">
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                            <span class="d-none d-sm-block" style="color:#528EAF">已上架</span>
+                                                            <span class="d-none d-sm-block" style="color:#528EAF" id="publish">已上架</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
                                                         <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab">
                                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                            <span class="d-none d-sm-block" style="color:#528EAF">未上架</span>
+                                                           <span class="d-none d-sm-block" style="color:#528EAF" id="Nopublish">未上架</span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -442,17 +442,17 @@
             })
         })
 
-            const Publish = document.querySelector('#Publish');
-            const NoPublish = document.querySelector('#NoPublish');
+            const publish = document.querySelector('#publish');
+            const Nopublish = document.querySelector('#Nopublish');
 
             function showPublish() {
-                Publish.style.color = 'red';
-                NoPublish.style.color = ''; // 將未上架標籤的顏色還原
+                publish.style.color = 'red';
+                Nopublish.style.color = ''; // 將未上架標籤的顏色還原
             }
 
             function showNoPublish() {
-                Publish.style.color = ''; // 將已上架標籤的顏色還原
-                NoPublish.style.color = 'red';
+                publish.style.color = ''; // 將已上架標籤的顏色還原
+                Nopublish.style.color = 'red';
             }
 
     </script>
