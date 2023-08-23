@@ -92,44 +92,47 @@
                                 <select class="form-select" id="SelSkillBigOne">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能分類</label>
+                                <label for="floatingSelectCity">請選擇技能分類1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillSmallOne">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能</label>
+                                <label for="floatingSelectCity">請選擇技能1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillBigTwo">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能分類</label>
+                                <label for="floatingSelectCity">請選擇技能分類2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillSmallTwo">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能</label>
+                                <label for="floatingSelectCity">請選擇技能2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillBigThree">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能分類</label>
+                                <label for="floatingSelectCity">請選擇技能分類3</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillSmallThree">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇技能</label>
+                                <label for="floatingSelectCity">請選擇技能3</label>
                             </div>
 
+                            <input type="hidden" id="hiddenSkillIdInput1" name="selectedSkillId1" />
+                            <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2" />
+                            <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3" />
 
                         </div>
                     </div>
@@ -142,42 +145,42 @@
                                 <select class="form-select" id="SelCerBigOne">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照分類</label>
+                                <label for="floatingSelectCity">請選擇證照分類1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerSmallOne">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照</label>
+                                <label for="floatingSelectCity">請選擇證照1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigTwo">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照分類</label>
+                                <label for="floatingSelectCity">請選擇證照分類2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerSmallTwo">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照</label>
+                                <label for="floatingSelectCity">請選擇證照2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigThree">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照分類</label>
+                                <label for="floatingSelectCity">請選擇證照分類3</label>
                             </div>
 
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerSmallThree">
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇證照</label>
+                                <label for="floatingSelectCity">請選擇證照3</label>
                             </div>
                         </div>
                     </div>
@@ -397,10 +400,15 @@
             const datas = await response.json()
             const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
             SelSkillSmallOne.innerHTML = skillSmall.join("");
+            getSkillIdOne();
         }
 
         SelSkillBigOne.addEventListener('change', () => {
             loadSelSkillSmallOne();
+        });
+
+        SelSkillSmallOne.addEventListener('change', () => {
+            getSkillIdOne();
         });
 
 
@@ -425,11 +433,17 @@
             const datas = await response.json()
             const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
             SelSkillSmallTwo.innerHTML = skillSmall.join("");
+            getSkillIdTwo();
         }
 
         SelSkillBigTwo.addEventListener('change', () => {
             loadSelSkillSmallTwo();
         });
+
+        SelSkillSmallTwo.addEventListener('change', () => {
+            getSkillIdTwo();
+        });
+
 
 
         const SelSkillBigThree = document.querySelector('#SelSkillBigThree');
@@ -453,11 +467,17 @@
             const datas = await response.json()
             const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
             SelSkillSmallThree.innerHTML = skillSmall.join("");
+            getSkillIdThree();
         }
 
         SelSkillBigThree.addEventListener('change', () => {
             loadSelSkillSmallThree();
         });
+
+        SelSkillSmallThree.addEventListener('change', () => {
+            getSkillIdThree();
+        });
+
 
 
         //證照的標籤
@@ -551,6 +571,35 @@
         SelCerBigThree.addEventListener('change', () => {
             loadSelCerSmallThree();
         });
+
+        const hiddenSkillIdInput1 = document.querySelector('#hiddenSkillIdInput1');
+        const hiddenSkillIdInput2 = document.querySelector('#hiddenSkillIdInput2');
+        const hiddenSkillIdInput3 = document.querySelector('#hiddenSkillIdInput3');
+
+        async function getSkillIdOne() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
+            const data = await response.json();
+            const selectedSkillId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput1.value = selectedSkillId1;
+            console.log(hiddenSkillIdInput1.value);
+        }
+
+        async function getSkillIdTwo() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
+            const data = await response.json();
+            const selectedSkillId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput2.value = selectedSkillId2;
+            console.log(hiddenSkillIdInput2.value);
+        }
+
+        async function getSkillIdThree() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
+            const data = await response.json();
+            const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput3.value = selectedSkillId3;
+            console.log(hiddenSkillIdInput3.value);
+        }
+
 
      </script>        
 }

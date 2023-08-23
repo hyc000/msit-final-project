@@ -74,11 +74,17 @@
                         <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
                         @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
                         <td style="width: 100px">
-                           <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/Edit")" id="jobdetail">
-                           @Html.ActionLink("修改","Edit",new {id = item.CaseId})
+                           @* 舊的<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/Edit")" id="jobdetail">*@
+                          @* @Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
                                 @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
+                                  @*  <i class="fas fa-pencil-alt"></i>
+                            </a>  舊的*@
+                                                              
+                                <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">
                                     <i class="fas fa-pencil-alt"></i>
-                            </a>
+                                </a>
+                            
+
                         </td>
                     </tr>
 
@@ -88,7 +94,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title">修改任務內容</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        <input type="hidden" id="modalCaseId" value="@item.CaseId">
+                                        <input type="hidden" id="modalCaseId" value="@item.CaseId" />
                                     </div>
                                     <div class="modal-body">
                                         @*修改任務內容*@
@@ -104,7 +110,7 @@
                                                 </div>
 
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                         下架此任務
                                                     </label>
@@ -140,10 +146,8 @@
     
 
 @*</div>*@
-<!--Approve js-->
 
  
-
 <!--JAVASCRIPT-- >
    <script src="~/backstage1/static/js/jquery.min.js" ></script>
    <script src="~/backstage1/static/js/bootstrap.bundle.min.js"></script>

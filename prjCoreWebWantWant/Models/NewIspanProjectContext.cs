@@ -956,6 +956,11 @@ public partial class NewIspanProjectContext : DbContext
                 .HasForeignKey(d => d.CaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TaskCertificate_TaskList");
+
+            entity.HasOne(d => d.Certficate).WithMany(p => p.TaskCertificates)
+                .HasForeignKey(d => d.CertficateId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskCertificate_Certificate");
         });
 
         modelBuilder.Entity<TaskKeywordList>(entity =>
@@ -1067,6 +1072,11 @@ public partial class NewIspanProjectContext : DbContext
                 .HasForeignKey(d => d.CaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TaskSkill_TaskList");
+
+            entity.HasOne(d => d.Skill).WithMany(p => p.TaskSkills)
+                .HasForeignKey(d => d.SkillId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskSkill_Skill");
         });
 
         modelBuilder.Entity<Town>(entity =>

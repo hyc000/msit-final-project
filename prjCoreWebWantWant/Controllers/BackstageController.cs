@@ -33,8 +33,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId)
+        public IActionResult Create(Resume p,int selectedTownId, int[] selectedSkillId)
         {
+            foreach (int skillId in selectedSkillId)
+            {
+                ResumeSkill resumeSkill = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = skillId
+                };
+                _context.Add(resumeSkill);
+                _context.SaveChanges();
+            }
+           
+
             p.TownId = selectedTownId;
             _context.Resumes.Add(p);
             _context.SaveChanges();
@@ -139,6 +151,18 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                          .Select(c => c.TownId);
 
             return Json(townId);
+        }
+
+        //找出SkillId
+        public IActionResult GetSkillId(string skillType ,string skillName)
+        {
+            var skillId = _context.SkillTypes
+                         .Where(a => a.SkillTypeName == skillType)
+                         .SelectMany(c => c.Skills)
+                         .Where(c => c.SkillName.ToLower() == skillName.ToLower())
+                         .Select(c => c.SkillId);
+
+            return Json(skillId);
         }
     }
 }

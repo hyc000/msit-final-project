@@ -73,6 +73,10 @@
     </style>
 </head>
 
+
+
+
+
 <body>
 
     <div id="layout-wrapper">
@@ -82,7 +86,13 @@
 
            @* <div class="page-content">*@
                 <div class="container-fluid">
-
+         @*   <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">會員專區</a></li>
+                    <li class="breadcrumb-item"><a href="#">找人力</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">錄取紀錄</li>
+                </ol>
+            </nav>*@
               
 
                     </div>
@@ -447,4 +457,14 @@
 
 </html>
    
-                
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找人才</li>
+            <li class="breadcrumb-item " aria-current="page">錄取紀錄</li>
+        </ol>
+    </nav>
+}

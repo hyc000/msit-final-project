@@ -16,4 +16,6 @@ public partial class Skill
     public virtual ICollection<ResumeSkill> ResumeSkills { get; set; } = new List<ResumeSkill>();
 
     public virtual SkillType SkillType { get; set; } = null!;
+
+    public virtual ICollection<TaskSkill> TaskSkills { get; set; } = new List<TaskSkill>();
 }

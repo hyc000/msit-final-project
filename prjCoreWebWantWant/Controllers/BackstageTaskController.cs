@@ -335,27 +335,34 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId,  TaskSkill taskskill, TaskCertificate taskcer, int selectedSkillId, int selectedCerId)
-        {
-                    taskskill.CaseId = task.CaseId;
-                    taskcer.CaseId = task.CaseId;
+        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
+        {    
+            task.TaskNameId = selectedTaskNameId;
+            task.TownId = selectedTownId;
+            //task.PaymentId = selectedPaymentId;
+            //task.PaymentDateId = selectedPaymentDateId;
 
-                    task.TaskNameId = selectedTaskNameId;
-                    task.TownId = selectedTownId;
-                    task.PaymentId = selectedPaymentId;
-                    task.PaymentDateId = selectedPaymentDateId;
+            _context.TaskLists.Add(task);
+            _context.SaveChanges();
 
-                    _context.TaskLists.Add(task);
-                    // _context.SaveChanges();
+                TaskSkill taskSkill = new TaskSkill()
+                {
+                    CaseId = task.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                    TaskSkillId = selectedSkillId
+                };
+                _context.Add(taskSkill);
+                _context.SaveChanges();
 
-                    taskskill.SkillId = selectedSkillId;
-                    taskcer.CertficateId = selectedCerId;
+                TaskCertificate taskCer = new TaskCertificate()
+                {
+                    CaseId = task.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                    TaskCertificateId = selectedCerId
+                };
+                _context.Add(taskCer);
+                _context.SaveChanges();
 
-                    _context.TaskSkills.Add(taskskill);
-                    _context.TaskCertificates.Add(taskcer);
-                    _context.SaveChanges();
 
-                    return RedirectToAction("Create");
+                 return RedirectToAction("Create");
 
         }
 
@@ -404,25 +411,25 @@ namespace WantTask.Controllers
         //取得技能的selectIndex
         public IActionResult GetSkillId(string skillBig, string skillSmall)
         {
-            var skillBigId = _context.SkillTypes
+            var skillSmallId = _context.SkillTypes
                          .Where(a => a.SkillTypeName== skillBig)
                          .SelectMany(c => c.Skills)
                          .Where(c => c.SkillName == skillSmall)
                          .Select(c => c.SkillId);
 
-            return Json(skillBigId);
+            return Json(skillSmallId);
         }
 
         //取得證照的selectIndex
         public IActionResult GetCerId(string cerBig, string cerSmall)
         {
-            var cerBigId = _context.CertificateTypes
+            var cerSmallId = _context.CertificateTypes
                          .Where(a => a.CertificateTypeName == cerBig)
                          .SelectMany(c => c.Certificates)
                          .Where(c => c.CertificateName == cerSmall)
                          .Select(c => c.CertificateId);
 
-            return Json(cerBigId);
+            return Json(cerSmallId);
         }
 
 
