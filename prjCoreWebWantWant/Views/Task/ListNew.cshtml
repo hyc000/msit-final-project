@@ -1,0 +1,170 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@*@model IEnumerable<prjWantWant_yh_CoreMVC.Models.CTask>     匿名型別*@
+
+@{
+    ViewData["Title"] = "ListNew";
+    Layout = "~/Views/Shared/_Layout_Task.cshtml";
+    // Layout = "~/Views/Shared/_Layout_Task.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+
+
+    </style>
+
+</head>
+
+
+<body>
+    <header>
+    </header>
+    <!--nav bar-->
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!--select任務類型-->
+            <div class="col-xl-3 col-lg-3 col-md-4">
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <select class="custom-select" multiple>
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+
+                        <div class="card-body">
+                            <lable>
+                                checkbox</labl>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項一
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項二
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項三
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項四
+                                    </label>
+                                </div>
+                        </div>
+
+                        <select class="custom-select" multiple>
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+
+                        <div class="card-body">
+                            <lable>checkbox</lable>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項一
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項二
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項三
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        選項四
+                                    </label>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--card工作列表-->
+            <div class="col-8">
+                <div class="card text-center">
+                    <div class="card-header">
+                        任務名稱
+                    </div>
+                    <div class="row">
+                        <div class="card-body col-9">
+                            <h5 class="card-title">任務內容</h5>
+                            <p class="card-text">地點 需求人數?</p>
+                        </div>
+
+
+                        <div class="card-body col-md-3 d-flex flex-column justify-content-end">
+                            <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                            <a href="#" class="btn btn-outline-primary">收藏工作</a>
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                </div>
+            </div>
+
+            <!--頁數-->
+            <div class="card-body d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</body>
