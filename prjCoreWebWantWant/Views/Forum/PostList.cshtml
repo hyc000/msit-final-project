@@ -20,7 +20,7 @@
 
 <div class="d-inline-flex mb-3">
         <span class="btn-group  me-3 btn btn-round">
-        <i class="bi bi-pen-fill pe-1"></i>
+        <i class="bi bi-pencil-square me-2"></i> 
         @Html.ActionLink("發表文章", "CreatePost", new { categoryId = categoryId })
     </span>
 
@@ -33,37 +33,41 @@
 }
 </div>
 
-<div class="row m-1">
-    <table class="table text-start align-middle">
-        <thead class="h5">
+    <div class=" m-1 ">
+        <table class="table text-start align-middle">
+            <thead class="h5  table-color table-primary">
         <tr >
         <th class="col-4">
-            文章標題
+           <div class="my-1">文章標題</div>
         </th>
         <th class="text-center col-2">
-            回覆數/觀看次數
+                        <div class="my-1">回覆數/觀看次數</div>
         </th>
         <th class="text-center col-2">
-            發文時間
+                        <div class="my-1">
+                            發文時間
 
             @Html.ActionLink(" ", "PostList", "Forum", new { categoryId = categoryId, OrderBy = "Date" ,q=ViewBag.CurrentQ}, new { @class = "bi bi-arrow-up-square link-underline link-underline-opacity-0" })
 
             @Html.ActionLink(" ", "PostList", "Forum", new { categoryId = categoryId, OrderBy = "Date_desc",q=ViewBag.CurrentQ }, new { @class = "bi bi-arrow-down-square link-underline link-underline-opacity-0" })
+                        </div>
         </th>
         <th class="text-center col-2">
-            最後更新時間
+                        <div class="my-1">最後更新時間</div>
         </th>
         <th class="text-center col-2">
-            最新回覆
+                        <div class="my-1">最新回覆</div>
         </th>
     </tr>
         </thead>
     @foreach (var item in Model.PagedPosts)
     {
-        <tr class=" myfont">
+        <tr class="myfont">
             <td>
-                <span class="h5 fw-light">@Html.ActionLink(item.Title, "PostView", "Forum", new { postID = item.PostId }, null)</span><br />
-                <span class="text-secondary">@Html.DisplayFor(modelItem => item.Account.UserName)</span>
+                        <a href="@Url.Action("PostView", "Forum", new { postID = item.PostId })">
+                            <div class="h5 fw-light m-1">@Html.DisplayFor(modelItem => item.Title)</div>
+                            <div class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</div>
+                        </a>
             </td>
                     <td class="text-center small">
                     @{
@@ -107,25 +111,23 @@
 
 @section Styles{
     <style>
-        a:link {
-            color: #242424;
-        }
-
-        a:visited {
-            color: #242424;
-        }
-
-        a:hover {
-            color: #5c6570;
-        }
-
-        a:active {
-            color: #445971;
-        }
-
         .myfont{
             font-family: 'Noto Sans TC', sans-serif;
             font-weight: 300;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        td {
+            height: 90px;
+            vertical-align:central;
+        }
+
+        .table-color{
+            background-color: #d4e4ef;
         }
     </style>
 
