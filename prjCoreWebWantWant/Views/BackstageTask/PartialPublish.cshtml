@@ -42,11 +42,11 @@
         
         <thead>
             <tr>
-                <th style="width: 50px;">序號</th>
+                <th style="width: 30px;">序號</th>
                 <th style="width: 150px;">任務名稱</th>
-                <th style="width: 300px;">任務內容</th>
+                <th style="width: 150px;">任務內容</th>
                 <th style="width: 100px;">任務日期</th>
-                @*<th style="width: 50px;">更改狀態</th>*@
+                <th style="width: 50px;">更改狀態</th>
                 <th style="width: 50px;">修改</th>
             </tr>
         </thead>
@@ -72,8 +72,8 @@
                         <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
                         <td data-field="age">@Html.DisplayFor(modelItem => taskDetail)</td>
                         <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
-                        @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
-                        <td style="width: 100px">
+                        <td>@Html.ActionLink("下架", "NoPublish","BackstageTask", new {id=item.CaseId}, new { @class ="btn btn-outline-secondary" ,style="color:#528EAF"})</td>
+                            <td style="width: 100px">
                            @* 舊的<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/Edit")" id="jobdetail">*@
                           @* @Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
                                 @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
@@ -82,9 +82,7 @@
                                                               
                                 <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">
                                     <i class="fas fa-pencil-alt"></i>
-                                </a>
-                            
-
+                                </a>     
                         </td>
                     </tr>
 
@@ -238,6 +236,24 @@
                 }
             });
         });
+
+
+        const publish = document.querySelector('#publish');
+        const Nopublish = document.querySelector('#Nopublish');
+
+        function showPublish() {
+            publish.style.color = 'White';
+            publish.style.backgroundColor = '#528EAF';
+            Nopublish.style.color = '#528EAF';
+            Nopublish.backgroundColor = '';// 將未上架標籤的顏色還原
+        }
+
+        function showNoPublish() {
+            publish.style.color = '#528EAF';
+            publish.backgroundColor = '';// 將已上架標籤的顏色還原
+            Nopublish.style.color = 'White';
+            Nopublish.style.backgroundColor = '#528EAF';
+        }
 
 
 </script>

@@ -41,10 +41,7 @@ namespace WantTask.Controllers
         {
             var taskName = _context.TaskLists.
                 Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+           
             return PartialView(taskName);
         }
 
@@ -52,18 +49,36 @@ namespace WantTask.Controllers
         public IActionResult PartialNoPublish(string category)
         {
             var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");           
 
              return PartialView(taskName);
         }
 
+        //改狀態為立刻上架
+        public IActionResult Publish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "立刻上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
+        //改狀態為延後上架
+        public IActionResult NoPublish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "延後上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
 
         //已上架未上架的modal修改畫面
-        
+
         public IActionResult Edit(int ? id)
         {
             if (id == null)
@@ -316,28 +331,7 @@ namespace WantTask.Controllers
 
         #endregion
 
-
-        public IActionResult Publish(int? id)
-        {
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if (id != null)
-            {
-                task.PublishOrNot = "立刻上架";
-                _context.SaveChanges();
-            }
-            return RedirectToAction("TablesEditable");
-        }
-
-        public IActionResult NoPublish(int? id)
-        {
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if (id != null)
-            {
-                task.PublishOrNot = "延後上架";
-                _context.SaveChanges();
-            }
-            return RedirectToAction("TablesEditable");
-        }
+      
 
         //public IActionResult Form()
         //{
@@ -574,7 +568,6 @@ namespace WantTask.Controllers
             return Json(payment);
         }
 
-
         //支薪日
         public IActionResult PaymentDate()
         {
@@ -585,7 +578,6 @@ namespace WantTask.Controllers
             //}).Distinct();
             return Json(paymentDate);
         }
-
 
         //城市
         public IActionResult Cities()
