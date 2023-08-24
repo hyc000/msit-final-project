@@ -10,7 +10,6 @@
 }
 
 <div class="container" style="">
-
     <nav class="breadcrumb  mt-4">
         <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Content("~/Forum/CategoryList")">討論區</a></li>
@@ -21,7 +20,7 @@
 <div class="d-inline-flex mb-3">
         <span class="btn-group  me-3 btn btn-round">
         <i class="bi bi-pencil-square me-2"></i> 
-        @Html.ActionLink("發表文章", "CreatePost", new { categoryId = categoryId })
+        @Html.ActionLink("發表文章", "CreatePost", new { id = categoryId })
     </span>
 
 @using (Html.BeginForm())
@@ -65,7 +64,7 @@
         <tr class="myfont">
             <td>
                         <a href="@Url.Action("PostView", "Forum", new { postID = item.PostId })">
-                            <div class="h5 fw-light m-1">@Html.DisplayFor(modelItem => item.Title)</div>
+                            <div class="h6 m-1" style="font-weight:bold">@Html.DisplayFor(modelItem => item.Title)</div>
                             <div class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</div>
                         </a>
 
@@ -116,7 +115,6 @@
     <style>
         .myfont{
             font-family: 'Noto Sans TC', sans-serif;
-            font-weight: 300;
         }
 
         table {

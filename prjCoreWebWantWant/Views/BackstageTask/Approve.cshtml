@@ -86,26 +86,20 @@
 
            @* <div class="page-content">*@
                 <div class="container-fluid">
-         @*   <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">會員專區</a></li>
-                    <li class="breadcrumb-item"><a href="#">找人力</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">錄取紀錄</li>
-                </ol>
-            </nav>*@
-              
-
-                    </div>
-                 
+        
+           
                     <!--未處理 已錄取 未錄取 任務類型 關鍵字-->
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
+     @using (Html.BeginForm())
+                        {
+                       
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="card-body col-4">
-                                            <!-- Nav tabs -->
-                                            <!--未處理 已錄取 未錄取-->
+                                        
+                                            <!--未處理 已錄取 未錄取 tab-->
                                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                 <li class="nav-item" onclick="showAllResume();">
                                                     <a class="nav-link active" data-bs-toggle="tab" href="#tabAllResume" role="tab" style="color:#528EAF">
@@ -126,10 +120,9 @@
                                                     </a>
                                                 </li>
                                             </ul>                                      
-                                        </div>
+                                            </div>
              
-
-                                           <!--選擇任務類型  未處理的標籤-->
+                                            <!--選擇任務類型  未處理的標籤-->
                                               <div class="col-4 mb-3" id="selAll">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
@@ -148,7 +141,7 @@
                                                 </form>
                                             </div>
 
-                                        <!--選擇任務類型  已錄取的標籤-->
+                                            <!--選擇任務類型  已錄取的標籤-->
                                               <div class="col-4 mb-3" id="selAccept"  style="display:none">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
@@ -187,107 +180,57 @@
                                             </div>
 
 
+                                        <!-- App Search--> 
 
-
-
-                                        <!-- App Search--> <!--關鍵字搜尋-->
-                                        <div class="col-4">
+                                        <!--未處理   關鍵字搜尋-->
+                                       <div class="col-4" id="KeywordAllResume">
                                             <form class="app-search d-none d-lg-block">
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" placeholder="請輸入關鍵字">
-                                                    <button class="btn btn-primary" type="button" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordAllResume">
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchAllResume"><i class="bx bx-search-alt align-middle"></i></button>
                                                 </div>
                                             </form>
                                         </div>
 
+                                    <!--已錄取   關鍵字搜尋-->
+                                    <div class="col-4" id="KeywordAccept" style="display:none">
+                                        <form class="app-search d-none d-lg-block">
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordAccept">
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchAccept"><i class="bx bx-search-alt align-middle"></i></button>
+                                            </div>
+                                        </form>
                                     </div>
-                                     </div>
-                             
+
+                                    <!--已婉拒   關鍵字搜尋-->
+                                    <div class="col-4" id="KeywordRefuse" style="display:none">
+                                <form class="app-search d-none d-lg-block">
+                                    <div class="position-relative">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordRefuse">
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchRefuse"><i class="bx bx-search-alt align-middle"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                                   </div>
+                               </div>
+                             }
                                     
                                     
                                     <!--正在用的舊表格-->
                                 <!--未處理-->
                                    <div class="card-body" id="AllResume">
-                                    <div class="table-responsive mb-4">
-                                        <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                <th style="width: 50px;">序號</th>
-                                                <th style="width: 100px;">投遞任務</th>
-                                                <th style="width: 50px;">申請人名稱</th>
-                                                <th style="width: 100px;">履歷內容</th>
-                                                <th style="width: 50px;">語言</th>
-                                                <th style="width: 50px;">證照</th>
-                                                <th style="width: 50px;">技能</th>
-                                                <th style="width: 50px;">查看</th>
-                                                <th style="width: 50px;">是否錄取</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @{
-                                                int count=0;
-                                           
-                                                foreach (var item in Model)
-                                                {                           
-                                                   int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                                    string autobiography = item.Autobiography;
-
-                                                    if (autobiography.Length > maxDisplayLength)
-                                                    {
-                                                        autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                                    }
-                                                    count++;
-                                                    <tr data-id="1">
-                                                        <td data-field="id" style="width: 80px">@count</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
-                                                        <td data-field="age">@Html.DisplayFor(modelItem => autobiography)</td>
-                                                        <td data-field="gender">@*@Html.DisplayFor(modelItem => taskDetail)*@</td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">                                                               
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 100px">
-                                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </a>
-                                                        </td>
-                                                        <th>
-                                                            <div class="d-flex flex-wrap gap-3 my-3">
-                                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                                    @*<button type="button" class="btn btn-outline-secondary" id="yes">錄取</button>
-                                                                    <button type="button" class="btn btn-outline-secondary" id="no">婉拒</button>*@
-                                                                @Html.ActionLink("錄取", "Accept","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
-                                                                @Html.ActionLink("婉拒", "Refuse","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
-                                                                    </div>
-                                                            </div>
-                                                        </th>
-                                                    </tr>                                              
-                                                }                                                
-                                                }
-                                                </tbody>
-                                        </table>
-                                    </div>
                                 </div>
 
 
                             <!--已錄取-->
-                                <div class="card-body" style="display:none" id="Accept">
-                                    
+                                <div class="card-body" style="display:none" id="Accept">                                    
                                 </div>
 
 
                             <!--已婉拒-->
-                                <div class="card-body" style="display:none" id="Refuse">
-                              
-
+                                <div class="card-body" style="display:none" id="Refuse">                            
                                 </div>
 
                                 <script>
@@ -302,6 +245,10 @@
                                         let selAccept=document.querySelector("#selAccept");
                                         let selRefuse=document.querySelector("#selRefuse");
 
+                                        //先取得要操作的標籤，txtKeyword
+                                let KeywordAllResume = document.querySelector("#KeywordAllResume");
+                                let KeywordAccept = document.querySelector("#KeywordAccept");
+                                let KeywordRefuse = document.querySelector("#KeywordRefuse");
 
                                         //再對標籤做操作，表格
                                         AllResume.style.display = "block";
@@ -312,6 +259,11 @@
                                         selAll.style.display = "block";
                                         selAccept.style.display = "none";
                                         selRefuse.style.display = "none";
+
+                                        //再對標籤做操作，txtKeyword
+                                        KeywordAllResume.style.display = "block";
+                                        KeywordAccept.style.display = "none";
+                                        KeywordRefuse.style.display = "none";
 
                                     }
 
@@ -326,6 +278,11 @@
                                         let selAccept=document.querySelector("#selAccept");
                                         let selRefuse=document.querySelector("#selRefuse");
 
+                                        //先取得要操作的標籤，txtKeyword
+                                let KeywordAllResume = document.querySelector("#KeywordAllResume");
+                                let KeywordAccept = document.querySelector("#KeywordAccept");
+                                let KeywordRefuse = document.querySelector("#KeywordRefuse");
+
                                         //再對標籤做操作，表格
                                         AllResume.style.display = "none";
                                         Accept.style.display = "block";
@@ -335,6 +292,11 @@
                                         selAll.style.display = "none";
                                         selAccept.style.display = "block";
                                         selRefuse.style.display = "none";
+
+                                        //再對標籤做操作，txtKeyword
+                                        KeywordAllResume.style.display = "none";
+                                        KeywordAccept.style.display = "block";
+                                        KeywordRefuse.style.display = "none";
 
                                     }
 
@@ -349,7 +311,12 @@
                                         let selAccept=document.querySelector("#selAccept");
                                         let selRefuse=document.querySelector("#selRefuse");
 
-                                      //再對標籤做操作，表格
+                                        //先取得要操作的標籤，txtKeyword
+                                let KeywordAllResume = document.querySelector("#KeywordAllResume");
+                                let KeywordAccept = document.querySelector("#KeywordAccept");
+                                let KeywordRefuse = document.querySelector("#KeywordRefuse");
+
+                                        //再對標籤做操作，表格
                                         AllResume.style.display = "none";
                                         Accept.style.display = "none";
                                         Refuse.style.display = "block";
@@ -359,12 +326,18 @@
                                         selAccept.style.display = "none";
                                         selRefuse.style.display = "block";
 
+                                        //再對標籤做操作，txtKeyword
+                                        KeywordAllResume.style.display = "none";
+                                        KeywordAccept.style.display = "none";
+                                        KeywordRefuse.style.display = "block";
+
                                     }
                                 </script>
 
                             </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
+                        </div> 
+                    </div>
+    </div>
             <!-- container-fluid -->
                 @*</div> *@
             </div>
@@ -375,6 +348,38 @@
 
     @section Scripts{
         <script>
+
+            //未處理的表格
+            $(document).ready(function () {
+                $('#selAll').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                   url: '@Url.Action("ApproveAllResumePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                            $('#AllResume').html(data);  // 將部分視圖內容插入到指定容器中
+                    }
+                });
+            });
+        });
+
+            //未處理的keyword和search
+            const txtKeywordAllResume = document.querySelector('#txtKeywordAllResume');
+            const btnSearchAllResume = document.querySelector('#btnSearchAllResume');
+
+            txtKeywordAllResume.addEventListener('input', () => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Content("~/BackstageTask/ApproveAllResumePartialView")');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(`txtKeyword=${txtKeywordAllResume.value}&category=${selAll.value}`);
+                xhr.addEventListener('load', () => {
+                    const AllResume = document.querySelector('#AllResume')
+                    AllResume.innerHTML = xhr.responseText;
+                })
+            })
+
+
 
             //已錄取的表格
             $(document).ready(function () {

@@ -241,7 +241,7 @@ text-align: center;
 /* 履歷頁面的按鈕*/
 .btnResume {
     display: inline-block;
-    border-radius: 4px;
+    border-radius: 20px;
     background-color: #62779d;
     border: none;
     color: #FFFFFF;
@@ -249,15 +249,35 @@ text-align: center;
     font-size: 28px;
     padding: 20px;
     width: 200px;
+    height:70px;
     transition: all 0.5s;
     cursor: pointer;
     margin: 5px;
-    position: relative;
-    top: 25%
+    /*position: relative;
+    top: 25%*/
 }
+
+.btnChat {
+    display: inline-block;
+    border-radius: 40px;
+    background-color: #62779d;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 23px;
+    padding: 13px;
+    width: 70px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2px;
+    /*position: relative;
+    top: 25%*/
+}
+
 .labelResume {
     display: inline-block;
-    border-radius: 4px;
+    border-radius: 20px;
     background-color: #62779d;
     border: none;
     color: #FFFFFF;
@@ -265,11 +285,10 @@ text-align: center;
     font-size: 28px;
     padding: 20px;
     width: 200px;
+    height: 70px;
     transition: all 0.5s;
     cursor: pointer;
     margin: 5px;
-    position: relative;
-    top: 25%
 }
 
 .btnResume:hover {
@@ -294,7 +313,7 @@ text-align: center;
   }
   
   .btnResume span:after {
-    content: '�';
+    /*content: '�';*/
     position: absolute;
     opacity: 0;
     top: 50%;
@@ -390,6 +409,23 @@ text-align: center;
 .lablestar {
    color: #ffda6a;
    
+}
+.workbox {
+    height: 250px;
+    width: 800px;
+    background-color: #7F9DB7;
+    overflow: hidden;
+    position:relative;
+
+}
+.worklist {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    display: flex;
+}
+.bg-expertdetail {
+    background-color: #E5EDF6;
 }
 
 

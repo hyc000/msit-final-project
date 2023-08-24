@@ -64,9 +64,9 @@
                             }
                             <span class="nav-link text-dark">@loginUserName</span>
                         </li>
-                        <li class="nav-item">
+@*                         <li class="nav-item">
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="BackstageManagement" asp-action="Index">後台</a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link text-dark ps-3" asp-area="" asp-controller="Member" asp-action="MemberAccount">會員專區</a>
                         </li>
@@ -81,7 +81,7 @@
                                 else
                                 {
                                     // 未登入狀態，顯示登入按鈕
-                                    <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">登入</a>
+                                    <a class="btn btn-outline-primary me-md-2" asp-area="" asp-controller="Member" asp-action="Login">登入/註冊</a>
                                 }
                             }
                         </li>

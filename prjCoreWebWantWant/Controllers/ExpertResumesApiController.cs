@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 
@@ -57,25 +58,12 @@ namespace prjCoreWebWantWant.Controllers
         //作品集評價
         public IActionResult WorkAPI(int resumesid)
         {
-            int accountid = _context.Resumes
-                .Where(x => x.ResumeId == resumesid)
-                .Select(x => x.AccountId)
-                .FirstOrDefault();
+            var qwork = _context.ExpertWorks
+                .Include(a => a.ExpertWorkLists
+                .Where(x => x.ResumeId == resumesid))
+                .Select(y => y);
 
-
-            var star = _context.TaskLists
-                   .Where(a => a.AccountId == accountid)
-                  .SelectMany(x => x.ExpertApplications)
-
-                  .Select(b => new
-                  {
-                      評論 = b.Rating.RatingContent,
-                      分數 = b.Rating.RatingStar,
-                      評論日 = b.Rating.RatingDate,
-                      筆數 = b.Rating.RatingStar.Count()
-                  });
-
-            return Json(star);
+            return Json(qwork);
 
         }
     }

@@ -18,6 +18,12 @@
                         <input type="submit" value="查詢" />
                     }
                 </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">網站後台管理</a></li>
+                        <li class="breadcrumb-item active">會員狀態列表</li>
+                    </ol>
+                </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -95,8 +101,10 @@
                                         @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
                                     </td>
 
-                                    <td>                                    
-                                        @Html.ActionLink("修改", "Edit","BackstageManagement", new { id=item.AccountId })
+                                    <td>
+                                        <a href="@Url.Action("", "BackstageManagement", new { id=item.AccountId })">
+                                            <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -106,4 +114,19 @@
             </div>
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+                <a class="page-link">上一頁</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">下一頁</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>

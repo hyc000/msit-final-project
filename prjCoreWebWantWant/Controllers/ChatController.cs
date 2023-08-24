@@ -39,6 +39,7 @@ namespace WantTask.Controllers
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
                 var ava = _db.MemberAccounts.Where(p => p.AccountId == loggedInUser.AccountId).Select(p => p.MemberPhoto).FirstOrDefault();
                 byte[] userAvatarBytes = ava;
                 string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);

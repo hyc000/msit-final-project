@@ -11,6 +11,8 @@
     <Content Remove="Views\ServiceContacts\Delete.cshtml" />
     <Content Remove="Views\ServiceContacts\Details.cshtml" />
     <Content Remove="Views\ServiceContacts\Edit.cshtml" />
+    <Content Remove="wwwroot\Mstyles\Carousel.css" />
+    <Content Remove="wwwroot\Mstyles\Jstyle.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +36,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\NewFolder\" />
   </ItemGroup>
 
 </Project>
