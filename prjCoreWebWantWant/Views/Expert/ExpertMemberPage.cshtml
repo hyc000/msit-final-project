@@ -46,11 +46,13 @@
                     </div>
                 </div>
                 <div class="items-link items-link2  f-right">
-                    <a href="@Url.Action("EditExpertResume", new { id=item.resume.ResumeId})" target="_blank" class="btn btn-primary">編輯</a>
+                    @*<a href="@Url.Action("EditExpertResume", new { id=item.resume.ResumeId})" target="_blank" class="btn btn-primary">編輯</a>*@
+                    <a href="@Url.Content("~/Expert/EditExpertResume")?id=@item.resume.ResumeId" class="btn btn-primary">編輯</a>
                 </div>
             </div>
         }
     }
 
 }
-@Html.ActionLink("新增專家履歷","AddExpertResume","Expert",new{id = Model.FirstOrDefault().memberAccount.AccountId},new{@class="btn btn-primary"})
+@*Html.ActionLink("新增專家履歷","AddExpertResume","Expert",new{id = Model.FirstOrDefault().memberAccount.AccountId},new{@class="btn btn-primary"})*@
+<a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary">新增專家履歷</a>
