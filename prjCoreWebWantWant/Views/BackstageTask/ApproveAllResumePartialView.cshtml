@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WantTask.ViewModels.CApproveViewModel>
+
+<head>
+
+</head>
+
+
+<body>
+
+    <div class="table-responsive mb-4">
+        <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">序號</th>
+                    <th style="width: 100px;">投遞任務</th>
+                    <th style="width: 50px;">申請人名稱</th>
+                    <th style="width: 100px;">履歷內容</th>
+                    <th style="width: 50px;">語言</th>
+                    <th style="width: 50px;">證照</th>
+                    <th style="width: 50px;">技能</th>
+                    <th style="width: 50px;">查看</th>
+                    <th style="width: 50px;">是否錄取</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 0;
+
+                    foreach (var item in Model)
+                    {
+                        int maxDisplayLength = 10; // 設定要顯示的最大字數
+                        string autobiography = item.Autobiography;
+
+                        if (autobiography.Length > maxDisplayLength)
+                        {
+                            autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
+                        }
+                        count++;
+                        <tr data-id="1">
+                            <td data-field="id" style="width: 80px">@count</td>
+                            <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                            <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
+                            <td data-field="age">@Html.DisplayFor(modelItem => autobiography)</td>
+                            <td data-field="gender">@*@Html.DisplayFor(modelItem => taskDetail)*@</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
+                                </div>
+                            </td>
+                            <td style="width: 100px">
+                                <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            </td>
+                            <th>
+                                <div class="d-flex flex-wrap gap-3 my-3">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @*<button type="button" class="btn btn-outline-secondary" id="yes">錄取</button>
+                                <button type="button" class="btn btn-outline-secondary" id="no">婉拒</button>*@
+                                        @Html.ActionLink("錄取", "Accept","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
+                                        @Html.ActionLink("婉拒", "Refuse","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+@section Scripts{
+    <script>
+
+
+    </script>
+
+}

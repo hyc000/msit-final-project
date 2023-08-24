@@ -37,23 +37,30 @@
 
 
     <script>
+        //固定的參數
+        const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+
         //建立signalR連線
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/hubs/chat") // 填寫Hub端點URL 這邊要跟program.cs寫得一模一樣，要不然不會抓到app.MapHub<ChatHub>("/hubs/chat");
             .build();
 
         connection.start().then(() => {
-            console.log("SignalR Connected.")
             const connectionId = connection.connectionId;
             console.log("SignalR Connected. Connection ID: " + connectionId);
+            // 呼叫後端的 UpdateUserInfo 方法，傳遞 accountId 和 connectionId
+            connection.invoke('UpdateUserInfo', senderId, connectionId);
         }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
         connection.on("ReceiveMessage", function (senderId, message) {
-            console.log("到底有沒有跑到這");
-
+            console.log("這裡是ReceiveMessage，你接收到訊息會在下面印出:");
             console.log(message);
             console.log(senderId);
             // 處理訊息的顯示等操作
+        });
+
+        connection.on("UpdateUserInfo", function (accountId, connectionId) {
+            console.log("這裡是UpdateUserInfo，更新使用者清單時會看到我喔");
         });
 
         //聊天發出功能--------------------start--------------------
@@ -63,13 +70,13 @@
 
         btnSentMessage.addEventListener('click', () => {//按下畫面上按鈕的事件
             const message = messageInput.value; // 取得使用者輸入的訊息
-            const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
             if (message.trim() !== "") {//如果message移除空白後也不為空的話
                 // 呼叫 SendPrivateMessage 方法傳送訊息
                 connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
                     loadUser();
                     messageInput.value = '';
                     keepDown();
+                    console.log("監看傳訊有沒有成功btn");
                 });
             }
         })
@@ -79,14 +86,14 @@
                 event.preventDefault(); // 防止預設行為（換行）
 
                 const message = messageInput.value.trim(); // 取得使用者輸入的訊息，並移除前後空白
-                const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
-
                 if (message !== "") {
                     // 呼叫 SendPrivateMessage 方法傳送訊息
                     connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
                         loadUser();
                         messageInput.value = ''; // 清空輸入框
                         keepDown();
+                        console.log("監看傳訊有沒有成功enter");
+
                     });
                 }
             }
@@ -169,6 +176,8 @@
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
                     receiverId = chatLink.getAttribute('inChatWithId')
                     console.log(receiverId)
+                   
+
                     const jsPage = chatLink.getAttribute('inPage');
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);
@@ -238,6 +247,7 @@
                 }
             }
         }
+
 
 
     </script>

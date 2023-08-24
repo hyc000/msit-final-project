@@ -113,5 +113,7 @@ namespace prjCoreWebWantWant.ViewModels
         public virtual Town? Town { get; set; }
 
         public string? ApplicationDate { get; set; }
+
+        public string? CollectionDate { get; set; }
     }
 }
