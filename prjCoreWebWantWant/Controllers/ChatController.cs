@@ -50,7 +50,13 @@ namespace WantTask.Controllers
                 return View();
             }
             else
-                return RedirectToAction("Login", "Member");
+            {
+                string BackToAction = "ChatSingle"; //目前的action名字
+                string BackToController = "Chat";//目前的controller名字
+                string BackToId = id.ToString();//目前的id位置
+                return RedirectToAction("Login", "Member", new { BackToAction, BackToController, BackToId });
+            }
+
         }
 
         public IActionResult ChatMS()
