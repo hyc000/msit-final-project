@@ -231,10 +231,11 @@
 @section Scripts{
     <script>
                      
-        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
+           //已上架的select
+           const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
 
-        selTaskNamePublish.addEventListener('change', () => {
-
+            selTaskNamePublish.addEventListener('change', () => {
+            txtKeywordPub.value="";
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/BackstageTask/PartialPublish")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -245,10 +246,11 @@
             })
         })
 
-        const selTaskNameNoPublish = document.querySelector('#selTaskNameNoPublish');
+          //未上架的select
+           const selTaskNameNoPublish = document.querySelector('#selTaskNameNoPublish');
 
-        selTaskNameNoPublish.addEventListener('change', () => {
-
+            selTaskNameNoPublish.addEventListener('change', () => {
+            txtKeywordNoPub.value = "";
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/BackstageTask/PartialNoPublish")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -276,10 +278,11 @@
                 tabNopublish.style.backgroundColor = '#528EAF';
             }
 
+            //已上架的keyword和search
             const txtKeywordPub = document.querySelector('#txtKeywordPub');
             const btnSearchPub = document.querySelector('#btnSearchPub');
 
-            btnSearchPub.addEventListener('click', () => {           
+            txtKeywordPub.addEventListener('input', () => {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '@Url.Content("~/BackstageTask/PartialPublish")');
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -290,10 +293,11 @@
                 })
             })
 
+            //未上架的keyword和search
             const txtKeywordNoPub = document.querySelector('#txtKeywordNoPub');
             const btnSearchNoPub = document.querySelector('#btnSearchNoPub');
 
-            btnSearchNoPub.addEventListener('click', () => {
+            txtKeywordNoPub.addEventListener('input', () => {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '@Url.Content("~/BackstageTask/PartialNoPublish")');
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

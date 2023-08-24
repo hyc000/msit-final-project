@@ -135,7 +135,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PayFrom = tl.PayFrom,
                         TaskNameId =tl.TaskNameId,
                         PaymentId = tl.PaymentId,
-                        CaseId = mc.CaseId
+                        CaseId = mc.CaseId,
+                        CollectionDate = mc.CollectionDate
                     };
 
             return View(q.ToList());
