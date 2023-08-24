@@ -1,4 +1,18 @@
-﻿ <!-- Main Sidebar Container -->
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using System.Text.Json;
+@{
+    var httpContext = HttpContextAccessor.HttpContext;
+    string loginUserName = "";
+    if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+    {
+        string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+        MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+        loginUserName = loggedInUser.Name;
+    }
+
+}
+
+<!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4 flex-fill">
     <!-- Brand Logo -->
     <a href="@Url.Content("~/BackstageManagement/List")" class="brand-link">
@@ -63,6 +77,26 @@
                     </a>
                 </li>
             </ul>
+            <div class="nav-item align-self-end">
+
+                @*判斷是否有登入*@
+                @{
+                    if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+                    {
+                        // 登入狀態，顯示登出按鈕
+                        <a class="nav-link" asp-area="" asp-controller="Member" asp-action="Logout">
+                            <i class="fa-regular fa-rectangle-list"></i>登出
+                        </a>
+                    }
+                    else
+                    {
+                // 未登入狀態，顯示登入按鈕
+                        <a class="nav-link" asp-area="" asp-controller="Member" asp-action="Login">
+                            <i class="fa-regular fa-rectangle-list"></i>登入
+                        </a>
+                    }
+                }
+            </div>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
