@@ -325,6 +325,7 @@
                                         <th scope="col" style="width: auto; text-align: center">任務內容</th>
                                         <th scope="col" style="width: auto; text-align: center">任務報酬</th>
                                         <th scope="col" style="width: auto; text-align: center">需求技能</th>
+                                        <th scope="col" style="width: auto; text-align: center">應徵時間</th>
                                         <th style="width: auto; text-align: center">收藏紀錄</th>
                                     </tr>
                                 </thead>
@@ -350,6 +351,7 @@
                                               <a href="#" class="badge badge-soft-primary font-size-11">Python</a>
                                             </div>
                                         </td>
+                                         <td style="text-align: left">@item.CollectionDate</td>
                                         <th>
                                             <div class="btn-group"role="group"aria-label="Basic example">
                                               <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-secondary">取消收藏</a>

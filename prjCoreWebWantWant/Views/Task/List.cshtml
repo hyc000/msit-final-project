@@ -24,10 +24,11 @@
         const selCategory = document.querySelector('#selectCategory');
 
         selCategory.addEventListener('change', () => {
+            txtKeyword.value = '';                                  @*切換類別時將關鍵字清空*@
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`Category=${selCategory.value}`);
+            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}`);
             xhr.addEventListener('load', () => {
                 const Partial = document.querySelector('#Partial');
                 Partial.innerHTML = xhr.responseText;
@@ -35,9 +36,9 @@
         })
 
         const txtKeyword = document.querySelector('#txtKeyword');
-        const btnSearch = document.querySelector('#btnSearch');
+        // const btnSearch = document.querySelector('#btnSearch');
 
-        btnSearch.addEventListener('click', () => {
+        txtKeyword.addEventListener('input', () => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -47,6 +48,17 @@
                 Partial.innerHTML = xhr.responseText;
             })
         })
+
+        // btnSearch.addEventListener('click', () => {
+        //     const xhr = new XMLHttpRequest();
+        //     xhr.open('POST', '@Url.Content("~/Task/Partial")');
+        //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //     xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.value}`);
+        //     xhr.addEventListener('load', () => {
+        //         const Partial = document.querySelector('#Partial');
+        //         Partial.innerHTML = xhr.responseText;
+        //     })
+        // })
     </script>
 }
 <head>
@@ -98,7 +110,7 @@
                              {
                                 <h4>關鍵字</h4> @*@Html.TextBox("txtKeyword")*@ <input type="text" id="txtKeyword" name="txtKeyword" style="width:156px"/>
                                 @* <input type="submit" value="查詢"  > *@
-                                <input type="button" value="查詢" id="btnSearch">
+                                @* <input type="button" value="查詢" id="btnSearch"> *@
                              }
                             </div>
                             <br />

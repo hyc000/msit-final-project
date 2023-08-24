@@ -124,9 +124,23 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView(q);
         }
 
-        public IActionResult ListNew()
+        public IActionResult ListNew(CKeywordViewModel vm)
         {
-            return View();
+            IEnumerable<TaskList> datas = null;
+            if (string.IsNullOrEmpty(vm.txtKeyword))
+            {
+                datas = _context.TaskLists
+                        .Include(t => t.Town.City)
+                        .Where(tl => tl.PublishOrNot == "立刻上架");
+            }
+            else
+            {
+                datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+                );
+            }
+            return View(datas);
         }
     }
 }
