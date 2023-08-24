@@ -4,6 +4,17 @@
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">商城</li>
+            <li class="breadcrumb-item " aria-current="page">任務曝光商城</li>
+        </ol>
+    </nav>
+}
 
 
 <div class="header-container">
@@ -16,9 +27,8 @@
     <div class="row">
         <div class="col-md-3">
             <!-- 任務類別選單 -->
-            <div class="form-group">
-                <label for="caseSelect">選擇您的任務：</label>
-                <select class="form-control" id="caseSelect">
+            <div class="form-group">     
+                <select hidden class="form-control" id="caseSelect">
                     <!-- 添加更多的選項，根據您的需求 -->
                 </select>
             </div>
@@ -39,11 +49,11 @@
         <div class="col-md-3 text-right">
             <!-- 使用 text-right 來靠右對齊 -->
             <!-- 購物車按鈕  查看購物車-->
-            <a style="color: rgb(16, 15, 15);" href="#" type="button" data-bs-toggle="modal"
+        <a asp-action="CaseCart" style="color: rgb(16, 15, 15);"
                data-bs-target="#cartModal" class="shopping-cart-btn">
                 <i class='bx bxs-cart'></i>
             </a>
-            <span class="cart-item-count">0</span>
+        <span class="cart-item-count">@ViewBag.CartItemCount</span>
         </div>
    
 
@@ -102,10 +112,16 @@
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
                             <!-- 加入購物車-->
-                            <a asp-action="addtoCart" style="color: black;">
+                              @*  <a asp-controller="Shop" asp-action="AddToCart" asp-route-productId="@item.ProductId" style="color: black;">
                                 <i class='bx bxs-shopping-bag'
                                    style="font-size: 2em; margin-left: auto;"></i>
-                            </a>
+                            </a>*@<form asp-controller="Shop" asp-action="AddToCart" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button id="AddtoCart" type="submit" style="background: none; border: none; cursor: pointer;">
+                                        <i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i>
+                                    </button>
+                                </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -148,6 +164,7 @@
 @section Styles
     {
     <style>
+        #AddtoCart :hover{ color:cadetblue}
         /* 自定義 Single Product Area 的寬度和高度 */
         .card.single-product-area {
             transition: box-shadow 0.3s ease;
@@ -269,7 +286,7 @@
         <script>
         async function loadCases() {
             try {
-                const response = await fetch('/Shop/loadCase'); // 使用正确的相对 URL
+                const response = await fetch('/Shop/loadCase'); 
                 const data = await response.json();
 
                 if (data.tasks.length === 0) {
@@ -278,7 +295,7 @@
                         icon: 'warning',
                         title: '您目前沒有發布中的任務',
                         text: '無法進行任務的曝光購買',
-                        confirmButtonText: '确定'
+                        confirmButtonText: '確定'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // 如果沒有就跳轉
@@ -292,8 +309,8 @@
 
                 data.tasks.forEach(caseItem => {
                     const option = document.createElement('option');
-                    option.value = caseItem.caseId; // 假設 'caseId' 是返回的 JSON 中的屬性
-                    option.textContent = caseItem.taskTitle; // 假設 'taskTitle' 是返回的 JSON 中的屬性
+                    option.value = caseItem.caseId; 
+                    option.textContent = caseItem.taskTitle; 
                     selectElement.appendChild(option);
                 });
             } catch (error) {
@@ -301,7 +318,7 @@
             }
         }
 
-        // 在页面加载时调用加载案例的函数
+        // 加載
         loadCases();
 
        
