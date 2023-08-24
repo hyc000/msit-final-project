@@ -38,7 +38,7 @@
 
         <div class="col-md-3 text-right">
             <!-- 使用 text-right 來靠右對齊 -->
-            <!-- 購物車按鈕  跳出視窗-->
+            <!-- 購物車按鈕  查看購物車-->
             <a style="color: rgb(16, 15, 15);" href="#" type="button" data-bs-toggle="modal"
                data-bs-target="#cartModal" class="shopping-cart-btn">
                 <i class='bx bxs-cart'></i>
@@ -46,61 +46,6 @@
             <span class="cart-item-count">0</span>
         </div>
    
-
-    <!-- 跳出視窗 -->
-    <div class="modal fade" id="cartModal">
-        <div class="modal-dialog modal-dialog-end">
-            <div class="modal-content">
-                <!-- header -->
-                <div class="modal-header">
-                    <h3>購物車</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <!-- body -->
-                <div class="modal-body">
-                    <h5 class="text-center">您所要加值的任務是</h5>
-                    <table class="table table-striped mt-5">
-                        <thead align="center">
-                            <tr>
-                                <td></td>
-                                <td>商品</td>
-                                <td>單價</td>
-                                <td>數量</td>
-                                <td>小計</td>
-                                <td>刪除</td>
-                            </tr>
-                        </thead>
-                        <tbody align="center">
-                            <tr>
-                                <td><img class="img-fluid" src=""></td>
-                                <td></td>
-                                <td></td>
-                                <td><number name="" id=""></number></td>
-                                <td></td>
-                                <td>
-                                    <a href="">
-                                        <i class='bx bx-trash bx-tada'
-                                           style='color:#ea0b0b ; font-size: 2rem'></i>
-                                    </a>
-                                </td>
-                            </tr>               
-                        </tbody>
-                    </table>
-                    <br>
-
-
-                </div>
-                <!-- footer -->
-                <div class="modal-footer">
-                    <h5 align="right">Total:</h5>
-                    <form action="@Url.Content("~/shop/checkout")" method="post">
-                        <input type="submit" value="buynow" class="btn btn-primary" />
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
     <br />
     <!-- 輪播圖片 -->
@@ -156,8 +101,8 @@
                                 <h6 class="text-center">$@Html.DisplayFor(modelItem =>item.UnitPrice)</h6>
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 將<i>元素放在右邊最下面 -->
-                            <a href="" style="color: black;">
+                            <!-- 加入購物車-->
+                            <a asp-action="addtoCart" style="color: black;">
                                 <i class='bx bxs-shopping-bag'
                                    style="font-size: 2em; margin-left: auto;"></i>
                             </a>

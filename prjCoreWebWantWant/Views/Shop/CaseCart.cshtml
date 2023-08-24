@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewData["Title"] = "CaseCart";
+}
+
+
+@{
+ 
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+
+<div class="container text-center">
+    <p>　</p>
+    <ul class="progressbar d-flex justify-content-center">
+        <li class="active">購物車</li>
+        <li>結帳</li>
+        <li>付款</li>
+    </ul>
+    <p>　</p>
+    <p>　</p>
+</div>
+
+<div class="card shadow rounded">
+    <h5 class="card-header">購物車</h5>
+    <div class="card-body">
+        @if (Model != null)
+        {
+            <table class="table">
+                <thead class="table-borderless">
+                    <tr>
+                        <th></th>
+                        <th>商品名稱</th>
+                        <th>單價</th>
+                        <th>數量</th>
+                        <th>小計</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center"> /></td>
+                            <td>
+                               
+                            </td>
+                            <td>
+                               
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                              
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-danger" asp-action="RemoveItem" asp-route-Id="@item.Product.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-center text-dark">購物車內尚無商品</p>
+        }
+        <hr />
+        <div class="row">
+            <div class="col-4 justify-content-around">
+                <div class="input-group input-group-sm mb-2">
+                    <span style="padding-top:3px">你選擇的加值項目：</span>
+                    <input type="text" class="form-control" placeholder="" name="">
+                </div>
+            </div>
+            <div class="col text-right pr-5"> <h5>總計： $@ViewBag.Total</h5></div>
+        </div>
+
+    </div>
+</div>
+<p>　</p>
+<div class="container">
+    <div class="d-flex justify-content-end mt-4">
+        <!-- 注意这里的类名 -->
+        <form action="@Url.Content("~/shop/checkout")" method="post">
+            <input type="submit" value="結帳" class="btn btn-primary btn-lg" />
+        </form>
+    </div>
+</div>
+  
+
+@section Styles
+{
+    <style>
+
+        .progressbar {
+            counter-reset: step;
+        }
+
+            .progressbar li {
+                list-style-type: none;
+                width: 25%;
+                float: left;
+                font-size: 12px;
+                position: relative;
+                text-align: center;
+                text-transform: uppercase;
+                color: #7d7d7d;
+            }
+
+                .progressbar li:before {
+                    width: 30px;
+                    height: 30px;
+                    content: counter(step);
+                    counter-increment: step;
+                    line-height: 30px;
+                    border: 2px solid #7d7d7d;
+                    display: block;
+                    text-align: center;
+                    margin: 0 auto 10px auto;
+                    border-radius: 50%;
+                    background-color: white;
+                }
+
+                .progressbar li:after {
+                    width: 100%;
+                    height: 2px;
+                    content: '';
+                    position: absolute;
+                    background-color: #7d7d7d;
+                    top: 15px;
+                    left: -50%;
+                    z-index: -1;
+                }
+
+                .progressbar li:first-child:after {
+                    content: none;
+                }
+
+                .progressbar li.active {
+                    color: green;
+                }
+
+                    .progressbar li.active:before {
+                        border-color: #55b776;
+                    }
+
+                    .progressbar li.active + li:after {
+                        background-color: #55b776;
+                    }
+    </style>
+}
+
+
