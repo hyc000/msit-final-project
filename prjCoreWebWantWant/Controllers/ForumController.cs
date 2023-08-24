@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using prjCoreWantMember.ViewModels;
@@ -166,19 +167,24 @@ namespace WantTask.Controllers
 
 
 
-        public IActionResult CreatePost(int? categoryId)
+        public IActionResult CreatePost(int? id)
         {
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
-                if (categoryId == null)
+                if (id == null)
                     return RedirectToAction("CategoryList");
                 return View();
             }
             else
-                return RedirectToAction("Login", "Member");
+            {
+                string BackToAction = "CreatePost";
+                string BackToController = "Forum";
+                string BackToId = id.ToString();
+                return RedirectToAction("Login", "Member", new { BackToAction, BackToController, BackToId });
+            }
         }
         [HttpPost]
         public IActionResult CreatePost(ForumPost post)

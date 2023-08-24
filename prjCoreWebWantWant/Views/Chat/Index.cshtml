@@ -57,6 +57,8 @@
             console.log(message);
             console.log(senderId);
             // 處理訊息的顯示等操作
+            loadUser();
+
         });
 
         connection.on("UpdateUserInfo", function (accountId, connectionId) {
