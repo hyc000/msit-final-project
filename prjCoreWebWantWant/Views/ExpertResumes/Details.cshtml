@@ -5,22 +5,40 @@
     var money =(int) Model.expertResume.CommonPrice;
     string modelmoney = money.ToString("#,###");
 }
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">專家履歷</li>
+        </ol>
+    </nav>
+}
 
 <body class="bg-white">
     
 
         <div class="container container-fluid">
-            <div class="row">
+           
+        <div class="row">
 
-                <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3 bg-body-tertiary " style="height: 70vh;">
+            <div id="title" class="d-md-flex flex-md-equal w-100 mb-md-3 ps-md-3 bg-expertdetail " style="height: 85vh;">
                     @*左側大頭貼圖片*@
                     <div class=" me-md-3 ps-3 pt-md-5 ps-md-4 text-center overflow-hidden my-3 py-3">
                     <img id="myself" src=@Url.Action("GetImage","ExpertResumes")  class="img-fluid" style="height:85%; min-height:20%">
                     </div>
                     @*右側自我介紹*@
-                    <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
+                    <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
                         <div class="m-3 p-4 ">
-                             <h2 class="display-5">@Html.DisplayFor(model =>model.memberAccount.Name)</h2>
+                             <h2 class="display-5">@Html.DisplayFor(model =>model.memberAccount.Name)
+                            <a >
+                                <i class="fa-solid fa-comment" style="color: #62779d;"></i>
+                                <span class="lead pt-3">聯繫專家</span>
+                            </a>
+                             </h2>
+                      
+                        
                               <p id="star"></p>
                         <span class="lead pt-3">主要工作地點：</span>
                                <span class="lead me-md-3">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</span>
@@ -29,36 +47,40 @@
                                   - @Html.DisplayFor(model =>model.skill.SkillName)</p>
                         <p class="lead pt-3">證照:</p>
                         <p class="lead me-md-3">@Html.DisplayFor(model =>model.certificatetype.CertificateTypeName)
-                            - @Html.DisplayFor(model =>model.certificate.CertificateName)</p>
-                              <p class="lead pt-3">介紹：</p>
-                              <p class="lead pt-3 container-fluid">
-                                @Html.DisplayFor(model => model.expertResume.Introduction)
+                            - @Html.DisplayFor(model =>model.certificate.CertificateName)
                             </p>
+                          <div >
                             <p class="lead pt-3">基本報價：</p>
-                        <span class="lead py-3">@modelmoney  元</span>
+                            <span class="lead py-3">@modelmoney  元</span>
+                          </div>
+
+                        
+                        <div class="labelResume pt-3" style="position:absolute;bottom:0px;right:120px;">
+                            <span> 點閱次數：5 @Html.DisplayFor(model => model.expertResume.HistoricalViews)</span>
 
                         </div>
-                        <!--按鈕-->
-                        <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
-                            <a class="btnResume pt-3" href="#details" onclick="clickdeploy(details,works)"
-                               data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
-                        <a class="btnResume pt-3" href="#works"
-                           data-loading-text="Loading..." id="btnworks"><span>作品集</span></a>
-                        @Html.ActionLink("委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume pt-3"} )
-                            <div class="labelResume pt-3">
-                                <span> 點閱次數：5 @Html.DisplayFor(model => model.expertResume.HistoricalViews)</span>
-
-                            </div>
                         </div>
+                       
                     </div>
 
                 </div>
 
-
-                <div style="display: none; " id="details">
-                    <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-body-tertiary " style="height:90vh">
-                        <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
+                
+                <div id="details" >
+                <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-expertdetail ">
+                        <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
                             <div class="m-3 p-4 ">
+                        <p class="lead pt-3">介紹：</p>
+                        <p class="lead pt-3 container-fluid">
+                                @Html.DisplayFor(model => model.expertResume.Introduction)
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                        </p>
+
                                 <span class="lead me-md-3">收費方式:</span>
                                 <span class="lead">@Html.DisplayFor(model => model.expertResume.PaymentMethod)</span>
                                 <p class="lead pt-3">服務內容:</p>
@@ -87,9 +109,11 @@
                 </div>
 
                 <!--作品集-->
-            <div style="background-color:#E5EDF6; >
-                @Html.Partial("_ExpertResumesWorklistPartial")
-                </div>
+
+            <div id="workbox" class="workbox d-md-flex flex-md-equal w-100 mb-md-3 ps-md-3 bg-expertdetail " style="height:85vh;">
+            @Html.Partial("_ExpertResumesWorklistPartial")
+
+            </div>
 
 
 
@@ -117,18 +141,44 @@
 
             <!-- 評論 -->
 
-           
-                <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-body-tertiary " style="height:90vh">
-                    <div class="bg-body-tertiary me-md-3 p-3 p-md-5text-center overflow-hidden">
-                        <div class="m-3 p-4 " id="ratinghere">
+
+            <div id="ratinghere" class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-expertdetail " style="height:90vh">
+                    <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
+                        <div class="m-3 p-4 ">
                             
                            
 
                         </div>
 
                     </div>
+            </div>
+            <div style="position:sticky;bottom:30px;right:0px">
+                <!--按鈕-->
+                <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
+                    <a class="btnResume pt-3" href="#details" 
+                       data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
+                    <a class="btnResume pt-3" href="#workbox"
+                       data-loading-text="Loading..."><span>作品集</span></a>
+                    <a class="btnResume pt-3" href="#ratinghere"
+                       data-loading-text="Loading..." ><span>評價</span></a>
+                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume pt-3"} )
+                   
+                    
+                   
+                    <a class="btnResume pt-3" style="width:180px" href="#title"
+                       data-loading-text="Loading...">
+                        <span>
+                            TOP
+                            <i class="fa-solid fa-up-long" style="color: #ffffff;"></i>
+                        </span>
+                    </a>
+
                 </div>
-           
+
+
+            </div>
+
+
 
 
 
@@ -140,7 +190,7 @@
 
 <div>
 
-    <a asp-action="Index">返回</a>
+    返回
 </div>
 
 @section Styles{
@@ -241,7 +291,38 @@
                 
                 };
 
-          
+          //================================================作品集
+        function load() {
+            const workbox = document.querySelector('#workbox');
+            const worklist = document.querySelector('#worklist');
+            let left = 0; // 初始化為 0
+
+            let timer;
+            function Moving() {
+                clearInterval(timer);
+                timer = setInterval(() => {
+                    left -= 2;
+                    console.log(left);
+                    if (left <= -(6 * 200 + 2 * 24)) {
+                        left = 0;
+                    }
+                    worklist.style.left = left + 'px';
+
+                }, 20);
+            }
+            // Moving();
+
+
+            workbox.onmouseover = function () {
+                clearInterval(timer);
+            };
+
+            workbox.onmouseleave = function () {
+                // Moving();
+            };
+        }
+        document.addEventListener('DOMContentLoaded', load);
+
 
     </script>
         }
