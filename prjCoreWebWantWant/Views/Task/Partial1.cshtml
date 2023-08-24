@@ -1,0 +1,31 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+
+<body>
+@foreach (var item in Model)
+{
+<div class="card text-center">
+    <div class="card-header">@item.TaskTitle</div>
+    <div class="row">
+        <div class="card-body col-9">
+            <h5 class="card-title">任務內容： @item.TaskDetail</h5>
+        </div>
+
+        <div class="card-body col-md-3 d-flex flex-column justify-content-end">
+            <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+            <a href="#" class="btn btn-outline-primary">收藏工作</a>
+        </div>
+
+        <div class="row">
+            <p class="card-text col-3">地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+            <p class="card-text col-3">需求人數： @item.RequiredNum</p>
+            <p class="card-text col-3">任務金額： @item.PayFrom</p>
+            @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
+        </div>
+
+    </div>
+    <div class="card-footer text-muted">
+        最後修改日期： @item.PublishStart
+    </div>
+</div>    
+}
+</body>

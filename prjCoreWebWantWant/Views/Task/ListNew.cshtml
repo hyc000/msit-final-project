@@ -16,6 +16,36 @@
 
 </head>
 
+@section Scripts{
+    <script>
+        const selCategory = document.querySelector('#selectCategory');
+
+        selCategory.addEventListener('change', () => {
+            txtKeyword.value = '';                                  @*切換類別時將關鍵字清空*@
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+        const txtKeyword = document.querySelector('#txtKeyword');
+
+        txtKeyword.addEventListener('input', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+    </script>
+}
 
 <body>
     <header>
@@ -38,12 +68,31 @@
                 <div class="card">
 
                     <div class="card-body">
+                        <label style="text-align: center; display: block;">關鍵字搜尋</label>
+                        <input type="text" id="txtKeyword" name="txtKeyword" style="width:266px" />
+                    </div>
+
+                    @{
+                        NewIspanProjectContext db = new NewIspanProjectContext();
+                        var q = from tn in db.TaskNameLists
+                                join tl in db.TaskLists on tn.TaskNameId equals tl.TaskNameId
+                                where tl.PublishOrNot == "立刻上架"
+                                group tl by tn.TaskName into Group
+                                select new
+                                {
+                                    taskName = Group.Key,
+                                    taskCount = Group.Count()
+                                };
+                    }
+
+                    <div class="card-body">
                         <label style="text-align: center; display: block;">任務類型</label>
-                        <select class="custom-select" multiple>
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="custom-select" multiple id="selectCategory" name="selectCategory" style="height:300px;overflow-y: hidden;">
+                            <option selected>所有任務類型</option>
+                            @foreach (var item in q)
+                            {
+                                <option value="@item.taskName">@item.taskName  (@item.taskCount)</option>
+                            }
                         </select>
 
                         <div class="card-body">
@@ -127,11 +176,9 @@
             </div>
 
             <!--card工作列表-->
-            <div class="col-8">
-                <div class="card text-center">
-                    <div class="card-header">
-                        任務名稱
-                    </div>
+            <div class="col-8" id="Result">
+                @*<div class="card text-center">
+                    <div class="card-header">任務名稱</div>
                     <div class="row">
                         <div class="card-body col-9">
                             <h5 class="card-title">任務內容</h5>    
@@ -153,7 +200,7 @@
                     <div class="card-footer text-muted">
                         2 days ago
                     </div>
-                </div>
+                </div>*@
             </div>
 
             <!--頁數-->
