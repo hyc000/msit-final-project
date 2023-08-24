@@ -87,45 +87,8 @@
                 </div>
 
                 <!--作品集-->
-                <div style="display: none;  height: 100vm;width: 100vm;" id="works">
-                    <div id="worklist" class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3 bg-body-tertiary ">
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                
-                            @*<img src=@Url.Action("WorksImage","ExpertResumes") class="img-fluid" style="height:5%; min-height:5%">*@
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/3.webp" class="img-fluid">
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/4.webp" class="img-fluid">
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/5.webp" class="img-fluid">
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/6.webp" class="img-fluid">
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/7.webp" class="img-fluid">
-                            </button>
-                        </div>
-                        <div class=" me-md-3 ps-3  text-center overflow-hidden  my-md-3">
-                            <button type="button" class="bg-body-tertiary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                <img src="~/Expert/images/8.webp" class="img-fluid">
-                            </button>
-                        </div>
-                    </div>
+            <div style="background-color:#E5EDF6; >
+                @Html.Partial("_ExpertResumesWorklistPartial")
                 </div>
 
 
@@ -195,13 +158,15 @@
 
                 //星星評價
                  let score=0 ;
-                fetch(`@Url.Content("~/ExpertResumes/StarRating")`)
+                let count = 0;
+        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")`)
                     .then(response => response.json())
                     .then(data => {
                         const datadiv = "";
                         data.forEach(item => {
                             datadiv = ` <p class="lead pt-3">${item.評論}</p>`
                             score += item.分數;
+                            count = item.筆數;
                     console.log(score);
                         });
 
@@ -215,6 +180,7 @@
                         
                 let arr= [ ];
                 for(let i=1;i<=5;i++){
+                   
                    if (score >= i) {
                 arr.push(starfill
                           );
@@ -227,7 +193,7 @@
                     }
                 }
         console.log(arr);
-        document.querySelector("#star").innerHTML = `專家評分: ${score}分  ` + arr.join("");
+        document.querySelector("#star").innerHTML = `(${score}分)  ` + arr.join("") +` --${count}筆評論  `;
              
 
 
