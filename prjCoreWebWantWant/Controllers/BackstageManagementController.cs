@@ -3,6 +3,7 @@ using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using prjCoreWantMember.ViewModels;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using X.PagedList;
 
 namespace prjCoreWebWantWant.Controllers
 {
@@ -67,6 +68,22 @@ namespace prjCoreWebWantWant.Controllers
             return vm;
         }
 
+        //public IActionResult List(CKeywordViewModel vm, int? page)
+        //{
+        //    NewIspanProjectContext db = new NewIspanProjectContext();
+        //    IEnumerable<CBackstageManagementViewModel> datas = null;
+
+        //    int pageSize = 8;
+        //    int pageNumber = page ?? 1;
+
+        //    var pagedData = datas.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+        //    ViewBag.CurrentPage = pageNumber;
+        //    ViewBag.TotalPages = (int)Math.Ceiling((double)datas.Count() / pageSize);
+
+        //    return View(pagedData);
+        //}
+
         public IActionResult List(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
@@ -111,8 +128,8 @@ namespace prjCoreWebWantWant.Controllers
                              CreateTime = m.CreateTime,
                              AccountStatus = m.AccountStatus,
                              memberStatusList = ms,
-                             loginHistory = lastLoginTime,                             
-                         }).AsEnumerable().DistinctBy(vm => vm.AccountId);
+                             loginHistory = lastLoginTime,
+                         }).AsEnumerable().DistinctBy(vm => vm.AccountId).Take(8);
 
             else
                 datas = from ms in db.MemberStatusLists
