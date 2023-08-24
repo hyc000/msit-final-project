@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using prjCoreWebWantWant.Controllers;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
+using System;
 using System.Text.Json;
 
 namespace prjCoreWantMember.Controllers
@@ -96,12 +99,12 @@ namespace prjCoreWantMember.Controllers
             return NotFound();
         }
         
-        public IActionResult Login()
+        public IActionResult Login(string BackToAction, string BackToController,string BackToId)
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Login(CLoginViewModel vm)
+        public IActionResult Login(CLoginViewModel vm,string BackToAction, string BackToController, string BackToId)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
             CLoginUser user = db.MemberAccounts.Where(
@@ -128,8 +131,19 @@ namespace prjCoreWantMember.Controllers
                 if (user.UserRole==2)
                     //客服人員
                     return RedirectToAction("List","BackstageManagement");
-                else if(user.UserRole==1)
+                else if(user.UserRole==1&& BackToAction.IsNullOrEmpty())
                     return RedirectToAction("MemberAccount");
+                else
+                {
+                    
+                    string url = Url.Action(BackToAction, BackToController);
+                    url += "?id="+ BackToId;
+                    return Redirect(url);
+                    //以下是不傳遞參數才可以用的方法
+                    //return RedirectToAction(BackToAction, BackToController);
+                }
+
+
             }
             else
             {
