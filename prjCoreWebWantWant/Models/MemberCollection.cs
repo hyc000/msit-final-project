@@ -13,6 +13,8 @@ public partial class MemberCollection
 
     public int? ResumeId { get; set; }
 
+    public string? CollectionDate { get; set; }
+
     public virtual MemberAccount Account { get; set; } = null!;
 
     public virtual TaskList? Case { get; set; }

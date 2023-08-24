@@ -15,6 +15,8 @@ public partial class ApplicationList
 
     public int? RatingId { get; set; }
 
+    public string? ApplicationDate { get; set; }
+
     public virtual TaskList? Case { get; set; }
 
     public virtual CaseStatusList? CaseStatus { get; set; }

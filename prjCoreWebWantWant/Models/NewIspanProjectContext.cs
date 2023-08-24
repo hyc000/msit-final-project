@@ -134,6 +134,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.ToTable("ApplicationList");
 
             entity.Property(e => e.ApplicationListId).HasColumnName("ApplicationListID");
+            entity.Property(e => e.ApplicationDate).HasMaxLength(50);
             entity.Property(e => e.CaseId).HasColumnName("CaseID");
             entity.Property(e => e.CaseStatusId).HasColumnName("CaseStatusID");
             entity.Property(e => e.RatingId).HasColumnName("RatingID");
@@ -595,6 +596,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.CollectionId).HasColumnName("CollectionID");
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.CaseId).HasColumnName("CaseID");
+            entity.Property(e => e.CollectionDate).HasMaxLength(50);
             entity.Property(e => e.ResumeId).HasColumnName("ResumeID");
 
             entity.HasOne(d => d.Account).WithMany(p => p.MemberCollections)

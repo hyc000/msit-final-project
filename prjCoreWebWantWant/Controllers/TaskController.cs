@@ -15,32 +15,22 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult List(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            //var town = from t in db.TaskLists
-            //           where t.TownId == t.Town.TownId && t.Town.CityId == t.Town.City.CityId
-            //           select t.Town.City.City1;
-            //ViewBag.CITY = town.FirstOrDefault();
 
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
             {
-                //datas = from t in db.TaskLists
-                //        where t.PublishOrNot == "立刻上架"
-                //        select t;  
                 datas = db.TaskLists
                         .Include(t => t.Town.City)
                         .Where(tl => tl.PublishOrNot == "立刻上架");
             }
             else
             {
-                //datas = db.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
-
                 datas = db.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
                  t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
                  t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
                 );
             }
             return View(datas);
-
 
             #region 匿名型別
             //using (NewIspanProjectContext db = new NewIspanProjectContext())              //匿名型別
@@ -111,17 +101,22 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
 
-        public IActionResult Partial(string Category)
+        public IActionResult Partial(string Category,CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
             //var q = from t in db.TaskLists
             //        where t.TaskName.TaskName == Category && t.PublishOrNot == "立刻上架"
             //        select t;
+            if (vm.txtKeyword == null)
+            {
+                vm.txtKeyword = "";
+            }
+
             if (Category == "請選擇任務類型")
             {
                 var all = db.TaskLists.
                     Include(t => t.Town.City).
-                    Where(t => t.PublishOrNot == "立刻上架");
+                    Where(t => t.PublishOrNot == "立刻上架" && t.TaskTitle.Contains(vm.txtKeyword));
                 return PartialView(all);
             }
 
