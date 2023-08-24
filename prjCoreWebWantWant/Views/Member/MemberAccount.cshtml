@@ -114,7 +114,8 @@
     </tr>
     <tr>
         <td colspan="2">
-            @Html.ActionLink("編輯", "EditMemberInfo", new {  id=Model.AccountId  }) @* |
+           @*  @Html.ActionLink("編輯", "EditMemberInfo","Member", new {  id=Model.AccountId  },null)  *@
+            <a href="@Url.Content("~/Member/EditMemberInfo")?id=@Model.AccountId" class="btn btn-primary">編輯</a>@* |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
         </td>
