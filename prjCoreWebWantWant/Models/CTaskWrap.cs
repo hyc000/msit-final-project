@@ -60,17 +60,17 @@ namespace prjCoreWebWantWant.Models;
             get { return _task.TaskPeriod; }
             set { _task.TaskPeriod = value; }
         }
-        //public string? FTaskStart
-        //{
-        //    get { return _task.TaskStart; }
-        //    set { _task.TaskStart = value; }
-        //}
-        //public string? FTaskEnd
-        //{
-        //    get { return _task.TaskEnd; }
-        //    set { _task.TaskEnd = value; }
-        //}
-        public string? FPublishOrNot
+        public string? FTaskStartHour
+        {
+            get { return _task.TaskStartHour; }
+            set { _task.TaskStartHour = value; }
+        }
+        public string? FTaskEndHour
+    {
+            get { return _task.TaskEndHour; }
+            set { _task.TaskEndHour = value; }
+        }
+    public string? FPublishOrNot
         {    
             get { return _task.PublishOrNot; }
             set { _task.PublishOrNot = value; }
@@ -85,5 +85,12 @@ namespace prjCoreWebWantWant.Models;
             get { return _task.PublishEnd; }
             set { _task.PublishEnd = value; }
         }
-    }
+
+
+        public int? FAccountID
+        {
+            get { return _task.AccountId; }
+            set { _task.AccountId = value; }
+        }
+}
 

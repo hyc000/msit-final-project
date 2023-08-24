@@ -24,6 +24,7 @@
 
         <!-- Template Stylesheet -->
         <link href="~/backstage1/css/style.css" rel="stylesheet" >
+
         <!-- CSS here -->
         <link rel="stylesheet" href="~/backstage/css/price_rangs.css" >               
 
@@ -48,20 +49,10 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
 
-            @*    <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">會員專區</a></li>
-                        <li class="breadcrumb-item"><a href="#">找人力</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">發案管理</li>
-                    </ol>
-                </nav>*@
-
-
                 <!--任務內容-->
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                     <h5 class="mb-4" style="color:#528EAF">任務內容</h5>
-
 
                         <input type="hidden" id="hiddenTaskNameIdInput" name="selectedTaskNameId" />
                              <div class="form-floating mb-3">
@@ -137,12 +128,7 @@
                         </div>
                         <p></p>
                     
-                   @* <div class="form-group">
-                        <label asp-for="TownId" class="control-label"></label>
-                        <input asp-for="TownId" class="form-control" />
-                        <span asp-validation-for="TownId" class="text-danger"></span>
-                    </div>*@
-
+                  
 
                     <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
 
@@ -158,9 +144,6 @@
                         </select>
                         <label for="floatingSelectTown">請選擇區域</label>
                     </div>
-
-
-
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"></label>
                         <input asp-for="Address" class="form-control" />
@@ -194,14 +177,6 @@
                             <label for="floatingSelectPayment">支薪方式</label>
                         </div>
 
-
-                
-                    @*<div class="form-group">
-                        <label asp-for="PaymentId" class="control-label"></label>
-                        <input asp-for="PaymentId" class="form-control" />
-                        <span asp-validation-for="PaymentId" class="text-danger"></span>
-                        </div>*@
-
                    <input type="hidden" id="hiddenPaymentDateIdInput" name="selectedPaymentDateId" />
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelPaymentDate"
@@ -210,16 +185,6 @@
                             </select>
                             <label for="floatingSelectPaymentDate">支薪日</label>
                         </div>
-
-                        
-                      @*  <div class="form-group">
-                        <label asp-for="PaymentDateId" class="control-label"></label>
-                        <input asp-for="PaymentDateId" class="form-control" />
-                        <span asp-validation-for="PaymentDateId" class="text-danger"></span>
-                    </div>*@
-                        
-
-
                     </div>
                </div>
 
@@ -228,8 +193,7 @@
                     <div class="bg-light rounded h-100 p-4">
                         <h5 class="mb-4" style="color:#528EAF">專業需求(選填)</h5>
 
-                        <input type="hidden" id="hiddenSkillIdInput" name="selectedSkillId" />
-                        
+                        <input type="hidden" id="hiddenSkillIdInput" name="selectedSkillId" />                        
                         <div class="form-floating mb-3">
                             <select class="form-select" id="SelSkillBig">
                                 <option></option>
@@ -258,8 +222,6 @@
                             </select>
                             <label for="floatingSelectCity">請選擇證照</label>
                         </div>
-                        
-
                     </div>
                 </div>
 
@@ -313,6 +275,13 @@
        </form>
 
     @*不要顯示的欄位
+
+    <div class="form-group">
+    <label asp-for="TownId" class="control-label"></label>
+    <input asp-for="TownId" class="form-control" />
+    <span asp-validation-for="TownId" class="text-danger"></span>
+    </div>
+
     <div class="form-group">
     <label asp-for="Requirement" class="control-label"></label>
     <input asp-for="Requirement" class="form-control" />
@@ -401,7 +370,20 @@
     <label asp-for="PublishOrNot" class="control-label"></label>
     <input asp-for="PublishOrNot" class="form-control" />
     <span asp-validation-for="PublishOrNot" class="text-danger"></span>
-    </div>  *@
+    </div>
+
+    <div class="form-group">
+    <label asp-for="PaymentId" class="control-label"></label>
+    <input asp-for="PaymentId" class="form-control" />
+    <span asp-validation-for="PaymentId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    <label asp-for="PaymentDateId" class="control-label"></label>
+    <input asp-for="PaymentDateId" class="form-control" />
+    <span asp-validation-for="PaymentDateId" class="text-danger"></span>
+    </div>
+    *@
 
 </body>
 
