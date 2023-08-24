@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -30,29 +29,90 @@ namespace WantTask.Controllers
         //不分partialView的已上架
         public IActionResult TablesEditable()
         {
-            var q = from t in _context.TaskLists
-                    join tt in _context.TaskNameLists on t.TaskNameId equals tt.TaskNameId
-                    where t.PublishOrNot == "立刻上架" && t.TaskNameId == tt.TaskNameId
-                    select t;
-            return View(q);
+            //var q = from t in _context.TaskLists
+            //        join tt in _context.TaskNameLists on t.TaskNameId equals tt.TaskNameId
+            //        where t.PublishOrNot == "立刻上架" && t.TaskNameId == tt.TaskNameId
+            //        select t;
+            return View();
+
+            //IEnumerable<TaskList> datas = null;
+            //if (string.IsNullOrEmpty(vm.txtKeyword))
+            //{
+            //    datas = _context.TaskLists
+            //            .Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
+            //}
+            //else
+            //{
+            //    datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+            //    t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+            //    t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+            //   );
+            //}
+            //return PartialView( "PartialPublish",datas);
         }
 
         //選擇任務類別+已上架
-        public IActionResult PartialPublish(string category)
+        public IActionResult PartialPublish(string category,CKeywordViewModel vm)
         {
-            var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
-           
-            return PartialView(taskName);
+            if(vm.txtKeyword == null)
+            {
+                vm.txtKeyword = "";
+            }
+
+            if(category == null)
+            {
+                var all = _context.TaskLists.
+                Where(t => t.PublishOrNot == "立刻上架" 
+                && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                  || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                );
+                return PartialView(all);  //換頁數? .Take()
+            }
+
+            //var taskName = _context.TaskLists.
+            //    Where(t => t.TaskName.TaskName == category 
+            //    && t.PublishOrNot == "立刻上架" 
+            //    && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    );
+            //return PartialView(taskName);
+
+            var q = _context.TaskLists.
+                     Include(t => t.Town.City).
+                     Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
+            return PartialView(q);
         }
 
         //選擇任務類別+未上架
-        public IActionResult PartialNoPublish(string category)
+        public IActionResult PartialNoPublish(string category, CKeywordViewModel vm)
         {
-            var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");           
+            if (vm.txtKeyword == null)
+            {
+                vm.txtKeyword = "";
+            }
 
-             return PartialView(taskName);
+            if (category == null)
+            {
+                var all = _context.TaskLists.
+                Where(t => t.PublishOrNot == "延後上架"
+                && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                  || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                );
+                return PartialView(all);  //換頁數? .Take()
+            }
+
+            //var taskName = _context.TaskLists.
+            //    Where(t => t.TaskName.TaskName == category
+            //    && t.PublishOrNot == "延後上架"
+            //    && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    );
+            //return PartialView(taskName);
+
+            var q = _context.TaskLists.
+                     Include(t => t.Town.City).
+                     Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");
+            return PartialView(q);
         }
 
         //立刻上架的keyword
@@ -61,9 +121,8 @@ namespace WantTask.Controllers
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
             {                
-                datas = _context.TaskLists
-                        //.Include(t => t.Town.City)
-                        .Where(tl => tl.PublishOrNot == "立刻上架");
+                datas = _context.TaskLists                       
+                        .Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
             }
             else
             {

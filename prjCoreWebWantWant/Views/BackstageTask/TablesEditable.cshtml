@@ -46,12 +46,20 @@
 
 
 <body>
-      
+    @*  @{
+          foreach (var item in Model)
+        {
+            <h1>@item.TaskDetail</h1>
+        }
+      }*@
+    
+
         <div id="layout-wrapper">
           
           @*   <div class="main-content">*@
                @*  <div class="page-content"> *@
-                    <div class="container-fluid">              
+                    <div class="container-fluid">       
+                        
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between"> 
@@ -60,16 +68,19 @@
                         </div>
                     
                        <!--已上架未上架 任務類型 關鍵字-->
-                        <div class="row">
+         
+
+                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
 
+
                         @using (Html.BeginForm())
                         {
-                                  <div class="card-header">
-                                        <div class="row">                               
-                                            <div class="card-body col-4">                                   
+                            <div class="card-header">                            
+                                <div class="row">
                                         <!--已上架 未上架-->
+                                            <div class="card-body col-4">  
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
                                             <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" >
@@ -87,7 +98,7 @@
                                             </div>
                                             <!--標籤  選擇任務類型-->
 
-                                            <!--已上架的標籤-->
+                                            <!--已上架的select標籤-->
                                             <div class="col-4 mb-3" id="PublishSelect">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
@@ -106,7 +117,7 @@
                                                 </form>
                                             </div>
 
-                                            <!--未上架的標籤-->
+                                          <!--未上架的select標籤-->
                                             <div class="col-4 mb-3" style="display:none" id="NoPublishSelect">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
@@ -126,33 +137,34 @@
                                                 </form>
                                             </div>
 
-                                            <!--已上架 關鍵字搜尋-->
-                                           
+                                  
+                                            <!--已上架 關鍵字搜尋-->                                           
                                                  <div class="col-4 mb-3" id="publishKeyword">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
-                                                        <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordPub">
+                                                        @*<button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>*@
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchPub"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
                                                 </div>
                                             
-                                            <!--未上架 關鍵字搜尋-->
-                                            
+                                            <!--未上架 關鍵字搜尋-->                                            
                                                  <div class="col-4 mb-3"  id="NopublishKeyword" style="display:none">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
-                                                <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordNoPub">@*Html.TextBox("txtKeyword")*@
+                                                @*<button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>*@
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchNoPub"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
                                                 </div>
                                             
-
                      
                                                </div>
+                                              
                                              </div>
-
+                            }
                             
                                     <!--已上架-->
                                    <div class="card-body" id="Publish">
@@ -203,10 +215,11 @@
                                         }
                                     </script>
 
-                                    }
+                                   
                                 </div>
                             </div>
-                        </div>                       
+                        </div>
+                        
                     </div> 
               @*   </div> *@               
             @* </div> *@
@@ -263,6 +276,33 @@
                 tabNopublish.style.backgroundColor = '#528EAF';
             }
 
+            const txtKeywordPub = document.querySelector('#txtKeywordPub');
+            const btnSearchPub = document.querySelector('#btnSearchPub');
+
+            btnSearchPub.addEventListener('click', () => {           
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Content("~/BackstageTask/PartialPublish")');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(`txtKeyword=${txtKeywordPub.value}&category=${selTaskNamePublish.value}`);
+                xhr.addEventListener('load', () => {
+                    const Publish = document.querySelector('#Publish')
+                    Publish.innerHTML = xhr.responseText;
+                })
+            })
+
+            const txtKeywordNoPub = document.querySelector('#txtKeywordNoPub');
+            const btnSearchNoPub = document.querySelector('#btnSearchNoPub');
+
+            btnSearchNoPub.addEventListener('click', () => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Content("~/BackstageTask/PartialNoPublish")');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(`txtKeyword=${txtKeywordNoPub.value}&category=${selTaskNameNoPublish.value}`);
+                xhr.addEventListener('load', () => {
+                    const NoPublish = document.querySelector('#NoPublish')
+                    NoPublish.innerHTML = xhr.responseText;
+                })
+            })
     </script>
 }
 

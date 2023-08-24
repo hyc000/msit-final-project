@@ -11,36 +11,31 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 {
     public class TaskController : Controller
     {
-       
+        private readonly NewIspanProjectContext _context;
+
+        private readonly IWebHostEnvironment _host;
+        public TaskController(NewIspanProjectContext context, IWebHostEnvironment host)
+        {
+            _context = context;
+            _host = host;
+        }
         public IActionResult List(CKeywordViewModel vm)
         {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            //var town = from t in db.TaskLists
-            //           where t.TownId == t.Town.TownId && t.Town.CityId == t.Town.City.CityId
-            //           select t.Town.City.City1;
-            //ViewBag.CITY = town.FirstOrDefault();
-
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
             {
-                //datas = from t in db.TaskLists
-                //        where t.PublishOrNot == "立刻上架"
-                //        select t;  
-                datas = db.TaskLists
+                datas = _context.TaskLists
                         .Include(t => t.Town.City)
                         .Where(tl => tl.PublishOrNot == "立刻上架");
             }
             else
             {
-                //datas = db.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
-
-                datas = db.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
                  t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
                  t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
                 );
             }
             return View(datas);
-
 
             #region 匿名型別
             //using (NewIspanProjectContext db = new NewIspanProjectContext())              //匿名型別
@@ -73,8 +68,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             if (id == null)
                 return RedirectToAction("List");
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            TaskList task = db.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
             if (task == null)
                 return RedirectToAction("List");
             CTaskWrap taskWrap = new CTaskWrap();
@@ -84,8 +78,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         [HttpPost]
         public ActionResult Detail(CTaskWrap pIn)
         {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            TaskList pDb = db.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
+            TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
             if (pDb != null)
             {
                 pDb.CaseId = pIn.FId;
@@ -111,23 +104,23 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
 
-        public IActionResult Partial(string Category)
+        public IActionResult Partial(string Category,CKeywordViewModel vm)
         {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            //var q = from t in db.TaskLists
-            //        where t.TaskName.TaskName == Category && t.PublishOrNot == "立刻上架"
-            //        select t;
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Where(tl => tl.PublishOrNot == "立刻上架");
+
             if (Category == "請選擇任務類型")
             {
-                var all = db.TaskLists.
-                    Include(t => t.Town.City).
-                    Where(t => t.PublishOrNot == "立刻上架");
-                return PartialView(all);
+                if(!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
             }
-
-            var q = db.TaskLists.
-                     Include(t => t.Town.City).
-                     Where(t => t.TaskName.TaskName == Category && t.PublishOrNot == "立刻上架");
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
+            }
             return PartialView(q);
         }
 

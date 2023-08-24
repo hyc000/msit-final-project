@@ -100,6 +100,10 @@ namespace prjShop.Controllers
                 return 0; //默認為0
             }
         }
+        public IActionResult CaseCart() 
+        {
+        return View();
+        }
 
 
     }
