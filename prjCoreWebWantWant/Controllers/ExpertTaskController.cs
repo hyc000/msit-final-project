@@ -6,16 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 
 namespace prjCoreWebWantWant.Controllers
 {
     public class ExpertTaskController : Controller
     {
         private readonly NewIspanProjectContext _context;
+        
+        private int _memberID;
 
         public ExpertTaskController(NewIspanProjectContext context)
         {
             _context = context;
+            
+            _memberID = 17;//登入者我自己memberID
+
         }
         #region 歷史委託
         // GET: ExpertTask
@@ -24,6 +30,187 @@ namespace prjCoreWebWantWant.Controllers
             var newIspanProjectContext = _context.TaskLists.Include(t => t.Payment).Include(t => t.PaymentDate).Include(t => t.Salary).Include(t => t.Town);
             return View(await newIspanProjectContext.ToListAsync());
         }
+
+        public IActionResult ExpertListnew() //歷史委託
+        {
+            CExpertTaskListViewModel vw = new CExpertTaskListViewModel();
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
+            
+            CExpertTaskViewModel cexperttask;
+            List<CExpertTaskViewModel> list = new List<CExpertTaskViewModel>();
+            //mytasking
+            //CaseId:15=專家尚未確認，17=專家案件進行中
+            var q1 = _context.TaskLists
+                .Include(b=>b.ExpertApplications)
+                .Where(x => x.IsExpert == true && (x.CaseStatusId == 15 || x.CaseStatusId == 17) && x.ExpertApplications.Any(y=>y.AccountId== _memberID))
+                .OrderBy(x=>x.TaskEndDate)
+                .ToList();
+            foreach(var item in q1)
+            {
+                cexperttask = new CExpertTaskViewModel();
+                foreach (var application in item.ExpertApplications)
+                {
+                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                }
+                cexperttask.taskexpert = factory.MemberName(item.AccountId);
+                cexperttask.caseid = item.CaseId;
+                if (item.TaskDetail.Length>20) {
+                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                }
+                else
+                {
+                    cexperttask.taskcontent = item.TaskDetail;
+                }
+                    
+                cexperttask.taskdatestart = item.TaskStartDate;
+                cexperttask.taskdateend = item.TaskEndDate;
+                cexperttask.taskprice = item.PayFrom;
+                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                list.Add(cexperttask);
+            }
+            vw.mytasking=list;
+            //===============================================================
+            
+            List<CExpertTaskViewModel> list2 = new List<CExpertTaskViewModel>();
+            //mytasked
+            //CaseId:16=專家拒絕接案，18=專家案件已完成
+            var q2 = _context.TaskLists
+                .Include(b => b.ExpertApplications)
+                .Where(x => x.IsExpert == true && (x.CaseStatusId == 16|| x.CaseStatusId == 18) && x.ExpertApplications.Any(y => y.AccountId == _memberID))
+                .OrderBy(x => x.TaskEndDate)
+                .ToList();
+            foreach (var item in q2)
+            {
+                cexperttask = new CExpertTaskViewModel();
+                foreach (var application in item.ExpertApplications)
+                {
+                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                }
+                cexperttask.taskexpert = factory.MemberName(item.AccountId);
+                cexperttask.caseid = item.CaseId;
+                if (item.TaskDetail.Length > 20)
+                {
+                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20)+"...";
+                }
+                else
+                {
+                    cexperttask.taskcontent = item.TaskDetail;
+                }
+
+                cexperttask.taskdatestart = item.TaskStartDate;
+                cexperttask.taskdateend = item.TaskEndDate;
+                cexperttask.taskprice = item.PayFrom;
+                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                list2.Add(cexperttask);
+            }
+            vw.mytasked = list2;
+            //===============================================================
+            List<CExpertTaskViewModel> list3 = new List<CExpertTaskViewModel>();
+            //taskfromotherno
+            //CaseId:15=專家尚未確認
+            var q3 = _context.TaskLists
+                .Include(b => b.ExpertApplications)
+                .Where(x => x.IsExpert == true && x.CaseStatusId == 15  && x.AccountId==_memberID)
+                .OrderBy(x => x.TaskEndDate)
+                .ToList();
+            foreach (var item in q3)
+            {
+                cexperttask = new CExpertTaskViewModel();
+                foreach (var application in item.ExpertApplications)
+                {
+                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                }
+                cexperttask.taskexpert = factory.MemberName(item.AccountId);
+                cexperttask.caseid = item.CaseId;
+                if (item.TaskDetail.Length > 20)
+                {
+                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                }
+                else
+                {
+                    cexperttask.taskcontent = item.TaskDetail;
+                }
+
+                cexperttask.taskdatestart = item.TaskStartDate;
+                cexperttask.taskdateend = item.TaskEndDate;
+                cexperttask.taskprice = item.PayFrom;
+                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                list3.Add(cexperttask);
+            }
+            vw.taskfromotherno = list3;
+            //===============================================================
+           
+            List<CExpertTaskViewModel> list4 = new List<CExpertTaskViewModel>();
+            //taskingfromother
+            //CaseId:17=專家案件進行中
+            var q4 = _context.TaskLists
+                .Include(b => b.ExpertApplications)
+                .Where(x => x.IsExpert == true && x.CaseStatusId == 17 && x.AccountId == _memberID)
+                .OrderBy(x => x.TaskEndDate)
+                .ToList();
+            foreach (var item in q4)
+            {
+                cexperttask = new CExpertTaskViewModel();
+                foreach (var application in item.ExpertApplications)
+                {
+                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                }
+                cexperttask.taskexpert = factory.MemberName(item.AccountId);
+                cexperttask.caseid = item.CaseId;
+                if (item.TaskDetail.Length > 20)
+                {
+                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                }
+                else
+                {
+                    cexperttask.taskcontent = item.TaskDetail;
+                }
+
+                cexperttask.taskdatestart = item.TaskStartDate;
+                cexperttask.taskdateend = item.TaskEndDate;
+                cexperttask.taskprice = item.PayFrom;
+                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                list4.Add(cexperttask);
+            }
+            vw.taskingfromother = list4;
+            //===============================================================
+            List<CExpertTaskViewModel> list5 = new List<CExpertTaskViewModel>();
+            //taskedfromother
+            //CaseId:16=專家拒絕接案，18=專家案件已完成
+            var q5 = _context.TaskLists
+                .Include(b => b.ExpertApplications)
+                .Where(x => x.IsExpert == true && (x.CaseStatusId == 16|| x.CaseStatusId==18) && x.AccountId == _memberID)
+                .OrderBy(x => x.TaskEndDate)
+                .ToList();
+            foreach (var item in q5)
+            {
+                cexperttask = new CExpertTaskViewModel();
+                foreach (var application in item.ExpertApplications)
+                {
+                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                }
+                cexperttask.taskexpert = factory.MemberName(item.AccountId);
+                cexperttask.caseid = item.CaseId;
+                if (item.TaskDetail.Length > 20)
+                {
+                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                }
+                else
+                {
+                    cexperttask.taskcontent = item.TaskDetail;
+                }
+
+                cexperttask.taskdatestart = item.TaskStartDate;
+                cexperttask.taskdateend = item.TaskEndDate;
+                cexperttask.taskprice = item.PayFrom;
+                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                list5.Add(cexperttask);
+            }
+            vw.taskedfromother = list5;
+            return View(vw);
+            
+        }
+
         #endregion
 
         // GET: ExpertTask/Details/5

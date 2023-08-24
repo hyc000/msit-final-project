@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
 using System.Text.Json;
 
@@ -18,6 +19,10 @@ namespace prjShop.Controllers
 
         public IActionResult ExpertShop()
         {
+            int id = GetAccountID();
+
+            ViewBag.Points = GetAccumulatedPoints(id);
+
             var q = _context.Products
                 .Include(t => t.Category)
                 .Where(p => p.Status == "上架" && p.CategoryId == 1);
@@ -26,13 +31,11 @@ namespace prjShop.Controllers
         }
         public IActionResult CaseShop()
         {
-            
-
+      
             int id =GetAccountID();
-            if (id == null)
-            {
-            
-            }
+
+            ViewBag.Points = GetAccumulatedPoints(id);
+
             var q = _context.Products
               .Include(t => t.Category)
               .Where(p => p.Status == "上架" && p.CategoryId == 2);
@@ -82,6 +85,22 @@ namespace prjShop.Controllers
             return Json(resume);
 
         }
+
+        public int GetAccumulatedPoints(int accountId)
+        {
+            var memberAccount = _context.MemberAccounts
+                .FirstOrDefault(p => p.AccountId == accountId);
+
+            if (memberAccount != null)
+            {
+                return memberAccount.MemberTotalPoint;
+            }
+            else
+            {
+                return 0; //默認為0
+            }
+        }
+
 
     }
 }

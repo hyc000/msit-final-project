@@ -25,6 +25,7 @@ namespace WantTask.Controllers
         public IActionResult CategoryList()
         {
             IEnumerable<ForumCategory> datas = from f in _db.ForumCategories
+                                               .Include(f=>f.ForumPostCategories).ThenInclude(fp=>fp.Post)
                                                select f;
             return View(datas);
         }
@@ -42,6 +43,7 @@ namespace WantTask.Controllers
 
             var posts = from p in _db.ForumPosts
                         .Include(p => p.ForumPostCategories).ThenInclude(pc => pc.Category)
+                        .Include(p=>p.InverseParent)
                         .Include(p => p.Account)
                         .Include(p => p.ForumPostComments).ThenInclude(c => c.StatusNavigation)
                         .Include(p => p.ForumPostComments).ThenInclude(c => c.Account)

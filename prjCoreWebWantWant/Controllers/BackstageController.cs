@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
@@ -33,24 +36,36 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int[] selectedSkillId)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3)
         {
-            foreach (int skillId in selectedSkillId)
-            {
-                ResumeSkill resumeSkill = new ResumeSkill()
+                p.TownId = selectedTownId;
+                _context.Resumes.Add(p);
+                _context.SaveChanges();
+
+                 ResumeSkill resumeSkill1 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
-                    SkillId = skillId
+                    SkillId = selectedSkillId1
                 };
-                _context.Add(resumeSkill);
+                _context.Add(resumeSkill1);
                 _context.SaveChanges();
-            }
-           
 
-            p.TownId = selectedTownId;
-            _context.Resumes.Add(p);
-            _context.SaveChanges();
-            return RedirectToAction("ResumeList");
+                ResumeSkill resumeSkill2 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId2
+                };
+                _context.Add(resumeSkill2);
+                _context.SaveChanges();
+
+                ResumeSkill resumeSkill3 = new ResumeSkill()
+                {
+                    ResumeId = p.ResumeId,
+                    SkillId = selectedSkillId3
+                };
+                _context.Add(resumeSkill3);
+                _context.SaveChanges();
+                return RedirectToAction("ResumeList");
         }
 
         public IActionResult ResumeUneditable()
@@ -109,37 +124,60 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult TaskCollection()
         {
-            //var q = from mc in _context.MemberCollections
-            //        //join tl in _context.TaskLists on mc. equals tl.
-            //        where mc.AccountId == 33 && mc.CaseId != null
-            //        select new
-            //        {
-            //            mc.TaskList.CaseID
-            //        }
+            var q = from mc in _context.MemberCollections
+                    join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId =tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = mc.CaseId
+                    };
 
-           // var q2 = from mc in _context.MemberCollections
-           //          from tl in _context.TaskLists
-           //          where mc.AccountId == 33 && mc.CaseId != null
-           //          select new
-           //          {
-           //              tl.TaskTitle,
-           //              taskdetail = tl.TaskDetail.Substring(0, 15),
-           //              tl.PayFrom,
-           //          };
-           //var viewModelList = q2.ToList();
+            return View(q.ToList());
+        }
 
-            return View();
+        public IActionResult DeleteCollection(int? id)
+        {
+            if (id != null)
+            {
+                MemberCollection memberCollection = _context.MemberCollections.FirstOrDefault(p => p.CaseId == id && p.AccountId == GetAccountID());
+                if (memberCollection != null)
+                {
+                    _context.MemberCollections.Remove(memberCollection);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("TaskCollection");
+        }
+
+        public IActionResult Apply()
+        {
+            //todo
+            return RedirectToAction("TaskCollection");
         }
 
         public IActionResult ApplicationRecord()
         {
             var q = from al in _context.ApplicationLists
-                    where al.CaseStatusId == 21 && al.Resume.AccountId == GetAccountID()
-                    select new
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 21
+                    select new CMemberCollectionViewModel
                     {
-                        
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId = tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = al.CaseId
                     };
-            return View();
+
+            return View(q.ToList());
         }
 
         public IActionResult GetTownId(string City ,string District)
@@ -159,7 +197,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             var skillId = _context.SkillTypes
                          .Where(a => a.SkillTypeName == skillType)
                          .SelectMany(c => c.Skills)
-                         .Where(c => c.SkillName.ToLower() == skillName.ToLower())
+                         .Where(c => c.SkillName == skillName)
                          .Select(c => c.SkillId);
 
             return Json(skillId);

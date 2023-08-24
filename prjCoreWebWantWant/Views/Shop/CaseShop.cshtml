@@ -11,7 +11,7 @@
 </div>
 <div class="container mt-5">
     <!-- 新增顯示會員累積點數的標題 -->
-    <h3>您的紅利點數：100</h3>
+    <h3>您的累積紅利：<span>@ViewBag.Points 點</span></h3>
     <br>
     <div class="row">
         <div class="col-md-3">
@@ -72,26 +72,18 @@
                         </thead>
                         <tbody align="center">
                             <tr>
-                                <td><img class="img-fluid" src="/shopimg/任務置頂1天.png"></td>
-                                <td>任務置頂1天</td>
-                                <td>200元</td>
-                                <td><select name="" id=""></select></td>
-                                <td>200元</td>
+                                <td><img class="img-fluid" src=""></td>
+                                <td></td>
+                                <td></td>
+                                <td><number name="" id=""></number></td>
+                                <td></td>
                                 <td>
                                     <a href="">
                                         <i class='bx bx-trash bx-tada'
                                            style='color:#ea0b0b ; font-size: 2rem'></i>
                                     </a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td><img class="img-fluid" src="path_to_image2.jpg"></td>
-                                <td>任務置頂3天</td>
-                                <td>350元</td>
-                                <td><select name="" id=""></select></td>
-                                <td>350元</td>
-                                <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
-                            </tr>
+                            </tr>               
                         </tbody>
                     </table>
                     <br>
@@ -367,6 +359,7 @@
         // 在页面加载时调用加载案例的函数
         loadCases();
 
+       
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>

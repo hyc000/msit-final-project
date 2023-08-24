@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using System.Runtime.ConstrainedExecution;
 using WantTask.ViewModels;
@@ -41,10 +42,7 @@ namespace WantTask.Controllers
         {
             var taskName = _context.TaskLists.
                 Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+           
             return PartialView(taskName);
         }
 
@@ -52,18 +50,56 @@ namespace WantTask.Controllers
         public IActionResult PartialNoPublish(string category)
         {
             var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+                Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");           
 
              return PartialView(taskName);
         }
 
+        //立刻上架的keyword
+        public IActionResult publishKeyword(CKeywordViewModel vm , string category)
+        {
+            IEnumerable<TaskList> datas = null;
+            if (string.IsNullOrEmpty(vm.txtKeyword))
+            {                
+                datas = _context.TaskLists
+                        //.Include(t => t.Town.City)
+                        .Where(tl => tl.PublishOrNot == "立刻上架");
+            }
+            else
+            {
+                 datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                 t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+                );
+            }
+            return View(datas);           
+        }
+
+        //改狀態為立刻上架
+        public IActionResult Publish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "立刻上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
+        //改狀態為延後上架
+        public IActionResult NoPublish(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "延後上架";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
 
         //已上架未上架的modal修改畫面
-        
+
         public IActionResult Edit(int ? id)
         {
             if (id == null)
@@ -316,6 +352,8 @@ namespace WantTask.Controllers
 
         #endregion
 
+      
+
         //public IActionResult Form()
         //{
         //    return View("Form");
@@ -335,28 +373,29 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList task, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
-        {    
-            task.TaskNameId = selectedTaskNameId;
-            task.TownId = selectedTownId;
-            //task.PaymentId = selectedPaymentId;
-            //task.PaymentDateId = selectedPaymentDateId;
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
+        {
 
-            _context.TaskLists.Add(task);
+            tasklist.TaskNameId = selectedTaskNameId;
+            tasklist.TownId = selectedTownId;
+            tasklist.PaymentId = selectedPaymentId;
+            tasklist.PaymentDateId = selectedPaymentDateId;
+              
+            _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
 
                 TaskSkill taskSkill = new TaskSkill()
                 {
-                    CaseId = task.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
-                    TaskSkillId = selectedSkillId
+                    CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                    SkillId = selectedSkillId
                 };
                 _context.Add(taskSkill);
                 _context.SaveChanges();
 
                 TaskCertificate taskCer = new TaskCertificate()
                 {
-                    CaseId = task.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
-                    TaskCertificateId = selectedCerId
+                    CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                    CertficateId = selectedCerId
                 };
                 _context.Add(taskCer);
                 _context.SaveChanges();
@@ -431,8 +470,6 @@ namespace WantTask.Controllers
 
             return Json(cerSmallId);
         }
-
-
 
 
         public IActionResult Form(TaskList taskList)
@@ -520,10 +557,7 @@ namespace WantTask.Controllers
         public IActionResult TaskName()
         {
             var taskName = _context.TaskNameLists.Select(c => c.TaskName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+           
             return Json(taskName);
         }
 
@@ -541,38 +575,29 @@ namespace WantTask.Controllers
 
         //}
 
-        //支薪方式      
+              
+        
+        //支薪方式
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+            
             return Json(payment);
         }
-
 
         //支薪日
         public IActionResult PaymentDate()
         {
             var paymentDate = _context.PaymentDates.Select(c => c.PaymentDate1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+         
             return Json(paymentDate);
         }
-
 
         //城市
         public IActionResult Cities()
         {
             var cities = _context.Cities.Select(c => c.City1).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+         
             return Json(cities);
         }
 
@@ -592,10 +617,7 @@ namespace WantTask.Controllers
         public IActionResult SkillBig()
         {
             var skillBig = _context.SkillTypes.Select(c => c.SkillTypeName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+          
             return Json(skillBig);
         }
 
@@ -616,10 +638,7 @@ namespace WantTask.Controllers
         public IActionResult CerBig()
         {
             var cerBig = _context.CertificateTypes.Select(c => c.CertificateTypeName).Distinct();
-            //var cities = _context.Address.Select(c => new
-            //{
-            //    c.City
-            //}).Distinct();
+          
             return Json(cerBig);
         }
 

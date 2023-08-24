@@ -1,0 +1,484 @@
+﻿@model prjCoreWebWantWant.ViewModels.CExpertTaskListViewModel
+
+@{
+    ViewData["Title"] = "成案紀錄管理";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+@section subTitle{
+   
+   
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">專家成案紀錄管理</li>
+        </ol>
+    </nav>
+}
+
+<div id="layout-wrapper">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    @* //小標題 *@
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <!--已上架未上架 任務類型 關鍵字-->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="row">
+                            <div class="card-body col-12">
+
+                                <!--給出的評論 我收到的評價-->
+                                <ul class="nav nav-tabs nav-tabs-custom nav-justified row" role="tablist">
+                                    <li class="text-center col-6">
+                                        <p class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <h3 class="d-none d-sm-block" style="color:#528EAF">委託者管理</h3>
+                                        </p>
+                                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                            <li  class="nav-item">
+                                                <a id="btnmytasking" onclick="clickdiv(mytasking, mytasked, taskfromotherno, taskingfromother, taskedfromother)"
+                                                class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+
+                                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF">送出的委託(進行中)</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a id="btnmytasked" onclick="clickdiv( mytasked,mytasking, taskfromotherno, taskingfromother, taskedfromother)"
+                                                    class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+
+                                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF">送出的委託(已完成)</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="text-center col-6">
+                                        <p id="btnToShowForRatings" class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <h3 class="d-none d-sm-block" style="color:#528EAF">接案者管理</h3>
+                                        </p>
+                                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                            <li class="nav-item">
+                                                <a id="btntaskfromotherno" onclick="clickdiv(taskfromotherno,mytasking, mytasked,  taskingfromother, taskedfromother)"
+                                                    class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+
+                                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF">收到的委託(還未回覆)</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a id="btntaskingfromother" onclick="clickdiv(taskingfromother,mytasking, mytasked, taskfromotherno,  taskedfromother)"
+                                                    class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+
+                                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF">收到的委託(進行中)</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a id="btntaskedfromother" onclick="clickdiv(taskedfromother,  mytasking, mytasked, taskfromotherno, taskingfromother)"
+                                                    class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+
+                                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF">收到的委託(已完成)</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+                            <!--標籤-->
+                            
+                        </div>
+                    </div>
+
+                    <!--發送委託-->
+                    <div class="card-body" id="mytasking">
+                        <table id="formytasking" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">序號</th>
+                                    <th style="width: 100px;">委託人</th>
+                                    <th style="width: 100px;">專家</th>
+                                    @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                                    <th style="width: 200px;">委託內容</th>
+                                    <th style="width: 100px;">委託期限-起</th>
+                                    <th style="width: 100px;">委託期限-訖</th>
+                                    <th style="width: 100px;">委託價格</th>
+                                    <th style="width: 100px;">案件狀態</th>
+                                    <th style="width: 100px;">修改</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @{if (Model.mytasking != null)
+                                        {
+                                            int countmytasking = 0;
+
+                                        foreach (var item in Model.mytasking)
+                                        {
+                                            countmytasking++;
+                                            // int maxDisplayLength = 10; // 設定要顯示的最大字數
+                                                                                        
+                                            <tr>
+                                                <td style="width: 50px;">@countmytasking</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                @if (item.CaseStatusname == "專家尚未確認")
+                                                {
+                                                    <td style="width: 100px;">
+                                                        <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width: 100px;"><i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>進行中!</td>
+                                                }
+
+                                            </tr>
+                                            
+                                         }}
+                                             }
+                            <tbody>
+                        </table>
+
+                    </div>
+
+                    <!--發送委託(已完成)-->
+                    <div class="card-body" style="display:none" id="mytasked">
+                        <table id="formytasked" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">序號</th>
+                                    <th style="width: 100px;">委託人</th>
+                                    <th style="width: 100px;">專家</th>
+                                    @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                                    <th style="width: 200px;">委託內容</th>
+                                    <th style="width: 100px;">委託期限-起</th>
+                                    <th style="width: 100px;">委託期限-訖</th>
+                                    <th style="width: 100px;">委託價格</th>
+                                    <th style="width: 100px;">案件狀態</th>
+                                    <th style="width: 100px;">去評價</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.mytasking != null)
+                                    {
+                                        int countmytasking = 0;
+
+                                        foreach (var item in Model.mytasked)
+                                        {
+                                            countmytasking++;
+                                            // int maxDisplayLength = 10; // 設定要顯示的最大字數
+
+                                            <tr>
+                                                <td style="width: 50px;">@countmytasking</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                @if (item.CaseStatusname == "專家案件已完成")
+                                                {
+                                                    
+                                                    <td style="width: 100px;">
+                                                        <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width: 100px;">
+                                                    <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                    無法評價!
+                                                    </td>
+                                                }
+                                               
+
+                                            </tr>
+
+                                        }
+                                    }
+                                }
+                            <tbody>
+
+                        </table>
+
+                    </div>
+
+                    <!--接收的委託(未回覆)-->
+                    <div class="card-body" style="display:none" id="taskfromotherno">
+                        <table id="fortaskfromotherno" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                            <tr>
+                                    <th style="width: 50px;">序號</th>
+                                    <th style="width: 100px;">委託人</th>
+                                    <th style="width: 100px;">專家</th>
+                                    @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                                <th style="width: 200px;">委託內容</th>
+                                <th style="width: 100px;">委託期限-起</th>
+                                <th style="width: 100px;">委託期限-訖</th>
+                                <th style="width: 100px;">委託價格</th>
+                                <th style="width: 100px;">案件狀態</th>
+                                    <th style="width: 100px;">接受/拒絕</th>
+                                
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.taskfromotherno != null)
+                                    {
+                                        int countmytasking = 0;
+
+                                        foreach (var item in Model.taskfromotherno)
+                                        {
+                                            countmytasking++;
+                                            <tr>
+                                                <td style="width: 50px;">@countmytasking</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                <td style="width: 100px;">
+                                                    <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
+                                                 
+                                                        <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                        /
+                                                        <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                    </a>
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+                                    }
+                                }
+                            <tbody>
+
+                        </table>
+
+                    </div>
+
+                    <!--接收的委託(進行中)-->
+                    <div class="card-body" style="display:none" id="taskingfromother">
+                        <table id="fortaskingfromother" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">序號</th>
+                                    <th style="width: 100px;">委託人</th>
+                                    <th style="width: 100px;">專家</th>
+                                    @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                                    <th style="width: 200px;">委託內容</th>
+                                    <th style="width: 100px;">委託期限-起</th>
+                                    <th style="width: 100px;">委託期限-訖</th>
+                                    <th style="width: 100px;">委託價格</th>
+                                    <th style="width: 100px;">案件狀態</th>
+                                    <th style="width: 100px;">完成</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.taskingfromother != null)
+                                    {
+                                        int countmytasking = 0;
+
+                                        foreach (var item in Model.taskingfromother)
+                                        {
+                                            countmytasking++;
+                                            <tr>
+                                                <td style="width: 50px;">@countmytasking</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                <td style="width: 100px;">
+                                                    <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
+                                                        <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                    </a>
+
+                                                </td>
+
+                                            </tr>
+
+                                        }
+                                    }
+                                }
+                            <tbody>
+
+                        </table>
+
+                    </div>
+
+                    <!--接收的委託(已完成)-->
+                    <div class="card-body" style="display:none" id="taskedfromother">
+                        <table id="fortaskedfromother" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">序號</th>
+                                    <th style="width: 100px;">委託人</th>
+                                    <th style="width: 100px;">專家</th>
+                                    @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                                    <th style="width: 200px;">委託內容</th>
+                                    <th style="width: 100px;">委託期限-起</th>
+                                    <th style="width: 100px;">委託期限-訖</th>
+                                    <th style="width: 100px;">委託價格</th>
+                                    <th style="width: 100px;">案件狀態</th>
+                                    <th style="width: 100px;">去評價</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.taskedfromother != null)
+                                    {
+                                        int countmytasking = 0;
+
+                                        foreach (var item in Model.taskedfromother)
+                                        {
+                                            countmytasking++;
+                                            // int maxDisplayLength = 10; // 設定要顯示的最大字數
+
+                                            <tr>
+                                                <td style="width: 50px;">@countmytasking</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                @if (item.CaseStatusname == "專家案件已完成")
+                                                {
+
+                                                    <td style="width: 100px;">
+                                                        <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width: 100px;">
+                                                        <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                        無法評價!
+                                                    </td>
+                                                }
+
+                                            </tr>
+
+                                        }
+                                    }
+                                }
+                            <tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+        }
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+
+        
+        // //這是按鈕部分
+
+        var btnmytasking = document.querySelector('#btnmytasking');
+        var btnmytasked = document.querySelector('#btnmytasked');
+        var btntaskfromotherno = document.querySelector('#btntaskfromotherno');
+        var btntaskingfromother = document.querySelector('#btntaskingfromother');
+        var btntaskedfromother = document.querySelector('#btntaskedfromother');
+
+        function clickdiv(id1, id2, id3, id4, id5) {
+            id1.style.display = 'block';
+            id2.style.display = 'none';
+            id3.style.display = 'none';
+            id4.style.display = 'none';
+            id5.style.display = 'none';
+            console.log(id1);
+        };
+
+        //開啟排序功能
+
+        $('#formytasking').DataTable({
+                "order": [], 
+            });
+        $('#formytasked').DataTable({
+            "order": [],
+        });
+        $('#fortaskfromotherno').DataTable({
+            "order": [],
+        });
+        $('#fortaskingfromother').DataTable({
+            "order": [],
+        });
+        $('#fortaskedfromother').DataTable({
+            "order": [],
+        });
+
+        
+    </script>
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
+
+
+<!-- glightbox js -->
+<script src="~/backstage1/static/js/glightbox.min.js"></script>
+
+<!-- lightbox init -->
+<script src="~/backstage1/static/js/lightbox.init.js"></script>

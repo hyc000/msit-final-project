@@ -46,22 +46,12 @@
 
 
 <body>
-
+      
         <div id="layout-wrapper">
           
           @*   <div class="main-content">*@
                @*  <div class="page-content"> *@
-                    <div class="container-fluid">
-
-         @*   <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">會員專區</a></li>
-                    <li class="breadcrumb-item"><a href="#">找人力</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">發案紀錄</li>
-                </ol>
-            </nav>*@
-
-                     
+                    <div class="container-fluid">              
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between"> 
@@ -69,27 +59,28 @@
                             </div>
                         </div>
                     
-                        <!--已上架未上架 任務類型 關鍵字-->
+                       <!--已上架未上架 任務類型 關鍵字-->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header">
 
-                                        <div class="row">
-                                            <div class="card-body col-4">
-                                             
-                                                <!--已上架 未上架-->
+                        @using (Html.BeginForm())
+                        {
+                                  <div class="card-header">
+                                        <div class="row">                               
+                                            <div class="card-body col-4">                                   
+                                        <!--已上架 未上架-->
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
-                                                        <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" >
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                            <span class="d-none d-sm-block" style="color:#528EAF">已上架</span>
+                                                <span class="d-none d-sm-block" style="color:#528EAF" id="tabpublish">已上架</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
-                                                        <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab" >
                                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                            <span class="d-none d-sm-block" style="color:#528EAF">未上架</span>
+                                                <span class="d-none d-sm-block" style="color:#528EAF" id="tabNopublish">未上架</span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -135,234 +126,40 @@
                                                 </form>
                                             </div>
 
-                                            <!--關鍵字搜尋-->                               
-
-                                            <div class="col-4 mb-3">
+                                            <!--已上架 關鍵字搜尋-->
+                                           
+                                                 <div class="col-4 mb-3" id="publishKeyword">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="請輸入關鍵字" name="keyword">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
                                                         <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
                                                 </div>
-                                        </div>
-                                    </div>
+                                            
+                                            <!--未上架 關鍵字搜尋-->
+                                            
+                                                 <div class="col-4 mb-3"  id="NopublishKeyword" style="display:none">
+                                                <form class="app-search d-none d-lg-block">
+                                                    <div class="position-relative">
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeyword">@*@Html.TextBox("txtKeyword")*@
+                                                <button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            
 
+                     
+                                               </div>
+                                             </div>
+
+                            
                                     <!--已上架-->
                                    <div class="card-body" id="Publish">
-                            <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 50px;">序號</th>
-                                        <th style="width: 150px;">任務名稱</th>
-                                        <th style="width: 300px;">任務內容</th>
-                                        <th style="width: 100px;">任務日期</th>
-                                        @*<th style="width: 50px;">更改狀態</th>*@
-                                        <th style="width: 50px;">修改</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    @{
-                                        if (Model != null)
-                                        {
-                                            int count1 = 0;
-
-                                        foreach (var item in Model)
-                                        {                                            
-                                            int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                            string taskDetail = item.TaskDetail  ;
-
-                                            if (taskDetail.Length > maxDisplayLength)
-                                            {
-                                                taskDetail = taskDetail.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                            }
-
-                                            count1++;
-                                            <tr data-id="1">
-                                                <td data-field="id" style="width: 80px">@count1</td>
-                                                <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                <td data-field="age">@Html.DisplayFor(modelItem => taskDetail)</td>
-                                                <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
-                                                @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
-                                                <td style="width: 100px">
-                                                        @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Html.ActionLink("修改"  , "Edit", new { CaseID = item.CaseId })">   </a>*@
-                                                        @*@Html.ActionLink("修改","Edit",new {id = item.CaseId})  *@
-
-                                                        @*@Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
-                                                        @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
-                                                            @*<i class="fas fa-pencil-alt"></i>*@
-
-                                                        @*<a href="@Url.Action("Edit", new { id = item.CaseId })">
-                                                            <i class="fas fa-pencil-alt" data-id="@item.CaseId"></i>
-                                                        </a>*@
-
-                                                        <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId" >
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
-                                                </td>
-                                            </tr>
-
-
-                                            @*modal*@
-
-                                            <div class="modal" tabindex="-1" id="myModal_@item.CaseId" style="display:none">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">修改任務內容</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            <input type="hidden" id="modalCaseId" value="@item.CaseId">
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            @*修改任務內容*@
-                                                            <div class="col">
-                                                                <div class="mb-3">
-                                                                    <label for="exampleFormControlInput1" class="form-label">任務標題</label>
-                                                                    <input type="text" class="form-control" id="TaskTitle" value="@Html.DisplayFor(modelItem => item.TaskTitle)">
-                                                                </div>
-                                                                <p class="card-text">
-                                                                    <div class="mb-3">
-                                                                        <label for="exampleFormControlTextarea1" class="form-label">任務內容</label>
-                                                                        <textarea class="form-control" id="TaskDetail" rows="3">@Html.DisplayFor(modelItem => item.TaskDetail)</textarea>
-                                                                    </div>
-
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                                            下架此任務
-                                                                        </label>
-                                                                    </div>
-
-                                                                </p>
-
-                                                                <div class="card-footer text-center">
-                                                                    <form action="@Url.Content("~/BackstageTask/TablesEditable")" method="post" style="justify-content: center ; align-items: center ">
-                                                                        <input onclick="Alert()"
-                                                                               id="saveBtn"
-                                                                               class="btn btn-primary"
-                                                                               style="background-color: #528EAF"
-                                                                               type="submit"
-                                                                               value="送出"
-                                                                               a href="@Url.Content("~/BackstageTask/UpdateTask")" />
-                                                                    </form>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                    }
-                                </tbody>
-
-                            </table>
-
                                     </div>
 
                                     <!--未上架-->
-                      <div class="card-body" style="display:none" id="NoPublish">
-                            <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 50px;">序號</th>
-                                        <th style="width: 150px;">任務名稱</th>
-                                        <th style="width: 300px;">任務內容</th>
-                                        <th style="width: 100px;">任務日期</th>
-                                        @* <th style ="width: 50px;">更改狀態</th>*@
-                                        <th style="width: 50px;">修改</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-
-                                        NewIspanProjectContext db = new NewIspanProjectContext();
-                                        var q2 = from t in db.TaskLists
-                                                 join tt in db.TaskNameLists on t.TaskNameId equals tt.TaskNameId
-                                                 where t.PublishOrNot == "延後上架" && t.TaskNameId == tt.TaskNameId
-                                                 select t;
-
-                                        int count2 = 0;
-
-                                        foreach (var item in q2)
-                                        {
-                                            int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                            string taskDetail = item.TaskDetail;
-
-                                            if (taskDetail.Length > maxDisplayLength)
-                                            {
-                                                taskDetail = taskDetail.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                            }
-                                            count2++;
-
-                                            <tr data-id="1">
-                                                <td data-field="id" style="width: 80px">@count2</td>
-                                                <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                <td data-field="age">@Html.DisplayFor(modelItem => taskDetail)</td>
-                                                <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
-                                                @*<td data-field="gender">@Html.DisplayFor(modelItem => item.PublishOrNot)</td>*@
-                                                <td style="width: 100px">
-                                                    @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")">*@
-                                                    <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <div class="modal" tabindex="-1" id="myModal_@item.CaseId">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">修改任務內容</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            @*修改任務內容*@
-                                                            <div class="col">
-                                                                <div class="mb-3">
-                                                                    <label for="exampleFormControlInput1" class="form-label">任務標題</label>
-                                                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="@Html.DisplayFor(modelItem => item.TaskTitle)">
-                                                                </div>
-                                                                <p class="card-text">
-                                                                    <div class="mb-3">
-                                                                        <label for="exampleFormControlTextarea1" class="form-label">任務內容</label>
-                                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">@Html.DisplayFor(modelItem => item.TaskDetail)</textarea>
-                                                                    </div>
-
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                                            上架此任務
-                                                                        </label>
-                                                                    </div>
-
-                                                                </p>
-
-                                                                <div class="card-footer text-center">
-                                                                    <form action="@Url.Content("~/BackstageTask/TablesEditable")" method="post" style="justify-content: center ; align-items: center ">
-                                                                        <input onclick="Alert()"
-                                                                               class="btn btn-primary"
-                                                                               style="background-color: #528EAF"
-                                                                               type="submit"
-                                                                               value="送出" />
-                                                                    </form>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        }
-
-                                    }
-                                </tbody>
-                            </table>
-
+                                  <div class="card-body" style="display:none" id="NoPublish">                        
                                     </div>
 
                                     <!--點選tab切換表格-->
@@ -373,13 +170,17 @@
                                             let NoPublish = document.querySelector("#NoPublish");
                                             let PublishSelect = document.querySelector("#PublishSelect");
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
+                                            let publishKeyword = document.querySelector("#publishKeyword");
+                                            let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
 
                                             //再對標籤做操作
                                             Publish.style.display = "block";
                                             NoPublish.style.display = "none";
                                             PublishSelect.style.display = "block";
                                             NoPublishSelect.style.display = "none";
-                                        }
+                                            publishKeyword.style.display = "block";
+                                            NopublishKeyword.style.display = "none";
+                                          }
 
                                         function showNoPublish() {
                                             //先取得要操作的標籤
@@ -387,24 +188,27 @@
                                             let NoPublish = document.querySelector("#NoPublish");
                                             let PublishSelect = document.querySelector("#PublishSelect");
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
+                                            let publishKeyword = document.querySelector("#publishKeyword");
+                                            let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
+
 
                                             //再對標籤做操作
                                             Publish.style.display = "none";
                                             NoPublish.style.display = "block";
                                             PublishSelect.style.display = "none";
                                             NoPublishSelect.style.display = "block";
+                                            publishKeyword.style.display = "none";
+                                            NopublishKeyword.style.display = "block";
+
                                         }
                                     </script>
 
-
+                                    }
                                 </div>
                             </div>
-                        </div>
-                       
-
+                        </div>                       
                     </div> 
-              @*   </div> *@
-               
+              @*   </div> *@               
             @* </div> *@
             
         </div>
@@ -442,17 +246,21 @@
             })
         })
 
-            const Publish = document.querySelector('#Publish');
-            const NoPublish = document.querySelector('#NoPublish');
+            const tabpublish = document.querySelector('#tabpublish');
+            const tabNopublish = document.querySelector('#tabNopublish');
 
-            function showPublish() {
-                Publish.style.color = 'red';
-                NoPublish.style.color = ''; // 將未上架標籤的顏色還原
+            function showtabpublish() {
+                tabpublish.style.color = 'white';
+                tabpublish.style.backgroundColor = '#528EAF';
+                tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
+                tabNopublish.style.backgroundColor = '';
             }
 
-            function showNoPublish() {
-                Publish.style.color = ''; // 將已上架標籤的顏色還原
-                NoPublish.style.color = 'red';
+            function showtabNopublish() {
+                tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
+                tabpublish.style.backgroundColor = '';
+                tabNopublish.style.color = 'white';
+                tabNopublish.style.backgroundColor = '#528EAF';
             }
 
     </script>

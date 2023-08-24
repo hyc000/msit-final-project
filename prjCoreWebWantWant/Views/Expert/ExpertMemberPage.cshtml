@@ -6,7 +6,16 @@
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
-<h1>ExpertMemberPage</h1>
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">專家履歷管理</li>
+        </ol>
+    </nav>
+}
+
 @{
     if (Model.FirstOrDefault().resume != null)
     {
