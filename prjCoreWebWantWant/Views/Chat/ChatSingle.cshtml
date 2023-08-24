@@ -1,7 +1,4 @@
-﻿
-輸入對象accountId
-<input type="text" id="chatWithUserId"/>
-
+﻿@* 使用方式:網址列要產生https://localhost:7042/chat/ChatSingle?id=28 ***重點在?id=OOO這邊 *@
 
 <div class="container">
         <div class="col-md-9 card" style="height:80vh;flex-grow: 100;">
@@ -41,14 +38,15 @@
         //聊天發出功能--------------------start--------------------
         const btnSentMessage = document.getElementById("btnSentMessage");
         const messageInput = document.querySelector("input[name='jsSendMessage']");
-        const jsChatWithId = document.getElementById('chatWithUserId');
-
+        const jsChatWithId = getQueryParam('id');
+        const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+        console.log(jsChatWithId)
 
         btnSentMessage.addEventListener('click', () => {//按下畫面上按鈕的事件
-            let receiverId = jsChatWithId.value;
+            let receiverId = jsChatWithId;
             console.log(receiverId)
             const message = messageInput.value; // 取得使用者輸入的訊息
-            const senderId = 56;
+            const senderId = currentLoginId;
             if (message.trim() !== "") {//如果message移除空白後也不為空的話
                 // 呼叫 SendPrivateMessage 方法傳送訊息
                 connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
@@ -61,10 +59,10 @@
         messageInput.addEventListener('keydown', (event) => {//在messageInput按下enter的事件
             if (event.key === 'Enter') { // 如果按下的是 Enter 鍵
                 event.preventDefault(); // 防止預設行為（換行）
-                let receiverId = jsChatWithId.value;
+                let receiverId = jsChatWithId;
                 console.log(receiverId)
                 const message = messageInput.value.trim(); // 取得使用者輸入的訊息，並移除前後空白
-                const senderId = 56;
+                const senderId = currentLoginId;
 
                 if (message !== "") {
                     // 呼叫 SendPrivateMessage 方法傳送訊息
@@ -143,14 +141,10 @@
         
         //聊天詳細--------------------end--------------------
 
-        //點選作用中事件
-        function toggleBackgroundColor(element) {
-            element.classList.add('active');
-            for (const ta of document.getElementsByClassName('chat-list-group')) {
-                if (ta.id !== element.id) {
-                    ta.classList.remove('active');
-                }
-            }
+        //抓網址列參數------------------------------------------
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
         }
 
 

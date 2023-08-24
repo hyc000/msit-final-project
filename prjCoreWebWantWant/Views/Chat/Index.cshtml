@@ -44,6 +44,8 @@
 
         connection.start().then(() => {
             console.log("SignalR Connected.")
+            const connectionId = connection.connectionId;
+            console.log("SignalR Connected. Connection ID: " + connectionId);
         }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
         connection.on("ReceiveMessage", function (senderId, message) {

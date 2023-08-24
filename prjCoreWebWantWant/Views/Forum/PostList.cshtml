@@ -68,6 +68,9 @@
                             <div class="h5 fw-light m-1">@Html.DisplayFor(modelItem => item.Title)</div>
                             <div class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</div>
                         </a>
+
+                        <a href="@Url.Action("ChatSingle", "Chat")?id=@item.AccountId">測試聊天用</a>
+
             </td>
                     <td class="text-center small">
                     @{
