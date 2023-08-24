@@ -18,6 +18,12 @@
                         <input type="submit" value="查詢" />
                     }
                 </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">網站後台管理</a></li>
+                        <li class="breadcrumb-item active">會員狀態列表</li>
+                    </ol>
+                </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -95,8 +101,10 @@
                                         @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
                                     </td>
 
-                                    <td>                                    
-                                        @Html.ActionLink("修改", "Edit","BackstageManagement", new { id=item.AccountId })
+                                    <td>
+                                        <a href="@Url.Action("", "BackstageManagement", new { id=item.AccountId })">
+                                            <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }
