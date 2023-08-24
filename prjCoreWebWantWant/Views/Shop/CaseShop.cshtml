@@ -103,21 +103,17 @@
 
 
                         <div class="card-body flex-grow-0">
-                            <div class="text-center">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#productModal-@item.ProductId">
-                                <h5 class="card-title">@Html.DisplayFor(modelitem =>item.ProductName)</h5>
+                                <div class="text-center">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal-@item.ProductId">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
                                     </a>
-                            </div>
+                                </div>
                                 <h6 class="text-center">$@Html.DisplayFor(modelItem =>item.UnitPrice)</h6>
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                            <!-- 加入購物車-->
-                              @*  <a asp-controller="Shop" asp-action="AddToCart" asp-route-productId="@item.ProductId" style="color: black;">
-                                <i class='bx bxs-shopping-bag'
-                                   style="font-size: 2em; margin-left: auto;"></i>
-                            </a>*@<form asp-controller="Shop" asp-action="AddToCart" method="post">
+                                <form asp-controller="Shop" asp-action="AddToCart" method="post">
                                     <input type="hidden" name="productId" value="@item.ProductId" />
-                                    <button id="AddtoCart" type="submit" style="background: none; border: none; cursor: pointer;">
+                                    <button  class="addToCartButton" type="button" style="background: none; border: none; cursor: pointer;">
                                         <i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i>
                                     </button>
                                 </form>
@@ -314,14 +310,32 @@
                     selectElement.appendChild(option);
                 });
             } catch (error) {
-                console.error('加载案例时出错：', error);
+                console.error('錯誤：', error);
             }
         }
 
         // 加載
         loadCases();
 
-       
+        $(function () {
+            $('.addToCartButton').on('click', function () {
+                var productId = $(this).closest('form').find('input[name="productId"]').val();
+
+                // 加入購物車提示
+                Swal.fire({
+                    title: '是否要加入購物車？',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: '是的',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 提交表單
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+        });
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>

@@ -57,7 +57,7 @@
                             <td>@item.ProductName</td>
                             <td>$@item.UnitPrice</td>
                                 <td>
-                                    <input type="number" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
+                                    <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
                                 </td>
 
                             <td>$@(item.UnitPrice * item.Quantity)</td>

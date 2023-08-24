@@ -172,7 +172,7 @@
                         </td>
                         <td>
                             <a class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'
-                           asp-action="Delete" asp-route-id="@item.ProductId"></a>
+                               asp-action="Delete" asp-route-id="@item.ProductId" onclick="return confirmDelete(@item.ProductId)"></a>
                         </td>
 
                     </tr>
@@ -344,9 +344,17 @@
                 data: { id: productId, status: newStatus },
                 success: function (result) {
 
-                    // 重新載入部分頁面或更新畫面數據
-                    alert('商品狀態已更新');
-                    window.location.reload(); // 這是重新載入整個頁面
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: '商品已成功更新',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        willClose: () => {
+                            window.location.reload();
+                        }
+                    });
                 },
                 error: function () {
                     alert('操作失敗');
@@ -375,7 +383,7 @@
 
                     $('#image-preview').attr('src', '@Url.Content("~/shopimg/")' + result.coverPhoto);
                     $('#image-preview').show();
-
+                  
                 },
                 error: function () {
                     alert('失敗。');
@@ -398,13 +406,26 @@
                     });
 
                     if (response.ok) {
-                        alert('商品已成功更新');
-                        window.location.reload();
+                        // 在成功回调中添加提示
+
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: '商品已成功更新',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                window.location.reload();
+                            }
+                        });
+                      
                     } else {
                         alert('更新失敗。');
                     }
                 } catch (error) {
-                    console.error('更新失拜：', error);
+                    console.error('更新失敗：', error);
                     alert('更新失敗。');
                 }
             });
@@ -449,6 +470,50 @@
                 });
             });
         });
+
+
+        function confirmDelete(productId) {
+            Swal.fire({
+                title: '確認刪除',
+                text: '你確定要刪除這個商品嗎？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是的，刪除！',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 用户确认删除，执行删除操作
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Product")',
+                        type: 'POST',
+                        data: { id: productId },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: '商品已成功刪除',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                }).then(() => {
+                                    // 在用户关闭成功消息后执行刷新操作
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire('刪除失敗', '無法刪除商品。', 'error');
+                            }
+                        },
+                        error: function () {
+                            Swal.fire('刪除失敗', '發生了一個錯誤。', 'error');
+                        }
+                    });
+                }
+            });
+            return false; // 阻止默认的按钮点击行为
+        }
     </script>
 
 }

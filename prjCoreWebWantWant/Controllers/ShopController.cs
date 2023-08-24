@@ -116,7 +116,9 @@ namespace prjShop.Controllers
                 return NotFound();
             }
 
-            var cart = GetCart();
+            int userId = GetAccountID(); // 獲取使用者ID
+
+            var cart = GetCart(userId); // 使用用戶ID獲取購物車
             var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
 
             if (cartItem != null)
@@ -131,12 +133,13 @@ namespace prjShop.Controllers
                     ProductName = product.ProductName,
                     UnitPrice = (decimal)product.UnitPrice,
                     Quantity = 1,
-                    ImageUrl =product.CoverPhoto,
+                    ImageUrl = product.CoverPhoto,
                     GetPoint = product.GetPoint,
                 });
             }
 
-            SaveCart(cart);
+            SaveCart(cart, userId); // 存購物車到指定用戶
+
 
             return RedirectToAction("CaseShop");
         }
@@ -144,11 +147,10 @@ namespace prjShop.Controllers
         // 購物車頁面
         public IActionResult CaseCart()
         {
+            int userId = GetAccountID(); 
+            ViewBag.Points = GetAccumulatedPoints(userId);
 
-            int id = GetAccountID();
-            ViewBag.Points = GetAccumulatedPoints(id);
-
-            var cart = GetCart();
+            var cart = GetCart(userId); 
             ViewBag.Cart = cart;
 
             decimal total = cart.Sum(item => item.UnitPrice * item.Quantity);
@@ -161,44 +163,53 @@ namespace prjShop.Controllers
         [HttpPost]
         public IActionResult RemoveFromCart(int productId)
         {
-            var cart = GetCart();
+            int userId = GetAccountID(); // 
+            var cart = GetCart(userId); //
             var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
 
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
-                SaveCart(cart);
+                SaveCart(cart, userId); //
             }
 
             return RedirectToAction("CaseCart");
         }
 
         // 購物車Session
-        private List<CCartItem> GetCart()
+        private List<CCartItem> GetCart(int userId)
         {
-            var cartJson = HttpContext.Session.GetString("Cart");
+            var cartJson = HttpContext.Session.GetString($"Cart_{userId}");
             if (string.IsNullOrEmpty(cartJson))
             {
                 return new List<CCartItem>();
             }
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<CCartItem>>(cartJson);
+            return JsonSerializer.Deserialize<List<CCartItem>>(cartJson);
         }
 
         // 保存購物車數據
-        private void SaveCart(List<CCartItem> cart)
+        private void SaveCart(List<CCartItem> cart, int userId)
         {
-            var cartJson = Newtonsoft.Json.JsonConvert.SerializeObject(cart);
-            HttpContext.Session.SetString("Cart", cartJson);
+            var cartJson = JsonSerializer.Serialize(cart);
+            HttpContext.Session.SetString($"Cart_{userId}", cartJson);
         }
 
 
         public int GetCartItemCount()
         {
-            var cart = GetCart();
+            int userId = GetAccountID(); 
+            var cart = GetCart(userId); 
             int itemCount = cart.Sum(item => item.Quantity);
             return itemCount;
         }
+
+
+
+
+
+
+
 
 
     }

@@ -114,21 +114,21 @@ namespace prjShop.Controllers
             return View(q);
         }
 
-    
+
         //移到垃圾車
         public IActionResult Delete(int? id)
         {
             if (id != null)
             {
-
                 var prod = _context.Products.FirstOrDefault(p => p.ProductId == id);
                 if (prod != null)
                 {
                     prod.Status = "垃圾桶";
                     _context.SaveChanges();
+                    return Json(new { success = true });
                 }
             }
-            return RedirectToAction("List");
+            return Json(new { success = false }); 
         }
         //改狀態
         [HttpPost]
