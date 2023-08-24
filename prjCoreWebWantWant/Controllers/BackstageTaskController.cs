@@ -69,13 +69,18 @@ namespace WantTask.Controllers
                 return PartialView(all);  //換頁數? .Take()
             }
 
-            var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category 
-                && t.PublishOrNot == "立刻上架" 
-                && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                );
-            return PartialView(taskName);
+            //var taskName = _context.TaskLists.
+            //    Where(t => t.TaskName.TaskName == category 
+            //    && t.PublishOrNot == "立刻上架" 
+            //    && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    );
+            //return PartialView(taskName);
+
+            var q = _context.TaskLists.
+                     Include(t => t.Town.City).
+                     Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
+            return PartialView(q);
         }
 
         //選擇任務類別+未上架
@@ -96,13 +101,18 @@ namespace WantTask.Controllers
                 return PartialView(all);  //換頁數? .Take()
             }
 
-            var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category
-                && t.PublishOrNot == "延後上架"
-                && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                );
-            return PartialView(taskName);
+            //var taskName = _context.TaskLists.
+            //    Where(t => t.TaskName.TaskName == category
+            //    && t.PublishOrNot == "延後上架"
+            //    && t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //    );
+            //return PartialView(taskName);
+
+            var q = _context.TaskLists.
+                     Include(t => t.Town.City).
+                     Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "延後上架");
+            return PartialView(q);
         }
 
         //立刻上架的keyword
