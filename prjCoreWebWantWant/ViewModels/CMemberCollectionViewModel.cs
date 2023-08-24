@@ -111,5 +111,7 @@ namespace prjCoreWebWantWant.ViewModels
         public virtual ICollection<TaskSkill> TaskSkills { get; set; } = new List<TaskSkill>();
 
         public virtual Town? Town { get; set; }
+
+        public string? ApplicationDate { get; set; }
     }
 }

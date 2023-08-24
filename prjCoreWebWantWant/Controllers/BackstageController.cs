@@ -155,9 +155,16 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("TaskCollection");
         }
 
-        public IActionResult Apply()
+        public IActionResult Apply(int? resumeId,int? caseId)
         {
-            //todo
+            ApplicationList applicationList = new ApplicationList()
+            {
+                ResumeId = resumeId,
+                CaseId = caseId,
+                CaseStatusId = 21
+            };
+            _context.Add(applicationList);
+            _context.SaveChanges(true);
             return RedirectToAction("TaskCollection");
         }
 
@@ -174,7 +181,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PayFrom = tl.PayFrom,
                         TaskNameId = tl.TaskNameId,
                         PaymentId = tl.PaymentId,
-                        CaseId = al.CaseId
+                        CaseId = al.CaseId,
+                        ApplicationDate = al.ApplicationDate
                     };
 
             return View(q.ToList());
