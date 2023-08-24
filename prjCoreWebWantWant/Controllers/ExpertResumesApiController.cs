@@ -58,12 +58,22 @@ namespace prjCoreWebWantWant.Controllers
         //作品集評價
         public IActionResult WorkAPI(int resumesid)
         {
+            
             var qwork = _context.ExpertWorks
-                .Include(a => a.ExpertWorkLists
-                .Where(x => x.ResumeId == resumesid))
-                .Select(y => y);
-
-            return Json(qwork);
+                .Where(a => a.ExpertWorkLists.Any(x => x.ResumeId == resumesid))
+                .Select(y => new {   
+                    作品名=y.Workname,
+                    作品照片=y.WorksPhoto,
+                    作品日期=y.DataCreateDate
+                });
+            if (!qwork.Any())
+            {
+                return Json("無");
+            }
+            
+                return Json(qwork);
+           
+                
 
         }
     }

@@ -206,23 +206,25 @@
             crossorigin="anonymous"></script>
             <script>
 
-                //星星評價
+                //星星評價=====================================
                  let score=0 ;
                 let count = 0;
         fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")`)
                     .then(response => response.json())
-                    .then(data => {
+                    .then(
+                        data => {
                         const datadiv = "";
                         data.forEach(item => {
-                            datadiv = ` <p class="lead pt-3">${item.評論}</p>`
+                            datadiv = ` <p class="lead pt-3">${item.評論}</p>`;
                             score += item.分數;
                             count = item.筆數;
-                    console.log(score);
+                             console.log(score);
                         });
 
 
                         document.querySelector("#ratinghere").innerHTML = datadiv;
-                    });
+                    }
+                    );
 
         var starfill = '<i class="bi bi-star-fill lablestar"></i>';
         var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
@@ -244,52 +246,7 @@
                 }
         console.log(arr);
         document.querySelector("#star").innerHTML = `(${score}分)  ` + arr.join("") +` --${count}筆評論  `;
-             
-
-
-
-
-
-                //圖片-作品集還沒好
-        const btonworks = document.getElementById("btnworks");
-        const works = document.querySelector("#works");
-        const details = document.querySelector("#details");
-
-        btonworks.addEventListener("click",()=>{
-            console.log("1");
-
-            if (works.style.display == "none" ) {
-                works.style.display = "block";
-                details.style.display = "none";
-                var a=worksdiplay();
-             
-            } else {
-                works.style.display = "none";
-                details.style.display = "none";
-              
-            }
-        });
-      
-        function worksdiplay(){
-            fetch(`@Url.Content("~/ExpertResumes/WorksImage")`)
-                .then(response => response.json())
-                .then(datas => {
-                    const imgarr =[ ];
-                 
-                   
-                            for (let i = 0; i < datas.length; i++){
-                                const img=new Image();
-                                img.src = `data:image/jpeg;base64,${datas[i].base64Content}`;
-                       
-                                img.classList.add("img-fluid");
-                                
-                                 imgarr.push(img);
-                                }
-
-                    return imgarr;
-            });
-                
-                };
+       
 
           //================================================作品集
         function load() {
@@ -310,7 +267,7 @@
 
                 }, 20);
             }
-            // Moving();
+             Moving();
 
 
             workbox.onmouseover = function () {
@@ -318,11 +275,46 @@
             };
 
             workbox.onmouseleave = function () {
-                // Moving();
+                 Moving();
             };
         }
         document.addEventListener('DOMContentLoaded', load);
 
+        //作品集=============================
+        const worklist = document.querySelector('#worklist');
+        fetch(`@Url.Content("~/ExpertResumesApi/WorkAPI")?resumesid=${@Model.resume.ResumeId}`)
+       
+            .then(response => response.json())
+            .then(data => {
+                let picturebox = "";
+                for (let i = 0; i < data.length; i++) {
+                    const picturename = data[i].作品名;
+                    const picturedate = data[i].作品日期;
+                    const imageData = data[i].作品照片;
+                    const blob = new Blob([imageData], { type: 'image/jpeg' });
+                    const img = new Image();
+                    img.src = URL.createObjectURL(blob); // 使用 Blob 的 URL
+                    img.classList.add("img-fluid");
+               
+
+                    picturebox +=
+                        `<div style="display:block; position:absolute;" class="py-2">
+                                    <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
+                                        <p style="position:relative;top:0px;right:1px; height:30px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
+                                                <img src="${URL.createObjectURL(blob)}" class="card-img-top px-3 m-auto" style="border-radius:10px; display:block; height:350px;width:350px" alt="...">
+                                        <div style="display:block;">
+                                            <h2 class="text-center m-4">${picturename}</h2>
+                                            <h4 class="text-center m-4">${picturedate}</h4>
+                                        </div>
+                                    </button>
+                                </div>`
+
+                };
+             
+
+               // worklist.innerHTML = picturebox;
+
+            });
 
     </script>
         }
