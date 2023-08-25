@@ -16,6 +16,7 @@ namespace prjCoreWebWantWant.Hubs
             _db = dbContext;
         }
 
+        //--------------------傳訊息--------------------
         public async Task SendPrivateMessage(int senderId, int receiverId, string message)
         {
             //先存入資料庫
@@ -30,22 +31,31 @@ namespace prjCoreWebWantWant.Hubs
             await _db.SaveChangesAsync();
 
             // 將訊息傳送給特定的使用者
-            //await Clients.User(receiverId.ToString()).SendAsync("ReceiveMessage", senderId, message);
             string connectionId = getUserConnId(receiverId);
-            await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderId, message);
+            // 如果接收者的 connectionId 不為 null，則傳送訊息
+            if (!string.IsNullOrEmpty(connectionId))
+            {
+                await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderId, receiverId, message, chatMessage.Created);
+            }
+            else
+            {
+
+            }
 
         }
 
-        private string getUserConnId(int receiverId)
+        //--------------------抓對照的使用者accountId及ConnectionId--------------------
+        private string? getUserConnId(int receiverId)
         {
             var user = userConnections.Find(u => u.AccountId == receiverId);
-                if (!string.IsNullOrEmpty(user.ConnectionId))
-                {
-                    return user.ConnectionId;
-                }
-                else { return "No Find."; }
+            if (user != null && !string.IsNullOrEmpty(user.ConnectionId))
+            {
+                return user.ConnectionId;
+            }
+            return null; // 如果找不到使用者或 ConnectionId 為空，返回 null
         }
 
+        //--------------------更新線上使用者清單--------------------
         public async Task UpdateUserInfo(int senderId,string vconnectionId)
         {
             // 獲取使用者的 accountId 和 ConnectionId

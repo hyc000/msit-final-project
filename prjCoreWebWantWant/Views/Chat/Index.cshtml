@@ -38,7 +38,8 @@
 
     <script>
         //固定的參數
-        const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
+        const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));//這邊指的是登入者
+        let inChatRoom=0;//先確定使用者是在跟哪個對象聊天
 
         //建立signalR連線
         const connection = new signalR.HubConnectionBuilder()
@@ -52,11 +53,21 @@
             connection.invoke('UpdateUserInfo', senderId, connectionId);
         }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
-        connection.on("ReceiveMessage", function (senderId, message) {
+        connection.on("ReceiveMessage", function (senderId, receiverId, message, messageTimestamp) {
             console.log("這裡是ReceiveMessage，你接收到訊息會在下面印出:");
-            console.log(message);
-            console.log(senderId);
+            console.log("訊息"+message);
+            console.log("receiverId" + receiverId);
+            console.log("senderId"+senderId);
+            console.log(messageTimestamp);
+            console.log("房號"+inChatRoom);
+
             // 處理訊息的顯示等操作
+            if (inChatRoom == senderId) 
+            {
+                console.log("雖然前面是傳全域的訊息，但現在我要限定囉" + message);
+
+            }
+
             loadUser();
 
         });
@@ -100,6 +111,54 @@
                 }
             }
         });
+
+        //即時加入發出訊息到HTML
+        function ImSender(senderId, receiverId, message) 
+        {
+        //     const chatDetailDiv = document.querySelector('#chatDetail');
+
+        //     const chatContainer = document.createElement('div');
+        //     chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');
+
+        //     let chatAvatar = document.createElement('img');
+        //     chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
+
+        //     const chatMessage = document.createElement('span');//對話
+        //     chatMessage.textContent = chat.message;//對話文字
+        //     chatMessage.classList.add('chat-message');
+
+        //     const messageTimeEle = document.createElement('span');
+        //     const messageTime = new Date(chat.created);
+        //     const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+        //     messageTimeEle.textContent = messageTime.toLocaleString(undefined, options);
+        //     messageTimeEle.classList.add('message-time', 'small', 'go-right', 'font-color-grey');
+
+        //     const brElement = document.createElement('br');
+
+        //     if (chat.receiverId === currentLoginId) {
+        //         chatMessage.classList.add('message-left', 'chat-bubble', 'go-left');//訊息樣式
+        //         chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-left');
+        //         messageTimeEle.classList.add('message-time', 'small', 'go-left');
+        //         chatMessage.appendChild(brElement);
+        //         chatMessage.appendChild(messageTimeEle);//加入對話時間
+        //         chatContainer.appendChild(chatAvatar);//加入頭像
+        //         chatContainer.appendChild(chatMessage);//加入對話
+
+        //     } else {
+        //         chatAvatar.src = @Html.Raw(Json.Serialize(ViewBag.currentLoginAvatarUrl));
+        //         chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
+        //         chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
+        //         messageTimeEle.classList.add('message-time', 'small', 'go-right');
+        //         chatMessage.appendChild(brElement);
+        //         chatMessage.appendChild(messageTimeEle);//加入對話時間
+        //         chatContainer.appendChild(chatAvatar);//加入頭像
+        //         chatContainer.appendChild(chatMessage);//加入對話
+        //     }
+        //     chatDetailDiv.appendChild(chatContainer);
+        }
+   
+        
+
         //聊天發出功能--------------------end--------------------
 
         //聊天室預設捲軸在最下方--------------------start--------------------
@@ -174,9 +233,10 @@
                     event.preventDefault();//防止連結預設的#
                     const clickedElement = event.currentTarget;//要找到使用者按下了誰
                     const index =clickedElement.getAttribute('data-index');//抓取按下的那個index值
-
+                    
                     const jsChatWithId = chatLink.getAttribute('inChatWithId')
-                    receiverId = chatLink.getAttribute('inChatWithId')
+                    receiverId = chatLink.getAttribute('inChatWithId')//這邊都是指對象
+                    inChatRoom = chatLink.getAttribute('inChatWithId')//這邊都是指對象
                     console.log(receiverId)
                    
 
@@ -249,9 +309,6 @@
                 }
             }
         }
-
-
-
     </script>
 
 }

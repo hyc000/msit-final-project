@@ -35,7 +35,7 @@ namespace prjCoreWebWantWant.Controllers
                         Name = m.Name,
                         Email = m.Email
                     };
-
+            db.Add(datas);
             db.SaveChanges();
             return RedirectToAction("List");
         }

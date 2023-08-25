@@ -36,9 +36,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, byte selectedPhoto)
         {
                 p.TownId = selectedTownId;
+                p.Photo = new byte[] {selectedPhoto};
                 _context.Resumes.Add(p);
                 _context.SaveChanges();
 
