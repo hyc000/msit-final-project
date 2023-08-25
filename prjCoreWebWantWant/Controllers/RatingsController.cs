@@ -22,7 +22,7 @@ namespace prjCoreWebWantWant.Controllers
 
             _context = context;
             _ratings = new List<CRatings>();
-            _memberID = 17;//登入者我自己memberID
+            _memberID = 66;//登入者我自己memberID
         }
 
         // GET: Ratings

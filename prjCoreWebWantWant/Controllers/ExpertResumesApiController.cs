@@ -34,6 +34,7 @@ namespace prjCoreWebWantWant.Controllers
         //星星評價API
         public IActionResult StarRatingAPI(int resumesid)
         {
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
             int accountid = _context.Resumes
                 .Where(x => x.ResumeId == resumesid)
                 .Select(x => x.AccountId)
@@ -46,6 +47,7 @@ namespace prjCoreWebWantWant.Controllers
 
                   .Select(b => new
                   {
+                      評論者名字= factory.MemberName(b.AccountId),
                       評論 = b.Rating.RatingContent,
                       分數 = b.Rating.RatingStar,
                       評論日 = b.Rating.RatingDate,
