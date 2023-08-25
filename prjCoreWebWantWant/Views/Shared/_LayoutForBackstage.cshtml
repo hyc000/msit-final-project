@@ -16,11 +16,13 @@
     <!-- Bootstrap 5 -->
       <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
-<body>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
     <partial name="_NavbarForBackstage" />
     <partial name="_SidebarForBackstage" />
 
     @RenderBody()
+    </div>
 
 @*    <partial name="_FooterForBackstage" />*@
 
