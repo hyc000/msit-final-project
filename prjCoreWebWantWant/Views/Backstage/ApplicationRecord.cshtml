@@ -109,7 +109,7 @@
                 <div class="row" id="Applied">
                     <div class="col">
                         <div class="table-responsive mb-4">
-                            <table class="table align-middle datatable dt-responsive table-check nowrap table table-hover"
+                            <table id="applicationRecord" class="table align-middle datatable dt-responsive table-check nowrap table table-hover"
                                    style="
                   border-collapse: collapse;
                   border-spacing: 0 8px;
@@ -199,8 +199,8 @@
     <script src="~/Backstage/static/js/responsive.bootstrap4.min.js"></script>
 
     <!-- init js -->
-    <script src="~/Backstage/static/js/datatable-pages.init.js"></script>
-    <script src="~/Backstage/static/js/dataTables.bootstrap4.min.js"></script>
+    @*<script src="~/Backstage/static/js/datatable-pages.init.js"></script>*@
+    @*<script src="~/Backstage/static/js/dataTables.bootstrap4.min.js"></script>*@
 
     <!-- Table Editable plugin -->
     <script src="~/Backstage/static/js/table-edits.min.js"></script>
@@ -209,4 +209,11 @@
 
     @*Sweet Alert*@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('#applicationRecord').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+            },
+        });
+    </script>
 </body>
