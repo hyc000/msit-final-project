@@ -16,43 +16,82 @@
     </nav>
 }
 
-@{
-    if (Model.FirstOrDefault().resume != null)
-    {
-        foreach (var item in Model)
+<!--左上新增按鍵&右上計數顯示-->
+<div class="container">
+    <p style="text-align: right">
+        <a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary btn-sm" style="float:left">新增專家履歷+</a>
+        您已使用 @Model.Count()/3 份履歷 @*這裡要改*@
+    </p>
+</div>
+
+<!--若無履歷，提醒使用者新增履歷-->
+<div class="container">
+    <p style="text-align: center" id="ResumeList"></p>
+</div>
+
+<!--履歷區塊-->
+<div class="container">
+    @{
+        int count = 0;
+        if (Model.FirstOrDefault().resume != null)
         {
-            string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
-            <div class="single-job-items mb-30" style="border:groove;">
-                @*工作列表*@
-                <div class="job-items">
-                    @* <div class="company-img">
-        <a href="#"><img src="assets/img/icon/job-list1.png" alt=""></a>
-        </div>*@
-                    <div class="job-tittle job-tittle2">
-                        <a href="#">
-                            <h4> @Html.DisplayFor(modelItem => item.memberAccount.Name)</h4>
-                        </a>
-                        <ul>
-                            @*<li>@Html.DisplayFor(modelItem => item.TaskDetail)</li>*@
-                            <li><i class="fas fa-map-marker-alt"></i>@Html.DisplayFor(modelItem => item.cityName)</li>
+            foreach (var item in Model)
+            {
+                count++;
+                string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
 
-                            <li>基本報價：@Html.DisplayFor(modelItem => item.expertResume.CommonPrice) 元</li>
-                            @*<li>需求人數： @Html.DisplayFor(modelItem => item.RequiredNum) 人</li>*@
+                // <a class="text-secondary">
+                    @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
+                    <div class="card mb-3 col-12 p-0">
+                        <div class="row g-0">
+                            <div class="col-md-4 pr-0 ">
+                                <!--放圖片-->
+                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                    <img src="~/img/任務曝光.png" height="250" />
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-8 pl-0">
+                                <div class="card-body d-flex justify-content-around row">
+                                    <div class="p-0">
+                                        <h5 class="card-title">
+                                            @Html.DisplayFor(modelItem => item.memberAccount.Name)                                        
 
-                        </ul>
-                        <ul>
-                            <li>服務項目：@ServiceInfo</li>
-                        </ul>
+                                            
+                                        </h5>
+
+                                        <p class="card-text  mb-2">服務項目：@item.expertResume.ServiceMethod</p>
+                                         <p class="card-text  mb-2">專家簡介：@item.expertResume.Introduction</p>
+                                        <p class="card-text">
+                                            <small class="text-body-secondary">@item.expertResume.PaymentMethod</small>
+                                            <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i> @Html.DisplayFor(modelItem => item.cityName)</small></p>
+
+                                        <p class="card-text  mb-2"><span>TWD </span>@((int)item.expertResume.CommonPrice)<span class="fs-6 fw-normal">起</span>
+                                        
+                                        <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.resume.AccountId" id="btnEdit">編輯</a>
+                                        <a href="@Url.Action("", "", new { id = item.resume.AccountId })" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                    </p>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="items-link items-link2  f-right">
-                    @*<a href="@Url.Action("EditExpertResume", new { id=item.resume.ResumeId})" target="_blank" class="btn btn-primary">編輯</a>*@
-                    <a href="@Url.Content("~/Expert/EditExpertResume")?id=@item.resume.ResumeId" class="btn btn-primary">編輯</a>
-                </div>
-            </div>
+                // </a>
+
+
+               
+            }
         }
     }
+</div>
 
+@section Scripts{
+    <script>
+        if (@Model.Count() == 1) {
+            const ResumeList = document.querySelector('#ResumeList');
+            ResumeList.textContent = '您尚未建立履歷，請點選左上角新增履歷表';
+        }
+    </script>
 }
-@*Html.ActionLink("新增專家履歷","AddExpertResume","Expert",new{id = Model.FirstOrDefault().memberAccount.AccountId},new{@class="btn btn-primary"})*@
-<a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary">新增專家履歷</a>
