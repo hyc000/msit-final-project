@@ -462,7 +462,6 @@ namespace WantTask.Controllers
             _context.Add(taskPhoto);
             _context.SaveChanges();
 
-
             return RedirectToAction("Create");
 
         }
