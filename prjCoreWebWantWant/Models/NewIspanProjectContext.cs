@@ -795,6 +795,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.Address).HasMaxLength(50);
             entity.Property(e => e.CaseStatusId).HasColumnName("CaseStatusID");
+            entity.Property(e => e.ResumeTitle).HasMaxLength(50);
             entity.Property(e => e.TaskNameId).HasColumnName("TaskNameID");
             entity.Property(e => e.TownId).HasColumnName("TownID");
             entity.Property(e => e.WorkingHoursId).HasColumnName("WorkingHoursID");

@@ -65,8 +65,20 @@
 }
 
 <body>
-    <header>
-    </header>
+    <div>
+    <h2 class="text-center mt-5 myh2" style="font-weight:bold">
+        <span style="color:#9eb9d3">●</span>
+        <span style="color:#c0d3e6">●</span>
+        <span style="color:#e5edf6">●</span>
+        WantWant找工作
+        <span style="color:#e5edf6">●</span>
+        <span style="color:#c0d3e6">●</span>
+        <span style="color:#9eb9d3">●</span>
+    </h2>
+    </div>
+
+
+
     <!--nav bar-->
    @* <div class="col-md-12">
         <nav aria-label="breadcrumb">
@@ -79,6 +91,7 @@
     </div>*@
 
     <div class="container-fluid">
+       
         <div class="row">
             <!--select任務類型-->
             <div class="col-xl-3 col-lg-3 col-md-4">
@@ -105,7 +118,7 @@
                     <div class="card-body">
                         <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
                         <select class="custom-select" multiple id="selectCategory" name="selectCategory" style="height:300px;overflow-y: hidden;">
-                            <option selected>所有任務類型</option>
+                            <option selected>所有任務</option>
                             @foreach (var item in q)
                             {
                                 <option value="@item.taskName">@item.taskName，共 @item.taskCount 筆</option>
@@ -301,11 +314,13 @@
 
 @section subTitle{
 
-    <nav aria-label="breadcrumb">
+    @*<nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">找工作</li>
             <li class="breadcrumb-item">工作列表</li>
             @* <li class="breadcrumb-item " aria-current="page">任務名稱</li> *@
-        </ol>
-    </nav>
+        @*</ol>
+    </nav>*@
+  
+
 }
