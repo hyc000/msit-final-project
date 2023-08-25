@@ -7,13 +7,30 @@
     // Layout = "~/Views/Shared/_Layout_Task.cshtml";
 }
 
+
+@section Styles{
+    <style>
+        .card /*:hover*/ {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+            .card:hover {
+                transform: scale(1.01);
+            }
+
+        #list {
+            background-color: initial;
+            border: 1px solid #ccc;
+            box-shadow: none;
+            transform: none;
+        }
+    </style>
+}
+
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <style>
-
-
-    </style>
-
 </head>
 
 @section Scripts{
@@ -43,13 +60,25 @@
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
             })
-        })
+        })   
     </script>
 }
 
 <body>
-    <header>
-    </header>
+    <div>
+    <h2 class="text-center mt-5 myh2" style="font-weight:bold">
+        <span style="color:#9eb9d3">●</span>
+        <span style="color:#c0d3e6">●</span>
+        <span style="color:#e5edf6">●</span>
+        WantWant找工作
+        <span style="color:#e5edf6">●</span>
+        <span style="color:#c0d3e6">●</span>
+        <span style="color:#9eb9d3">●</span>
+    </h2>
+    </div>
+
+
+
     <!--nav bar-->
    @* <div class="col-md-12">
         <nav aria-label="breadcrumb">
@@ -62,13 +91,14 @@
     </div>*@
 
     <div class="container-fluid">
+       
         <div class="row">
             <!--select任務類型-->
             <div class="col-xl-3 col-lg-3 col-md-4">
-                <div class="card">
+                <div class="card" id="list">
 
                     <div class="card-body">
-                        <label style="text-align: center; display: block;">關鍵字搜尋</label>
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">關鍵字搜尋</label>
                         <input type="text" id="txtKeyword" name="txtKeyword" style="width:266px" />
                     </div>
 
@@ -86,17 +116,17 @@
                     }
 
                     <div class="card-body">
-                        <label style="text-align: center; display: block;">任務類型</label>
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
                         <select class="custom-select" multiple id="selectCategory" name="selectCategory" style="height:300px;overflow-y: hidden;">
-                            <option selected>所有任務類型</option>
+                            <option selected>所有任務</option>
                             @foreach (var item in q)
                             {
-                                <option value="@item.taskName">@item.taskName  (@item.taskCount)</option>
+                                <option value="@item.taskName">@item.taskName，共 @item.taskCount 筆</option>
                             }
                         </select>
 
                         <div class="card-body">
-                            <label style="text-align: center; display: block;">任務類型</label>
+                            <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
@@ -126,7 +156,7 @@
                                 </div>
                         </div>
 
-                        <label style="text-align: center; display: block;">任務類型</label>
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
                         <select class="custom-select" multiple>
                             <option selected>Open this select menu</option>
                             <option value="1">One</option>
@@ -135,7 +165,7 @@
                         </select>
 
                         <div class="card-body">
-                            <label style="text-align: center; display: block;">任務類型</label>
+                            <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -167,7 +197,7 @@
                         </div>
 
                         <div class="card-body">
-                            <label style="text-align: center; display: block;">任務類型</label>
+                            <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">薪資級距</label>
                         <label for="customRange2" class="form-label">Example range</label>
                         <input type="range" class="form-range" min="0" max="5" id="customRange2">
                         </div>
@@ -177,30 +207,90 @@
 
             <!--card工作列表-->
             <div class="col-8" id="Result">
-                @*<div class="card text-center">
-                    <div class="card-header">任務名稱</div>
-                    <div class="row">
-                        <div class="card-body col-9">
-                            <h5 class="card-title">任務內容</h5>    
+                @foreach (var item in Model)
+                {
+    @*                 <div class="card text-center">
+                        <div class="card-header" style="background-color:#e5edf6;color:black">@item.TaskTitle</div>
+                        <div class="row">
+                            <div class="card-body col-9">
+                                <h5 class="card-body">任務內容： @item.TaskDetail</h5>
+                           
                         </div>
-                        
-                        <div class="card-body col-md-3 d-flex flex-column justify-content-end">
-                            <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
-                            <a href="#" class="btn btn-outline-primary">收藏工作</a>
-                        </div>
+                            <div class="row">
+                            <div class="row">                           
+                                <p class="card-text col-3">需求證照： </p>
+                                <p class="card-text col-3">需求技能： </p>
+                                <p class="card-text col-3">其他需求： </p>                               
+                            </div>
+                       
+                            <div class="row">
+                                <p class="card-text col-3">地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                <p class="card-text col-3">需求人數： @item.RequiredNum</p>
+                                <p class="card-text col-3">任務金額： @item.PayFrom</p>
+                                @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
+                   @*          </div>
 
-                        <div class="row">                          
-                            <p class="card-text col-3">地點</p>   
-                            <p class="card-text col-3">需求人數?</p>
-                            <p class="card-text col-3">任務金額?</p>       
-                            <p class="card-text col-3">收藏任務的愛心放這</p>
+                                <div class="row">
+                            <div class="card-body col-md-3 d-flex flex-column justify-content-end align-items-end">
+                                <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                                <a href="#" class="btn btn-outline-primary">收藏工作</a>
+                            </div>
                         </div>
+                       </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            最後修改日期： @item.PublishStart
+                        </div>
+                    </div>
+                    <div>
+                        <p></p>
+                    </div>  *@
 
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px">@item.TaskTitle</div>
+                        <div class="row">
+                            <div class="card-body col-9">
+                                <h5 class="card-body" style="text-align:left;padding:12px">任務內容：</h5>
+                                <p style="text-align:left;padding:12px">@item.TaskDetail</p>
+                            </div>
+
+                            <div class="card-body col-md-3 d-flex flex-column justify-content-end">
+                                <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                                <a href="#" class="btn btn-outline-primary">收藏工作</a>
+                            </div>
+
+                            <div class="row">
+                                <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
+
+                                @{
+                                    if (item.PayFrom > 1500)
+                                    {
+                                        <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                                    }
+                                    else if (item.PayFrom > 500)
+                                    {
+                                        <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                                    }
+                                }
+                                
+                                @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-muted">
+                            最後修改日期： @item.PublishStart
+                        </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        2 days ago
+
+                    <div>
+                        <p></p>
                     </div>
-                </div>*@
+                }
             </div>
 
             <!--頁數-->
@@ -224,11 +314,13 @@
 
 @section subTitle{
 
-    <nav aria-label="breadcrumb">
+    @*<nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">找工作</li>
             <li class="breadcrumb-item">工作列表</li>
-            <li class="breadcrumb-item " aria-current="page">任務名稱</li>
-        </ol>
-    </nav>
+            @* <li class="breadcrumb-item " aria-current="page">任務名稱</li> *@
+        @*</ol>
+    </nav>*@
+  
+
 }

@@ -32,7 +32,7 @@
 <hr />
 @* <div class="row">
     <div class="col-md-4"> *@
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @* <div class="form-group">                  
                 <label asp-for="AccountId" class="control-label"></label>
@@ -49,11 +49,17 @@
                             <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
                             <div class="form-group">
                                  @*<label asp-for="Photo" class="control-label"></label>*@
-                                  <input asp-for="Photo" class="form-control" type="file" />
+                                  <input id="photoInput" asp-for="Photo" class="form-control" type="file" />
                                   <span asp-validation-for="Photo" class="text-danger"></span>
-                             </div>                                
+                        
+                                  <span id="photoError" class="text-danger"></span>
+                                  
+                                 <div id="photoPreview"></div>
+                            </div>
                         </div>
                     </div>
+
+                     <input type="hidden" id="hiddenPhotoInput" name="selectedPhoto" />
 
                     <!--任務地點-->
                     <div class="col-sm-12 col-xl-6">
@@ -600,7 +606,44 @@
             console.log(hiddenSkillIdInput3.value);
         }
 
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
 
+    // 當使用者選擇檔案時觸發事件
+    photoInput.addEventListener('change', function () {
+        const selectedFile = photoInput.files[0];
+
+        if (selectedFile) {
+            // 檢查是否是圖片類型
+            if (selectedFile.type.startsWith('image/')) {
+                // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(selectedFile);
+               /*  img.style.maxWidth = '100%';
+                img.style.height = 'auto'; */
+
+                img.width = 360;
+                img.height = 360;
+                // 清空預覽元素的內容，然後添加新的圖片
+                photoPreview.innerHTML = '';
+                photoPreview.appendChild(img);
+
+                // 清除可能的錯誤訊息
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '';
+            } else {
+                // 如果選擇的檔案不是圖片，顯示錯誤訊息
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '請選擇有效的圖片檔案。';
+                photoPreview.innerHTML = '';
+            }
+        } else {
+            // 如果未選擇檔案，清空預覽元素
+            photoPreview.innerHTML = '';
+            const photoError = document.getElementById('photoError');
+            photoError.textContent = '';
+        }
+    });
      </script>  
      
 }

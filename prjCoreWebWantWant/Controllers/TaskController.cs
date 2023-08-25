@@ -149,16 +149,16 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Include(t => t.Town.City)
                     .Where(tl => tl.PublishOrNot == "立刻上架");
 
-            if (Category == "所有任務類型")
+            if (Category == "所有任務")
             {
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
-                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
             else
             {
                 q = q.Where(t => t.TaskName.TaskName == Category);
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
-                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
             return PartialView(q);
         }

@@ -238,109 +238,7 @@ text-align: center;
     pointer-events: none;
     background-color: transparent;
   }
-/* 履歷頁面的按鈕*/
-.btnResume {
-    display: inline-block;
-    border-radius: 20px;
-    background-color: #62779d;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 200px;
-    height:70px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 5px;
-    /*position: relative;
-    top: 25%*/
-}
 
-.btnChat {
-    display: inline-block;
-    border-radius: 40px;
-    background-color: #62779d;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    font-size: 23px;
-    padding: 13px;
-    width: 70px;
-    height: 70px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 2px;
-    /*position: relative;
-    top: 25%*/
-}
-
-.labelResume {
-    display: inline-block;
-    border-radius: 20px;
-    background-color: #62779d;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 200px;
-    height: 70px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.btnResume:hover {
-    position: relative;
-    top: 5%;
-    transition: 1s;
-    color: oldlace;
-}
-
-.labelResume:hover {
-    position: relative;
-    top: 5%;
-    transition: 1s;
-    color:oldlace;
-}
-
-  .btnResume span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-  
-  .btnResume span:after {
-    /*content: '�';*/
-    position: absolute;
-    opacity: 0;
-    top: 50%;
-    right: -20px;
-    transition: 0.5s;
-  }
-
-.labelResume span:after {
-
-    position: absolute;
-    opacity: 0;
-    top: 50%;
-    right: -20px;
-    transition: 0.5s;
-}
-
-
-  
-  .btnResume:hover span {
-    padding-right: 25px;
-  }
-  
-  .btnResume:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
- 
   .img-class{
     height: 730px;
     width: 600px;
@@ -427,5 +325,134 @@ text-align: center;
 .bg-expertdetail {
     background-color: #E5EDF6;
 }
+
+
+/* 履歷頁面的按鈕*/
+.btnResume {
+    display: inline-block;
+    background-color:aliceblue;
+    /* background-color: #62779d;*/
+    /*border: none;*/
+    color: #007bff;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    border-color: #007bff;
+    /*position: relative;
+    top: 25%*/
+}
+
+.btnChat {
+    display: inline-block;
+    border-radius: 40px;
+    /*background-color: #62779d;*/
+    /*border: none;*/
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 23px;
+    padding: 13px;
+    width: 70px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2px;
+    /*position: relative;
+    top: 25%*/
+}
+
+.labelResume {
+    display: inline-block;
+    border-radius: 20px;
+    background-color: #62779d;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    height: 70px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btnResume:hover {
+    position: relative;
+    top: 5%;
+    transition: 1s;
+   
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/*.labelResume:hover {
+    position: relative;
+    top: 5%;
+    transition: 1s;
+    color: oldlace;
+}*/
+
+/*.btnResume span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+    .btnResume span:after {*/
+        /*content: '�';*/
+        /*position: absolute;
+        opacity: 0;
+        top: 50%;
+        right: -20px;
+        transition: 0.5s;
+    }*/
+
+.labelResume span:after {
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    right: -20px;
+    transition: 0.5s;
+}
+
+
+
+.btnResume:hover span {
+    padding-right: 25px;
+}
+
+    .btnResume:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+.btnResume:focus, .btnResume.focus {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.5);
+}
+
+.btnResume.disabled, .btnResume:disabled {
+    color: #007bff;
+    background-color: transparent;
+}
+
+.btnResume:not(:disabled):not(.disabled):active, .btnResume:not(:disabled):not(.disabled).active,
+.show > .btnResume.dropdown-toggle {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btnResume:not(:disabled):not(.disabled):active:focus, .btnResume:not(:disabled):not(.disabled).active:focus,
+    .show > .btnResume.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.5);
+    }
+
 
 

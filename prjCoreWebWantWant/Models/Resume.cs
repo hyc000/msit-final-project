@@ -27,6 +27,8 @@ public partial class Resume
 
     public int? CaseStatusId { get; set; }
 
+    public string? ResumeTitle { get; set; }
+
     public virtual MemberAccount Account { get; set; } = null!;
 
     public virtual ICollection<ApplicationList> ApplicationLists { get; set; } = new List<ApplicationList>();
