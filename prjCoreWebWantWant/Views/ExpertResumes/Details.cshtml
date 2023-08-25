@@ -21,7 +21,7 @@
 
         <div class="container container-fluid">
            
-        <div class="row">
+          <div class="row">
 
             <div id="title" class="d-md-flex flex-md-equal w-100 mb-md-3 ps-md-3 bg-expertdetail " style="height: 80vh;">
                     @*左側大頭貼圖片*@
@@ -33,7 +33,7 @@
                         <div class="m-3 p-4 ">
                              <h2 class="display-5">@Html.DisplayFor(model =>model.memberAccount.Name)
                             <a >
-                                <i class="fa-solid fa-comment" style="color: #62779d;"></i>
+                                <i class="fa-solid fa-comment-dots" style="color: #62779d;"></i>
                                 <span class="lead pt-3">聯繫專家</span>
                             </a>
                              </h2>
@@ -136,21 +136,21 @@
             <div style="position:sticky;bottom:30px;right:0px">
                 <!--按鈕-->
                 <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
-                    <a class="btnResume btn-outline-primary pt-3" href="#details"
+                    <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#details"
                        data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
-                    <a class="btnResume btn-outline-primary pt-3" href="#workbox"
-                       data-loading-text="Loading..."><span>作品集</span></a>
-                    <a class="btnResume btn-outline-primary pt-3" href="#ratinghere"
+                    <b class="btn btnResume btn-outline-primary bg-white fs-2" href="#workbox"
+                       data-loading-text="Loading...">作品集</b>
+                    <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#ratinghere"
                        data-loading-text="Loading..." ><span>評價</span></a>
-                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume btn-outline-primary pt-3"} )
+                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="btn labelResume btn-outline-primary bg-white fs-2"} )
                    
                     
                    
-                    <a class="btnResume pt-3" style="width:180px" href="#title"
+                    <a class="btn btnResume btn-outline-primary bg-white fs-2" style="width:180px" href="#title"
                        data-loading-text="Loading...">
                         <span>
                             TOP
-                            <i class="fa-solid fa-up-long" style="color: #ffffff;"></i>
+                            <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
                         </span>
                     </a>
 
@@ -169,10 +169,6 @@
 
 </body>
 
-<div>
-
-    返回
-</div>
 
 @section Styles{
         
@@ -238,7 +234,7 @@
 
             const totalWidth = (6 * 200) + (2 * 24);
             let left = 0; // 初始化為 0
-            let interval = 4000;
+            let interval = 2000;
             let moveposition = 362;
 
             let timer;
@@ -256,7 +252,7 @@
 
                 }, interval);
             }
-             // Moving();
+             Moving();
              //自己按按鈕
             btnpre.addEventListener('click', () => {
                 left += moveposition;
@@ -286,7 +282,7 @@
 
             workbox.onmouseleave = function () {
                 worklist.style.transition = 'transform 0.2s ease-in-out';
-                 // Moving();
+                 Moving();
             };
         }
         document.addEventListener('DOMContentLoaded', load);
