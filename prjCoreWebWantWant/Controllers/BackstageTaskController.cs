@@ -426,7 +426,7 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId , byte selectedPhoto)
         {
 
             tasklist.TaskNameId = selectedTaskNameId;
@@ -453,8 +453,17 @@ namespace WantTask.Controllers
                 _context.Add(taskCer);
                 _context.SaveChanges();
 
+                TaskPhoto taskPhoto = new TaskPhoto()
+                {
+                    CaseId= tasklist.CaseId,
+                    Photo = new byte[] { selectedPhoto }
+                };
 
-                 return RedirectToAction("Create");
+            _context.Add(taskPhoto);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("Create");
 
         }
 
