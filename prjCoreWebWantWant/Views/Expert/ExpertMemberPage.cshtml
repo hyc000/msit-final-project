@@ -4,6 +4,15 @@
 @{
     ViewData["Title"] = "ExpertMemberPage";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+    int ResumeCount = 0;
+    if (Model.FirstOrDefault().resume == null)
+    {
+        ResumeCount = 0;
+    }
+    else
+    {
+        ResumeCount = Model.Count();
+    }
 }
 
 @section subTitle{
@@ -19,8 +28,8 @@
 <!--左上新增按鍵&右上計數顯示-->
 <div class="container">
     <p style="text-align: right">
-        <a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary btn-sm" style="float:left">新增專家履歷+</a>
-        您已使用 @Model.Count()/3 份履歷 @*這裡要改*@
+        <a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary btn-sm" style="float:left" id="CreateResume">新增專家履歷+</a>
+        您已使用 @ResumeCount/3 份履歷 
     </p>
 </div>
 
@@ -40,8 +49,6 @@
                 count++;
                 string ServiceInfo = (item.expertResume.ServiceMethod).ToString().Substring(0, 10) + "...";
 
-                // <a class="text-secondary">
-                    @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
                     <div class="card mb-3 col-12 p-0">
                         <div class="row g-0">
                             <div class="col-md-4 pr-0 ">
@@ -67,9 +74,9 @@
                                             <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i> @Html.DisplayFor(modelItem => item.cityName)</small></p>
 
                                         <p class="card-text  mb-2"><span>TWD </span>@((int)item.expertResume.CommonPrice)<span class="fs-6 fw-normal">起</span>
-                                        
-                                        <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.resume.AccountId" id="btnEdit">編輯</a>
-                                        <a href="@Url.Action("", "", new { id = item.resume.AccountId })" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+
+                                        <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.resume.AccountId" class="btn btn-primary btn-sm me-2" id="btnEdit" style="float:right">編輯</a>
+                                        <a href="@Url.Action("", "", new { id = item.resume.AccountId })" class="btn btn-danger btn-sm me-2" style="float:right" onclick="return confirm('確定要刪除嗎?')">刪除</a>
                                     </p>
                                     </div>
                                     
@@ -78,10 +85,6 @@
                             </div>
                         </div>
                     </div>
-                // </a>
-
-
-               
             }
         }
     }
@@ -89,9 +92,22 @@
 
 @section Scripts{
     <script>
-        if (@Model.Count() == 1) {
+//如果沒有履歷的狀況
+        if (@ResumeCount == 0) {
             const ResumeList = document.querySelector('#ResumeList');
             ResumeList.textContent = '您尚未建立履歷，請點選左上角新增履歷表';
+        }
+        @*TODO 履歷已達三份的狀況*@
+        if (@ResumeCount== 3) {
+            const CreateResume = document.querySelector('#CreateResume')
+            CreateResume.addEventListener('click', () => {
+                CreateResume.href = '#';
+                Swal.fire({
+                    icon: 'warning',
+                    title: '注意',
+                    text: '您的履歷數量已達上限，無法新增履歷',
+                })
+            });
         }
     </script>
 }
