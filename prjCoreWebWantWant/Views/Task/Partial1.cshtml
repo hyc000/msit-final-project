@@ -4,10 +4,12 @@
 @foreach (var item in Model)
 {
 <div class="card text-center">
-    <div class="card-header" style="background-color:#e5edf6;color:black">@item.TaskTitle</div>
+            <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px">@item.TaskTitle</div>
     <div class="row">
         <div class="card-body col-9">
-            <h5 class="card-body">任務內容： @item.TaskDetail</h5>
+            @* <h5 class="card-body">任務內容： @item.TaskDetail</h5> *@
+             <h5 class="card-body" style="text-align:left;padding:12px">任務內容：</h5>
+             <p style="text-align:left;padding:12px">@item.TaskDetail</p>
         </div>
 
         <div class="card-body col-md-3 d-flex flex-column justify-content-end">
@@ -16,9 +18,22 @@
         </div>
 
         <div class="row">
-            <p class="card-text col-3">地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
-            <p class="card-text col-3">需求人數： @item.RequiredNum</p>
-            <p class="card-text col-3">任務金額： @item.PayFrom</p>
+            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+            <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
+                @{
+                    if (item.PayFrom > 1500)
+                    {
+                        <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                    }
+                    else if (item.PayFrom > 500)
+                    {
+                            <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                    }
+                    else
+                    {
+                        <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                    }
+                }
             @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
         </div>
 

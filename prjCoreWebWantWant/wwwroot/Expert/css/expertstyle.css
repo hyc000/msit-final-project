@@ -330,8 +330,8 @@ text-align: center;
 /* 履歷頁面的按鈕*/
 .btnResume {
     display: inline-block;
-    
-   /* background-color: #62779d;*/
+    background-color:aliceblue;
+    /* background-color: #62779d;*/
     /*border: none;*/
     color: #007bff;
     text-align: center;

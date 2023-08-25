@@ -116,13 +116,13 @@
                     <h5 class="mb-4" style="color:#528EAF">任務地點</h5>
                    
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioHome"
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsHome" id="inlineRadioHome"
                                    value="option1">
                             <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioOtherPlace"
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsOtherPlace" id="inlineRadioOtherPlace"
                                    value="option2">
                             <label class="form-check-label" for="inlineRadioOtherPlace">指定地點</label>
                         </div>
@@ -131,7 +131,6 @@
                   
 
                     <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
-
                     <div class="form-floating mb-3">
                         <select class="form-select" id="selCity">                            
                             <option></option>
@@ -225,10 +224,11 @@
                     </div>
                 </div>
 
-                <!--任務照片(選填)-->
+                <!--任務照片(選填)-->            
                 <div class="col-sm-12 col-xl-6">
-                    <div class="bg-light rounded h-100 p-4">
+                    <div class="bg-light rounded h-100 p-4">                       
                         <h5 class="mb-4" style="color:#528EAF">任務照片(選填)</h5>
+                        <input type="hidden" id="hiddenOnePhotoInput" name="selectedPhoto" />
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Default file input example</label>
                             <input class="form-control" type="file" id="formFile">
@@ -468,7 +468,7 @@
 
         SelPaymentDate.addEventListener('change', () => {
             getPaymentDateId();
-        });
+        });               
 
         //技能大小項       
         const SelSkillBig = document.querySelector('#SelSkillBig');
@@ -556,10 +556,6 @@
             getCerId();
         });
 
-
-
-
-
         //城市和鄉鎮的標籤
         const selCity = document.querySelector('#selCity');
         const selTown = document.querySelector('#selTown');
@@ -603,6 +599,35 @@
        selTown.addEventListener('change', () => {
             getTownId();
         });
+
+
+        //在家兼職和指定地點的radio，點選指定地點才能選擇縣市地址
+        document.addEventListener("DOMContentLoaded", function () {
+            const inlineRadioHome = document.getElementById("inlineRadioHome");
+            const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
+            const selCity = document.getElementById("selCity");
+            const selTown = document.getElementById("selTown");
+            const addressInput = document.getElementById("Address");
+
+            function updateFieldsAvailability() {
+                if (inlineRadioHome.checked) {
+                    selCity.disabled = true;
+                    selTown.disabled = true;
+                    addressInput.disabled = true;
+                } else if (inlineRadioOtherPlace.checked) {
+                    selCity.disabled = false;
+                    selTown.disabled = false;
+                    addressInput.disabled = false;
+                }
+            }
+
+            inlineRadioHome.addEventListener("change", updateFieldsAvailability);
+            inlineRadioOtherPlace.addEventListener("change", updateFieldsAvailability);
+
+            updateFieldsAvailability(); // 初始狀態
+        });
+
+
 
     </script>
 }

@@ -42,68 +42,25 @@
                     <!--自訂 樣式：search_container：但好像沒套到-->
                     <!--Bootstrap 樣式：position-relative：用於將元素的 position 屬性設置為 relative，從而創建相對定位的容器。這允許你在容器內使用絕對定位來放置其他元素。-->
                     <!--實現 Flexbox 佈局、垂直居中對齊，同時創建了一個相對定位的容器-->
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>
                     <input type="text" id="inputKeyword" name="txtKeyword" class="search-input" placeholder="搜尋專家">
                     @* 自訂 ：可能要做Form才會送出&好像沒套到*@
-                    <button class="btn btn-outline-primary">查詢</button>
+                    <button class="btn btn-outline-primary ms-2">查詢</button>
                 </div>
             </div>
         </div>
         <!--左側工具列先不要管他-->
         <!--左側技能類別-->
         <div class="filter_block">
-            <label class="fs-4 pl-2 pt-2">所有技能類別</label>
-            <div class="controls-display-row category-click">
-                <span class="fs-5">居家服務</span>
-                <i class="fa-solid fa-chevron-down"></i>
-
-                @*<div class="d-flex justify-content-end">
-                    <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
-                    <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
-                </div>*@
-            </div>
-            <div class="ms-lg-4 filter-block-toggle">
-                <ul class="list-unstyled divFiltered_tag">
-                    
-                        <li class=" d-flex align-items-center divide-line my-w-80-percent">
-                            @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-                            <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <span>Word</span>
-                        </li>
-
-                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
-                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <span>Excel</span>
-                    </li>
-
-                </ul>
-            </div>
-
-            @*@foreach (var c in Model.categoryAndTags)
+            <label class="fs-4 pl-2 pt-2">所有專長類別</label>
+            @using (Html.BeginForm())
             {
-                <div class="controls-display-row category-click">
-                    <span class="fs-5">@Html.DisplayFor(modelItem => c.category)</span>
-                    <div class="d-flex justify-content-end">
-                        <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
-                        <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
-                    </div>
-                </div>
-                <div class="ms-lg-4 filter-block-toggle">
-                    <ul class="list-unstyled divFiltered_tag">
-                        @foreach (var t in c.tags.Distinct())
-                        {
-                            <li class=" d-flex align-items-center divide-line my-w-80-percent">
-                                <img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-                                <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />
-                                <span>@Html.DisplayFor(modelItem => t)</span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }*@
+
+                <select name="selectCategory" id="skilltypeselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                </select>
+                <select name="selectCategory" id="skillselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                </select>
+            }
         </div>
         <!--左側證照類別-->
         <div class="filter_block">
@@ -361,6 +318,51 @@
     
         @*將選取價格的滑塊連在一起*@
         <script>
-        
+        //專長：載入下拉式選單
+        const skilltypeselect = document.querySelector('#skilltypeselect');
+        const skillselect = document.querySelector('#skillselect');
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            Loadskilltype();
+
+
+            skilltypeselect.addEventListener('change', function () {
+                Loadskill();
+            });
+        });
+
+        //專長大項資料來
+        function Loadskilltype() {
+            fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    let options = "<option>請選擇專長</option>";
+                    options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
+
+                    skilltypeselect.innerHTML = options;
+                });  //then最後一個THEN
+        };
+
+        function Loadskill() {
+            const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
+            console.log(skilltypeselecttext);
+            if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext == null) {
+                skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
+                return;
+            }
+            fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
+                .then(response => response.json())
+                .then(datas => {
+                    let options = ""
+                    options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                    skillselect.innerHTML = options;
+                });  //then最後一個THEN
+        };
+
+
+
+        /*Loadskilltype();*///使用載入資料
         </script>
 }
