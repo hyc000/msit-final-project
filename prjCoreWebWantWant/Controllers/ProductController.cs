@@ -16,14 +16,7 @@ namespace prjShop.Controllers
             _context = context;
             _host = host;
         }
-        //public IActionResult List()
-        //{
-        //    var q = _context.Products
-        //        .Include(t => t.Category)
-        //        .Where(p => p.Status == "上架" || p.Status == "下架");
-        //    ViewBag.Categories = _context.Categories.ToList();
-        //    return View(q);
-        //}
+  
 
         public IActionResult List(int? category, string status, DateTime? startDate, DateTime? endDate, string productName, decimal? minPrice, decimal? maxPrice)
         {

@@ -48,9 +48,9 @@
             <div class="col-md-4">
                 <label for="createdDate">訂單日期：</label>
                 <div class="d-flex align-items-center">
-                        <input type="date" class="form-control" name="startDate" id="startDate" value="2023-08-23">
+                        <input type="date" class="form-control" name="startDate" id="startDate" >
                     <span class="mx-2">~</span>
-                        <input type="date" class="form-control" name="endDate" id="endDate" value="2023-09-15">
+                        <input type="date" class="form-control" name="endDate" id="endDate" >
                 </div>
             </div>
         </div>
@@ -64,8 +64,8 @@
        
             <div class="row mt-3 ">
                 <div class="d-flex">
-                    <button type="button" class="btn btn-outline-primary">訂單時間升冪</button>
-                    <button type="button" class="btn btn-outline-primary">訂單時間降冪</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="sortTable(true)">訂單時間升冪</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="sortTable(false)">訂單時間降冪</button>
                     <button type="button" class="btn btn-primary">訂單分析圖表</button>
                 </div>
 
@@ -243,6 +243,10 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Orders');
             XLSX.writeFile(wb, 'orders.xlsx');
         });
+
+
+     
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 

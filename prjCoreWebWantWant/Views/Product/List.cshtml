@@ -49,9 +49,9 @@
                     <div class="col-md-6">
                         <label for="createdDate">創建時間：</label>
                         <div class="d-flex align-items-center">
-                            <input type="date" class="form-control" name="startDate">
+                            <input type="date" class="form-control" name="startDate" >
                             <span class="mx-2">~</span>
-                            <input type="date" class="form-control" name="endDate">
+                            <input type="date" class="form-control" name="endDate" >
                         </div>
                     </div>
                 </div>
@@ -64,11 +64,11 @@
                         <label for="priceRange">單價區間：</label>
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="minPrice" name="minPrice" value=" 2023-08-31">
+                                <input class="form-control" type="text" id="minPrice" name="minPrice" >
                             </div>
                             <div class="mx-2">~</div>
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="maxPrice" name="maxPrice" value=" 2023-09-15">
+                                <input class="form-control" type="text" id="maxPrice" name="maxPrice" >
                             </div>
                         </div>
                     </div>
@@ -113,14 +113,14 @@
                     <td>刪除</td>
                 </tr>
             </thead>
-            <tbody align="center">
+            <tbody align="center" id="TABLE">
 
                 @foreach (var item in Model)
                 {
 
                     <tr>
                         <td>
-                            <img src="~/shopimg/@item.CoverPhoto" style="width:40px;height:40px" alt="Image 1">
+                            <img src="~/shopimg/@item.CoverPhoto" style="width:100px;height:100px" alt="Image 1">
                         </td>
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
@@ -282,7 +282,9 @@
 @section Styles
     {
     <style>
-
+        #TABLE td {
+            vertical-align: middle;
+        }
         .modal-content {
             max-height: 120vh;
             overflow-y: auto;
@@ -347,7 +349,7 @@
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: '商品已成功更新',
+                        title: '商品狀態已變更',
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,

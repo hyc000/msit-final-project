@@ -46,6 +46,8 @@ namespace prjShop.Controllers
               .Where(p => p.Status == "上架" && p.CategoryId == 2);
             return View(q);
         }
+
+        //暫時不用的結帳頁
         public IActionResult CheckOut()
         {
             return View();
@@ -54,6 +56,7 @@ namespace prjShop.Controllers
         {
             return View();
         }
+        //會員訂單列表
         public IActionResult Order()
         {
             return View();
@@ -66,7 +69,7 @@ namespace prjShop.Controllers
             int id = loggedInUser.AccountId; //抓登入者的id                                                                             
             return id;
         }
-
+        //載入任務
         public IActionResult loadCase()
         {
             int id = GetAccountID();
@@ -77,7 +80,7 @@ namespace prjShop.Controllers
                 .ToList();
             return Json(new { success = true, tasks = cases });
         }
-
+        //載入專家
         public IActionResult loadExpert()
         {
             int id = GetAccountID();
@@ -106,7 +109,7 @@ namespace prjShop.Controllers
                 return 0; //默認為0
             }
         }
-        // 添加商品到購物車
+        // 加入商品到購物車
         [HttpPost]
         public IActionResult AddToCart(int productId)
         {
@@ -116,9 +119,9 @@ namespace prjShop.Controllers
                 return NotFound();
             }
 
-            int userId = GetAccountID(); // 獲取使用者ID
+            int userId = GetAccountID(); //使用者ID
 
-            var cart = GetCart(userId); // 使用用戶ID獲取購物車
+            var cart = GetCart(userId); // 用戶ID購物車
             var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
 
             if (cartItem != null)
@@ -144,7 +147,7 @@ namespace prjShop.Controllers
             return RedirectToAction("CaseShop");
         }
 
-        // 購物車頁面
+        // Case購物車頁面
         public IActionResult CaseCart()
         {
             int userId = GetAccountID(); 
