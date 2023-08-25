@@ -7,13 +7,30 @@
     // Layout = "~/Views/Shared/_Layout_Task.cshtml";
 }
 
+
+@section Styles{
+    <style>
+        .card /*:hover*/ {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+            .card:hover {
+                transform: scale(1.01);
+            }
+
+        #list {
+            background-color: initial;
+            border: 1px solid #ccc;
+            box-shadow: none;
+            transform: none;
+        }
+    </style>
+}
+
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <style>
-
-
-    </style>
-
 </head>
 
 @section Scripts{
@@ -65,7 +82,7 @@
         <div class="row">
             <!--select任務類型-->
             <div class="col-xl-3 col-lg-3 col-md-4">
-                <div class="card">
+                <div class="card" id="list">
 
                     <div class="card-body">
                         <label style="text-align: center; display: block;">關鍵字搜尋</label>
@@ -91,7 +108,7 @@
                             <option selected>所有任務類型</option>
                             @foreach (var item in q)
                             {
-                                <option value="@item.taskName">@item.taskName  (@item.taskCount)</option>
+                                <option value="@item.taskName">@item.taskName，共 @item.taskCount 筆</option>
                             }
                         </select>
 
@@ -177,30 +194,74 @@
 
             <!--card工作列表-->
             <div class="col-8" id="Result">
-                @*<div class="card text-center">
-                    <div class="card-header">任務名稱</div>
-                    <div class="row">
-                        <div class="card-body col-9">
-                            <h5 class="card-title">任務內容</h5>    
+                @foreach (var item in Model)
+                {
+    @*                 <div class="card text-center">
+                        <div class="card-header" style="background-color:#e5edf6;color:black">@item.TaskTitle</div>
+                        <div class="row">
+                            <div class="card-body col-9">
+                                <h5 class="card-body">任務內容： @item.TaskDetail</h5>
+                           
                         </div>
-                        
-                        <div class="card-body col-md-3 d-flex flex-column justify-content-end">
-                            <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
-                            <a href="#" class="btn btn-outline-primary">收藏工作</a>
-                        </div>
+                            <div class="row">
+                            <div class="row">                           
+                                <p class="card-text col-3">需求證照： </p>
+                                <p class="card-text col-3">需求技能： </p>
+                                <p class="card-text col-3">其他需求： </p>                               
+                            </div>
+                       
+                            <div class="row">
+                                <p class="card-text col-3">地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                <p class="card-text col-3">需求人數： @item.RequiredNum</p>
+                                <p class="card-text col-3">任務金額： @item.PayFrom</p>
+                                @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
+                   @*          </div>
 
-                        <div class="row">                          
-                            <p class="card-text col-3">地點</p>   
-                            <p class="card-text col-3">需求人數?</p>
-                            <p class="card-text col-3">任務金額?</p>       
-                            <p class="card-text col-3">收藏任務的愛心放這</p>
+                                <div class="row">
+                            <div class="card-body col-md-3 d-flex flex-column justify-content-end align-items-end">
+                                <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                                <a href="#" class="btn btn-outline-primary">收藏工作</a>
+                            </div>
                         </div>
+                       </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            最後修改日期： @item.PublishStart
+                        </div>
+                    </div>
+                    <div>
+                        <p></p>
+                    </div>  *@
 
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color:#e5edf6;color:black">@item.TaskTitle</div>
+                        <div class="row">
+                            <div class="card-body col-9">
+                                <h5 class="card-body">任務內容： @item.TaskDetail</h5>
+                            </div>
+
+                            <div class="card-body col-md-3 d-flex flex-column justify-content-end">
+                                <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                                <a href="#" class="btn btn-outline-primary">收藏工作</a>
+                            </div>
+
+                            <div class="row">
+                                <p class="card-text col-3">地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                <p class="card-text col-3">需求人數： @item.RequiredNum</p>
+                                <p class="card-text col-3">任務金額： @item.PayFrom</p>
+                                @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-muted">
+                            最後修改日期： @item.PublishStart
+                        </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        2 days ago
+
+                    <div>
+                        <p></p>
                     </div>
-                </div>*@
+                }
             </div>
 
             <!--頁數-->

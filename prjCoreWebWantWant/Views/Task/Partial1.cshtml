@@ -4,10 +4,10 @@
 @foreach (var item in Model)
 {
 <div class="card text-center">
-    <div class="card-header">@item.TaskTitle</div>
+    <div class="card-header" style="background-color:#e5edf6;color:black">@item.TaskTitle</div>
     <div class="row">
         <div class="card-body col-9">
-            <h5 class="card-title">任務內容： @item.TaskDetail</h5>
+            <h5 class="card-body">任務內容： @item.TaskDetail</h5>
         </div>
 
         <div class="card-body col-md-3 d-flex flex-column justify-content-end">
@@ -26,6 +26,10 @@
     <div class="card-footer text-muted">
         最後修改日期： @item.PublishStart
     </div>
-</div>    
+</div>
+
+<div>
+    <p></p>
+</div>
 }
 </body>
