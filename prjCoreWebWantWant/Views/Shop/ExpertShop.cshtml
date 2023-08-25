@@ -152,9 +152,13 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card mb-4 single-product-area">
                         <div class="card-image flex-grow-1" style="background-image: url('@Url.Content("~/shopimg/"+@item.CoverPhoto)')">
-                                @if (item.UnitsInStock < 50)
+                                @if (item.UnitsInStock < 50&& item.UnitsInStock > 1)
                                 {
                                     <a class="btn btn-danger" style="border-radius: 20px;">限量優惠</a>
+                                }
+                                @if (item.UnitsInStock < 1)
+                                {
+                                    <a class="btn btn-secondary" style="border-radius: 20px;">缺貨中</a>
                                 }
                         </div>
 
@@ -345,7 +349,7 @@
                         icon: 'warning',
                         title: '您目前不是專家',
                         text: '無法進行專家行銷曝光的購買',
-                        confirmButtonText: '确定'
+                        confirmButtonText: '確定'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // 如果沒有就跳轉
