@@ -23,7 +23,7 @@
            
         <div class="row">
 
-            <div id="title" class="d-md-flex flex-md-equal w-100 mb-md-3 ps-md-3 bg-expertdetail " style="height: 85vh;">
+            <div id="title" class="d-md-flex flex-md-equal w-100 mb-md-3 ps-md-3 bg-expertdetail " style="height: 80vh;">
                     @*左側大頭貼圖片*@
                     <div class=" me-md-3 ps-3 pt-md-5 ps-md-4 text-center overflow-hidden my-3 py-3">
                     <img id="myself" src=@Url.Action("GetImage","ExpertResumes")  class="img-fluid" style="height:85%; min-height:20%">
@@ -55,7 +55,7 @@
                           </div>
 
                         
-                        <div class="labelResume pt-3" style="position:absolute;bottom:0px;right:120px;">
+                        <div class=" pt-3" style="position:absolute;bottom:0px;right:120px;">
                             <span> 點閱次數：5 @Html.DisplayFor(model => model.expertResume.HistoricalViews)</span>
 
                         </div>
@@ -65,11 +65,12 @@
 
                 </div>
 
-                
-                <div id="details" >
-                <div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-expertdetail ">
+
+            <div id="details" class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-expertdetail ">
+                <div >
                         <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
                             <div class="m-3 p-4 ">
+                                <h2>詳細介紹</h2>
                         <p class="lead pt-3">介紹：</p>
                         <p class="lead pt-3 container-fluid">
                                 @Html.DisplayFor(model => model.expertResume.Introduction)
@@ -117,35 +118,15 @@
 
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div style="justify-content:end">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-header" style="justify-content:center; ">
-                                <img src="~/Expert/images/2.webp" class="img-fluid" style="height:600px;">
-
-                            </div>
-
-                            <div class="modal-footer" style="justify-content:center">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-3">
-                </div>
-
+              
             <!-- 評論 -->
 
 
             <div id="ratinghere" class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3 bg-expertdetail " style="height:90vh">
                     <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
                         <div class="m-3 p-4 ">
-                            
+                       
+                                <h2>專家評論</h2>
                            
 
                         </div>
@@ -155,13 +136,13 @@
             <div style="position:sticky;bottom:30px;right:0px">
                 <!--按鈕-->
                 <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
-                    <a class="btnResume pt-3" href="#details" 
+                    <a class="btnResume btn-outline-primary pt-3" href="#details"
                        data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
-                    <a class="btnResume pt-3" href="#workbox"
+                    <a class="btnResume btn-outline-primary pt-3" href="#workbox"
                        data-loading-text="Loading..."><span>作品集</span></a>
-                    <a class="btnResume pt-3" href="#ratinghere"
+                    <a class="btnResume btn-outline-primary pt-3" href="#ratinghere"
                        data-loading-text="Loading..." ><span>評價</span></a>
-                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume pt-3"} )
+                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="labelResume btn-outline-primary pt-3"} )
                    
                     
                    
@@ -252,30 +233,60 @@
         function load() {
             const workbox = document.querySelector('#workbox');
             const worklist = document.querySelector('#worklist');
+            const btnpre = document.querySelector('#btnpre');
+            const btnnext = document.querySelector('#btnnext');
+
+            const totalWidth = (6 * 200) + (2 * 24);
             let left = 0; // 初始化為 0
+            let interval = 4000;
+            let moveposition = 362;
 
             let timer;
+            //自動跑馬燈
             function Moving() {
                 clearInterval(timer);
                 timer = setInterval(() => {
-                    left -= 2;
-                    console.log(left);
-                    if (left <= -(6 * 200 + 2 * 24)) {
+                    left -= moveposition;
+                  
+                    if (left <= -(totalWidth)) {
                         left = 0;
+                        worklist.style.transition = 'none';
                     }
                     worklist.style.left = left + 'px';
 
-                }, 20);
+                }, interval);
             }
-             Moving();
+             // Moving();
+             //自己按按鈕
+            btnpre.addEventListener('click', () => {
+                left += moveposition;
 
+                if (left > 0) {
+                    left = -(totalWidth - moveposition); // 在顯示第一張圖片時進行循環
+                }
+                worklist.style.transition = 'none';
+                worklist.style.left = left + 'px';
+
+            });
+
+            btnnext.addEventListener('click', () => {
+               
+                left -= moveposition;
+
+                if (left < -(totalWidth)) {
+                    left = 0; // 在顯示最後一張圖片時進行循環
+                }
+                worklist.style.transition = 'none';
+                worklist.style.left = left + 'px';
+            });
 
             workbox.onmouseover = function () {
                 clearInterval(timer);
             };
 
             workbox.onmouseleave = function () {
-                 Moving();
+                worklist.style.transition = 'transform 0.2s ease-in-out';
+                 // Moving();
             };
         }
         document.addEventListener('DOMContentLoaded', load);
@@ -315,6 +326,39 @@
                // worklist.innerHTML = picturebox;
 
             });
+        //================================================作品集原本跑馬燈
+        // function load() {
+        //     const workbox = document.querySelector('#workbox');
+        //     const worklist = document.querySelector('#worklist');
+        //     const totalWidth = (6 * 200) + (2 * 24);
+        //     let left = 0; // 初始化為 0
 
+        //     let timer;
+        //     function Moving() {
+        //         clearInterval(timer);
+        //         timer = setInterval(() => {
+        //             left -= 2;
+        //             console.log(left);
+        //             if (left <= -(totalWidth)) {
+        //                 left = 0;
+        //                 worklist.style.transition = 'none';
+        //             }
+        //             worklist.style.left = left + 'px';
+
+        //         }, 20);
+        //     }
+        //     Moving();
+
+
+        //     workbox.onmouseover = function () {
+        //         clearInterval(timer);
+        //     };
+
+        //     workbox.onmouseleave = function () {
+        //         worklist.style.transition = 'transform 0.2s ease-in-out';
+        //         Moving();
+        //     };
+        // }
+        // document.addEventListener('DOMContentLoaded', load);
     </script>
         }
