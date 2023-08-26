@@ -67,12 +67,24 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult Detail(int? id)
         {
             if (id == null)
-                return RedirectToAction("List");
+                return RedirectToAction("ListNew");
             TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
             if (task == null)
-                return RedirectToAction("List");
+                return RedirectToAction("ListNew");
             CTaskWrap taskWrap = new CTaskWrap();
             taskWrap.task = task;
+
+            //檢查地址是否為空值
+            bool isAddressEmpty = string.IsNullOrEmpty(task.Address);
+            ViewBag.IsAddressEmpty = isAddressEmpty;
+
+            if (!isAddressEmpty)
+            {
+                ViewBag.MapAddress = task.Address;
+            }
+
+
+
             return View(taskWrap);
         }
         [HttpPost]
