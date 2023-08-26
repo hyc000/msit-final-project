@@ -167,17 +167,18 @@ namespace prjShop.Controllers
         [HttpPost]
         public IActionResult RemoveFromCart(int productId)
         {
-            int userId = GetAccountID(); // 
-            var cart = GetCart(userId); //
+            int userId = GetAccountID();
+            var cart = GetCart(userId);
             var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
 
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
-                SaveCart(cart, userId); //
+                SaveCart(cart, userId);
+                return Json(new { success = true });
             }
 
-            return RedirectToAction("CaseCart");
+            return Json(new { success = false });
         }
 
         // 購物車Session
@@ -209,12 +210,79 @@ namespace prjShop.Controllers
         }
 
 
+        
+        [HttpPost]
+        public IActionResult Checkout(int? CaseId, Order newOrder, List<OrderDetail> newOrderDetails)
+        {
+           
 
+            int userId = GetAccountID();
+            var cart = GetCart(userId);
+            TempData["SweetAlertScript"] = null;
+            foreach (var cartItem in cart)
+            {
+                var product = _context.Products.FirstOrDefault(p => p.ProductId == cartItem.ProductId);
+                if (product == null || product.UnitsInStock < cartItem.Quantity)
+                {
+                    // 使用SweetAlert2顯示提示消息
+                    string errorMessage = "【"+product.ProductName+"】庫存不足，無法完成結帳。";
+                    TempData["ErrorMessage"] = errorMessage;
 
+                    // 使用SweetAlert2的JavaScript代碼顯示警告框
+                    string sweetAlertScript = $"Swal.fire('庫存不足', '{errorMessage}', 'warning');";
+                    TempData["SweetAlertScript"] = sweetAlertScript;
 
+                    return RedirectToAction("CaseCart");
+                }
+            }
 
+            // 創建新的訂單
+            newOrder.AccountId = userId;
+            newOrder.PayWayId = 1;
+            newOrder.CategoryId = 2;
+            newOrder.CreateTime = DateTime.Now;
+            _context.Orders.Add(newOrder);
+            _context.SaveChanges();
 
+            // 將每個購物車項目關聯到訂單
+            foreach (var cartItem in cart)
+            {
+                var newOrderDetail = new OrderDetail
+                {
+                    OrderId = newOrder.OrderId,
+                    ProductId = cartItem.ProductId,
+                    UnitPrice = (int)cartItem.UnitPrice,
+                    Quantity = cartItem.Quantity,
+                    TopDate = cartItem.TopDate,
+                    TopType = "任務置頂",
+                    GetPoint = cartItem.GetPoint,
+                    CaseId = CaseId,
 
+                };
+                newOrderDetails.Add(newOrderDetail);
+            }
+
+            // 將所有新的 OrderDetail 加入 _context
+            _context.OrderDetails.AddRange(newOrderDetails);
+            _context.SaveChanges();
+
+            //更新庫存
+            foreach (var orderDetail in newOrderDetails)
+            {
+                var product = _context.Products.FirstOrDefault(p => p.ProductId == orderDetail.ProductId);
+                if (product != null)
+                {
+                    product.UnitsInStock -= orderDetail.Quantity;
+                    _context.SaveChanges(); 
+                }
+            }
+
+            // 清空購物車
+            cart.Clear();
+            SaveCart(cart, userId);
+
+            return RedirectToAction("Order");
+        }
 
     }
 }

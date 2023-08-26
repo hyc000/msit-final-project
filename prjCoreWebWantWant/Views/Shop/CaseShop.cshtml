@@ -113,7 +113,7 @@
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
                                 <form asp-controller="Shop" asp-action="AddToCart" method="post">
                                     <input type="hidden" name="productId" value="@item.ProductId" />
-                                    @if (item.UnitsInStock > 1)
+                                    @if (item.UnitsInStock >= 1)
                                     {
                                         <button id="AddtoCart" class="addToCartButton" type="button" style="background: none; border: none; cursor: pointer;">
                                             <i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i>
@@ -287,6 +287,8 @@
 
 @section Scripts
     {
+    
+
         <script>
         async function loadCases() {
             try {

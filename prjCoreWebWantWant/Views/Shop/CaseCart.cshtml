@@ -10,7 +10,7 @@
 }
 
 
-
+<form action="@Url.Content("~/shop/checkout")" method="post">
 <div class="container text-center">
     <p>　</p>
     <ul class="progressbar d-flex justify-content-center">
@@ -23,8 +23,9 @@
 </div>
 
 <div class="card shadow rounded">
+
     <h3 class="card-header" style="background-color:#528EAF ; color:seashell">購物車</h3>
-    <div class="card-body">
+    <div class="card-body" >
         @{
             int tax = 0;
             int sum = 0;
@@ -52,27 +53,22 @@
                             sum += (item.UnitPrice * item.Quantity);
      
                             <tr>
-                            <td></td>
+                                <td><span hidden>@item.TopDate</span></td>
                             <td><img src="~/shopimg/@item.ImageUrl" style="width:100px ; height:100px"></td>
                             <td>@item.ProductName</td>
                             <td>$@item.UnitPrice</td>
                                 <td>
                                     <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
-                                <td>@item.topdate</td>
                                 </td>
-
+                              
                             <td>$@(item.UnitPrice * item.Quantity)</td>
-                            <td>
-                                <div class="icon-container">
-                                    <form method="post" asp-action="RemoveFromCart" class="btn-unstyled">
-                                        <input type="hidden" name="productId" value="@item.ProductId" />
-                                        <button type="submit" class="btn-unstyled">
-                                            <i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'></i>
-                                        </button>
-                                    </form>
-                                </div>
-
-                            </td>
+                                    <td>
+                                        <div class="icon-container">
+                                            <button type="button" class="btn-unstyled" onclick="removeCartItem(@item.ProductId)">
+                                                <i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'></i>
+                                            </button>
+                                        </div>
+                                    </td>
                         </tr>
                     }
                 </tbody>
@@ -94,11 +90,17 @@
             }
             total = (sum - usepoint);
         <hr />
+
         <div class="row">
             <div class="col-4 justify-content-around">
+
                 <div class="input-group input-group-sm mb-2">
+
                         <span style="padding-top:3px">你選擇曝光的任務：</span>
-                       <select class="form-control" id="caseSelect"></select>
+
+                            <select class="form-control" id="caseSelect" name="CaseId" required>
+                                <option value="">請選擇</option>
+                            </select>
 
                 </div>
             </div>
@@ -117,7 +119,7 @@
 
     <div class="row">
         <div class="col" style="padding-left: 0;">商品總計</div>
-            <div class="col text-right">$@sum</div>
+            <div class="col text-right">$<span name ="OrderPrice">@sum</span></div>
     </div>
     <div class="row">
         <div class="col" style="padding-left: 0;">稅額</div>
@@ -132,25 +134,30 @@
                 紅利總點數: @ViewBag.Points 點 
                 <label>最高折抵，不超過訂單總價</label>
             </div>      
-            <div class="col text-right" style="color: brown;">$ <span id="usedPoint">@usepoint </span></div>
+            <div class="col text-right" style="color: brown;">$@usepoint</div>
         </div>
     <div class="row">
         <div class="col" style="padding-left: 0;">應付金額</div>
-        <div class="col text-right" style="font-size: 1.5REM;">$@total</div>
+            <div class="col text-right" style="font-size: 1.5REM;">$@total</div>
     </div>
     <div class="container">
         <div class="d-flex justify-content-end mt-4">
 
-            <form action="@Url.Content("~/shop/checkout")" method="post">
-                <input type="submit" value="結帳" class="btn btn-primary btn-lg" />    
-            </form>
-                <input type="submit" value="金流測試" class="btn btn-primary btn-lg" />
+
+                
+                    <input type="hidden" name="OrderPrice" value="@sum" />
+                    <input type="hidden" name="OrderGetPoint" value="@getpoint" />
+                    <input type="hidden" name="OrderUsePoint" value="@usepoint" />
+                    <input type="hidden" name="PaidAmount" value="@total" />
+                    <input type="submit" value="結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
+               
+                    <input type="submit" value="金流測試" class="btn btn-primary btn-lg" />
         </div>
     </div>
         <a href="@Url.Content("~/shop/caseShop")"><span><i class='bx bx-left-arrow-alt'></i>繼續購物</span></a>
 </div>
 </div>
-
+ </form>
 
 
 @section Styles
@@ -234,7 +241,19 @@
 
 @section Scripts
     {
+  
+    @if (TempData["SweetAlertScript"] != null)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
         <script>
+            $(document).ready(function () {
+            @Html.Raw(TempData["SweetAlertScript"])
+                        });
+        </script>
+    }
+        <script>
+
+
         async function loadCases() {
             try {
                 const response = await fetch('/Shop/loadCase'); 
@@ -249,6 +268,7 @@
                     option.value = caseItem.caseId; 
                     option.textContent = caseItem.taskTitle; 
                     selectElement.appendChild(option);
+ 
                 });
             } catch (error) {
                 console.error('加載出錯：', error);
@@ -258,8 +278,39 @@
         // 加載任務
         loadCases();
 
-   
+        async function removeCartItem(productId) {
+            try {
+                const response = await fetch(`/Shop/RemoveFromCart?productId=${productId}`, {
+                    method: 'POST',
+                });
 
-       
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                        // 自動刷新
+                        location.reload();
+                    } else {
+                        console.error("刪除失敗");
+                    }
+                } else {
+                    console.error("刪除失敗，響應狀態：", response.status);
+                }
+            } catch (error) {
+                console.error("刪除請求失敗：", error);
+            }
+        }
+
+        document.getElementById("checkoutButton").addEventListener("click", function (event) {
+            const selectedCaseId = document.getElementById("caseSelect").value;
+
+            if (!selectedCaseId) {
+                event.preventDefault(); // 阻止表单提交
+                Swal.fire({
+                    icon: "warning",
+                    title: "請選擇一個任務",
+                    text: "您必須選擇一個任務才能進行結帳。",
+                });
+            }
+        });
     </script>
     }
