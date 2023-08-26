@@ -75,7 +75,7 @@
               
                                             @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
-                                            <a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-outline-success"  data-bs-target="#ResumeModal">檢視</a>
+                                            <a href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success"  data-bs-target="#ResumeModal">檢視</a>
                                             @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
                                                     @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
                                                     @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@

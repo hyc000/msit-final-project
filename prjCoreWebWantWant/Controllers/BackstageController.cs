@@ -69,38 +69,13 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 return RedirectToAction("ResumeList");
         }
 
-        public IActionResult ResumeUneditable()
+        public IActionResult ResumeUneditable(int? id)
         {
             var q = _context.Resumes
-                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
+                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22);
             return View(q);
         }
 
-        public IActionResult ResumeDetail(int? id)
-        {
-            if (id == null)
-                return RedirectToAction("ResumeList");
-            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
-            if (resume == null)
-                return RedirectToAction("ResumeList");
-            CResumeWrap resumeWrap = new CResumeWrap();
-            resumeWrap.resume = resume;
-            return View(resumeWrap);
-        }
-        [HttpPost]
-        public ActionResult ResumeDetail(CTaskWrap pIn)
-        {
-            TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
-            if (pDb != null)
-            {
-                pDb.CaseId = pIn.FId;
-                pDb.TaskTitle = pIn.FTitle;
-                pDb.TaskDetail = pIn.FDetail;
-                pDb.PayFrom = pIn.FPayFrom;
-                //db.SaveChanges();
-            }
-            return RedirectToAction("List");
-        }
 
         public IActionResult ResumeList()
         {

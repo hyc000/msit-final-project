@@ -182,32 +182,9 @@ namespace WantTask.Controllers
         //點選已上架未上架的詳細任務畫面
         public IActionResult JobDetail(int? id)
         {
-            if (id == null)
-                return RedirectToAction("TablesEditable");
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if (task == null)
-                return RedirectToAction("TablesEditable");
-            CTaskWrap taskWrap = new CTaskWrap();
-            taskWrap.task = task;
-            return View(taskWrap);
+            var q = _context.TaskLists.Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            return View(q);
         }
-        [HttpPost]
-        public ActionResult JobDetail(CTaskWrap pIn)
-        {
-            TaskList pDb = _context.TaskLists.Include(t=>t.TaskName).FirstOrDefault(p => p.CaseId == pIn.FId);
-            if (pDb != null)
-            {
-                pDb.CaseId = pIn.FId;
-                pDb.TaskTitle = pIn.FTitle;
-                pDb.TaskDetail = pIn.FDetail;
-                pDb.PayFrom = pIn.FPayFrom;
-                //pDb.TaskName = pIn.FTaskName;
-
-                //db.SaveChanges();
-            }
-            return RedirectToAction("List");
-        }
-
 
 
 
