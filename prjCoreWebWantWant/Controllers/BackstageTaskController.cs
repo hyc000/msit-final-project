@@ -457,13 +457,14 @@ namespace WantTask.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId , byte selectedPhoto)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId , byte selectedPhoto,string publishornot)
         {
 
             tasklist.TaskNameId = selectedTaskNameId;
             tasklist.TownId = selectedTownId;
             tasklist.PaymentId = selectedPaymentId;
             tasklist.PaymentDateId = selectedPaymentDateId;
+            tasklist.PublishOrNot = publishornot;
               
             _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
