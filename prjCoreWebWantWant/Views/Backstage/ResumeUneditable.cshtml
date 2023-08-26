@@ -1,9 +1,19 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.Resume>
+﻿@using System.Text.Json;
+@*@model IEnumerable<prjCoreWebWantWant.Models.Resume>*@
+@model prjCoreWebWantWant.Models.Resume
 
 @{
     ViewData["Title"] = "ResumeUneditable";
     // Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
      Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+@*抓登入者的名字*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+    string loginUserName = loggedInUser.Name;
 }
 
 <!DOCTYPE html>
@@ -123,8 +133,6 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                   @foreach (var item in Model)
-                    {
                     
                     <div class="row">
                         <div class="col-xl-9 col-lg-8">
@@ -146,7 +154,7 @@
                                                         </h5>
 
                                                         
-                                                        <div>姓名：</div>
+                                                        <div>姓名：@loginUserName</div>
 
                                                         <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                             <div>性別：女</div>
@@ -208,7 +216,7 @@
                                                             <div class="text-muted">
                                                                 <div class="row">
                                                                     <div class="col-4">
-                                                                        <p>台北市</p>
+                                                                        <p>@Model.Town.City.City1</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -227,7 +235,7 @@
                                                             <div class="text-muted">
                                                                 <div class="row">
                                                                     <div class="col-4">
-                                                                        <p>大安區</p>
+                                                                        <p>@Model.Town.Town1</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -245,7 +253,7 @@
                                                         <div class="col-xl">
                                                             <div class="text-muted">
                                                                 <p class="mb-2"></p>
-                                                                <p class="mb-0">復興南路一段390號2樓</p>
+                                                                <p class="mb-0">@(Model.Address != null ? Model.Address : "沒有地址")</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -454,7 +462,6 @@
                         <!-- end col -->
                         <!-- end col -->
                     </div>
-                    }
                     <!-- end row -->
                 </div>
                 <!-- container-fluid -->

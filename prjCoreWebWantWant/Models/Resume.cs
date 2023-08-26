@@ -29,6 +29,8 @@ public partial class Resume
 
     public string? ResumeTitle { get; set; }
 
+    public string? DataModifyDate { get; set; }
+
     public virtual MemberAccount Account { get; set; } = null!;
 
     public virtual ICollection<ApplicationList> ApplicationLists { get; set; } = new List<ApplicationList>();

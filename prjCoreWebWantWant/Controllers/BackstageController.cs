@@ -72,7 +72,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ResumeUneditable(int? id)
         {
             var q = _context.Resumes
-                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22);
+                    .Include(t => t.Town.City)
+                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22).FirstOrDefault();
             return View(q);
         }
 

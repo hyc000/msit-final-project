@@ -13,5 +13,7 @@ public partial class ExpertWork
 
     public string? Workname { get; set; }
 
+    public string? WorkTitle { get; set; }
+
     public virtual ICollection<ExpertWorkList> ExpertWorkLists { get; set; } = new List<ExpertWorkList>();
 }
