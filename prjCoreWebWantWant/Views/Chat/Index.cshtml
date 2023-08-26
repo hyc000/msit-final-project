@@ -40,6 +40,9 @@
         //固定的參數
         const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));//這邊指的是登入者
         let inChatRoom=0;//先確定使用者是在跟哪個對象聊天
+        let chatAvaterUrl = [];//存左側聊天對象們頭像用
+        let chatAvatar = document.createElement('img');//左側點到誰存那個頭像網址
+        let addAvaUrl;
 
         //建立signalR連線
         const connection = new signalR.HubConnectionBuilder()
@@ -65,10 +68,10 @@
             if (inChatRoom == senderId) 
             {
                 console.log("雖然前面是傳全域的訊息，但現在我要限定囉" + message);
-
+                ImReciver(senderId, receiverId, message, messageTimestamp);
+                keepDown();
+                loadUser();
             }
-
-            loadUser();
 
         });
 
@@ -86,10 +89,14 @@
             if (message.trim() !== "") {//如果message移除空白後也不為空的話
                 // 呼叫 SendPrivateMessage 方法傳送訊息
                 connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
-                    loadUser();
-                    messageInput.value = '';
+                    messageInput.value = ''; // 清空輸入框
+                    if (inChatRoom !==0) {
+                        loadUser();
+                        console.log("監看傳訊有沒有成功btn");
+                    const messageTimestamp = Date.now();
+                    ImSender(senderId, receiverId, message, messageTimestamp);
                     keepDown();
-                    console.log("監看傳訊有沒有成功btn");
+                    }
                 });
             }
         })
@@ -102,64 +109,90 @@
                 if (message !== "") {
                     // 呼叫 SendPrivateMessage 方法傳送訊息
                     connection.invoke('SendPrivateMessage', parseInt(senderId), parseInt(receiverId), message).catch(err => console.error(err)).then(() => {
-                        loadUser();
                         messageInput.value = ''; // 清空輸入框
+                        if (inChatRoom !== 0) {
+                            loadUser();
+                            console.log("監看傳訊有沒有成功enter");
+                        const messageTimestamp=Date.now();
+                        ImSender(senderId, receiverId, message, messageTimestamp);
                         keepDown();
-                        console.log("監看傳訊有沒有成功enter");
-
+                        }
                     });
                 }
             }
         });
-
-        //即時加入發出訊息到HTML
-        function ImSender(senderId, receiverId, message) 
-        {
-        //     const chatDetailDiv = document.querySelector('#chatDetail');
-
-        //     const chatContainer = document.createElement('div');
-        //     chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');
-
-        //     let chatAvatar = document.createElement('img');
-        //     chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
-
-        //     const chatMessage = document.createElement('span');//對話
-        //     chatMessage.textContent = chat.message;//對話文字
-        //     chatMessage.classList.add('chat-message');
-
-        //     const messageTimeEle = document.createElement('span');
-        //     const messageTime = new Date(chat.created);
-        //     const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
-        //     messageTimeEle.textContent = messageTime.toLocaleString(undefined, options);
-        //     messageTimeEle.classList.add('message-time', 'small', 'go-right', 'font-color-grey');
-
-        //     const brElement = document.createElement('br');
-
-        //     if (chat.receiverId === currentLoginId) {
-        //         chatMessage.classList.add('message-left', 'chat-bubble', 'go-left');//訊息樣式
-        //         chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-left');
-        //         messageTimeEle.classList.add('message-time', 'small', 'go-left');
-        //         chatMessage.appendChild(brElement);
-        //         chatMessage.appendChild(messageTimeEle);//加入對話時間
-        //         chatContainer.appendChild(chatAvatar);//加入頭像
-        //         chatContainer.appendChild(chatMessage);//加入對話
-
-        //     } else {
-        //         chatAvatar.src = @Html.Raw(Json.Serialize(ViewBag.currentLoginAvatarUrl));
-        //         chatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
-        //         chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
-        //         messageTimeEle.classList.add('message-time', 'small', 'go-right');
-        //         chatMessage.appendChild(brElement);
-        //         chatMessage.appendChild(messageTimeEle);//加入對話時間
-        //         chatContainer.appendChild(chatAvatar);//加入頭像
-        //         chatContainer.appendChild(chatMessage);//加入對話
-        //     }
-        //     chatDetailDiv.appendChild(chatContainer);
-        }
-   
-        
-
         //聊天發出功能--------------------end--------------------
+
+        //即時加入訊息到HTML-----------這裡是接收用
+        function ImReciver(senderId, receiverId, message, messageTimestamp) {
+            const chatDetailDiv = document.querySelector('#chatDetail');//放到chatDetailDiv
+             const chatContainer = document.createElement('div');//創一個DIV
+             chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');//把div加樣式
+
+             const chatMessage = document.createElement('span');//對話
+             chatMessage.textContent = message;//對話文字
+             chatMessage.classList.add('chat-message');
+
+             const messageTimeEle = document.createElement('span');
+             const messageTime = new Date(messageTimestamp);
+             const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+             messageTimeEle.textContent = messageTime.toLocaleString(undefined, options);
+             messageTimeEle.classList.add('message-time', 'small', 'go-right', 'font-color-grey');
+
+             const brElement = document.createElement('br');
+
+            const addChatAvatar = document.createElement('img');//這個給接收訊息時的對方頭像用
+            addChatAvatar.src = addAvaUrl;
+
+                 chatMessage.classList.add('message-left', 'chat-bubble', 'go-left');//訊息樣式
+                 addChatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-left');
+                 messageTimeEle.classList.add('message-time', 'small', 'go-left');
+                 chatMessage.appendChild(brElement);
+                 chatMessage.appendChild(messageTimeEle);//加入對話時間
+                 chatContainer.appendChild(addChatAvatar);//加入頭像
+                 chatContainer.appendChild(chatMessage);//加入對話
+            console.log(addChatAvatar)
+
+             chatDetailDiv.append(chatContainer);
+        }
+        //即時加入訊息到HTML-----------接收結束-----------------------------------------
+
+        //即時加入訊息到HTML-----------這裡是傳訊用
+        function ImSender(senderId, receiverId, message, messageTimestamp) {
+            const chatDetailDiv = document.querySelector('#chatDetail');//放到chatDetailDiv
+            const chatContainer = document.createElement('div');//創一個DIV
+            chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');//把div加樣式
+
+            const chatMessage = document.createElement('span');//對話
+            chatMessage.textContent = message;//對話文字
+            chatMessage.classList.add('chat-message');
+
+            const messageTimeEle = document.createElement('span');
+            const messageTime = new Date(messageTimestamp);
+            const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+            messageTimeEle.textContent = messageTime.toLocaleString(undefined, options);
+            messageTimeEle.classList.add('message-time', 'small', 'go-right', 'font-color-grey');
+
+            const brElement = document.createElement('br');
+
+            const addChatAvatar = document.createElement('img');//這個給接收訊息時的對方頭像用
+            addChatAvatar.src = addAvaUrl;
+
+            addChatAvatar.src = @Html.Raw(Json.Serialize(ViewBag.currentLoginAvatarUrl));
+            addChatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
+            chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
+            messageTimeEle.classList.add('message-time', 'small', 'go-right');
+            chatMessage.appendChild(brElement);
+            chatMessage.appendChild(messageTimeEle);//加入對話時間
+            chatContainer.appendChild(addChatAvatar);//加入頭像
+            chatContainer.appendChild(chatMessage);//加入對話
+
+            chatDetailDiv.append(chatContainer);
+        }
+
+        //即時加入訊息到HTML-----------傳訊結束-----------------------------------------
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
         //聊天室預設捲軸在最下方--------------------start--------------------
         function keepDown() {
@@ -175,7 +208,6 @@
             userList.innerHTML = '';
             const response = await fetch('@Url.Content("~/ChatApi/UserList/")');
             const data = await response.json();
-            let chatAvaterUrl=[];//存聊天對象頭像備用
             let chatAvaCount=0;
 
             const user = data.map(u =>{//抓左邊聊天對象列表的map
@@ -253,8 +285,9 @@
                         const chatContainer = document.createElement('div');
                         chatContainer.classList.add('chat-container', 'flex', 'flex-row-reverse');
 
-                        let chatAvatar = document.createElement('img');
+                        chatAvatar = document.createElement('img');
                         chatAvatar.src = chatAvaterUrl[index];//指定頭像路徑
+                        addAvaUrl = chatAvaterUrl[index];//把網址先存起來
 
                         const chatMessage = document.createElement('span');//對話
                         chatMessage.textContent = chat.message;//對話文字

@@ -40,13 +40,22 @@ namespace WantTask.Controllers
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
-                var ava = _db.MemberAccounts.Where(p => p.AccountId == loggedInUser.AccountId).Select(p => p.MemberPhoto).FirstOrDefault();
-                byte[] userAvatarBytes = ava;
+                ViewBag.chatWithId = id;
+                ViewBag.currentLoginId = loggedInUser.AccountId;
+
+                //我的頭像
+                var myava = _db.MemberAccounts.Where(p => p.AccountId == loggedInUser.AccountId).Select(p => p.MemberPhoto).FirstOrDefault();
+                byte[] userAvatarBytes = myava;
                 string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);
                 string userAvatarUrl = $"data:image/png;base64,{userAvatarBase64}";
-                ViewBag.chatWithId = id;
                 ViewBag.currentLoginAvatarUrl = userAvatarUrl;
-                ViewBag.currentLoginId = loggedInUser.AccountId;
+
+                //對方的頭像
+                var withava = _db.MemberAccounts.Where(p => p.AccountId == id).Select(p => p.MemberPhoto).FirstOrDefault();
+                byte[] withUserAvatarBytes = withava;
+                string withUserAvatarBase64 = Convert.ToBase64String(withUserAvatarBytes);
+                string withUserAvatarUrl = $"data:image/png;base64,{withUserAvatarBase64}";
+                ViewBag.chatWithUserAvatarUrl = withUserAvatarUrl;
                 return View();
             }
             else

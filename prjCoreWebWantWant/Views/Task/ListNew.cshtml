@@ -26,6 +26,10 @@
             box-shadow: none;
             transform: none;
         }
+
+        label {
+            pointer-events: none;
+        }
     </style>
 }
 
@@ -120,10 +124,13 @@
                         <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
                         <select class="custom-select" multiple id="selectCategory" name="selectCategory" style="height:300px;overflow-y: hidden;">
                             <option selected>所有任務</option>
+                           
                             @foreach (var item in q)
                             {
-                                <option value="@item.taskName">@item.taskName，共 @item.taskCount 筆</option>
-                            }
+                                <option value="@item.taskName">@item.taskName  (@item.taskCount) </option>
+
+                                }
+                           
                         </select>
 
                         <div class="card-body">
@@ -256,7 +263,8 @@
                             </div>
 
                             <div class="card-body col-md-3 d-flex flex-column justify-content-end">
-                                <a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>
+                                @*<a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>*@
+                                <a href="@Url.Action("Detail", new { id=item.CaseId })" target="_blank" class="btn btn-outline-primary">詳細資訊</a>
                                 <a href="#" class="btn btn-outline-primary">收藏工作</a>
                             </div>
 
