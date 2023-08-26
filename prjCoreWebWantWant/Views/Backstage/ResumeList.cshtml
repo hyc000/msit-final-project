@@ -65,8 +65,15 @@
                                         <div class="card mb-4">
                                         <div class="card-body">
                                             <h5 class="card-title">@item.ResumeTitle</h5>
-                                            <p class="card-text">@item.Autobiography.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
-                                            <!-- <input type="checkbox" class="toggle-checkbox" > -->
+                                           
+                                            @if(item.Autobiography.Length <= 120)
+                                            {
+                                                <p class="card-text">@item.Autobiography</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="card-text">@item.Autobiography.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
+                                            }
 
                                            @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
 
@@ -77,72 +84,14 @@
 
                                             <a href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success"  data-bs-target="#ResumeModal">檢視</a>
                                             @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
-                                                    @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
-                                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
-                                                    @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
-                                                    <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                            @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
+                                            @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
+                                            @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+                                            <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
                                                     
                                                     @*<a href="#"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@   @*PDF的文件圖示*@
                                 <a href="#" class="btn btn-outline-secondary" style="color:black">輸出為<i class="fa-regular fa-file-pdf fa-xl"></i>文件</a>
 
-                                                   @* <div class="modal " id="ResumeModal">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <!-- Header -->
-                                            <div class="modal-header">
-                                                <h3>履歷表 @count</h3>
-                                                <button type="button"
-                                                        class="btn-close"
-                                                        data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <!-- Body -->
-                                            <div class="modal-body">
-                                                <!-- 登入表單 -->
-                                                <form>
-                                                    <!-- email -->
-                                                    <div class="form-group">
-                                                        <input type="email"
-                                                               class="account form-control"
-                                                               placeholder="Email" />
-                                                    </div>
-                                                    <!-- password -->
-                                                    <div class="form-group">
-                                                        <input type="password"
-                                                               class="password form-control"
-                                                               placeholder="Password" />
-                                                    </div>
-                                                    <!-- checkbox -->
-                                                    <div class="form-group">
-                                                        <input type="checkbox" class="remember" />記住我的密碼
-                                                    </div>
-                                                    <!-- 送出按鈕 -->
-                                                    <button type="button" class="btn btn-info">登入</button>
-                                                </form>
-                                            </div>
-                                            <!-- Footer -->
-                                            <div class="modal-footer">
-                                                <div class="signup">
-                                                    <span>尚未成為會員</span>
-                                                    <a href="#" type="button" class="member"> 立即加入 </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                         *@
-                                           
-                    @*                        <!-- 開關 -->
-                        <div class="form-check form-switch" style="float: right">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       role="switch"
-                                       id="flexSwitchCheckDefault" />
-                                <label class="form-check-label"
-                                       for="flexSwitchCheckDefault"
-                                       id="switchLabel"></label>
-                            </div>
-                        </div>*@
                                         </div>
                                     </div>
                                 </div>

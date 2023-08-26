@@ -40,6 +40,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
                 p.TownId = selectedTownId;
                 p.Photo = new byte[] {selectedPhoto};
+                p.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                 _context.Resumes.Add(p);
                 _context.SaveChanges();
 
@@ -123,6 +124,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 resume.Address = pIn.Address;
                 resume.AccountId = pIn.AccountId;
+                resume.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                 _context.SaveChanges();
             }
             return RedirectToAction("ResumeList");
