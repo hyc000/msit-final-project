@@ -21,7 +21,7 @@ namespace prjShop.Controllers
               .ThenInclude(od => od.Product)
           .Include(o => o.Account)
           .Include(o => o.Category)
-          .AsQueryable(); // 将查询初始化为可构建的Queryable
+          .AsQueryable();  //将查询初始化为可构建的Queryable
 
             if (categorys.HasValue)
             {
