@@ -67,56 +67,19 @@
             <label class="fs-4 pl-2 pt-2">所有證照類別</label>
             <div class="controls-display-row category-click">
                 <span class="fs-5">證照大項</span>
-                <i class="fa-solid fa-chevron-down"></i>
+                @using (Html.BeginForm())
+                {
 
-                @*<div class="d-flex justify-content-end">
-                <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
-                <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
-                </div>*@
-            </div>
-            <div class="ms-lg-4 filter-block-toggle">
-                <ul class="list-unstyled divFiltered_tag">
+                    <select id="certificatetypeselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    </select>
+                    <select id="certificateselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    </select>
+                }
 
-                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
-                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <span>細項1</span>
-                    </li>
 
-                    <li class=" d-flex align-items-center divide-line my-w-80-percent">
-                        @*<img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-                        <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />*@
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <span>細項2</span>
-                    </li>
 
-                </ul>
-            </div>
-
-            @*@foreach (var c in Model.categoryAndTags)
-            {
-            <div class="controls-display-row category-click">
-            <span class="fs-5">@Html.DisplayFor(modelItem => c.category)</span>
-            <div class="d-flex justify-content-end">
-            <img id="arrow_bottom_down" src="~/icons/arrow_bottom_down_icon.png">
-            <img id="arrow_top_up" src="~/icons/arrow_top_up_icon.png">
             </div>
             </div>
-            <div class="ms-lg-4 filter-block-toggle">
-            <ul class="list-unstyled divFiltered_tag">
-            @foreach (var t in c.tags.Distinct())
-            {
-            <li class=" d-flex align-items-center divide-line my-w-80-percent">
-            <img class="uncheckbox" src="~/icons/icons8-unchecked-32.png" />
-            <img class="checkbox" src="~/icons/icons8-checkbox-32.png" />
-            <span>@Html.DisplayFor(modelItem => t)</span>
-            </li>
-            }
-            </ul>
-            </div>
-            }*@
-        </div>
         <!--價格篩選-->@*請教亞芝姐怎麼變成同一條的，或是小C叫我用noUiSlider*@
         <div class="filter_block">
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
@@ -321,15 +284,20 @@
         //專長：載入下拉式選單
         const skilltypeselect = document.querySelector('#skilltypeselect');
         const skillselect = document.querySelector('#skillselect');
+        const certificatetypeselect = document.querySelector('#certificatetypeselect');
+        const certificateselect = document.querySelector('#certificateselect');
 
         document.addEventListener('DOMContentLoaded', function () {
 
             Loadskilltype();
-
+            Loadcertificatetype();
 
             skilltypeselect.addEventListener('change', function () {
                 Loadskill();
             });
+                certificatetypeselect.addEventListener('change', function () {
+                    Loadcertificate();
+                });
         });
 
         //專長大項資料來
@@ -344,6 +312,8 @@
                     skilltypeselect.innerHTML = options;
                 });  //then最後一個THEN
         };
+
+
 
         function Loadskill() {
             const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
@@ -360,9 +330,39 @@
                     skillselect.innerHTML = options;
                 });  //then最後一個THEN
         };
-
-
-
         /*Loadskilltype();*///使用載入資料
+
+            //證照大項資料來
+            function Loadcertificatetype() {
+                fetch('@Url.Content("~/ApiForExpert/CertificatTypeAPI")')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        let options = "<option>請選擇證照</option>";
+                        options += data.map(certificatetype => `<option value="1">${certificate}</option>`).join('');
+
+                        certificatetypeselect.innerHTML = options;
+                    });  //then最後一個THEN
+            };
+
+
+
+            function Loadcertificate() {
+                const certificatetypeselecttext = certificatetypeselect.options[certificatetypeselect.selectedIndex].text;
+                console.log(certificatetypeselecttext);
+            if (certificatetypeselecttext == "請選擇證照" || certificatetypeselecttext == null) {
+                certificateselect.innerHTML = "<option value=''>請先選擇證照</option>";
+                    return;
+                }
+                fetch(`@Url.Content("~/ApiForExpert/CertificateAPI")?certificatetype=${certificatetypeselecttext}`)
+                    .then(response => response.json())
+                    .then(datas => {
+                        let options = ""
+                        options += datas.map(certificate => `<option value="1">${certificate}</option>`).join('');
+                        certificateselect.innerHTML = options;
+                    });  //then最後一個THEN
+            };
+                                /*Loadcertificatetype();*///使用載入證照資料
+
         </script>
 }
