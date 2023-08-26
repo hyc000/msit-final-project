@@ -1,0 +1,307 @@
+﻿
+@{
+    ViewData["Title"] = "ExpertCart";
+}
+
+
+@{
+
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+<form action="@Url.Content("~/shop/CheckoutEx")" method="post">
+    <div class="container text-center">
+        <p>　</p>
+        <ul class="progressbar d-flex justify-content-center">
+            <li class="active">購物車</li>
+            <li>結帳</li>
+            <li>完成</li>
+        </ul>
+        <p>　</p>
+        <p>　</p>
+    </div>
+
+    <div class="card shadow rounded">
+
+        <h3 class="card-header" style="background-color:#528EAF ; color:seashell">購物車</h3>
+        <div class="card-body">
+            @{
+                int tax = 0;
+                int sum = 0;
+                int getpoint = 0;
+                int usepoint = 0;
+                int total = 0;
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <thead class="table-borderless">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>商品名稱</th>
+                                <th>單價</th>
+                                <th>數量</th>
+                                <th>小計</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Cart)
+                            {
+                                getpoint += (item.GetPoint * item.Quantity);
+                                sum += (item.UnitPrice * item.Quantity);
+
+                                <tr>
+                                    <td><span hidden>@item.TopDate</span></td>
+                                    <td><img src="~/shopimg/@item.ImageUrl" style="width:100px ; height:100px"></td>
+                                    <td>@item.ProductName</td>
+                                    <td>$@item.UnitPrice</td>
+                                    <td>
+                                        <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
+                                    </td>
+
+                                    <td>$@(item.UnitPrice * item.Quantity)</td>
+                                    <td>
+                                        <div class="icon-container">
+                                            <button type="button" class="btn-unstyled" onclick="removeCartItem(@item.ProductId)">
+                                                <i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem'></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                else
+                {
+                    <p class="text-center text-dark">購物車內尚無商品</p>
+                }
+                tax = (sum / 10);
+                if (@ViewBag.Points > sum)
+                {
+                    usepoint = sum;
+                }
+                else
+                {
+                    usepoint = @ViewBag.Points;
+                }
+                total = (sum - usepoint);
+                <hr />
+
+                <div class="row">
+                    <div class="col-4 justify-content-around">
+
+                        <div class="input-group input-group-sm mb-2">
+
+                            <span style="padding-top:3px">選擇曝光的專家履歷：</span>
+
+                            <select class="form-control" id="expertSelect" name="ResumeId" required onchange="validateCaseSelect(this)">
+                                <option value="">請選擇你要曝光的專家履歷</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col text-right pr-5"> 總計：$@sum</div>
+                </div>
+            }
+        </div>
+    </div>
+    <p>　</p>
+
+
+
+    <div class="card shadow rounded">
+        <h3 class="card-header" style=" background-color:#528EAF; color:seashell">結帳金額</h3>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col" style="padding-left: 0;">商品總計</div>
+                <div class="col text-right">$<span name="OrderPrice">@sum</span></div>
+            </div>
+            <div class="row">
+                <div class="col" style="padding-left: 0;">稅額</div>
+                <div class="col text-right">$@tax </div>
+            </div>
+            <div class="row">
+                <div class="col" style="padding-left: 0;">預估可獲得紅利</div>
+                <div class="col text-right">@getpoint 點</div>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
+                <div class="col" style="padding-left: 0;color: brown;">
+                    紅利總點數: @ViewBag.Points 點
+                    <label>最高折抵，不超過訂單總價</label>
+                </div>
+                <div class="col text-right" style="color: brown;">$@usepoint</div>
+            </div>
+            <div class="row">
+                <div class="col" style="padding-left: 0;">應付金額</div>
+                <div class="col text-right" style="font-size: 1.5REM;">$@total</div>
+            </div>
+            <div class="container">
+                <div class="d-flex justify-content-end mt-4">
+
+
+
+                    <input type="hidden" name="OrderPrice" value="@sum" />
+                    <input type="hidden" name="OrderGetPoint" value="@getpoint" />
+                    <input type="hidden" name="OrderUsePoint" value="@usepoint" />
+                    <input type="hidden" name="PaidAmount" value="@total" />
+                    <input type="submit" value="結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
+
+                    <input type="submit" value="金流測試" class="btn btn-primary btn-lg" />
+                </div>
+            </div>
+            <a href="@Url.Content("~/shop/ExpertShop")"><span><i class='bx bx-left-arrow-alt'></i>繼續購物</span></a>
+        </div>
+    </div>
+</form>
+
+
+@section Styles
+    {
+    <!--box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+
+        td {
+            vertical-align: middle;
+        }
+
+        .btn-unstyled {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .icon-container {
+            display: inline-block;
+        }
+
+        .progressbar {
+            counter-reset: step;
+        }
+
+            .progressbar li {
+                list-style-type: none;
+                width: 25%;
+                float: left;
+                font-size: 12px;
+                position: relative;
+                text-align: center;
+                text-transform: uppercase;
+                color: lightgray;
+                ;
+            }
+
+                .progressbar li:before {
+                    width: 30px;
+                    height: 30px;
+                    content: counter(step);
+                    counter-increment: step;
+                    line-height: 30px;
+                    border: 2px solid lightgray;
+                    ;
+                    display: block;
+                    text-align: center;
+                    margin: 0 auto 10px auto;
+                    border-radius: 50%;
+                    background-color: white;
+                }
+
+                .progressbar li:after {
+                    width: 100%;
+                    height: 2px;
+                    content: '';
+                    position: absolute;
+                    background-color: lightgray;
+                    top: 15px;
+                    left: -50%;
+                    z-index: -1;
+                }
+
+                .progressbar li:first-child:after {
+                    content: none;
+                }
+
+                .progressbar li.active {
+                    color: #528EAF;
+                }
+
+                    .progressbar li.active:before {
+                        border-color: #528EAF;
+                    }
+
+                    .progressbar li.active + li:after {
+                        background-color: #528EAF;
+                    }
+    </style>
+}
+
+@section Scripts
+    {
+
+    @if (TempData["SweetAlertScript"] != null)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+        <script>
+            $(document).ready(function () {
+            @Html.Raw(TempData["SweetAlertScript"])
+                                    });
+        </script>
+    }
+
+    <script>
+
+
+        async function loadExert() {
+            try {
+                const response = await fetch('/Shop/loadExpert');
+                const data = await response.json();
+
+
+
+                const selectElement = document.getElementById('expertSelect');
+
+                data.forEach(ExpertItem => {
+                    const option = document.createElement('option');
+                    option.value = ExpertItem.resumeId;
+                    option.textContent = ExpertItem.introduction.substr(0, 15); // 不知道為甚麼小寫第一個字才給過
+                    option.title = ExpertItem.introduction;
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('加載出錯：', error);
+            }
+        }
+
+        // 加載任務
+        loadExert();
+
+        async function removeCartItem(productId) {
+            try {
+                const response = await fetch(`/Shop/RemoveExpertCart?productId=${productId}`, {
+                    method: 'POST',
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                        // 自動刷新
+                        location.reload();
+                    } else {
+                        console.error("刪除失敗");
+                    }
+                } else {
+                    console.error("刪除失敗，響應狀態：", response.status);
+                }
+            } catch (error) {
+                console.error("刪除請求失敗：", error);
+            }
+        }
+
+    </script>
+    }
+
