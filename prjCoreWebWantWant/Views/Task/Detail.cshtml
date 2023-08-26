@@ -96,14 +96,14 @@
                             @*<a href="#" class="btn">立即應徵</a>*@
                             @*  <a href="@Url.Action("Apply", new { id=Model.FId })" target="_blank">詳細資訊</a>*@
 @*                            <a href="@Url.Action("Apply", new { id = Model.FId })" target="_blank" id="myInput">立即應徵</a>*@
-                          @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>*@
-<<<<<<< HEAD
-=======
-                            <a href="#" id="applyButton" class="btn btn-outline-primary">立即應徵</a>
->>>>>>> bb974ea388072b88bde48dea4c8088d851d84bc9
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>
 
 
-                          @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                          @*  <a href="#" id="applyButton" class="btn btn-outline-primary">立即應徵</a>*@
+
+
+                            @*判斷登入*@
+                          @*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                             @{
                                 if (HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
                                 {
@@ -111,9 +111,9 @@
                                 }
                                 else
                                 {
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="NoLogin">立即應徵</a>
+                                    <a href="@Url.Content("~/Member/Login")" id="NoLogin">請登入以應徵</a>
                                 }
-                            }
+                            }*@
                         </div>                     
                     </div>
 
@@ -220,7 +220,6 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消應徵</button>
                     @*<button type="button" class="btn btn-primary">立即應徵</button>*@
                 </div>
-               
             </div>
         </div>
     </div>
@@ -236,10 +235,11 @@
     
         
     </style>
-
 }
 
+
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 引入 jQuery -->
     <script>
 
             const myModal = document.querySelector('#myModal');
@@ -248,7 +248,7 @@
             myModal.addEventListener('show', function () {
             myModal.show();
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script> <!-- 引入 jQuery -->
+           
    
         document.addEventListener("DOMContentLoaded", function () {
             var applyButton = document.getElementById("applyButton");
@@ -271,23 +271,31 @@
                 });
             });
         });
-    
-
-
         })
 
-        const applyNow = document.querySelector('#applyNow');
-        const NoLogin = document.querySelector('#NoLogin')
+        //const applyButton = document.querySelector('#applyButton');
+        //applyButton.addEventListener('click' ,() => {
+        //    const xhr = new XMLHttpRequest();
+        //    xhr.open('POST', '@Url.Content("~/Task/Details")');
+        //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //    xhr.send(``);
+        //    xhr.addEventListener('load',() => {
 
-        applyNow.addEventListener('click', () => {
-            Swal.fire({
-                icon: 'warning',
-                title: '您還沒有登入',
-                text: '請先登入帳號',
-            })
-        })
+        //    })
+        //})
 
 
+
+        //const applyNow = document.querySelector('#applyNow');
+        //const NoLogin = document.querySelector('#NoLogin')
+
+        //applyNow.addEventListener('click', () => {
+        //    Swal.fire({
+        //        icon: 'warning',
+        //        title: '您還沒有登入',
+        //        text: '請先登入帳號',
+        //    })
+        //})
     </script>
 
     

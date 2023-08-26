@@ -71,12 +71,41 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult ResumeUneditable()
         {
-            return View();
+            var q = _context.Resumes
+                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
+            return View(q);
+        }
+
+        public IActionResult ResumeDetail(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("List");
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (task == null)
+                return RedirectToAction("List");
+            CResumeWrap taskWrap = new CResumeWrap();
+            taskWrap.task = task;
+            return View(taskWrap);
+        }
+        [HttpPost]
+        public ActionResult ResumeDetail(CTaskWrap pIn)
+        {
+            TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
+            if (pDb != null)
+            {
+                pDb.CaseId = pIn.FId;
+                pDb.TaskTitle = pIn.FTitle;
+                pDb.TaskDetail = pIn.FDetail;
+                pDb.PayFrom = pIn.FPayFrom;
+                //db.SaveChanges();
+            }
+            return RedirectToAction("List");
         }
 
         public IActionResult ResumeList()
         {
-            var q = _context.Resumes                                           
+            var q = _context.Resumes
+                    .Include(t => t.Town.City)                                           
                     .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
             return View(q);
         }
