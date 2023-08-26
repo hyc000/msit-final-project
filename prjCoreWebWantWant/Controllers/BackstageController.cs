@@ -79,13 +79,13 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ResumeDetail(int? id)
         {
             if (id == null)
-                return RedirectToAction("List");
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if (task == null)
-                return RedirectToAction("List");
-            CResumeWrap taskWrap = new CResumeWrap();
-            taskWrap.task = task;
-            return View(taskWrap);
+                return RedirectToAction("ResumeList");
+            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+            if (resume == null)
+                return RedirectToAction("ResumeList");
+            CResumeWrap resumeWrap = new CResumeWrap();
+            resumeWrap.resume = resume;
+            return View(resumeWrap);
         }
         [HttpPost]
         public ActionResult ResumeDetail(CTaskWrap pIn)
