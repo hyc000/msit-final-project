@@ -61,14 +61,23 @@
                             <ul class="nav nav-tabs nav-tabs-custom nav-justified"
                                 role="tablist">
                                 <li class="nav-item" onclick="showApplied();">
-                                    <a class="nav-link active "
-                                       data-bs-toggle="tab"
-                                       href="#Applied"
-                                       role="tab">
+                                    <a class="nav-link active " data-bs-toggle="tab" href="#Applied" role="tab">
                                         <span class="d-block d-sm-none">
                                             <i class="far fa-user"></i>
                                         </span>
                                         <span class="d-none d-sm-block" style="color: #528eaf">應徵紀錄</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" onclick="showAccept();">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block" style="color:#528EAF">已錄取</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" onclick="showRefuse();">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block" style="color:#528EAF">未錄取</span>
                                     </a>
                                 </li>
                             </ul>
