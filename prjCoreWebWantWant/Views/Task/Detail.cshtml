@@ -105,7 +105,7 @@
                 </div>
                 
 
-                <!-- Right Content -->
+                <!-- 右邊資訊欄 -->
                 <div class="col-xl-4 col-lg-4">
                     <div class="post-details3  mb-50">                     
                         <div class="small-section-tittle">                        
@@ -148,8 +148,7 @@
                     </div>
 
                     @*應徵按鈕下方的公司資訊*@
-                    <div class="post-details4  mb-50">
-                        <!-- Small Section Tittle -->
+                    <div class="post-details3  mb-50">                       
                         <div class="small-section-tittle">                         
                             <h4 style="display: flex; align-items: center;">
                                 <img src="~/backstage1/img/personal-information.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
@@ -163,6 +162,10 @@
                             <li>Email: <span>cc</span></li>
                         </ul>
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
@@ -261,23 +264,15 @@
         });
         })
 
-
         const googleMapsScript = document.createElement("script");
-        googleMapsScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBbcL3X1HudqP8Ej1YhYQlzE9Oy3frc-rc&callback=initMap";
+        googleMapsScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCRStl7AgIq-q26mULwe9h-dMZX0uGSzKc&callback=initMap";
         document.head.appendChild(googleMapsScript);
 
         const isAddressEmpty = @Json.Serialize(ViewBag.IsAddressEmpty);
         const mapAddress = @Json.Serialize(ViewBag.MapAddress);
 
-      @*  const addressData = @Html.Raw(Json.Serialize(Model.FAddress));碗
-        console.log(addressData)
-
-        let map;*@
-
         function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                //center: { lat: 23.9, lng: 120.9 },碗
-                //zoom: 7,
+            map = new google.maps.Map(document.getElementById("map"), {              
                     center: isAddressEmpty ? { lat: 25.034280, lng: 121.543437 } : null,
                     zoom: isAddressEmpty ? 20 : 17,
             });
@@ -300,28 +295,11 @@
                             console.error(status);
                         }
                     });
-                }
+            } else {
+                map.setCenter({ lat: 25.034280, lng: 121.543437 }); // 設定地圖中心位置為台北市大安區復興南路一段390號
             }
-        //    const geocoder = new google.maps.Geocoder();碗
-
-        //    for (const address of addressData) {
-        //        geocoder.geocode({ address: address }, (results, status) => {
-        //            if (status === google.maps.GeocoderStatus.OK) {
-        //                const latitude = results[0].geometry.location.lat();
-        //                const longitude = results[0].geometry.location.lng();
-        //                const Latlng = new google.maps.LatLng(latitude, longitude);
-
-        //                new google.maps.Marker({
-        //                    position: Latlng,
-        //                    map: map,
-        //                });
-        //            } else {
-        //                console.error(status);
-        //            }
-        //        });
-        //    }
-        //}
-
+        }
+      
 
        
     </script>
