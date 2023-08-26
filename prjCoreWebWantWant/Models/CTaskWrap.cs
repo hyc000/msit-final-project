@@ -92,6 +92,15 @@ namespace prjCoreWebWantWant.Models;
             set { _task.AccountId = value; }
         }
 
+            public int? FTaskNameId
+            {
+                get { return _task.TaskNameId; }
+                set { _task.TaskNameId = value; }
+            }
+
+
+
+    public virtual ICollection<TaskNameList> taskNameList { get; set; } = new List<TaskNameList>();
     public virtual ICollection<TaskSkill> taskSkill { get; set; } = new List<TaskSkill>();
     public virtual ICollection<TaskCertificate> taskCertificate { get; set; } = new List<TaskCertificate>();
 }

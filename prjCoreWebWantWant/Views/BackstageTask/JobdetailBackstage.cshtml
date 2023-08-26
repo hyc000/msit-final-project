@@ -1,4 +1,8 @@
-﻿
+﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+
+
+
+
 @{
     ViewData["Title"] = "JobdetailBackstage";
     // Layout = "/Views/Shared/_BackstageLayout.cshtml";
@@ -37,207 +41,19 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-
-    @*    <header id="page-topbar">
-            <div class="navbar-header">
-                <div class="d-flex">
-                </div>
-
-            </div>
-        </header>
-*@
-
-
-
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
+     <div class="main-content">
 
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">任務詳細資料</h4>
-                                <p></p>
-
-
-                                <div class="d-flex">
-
-
-                                    <!--四個小圖示-->
-                                 @*    <div class="dropdown d-none d-sm-inline-block">
-                                        <button type="button" class="btn header-item" id="mode-setting-btn">
-                                            <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
-                                            <i data-feather="sun" class="icon-lg layout-mode-light"></i>
-                                        </button>
-                                    </div> *@
-
-                                   @*  <div class="dropdown d-none d-lg-inline-block ms-1">
-                                        <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i data-feather="grid" class="icon-lg"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                                            <div class="p-2">
-                                                <div class="row g-0">
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/github.png" alt="Github">
-                                                            <span>GitHub</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/bitbucket.png" alt="bitbucket">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/dribbble.png" alt="dribbble">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-0">
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/dropbox.png" alt="dropbox">
-                                                            <span>Dropbox</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/mail_chimp.png" alt="mail_chimp">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a class="dropdown-icon-item" href="#">
-                                                            <img src="static/picture/slack.png" alt="slack">
-                                                            <span></span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> *@
-
-                                 @*    <div class="dropdown d-inline-block">
-                                        <button type="button" class="btn header-item noti-icon position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i data-feather="bell" class="icon-lg"></i>
-                                            <span class="badge bg-danger rounded-pill">5</span>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-                                            <div class="p-3">
-                                                <div class="row align-items-center">
-                                                    <div class="col">
-                                                        <h6 class="m-0"> Notifications </h6>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <a href="#!" class="small text-reset text-decoration-underline"> Unread (3)</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div data-simplebar="" style="max-height: 230px;">
-                                                <a href="#!" class="text-reset notification-item">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <img src="static/picture/avatar-3.jpg" class="rounded-circle avatar-sm" alt="user-pic">
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="mb-1">James Lemire</h6>
-                                                            <div class="font-size-13 text-muted">
-                                                                <p class="mb-1">It will seem like simplified English.</p>
-                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hour ago</span></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#!" class="text-reset notification-item">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0 avatar-sm me-3">
-                                                            <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                                                <i class="bx bx-cart"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="mb-1">Your order is placed</h6>
-                                                            <div class="font-size-13 text-muted">
-                                                                <p class="mb-1">If several languages coalesce the grammar</p>
-                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min ago</span></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#!" class="text-reset notification-item">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0 avatar-sm me-3">
-                                                            <span class="avatar-title bg-success rounded-circle font-size-16">
-                                                                <i class="bx bx-badge-check"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="mb-1">Your item is shipped</h6>
-                                                            <div class="font-size-13 text-muted">
-                                                                <p class="mb-1">If several languages coalesce the grammar</p>
-                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min ago</span></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-
-                                                <a href="#!" class="text-reset notification-item">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <img src="static/picture/avatar-6.jpg" class="rounded-circle avatar-sm" alt="user-pic">
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <h6 class="mb-1">Salena Layfield</h6>
-                                                            <div class="font-size-13 text-muted">
-                                                                <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
-                                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hour ago</span></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="p-2 border-top d-grid">
-                                                <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
-                                                    <i class="mdi mdi-arrow-right-circle me-1"></i> <span>View More..</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div> *@
-
-                                   @*  <div class="dropdown d-inline-block">
-                                        <button type="button" class="btn header-item right-bar-toggle me-2">
-                                            <i data-feather="settings" class="icon-lg"></i>
-                                        </button>
-                                    </div> *@
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
-                    <!--任務詳細內容-->
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="container-fluid">
-
-                                            <!-- start page title -->
-                                            <div class="row">                                          
-                                            </div>
-                                            <!-- end page title -->
-
+                                            @foreach (var item in Model)
+                                            {
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="card">
@@ -245,45 +61,23 @@
                                                             <div class="row">
                                                                 <div class="col-sm order-2 order-sm-1">                                                               
                                                                     <div class="flex-grow-1">
-                                                                        <div>
-                                                                            <h2 class="font-size-16 mb-1">python入門教學</h2>
-                                                                            <p></p>
-                                                                            <!-- <p class="text-muted font-size-13">Full Stack Developer</p> -->
+                                                                    
+                                                                        <div>                                                                         
+                                                                            <h2 class="font-size-16 mb-1">@item.TaskTitle</h2>
+                                                                            <p></p>                                                                          
 
                                                                             <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                                                                                <div><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i>單次任務</div>
-                                                                                <div><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i>$600</div>
+                                                                                <div><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i>@item.TaskName</div>
+                                                                                <div><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i>@item.PayFrom</div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <!-- </div> -->
+                                                                    </div> 
                                                                 </div>
-                                                              @*   <div class="col-sm-auto order-1 order-sm-2">
-                                                                    <div class="d-flex align-items-start justify-content-end gap-2">
-                                                                        <div>
-                                                                            <button type="button" class="btn btn-soft-light"><i class="me-1"></i> Message</button>
-                                                                        </div>
-                                                                        <div>
-                                                                            <div class="dropdown">
-                                                                                <button class="btn btn-link font-size-16 shadow-none text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                                </button>
-                                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> *@
+                                                             
                                                             </div>
-
-
-                                                        </div>
-                                                        <!-- end card body -->
+                                                        </div>                                                   
                                                     </div>
-                                                    <!-- end card -->
+                                               
                                                     <!--任務內容開始-->
                                                     <div class="tab-content">
                                                         <div class="tab-pane active" id="overview" role="tabpanel">
@@ -297,13 +91,13 @@
                                                                             <div class="row">
                                                                                 <div class="col-xl-2">
                                                                                     <div>
-                                                                                        <h5 class="font-size-15">【處理事項】：</h5>
+                                                                                        <h5 class="font-size-15">【處理事項】</h5>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-xl">
                                                                                     <div class="text-muted">
                                                                                         <p class="mb-2">
-                                                                                            最近在自學python，遇到了一些困難，需要有人能在台灣白天時間早上時間幫我線上回答問題
+                                                                                            @item.TaskDetail
                                                                                         </p>
                                                                                         <p class="mb-0"></p>
                                                                                     </div>
@@ -311,7 +105,7 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="py-3">
+                                                                    @*    <div class="py-3">
                                                                             <div class="row">
                                                                                 <div class="col-xl-2">
                                                                                     <div>
@@ -331,71 +125,70 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </div>*@
 
 
                                                                     </div>
                                                                 </div>
-                                                                <!-- end card body -->
+                                                            
+                                                            </div>
                                                             </div>
 
+                                                        <!--語言-->
+                                                        <div class="row">
+                                                            <div class="card col-lg-4 col-sm-12">
+                                                                <div class="card-header">
+                                                                    <h5 class="card-title mb-0">語言</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                        <a href="#" class="badge badge-soft-primary"></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
                                                             <!--技能-->
-                                                            <div class="row">
-                                                                <div class="card col-4">
-                                                                    <div class="card-header">
-                                                                        <h5 class="card-title mb-0">語言</h5>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end card body -->
+                                                            <div class="card col-lg-4 col-sm-12">
+                                                                <div class="card-header">
+                                                                    <h5 class="card-title mb-0">技能</h5>
                                                                 </div>
-                                                                <div class="card col-4">
-                                                                    <div class="card-header">
-                                                                        <h5 class="card-title mb-0">技能</h5>
+                                                                <div class="card-body">
+                                                                    <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                        <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                        <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                                        <a href="#" class="badge badge-soft-primary">HTML</a>
+                                                                        <a href="#" class="badge badge-soft-primary">CSS</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Javascript</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Python</a>
                                                                     </div>
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end card body -->
-                                                                </div>
-                                                                <div class="card col-4">
-                                                                    <div class="card-header">
-                                                                        <h5 class="card-title mb-0">證照</h5>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end card body -->
-                                                                </div>
+                                                                </div>                                                          
                                                             </div>
 
-
+                                                            <!--證照-->
+                                                            <div class="card col-lg-4 col-sm-12">
+                                                                <div class="card-header">
+                                                                    <h5 class="card-title mb-0">證照</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                        <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                        <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                                        <a href="#" class="badge badge-soft-primary">HTML</a>
+                                                                        <a href="#" class="badge badge-soft-primary">CSS</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Javascript</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                        <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                             <!-- 照片 -->
                                                             <div class="card">
@@ -411,7 +204,7 @@
                                                                         <div class="col-lg-3 col-sm-6">
                                                                             <div class="mt-4">
                                                                                 <a href="/static/file/img-1.jpg" class="image-popup">
-                                                                                    <img src="/Backstage1/static/file/img-1.jpg" class="img-fluid" alt="work-thumbnail">
+                                                                                    <img src="" class="img-fluid" alt="work-thumbnail">
                                                                                 </a>
                                                                             </div>
                                                                         </div>
@@ -425,159 +218,35 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- end card body -->
+                                              
                                                             </div>
-                                                            <!-- end card -->
+                                                       
                                                         </div>
-                                                        <!-- end tab pane -->
+                                                     
                                                     </div>
 
-
-
-                                                    <!-- end tab content -->
                                                 </div>
-                                                <!-- end col -->
+                                           }
 
 
                                             </div>
-                                            <!-- end row -->
+                                         
 
-                                        </div> <!-- container-fluid -->
+                                        </div> 
 
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
+                        </div> 
+                    </div> 
 
-                </div> <!-- container-fluid -->
+                </div>
             </div>
-            <!-- End Page-content -->
+           
         </div>
-        <!-- end main content-->
+     
 
     </div>
-    <!-- END layout-wrapper -->
-    <!--右側圖示-->
-    <!-- Right Sidebar -->
-   @*  <div class="right-bar">
-        <div data-simplebar="" class="h-100">
-            <div class="rightbar-title d-flex align-items-center p-3">
-
-                <h5 class="m-0 me-2">Theme Customizer</h5>
-
-                <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
-                    <i class="mdi mdi-close noti-icon"></i>
-                </a>
-            </div>
-
-            <!-- Settings -->
-            <hr class="m-0">
-
-            <div class="p-4">
-                <h6 class="mb-3">Layout</h6>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout" id="layout-vertical" value="vertical">
-                    <label class="form-check-label" for="layout-vertical">Vertical</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout" id="layout-horizontal" value="horizontal">
-                    <label class="form-check-label" for="layout-horizontal">Horizontal</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Layout Mode</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-light" value="light">
-                    <label class="form-check-label" for="layout-mode-light">Light</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-dark" value="dark">
-                    <label class="form-check-label" for="layout-mode-dark">Dark</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Layout Width</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fuild" value="fuild" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
-                    <label class="form-check-label" for="layout-width-fuild">Fluid</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-boxed" value="boxed" onchange="document.body.setAttribute('data-layout-size', 'boxed')">
-                    <label class="form-check-label" for="layout-width-boxed">Boxed</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Layout Position</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-position" id="layout-position-fixed" value="fixed" onchange="document.body.setAttribute('data-layout-scrollable', 'false')">
-                    <label class="form-check-label" for="layout-position-fixed">Fixed</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-position" id="layout-position-scrollable" value="scrollable" onchange="document.body.setAttribute('data-layout-scrollable', 'true')">
-                    <label class="form-check-label" for="layout-position-scrollable">Scrollable</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Topbar Color</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-light" value="light" onchange="document.body.setAttribute('data-topbar', 'light')">
-                    <label class="form-check-label" for="topbar-color-light">Light</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-dark" value="dark" onchange="document.body.setAttribute('data-topbar', 'dark')">
-                    <label class="form-check-label" for="topbar-color-dark">Dark</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Size</h6>
-
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-default" value="default" onchange="document.body.setAttribute('data-sidebar-size', 'lg')">
-                    <label class="form-check-label" for="sidebar-size-default">Default</label>
-                </div>
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-compact" value="compact" onchange="document.body.setAttribute('data-sidebar-size', 'md')">
-                    <label class="form-check-label" for="sidebar-size-compact">Compact</label>
-                </div>
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-small" value="small" onchange="document.body.setAttribute('data-sidebar-size', 'sm')">
-                    <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Color</h6>
-
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-light" value="light" onchange="document.body.setAttribute('data-sidebar', 'light')">
-                    <label class="form-check-label" for="sidebar-color-light">Light</label>
-                </div>
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-dark" value="dark" onchange="document.body.setAttribute('data-sidebar', 'dark')">
-                    <label class="form-check-label" for="sidebar-color-dark">Dark</label>
-                </div>
-                <div class="form-check sidebar-setting">
-                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-brand" value="brand" onchange="document.body.setAttribute('data-sidebar', 'brand')">
-                    <label class="form-check-label" for="sidebar-color-brand">Brand</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Direction</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-ltr" value="ltr">
-                    <label class="form-check-label" for="layout-direction-ltr">LTR</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-rtl" value="rtl">
-                    <label class="form-check-label" for="layout-direction-rtl">RTL</label>
-                </div>
-
-            </div>
-
-        </div> <!-- end slimscroll-menu-->
-    </div>
-    <!-- /Right-bar -->
-    <!-- Right bar overlay-->
-    <div class="rightbar-overlay"></div> *@
-
 
     @section Scripts{
     <style>
@@ -596,3 +265,15 @@
 </body>
 </html>
 
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找人才</li>
+            <li class="breadcrumb-item " aria-current="page">發案紀錄</li>
+            <li class="breadcrumb-item " aria-current="page">任務詳細資料</li>
+        </ol>
+    </nav>
+}
