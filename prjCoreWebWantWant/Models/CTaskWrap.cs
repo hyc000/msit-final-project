@@ -80,7 +80,19 @@ namespace prjCoreWebWantWant.Models;
             get { return _task.TaskPeriod; }
             set { _task.TaskPeriod = value; }
         }
-        public string? FTaskStartHour
+
+    public string? FTaskStartDate
+    {
+        get { return _task.TaskStartDate; }
+        set { _task.TaskStartDate = value; }
+    }
+
+    public string? FTaskEndDate
+    {
+        get { return _task.TaskEndDate; }
+        set { _task.TaskEndDate = value; }
+    }
+    public string? FTaskStartHour
         {
             get { return _task.TaskStartHour; }
             set { _task.TaskStartHour = value; }
