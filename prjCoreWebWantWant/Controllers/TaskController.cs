@@ -162,5 +162,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             }
             return PartialView(q);
         }
+
+
+        //判斷是否有登入
+        //public IActionResult IsUserLoggedIn()
+        //{
+        //    //bool isLoggedIn = // 在這裡檢查使用者是否已登入，使用你的驗證機制
+        //    //   return Json(isLoggedIn);
+        //}
+
     }
 }

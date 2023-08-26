@@ -15,12 +15,13 @@
 
 <main>
 
-    
-    <!-- job post company Start -->
+
+
     <div class="job-post-company pt-120 pb-120">
         <div class="container">
             <div class="row justify-content-between">
                 <!-- Left Content -->
+              
                 <div class="col-xl-7 col-lg-8">
                     <div class="job-tittle mb-50">
                         <div class="small-section-tittle">
@@ -63,9 +64,19 @@
                                 <li></li>
                             </ul>
                         </div>
-                    </div>
 
+
+                        <div class="post-details2  mb-50">
+                            <!-- Small Section Tittle -->
+                            <div class="small-section-tittle">
+                                <h4>任務相關照片</h4>
+                            </div>
+                            <img src="" class="img-thumbnail" alt="...">
+                        </div>
+                    </div>
                 </div>
+                
+
                 <!-- Right Content -->
                 <div class="col-xl-4 col-lg-4">
                     <div class="post-details3  mb-50">
@@ -85,7 +96,8 @@
                             @*<a href="#" class="btn">立即應徵</a>*@
                             @*  <a href="@Url.Action("Apply", new { id=Model.FId })" target="_blank">詳細資訊</a>*@
 @*                            <a href="@Url.Action("Apply", new { id = Model.FId })" target="_blank" id="myInput">立即應徵</a>*@
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>
+                          @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>*@
+                            <a href="#" id="applyButton" class="btn btn-outline-primary">立即應徵</a>
 
                         </div>                     
                     </div>
@@ -107,10 +119,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    @*點選立即應徵之後的modal*@
-
+  
+    @*點選立即應徵之後的modal*@      
     <div class="modal" tabindex="-1" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -195,10 +205,12 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消應徵</button>
                     @*<button type="button" class="btn btn-primary">立即應徵</button>*@
                 </div>
+               
             </div>
         </div>
     </div>
-
+    </div>
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 
@@ -220,6 +232,33 @@
 
             myModal.addEventListener('show', function () {
             myModal.show();
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script> <!-- 引入 jQuery -->
+   
+        document.addEventListener("DOMContentLoaded", function () {
+            var applyButton = document.getElementById("applyButton");
+            applyButton.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "/Task/IsUserLoggedIn",
+                    type: "POST",
+                    success: function (result) {
+                        if (result) {
+                            // 使用者已登入，顯示模態框
+                            var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+                            myModal.show();
+                        } else {
+                            // 使用者未登入，導向登入頁面
+                            window.location.href = "~/View/Member/Login"; // 替換為你的登入頁面 URL
+                        }
+                    }
+                });
+            });
+        });
+    
+
+
         })
 
 
