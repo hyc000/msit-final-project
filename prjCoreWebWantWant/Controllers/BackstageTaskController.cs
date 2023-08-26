@@ -148,7 +148,6 @@ namespace WantTask.Controllers
         }
 
         
-   
         public IActionResult Edit(int ? id)
         {
             if (id == null)
@@ -182,7 +181,12 @@ namespace WantTask.Controllers
         //點選已上架未上架的詳細任務畫面
         public IActionResult JobDetail(int? id)
         {
-            var q = _context.TaskLists.Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            var q = _context.TaskLists
+                //.Include(s => s.TaskSkills).Where(ss => ss.CaseId == id)
+                //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
+                //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
+                .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            
             return View(q);
         }
 
