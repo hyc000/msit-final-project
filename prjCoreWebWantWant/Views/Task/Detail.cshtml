@@ -85,8 +85,20 @@
                             @*<a href="#" class="btn">立即應徵</a>*@
                             @*  <a href="@Url.Action("Apply", new { id=Model.FId })" target="_blank">詳細資訊</a>*@
 @*                            <a href="@Url.Action("Apply", new { id = Model.FId })" target="_blank" id="myInput">立即應徵</a>*@
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>
+                          @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="myInput">立即應徵</a>*@
 
+
+                          @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                            @{
+                                if (HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+                                {
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="applyNow">立即應徵</a>
+                                }
+                                else
+                                {
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="NoLogin">立即應徵</a>
+                                }
+                            }
                         </div>                     
                     </div>
 
@@ -220,6 +232,17 @@
 
             myModal.addEventListener('show', function () {
             myModal.show();
+        })
+
+        const applyNow = document.querySelector('#applyNow');
+        const NoLogin = document.querySelector('#NoLogin')
+
+        applyNow.addEventListener('click', () => {
+            Swal.fire({
+                icon: 'warning',
+                title: '您還沒有登入',
+                text: '請先登入帳號',
+            })
         })
 
 

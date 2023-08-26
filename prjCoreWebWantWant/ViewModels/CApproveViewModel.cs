@@ -1,4 +1,6 @@
-﻿using prjCoreWebWantWant.Models;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using prjCoreWebWantWant.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace WantTask.ViewModels
 {
