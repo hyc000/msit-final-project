@@ -1,0 +1,276 @@
+﻿@model prjCoreWebWantWant.Models.CTaskWrap
+
+
+@{
+    ViewData["Title"] = "JobDetail";
+    // Layout = "/Views/Shared/_BackstageLayout.cshtml";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <style>
+
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5; /* 或者你想要的其他背景顏色 */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #528EAF; /* 更改滑鼠滑過的背景顏色 */
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #fff; /* 更改滑鼠滑過的文字顏色 */
+        }
+
+        .badge-soft-primary {
+            background-color: #528EAF;
+            color: #fff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- <body data-layout="horizontal"> -->
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="container-fluid">
+                                         
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm order-2 order-sm-1">
+                                                                        <div class="flex-grow-1">
+
+                                                                            <div>
+                                                                                <h2 class="font-size-16 mb-1">@Model.FTitle</h2>
+                                                                                <p></p>
+
+                                                                                <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
+                                                                                @*<img src="~/backstage1/img/location.png" style="height:25px ;width:25px"></>*@
+                                                                                <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.FTaskStartDate</>
+                                                                                <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Model.FPayFrom</>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--任務內容開始-->
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="overview" role="tabpanel">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">任務內容</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div>
+                                                                            <div class="pb-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-xl-2">
+                                                                                        <div>
+                                                                                            <h5 class="font-size-15">【處理事項】</h5>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-xl">
+                                                                                        <div class="text-muted">
+                                                                                            <p class="mb-2">
+                                                                                               @Model.FDetail
+                                                                                            </p>
+                                                                                            <p class="mb-0"></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @*    <div class="py-3">
+                                                                        <div class="row">
+                                                                        <div class="col-xl-2">
+                                                                        <div>
+                                                                        <h5 class="font-size-15">【注意事項】：</h5>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-xl">
+                                                                        <div class="text-muted">
+                                                                        <p></p>
+
+                                                                        <ul class="list-unstyled mb-0">
+                                                                        <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i></li>
+                                                                        <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i></li>
+                                                                        <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i></li>
+                                                                        <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-success align-middle"></i></li>
+                                                                        </ul>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>*@
+
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <!--語言-->
+                                                            <div class="row">
+                                                                <div class="card col-lg-4 col-sm-12">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">語言</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--技能-->
+                                                                <div class="card col-lg-4 col-sm-12">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">技能</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
+                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--證照-->
+                                                                <div class="card col-lg-4 col-sm-12">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">證照</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
+                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- 照片 -->
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <div class="d-flex">
+                                                                        <div class="flex-grow-1">
+                                                                            <h5 class="card-title mb-0">任務相關照片</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-3 col-sm-6">
+                                                                            <div class="mt-4">
+                                                                                <a href="/static/file/img-1.jpg" class="image-popup">
+                                                                                    <img src="@Model." class="img-fluid" alt="work-thumbnail">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-3 col-sm-6">
+                                                                            <div class="mt-4">
+                                                                                <a href="/static/file/img-2.jpg" class="image-popup">
+                                                                                    <img src="/Backstage1/static/file/img-2.jpg" class="img-fluid" alt="work-thumbnail">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+
+    @section Scripts{
+        <style>
+            <!-- JobdetailBackstage js -->
+            <!-- glightbox js -->
+            <script src="~/backstage1/static/js/glightbox.min.js" > </script >
+            <!-- lightbox init -->
+            <script src="~/backstage1/static/js/lightbox.init.js" > </script ></style>
+
+    }
+
+
+
+
+
+</body>
+</html>
+
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找人才</li>
+            <li class="breadcrumb-item " aria-current="page">發案紀錄</li>
+            <li class="breadcrumb-item " aria-current="page">任務詳細資料</li>
+        </ol>
+    </nav>
+}

@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Resume>
+
 @{
     ViewData["Title"] = "ResumeUneditable";
     // Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
@@ -122,7 +123,9 @@
                         </div>
                     </div>
                     <!-- end page title -->
-
+                   @foreach (var item in Model)
+                    {
+                    
                     <div class="row">
                         <div class="col-xl-9 col-lg-8">
                             <div class="card">
@@ -140,8 +143,10 @@
                                                 <div class="flex-grow-1">
                                                     <div>
                                                         <h5 class="font-size-16 mb-1">
-                                                            姓名：李芷帆
                                                         </h5>
+
+                                                        
+                                                        <div>姓名：</div>
 
                                                         <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                             <div>性別：女</div>
@@ -413,6 +418,7 @@
                                                 <div class="flex-grow-1">
                                                     <h5 class="card-title mb-0">自傳</h5>
                                                 </div>
+                                                
                                                 <div></div>
                                             </div>
                                         </div>
@@ -448,6 +454,7 @@
                         <!-- end col -->
                         <!-- end col -->
                     </div>
+                    }
                     <!-- end row -->
                 </div>
                 <!-- container-fluid -->
@@ -457,6 +464,6 @@
         <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->
-
+                    
 </body>
 </html>
