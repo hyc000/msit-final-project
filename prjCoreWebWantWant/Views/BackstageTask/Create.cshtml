@@ -116,13 +116,13 @@
                     <h5 class="mb-4" style="color:#528EAF">任務地點</h5>
                    
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptionsHome" id="inlineRadioHome"
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioHome"
                                    value="option1">
                             <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptionsOtherPlace" id="inlineRadioOtherPlace"
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioOtherPlace"
                                    value="option2">
                             <label class="form-check-label" for="inlineRadioOtherPlace">指定地點</label>
                         </div>
@@ -602,6 +602,9 @@
 
 
         //在家兼職和指定地點的radio，點選指定地點才能選擇縣市地址
+        const inlineRadioHome = document.getElementById("inlineRadioHome");
+        const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
+
         document.addEventListener("DOMContentLoaded", function () {
             const inlineRadioHome = document.getElementById("inlineRadioHome");
             const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
@@ -627,7 +630,7 @@
             updateFieldsAvailability(); // 初始狀態
         });
 
-
+               
 
     </script>
 }
