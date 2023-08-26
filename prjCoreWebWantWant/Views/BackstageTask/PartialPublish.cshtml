@@ -79,10 +79,14 @@
                                 @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
                                   @*  <i class="fas fa-pencil-alt"></i>
                             </a>  舊的*@
-                                                              
+
+                              
                                 <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>     
+
+
+
                         </td>
                     </tr>
 
@@ -192,51 +196,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
         <script src="~/js/SweetAlert.js"></script>
 
-        <script>
-        $('#saveBtn').click(function () {
-            var taskId = $('#modalCaseId').val();
-            var updatedTaskTitle = $('#TaskTitle').val();
-            var updatedTaskDetail = $('#TaskDetail').val();
-            var isPublished = $('#flexCheckDefault').is(':checked');
-
-            // 使用 Ajax 發送數據到後端進行保存
-            $.ajax({
-                url: '@Url.Content("~/BackstageTask/UpdateTask")', // 替換成你的後端控制器的 URL
-                type: 'POST',
-                data: {
-                    taskId: taskId,
-                    updatedTaskTitle: updatedTaskTitle,
-                    updatedTaskDetail: updatedTaskDetail,
-                    isPublished: isPublished
-                },
-                success: function (data) {
-                    // 儲存成功後的處理，如關閉 modal 或刷新頁面
-                    if (data.success) 
-
-                        function Alert() {
-                        // 儲存成功，顯示 SweetAlert
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Your work has been saved',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(function () {
-                            // SweetAlert 確定按鈕被點擊後，重新載入相關的內容
-                            location.reload();
-                        }
-                       });
-                    } else {
-                        // 儲存失敗，可能需要顯示錯誤消息
-                    }
-                },
-                error: function () {
-                    // 儲存失敗後的處理
-                    alert("儲存失敗，請稍後再試。");
-                }
-            });
-        });
-
+        
 
         const publish = document.querySelector('#publish');
         const Nopublish = document.querySelector('#Nopublish');
