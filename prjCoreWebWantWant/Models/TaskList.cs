@@ -65,7 +65,7 @@ public partial class TaskList
 
     public int? CaseStatusId { get; set; }
 
-    public int? OnTop { get; set; }
+    public DateTime? OnTop { get; set; }
 
     public string? DataCreateDate { get; set; }
 

@@ -138,6 +138,7 @@ namespace prjShop.Controllers
                     Quantity = 1,
                     ImageUrl = product.CoverPhoto,
                     GetPoint = product.GetPoint,
+                    TopDate =product.TopDate,
                 });
             }
 

@@ -25,8 +25,6 @@ public partial class OrderDetail
 
     public string? TopType { get; set; }
 
-    public int? UnitPoint { get; set; }
-
     public int? GetPoint { get; set; }
 
     public virtual TaskList? Case { get; set; }

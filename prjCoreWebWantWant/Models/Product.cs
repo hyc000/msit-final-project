@@ -27,8 +27,6 @@ public partial class Product
 
     public string? TopType { get; set; }
 
-    public int? UnitPoint { get; set; }
-
     public int? GetPoint { get; set; }
 
     public string? CoverPhoto { get; set; }

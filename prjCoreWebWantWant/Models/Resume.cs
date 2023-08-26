@@ -19,7 +19,7 @@ public partial class Resume
 
     public byte[]? Photo { get; set; }
 
-    public int? OnTop { get; set; }
+    public DateTime? OnTop { get; set; }
 
     public int? TaskNameId { get; set; }
 

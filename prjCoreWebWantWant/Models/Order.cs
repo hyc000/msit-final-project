@@ -17,7 +17,7 @@ public partial class Order
 
     public int? OrderPrice { get; set; }
 
-    public int? OrderPoint { get; set; }
+    public int? PaidAmount { get; set; }
 
     public DateTime? CreateTime { get; set; }
 
