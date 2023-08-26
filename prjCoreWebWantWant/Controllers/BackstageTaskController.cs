@@ -194,14 +194,15 @@ namespace WantTask.Controllers
         [HttpPost]
         public ActionResult JobDetail(CTaskWrap pIn)
         {
-            TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
+            TaskList pDb = _context.TaskLists.Include(t=>t.TaskName).FirstOrDefault(p => p.CaseId == pIn.FId);
             if (pDb != null)
             {
                 pDb.CaseId = pIn.FId;
                 pDb.TaskTitle = pIn.FTitle;
                 pDb.TaskDetail = pIn.FDetail;
                 pDb.PayFrom = pIn.FPayFrom;
-                
+                //pDb.TaskName = pIn.FTaskName;
+
                 //db.SaveChanges();
             }
             return RedirectToAction("List");
@@ -575,13 +576,7 @@ namespace WantTask.Controllers
      
         #endregion
 
-        //public IActionResult JobdetailBackstage()
-        //{
-        //    return View("JobdetailBackstage");
-        //}
-
-
-
+     
 
 
         //public IActionResult yes()
@@ -591,55 +586,6 @@ namespace WantTask.Controllers
         //            where app.TaskList.TaskNameID == (int)this.Tag && app.CaseStatusID == 21
 
         //            select app;
-        //}
-
-        public IActionResult JobdetailBackstage()
-        { 
-            return View(JobdetailBackstage);   
-        }
-
-
-        //public IActionResult JobdetailBackstage(int? id)     //修改
-        //{
-        //    if (id == null)
-        //    {
-        //        return RedirectToAction("JobdetailBackstage");
-        //    }
-
-        //    TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-        //    if (task == null)
-        //    {
-        //        return RedirectToAction("JobdetailBackstage");
-        //    }
-        //    CTaskWrap taskWrap = new CTaskWrap();  //因要改成用class:CProductWrap，所以增加這兩行
-        //    taskWrap.task = task;
-        //    return View(taskWrap);   //原本括號內是prod
-        //}
-
-        //[HttpPost]
-
-        //public IActionResult JobdetailBackstage(CTaskWrap pln)     //修改，原本括號內是用TProduct pln，改成用class:CProductWrap，因CProduct是自動產生，會產生多次，用Wrap就不會被影響
-        //{
-
-        //    TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pln.FId);
-
-        //    if (pDb != null)
-        //    {
-        //        //if (pln.photo != null)
-        //        //{
-        //        //    string photoName = Guid.NewGuid().ToString() + ".jpg";
-        //        //    pDb.FImagePath = photoName;
-        //        //    pln.photo.CopyTo(new FileStream(_enviro.WebRootPath + "/Images/" + photoName, FileMode.Create));
-        //        //    //原本加照片的方法改成copyto，filestream裡面有兩個參數，1.路徑+存到哪個資料夾+給檔名，2.如果沒有照片就create
-
-        //        //}
-        //        pDb.TaskTitle = pln.FTitle;
-        //        pDb.TaskDetail = pln.FDetail;
-        //        pDb.PayFrom = pln.FPayFrom;
-        //        //pDb.FPrice = pln.FPrice;
-        //        _context.SaveChanges();
-        //    }
-        //    return RedirectToAction("JobdetailBackstage");
         //}
 
 

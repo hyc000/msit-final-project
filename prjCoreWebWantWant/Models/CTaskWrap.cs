@@ -5,15 +5,35 @@ namespace prjCoreWebWantWant.Models;
     public class CTaskWrap
     {
         private TaskList _task = null;
-        public TaskList task
+
+        private TaskNameList _taskNameList = null; 
+    
+        private TaskPhoto _taskPhoto = null;
+
+
+    public TaskList task
+            {
+                get { return _task; }
+                set { _task = value; }
+            }
+
+        public TaskNameList taskNameList
         {
-            get { return _task; }
-            set { _task = value; }
+            get { return _taskNameList; }
+            set { _taskNameList = value; }
         }
-        public CTaskWrap()
-        {
-            _task = new TaskList();
-        }
+
+            //public TaskPhoto _taskPhoto
+            //{
+            //    get { return _taskPhoto; }
+            //    set { _taskPhoto = value; }
+            //}
+    public CTaskWrap()
+            {
+                _task = new TaskList();
+                _taskNameList= new TaskNameList();
+        //_taskPhoto= new TaskPhoto();
+            }
 
         public int FId
         {
@@ -92,15 +112,20 @@ namespace prjCoreWebWantWant.Models;
             set { _task.AccountId = value; }
         }
 
-            public int? FTaskNameId
-            {
-                get { return _task.TaskNameId; }
-                set { _task.TaskNameId = value; }
-            }
+            //public int? FTaskNameId
+            //{
+            //    get { return _task.TaskNameId; }
+            //    set { _task.TaskNameId = value; }
+            //}
+
+                public string? FTaskName
+                {
+                    get { return _taskNameList.TaskName ; }
+                    set { _taskNameList.TaskName = value; }
+                }
+  
 
 
-
-    public virtual ICollection<TaskNameList> taskNameList { get; set; } = new List<TaskNameList>();
     public virtual ICollection<TaskSkill> taskSkill { get; set; } = new List<TaskSkill>();
     public virtual ICollection<TaskCertificate> taskCertificate { get; set; } = new List<TaskCertificate>();
 }
