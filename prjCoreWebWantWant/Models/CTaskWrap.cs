@@ -86,11 +86,13 @@ namespace prjCoreWebWantWant.Models;
             set { _task.PublishEnd = value; }
         }
 
-
         public int? FAccountID
         {
             get { return _task.AccountId; }
             set { _task.AccountId = value; }
         }
+
+    public virtual ICollection<TaskSkill> taskSkill { get; set; } = new List<TaskSkill>();
+    public virtual ICollection<TaskCertificate> taskCertificate { get; set; } = new List<TaskCertificate>();
 }
 
