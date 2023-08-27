@@ -24,9 +24,9 @@
   
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="@Url.Content("~/Task/CategoryList")">後台</a></li>
-            <li class="breadcrumb-item"><a href="#">找人力</a></li>
-            <li class="breadcrumb-item active" aria-current="page">發案紀錄</li>
+            <li class="breadcrumb-item"><a href="@Url.Content("~/Task/ListNew")">找工作</a></li>      
+            @* <li class="breadcrumb-item active" aria-current="page">@Model.FTaskName</li>*@
+            <li class="breadcrumb-item active" aria-current="page">@Model.FTitle</li>
         </ol>
     </nav>
 
@@ -71,7 +71,7 @@
                                 </h4>
                             </div>
                             <ul>
-                                @*失敗ㄉ一段QQ*@
+                                @*失敗ㄉ一段QQname結尾的都是亂碼*@
                                 <li>@Model.taskSkill</li>
                                 <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       

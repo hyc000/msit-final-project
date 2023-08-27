@@ -18,11 +18,11 @@ namespace prjCoreWebWantWant.Models;
                 set { _task = value; }
             }
 
-        public TaskNameList taskNameList
-        {
-            get { return _taskNameList; }
-            set { _taskNameList = value; }
-        }
+        //public TaskNameList taskNameList
+        //{
+        //    get { return _taskNameList; }
+        //    set { _taskNameList = value; }
+        //}
 
     //public TaskPhoto taskPhoto
     //{
@@ -31,12 +31,15 @@ namespace prjCoreWebWantWant.Models;
     //}
 
     public TaskPhoto taskPhoto { get; set; }
+    //public TaskNameList taskNameList { get; set; }
+
     public CTaskWrap()
             {
                 _task = new TaskList();
-                _taskNameList= new TaskNameList();
+              
+        _taskNameList= new TaskNameList();
         //_taskPhoto= new TaskPhoto();
-            }
+    }
 
         public int FId
         {
@@ -127,17 +130,14 @@ namespace prjCoreWebWantWant.Models;
             set { _task.AccountId = value; }
         }
 
-            //public int? FTaskNameId
-            //{
-            //    get { return _task.TaskNameId; }
-            //    set { _task.TaskNameId = value; }
-            //}
+    public string? FTaskName
+    {
+        get { return _taskNameList.TaskName; }
+        set { _taskNameList.TaskName = value; }
+    }
 
-                public string? FTaskName
-                {
-                    get { return _taskNameList.TaskName ; }
-                    set { _taskNameList.TaskName = value; }
-                }
+
+
 
     //skill
 
