@@ -339,6 +339,7 @@
                                         <th scope="col" style="width: auto; text-align: center">任務報酬</th>
                                         <th scope="col" style="width: auto; text-align: center">需求技能</th>
                                         <th scope="col" style="width: auto; text-align: center">收藏時間</th>
+                                        <th scope="col" style="width: auto; text-align: center">詳細內容</th>
                                         <th style="width: auto; text-align: center">動作</th>
                                     </tr>
                                 </thead>
@@ -365,10 +366,12 @@
                                             </div>
                                         </td>
                                          <td style="text-align: left">@item.CollectionDate</td>
+                                         <td><a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
                                         <th>
                                             <div class="btn-group"role="group"aria-label="Basic example">
-                                              <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-secondary">取消收藏</a>
-                                              <a href="@Url.Content("~/BackStage/Apply")?id=@item.CaseId" class="btn btn-outline-secondary">應徵</a>
+                                              <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger">取消收藏</a>
+                                              <a href="@Url.Content("~/BackStage/Apply")?caseId=@item.CaseId" class="btn btn-outline-success">應徵</a>
+                                              @*<a href="@Url.Content("~/BackStage/Apply")?id=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
                                             </div>
                                         </th>
                                     </tr>

@@ -149,6 +149,16 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
             return View(q.ToList());
         }
+        public IActionResult AddCollection(MemberCollection mc , int? id)
+        {
+            mc.CaseId = id;
+            mc.AccountId = GetAccountID();
+            mc.CollectionDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            _context.Add(mc);
+            _context.SaveChanges();
+            return RedirectToAction("ListNew", "Task");
+            //return new EmptyResult();
+        }
 
         public IActionResult DeleteCollection(int? id)
         {
@@ -168,16 +178,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             ApplicationList applicationList = new ApplicationList()
             {
-                ResumeId = resumeId,
+                ResumeId = resumeId,        //todo 還沒抓到履歷id(多履歷的問題)
                 CaseId = caseId,
-                CaseStatusId = 21
+                CaseStatusId = 21,
+                ApplicationDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
             };
             _context.Add(applicationList);
             _context.SaveChanges(true);
             return RedirectToAction("TaskCollection");
         }
 
-        public IActionResult ApplicationRecord()
+        public IActionResult ApplicationRecord()   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
             var q = from al in _context.ApplicationLists
                     join tl in _context.TaskLists on al.CaseId equals tl.CaseId
