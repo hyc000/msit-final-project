@@ -424,13 +424,13 @@
                                                             <div class="card-footer text-center">
                                                                 <form action="@Url.Content("~/Backstage/apply")" method="post">
                                                                     <!-- 使用表單元素包裹 -->
-                                                                    <input onclick="Alert()"
+                                                                    <input 
                                                                            class="btn btn-primary"
                                                                            style="background-color: #528EAF"
                                                                            type="submit"
                                                                            value="以此履歷應徵" />
                                                                     <input type="hidden" name="resumeId" value="@item.ResumeId">
-                                                                    <input type="hidden" id="selectedCaseId" name="caseId" />
+                                                                    <input type="hidden" id="selectedCaseId" name="caseId"/>
 
                                                                 </form>
                                                             </div>
@@ -522,9 +522,10 @@
         //    console.log(selectedCaseId.value)
         //})
 
+        const selectedCaseId = document.querySelector('#selectedCaseId');
         const Apply = document.querySelectorAll('.Apply');
         Apply.forEach(button => {
-            Apply.addEventListener('click', () => {
+            button.addEventListener('click', () => {
                 selectedCaseId.value = button.value;
                 console.log(selectedCaseId.value);
             })
