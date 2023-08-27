@@ -1,7 +1,17 @@
 ﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
 @{
     var cases = ViewBag.Cases as Dictionary<int, string>;
-    var resumes = ViewBag.Resumes as Dictionary<int, int>;
+    var resumes = ViewBag.Resumes as Dictionary<int, string>;
+
+    if (cases == null)
+    {
+        <p>Cases 沒有數據</p>
+    }
+
+    if (resumes == null)
+    {
+        <p>Resumes 沒有數據</p>
+    }
 }
 @{
     ViewData["Title"] = "List";
@@ -112,7 +122,7 @@
                             else if (resuemeId != null && ViewBag.Resumes.ContainsKey(resuemeId.Value))
                             {
                                 var resuemeIdValue = ViewBag.Resumes[resuemeId.Value];
-                                <span>您的專業履歷@(resuemeIdValue)</span>
+                                <span>@(resuemeIdValue.Length > 10 ? resuemeIdValue.Substring(0, 20) : resuemeIdValue)...</span>
                             }
                             else
                             {

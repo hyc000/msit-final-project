@@ -51,10 +51,24 @@ namespace prjShop.Controllers
             var filteredOrders = query.ToList();
 
             var cases = _context.TaskLists.ToList();
-            var resumes = _context.Resumes.ToList();
+            var resumes = _context.Resumes
+    .Include(r => r.ExpertResume)
+    .ToList();
+
+            foreach (var resume in resumes)
+            {
+                if (resume.ExpertResume == null)
+                {
+                    Console.WriteLine($"ExpertResume is null for ResumeId: {resume.ResumeId}");
+                }
+                else if (resume.ExpertResume.Introduction == null)
+                {
+                    Console.WriteLine($"Introduction is null for ResumeId: {resume.ResumeId}");
+                }
+            }
 
             ViewBag.Cases = cases.ToDictionary(c => c.CaseId, c => c.TaskTitle);
-            ViewBag.Resumes = resumes.ToDictionary(r => r.ResumeId, r => r.ResumeId);
+            ViewBag.Resumes = resumes.ToDictionary(r => r.ResumeId, r => r.ExpertResume?.Introduction ?? "No Introduction");
 
             return View(filteredOrders);
         }
