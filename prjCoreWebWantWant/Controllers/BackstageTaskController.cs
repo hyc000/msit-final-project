@@ -52,28 +52,45 @@ namespace WantTask.Controllers
             //return PartialView( "PartialPublish",datas);
         }
 
+        //public IActionResult TablesEditable(TaskList taskList)
+        //{
+        //    NewIspanProjectContext _context = new NewIspanProjectContext();
+
+        //    if (taskList != null && taskList.PublishOrNot != null)
+        //    {
+        //        var tasklist = _context.TaskList.Where(t => t.PublishOrNot == "立刻上架").ToList();
+        //        return View(tasklist);
+        //    }
+
+        //    return Content("No tasks found.");
+
+        //}
+
+
+
+
         //選擇任務類別+keyword+已上架
-        public IActionResult PartialPublish(string category,CKeywordViewModel vm)
+        public IActionResult PartialPublish(string category, CKeywordViewModel vm)
         {
-            if(vm.txtKeyword == null)
+            if (vm.txtKeyword == null)
             {
                 vm.txtKeyword = "";
             }
 
-            if(category == null)
+            if (category == null)
             {
                 var all = _context.TaskLists.
-                Where(t => t.PublishOrNot == "立刻上架" 
-                &&( t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                Where(t => t.PublishOrNot == "立刻上架"
+                && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                   || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
                 return PartialView(all);  //換頁數? .Take()
             }
 
             var taskName = _context.TaskLists.
-                Where(t => t.TaskName.TaskName == category 
-                && t.PublishOrNot == "立刻上架" 
-                &&( t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                Where(t => t.TaskName.TaskName == category
+                && t.PublishOrNot == "立刻上架"
+                && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                 || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
             return PartialView(taskName);
@@ -91,7 +108,7 @@ namespace WantTask.Controllers
             {
                 var all = _context.TaskLists.
                 Where(t => t.PublishOrNot == "延後上架"
-                &&( t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                   || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
                 return PartialView(all);  //換頁數? .Take()
@@ -107,22 +124,22 @@ namespace WantTask.Controllers
         }
 
         //立刻上架的keyword
-        public IActionResult publishKeyword(CKeywordViewModel vm , string category)
+        public IActionResult publishKeyword(CKeywordViewModel vm, string category)
         {
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
-            {                
-                datas = _context.TaskLists                       
+            {
+                datas = _context.TaskLists
                         .Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
             }
             else
             {
-                 datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
-                 t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
-                 t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
-                );
+                datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
+                t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+               );
             }
-            return View(datas);           
+            return View(datas);
         }
 
         //改狀態為立刻上架
@@ -148,22 +165,22 @@ namespace WantTask.Controllers
             return RedirectToAction("TablesEditable");
         }
 
-        
-        public IActionResult Edit(int ? id)
+
+        public IActionResult Edit(int? id)
         {
             if (id == null)
                 return View("TablesEditable");
 
             NewIspanProjectContext _context = new NewIspanProjectContext();
             TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if ( task==null)  
+            if (task == null)
                 return RedirectToAction("TablesEditable");
 
-            return View(task);                     
+            return View(task);
         }
 
         [HttpPost]
-        public IActionResult Edit (TaskList tasknew)
+        public IActionResult Edit(TaskList tasknew)
         {
             NewIspanProjectContext _context = new NewIspanProjectContext();
             TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == tasknew.CaseId);
@@ -171,9 +188,9 @@ namespace WantTask.Controllers
             if (task != null)
             {
                 task.TaskTitle = tasknew.TaskTitle;
-                task.TaskDetail=tasknew.TaskDetail;
-                task.PublishOrNot = tasknew.PublishOrNot;          
-            
+                task.TaskDetail = tasknew.TaskDetail;
+                task.PublishOrNot = tasknew.PublishOrNot;
+
                 _context.SaveChanges();
             }
             return RedirectToAction("TablesEditable");
@@ -190,8 +207,8 @@ namespace WantTask.Controllers
                 //.Include(p=>p.TaskPhotos)
                 //.ThenInclude(p=>p.Photo)
                 //.Where(ss => ss.CaseId == id)
-                
-                
+
+
                 //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
                 //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
                 .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
@@ -203,6 +220,14 @@ namespace WantTask.Controllers
             return View(q);
         }
 
+        //public IActionResult yes()
+        //{
+        //    var q = from app in _context.ApplicationLists.AsEnumerable()
+
+        //            where app.TaskList.TaskNameID == (int)this.Tag && app.CaseStatusID == 21
+
+        //            select app;
+        //}
 
 
         #endregion
@@ -253,47 +278,47 @@ namespace WantTask.Controllers
 
                            }).AsEnumerable()
 
-                .Where(app=>app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                .Where(app => app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                            || app.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
 
                 .Distinct();
 
                 return PartialView(all);  //換頁數? .Take()
-               
+
             }
 
-             var query = (from app in _context.ApplicationLists
-                          join task in _context.TaskLists on app.CaseId equals task.CaseId
-                          join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
-                          join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
-                          join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                          join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-                          join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+            var query = (from app in _context.ApplicationLists
+                         join task in _context.TaskLists on app.CaseId equals task.CaseId
+                         join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
+                         join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
+                         join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+                         join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+                         join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+                         join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
 
-                          where app.CaseStatusId == 21
+                         where app.CaseStatusId == 21
 
-                          select new CApproveViewModel
-                          {
-                              CaseId = task.CaseId,
-                              ResumeId = resume.ResumeId,
-                              TaskNameId = task.TaskNameId,
-                              CaseStatusId = app.CaseStatusId,
-                              Name = member.Name,
-                              SkillName = skill.SkillName,
-                              CertificateName = cer.CertificateName,
-                              Autobiography = resume.Autobiography,
-                              PublishStart = task.PublishStart,
-                              TaskStart = task.TaskStartDate,
-                              TaskTitle = task.TaskTitle,
-                              TaskDetail = task.TaskDetail
-                          }).AsEnumerable()
+                         select new CApproveViewModel
+                         {
+                             CaseId = task.CaseId,
+                             ResumeId = resume.ResumeId,
+                             TaskNameId = task.TaskNameId,
+                             CaseStatusId = app.CaseStatusId,
+                             Name = member.Name,
+                             SkillName = skill.SkillName,
+                             CertificateName = cer.CertificateName,
+                             Autobiography = resume.Autobiography,
+                             PublishStart = task.PublishStart,
+                             TaskStart = task.TaskStartDate,
+                             TaskTitle = task.TaskTitle,
+                             TaskDetail = task.TaskDetail
+                         }).AsEnumerable()
 
-              .Where(app => app.TaskName == category              
-                   && (app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                         || app.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
-              );
-                return PartialView(query);
+             .Where(app => app.TaskName == category
+                  && (app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                        || app.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
+             );
+            return PartialView(query);
 
             //var query = (from app in _context.ApplicationLists
             //             join task in _context.TaskLists on app.CaseId equals task.CaseId
@@ -326,7 +351,7 @@ namespace WantTask.Controllers
             //             .Distinct();
 
             //return PartialView("ApproveAllResumePartialView", query.ToList());
-            
+
         }
 
         //app表未處理AllResume的錄取btn
@@ -341,7 +366,7 @@ namespace WantTask.Controllers
             return RedirectToAction("Approve");
         }
 
-        
+
         //approve表點選錄取btn後的已錄取tab
         public IActionResult ApproveAcceptPartialView(string category)
         {
@@ -372,7 +397,7 @@ namespace WantTask.Controllers
                              TaskDetail = task.TaskDetail
                          }).AsEnumerable()
 
-                         .Where(app => app.TaskName == category )  // 此處是在客戶端進行過濾
+                         .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
                          .Distinct();
 
             return PartialView("ApproveAcceptPartialView", query.ToList());
@@ -422,36 +447,22 @@ namespace WantTask.Controllers
                              TaskDetail = task.TaskDetail
                          }).AsEnumerable()
 
-                         .Where(app =>app.TaskName == category)  
+                         .Where(app => app.TaskName == category)
                          .Distinct();
 
-                return PartialView("ApproveAcceptPartialView", query.ToList());            
+            return PartialView("ApproveAcceptPartialView", query.ToList());
         }
 
         #endregion
 
-      
-
-        //public IActionResult Form()
-        //{
-        //    return View("Form");
-        //}
-
-        //public IActionResult Form( CCreateTask createTask)
-        //{  
-
-
-        //    return View("Form");
-        //}
-
         #region Form表 Create表
         public IActionResult Create()
-        { 
-            return View();      
-        
+        {
+            return View();
+
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId , int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId , byte selectedPhoto,string publishornot)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, byte selectedPhoto, string publishornot)
         {
 
             tasklist.TaskNameId = selectedTaskNameId;
@@ -459,31 +470,31 @@ namespace WantTask.Controllers
             tasklist.PaymentId = selectedPaymentId;
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
-              
+
             _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
 
-                TaskSkill taskSkill = new TaskSkill()
-                {
-                    CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
-                    SkillId = selectedSkillId
-                };
-                _context.Add(taskSkill);
-                _context.SaveChanges();
+            TaskSkill taskSkill = new TaskSkill()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                SkillId = selectedSkillId
+            };
+            _context.Add(taskSkill);
+            _context.SaveChanges();
 
-                TaskCertificate taskCer = new TaskCertificate()
-                {
-                    CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
-                    CertficateId = selectedCerId
-                };
-                _context.Add(taskCer);
-                _context.SaveChanges();
+            TaskCertificate taskCer = new TaskCertificate()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                CertficateId = selectedCerId
+            };
+            _context.Add(taskCer);
+            _context.SaveChanges();
 
-                TaskPhoto taskPhoto = new TaskPhoto()
-                {
-                    CaseId= tasklist.CaseId,
-                    Photo = new byte[] { selectedPhoto }
-                };
+            TaskPhoto taskPhoto = new TaskPhoto()
+            {
+                CaseId = tasklist.CaseId,
+                Photo = new byte[] { selectedPhoto }
+            };
 
             _context.Add(taskPhoto);
             _context.SaveChanges();
@@ -515,6 +526,31 @@ namespace WantTask.Controllers
             return File(img, "image/jpeg");
         }
 
+        //public IActionResult Form()
+        //{
+        //    return View("Form");
+        //}
+
+        //public IActionResult Form( CCreateTask createTask)
+        //{  
+
+
+        //    return View("Form");
+        //}
+
+
+        public IActionResult Form(TaskList taskList)
+        {
+            _context.TaskLists.Add(taskList);
+            _context.SaveChanges();
+
+            return View("Form");
+
+        }
+
+        #endregion
+
+        #region 一堆select
 
         //取得任務類型的selectIndex
         public IActionResult GetTaskNameId(string taskname)
@@ -536,7 +572,6 @@ namespace WantTask.Controllers
 
             return Json(townId);
         }
-
 
         //取得支薪方式的selectIndex
         public IActionResult GetPaymentId(string payment)
@@ -562,7 +597,7 @@ namespace WantTask.Controllers
         public IActionResult GetSkillId(string skillBig, string skillSmall)
         {
             var skillSmallId = _context.SkillTypes
-                         .Where(a => a.SkillTypeName== skillBig)
+                         .Where(a => a.SkillTypeName == skillBig)
                          .SelectMany(c => c.Skills)
                          .Where(c => c.SkillName == skillSmall)
                          .Select(c => c.SkillId);
@@ -582,62 +617,19 @@ namespace WantTask.Controllers
             return Json(cerSmallId);
         }
 
-
-        public IActionResult Form(TaskList taskList)
-        {          
-            _context.TaskLists.Add(taskList);
-            _context.SaveChanges();
-
-            return View("Form");
-         
-        }
-
-     
-        #endregion
-
-     
-
-
-        //public IActionResult yes()
-        //{
-        //    var q = from app in _context.ApplicationLists.AsEnumerable()
-
-        //            where app.TaskList.TaskNameID == (int)this.Tag && app.CaseStatusID == 21
-
-        //            select app;
-        //}
-
-
-
         //任務名稱
         public IActionResult TaskName()
         {
             var taskName = _context.TaskNameLists.Select(c => c.TaskName).Distinct();
-           
+
             return Json(taskName);
         }
 
-        //public IActionResult TablesEditable(TaskList taskList)
-        //{
-        //    NewIspanProjectContext _context = new NewIspanProjectContext();
-
-        //    if (taskList != null && taskList.PublishOrNot != null)
-        //    {
-        //        var tasklist = _context.TaskList.Where(t => t.PublishOrNot == "立刻上架").ToList();
-        //        return View(tasklist);
-        //    }
-
-        //    return Content("No tasks found.");
-
-        //}
-
-              
-        
         //支薪方式
         public IActionResult Payment()
         {
             var payment = _context.Payments.Select(c => c.Payment1).Distinct();
-            
+
             return Json(payment);
         }
 
@@ -645,7 +637,7 @@ namespace WantTask.Controllers
         public IActionResult PaymentDate()
         {
             var paymentDate = _context.PaymentDates.Select(c => c.PaymentDate1).Distinct();
-         
+
             return Json(paymentDate);
         }
 
@@ -653,7 +645,7 @@ namespace WantTask.Controllers
         public IActionResult Cities()
         {
             var cities = _context.Cities.Select(c => c.City1).Distinct();
-         
+
             return Json(cities);
         }
 
@@ -673,7 +665,7 @@ namespace WantTask.Controllers
         public IActionResult SkillBig()
         {
             var skillBig = _context.SkillTypes.Select(c => c.SkillTypeName).Distinct();
-          
+
             return Json(skillBig);
         }
 
@@ -689,12 +681,11 @@ namespace WantTask.Controllers
             return Json(skillSmall);
         }
 
-
         //證照種類
         public IActionResult CerBig()
         {
             var cerBig = _context.CertificateTypes.Select(c => c.CertificateTypeName).Distinct();
-          
+
             return Json(cerBig);
         }
 
@@ -709,6 +700,10 @@ namespace WantTask.Controllers
 
             return Json(cerSmall);
         }
+
+        #endregion
+
+
 
     }
 }
