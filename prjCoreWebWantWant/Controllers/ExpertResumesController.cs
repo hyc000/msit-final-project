@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 
 namespace prjCoreWebWantWant.Controllers
 {
@@ -23,18 +28,17 @@ namespace prjCoreWebWantWant.Controllers
             _work= new List<ExpertWork>();
 
             //Session取得
-            _memberID = 5; //假資料要刪喔
 
-            // int memberID ;           
 
-            //等會員ID可以傳遞再打開，sessionKey要跟SET的時候依樣
-            //if (HttpContext.Session.Keys.Contains(sessionKey))
-            //{
-            //    memberID = HttpContext.Session.GetString(sessionKey);
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
 
-            //}
-            //   _memberID = memberID;
-        }
+                _memberID = loggedInUser.AccountId; //抓登入者的id
+            }
+             
+            }
 
         
 
@@ -114,45 +118,229 @@ namespace prjCoreWebWantWant.Controllers
 
             return View(_cexpertresume);
         }
-        public  IActionResult GetImage()
+        //public  IActionResult GetImage()
+        //{
+
+        //    //履歷照片
+        //    if (_cexpertresume.resume != null&&_cexpertresume.resume.Photo != null)
+
+        //    {
+        //        byte[]? img = _cexpertresume.resume.Photo;
+        //        return File(img, "image/jpeg");
+        //    }
+        //    return File("~/Expert/images/3.jpg", "image/jpeg");
+        //}
+        //public  IActionResult WorksImage()
+        //{
+        //    List<FileResult> files = new List<FileResult>();
+        //    if (_work != null)
+        //    {
+        //        foreach(var item in _work)
+        //        {
+        //            if (item.WorksPhoto != null)
+        //            {
+        //                files.Add(File(item.WorksPhoto, "image/jpeg"));
+        //            }
+
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        return File("~/Expert/images/2.webp", "image/jpeg");
+        //    }
+
+        //    return Json(files);
+
+
+        //}
+
+        public async Task<IActionResult> Insert() {
+           
+            return View();
+            
+        }
+        [HttpPost]
+        public async Task<IActionResult> Insert(CExpertResumesViewModel vm)
+        {
+            try
+            {
+                int num = _context.Resumes
+                    .Where(x => x.AccountId == _memberID && x.IsExpertOrNot == true)
+                    .Select(x => x.ResumeId)
+                    .Count();
+
+                if (num >= 3)//履歷數量<3
+                {
+                    TempData["message"] = "履歷份數已達上限，請刪除其他履歷才能新增";
+                    return RedirectToAction("ExpertMemberPage", "Expert");
+                }
+                else
+                {
+                    if (vm != null)
+                    {
+                        
+                        //找流水號resumeID
+                        int newResumeId = await AddResume(vm);
+
+                        //SKILL
+                        AddSkills(vm, newResumeId);
+                        //證照
+                        AddCertificates(vm, newResumeId);
+
+                        //專家履歷
+                        AddExpertResume(vm, newResumeId);
+
+                        //新增作品
+                        DateTime dataCreateDate = DateTime.Now;//現在時間
+                        List<int> newExpertWorkIds = new List<int>();
+
+                        for (int i = 0; i < newExpertWorkIds.Count(); i++) 
+                        {
+                            int newExpertWorkId = await AddExpertWork(vm, dataCreateDate);
+                            if (newExpertWorkId != -1)
+                            {
+                                newExpertWorkIds.Add(newExpertWorkId);
+                            }
+                        }
+
+                        // 作品表單
+                        foreach (int expertWorkId in newExpertWorkIds)
+                        {
+                            await AddExpertWorkList(expertWorkId, newResumeId);
+                        }
+
+
+
+                        TempData["message"] = "新增成功";
+                        //成功回去
+                        return RedirectToAction("ExpertMemberPage", "Expert");
+
+
+
+                    }
+
+                    //失敗回去
+                    TempData["message"] = "新增失敗";
+                    return RedirectToAction("ExpertMemberPage", "Expert");
+                }
+            }
+            catch (Exception ex)
+            {
+                // 处理异常，例如记录日志等
+                TempData["message"] = "發生錯誤：" + ex.Message;
+                return RedirectToAction("ExpertMemberPage", "Expert");
+            }
+        
+        }
+
+        private async Task<int> AddResume(CExpertResumesViewModel vm)
+        {
+            Resume resume = new Resume
+            {
+                AccountId = _memberID,
+                TownId = vm.服務地區代碼,
+                Photo = vm.履歷照片,
+                IsExpertOrNot = true,//TRUE
+                CaseStatusId = 23,//23顯示履歷
+                ResumeTitle = vm.履歷標題
+            };
+
+            _context.Add(resume);
+            await _context.SaveChangesAsync();
+            return resume.ResumeId;
+        }
+
+        private async Task AddSkills(CExpertResumesViewModel vm, int newResumeId)
+        {
+            async Task AddSkillIfNotNull(int? skillId)
+            {
+                if (skillId != null)
+                {
+                    ResumeSkill resumeskill = new ResumeSkill
+                    {
+                        SkillId = skillId.Value,
+                        ResumeId = newResumeId
+                    };
+                    _context.Add(resumeskill);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            await AddSkillIfNotNull(vm.專長代碼1);
+            await AddSkillIfNotNull(vm.專長代碼2);
+            await AddSkillIfNotNull(vm.專長代碼3);
+        }
+
+        private async Task AddCertificates(CExpertResumesViewModel vm, int newResumeId)
+        {
+            async Task AddCertificatesNotNull(int? certificateId)
+            {
+                if (certificateId != null)
+                {
+                    ResumeCertificate resumecertificate = new ResumeCertificate
+                    {
+                        CertificateId = certificateId.Value,
+                        ResumeId = newResumeId
+                    };
+                    _context.Add(resumecertificate);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            await AddCertificatesNotNull(vm.證照代碼1);
+            await AddCertificatesNotNull(vm.證照代碼2);
+            await AddCertificatesNotNull(vm.證照代碼3);
+        }
+
+        private async Task AddExpertResume(CExpertResumesViewModel vm, int newResumeId)
+        {
+            ExpertResume expertresume = new ExpertResume
+            {
+                ResumeId = newResumeId,
+                Introduction = vm.專家介紹,
+                WorksUrl = vm.個人網站,
+                ContactMethod = vm.聯絡方式,
+                ServiceMethod = vm.提供服務,
+                PaymentMethod = vm.收款方式,
+                Problem = vm.常見問題,
+                CommonPrice = vm.基本價格
+            };
+            _context.Add(expertresume);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<int> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
         {
             
-            //履歷照片
-            if (_cexpertresume.resume != null&&_cexpertresume.resume.Photo != null)
-           
+            if (vm.作品圖片 != null)
             {
-                byte[]? img = _cexpertresume.resume.Photo;
-                return File(img, "image/jpeg");
-            }
-            return File("~/Expert/images/3.jpg", "image/jpeg");
-        }
-        public  IActionResult WorksImage()
-        {
-            List<FileResult> files = new List<FileResult>();
-            if (_work != null)
-            {
-                foreach(var item in _work)
+                ExpertWork expertwork = new ExpertWork
                 {
-                    if (item.WorksPhoto != null)
-                    {
-                        files.Add(File(item.WorksPhoto, "image/jpeg"));
-                    }
-                   
-                }
+                    WorksPhoto = vm.作品圖片,
+                    Workname = vm.作品名 + dataCreateDate.ToString("yyyyMMddHHmmssff"),
+                    DataCreateDate = dataCreateDate,
+                    // WorkTitle =vm.作品名
+                };
+                _context.Add(expertwork);
+                await _context.SaveChangesAsync();
 
+                return expertwork.WorksId;
+                
             }
-            else
-            {
-                return File("~/Expert/images/2.webp", "image/jpeg");
-            }
-
-            return Json(files);
-
-          
+            return -1;
         }
 
+        private async Task AddExpertWorkList(int newexpertworkId, int newResumeId)
+        {
+            ExpertWorkList expertworklist = new ExpertWorkList
+            {
+                WorksId = newexpertworkId,
+                ResumeId = newResumeId
+            };
+            _context.Add(expertworklist);
+            await _context.SaveChangesAsync();
+        }
 
-        
-
-       }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWantMember.ViewModels;
@@ -103,7 +104,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult Sort()
+        //取照片
+        public IActionResult GetImage(int ?id )
+        {
+                //用find方法，不要用where.firstordefault，find會直接找pk
+                TaskPhoto ? taskPhoto = _context.TaskPhotos.Find(id);
+                byte[]? img = taskPhoto.Photo;
+                return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
+
+            }
+
+            public IActionResult Sort()
         {
             return RedirectToAction("List");
         }

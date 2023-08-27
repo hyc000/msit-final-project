@@ -366,11 +366,13 @@
                                             </div>
                                         </td>
                                          <td style="text-align: left">@item.CollectionDate</td>
-                                         <td><a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
+                                         <td><a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId" class="btn btn-outlinef-secondary" style="color:#528EAF">查看</a></td>
                                         <th>
                                             <div class="btn-group"role="group"aria-label="Basic example">
                                               <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger">取消收藏</a>
-                                              <a href="@Url.Content("~/BackStage/Apply")?caseId=@item.CaseId" class="btn btn-outline-success">應徵</a>
+                                              @*<a href="@Url.Content("~/BackStage/Apply")?caseId=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
+                                              @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="btn btn-outline-success" >應徵</a>*@
+                                              <button data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="Apply btn btn-outline-success" value="@item.CaseId">應徵</button>
                                               @*<a href="@Url.Content("~/BackStage/Apply")?id=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
                                             </div>
                                         </th>
@@ -380,6 +382,71 @@
                                 </tbody>
                             </table>
                             <!-- end table-->
+                            @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                            @{
+                                string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                                int id = loggedInUser.AccountId; //抓登入者的id
+                            }
+                            @{
+                                NewIspanProjectContext db = new NewIspanProjectContext();
+                                var resumes = db.Resumes
+                                .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22);
+                            }
+
+                            <div class="modal" tabindex="-1" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">請選擇履歷</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            @foreach (var item in resumes)
+                                            {
+                                                @*履歷一*@
+                                                <div class="col">
+                                                    <div class="card h-100">
+                                                        <div class="card-body" width="300px">
+                                                            <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4>
+                                                            <hr />
+
+                                                            @if (item.Autobiography.Length <= 70)
+                                                            {
+                                                                <p class="card-text">@item.Autobiography</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  @*秀出自傳的部分內容*@
+                                                            }
+
+                                                            <div class="card-footer text-center">
+                                                                <form action="@Url.Content("~/Backstage/apply")" method="post">
+                                                                    <!-- 使用表單元素包裹 -->
+                                                                    <input 
+                                                                           class="btn btn-primary"
+                                                                           style="background-color: #528EAF"
+                                                                           type="submit"
+                                                                           value="以此履歷應徵" />
+                                                                    <input type="hidden" name="resumeId" value="@item.ResumeId">
+                                                                    <input type="hidden" id="selectedCaseId" name="caseId"/>
+
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p></p>
+                                            }
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消應徵</button>
+                                                @*<button type="button" class="btn btn-primary">立即應徵</button>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -446,5 +513,22 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
             },
         });
+
+
+        //const selectedCaseId = document.querySelector('#selectedCaseId');
+        //const Apply = document.querySelector('#Apply');
+        //Apply.addEventListener('click',() => {
+        //    selectedCaseId.value = Apply.value;
+        //    console.log(selectedCaseId.value)
+        //})
+
+        const selectedCaseId = document.querySelector('#selectedCaseId');
+        const Apply = document.querySelectorAll('.Apply');
+        Apply.forEach(button => {
+            button.addEventListener('click', () => {
+                selectedCaseId.value = button.value;
+                console.log(selectedCaseId.value);
+            })
+        })
     </script>
 </body>
