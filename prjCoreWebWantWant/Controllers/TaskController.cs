@@ -83,7 +83,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 ViewBag.MapAddress = task.Address;
             }
 
-
+            TaskPhoto photo = _context.TaskPhotos.FirstOrDefault(p => p.CaseId == id);
+            taskWrap.taskPhoto = photo;
 
             return View(taskWrap);
         }
