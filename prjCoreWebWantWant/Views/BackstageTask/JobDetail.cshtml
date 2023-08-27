@@ -208,9 +208,18 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-3 col-sm-6">
                                                                             <div class="mt-4">
-                                                                                <a href="/static/file/img-1.jpg" class="image-popup">
+                                                                              @*  <a href="/static/file/img-1.jpg" class="image-popup">
                                                                                     <img src="@Model." class="img-fluid" alt="work-thumbnail">
-                                                                                </a>
+                                                                                </a>*@
+                                                                          @*  @if (Model.HasPhoto)
+                                                                            {*@
+                                                                                <div class="mt-4">
+                                                                                    <a href="@Url.Action("GetImage", "backstagetask", new { CaseID = Model.CaseId })" class="image-popup">
+                                                                                        <img src="@Url.Action("GetImage", "backstagetask", new { CaseID = Model.CaseId })" class="img-fluid" alt="work-thumbnail">
+                                                                                    </a>
+                                                                                </div>
+                                                                        @*    }*@
+
                                                                             </div>
                                                                         </div>
 
