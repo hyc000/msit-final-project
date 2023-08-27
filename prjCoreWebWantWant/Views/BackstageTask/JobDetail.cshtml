@@ -31,6 +31,10 @@
             color: #fff;
         }
 
+        #Back:hover{
+            background-color: #528EAF;
+        }
+
     </style>
 </head>
 
@@ -44,7 +48,10 @@
            
             <div class="page-content">
                 <div class="container-fluid">
-
+                    <div class="container-fluid d-flex justify-content-end">
+                    <a class="btn btn-outline-secondary" id="Back">返回上一頁</a>
+                    </div>
+                    <p></p>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -247,14 +254,20 @@
     </div>
 
     @section Scripts{
-        <style>
-            <!-- JobdetailBackstage js -->
-            <!-- glightbox js -->
-            <script src="~/backstage1/static/js/glightbox.min.js" > </script >
-            <!-- lightbox init -->
-            <script src="~/backstage1/static/js/lightbox.init.js" > </script ></style>
+        <script src="~/backstage1/static/js/glightbox.min.js"> </script>
+         <script src="~/backstage1/static/js/lightbox.init.js" > </script> 
+        <script>
+            const Back = document.querySelector('#Back');
+            Back.addEventListener('click',() => {
+                window.history.back();
+            })
+
+
+        </script>
 
     }
+
+   
 
 
 
