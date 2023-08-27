@@ -1,12 +1,15 @@
 ﻿@using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
+@using prjCoreWebWantWant.ViewModels;
 
 @model prjCoreWantMember.ViewModels.ForumPostListModel
 
 @{
     ViewData["Title"] = "討論區";
     int categoryId = ViewBag.CategoryId;
+
+
 }
 
 <div class="container" style="">
@@ -68,8 +71,13 @@
                             <div class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</div>
                         </a>
 
-                        <a href="@Url.Action("ChatSingle", "Chat")?id=@item.AccountId">測試聊天用</a>
+                        <div class="chat-toggle-container">
 
+                            <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.AccountId })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
+                            <div class="chat-popup">
+                                <!-- 這裡是 partial view 的容器 -->
+                            </div>
+                        </div>
             </td>
                     <td class="text-center small">
                     @{
@@ -110,6 +118,28 @@
 </div>
 
 </div>
+
+@section Scripts{
+    <script>
+        //$(document).ready(function () {
+        //    $(".chat-toggle-container a").click(function (e) {
+        //        e.preventDefault(); // 防止點擊連結的預設行為
+        //        var url = $(this).attr("href");
+        //        var chatPopup = $(this).siblings(".chat-popup");
+
+        //        // 使用 AJAX 請求載入 partial view 的內容
+        //        $.ajax({
+        //            url: url,
+        //            success: function (data) {
+        //                // 將 partial view 的內容插入到 chat-popup 內
+        //                chatPopup.html(data);
+        //                chatPopup.show(); // 顯示浮動的 div
+        //            }
+        //        });
+        //    });
+        //});
+    </script>
+}
 
 @section Styles{
     <style>
