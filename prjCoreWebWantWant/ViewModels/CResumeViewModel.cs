@@ -5,6 +5,9 @@ namespace prjCoreWebWantWant.ViewModels
 {
     public class CResumeViewModel
     {
+        [Display(Name = "履歷標題")]
+        public string? ResumeTitle { get; set; }
+
         [Display(Name = "帳號")]
         public int AccountId { get; set; }
 

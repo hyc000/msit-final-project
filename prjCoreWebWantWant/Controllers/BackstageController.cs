@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -36,10 +37,23 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, byte selectedPhoto)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                string filePath = Path.Combine(_host.WebRootPath, "Backstage", "img", imageFile.FileName);
+                //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string imagePath = "/Backstage/img/" + imageFile.FileName;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(fileStream);
+                }
+
+                p.PhotoPath = imagePath;
+            }
                 p.TownId = selectedTownId;
-                p.Photo = new byte[] {selectedPhoto};
+                //p.Photo = new byte[] {selectedPhoto};
                 p.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                 _context.Resumes.Add(p);
                 _context.SaveChanges();

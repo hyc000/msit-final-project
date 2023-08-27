@@ -66,7 +66,11 @@
                                         <div class="card-body">
                                             <h5 class="card-title">@item.ResumeTitle</h5>
                                            
-                                            @if(item.Autobiography.Length <= 120)
+                                            @if(item.Autobiography == null)
+                                            {
+                                                <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
+                                            }
+                                            else if(item.Autobiography.Length <= 120)
                                             {
                                                 <p class="card-text">@item.Autobiography</p>
                                             }

@@ -31,6 +31,8 @@ public partial class Resume
 
     public string? DataModifyDate { get; set; }
 
+    public string? PhotoPath { get; set; }
+
     public virtual MemberAccount Account { get; set; } = null!;
 
     public virtual ICollection<ApplicationList> ApplicationLists { get; set; } = new List<ApplicationList>();

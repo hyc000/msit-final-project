@@ -46,10 +46,17 @@
                     <!--履歷照片-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷標題</h5>
+                            <div class="form-group">
+                                @*<label asp-for="ResumeTitle" class="control-label"></label>*@
+                                <input asp-for="ResumeTitle" class="form-control" />
+                                <span asp-validation-for="ResumeTitle" class="text-danger"></span>
+                            </div>
+                            <p></p>
                             <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
                             <div class="form-group">
                                  @*<label asp-for="Photo" class="control-label"></label>*@
-                                  <input id="photoInput" asp-for="Photo" class="form-control" type="file" />
+                                  <input id="photoInput" asp-for="Photo" class="form-control" type="file" name="imageFile"/>
                                   <span asp-validation-for="Photo" class="text-danger"></span>
                         
                                   <span id="photoError" class="text-danger"></span>
