@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -478,6 +479,30 @@ namespace WantTask.Controllers
             return RedirectToAction("Create");
 
         }
+
+        //取照片
+        public IActionResult GetImage(int? CaseID)
+        {
+            ////用find方法，不要用where.firstordefault，find會直接找pk
+            //TaskPhoto? taskPhoto = _context.TaskPhotos.Find(CaseID);
+            //byte[]? img = taskPhoto.Photo;
+            //return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
+
+            if (CaseID == null)
+            {
+                return NotFound(); // 或者其他適當的處理方式
+            }
+
+            TaskPhoto taskPhoto = _context.TaskPhotos.Find(CaseID);
+            if (taskPhoto == null || taskPhoto.Photo == null)
+            {
+                return NotFound(); // 或者其他適當的處理方式
+            }
+
+            byte[] img = taskPhoto.Photo;
+            return File(img, "image/jpeg");
+        }
+
 
         //取得任務類型的selectIndex
         public IActionResult GetTaskNameId(string taskname)

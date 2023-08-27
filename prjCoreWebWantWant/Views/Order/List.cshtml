@@ -101,13 +101,13 @@
                 </tr>
             </thead>
             <tbody align="center">
-                           @foreach (var item in Model)
-    {
+                 @foreach (var item in Model)
+                {
                     var caseId = item.OrderDetails.FirstOrDefault()?.CaseId;
                     var resuemeId = item.OrderDetails.FirstOrDefault()?.ResumeId;
                 <tr>
                     <td>
-                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails@(item.OrderId)" class="accordion-toggle">
+                        <a data-bs-toggle="collapse" data-bs-target="#orderDetails@(item.OrderId)" class="accordion-toggle">
                             <i class="bx bxs-show"></i>
                         </a>
                     </td>
@@ -137,16 +137,15 @@
                 <!-- 可展開/收起的內容 -->
                 <tr>
                     <td colspan="8" class="hiddenRow">
-                            <div class="collapse" id="orderDetails@(item.OrderId)" data-bs-parent="#table">
+                        <div class="collapse" id="orderDetails@(item.OrderId)" data-bs-parent="#table">
                             <!-- 在這裡填入訂單明細內容 -->
-                                <table class="table table-bordered">
+                            <table class="table table-bordered">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>商品名稱</th>
                                         <th>數量</th>
                                         <th>單價</th>
                                         <th>小計</th>
-                                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -162,10 +161,10 @@
                                         }
                                    
                                 </tbody>
-                        </table>
+                            </table>
                         </div>
                     </td>
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
@@ -190,6 +189,7 @@
 @section Scripts
     {
     <script>
+        // 搜尋
         $(document).ready(function () {
             $('#searchForm').submit(function (e) {
                 e.preventDefault();
@@ -219,31 +219,41 @@
                 });
             });
         });
+
+        //匯出訂單
         document.getElementById('exportButton').addEventListener('click', function () {
             var rows = document.querySelectorAll('#table tbody tr:not(.hiddenRow)'); // Exclude detail rows
-            var data = [['訂單編號', '訂單類別', '購買時間', '會員', '總金額']];
+            var data = [['訂單編號', '訂單類別', '加值項目', '購買時間', '會員', '付款狀態', '總金額']];
 
             rows.forEach(function (row) {
-                var rowData = [];
-                var cells = row.getElementsByTagName('td');
+                // Check if the row contains a collapse element
+                var collapseElement = row.querySelector('.collapse');
+                if (collapseElement === null || collapseElement.classList.contains('show')) {
+                    var rowData = [];
+                    var cells = row.getElementsByTagName('td');
 
-                // 获取表格中第2到第8列的数据（跳过第1列）
-                for (var i = 1; i < cells.length - 1; i++) {
-                    if (i === 3) { // 跳过订单明细那一列
-                        continue;
+                    // 获取表格中第2到第8列的数据（跳过第1列）
+                    var cellCount = cells.length;
+                    if (cellCount >= 8) {
+                        for (var i = 1; i < 8; i++) { // 从第2列到第8列
+                            var cellContent = cells[i].textContent;
+                            rowData.push(cellContent ? cellContent.trim() : '');
+                        }
+                        data.push(rowData);
                     }
-                    rowData.push(cells[i].textContent.trim());
                 }
-
-                data.push(rowData);
             });
 
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet(data);
+
+            // 调整列宽
             var wscols = [
                 { wch: 15 },
                 { wch: 15 },
                 { wch: 20 },
+                { wch: 20 },
+                { wch: 15 },
                 { wch: 15 },
                 { wch: 15 }
             ];
@@ -253,9 +263,6 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Orders');
             XLSX.writeFile(wb, 'orders.xlsx');
         });
-
-
-     
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
