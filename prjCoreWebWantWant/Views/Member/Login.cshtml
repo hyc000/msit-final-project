@@ -4,9 +4,6 @@
 
 }
 
-@section subTitle{
-   測試的副標題(直接加入字串就好)
-}
 
 
 <!-- RenderBody() Placeholder -->
@@ -63,7 +60,9 @@
                     <button class="nav-link active" id="signIn-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">登入</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="signUp-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">註冊</button>
+                    @*<button class="nav-link" id="signUp-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">註冊</button>*@
+                    <a class="nav-link" id="signUp-tab" href="/Member/Register" role="tab" aria-controls="profile" aria-selected="false" target="_blank">註冊</a>
+
         </li>
 
     </ul>
@@ -99,7 +98,7 @@
             }
         </div>
         @*"註冊"要顯示的內容*@
-        <div class="tab-pane fade m-3" id="profile" role="tabpanel" aria-labelledby="signUp-tab">
+				@*  <div class="tab-pane fade m-3" id="profile" role="tabpanel" aria-labelledby="signUp-tab">
             <h1 class="m-3">註冊</h1>
             <div class="m-3">請輸入您的個人資料</div>
             @using (Html.BeginForm())
@@ -133,8 +132,8 @@
                         </div>
                     </div>
                 </div>
-            }
-         </div>
+                    }
+				</div>*@
     </div>
         </div>
     </div>
