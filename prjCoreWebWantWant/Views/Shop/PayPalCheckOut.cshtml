@@ -2,100 +2,65 @@
     ViewData["Title"] = "CheckOut";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
-
+@model IEnumerable<prjCoreWebWantWant.Models.Order>
 <div class="container text-center">
     <p>　</p>
     <ul class="progressbar d-flex justify-content-center">
-        <li >購物車</li>
+        <li class="active">購物車</li>
         <li class="active">結帳</li>
         <li>完成</li>
     </ul>
     <p>　</p>
     <p>　</p>
 </div>
+
 <div class="container d-flex justify-content-center align-items-center">
-    <div class="table-container">
-        <div class="row">
-            <div class="col-md-8 cart">
-                <div class="title">
-                    <div class="row">
-                        <div class="col">
-                            <h4><b>購物車內容</b></h4>
-                        </div>
-                        <div class="col align-self-center text-right text-muted">2 items</div>
-                    </div>
-                </div>
-                <table class="table table-striped mt-5">
-                    <thead align="center">
-                        <tr>
-                            <td>圖片</td>
-                            <td>商品</td>
-                            <td>單價</td>
-                            <td>數量</td>
-                            <td>小計</td>
-                            <td>刪除</td>
-                        </tr>
-                    </thead>
-                    <tbody align="center">
-                        <tr>
-                            <td><img class="img-fluid" src="/shopimg/任務置頂1天.png"></td>
-                            <td>任務置頂1天</td>
-                            <td>50元</td>
-                            <td><select name="" id=""></select></td>
-                            <td>50元</td>
-                            <td>
-                                <a href="">
-                                    <i class='bx bx-trash bx-tada'
-                                       style='color:#ea0b0b ; font-size: 2rem'></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img class="img-fluid" src="path_to_image2.jpg"></td>
-                            <td>任務置頂3天</td>
-                            <td>150元</td>
-                            <td><select name="" id=""></select></td>
-                            <td>150元</td>
-                            <td><i class='bx bx-trash bx-tada' style='color:#ea0b0b ; font-size: 2rem' /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="back-to-shop"><a href="#" style="color:black" onclick="history.back(); return false;">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
-            </div>
+ @{
+        int tax = 0;
 
 
 
-            <div class="col-md-4 summary">
+    <div class="col-md-4 summary">
+
+            @foreach (var item in Model)
+            {
+                tax = (int)(item.OrderPrice / 20);
                 <div>
                     <h5><b>結帳金額</b></h5>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col" style="padding-left: 0;">商品總計</div>
-                    <div class="col text-right">1000元</div>
+                    <div class="col text-right">@item.OrderPrice</div>
                 </div>
                 <div class="row">
                     <div class="col" style="padding-left: 0;">稅額</div>
-                    <div class="col text-right">50元</div>
+                    <div class="col text-right">@tax</div>
                 </div>
                 <div class="row">
                     <div class="col" style="padding-left: 0;">預估可獲得紅利</div>
-                    <div class="col text-right">50元</div>
+                    <div class="col text-right">@item.OrderGetPoint</div>
                 </div>
-
-                <div class="row" style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
-                    <div class="col" style="padding-left: 0;color: brown;">紅利折抵</div>
-                    <div class="col text-right" style="color: brown;">32元</div>
+                <hr>
+                <div class="row"  padding: 2vh 0;">
+                    <div class="col" style="padding-left: 0;color: brown;"><strong>紅利折抵</strong></div>
+                    <div class="col text-right" style="color: brown;"><strong>@item.OrderUsePoint</strong></div>
                 </div>
                 <div class="row">
-                    <div class="col" style="padding-left: 0;">應付金額</div>
-                    <div class="col text-right" style="font-size: 1.5REM;">950元</div>
+                    <div class="col" style="padding-left: 0;"><strong>應付金額</strong></div>
+                    <div class="col text-right" id="order-details" data-paid-amount="@item.PaidAmount">@item.PaidAmount</div>
                 </div>
-                <button class="btn1">結帳</button>
-            </div>
+                <br />
+                }
+                
+            //    <div id="payment-button"></div>
+            //    <div class="back-to-shop"><a href="@Url.Content("~/shop/casecart")" style="color:black" onclick="history.back(); return false;">&leftarrow;</a><span class="text-muted">回去購物車</span></div>
+            //</div>
+        }
         </div>
-    </div>
-</div>
+        
+    
+
 @section Styles
     {
 
@@ -103,8 +68,6 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
     
- 
-
 
         .body {
             background: #fffdfd;
@@ -138,11 +101,11 @@
             }
 
             .table-container .summary {
-                background-color: #ddd;
+                background-color: #528EAF;
                 border-top-right-radius: 1rem;
                 border-bottom-right-radius: 1rem;
                 padding: 4vh;
-                color: rgb(65, 65, 65);
+                color: white;
             }
 
             .table-container .col-2 {
@@ -290,7 +253,7 @@
                 position: relative;
                 text-align: center;
                 text-transform: uppercase;
-                color: #7d7d7d;
+                color: lightgray;
             }
 
                 .progressbar li:before {
@@ -299,7 +262,7 @@
                     content: counter(step);
                     counter-increment: step;
                     line-height: 30px;
-                    border: 2px solid #7d7d7d;
+                    border: 2px solid lightgray;
                     display: block;
                     text-align: center;
                     margin: 0 auto 10px auto;
@@ -312,7 +275,7 @@
                     height: 2px;
                     content: '';
                     position: absolute;
-                    background-color: #7d7d7d;
+                    background-color: lightgray;
                     top: 15px;
                     left: -50%;
                     z-index: -1;
@@ -323,15 +286,67 @@
                 }
 
                 .progressbar li.active {
-                    color: green;
+                    color: #528EAF;
                 }
 
                     .progressbar li.active:before {
-                        border-color: #55b776;
+                        border-color: #528EAF;
                     }
 
                     .progressbar li.active + li:after {
-                        background-color: #55b776;
+                        background-color: #528EAF;
                     }
     </style>
+}
+@section Scripts
+{
+    <script src="https://www.paypal.com/sdk/js?client-id=AbrSu-FGlAsOrX4UoMHw2RS-cXYKXXUQQ29-B678GKwbEruMJvjvB4m07HwimyYP26lbyKIARJlHWlls&currency=TWD"></script>
+
+
+    <script>
+        var paidAmount = document.getElementById('order-details').getAttribute('data-paid-amount');
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                size: 'small',
+            },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: paidAmount,
+                            currency_code: 'TWD',
+                            breakdown: {
+                                item_total: { value: paidAmount, currency_code: 'TWD' } //訂單金額
+                            }
+                        }
+                        //,
+                        //items: [{                                              //商品項目
+                        //    name: 'Hafer',
+                        //    unit_amount: { value: '3', currency_code: 'TWD' },
+                        //    quantity: '1',
+                        //    sku: 'haf001'
+                        //}, {
+                        //    name: 'Discount',
+                        //    unit_amount: { value: '4', currency_code: 'TWD' },
+                        //    quantity: '1',
+                        //    sku: 'dsc002'
+                        //}]
+                    }]
+                });
+            },
+            //付款成功後重導向
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    console.log(details);
+                    window.location.replace("@Url.Content("~/Shop/OrderCompleted")");
+                })
+            },
+            //付款取消後重導向
+            //onCancel: function (data) {
+            //    window.location.replace("@Url.Content("~/Shop/OrderCompleted")");
+            //}
+        }).render('#payment-button');
+    </script>
+   
 }

@@ -149,9 +149,8 @@
                     <input type="hidden" name="OrderGetPoint" value="@getpoint" />
                     <input type="hidden" name="OrderUsePoint" value="@usepoint" />
                     <input type="hidden" name="PaidAmount" value="@total" />
-                    <input type="submit" value="結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
-               
-                    <input type="submit" value="金流測試" class="btn btn-primary btn-lg" />
+                    <input type="submit" value="前去結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
+   
         </div>
     </div>
         <a href="@Url.Content("~/shop/caseShop")"><span><i class='bx bx-left-arrow-alt'></i>繼續購物</span></a>
@@ -257,7 +256,7 @@
 
         async function loadCases() {
             try {
-                const response = await fetch('/Shop/loadCase'); 
+                const response = await fetch('@Url.Content("~/Shop/loadCase")'); 
                 const data = await response.json();
 
               
@@ -281,8 +280,8 @@
 
         async function removeCartItem(productId) {
             try {
-                const response = await fetch(`/Shop/RemoveFromCart?productId=${productId}`, {
-                    method: 'POST',
+                const response = await fetch('@Url.Action("RemoveFromCart", "Shop")' + '?productId=' + productId, {
+                    method: 'POST'
                 });
 
                 if (response.ok) {

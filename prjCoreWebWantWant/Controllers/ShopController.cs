@@ -16,6 +16,8 @@ namespace prjShop.Controllers
             _context = context;
             _host = host;
         }
+    
+     
 
         public IActionResult ExpertShop()
         {
@@ -50,10 +52,25 @@ namespace prjShop.Controllers
             return View(q);
         }
 
-        //暫時不用的結帳頁
-        public IActionResult CheckOut()
+        //Casepaypal結帳
+        public IActionResult PayPalCheckOut()
         {
-            return View();
+            int userId = GetAccountID();
+            ViewBag.Points = GetAccumulatedPoints(userId);
+
+            var latestOrder = _context.Orders
+       .Include(o => o.OrderDetails)
+       .Where(o => o.AccountId == userId)
+       .OrderByDescending(o => o.CreateTime)
+       .FirstOrDefault();
+
+            List<Order> ordersList = new List<Order>();
+            if (latestOrder != null)
+            {
+                ordersList.Add(latestOrder);
+            }
+
+            return View(ordersList);
         }
         public IActionResult Index()
         {
@@ -141,7 +158,7 @@ namespace prjShop.Controllers
                     Quantity = 1,
                     ImageUrl = product.CoverPhoto,
                     GetPoint = product.GetPoint,
-                    TopDate =product.TopDate,
+                    TopDate = product.TopDate,
                 });
             }
 
@@ -193,10 +210,10 @@ namespace prjShop.Controllers
         // Case購物車頁面
         public IActionResult CaseCart()
         {
-            int userId = GetAccountID(); 
+            int userId = GetAccountID();
             ViewBag.Points = GetAccumulatedPoints(userId);
 
-            var cart = GetCart(userId); 
+            var cart = GetCart(userId);
             ViewBag.Cart = cart;
 
             decimal total = cart.Sum(item => item.UnitPrice * item.Quantity);
@@ -294,8 +311,8 @@ namespace prjShop.Controllers
         //case購物車數量
         public int GetCartItemCount()
         {
-            int userId = GetAccountID(); 
-            var cart = GetCart(userId); 
+            int userId = GetAccountID();
+            var cart = GetCart(userId);
             int itemCount = cart.Sum(item => item.Quantity);
             return itemCount;
         }
@@ -548,10 +565,10 @@ namespace prjShop.Controllers
             cart.Clear();
             SaveCart(cart, userId);
 
-            
+
             _context.SaveChanges();
 
-            return RedirectToAction("Order");
+            return RedirectToAction("PayPalCheckOut");
         }
 
         //Case 結帳
@@ -574,7 +591,7 @@ namespace prjShop.Controllers
                 if (product == null || product.UnitsInStock < cartItem.Quantity)
                 {
                     // 使用SweetAlert顯示提示消息
-                    string errorMessage = "【" + product.ProductName + "】庫存不足，無法完成結帳。";
+                    string errorMessage = "【" + product.ProductName + "】庫存不足，無法進行結帳。";
                     TempData["ErrorMessage"] = errorMessage;
 
                     // 使用SweetAlert的JavaScript代碼顯示警告框
@@ -605,7 +622,7 @@ namespace prjShop.Controllers
                     TopDate = cartItem.TopDate,
                     TopType = "專家置頂",
                     GetPoint = cartItem.GetPoint,
-                   ResumeId = ResumeId,
+                    ResumeId = ResumeId,
                 };
 
                 // 更新專家的OnTop
@@ -663,7 +680,13 @@ namespace prjShop.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Order");
+            return RedirectToAction("CheckOut");
+        }
+
+        public IActionResult OrderCompleted()
+        {
+
+            return View();
         }
     }
 }

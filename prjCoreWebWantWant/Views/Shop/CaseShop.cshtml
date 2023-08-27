@@ -292,7 +292,7 @@
         <script>
         async function loadCases() {
             try {
-                const response = await fetch('/Shop/loadCase'); 
+                const response = await fetch('@Url.Content("~/Shop/loadCase")'); 
                 const data = await response.json();
 
                 if (data.tasks.length === 0) {
@@ -304,8 +304,8 @@
                         confirmButtonText: '確定'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // 如果沒有就跳轉
-                            //window.location.href = '@Url.Content("~/shop/index")';
+                             //如果沒有就跳轉
+                            window.location.href = '@Url.Content("~/shop/index")';
                         }
                     });
                     return;
