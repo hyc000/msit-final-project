@@ -2,6 +2,7 @@
     //ViewData["Title"] = "Order";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
+@model IEnumerable<prjCoreWebWantWant.ViewModels.COrderViewModel>
 @section subTitle{
 
 
@@ -32,16 +33,18 @@
             </tr>
         </thead>
         <tbody align="center">
+           
             <tr>
                 <td>
                     <i class='bx bxs-hot bx-tada' style=" color:crimson"></i>
                 </td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
+                <td>TASKLIST或是RESUEME</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
+            }
             </tbody>
             </table>
 
@@ -92,11 +95,11 @@
                         <i class="bx bxs-show"></i>
                     </a>
                 </td>
-                <td>2023/08/03</td> 
-                <td>XX履歷</td>
-                <td>履歷</td>
-                <td>60</td>
-                <td>600</td>
+                <td></td> 
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <!-- 可展開/收起的內容 -->
             <tr>
@@ -114,49 +117,18 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>商品1</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>400</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
-                                <tr>
-                                    <td>商品2</td>
-                                    <td>3</td>
-                                    <td>300</td>
-                                    <td>900</td>
-                                </tr>
-                                <tr>
-                                    <td>商品3</td>
-                                    <td>1</td>
-                                    <td>100</td>
-                                    <td>100</td>
-                                </tr>
+                             
                             </tbody>
                         </table>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails2" class="accordion-toggle">
-                        <i class="bx bxs-show"></i>
-                    </a>
-                </td>
-                <td>2023/08/02</td>
-                <td> 任務</td>
-                <td>XX任務</td>
-                <td>60</td>
-                <td>600</td>
-            </tr>
-            <!-- 可展開/收起的內容 -->
-            <tr>
-                <td colspan="6" class="hiddenRow">
-                    <div class="collapse" id="orderDetails2">
-                        <!-- 在這裡填入訂單明細內容 -->
-                        <p>這裡是訂單002的明細內容</p>
-                    </div>
-                </td>
-            </tr>
+         
         </tbody>
     </table>
 </div>

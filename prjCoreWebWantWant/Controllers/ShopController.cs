@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Math;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
 
 namespace prjShop.Controllers
@@ -72,6 +74,7 @@ namespace prjShop.Controllers
 
             return View(ordersList);
         }
+
         public IActionResult Index()
         {
             return View();
@@ -79,8 +82,12 @@ namespace prjShop.Controllers
         //會員訂單列表
         public IActionResult Order()
         {
+
+           
+
             return View();
         }
+
 
         public int GetAccountID()
         {
