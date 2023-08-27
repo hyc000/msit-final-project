@@ -50,7 +50,7 @@
                 <th style="width: 150px;">任務內容</th>
                 <th style="width: 100px;">任務日期</th>
                 <th style="width: 50px;">詳細內容</th>
-                <th style ="width: 50px;">更改狀態</th>
+                <th style ="width: 50px;">上架任務</th>
                 <th style="width: 50px;">修改</th>
             </tr>
         </thead>
@@ -82,15 +82,27 @@
                         <td data-field="name">@Html.DisplayFor(modelItem => item.TaskTitle)</td>
                         <td data-field="age">@Html.DisplayFor(modelItem => taskDetail)</td>
                         <td data-field="gender">@Html.DisplayFor(modelItem => item.TaskStartDate)</td>
-                        <td><a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
-                        <td>@Html.ActionLink("上架", "Publish","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})</td>
+                        <td>
+                        <a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId">
+                              <img src="~/backstage1/img/magnifying.png" alt="查看" style="height: 25px; width: 25px;">
+                        </a>
+                        </td>
+                        @*<td>@Html.ActionLink("上架", "Publish","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})</td>*@
+                            <td>
+                                <a href="@Url.Action("Publish", "BackstageTask", new { id = item.CaseId })">
+                                    <img src="~/backstage1/img/switch-on.png" alt="上架" style="height: 38px; width: 38px;">
+                                </a>
+                            </td>
+
+
                         <td style="width: 100px">
                             @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/JobdetailBackstage")">*@
                              @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>*@
                                 <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    @*<i class="fas fa-pencil-alt"></i>*@
+                                    <img src="~/backstage1/img/edit.png" alt="修改" style="height: 25px; width: 25px;">
                                 </a>
                             </td>
                     </tr>
