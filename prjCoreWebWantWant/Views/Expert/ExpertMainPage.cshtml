@@ -66,7 +66,6 @@
         <div class="filter_block">
             <label class="fs-4 pl-2 pt-2">所有證照類別</label>
             <div class="controls-display-row category-click">
-                <span class="fs-5">證照大項</span>
                 @using (Html.BeginForm())
                 {
 
@@ -86,11 +85,9 @@
             <div class="mt-4">
                 <section class="range-slider range-container pb-3">
                     <span class="output outputOne pl-1 pr-1"></span>
-                    <span class="output outputTwo pl-1 pr-1"></span>
                     <span class="full-range"></span>
                     <span class="incl-range"></span>
-                    <input id="rangeOne" name="rangeOne" value="0" min="0" max="1000" step="1" type="range">
-                    <input id="rangeTwo" name="rangeTwo" value="1000" min="0" max="1000" step="1" type="range">
+                    <input id="rangeOne" name="ranvgeOne" value="1000" min="0" max="1000" step="1" type="range">
                 </section>
                 <div class="d-flex justify-content-center">
                     <input id="btn_filter_price" class="btn btn-outline-secondary" type="button" value="搜尋" />
@@ -105,13 +102,13 @@
         <!--Bootstrap ：justify-content-end：用於對 Flexbox 容器中的內容進行水平對齊。此時對齊到容器的右側-->
         <div class="row g-0">
             <!--目前第一區橫條-->
-            <div class="col-12 filter_block">
+            <div class="col-12 filter_block ms-0">
                 @*filter_block好像沒套到*@
                 <div class="divide-line pl-3">
                     <!--專門顯示數字的第一行-->
                     @*divide-line好像沒套到*@
                     <!--Bootstrap ：pl-3：在元素的左側添加內邊距（padding-left），3單位-->
-                    <span id="total" class="fs-3 fw-bolder me-2">@*Model.filterProducts.Count()找計數(先寫死)*@3</span>
+                    <span id="total" class="fs-3 fw-bolder ms-2 me-2">@*Model.filterProducts.Count()找計數(先寫死)*@3</span>
                     <!--Bootstrap ：me-2：用於在元素的右側添加外邊距（margin end）-->
                     @*fs-3 fw-bolder好像沒套到*@
                     <span class="fs-5 my-text-primary">
@@ -137,7 +134,7 @@
                     my-text-primary：這可能是自定義的樣式類，用於定義文字顏色。通常，my-text-primary 意味著它會設定文字為主要的文本顏色，這可能在你的 CSS 樣式表中進行了定義。
                     pl-3：這是 Bootstrap 樣式類，用於在元素的左側添加內邊距（padding-left）。pl-3 表示左側內邊距為 3 單位，具體的單位可能是像素或其他度量單位，這也會因框架或自定義樣式而有所不同。
                     -->
-                    <span class=" fw-bolder ">排序 : </span>
+                    <span class="fw-bolder ms-2">排序 : </span>
                     <span>　</span>
                     <a id="sortByHot" href="#" class=" fw-bolder" name="status">熱門程度</a>
                     <span>　|　</span>
@@ -156,7 +153,6 @@
         <div id="filterBody">
             <div id="sortBody">
                 @*接下來開始做很多個區塊*@
-                <a class="text-secondary">
                     @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
                     <div class="card mb-3 col-12 p-0">
                         <div class="row g-0">
@@ -183,7 +179,9 @@
                             <div class="col-md-8 pl-0">
                                 <div class="card-body d-flex justify-content-around row">
                                     <div class="pl-4 pr-4">
-                                        <h5 class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</h5>
+                                        <span class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</span>
+                                    <a href="@Url.Content("~/Backstage/ResumeEdit")" class="btn btn-primary btn-sm me-2" id="btnEdit" style="float:right">編輯</a>
+                                    <a href="@Url.Action("", "", new {})" class="btn btn-danger btn-sm me-2" style="float:right" onclick="return confirm('確定要刪除嗎?')">刪除</a>
                                         <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
                                         <p class="card-text">
                                             <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 可以放個證照好了</small>
@@ -208,7 +206,6 @@
                             </div>
                         </div>
                     </div>
-                </a>
                 <!--範例二開始(以下請刪除)-->
                 <a class="text-secondary">
                     @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
@@ -295,9 +292,10 @@
             skilltypeselect.addEventListener('change', function () {
                 Loadskill();
             });
-                certificatetypeselect.addEventListener('change', function () {
-                    Loadcertificate();
-                });
+
+            certificatetypeselect.addEventListener('change', function () {
+                Loadcertificate();
+            });
         });
 
         //專長大項資料來
@@ -334,12 +332,12 @@
 
             //證照大項資料來
             function Loadcertificatetype() {
-                fetch('@Url.Content("~/ApiForExpert/CertificatTypeAPI")')
+                fetch('@Url.Content("~/ApiForExpert/CertificateTypeAPI")')
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        let options = "<option>請選擇證照</option>";
-                        options += data.map(certificatetype => `<option value="1">${certificate}</option>`).join('');
+                    let options = "<option>請選擇證照</option>";
+                    options += data.map(certificatetype => `<option value="1">${certificatetype}</option>`).join('');
 
                         certificatetypeselect.innerHTML = options;
                     });  //then最後一個THEN

@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -154,6 +156,63 @@ namespace prjCoreWantMember.Controllers
             }
             return View();
         }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(MemberAccount member)
+        {
+
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            MemberAccount newmember = new MemberAccount();
+
+            if (newmember != null)
+            {
+                newmember.AccountId = 0;
+                newmember.Name = member.Name;
+                newmember.Email = member.Email;
+                newmember.Password = member.Password;
+                newmember.IdcardNo = member.IdcardNo;
+                newmember.Gender = member.Gender;
+                newmember.UserName = member.UserName;
+                newmember.BitrhDay = member.BitrhDay;
+
+
+                db.MemberAccounts.Add(newmember);
+                db.SaveChanges();
+
+                if (newmember.Email.Contains("@want.com")) //客服人員都用公司email註冊
+                {
+                    int memID = (from m in db.MemberAccounts
+                                 where m.Email == newmember.Email
+                                 select m.AccountId).FirstOrDefault();
+                    MemberRoleConn memRole = new MemberRoleConn
+                    {
+                        AccountId = memID,
+                        RoleId = 2 //客服人員
+                    };
+                    db.MemberRoleConns.Add(memRole);
+
+                }
+                else //不是客服的都會獲得基本會員身分
+                {
+                    int memID = (from m in db.MemberAccounts
+                                 where m.Email == newmember.Email
+                                 select m.AccountId).FirstOrDefault();
+                    MemberRoleConn memRole = new MemberRoleConn
+                    {
+                        AccountId = memID,
+                        RoleId = 1 //會員
+                    };
+                    db.MemberRoleConns.Add(memRole);
+                }
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Login");
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Remove(CDictionary.SK_LOGINED_USER);

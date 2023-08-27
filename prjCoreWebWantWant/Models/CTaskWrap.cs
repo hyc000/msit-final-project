@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace prjCoreWebWantWant.Models;
 
@@ -6,9 +7,9 @@ namespace prjCoreWebWantWant.Models;
     {
         private TaskList _task = null;
 
-        private TaskNameList _taskNameList = null; 
-    
-        private TaskPhoto _taskPhoto = null;
+        private TaskNameList _taskNameList = null;
+
+    //private TaskPhoto _taskPhoto = null;
 
 
     public TaskList task
@@ -23,11 +24,13 @@ namespace prjCoreWebWantWant.Models;
             set { _taskNameList = value; }
         }
 
-            //public TaskPhoto _taskPhoto
-            //{
-            //    get { return _taskPhoto; }
-            //    set { _taskPhoto = value; }
-            //}
+    //public TaskPhoto taskPhoto
+    //{
+    //    get { return _taskPhoto; }
+    //    set { _taskPhoto = value; }
+    //}
+
+    public TaskPhoto taskPhoto { get; set; }
     public CTaskWrap()
             {
                 _task = new TaskList();
@@ -135,10 +138,84 @@ namespace prjCoreWebWantWant.Models;
                     get { return _taskNameList.TaskName ; }
                     set { _taskNameList.TaskName = value; }
                 }
-  
+
+    //skill
+
+    public TaskSkill taskSkill { get; set; }
+    public SkillType skillType { get; set; }
+    public Skill skill { get; set; }
+
+    //cer
+    public TaskCertificate taskCer { get; set; }
+    public CertificateType certificateType { get; set; }
+    public Certificate certificate { get; set; }
 
 
-    public virtual ICollection<TaskSkill> taskSkill { get; set; } = new List<TaskSkill>();
-    public virtual ICollection<TaskCertificate> taskCertificate { get; set; } = new List<TaskCertificate>();
+        //多Cer證照
+            private List<CCertificateName> FindCertificate()
+            {                  
+                NewIspanProjectContext _context = new NewIspanProjectContext();
+                List<CCertificateName> certificateName = _context.Certificates
+                    .Include(x => x.TaskCertificates.Where(x => x.CaseId == task.CaseId))
+                    .Select(x => new CCertificateName
+                    {
+                        CertificateName = x.CertificateName,
+                        CertificateTypeName = x.CertificateType.CertificateTypeName
+                    })
+                    .ToList();
+
+                return certificateName;
+                }
+                public IEnumerable<string> certificatename
+                {
+                    get
+                    {
+                        List<CCertificateName> name = FindCertificate();
+                        return name.Select(x => x.CertificateName);
+                    }
+                }
+
+                public IEnumerable<string> certificatetypename
+                {
+                    get
+                    {
+                        List<CCertificateName> name = FindCertificate();
+                        return name.Select(x => x.CertificateTypeName);
+                    }
+                }
+
+    //多Skill
+    private List<CSkillName> FindSkill()
+    {
+        NewIspanProjectContext _context = new NewIspanProjectContext();
+        List<CSkillName> skillName = _context.Skills
+            .Include(x => x.TaskSkills.Where(x => x.CaseId == task.CaseId))
+            .Select(x => new CSkillName
+            {
+                SkillName = x.SkillName,
+                SkillTypeName = x.SkillType.SkillTypeName
+            })
+            .ToList();
+
+        return skillName;
+    }
+    public IEnumerable<string> skillname
+    {
+        get
+        {
+            List<CSkillName> name = FindSkill();
+            return name.Select(x => x.SkillName);
+        }
+    }
+
+    public IEnumerable<string> skilltypename
+    {
+        get
+        {
+            List<CSkillName> name = FindSkill();
+            return name.Select(x => x.SkillTypeName);
+        }
+    }
+
 }
 
