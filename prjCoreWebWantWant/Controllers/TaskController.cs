@@ -65,56 +65,69 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             #endregion
         }
 
+        //public IActionResult Detail(int? id)
+        //{
+        //    if (id == null)
+        //        return RedirectToAction("ListNew");
+        //    TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+        //    if (task == null)
+        //        return RedirectToAction("ListNew");
+        //    CTaskWrap taskWrap = new CTaskWrap();
+        //    taskWrap.task = task;
+
+        //    //檢查地址是否為空值
+        //    bool isAddressEmpty = string.IsNullOrEmpty(task.Address);
+        //    ViewBag.IsAddressEmpty = isAddressEmpty;
+
+        //    if (!isAddressEmpty)
+        //    {
+        //        ViewBag.MapAddress = task.Address;
+        //    }
+
+        //    TaskPhoto photo = _context.TaskPhotos.FirstOrDefault(p => p.CaseId == id);
+        //    taskWrap.taskPhoto = photo;
+
+        //    return View(taskWrap);
+        //}
+        //[HttpPost]
+        //public ActionResult Detail(CTaskWrap pIn)
+        //{
+        //    TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
+        //    if (pDb != null)
+        //    {
+        //        pDb.CaseId = pIn.FId;
+        //        pDb.TaskTitle = pIn.FTitle;
+        //        pDb.TaskDetail = pIn.FDetail;
+        //        pDb.PayFrom = pIn.FPayFrom;
+        //        //db.SaveChanges();
+        //    }
+        //    return RedirectToAction("List");
+        //}
+
         public IActionResult Detail(int? id)
         {
-            if (id == null)
-                return RedirectToAction("ListNew");
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-            if (task == null)
-                return RedirectToAction("ListNew");
-            CTaskWrap taskWrap = new CTaskWrap();
-            taskWrap.task = task;
+            var q = _context.TaskLists.Include(t => t.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
 
-            //檢查地址是否為空值
-            bool isAddressEmpty = string.IsNullOrEmpty(task.Address);
+            bool isAddressEmpty = string.IsNullOrEmpty(q.Address);
             ViewBag.IsAddressEmpty = isAddressEmpty;
-
-            if (!isAddressEmpty)
+            if (!string.IsNullOrEmpty(q.Address))
             {
-                ViewBag.MapAddress = task.Address;
+                ViewBag.MapAddress = q.Address;
             }
 
-            TaskPhoto photo = _context.TaskPhotos.FirstOrDefault(p => p.CaseId == id);
-            taskWrap.taskPhoto = photo;
-
-            return View(taskWrap);
-        }
-        [HttpPost]
-        public ActionResult Detail(CTaskWrap pIn)
-        {
-            TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
-            if (pDb != null)
-            {
-                pDb.CaseId = pIn.FId;
-                pDb.TaskTitle = pIn.FTitle;
-                pDb.TaskDetail = pIn.FDetail;
-                pDb.PayFrom = pIn.FPayFrom;
-                //db.SaveChanges();
-            }
-            return RedirectToAction("List");
+            return View(q);
         }
 
         //取照片
-        public IActionResult GetImage(int ?id )
-        {
-                //用find方法，不要用where.firstordefault，find會直接找pk
-                TaskPhoto ? taskPhoto = _context.TaskPhotos.Find(id);
-                byte[]? img = taskPhoto.Photo;
-                return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
+        //public IActionResult GetImage(int ?id )
+        //{
+        //        //用find方法，不要用where.firstordefault，find會直接找pk
+        //        TaskPhoto ? taskPhoto = _context.TaskPhotos.Find(id);
+        //        byte[]? img = taskPhoto.Photo;
+        //        return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
+        //}
 
-            }
-
-            public IActionResult Sort()
+        public IActionResult Sort()
         {
             return RedirectToAction("List");
         }

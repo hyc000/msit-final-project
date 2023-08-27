@@ -420,11 +420,10 @@
                                                             {
                                                                 <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  @*秀出自傳的部分內容*@
                                                             }
-
                                                             <div class="card-footer text-center">
                                                                 <form action="@Url.Content("~/Backstage/apply")" method="post">
                                                                     <!-- 使用表單元素包裹 -->
-                                                                    <input 
+                                                                    <input onclick="Alert()"
                                                                            class="btn btn-primary"
                                                                            style="background-color: #528EAF"
                                                                            type="submit"
@@ -527,7 +526,7 @@
         Apply.forEach(button => {
             button.addEventListener('click', () => {
                 selectedCaseId.value = button.value;
-                console.log(selectedCaseId.value);
+                //console.log(selectedCaseId.value);
             })
         })
     </script>
