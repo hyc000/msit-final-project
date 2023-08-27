@@ -1,7 +1,7 @@
-﻿@model prjCoreWebWantWant.Models.TaskList
+﻿@model prjCoreWebWantWant.ViewModels.CExpertTaskInsertViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "新增委託";
 }
 @section subTitle{
 
@@ -15,30 +15,31 @@
     </nav>
 }
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data" method="post">
     <div class="container">
-
         <div class="mx-auto">
-
             <div class="mx-auto w-70 p-5">
                 <div class="mb-3 form-control-lg">
-                    委託者:
+                    委託人:
+                    <input asp-for="委託人" type="text" class="form-control list" readonly placeholder="委託人">
+                    
                 </div>
                 <div class="mb-3 form-control-lg">
-                    接案者:
+                    專家:
+                    <input asp-for="被委託人" type="text" class="form-control list" readonly placeholder="被委託人">
+                    
                 </div>
                 <hr>
                 <div class="mb-3 form-control-lg">
                     委託內容:
                 </div>
-
                 <div class="mb-3 dropdown-header">
                     <li>提醒您，委託內容越詳細可以減少您跟專家在委託案件中所花費的溝通時間。
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="請輸入要委託的工作內容" name="TaskDetail" id="TaskDetail" style="height: 400px"></textarea>
-                    <label for="TaskTextarea">請輸入要委託的工作內容</label>
-                    <span asp-validation-for="TaskDetail" class="text-danger"></span>
+                    <textarea asp-for="委託內容" class="form-control" placeholder="請輸入要委託的工作內容" style="height: 400px"></textarea>
+                    <label asp-for="委託內容">請輸入要委託的工作內容</label>
+                    <span asp-validation-for="委託內容" class="text-danger"></span>
                 </div>
                 <!--委託時間-->
                 <div class=" border mb-3">
@@ -46,32 +47,37 @@
                         委託時間:
                     </div>
                     <div class="p-3">
-                        <div class="mb-3 form-control-lg">
+                        <div class="mb-3 form-control-lg row">
+                            <div class="col-4">
                             <input type="button" data-bs-toggle="button" class="btn-check" id="option1" autocomplete="off">
                             <label class="btn btn-outline-primary" for="option1" onclick="clickdeploy(timeone,times)">指定日期前完成 +</label>
-
+                            </div>
+                            <div class ="col-4">
                             <input type="button" data-bs-toggle="button" class="btn-check" id="option2" autocomplete="off">
                             <label class="btn btn-outline-primary" for="option2" onclick="clickdeploy(times,timeone)">指定時段內完成 +</label>
                         </div>
-
+                        </div>
                         <div class="mb-3">
                             <div class="form-floating col-3" id="timeone" style="display: none;">
-                                <input type="date" class="form-control list" id="floatingPtimeone" placeholder="委託截止日">
-                                <label for="floatingtimeone">委託截止日</label>
+                                <input asp-for="委託時間起" type="date" class="form-control list" id="floatingPtimeone" placeholder="委託截止日">
+                                <label asp-for="委託時間起"></label>
                             </div>
                         </div>
                         <div id="times" style="display: none;" class="row">
-
-                            <div class="form-floating col-3">
-                                <input type="date" class="form-control list" id="floatingtimesup" placeholder="委託期限(起)">
-                                <label for="floatingtimesup">委託期限(起)</label>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input asp-for="委託時間起" type="date" class="form-control list" id="floatingtimesup" placeholder="委託期限(起)">
+                                    <label asp-for="委託時間起"></label>
+                                </div>
                             </div>
-                            <div class="col-1 ">
+                            <div class="col-md-1">
                                 ~
                             </div>
-                            <div class="form-floating col-3">
-                                <input type="date" class="form-control list" id="floatingtimesdown" placeholder="委託期限(訖)">
-                                <label for="floatingtimesdown">委託期限(訖)</label>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input asp-for="委託時間訖" type="date" class="form-control list" id="floatingtimesdown" placeholder="委託期限(訖)">
+                                    <label asp-for="委託時間訖">委託期限(訖)</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,9 +89,9 @@
                         委託預算:
                     </div>
                     <div class="mb-3 form-floating col-12 p-3">
-                        <input type="text" value="$" class="form-control list" id="PayFrom" placeholder="委託期限(訖)">
-                        <label for="PayFrom">委託價格</label>
-                        <span asp-validation-for="PayFrom" class="text-danger"></span>
+                        $<input asp-for="委託價格" type="text"  class="form-control list" >
+                        <label asp-for="委託價格"></label>
+                        <span asp-validation-for="委託價格" class="text-danger"></span>
                     </div>
                     <!--委託預算結束-->
                     <!--委託地點-->
@@ -97,7 +103,7 @@
                         </div>
                         <div class=" form-control-lg">
 
-                            <select class="form-select" onchange="clickdeployone(placeaddress)">
+                            <select asp-for="委託工作地點" class="form-select" onchange="clickdeployone(placeaddress)">
 
                                 <option>在家工作</option>
                                 <option>指定地點工作</option>
@@ -108,47 +114,29 @@
 
                         <div class="mb-3 " style="display: none;" id="placeaddress">
                             <div class="form-floating col-12">
-                                <input type="text" class="form-control list" id="floatingplace" placeholder="指定工作地址">
-                                <label for="floatingplace">指定工作地址</label>
+                                <input asp-for="指定委託地點" type="text" class="form-control list" id="floatingplace" placeholder="指定工作地址">
+                                <label asp-for="指定委託地點">指定工作地址</label>
                             </div>
                         </div>
-
+                      
 
 
                     </div>
                     <!--委託地點END-->
-                    <!--委託付款-->
-                    <div class="border p-3 mb-3">
-                        <div class="form-control-lg">
-                            委託付款方式:
-                        </div>
-                        <div class="">
-                            <div class=" form-control-lg">
-                                <select class="form-select" >
-
-                                    <option>簽約後付全額款</option>
-                                    <option>完成後付全額款</option>
-                                    <option>預付訂金50%，完成後在付50%</option>
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <!--委託付款END-->
+                    
 
                     <div class="row">
 
                         <div class="form-floating col-3 mx-auto p-3">
-                            <input type="submit" value="跟專家聊聊" class="btn btn-outline-primary" id="nonsubmit" placeholder="Password">
+                            <a href="@Url.Action("Chatsingle", "Chat", new { id = ViewBag.expertaccountid })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon">跟專家聊聊</i></a>
+                        </div>
+                        <div class="form-floating col-3 mx-auto p-3">
+                            <input type="submit" name="Create" value="送出委託" class="btn btn-outline-primary" id="submit">
 
                         </div>
                         <div class="form-floating col-3 mx-auto p-3">
-                            <input type="submit" name="Create" value="送出委託" class="btn btn-outline-primary" id="submit" placeholder="Password">
 
-                        </div>
-                        <div class="form-floating col-3 mx-auto p-3">
-
-                            @Html.ActionLink("取消","Details","ExpertResumes",new {  id=4 },new{ @class="btn btn-outline-primary" })
+                            @Html.ActionLink("取消","Details","ExpertResumes",new {  id=ViewBag.expertaccountid },new{ @class="btn btn-outline-primary" })
                         </div>
                     </div>
                 </div>
@@ -156,6 +144,16 @@
         </div>
         </div>
 </form>
+<div class="validation-errors">
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        var errorMessages = ViewBag.Error.Split(new[] { "///" }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var errorMessage in errorMessages)
+        {
+            <p class="error-message">@Html.Raw(errorMessage.ErrorMessage)</p>
+        }
+    }
+</div>
 
 @section Styles{
 

@@ -16,7 +16,7 @@
     </nav>
 }
 
-<body class="bg-white">
+<div class="bg-white">
     
 
         <div class="container container-fluid">
@@ -136,42 +136,45 @@
                     </div>
             </div>
             </div>
-            <!--按鈕-->
-            <div style="position:sticky;bottom:30px;right:0px">
-               
-                <div class="d-flex justify-content-evenly  h-50" style="position:relative;">
-                    <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#details"
-                       data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
-                    <b class="btn btnResume btn-outline-primary bg-white fs-2" href="#workbox"
-                       data-loading-text="Loading...">作品集</b>
-                    <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#ratinghere"
-                       data-loading-text="Loading..." ><span>評價</span></a>
-                    @Html.ActionLink("去委託","Create","ExpertTask",null/* new { id=Model.resume.AccountId} */,new{ @class="btn labelResume btn-outline-primary bg-white fs-2"} )
-                   
-                    
-                   
-                    <a class="btn btnResume btn-outline-primary bg-white fs-2" style="width:180px" href="#title"
-                       data-loading-text="Loading...">
-                        <span>
-                            TOP
-                            <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
-                        </span>
-                    </a>
-
-                </div>
-
-
-            </div>
-
-
+          
+            
 
 
 
             </div>
+     
+
+
+        </div>
+    <!--按鈕-->
+    <div style="position:sticky;bottom:30px;right:0px">
+
+        <div class="d-flex justify-content-evenly  h-50 expert-button-group">
+            <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#details"
+               data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
+            <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#workbox"
+               data-loading-text="Loading...">作品集</a>
+            <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#ratinghere"
+               data-loading-text="Loading..."><span>評價</span></a>
+            <a href="@Url.Action("Create", "ExpertTask", new { expertaccountid = Model.resume.AccountId })" class="btn labelResume btn-outline-primary bg-white fs-2">
+                <i class="fa-solid fa-right-to-bracket fa-bounce" style="color: #528EAF;"></i>去委託
+            </a>
+
+
+            <a class="btn btnResume btn-outline-primary bg-white fs-2" style="width:180px" href="#title"
+               data-loading-text="Loading...">
+                <span>
+                    TOP
+                    <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
+                </span>
+            </a>
+
         </div>
 
 
-</body>
+    </div>
+
+</div>
 
 
 @section Styles{

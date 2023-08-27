@@ -27,6 +27,22 @@ namespace prjCoreWebWantWant.Models
 
             return null;
         }
+        public int? MemberID(string? membername)
+        {
+            if (membername != null)
+            {
+                int memberid = _context.MemberAccounts
+                .Where(x => x.Name == membername)
+                .Select(x => x.AccountId)
+                .FirstOrDefault();
+                return memberid;
+            }
+
+            return null;
+        }
+
+
+
         public string StatusName(int? StatusID)
         {
             if (StatusID != null)

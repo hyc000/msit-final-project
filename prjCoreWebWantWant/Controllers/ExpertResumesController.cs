@@ -27,28 +27,24 @@ namespace prjCoreWebWantWant.Controllers
             _cexpertresume = new CExpertInfoViewModel();
             _work= new List<ExpertWork>();
 
-            //Session取得
+            }
 
-
-            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+        private int GetMemberIDFromSession()
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
             {
                 string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
-
-                _memberID = loggedInUser.AccountId; //抓登入者的id
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                return loggedInUser.AccountId;
             }
-             
-            }
+            return 0;
+        }
 
-        
+
 
         // GET: ExpertResumes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-
-          
-
-
             if (id == null)
             {
                 return NotFound();
@@ -163,6 +159,13 @@ namespace prjCoreWebWantWant.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(CExpertResumesViewModel vm)
         {
+            _memberID= GetMemberIDFromSession();
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("ExpertMemberPage", "Expert");
+            }
+            
             try
             {
                 int num = _context.Resumes
