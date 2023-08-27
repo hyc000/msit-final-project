@@ -200,12 +200,12 @@ namespace WantTask.Controllers
         public IActionResult JobDetail(int? id)
         {
             var q = _context.TaskLists
-                .Include(s => s.TaskSkills)
-                .ThenInclude(s => s.Skill)
-                .Include(c => c.TaskCertificates)
-                .ThenInclude(c => c.Certficate)
-                .Include(p => p.TaskPhotos)
-                .ThenInclude(p => p.Photo)
+                //.Include(s => s.TaskSkills)
+                //.ThenInclude(s=>s.Skill)
+                //.Include(c=>c.TaskCertificates)
+                //.ThenInclude(c=>c.Certficate)
+                //.Include(p=>p.TaskPhotos)
+                //.ThenInclude(p=>p.Photo)
                 //.Where(ss => ss.CaseId == id)
 
 
