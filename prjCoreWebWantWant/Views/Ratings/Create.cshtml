@@ -45,38 +45,21 @@
                     <div class="form-floating">
                         <div class="form-floating mb-3">
                             <textarea class="form-control" id="RatingContent"
-                                      style="height: 400px; width: 100%;"></textarea>
+                                      style="height: 400px; width: 100%; resize:none"></textarea>
 
                         </div>
                     </div>
-                    <div class="mb-3 form-control-lg">
-                        評價圖片:
-                    </div>
-                    <div class="mb-3 form-control-lg">
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="inputGroupFile02">
-                            <label class="input-group-text" for="inputGroupFile02"></label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="inputGroupFile02">
-                            <label class="input-group-text" for="inputGroupFile02"></label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="inputGroupFile02">
-                            <label class="input-group-text" for="inputGroupFile02"></label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="inputGroupFile02">
-                            <label class="input-group-text" for="inputGroupFile02"></label>
-                        </div>
-                    </div>
-
+                 
 
 
                     <div class="form-floating col-3 mx-auto p-3 ">
-                        <input type="submit" value="送出評價" class="btn btn-outline-secondary bg-white" id="submit"
-                               placeholder="Password">
+                        <input type="submit" value="送出評價" class="btn btn-outline-primary bg-white" id="submit"
+                               ">
                     </div>
+                    <div>
+                        <a asp-action="ExpertList" asp-controller="ExpertTask">返回</a>
+                    </div>
+
                 </div>
             </div>
 
@@ -175,9 +158,7 @@
 </div>
 
 
-<div>
-    <a asp-action="Index">返回</a>
-</div>
+
 @section Styles{
 
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">

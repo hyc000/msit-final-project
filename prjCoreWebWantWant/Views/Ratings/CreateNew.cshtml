@@ -1,0 +1,60 @@
+﻿@model prjCoreWebWantWant.ViewModels.CRatingCreatViewModel
+
+@{
+    ViewData["Title"] = "評價";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+<h1>評價</h1>
+<hr />
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateNew" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="委託者" class="control-label"></label>
+                <input asp-for="委託者" class="form-control" />
+                <span asp-validation-for="委託者" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="專家" class="control-label"></label>
+                <input asp-for="專家" class="form-control" />
+                <span asp-validation-for="專家" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="評論星數" class="control-label"></label>
+                <input asp-for="評論星數" class="form-control" />
+                <span asp-validation-for="評論星數" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="評論內容" class="control-label"></label>
+                <textarea asp-for="評論內容" class="form-control " style="height:350px;resize:none"></textarea>
+                <span asp-validation-for="評論內容" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="評論日期" class="control-label"></label>
+                <input asp-for="評論日期" class="form-control" />
+              <span asp-validation-for="評論日期" class="text-danger"></span>
+            </div>
+            <input asp-for="評論日期" class="form-control " hidden />
+            <div class="form-group">
+                <input type="submit" value="新增" class="btn btn-outline-primary" />
+
+            </div>
+            <div>
+                <a asp-action="Index" class="btn btn-outline-primary">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
