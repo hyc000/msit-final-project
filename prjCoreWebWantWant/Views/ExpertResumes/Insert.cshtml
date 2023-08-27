@@ -1,0 +1,631 @@
+﻿@model prjCoreWebWantWant.ViewModels.CExpertResumesViewModel
+
+@{
+    ViewData["Title"] = "Insert";
+}
+<h3>新增履歷</h3>
+
+<hr />
+
+<form asp-action="Insert" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+
+                    <!--履歷照片-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
+                            <div class="form-group">
+                                 @*<label asp-for="Photo" class="control-label"></label>*@
+                        <input id="photoInput" asp-for="履歷照片" class="form-control" type="file" />
+                        <span asp-validation-for="履歷照片" class="text-danger"></span>
+                        <span asp-validation-for="履歷照片" class="text-danger"></span> @*+*@
+                                  <span id="photoError" class="text-danger"></span>
+                                  
+                                 <div id="photoPreview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <input type="hidden" id="hiddenPhotoInput" name="selectedPhoto" />
+
+                    <!--任務地點-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF;display:inline;">居住地點</h5><span style="color:tomato;">      *必填</span>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selCity">
+                                    <!-- <option selected>請選擇縣市</option> -->
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇縣市</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="selTown" >
+                                   <option></option>
+                                </select>
+                                <label for="floatingSelectTown">請選擇區域</label>
+                            </div>
+
+                            <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+                                                      
+                        </div>
+                   </div>
+
+                    <!--技能-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillBigThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能分類3</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelSkillSmallThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇技能3</label>
+                            </div>
+
+                    <input type="hidden" id="hiddenSkillIdInput1" name="selectedSkillId1" asp-for="專長代碼1" />
+                    <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2" asp-for="專長代碼2" />
+                    <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3" asp-for="專長代碼3" />
+
+                        </div>
+                    </div>
+
+                    <!--證照-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                        <h5 class="mb-4" style="color:#528EAF">履歷證照</h5>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallOne">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照1</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallTwo">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照2</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerBigThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照分類3</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SelCerSmallThree">
+                                    <option></option>
+                                </select>
+                                <label for="floatingSelectCity">請選擇證照3</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--自傳-->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF;display:inline;">履歷自傳</h5><span style="color:tomato;">      *必填</span>
+                    <div class="form-group">
+                        <label asp-for="履歷標題" class="control-label"></label>
+                        <input asp-for="履歷標題" class="form-control" />
+                        <span asp-validation-for="履歷標題" class="text-danger"></span>
+                    </div>
+                            <div class="form-group">
+                        <label asp-for="專家介紹" class="control-label"></label>
+                        <textarea asp-for="專家介紹" class="form-control" style="height:300px;resize:none"> </textarea>
+                        <span asp-validation-for="專家介紹" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+            <!--專家詳細介紹-->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF;display:inline;">履歷自傳</h5><span style="color:tomato;">      *必填</span>
+                   
+                    <div class="form-group mb-3">
+                        <label asp-for="提供服務" class="control-label"></label>
+                        <textarea asp-for="提供服務" class="form-control" style="height:400px;resize:none"> </textarea>
+                        <span asp-validation-for="提供服務" class="text-danger"></span>
+                    </div>
+                                      
+                </div>
+            </div>
+
+            <!--作品QA-->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF;display:inline;">Q&A介紹</h5><span style="color:tomato;">      *必填</span>
+                    <div class="form-group mb-3">
+                        
+                            <label asp-for="常見問題" class="control-label"></label>
+                            <textarea asp-for="常見問題" class="form-control" style="height:300px;resize:none"> </textarea>
+                            <span asp-validation-for="常見問題" class="text-danger"></span>
+                   
+
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!--專家詳細補充介紹-->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF;display:inline;">履歷自傳補充</h5><span style="color:tomato;">      *必填</span>
+
+                    <div class="form-group mb-3">
+                        <div class="form-floating mb-3">
+                            <select asp-for="收款方式" class="form-select" id="pay">
+                                <option>現金支付</option>
+                                <option>匯款支付</option>
+                            </select>
+                            <label for="pay">收款方式</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="基本價格" class="control-label"></label>
+                        <input asp-for="基本價格" class="form-control" />
+                        <span asp-validation-for="基本價格" class="text-danger"></span><span>元</span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="個人網站" class="control-label"></label>
+                        <input asp-for="個人網站" class="form-control" />
+                        <span asp-validation-for="個人網站" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-floating mb-3">
+                            <select asp-for="聯絡方式" class="form-select" id="comtact">
+                                <option>手機連絡</option>
+                                <option>E-Mail連絡</option>
+                            </select>
+                            <label for="comtact">聯絡方式</label>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!--作品照片-->
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-light rounded h-100 p-4">
+                    <h5 class="mb-4" style="color:#528EAF">作品照片</h5>
+                   
+                    <div class="form-group mb-3">
+                        @*<label asp-for="Photo" class="control-label"></label>*@
+                        <input id="workphoto" asp-for="作品圖片" class="form-control" type="file" multiple />
+                        <span asp-validation-for="作品圖片" class="text-danger"></span>
+                        <span asp-validation-for="作品圖片" class="text-danger"></span> @*+*@
+                        <span id="workError" class="text-danger"></span>
+
+                        <div id="workPreview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="hiddenPhotoInput" name="selectedPhoto" />
+
+
+                    <!--送出+取消並返回-->
+           
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light rounded h-100 p-4">
+                    <div class="bg-light rounded h-100 p-4  d-flex justify-content-center align-items-center">
+                                <div class="form-group">
+                            <input type="submit" value="送出並新增" class="btn btn-outline-success" />
+                            <a asp-action="Expert" asp-controller="ExpertMemberPage" class="btn btn-outline-warning">取消並返回</a>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+
+
+
+            </div>
+            </div>
+</form>
+          
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        const selCity = document.querySelector('#selCity');
+        const selTown = document.querySelector('#selTown');
+        const hiddenTownIdInput = document.querySelector('#hiddenTownIdInput');
+
+
+        //select的城市
+        async function loadCity() {
+            const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
+            const datas = await response.json()
+            // datas.sort();
+            const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            document.querySelector('#selCity').innerHTML = cities.join("");
+
+            loadDistrict();
+        }
+
+        loadCity();
+
+        //select的區域
+        async function loadDistrict() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+            const datas = await response.json()
+            // datas.sort();
+            const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+            selTown.innerHTML = districts.join("");
+            getTownId();
+        }
+
+        async function getTownId() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
+            const data = await response.json();
+            const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenTownIdInput.value = selectedTownId;
+        }
+
+
+        // loadDistrict();
+
+        selCity.addEventListener('change', () => {
+            loadDistrict();
+        });
+
+        selTown.addEventListener('change', () => {
+            getTownId();
+        });
+
+
+        const SelSkillBigOne = document.querySelector('#SelSkillBigOne');
+        const SelSkillSmallOne = document.querySelector('#SelSkillSmallOne');
+
+        //select的技能分類
+        async function loadSelSkillBigOne() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigOne').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallOne();
+        }
+
+        loadSelSkillBigOne();
+
+        //select的技能小項
+        async function loadSelSkillSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigOne.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallOne.innerHTML = skillSmall.join("");
+            getSkillIdOne();
+        }
+
+        SelSkillBigOne.addEventListener('change', () => {
+            loadSelSkillSmallOne();
+        });
+
+        SelSkillSmallOne.addEventListener('change', () => {
+            getSkillIdOne();
+        });
+
+
+        const SelSkillBigTwo = document.querySelector('#SelSkillBigTwo');
+        const SelSkillSmallTwo = document.querySelector('#SelSkillSmallTwo');
+
+        //select的技能分類
+        async function loadSelSkillBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigTwo').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallTwo();
+        }
+
+        loadSelSkillBigTwo();
+
+        //select的技能小項
+        async function loadSelSkillSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigTwo.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallTwo.innerHTML = skillSmall.join("");
+            getSkillIdTwo();
+        }
+
+        SelSkillBigTwo.addEventListener('change', () => {
+            loadSelSkillSmallTwo();
+        });
+
+        SelSkillSmallTwo.addEventListener('change', () => {
+            getSkillIdTwo();
+        });
+
+
+
+        const SelSkillBigThree = document.querySelector('#SelSkillBigThree');
+        const SelSkillSmallThree = document.querySelector('#SelSkillSmallThree');
+
+        //select的技能分類
+        async function loadSelSkillBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+            const datas = await response.json()
+            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            document.querySelector('#SelSkillBigThree').innerHTML = skillBig.join("");
+
+            loadSelSkillSmallThree();
+        }
+
+        loadSelSkillBigThree();
+
+        //select的技能小項
+        async function loadSelSkillSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigThree.value}`);
+            const datas = await response.json()
+            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+            SelSkillSmallThree.innerHTML = skillSmall.join("");
+            getSkillIdThree();
+        }
+
+        SelSkillBigThree.addEventListener('change', () => {
+            loadSelSkillSmallThree();
+        });
+
+        SelSkillSmallThree.addEventListener('change', () => {
+            getSkillIdThree();
+        });
+
+
+
+        //證照的標籤
+        const SelCerBigOne = document.querySelector('#SelCerBigOne');
+        const SelCerSmallOne = document.querySelector('#SelCerSmallOne');
+
+        //select的證照分類
+        async function loadSelCerBigOne() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigOne').innerHTML = CerBig.join("");
+
+            loadSelCerSmallOne();
+        }
+
+        loadSelCerBigOne();
+
+        //select的證照小項
+        async function loadSelCerSmallOne() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigOne.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallOne.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallOne();
+
+        SelCerBigOne.addEventListener('change', () => {
+            loadSelCerSmallOne();
+        });
+
+
+        //證照的標籤
+        const SelCerBigTwo = document.querySelector('#SelCerBigTwo');
+        const SelCerSmallTwo = document.querySelector('#SelCerSmallTwo');
+
+        //select的證照分類
+        async function loadSelCerBigTwo() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigTwo').innerHTML = CerBig.join("");
+
+            loadSelCerSmallTwo();
+        }
+
+        loadSelCerBigTwo();
+
+        //select的證照小項
+        async function loadSelCerSmallTwo() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigTwo.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallTwo.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallTwo();
+
+        SelCerBigTwo.addEventListener('change', () => {
+            loadSelCerSmallTwo();
+        });
+
+
+        //證照的標籤
+        const SelCerBigThree = document.querySelector('#SelCerBigThree');
+        const SelCerSmallThree = document.querySelector('#SelCerSmallThree');
+
+        //select的證照分類
+        async function loadSelCerBigThree() {
+            const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+            const datas = await response.json()
+            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
+
+            loadSelCerSmallThree();
+        }
+
+        loadSelCerBigThree();
+
+        //select的證照小項
+        async function loadSelCerSmallThree() {
+            const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigThree.value}`);
+            const datas = await response.json()
+            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+            SelCerSmallThree.innerHTML = CerSmall.join("");
+        }
+
+        loadSelCerSmallThree();
+
+        SelCerBigThree.addEventListener('change', () => {
+            loadSelCerSmallThree();
+        });
+
+        const hiddenSkillIdInput1 = document.querySelector('#hiddenSkillIdInput1');
+        const hiddenSkillIdInput2 = document.querySelector('#hiddenSkillIdInput2');
+        const hiddenSkillIdInput3 = document.querySelector('#hiddenSkillIdInput3');
+
+        async function getSkillIdOne() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
+            const data = await response.json();
+            const selectedSkillId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput1.value = selectedSkillId1;
+            console.log(hiddenSkillIdInput1.value);
+        }
+
+        async function getSkillIdTwo() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
+            const data = await response.json();
+            const selectedSkillId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput2.value = selectedSkillId2;
+            console.log(hiddenSkillIdInput2.value);
+        }
+
+        async function getSkillIdThree() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
+            const data = await response.json();
+            const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput3.value = selectedSkillId3;
+            console.log(hiddenSkillIdInput3.value);
+        }
+
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        // 當使用者選擇檔案時觸發事件
+        photoInput.addEventListener('change', function () {
+            const selectedFile = photoInput.files[0];
+
+            if (selectedFile) {
+                // 檢查是否是圖片類型
+                if (selectedFile.type.startsWith('image/')) {
+                    // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(selectedFile);
+                    /*  img.style.maxWidth = '100%';
+                     img.style.height = 'auto'; */
+
+                    img.width = 360;
+                    img.height = 360;
+                    // 清空預覽元素的內容，然後添加新的圖片
+                    photoPreview.innerHTML = '';
+                    photoPreview.appendChild(img);
+
+                    // 清除可能的錯誤訊息
+                    const photoError = document.getElementById('photoError');
+                    photoError.textContent = '';
+                } else {
+                    // 如果選擇的檔案不是圖片，顯示錯誤訊息
+                    const photoError = document.getElementById('photoError');
+                    photoError.textContent = '請選擇有效的圖片檔案。';
+                    photoPreview.innerHTML = '';
+                }
+            } else {
+                // 如果未選擇檔案，清空預覽元素
+                photoPreview.innerHTML = '';
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '';
+            }
+        });
+
+        //作品集
+
+        // 當使用者選擇檔案時觸發事件
+        const workphoto = document.querySelector("#workphoto");
+        const workPreview = document.querySelector("#workPreview");
+        const workError = document.querySelector("#workError");
+
+        workphoto.addEventListener('change', function () {
+            workPreview.innerHTML = ''; 
+            workError.textContent = '';
+            const selectedFiles = workphoto.files;
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const selectedFile = selectedFiles[i];
+                const workNameInput = document.createElement('input');
+                workNameInput.type = 'text';
+                workNameInput.name = '作品名';
+                workNameInput.placeholder = '請輸入作品名';
+                workNameInput.className = 'form-control mb-3 ';
+                // 檢查是否是圖片類型
+                if (selectedFile.type.startsWith('image/')) {
+                    // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(selectedFile);
+                    img.width = 360;
+                    img.height = 360;
+                    workPreview.appendChild(img);
+                    workPreview.appendChild(workNameInput);
+                } else {
+                    // 如果選擇的檔案不是圖片，顯示錯誤訊息
+                    workError.textContent = '請選擇有效的圖片檔案。';
+                    workPreview.innerHTML = '';
+
+                }
+            } 
+        });
+    </script>
+
+}
