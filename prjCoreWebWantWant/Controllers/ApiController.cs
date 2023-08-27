@@ -17,12 +17,12 @@ namespace WantTask.Controllers
             _context = context;
             _host = host;
         }
-        public IActionResult GetTaskPublished(CTaskListDetailItem taskList)
+        public IActionResult GetTaskPublished(CTaskDetailFrontandBackstage taskList)
         {
             NewIspanProjectContext _context = new NewIspanProjectContext();
             IEnumerable<TaskList> datas = null;
 
-            if ( datas !=null && taskList.FPublishOrNot != null)
+            if ( datas !=null && taskList.PublishOrNot != null)
             { 
                 var tasklist = _context.TaskLists.Where(t=>t.PublishOrNot == "立刻上架").ToList() ;
                 return View(tasklist);

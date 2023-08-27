@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -182,11 +183,23 @@ namespace WantTask.Controllers
         public IActionResult JobDetail(int? id)
         {
             var q = _context.TaskLists
-                //.Include(s => s.TaskSkills).Where(ss => ss.CaseId == id)
+                .Include(s => s.TaskSkills)
+                .ThenInclude(s=>s.Skill)
+                .Include(c=>c.TaskCertificates)
+                .ThenInclude(c=>c.Certficate)
+                .Include(p=>p.TaskPhotos)
+                .ThenInclude(p=>p.Photo)
+                //.Where(ss => ss.CaseId == id)
+                
+                
                 //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
                 //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
                 .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
-            
+
+            //var q = from p in _context.TaskLists
+
+            //        where p.CaseId == id
+
             return View(q);
         }
 
@@ -478,6 +491,30 @@ namespace WantTask.Controllers
             return RedirectToAction("Create");
 
         }
+
+        //取照片
+        public IActionResult GetImage(int? CaseID)
+        {
+            ////用find方法，不要用where.firstordefault，find會直接找pk
+            //TaskPhoto? taskPhoto = _context.TaskPhotos.Find(CaseID);
+            //byte[]? img = taskPhoto.Photo;
+            //return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
+
+            if (CaseID == null)
+            {
+                return NotFound(); // 或者其他適當的處理方式
+            }
+
+            TaskPhoto taskPhoto = _context.TaskPhotos.Find(CaseID);
+            if (taskPhoto == null || taskPhoto.Photo == null)
+            {
+                return NotFound(); // 或者其他適當的處理方式
+            }
+
+            byte[] img = taskPhoto.Photo;
+            return File(img, "image/jpeg");
+        }
+
 
         //取得任務類型的selectIndex
         public IActionResult GetTaskNameId(string taskname)

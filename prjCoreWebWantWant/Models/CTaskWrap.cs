@@ -11,6 +11,7 @@ namespace prjCoreWebWantWant.Models;
 
     //private TaskPhoto _taskPhoto = null;
 
+    public bool HasPhoto { get; set; }
 
     public TaskList task
             {
