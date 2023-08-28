@@ -15,8 +15,16 @@
     <img src="@Url.Content("~/img/paypel.png")" width="400" height="400" />
     <div>
     @foreach (var item in Model){
-    <label style="font-size:large">訂單編號:</label><p>@item.OrderId</p>
-    <label>訂單金額:</label><p>@item.PaidAmount</p>
+        <div>
+                <table class="table">
+                <tr>
+                        <td> <label style="font-size:large">訂單編號:</label><span style="font-size:large">@item.OrderId</span></td>
+                        <td> <label style="font-size:large">訂單金額:</label><span style="font-size:large">@item.PaidAmount 元</span></td>
+                </tr>
+            </table>
+   
+    </div>
+   
     }
     </div>
 </div>
