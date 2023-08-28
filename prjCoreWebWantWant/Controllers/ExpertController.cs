@@ -4,6 +4,9 @@ using prjCoreWantMember.ViewModels;
 using System.Text.Json;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using X.PagedList.Mvc.Core;
+using System.Collections.Generic;
+using X.PagedList;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -15,7 +18,8 @@ namespace prjCoreWantMember.Controllers
         {
             _logger = logger;
         }
-        public IActionResult ExpertMainPage(CKeywordViewModel vm)
+        int pageSize = 5;
+        public IActionResult ExpertMainPage(CKeywordViewModel vm, int  page=1)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
 
@@ -31,7 +35,7 @@ namespace prjCoreWantMember.Controllers
                        on r.ResumeId equals rSk.ResumeId
                        join rCe in db.ResumeCertificates
                        on r.ResumeId equals rCe.ResumeId
-                        where r.IsExpertOrNot == true
+                        where r.IsExpertOrNot == true &&r.CaseStatusId==23
                         select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er, resumeskill=rSk, resumecertificate=rCe };
             }
             else
@@ -41,11 +45,19 @@ namespace prjCoreWantMember.Controllers
                        on r.AccountId equals m.AccountId
                         join er in db.ExpertResumes
                         on r.ResumeId equals er.ResumeId
-                        where r.IsExpertOrNot == true && (m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) ||
-                        r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()))
+                        join rSk in db.ResumeSkills
+                      on r.ResumeId equals rSk.ResumeId
+                        join rCe in db.ResumeCertificates
+                        on r.ResumeId equals rCe.ResumeId
+                        where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&((m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) ||
+                        r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper())))
                         select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
             }
-            return View(datas);
+            ViewBag.TotalCount = datas.Distinct().Count();
+            ViewBag.MaxPrice = datas.Max(p => p.expertResume.CommonPrice);
+            int currentPage = page < 1 ? 1 : page;
+            IEnumerable<CExpertInfoViewModel> result = datas.ToPagedList(currentPage, pageSize);
+            return View(result);
         }
         public IActionResult ExpertMemberPage()
         {

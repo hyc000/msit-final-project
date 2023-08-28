@@ -1,5 +1,9 @@
-﻿@using prjCoreWantMember.ViewModels
-@model IEnumerable<CExpertInfoViewModel>
+﻿@using PagedList
+@using X.PagedList.Mvc.Core
+
+@using X.PagedList.Web.Common;
+@using prjCoreWantMember.ViewModels
+@model X.PagedList.IPagedList<CExpertInfoViewModel>
 @{
     ViewData["Title"] = "ExpertMainPage";
     int CountExpert = 0;
@@ -13,7 +17,8 @@
         padding: 5px;
         margin:10px;
     }
-        
+
+      
     </style>
 }
 
@@ -91,9 +96,9 @@
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
             <div class="mt-4">
                 <section class="range-slider range-container pb-3 ">
-                    <input id="rangeOne" name="ranvgeOne" value="10000" min="0" max="10000" step="1" type="range" class="col-md-10 d-flex justify-content-center">
+                    <input id="rangeOne" name="ranvgeOne" value="@ViewBag.MaxPrice" min="0" max="@ViewBag.MaxPrice" step="1" type="range" class="col-md-10 d-flex justify-content-center">
                     <span >最高價：</span> <!-- 用來顯示範圍值的元素 -->
-                    <span id="rangeValue">10000</span> <!-- 用來顯示範圍值的元素 -->
+                    <span id="rangeValue">@((int)ViewBag.MaxPrice)</span> <!-- 用來顯示範圍值的元素 -->
                     <span>元</span> <!-- 用來顯示範圍值的元素 -->
                 </section>
                 <div class="d-flex justify-content-center">
@@ -115,7 +120,7 @@
                     <!--專門顯示數字的第一行-->
                     @*divide-line好像沒套到*@
                     <!--Bootstrap ：pl-3：在元素的左側添加內邊距（padding-left），3單位-->
-                    <span id="CountExpert" class="fs-3 fw-bolder ms-2 me-2">@Model.Count()</span>
+                    <span id="CountExpert" class="fs-3 fw-bolder ms-2 me-2">@ViewBag.TotalCount</span>
                     <!--Bootstrap ：me-2：用於在元素的右側添加外邊距（margin end）-->
                     @*fs-3 fw-bolder好像沒套到*@
                     <span class="fs-5 my-text-primary">
@@ -255,6 +260,28 @@
                                     });
                                     renderStars(score, count, "@starId");
                                 });
+                            // 動態生成評價星星並顯示
+
+
+                            function renderStars(score, count, starId) {
+                                var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+                                var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
+                                var starnull = '<i class="bi bi-star "></i>';
+
+                                let arr = [];
+                                for (let i = 1; i <= 5; i++) {
+                                    if (score >= i) {
+                                        arr.push(starfill);
+                                    } else if (score > i - 1 && score < i) {
+                                        arr.push(starhelf);
+                                    } else {
+                                        arr.push(starnull);
+                                    }
+                                }
+
+                                document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+                            }
+
                         </script>
                     }
                     
@@ -270,8 +297,15 @@
             <!--製作頁數之類的東西，但沒有很懂-->
             <div class="d-flex justify-content-center bg-transparent border-0">
                 <div class="col-7 d-flex justify-content-around">
-                    頁數的位置
-                    @*Html.PagedListPager(Model.pages, page => Url.Action("SearchList", new { page}))*@
+                    @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("ExpertMainPage", new { page }),
+                    new PagedListRenderOptions {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" },   // 設定頁碼的 CSS 類別
+                    UlElementClasses = new string[] { "pagination" }  // 設定 ul 元素的 CSS 類別
+                    }
+                    )
                 </div>
             </div>
         </div>
@@ -380,27 +414,27 @@
             };
                                 /*Loadcertificatetype();*///使用載入證照資料
 
-        // 動態生成評價星星並顯示
+        //// 動態生成評價星星並顯示
         
 
-        function renderStars(score, count, starId) {
-            var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-            var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
-            var starnull = '<i class="bi bi-star "></i>';
+        //function renderStars(score, count, starId) {
+        //    var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+        //    var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
+        //    var starnull = '<i class="bi bi-star "></i>';
 
-            let arr = [];
-            for (let i = 1; i <= 5; i++) {
-                if (score >= i) {
-                    arr.push(starfill);
-                } else if (score > i - 1 && score < i) {
-                    arr.push(starhelf);
-                } else {
-                    arr.push(starnull);
-                }
-            }
+        //    let arr = [];
+        //    for (let i = 1; i <= 5; i++) {
+        //        if (score >= i) {
+        //            arr.push(starfill);
+        //        } else if (score > i - 1 && score < i) {
+        //            arr.push(starhelf);
+        //        } else {
+        //            arr.push(starnull);
+        //        }
+        //    }
 
-            document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
-        }
+        //    document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+        //}
        
 
 
