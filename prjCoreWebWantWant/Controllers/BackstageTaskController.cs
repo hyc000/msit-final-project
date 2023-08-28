@@ -17,8 +17,8 @@ namespace WantTask.Controllers
     {
 
         private readonly NewIspanProjectContext _context;
-
         private readonly IWebHostEnvironment _host;
+        private CTaskDetailFrontandBackstage _CTaskFrontAndBack;
         public BackstageTaskController(NewIspanProjectContext context, IWebHostEnvironment host)
         {
             _context = context;
@@ -197,28 +197,28 @@ namespace WantTask.Controllers
         }
 
         //點選已上架未上架的詳細任務畫面
-        public IActionResult JobDetail(int? id)
-        {
-            var q = _context.TaskLists
-                //.Include(s => s.TaskSkills)
-                //.ThenInclude(s=>s.Skill)
-                //.Include(c=>c.TaskCertificates)
-                //.ThenInclude(c=>c.Certficate)
-                //.Include(p=>p.TaskPhotos)
-                //.ThenInclude(p=>p.Photo)
-                //.Where(ss => ss.CaseId == id)
+        //public IActionResult JobDetail(int? id)
+        //{
+        //    var q = _context.TaskLists
+        //        //.Include(s => s.TaskSkills)
+        //        //.ThenInclude(s=>s.Skill)
+        //        //.Include(c=>c.TaskCertificates)
+        //        //.ThenInclude(c=>c.Certficate)
+        //        //.Include(p=>p.TaskPhotos)
+        //        //.ThenInclude(p=>p.Photo)
+        //        //.Where(ss => ss.CaseId == id)
 
 
-                //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
-                //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
-                .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+        //        //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
+        //        //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
+        //        .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
 
-            //var q = from p in _context.TaskLists
+        //    //var q = from p in _context.TaskLists
 
-            //        where p.CaseId == id
+        //    //        where p.CaseId == id
 
-            return View(q);
-        }
+        //    return View(q);
+        //}
 
         //public IActionResult yes()
         //{
@@ -228,6 +228,63 @@ namespace WantTask.Controllers
 
         //            select app;
         //}
+
+        //jobDetail
+        public async Task<IActionResult>JobDetail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            //任務地點
+            var q = await _context.TaskLists
+             .Include(c => c.Town.City).FirstOrDefaultAsync(t => t.CaseId == id);
+ 
+            ////履歷
+            //var q2 = await _context.Resumes
+            // .Where(a => a.ResumeId == id)
+            // .FirstOrDefaultAsync();
+
+            //_cexpertresume.resume = (q2 != null) ? q2 : _cexpertresume.resume;
+
+            //刊登者姓名
+            var qa = await _context.MemberAccounts
+                .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
+             .FirstOrDefaultAsync();
+
+            _CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
+
+            //證照
+            var qc = await _context.Certificates
+                .Include(x => x.TaskCertificates.Where(r => r.CaseId == id))
+            .FirstOrDefaultAsync();
+
+            _CTaskFrontAndBack.certificate = (qc != null) ? qc : _CTaskFrontAndBack.certificate;
+
+            var qct = await _context.CertificateTypes
+              .Include(x => x.Certificates)
+              .ThenInclude(x => x.TaskCertificates.Where(r => r.CaseId == id))
+          .FirstOrDefaultAsync();
+
+            _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
+
+            //專長
+            var qs = await _context.Skills
+                .Include(x => x.TaskSkills.Where(r => r.CaseId == id))
+            .FirstOrDefaultAsync();
+
+            _CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
+
+            var qst = await _context.SkillTypes
+              .Include(x => x.Skills)
+              .ThenInclude(x => x.TaskSkills.Where(r => r.CaseId == id))
+          .FirstOrDefaultAsync();
+
+            _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
+
+            return View(_CTaskFrontAndBack);
+        }
+
 
 
         #endregion
