@@ -49,6 +49,12 @@
     
   
 <body>
+
+@*Demo鍵*@
+   @* <div class="mb-3 px-4">
+        <button class="btn btn-outline-primary" id="CreateDemo">Demo</button>
+    </div>*@
+
     <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @*帶入真實accountID，tasklist欄位有*@
@@ -57,10 +63,10 @@
             <input asp-for="AccountId" type="hidden" value="@id" />
             <span asp-validation-for="AccountId" type="hidden" class="text-danger"></span>
         </div>
-
+     
             <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-
+            <div class="row g-4">               
+      
                 <!--任務內容-->
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
@@ -76,20 +82,20 @@
                             </div>       
                                 <div class="form-group">
                                     <label asp-for="TaskTitle" class="control-label"></label>
-                                    <input asp-for="TaskTitle" class="form-control" />
+                                    <input asp-for="TaskTitle" class="form-control" id="txtTaskTitle"/>
                                     <span asp-validation-for="TaskTitle" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="TaskDetail" class="control-label"></label>
                                     @*<input asp-for="TaskDetail" class="form-control" />*@
-                                   <textarea asp-for="TaskDetail" class="form-control" style="height:100px;resize:none"> </textarea>
+                            <textarea asp-for="TaskDetail" class="form-control" style="height:100px;resize:none" id="txtTaskDetail"> </textarea>
                                    <span asp-validation-for="TaskDetail" class="text-danger"></span>
                                 </div>
 
 
                         <div class="form-group">
                                     <label asp-for="RequiredNum" class="control-label"></label>
-                                    <input asp-for="RequiredNum" class="form-control" />
+                            <input asp-for="RequiredNum" class="form-control" id="txtRequiredNum" />
                                     <span asp-validation-for="RequiredNum" class="text-danger"></span>
                                 </div>
                          </div>
@@ -159,7 +165,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"></label>
-                        <input asp-for="Address" class="form-control" />
+                            <input asp-for="Address" class="form-control" id="txtAddress" />
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
                     </div>
@@ -172,12 +178,12 @@
           
                     <div class="form-group">
                         <label asp-for="PayFrom" class="control-label"></label>
-                        <input asp-for="PayFrom" class="form-control" />
+                          <input asp-for="PayFrom" class="form-control" id="txtPayFrom" />
                         <span asp-validation-for="PayFrom" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="PayTo" class="control-label"></label>
-                        <input asp-for="PayTo" class="form-control" />
+                        <input asp-for="PayTo" class="form-control" id="txtPayTo" />
                         <span asp-validation-for="PayTo" class="text-danger"></span>
                     </div>
                     <p></p>
@@ -405,7 +411,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");   
         }
 
-       <script>
+       <script>      
         //任務類型
         const SelTaskName = document.querySelector('#SelTaskName');
         const hiddenTaskNameIdInput = document.querySelector('#hiddenTaskNameIdInput');
@@ -755,8 +761,28 @@
         });*/
 
 
+        //demo鍵
+    /*    const CreateDemo = document.querySelector('#CreateDemo');
+        const txtTaskTitle = document.querySelector('#txtTaskTitle');
+        const txtTaskDetail = document.querySelector('#txtTaskDetail');
+        const txtRequiredNum = document.querySelector('#txtRequiredNum');
+        const taskStartHour = document.querySelector('#taskStartHour');
+        const taskEndHour = document.querySelector('#taskEndHour');
+        const txtPayFrom = document.querySelector('#txtPayFrom');
+        const txtPayTo = document.querySelector('#txtPayTo');
+        const txtAddress = document.querySelector('#txtAddress');
 
-
+        CreateDemo.addEventListener('click', () => {
+            txtTaskTitle.value = "雙十連假幫忙顧貓"
+            txtTaskDetail.value = "【照顧需求】： 一隻貓咪
+                        【注意事項】：每次約半小時，需要餵貓、陪貓玩、一天鏟一次貓砂，有養貓經驗、愛貓為佳（10 / 7晚上一次 + 10 / 8白天一次晚上一次 + 10 / 9白天一次共來四次）四次共400元"
+            txtRequiredNum.value = "1"
+            taskStartHour.value = "10/7晚上一次+10/8白天一次晚上一次"
+            taskEndHour.value = "10/9白天一次共來四次"
+            txtPayFrom.value = "400"
+            txtPayTo.value = ""
+            txtAddress.value = "桃園市龜山區中華街一段34巷"
+        })*/
 
     </script>
 }
