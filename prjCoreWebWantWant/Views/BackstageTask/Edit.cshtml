@@ -28,11 +28,23 @@
             color: #528EAF; /* 更改滑鼠滑過的文字顏色 */
         }
 
-        .badge-soft-info {
+        .badge-soft-primary {
             background-color: #528EAF;
             color: #fff;
         }
-          
+
+        .image-container {
+            display: inline-block;
+        }
+
+        .enlarge-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+            .enlarge-on-hover:hover {
+                transform: scale(1.2);
+            }
+
 
     </style>
 </head>
@@ -245,9 +257,11 @@
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <div class="row">
-                                                                        <div class="col-lg-4 col-sm-6">                                                                                
-                                                                            <img src="@Url.Content(Model.PhotoPath)" style="height:200px ; width:200px" />
+                                                                        <div class="col-lg-4 col-sm-6">
+                                                                            <div class="image-container">
+                                                                                <img src="@Url.Content(Model.PhotoPath)" style="height:200px ; width:200px" alt="目前沒有照片，趕快新增吧" class="enlarge-on-hover" />
                                                                                     <input class="form-control" type="file" id="formFile" name="imageFile" asp-for="Photo">
+                                                                              </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
