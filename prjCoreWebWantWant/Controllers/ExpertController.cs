@@ -55,6 +55,11 @@ namespace prjCoreWantMember.Controllers
             }
             ViewBag.TotalCount = datas.Distinct().Count();
             ViewBag.MaxPrice = datas.Max(p => p.expertResume.CommonPrice);
+            var skillCounts = datas.Where(d => d.skill != null && d.skill.SkillId != null)
+                       .GroupBy(d => d.skill.SkillId)
+                       .Select(group => new { SkillId = group.Key, Count = group.Count() })
+                       .ToList();
+            ViewBag.SkillCounts = skillCounts;
             int currentPage = page < 1 ? 1 : page;
             IEnumerable<CExpertInfoViewModel> result = datas.ToPagedList(currentPage, pageSize);
             return View(result);

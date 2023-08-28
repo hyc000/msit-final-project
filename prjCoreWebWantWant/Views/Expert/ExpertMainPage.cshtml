@@ -367,16 +367,23 @@
 
         function Loadskill() {
             const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
+            var skillCounts = @Html.Raw(Json.Serialize(ViewBag.SkillCounts));
             console.log(skilltypeselecttext);
             if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext == null) {
                 skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
                 return;
             }
+            
             fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
                 .then(response => response.json())
                 .then(datas => {
+                    var count = skillCounts[skilltypeselecttext];
+                    if(count==undefined){
+                        count=0;
+                    }
                     let options = ""
-                    options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                    options += datas.map(skill => `<option value="1">${skill}(${count})</option>`).join('');
+                    
                     skillselect.innerHTML = options;
                 });  //then最後一個THEN
         };
@@ -396,7 +403,7 @@
             };
 
 
-
+        
             function Loadcertificate() {
                 const certificatetypeselecttext = certificatetypeselect.options[certificatetypeselect.selectedIndex].text;
                 console.log(certificatetypeselecttext);
@@ -404,7 +411,8 @@
                 certificateselect.innerHTML = "<option value=''>請先選擇證照</option>";
                     return;
                 }
-                fetch(`@Url.Content("~/ApiForExpert/CertificateAPI")?certificatetype=${certificatetypeselecttext}`)
+           
+            fetch(`@Url.Content("~/ApiForExpert/CertificateAPI")?certificatetype=${certificatetypeselecttext}`)
                     .then(response => response.json())
                     .then(datas => {
                         let options = ""
