@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -82,10 +83,22 @@ namespace prjShop.Controllers
         //會員訂單列表
         public IActionResult Order()
         {
-
+            int userId = GetAccountID();
+            var q = _context.Orders
+                .Include(t => t.Category)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od =>od.Resume)
+                .Include(o =>o.OrderDetails)
+            .ThenInclude(od =>od.Case)
+            .Include(o => o.OrderDetails)
+            .ThenInclude(od => od.Product)
+           .Where(o => o.AccountId == userId)
+         .OrderByDescending(o => o.CreateTime)  
+        .ToList();
+               
            
 
-            return View();
+            return View(q);
         }
 
 
@@ -476,6 +489,11 @@ namespace prjShop.Controllers
             if (cart.Count == 0)
             {
                 TempData["ErrorMessage"] = "購物車內沒有商品，無法進行結帳。";
+
+                // 使用SweetAlert的JavaScript代碼顯示提醒
+                string sweetAlertScript = $"Swal.fire('購物車內沒有商品', '無法進行結帳。', 'warning');";
+                TempData["SweetAlertScript"] = sweetAlertScript;
+
                 return RedirectToAction("CaseCart");
             }
 
