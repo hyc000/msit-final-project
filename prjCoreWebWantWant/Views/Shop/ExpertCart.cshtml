@@ -79,10 +79,10 @@
                 {
                     <p class="text-center text-dark">購物車內尚無商品</p>
                 }
-                tax = (sum / 10);
-                if (@ViewBag.Points > sum)
+                tax = (sum / 20);
+                if (@ViewBag.Points > (sum / 2))
                 {
-                    usepoint = sum;
+                    usepoint = (sum / 2);
                 }
                 else
                 {
@@ -132,7 +132,7 @@
             <div class="row" style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
                 <div class="col" style="padding-left: 0;color: brown;">
                     紅利總點數: @ViewBag.Points 點
-                    <label>最高折抵，不超過訂單總價</label>
+                    <label>最高折抵，不超過訂單總價的一半</label>
                 </div>
                 <div class="col text-right" style="color: brown;">$@usepoint</div>
             </div>

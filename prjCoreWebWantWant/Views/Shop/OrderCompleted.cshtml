@@ -7,30 +7,34 @@
 <div class="container text-center">
     <p>　</p>
     <ul class="progressbar d-flex justify-content-center">
-        <li class ="active">購物車</li>
+        <li class="active">購物車</li>
         <li class="active">結帳</li>
         <li class="active">完成</li>
     </ul>
     <p>　</p>
     <img src="@Url.Content("~/img/paypel.png")" width="400" height="400" />
     <div>
-    @foreach (var item in Model){
-        <div>
-                <table class="table">
-                <tr>
-                        <td> <label style="font-size:large">訂單編號:</label><span style="font-size:large">@item.OrderId</span></td>
-                        <td> <label style="font-size:large">訂單金額:</label><span style="font-size:large">@item.PaidAmount 元</span></td>
-                </tr>
-            </table>
-   
-    </div>
-   
-    }
+        @foreach (var item in Model)
+        {
+            <div>
+                <table class="table hidden" id="myTable">
+                    <tr>
+                        <td><label style="font-size:large">訂單編號:</label><span style="font-size:large">@item.OrderId</span></td>
+                        <td><label style="font-size:large">訂單金額:</label><span style="font-size:large">@item.PaidAmount 元</span></td>
+                    </tr>
+                </table>
+            </div>
+        }
     </div>
 </div>
 
 @section Styles{
     <style>
+        .hidden {
+            display: none;
+        }
+
+  
         .progressbar {
           counter-reset: step;
           }
@@ -82,7 +86,15 @@
         </style>
 }
 
-@section Scripts{
- 
 
+@section Scripts{
+    <script>
+        // 获取表格元素
+        var table = document.getElementById("myTable");
+
+        // 等待3秒后显示表格
+        setTimeout(function () {
+            table.classList.remove("hidden");
+        }, 2000);
+    </script>
 }
