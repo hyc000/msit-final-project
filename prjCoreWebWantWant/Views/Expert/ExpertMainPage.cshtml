@@ -2,6 +2,7 @@
 @model IEnumerable<CExpertInfoViewModel>
 @{
     ViewData["Title"] = "ExpertMainPage";
+    int CountExpert = 0;
 }
 @section Styles{
     <style>
@@ -90,9 +91,9 @@
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
             <div class="mt-4">
                 <section class="range-slider range-container pb-3 ">
-                    <input id="rangeOne" name="ranvgeOne" value="1000" min="0" max="1000" step="1" type="range" class="col-md-10 d-flex justify-content-center">
+                    <input id="rangeOne" name="ranvgeOne" value="10000" min="0" max="10000" step="1" type="range" class="col-md-10 d-flex justify-content-center">
                     <span >最高價：</span> <!-- 用來顯示範圍值的元素 -->
-                    <span id="rangeValue">1000</span> <!-- 用來顯示範圍值的元素 -->
+                    <span id="rangeValue">10000</span> <!-- 用來顯示範圍值的元素 -->
                     <span>元</span> <!-- 用來顯示範圍值的元素 -->
                 </section>
                 <div class="d-flex justify-content-center">
@@ -114,7 +115,7 @@
                     <!--專門顯示數字的第一行-->
                     @*divide-line好像沒套到*@
                     <!--Bootstrap ：pl-3：在元素的左側添加內邊距（padding-left），3單位-->
-                    <span id="total" class="fs-3 fw-bolder ms-2 me-2">@*Model.filterProducts.Count()找計數(先寫死)*@3</span>
+                    <span id="CountExpert" class="fs-3 fw-bolder ms-2 me-2">@Model.Count()</span>
                     <!--Bootstrap ：me-2：用於在元素的右側添加外邊距（margin end）-->
                     @*fs-3 fw-bolder好像沒套到*@
                     <span class="fs-5 my-text-primary">
@@ -162,8 +163,11 @@
                     @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
                     <!--=======================================================================-->
                 @{
+                    string starId = "";
                     foreach (var item in Model)
                     {
+                        CountExpert += 1;
+                        starId = "star" + item.resume.ResumeId;
                         <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
                             <div class="row g-0">
                                 <div class="col-md-4 pr-0 ">
@@ -195,7 +199,7 @@
                                                 </small>
                                             </p>
                                             <p class="card-text">
-                                                <small class="text-body-secondary" id="star"></small>
+                                                <small class="text-body-secondary" id="@starId"></small>
                                             </p>
                                             <div class="row position-absolute bottom-0">
                                                 @*<div class="col">*@
@@ -206,10 +210,10 @@
                                 </div>
                                 <div class="col-md-2 pl-0">
                                     <div class="row g-0 mx-2 my-2">
-                                        <a href="@Url.Content("~/")" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
+                                        <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
                                     </div>
                                     <div class="row g-0 mx-2 my-2">
-                                        <a href="@Url.Action("", "", new {})" class="btn btn-outline-primary me-2" style="float:right">聯絡專家</a>
+                                        <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.resume.AccountId })" target="_blank" class="btn btn-outline-primary me-2" style="float:right">聯絡專家</a>
                                     </div>
                                     <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
                                         @*<div class="col">*@
@@ -218,191 +222,50 @@
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+
+                            //async function fetchStarDataAndRender(starId) {
+                            //    try {
+                            //        const response = await fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumeid=${starId}`);
+                            //        const data = await response.json();
+
+                            //        let score = 0;
+                            //        let count = 0;
+                            //        data.forEach(item => {
+                            //            score += item.分數;
+                            //            count = item.筆數;
+                            //        });
+
+                            //        renderStars(score, count, starId);
+                            //    } catch (error) {
+                            //        console.error("An error occurred while fetching star data:", error);
+                            //    }
+                            //}
+
+
+                            fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumeid=@item.resume.ResumeId`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    let score = 0;
+                                    let count = 0;
+                                    data.forEach(item => {
+                                        score += item.分數;
+                                        count = item.筆數;
+                                    });
+                                    renderStars(score, count, "@starId");
+                                });
+                        </script>
                     }
+                    
                 }
                
 
 
                     <!--=======================================================================-->
-                <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
-                    <div class="row g-0">
-                        <div class="col-md-4 pr-0 ">
-                            <!--放圖片-->
-                            <div class="overflow-hid    den my-rounded-start d-flex  justify-content-center" style="background:#E5EDF6	">
-                                <!-- justify-content-center-->
-                                <img src="~/img/任務曝光.png" height="250" />
-                            </div>
-                            @*if (item.photo != null)
-                            {
-                            <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
-                            <img src="data:image/jpg;base64,@Convert.ToBase64String(item.photo)" height="250" />
-                            </div>
-                            }
+                
 
-                            else
-                            {
-                            <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                            <img src="~/icons/logos/Logo_traveldate.png" alt="@item.productName" height="250" />
-                            </div>
-                            }
-                            *@
-                        </div>
-                        <div class="col-md-6 pl-0">
-                            <div class="card-body d-flex justify-content-around row">
-                                <div class="pl-4 pr-4">
-                                    <span class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字+履歷名字</span>
-                                    <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
-                                    <p class="card-text">
-                                        <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 現金支付 |</small>
-                                        <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 手機連絡</small>
-                                        <small class="text-body-secondary"> | 
-                                            <i class="fa-solid fa-location-dot"></i>@*<img src="~/icons/icons8-position-16.png">*@@*Html.DisplayFor(modelItem => item.city)*@ 台北市北投區</small>
-                                    </p>
-                                    <p class="card-text">
-                                        <small class="text-body-secondary" id="star"></small>
-                                        <small class="text-body-secondary">| @*salesCount*@5 </small>
-                                        </p>
-                                    <div class="row position-absolute bottom-0">
-                                        @*<div class="col">*@
-                                        <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@*Html.DisplayFor(modelItem => item.price)*@2023/8/28</p>
-                                    </div>
-                                </div>
-                                <!--<div class="row align-items-end">
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="rectangle-container me-2 d-flex position-relative">
-                                            <div class="rectangle"></div>
-                                            <input type="hidden" id="rating-value" value="4.0">@*value="item.commentAvgScore"*@
-                                        </div>
-                                        
-                                    </div>
-
-                                </div>-->
-                            </div>
-                        </div>
-                        <div class="col-md-2 pl-0">
-                            <div class="row g-0 mx-2 my-2">
-                                <a href="@Url.Content("~/")" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
-                            </div>
-                            <div class="row g-0 mx-2 my-2">
-                                <a href="@Url.Action("", "", new {})" class="btn btn-outline-primary me-2" style="float:right">聯絡專家</a>
-                            </div>
-                            <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
-                                @*<div class="col">*@
-                                <p class="card-text fs-5 fw-bolder text-end"><span>TWD </span>@*Html.DisplayFor(modelItem => item.price)*@6800<span class="fs-6 fw-normal">起</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                    <!--舊的範例-->
-                    <div class="card mb-3 col-12 p-0">
-                        <div class="row g-0">
-                            <div class="col-md-4 pr-0 ">
-                                <!--放圖片-->
-                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
-                                    <img src="~/img/任務曝光.png" height="250" />
-                                </div>
-                                @*if (item.photo != null)
-                                {
-                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
-                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.photo)" height="250" />
-                                    </div>
-                                }
-
-                                else
-                                {
-                                    <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                        <img src="~/icons/logos/Logo_traveldate.png" alt="@item.productName" height="250" />
-                                    </div>
-                                }
-                                *@
-                            </div>
-
-                            <div class="col-md-8 pl-0">
-                                <div class="card-body d-flex justify-content-around row">
-                                    <div class="pl-4 pr-4">
-                                        <span class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</span>
-                                    <a href="@Url.Content("~/Backstage/ResumeEdit")" class="btn btn-primary btn-sm me-2" id="btnEdit" style="float:right">編輯</a>
-                                    <a href="@Url.Action("", "", new {})" class="btn btn-danger btn-sm me-2" style="float:right" onclick="return confirm('確定要刪除嗎?')">刪除</a>
-                                        <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
-                                        <p class="card-text">
-                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 可以放個證照好了</small>
-                                            <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i>@*<img src="~/icons/icons8-position-16.png">*@@*Html.DisplayFor(modelItem => item.city)*@ 台北市北投區</small>
-                                        </p>
-                                    </div>
-                                    <div class="row align-items-end">
-                                        <div class="col-8 d-flex align-items-center">
-                                            <div class="rectangle-container me-2 d-flex position-relative">
-                                                <div class="rectangle"></div>
-                                                <img class="star-rating" src="~/icons/star-rating.png">
-                                                <input type="hidden" id="rating-value" value="4.0">@*value="item.commentAvgScore"*@
-                                            </div>
-                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.strComment)*@AAA</small>
-                                            <small class="text-body-secondary"> | @*salesCount*@5</small>
-                                        </div>
-                                        <div class="col">
-                                            <p class="card-text fs-5 fw-bolder text-end"><span>TWD </span>@*Html.DisplayFor(modelItem => item.price)*@6800<span class="fs-6 fw-normal">起</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!--範例二開始(以下請刪除)-->
-                <a class="text-secondary">
-                    @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
-                    <div class="card mb-3 col-12 p-0">
-                        <div class="row g-0">
-                            <div class="col-md-4 pr-0 ">
-                                <!--放圖片-->
-                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
-                                    <img src="~/img/任務曝光.png" height="250" />
-                                </div>
-                                @*if (item.photo != null)
-                                {
-                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
-                                <img src="data:image/jpg;base64,@Convert.ToBase64String(item.photo)" height="250" />
-                                </div>
-                                }
-
-                                else
-                                {
-                                <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                <img src="~/icons/logos/Logo_traveldate.png" alt="@item.productName" height="250" />
-                                </div>
-                                }
-                                *@
-                            </div>
-                            <div class="col-md-8 pl-0">
-                                <div class="card-body d-flex justify-content-around row">
-                                    <div class="pl-4 pr-4">
-                                        <h5 class="card-title">@*Html.DisplayFor(modelItem => item.productName)*@專家的名字</h5>
-                                        <p class="card-text  mb-2">@*Html.DisplayFor(modelItem => item.outlineForSearch)*@專家的詳細介紹，這次可以多放一點字ㄌ </p>
-                                        <p class="card-text">
-                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.date)*@ 可以放個證照好了</small>
-                                            <small class="text-body-secondary"> | <i class="fa-solid fa-location-dot"></i>@*<img src="~/icons/icons8-position-16.png">*@@*Html.DisplayFor(modelItem => item.city)*@ 台北市北投區</small>
-                                        </p>
-                                    </div>
-                                    <div class="row align-items-end">
-                                        <div class="col-8 d-flex align-items-center">
-                                            <div class="rectangle-container me-2 d-flex position-relative">
-                                                <div class="rectangle"></div>
-                                                <img class="star-rating" src="~/icons/star-rating.png">@*這裡要放星星(靠前輩了)*@
-                                                <input type="hidden" id="rating-value" value="4.0">@*value="item.commentAvgScore"*@
-                                            </div>
-                                            <small class="text-body-secondary">@*Html.DisplayFor(modelItem => item.strComment)*@AAA</small>
-                                            <small class="text-body-secondary"> | @*salesCount*@5</small>
-                                        </div>
-                                        <div class="col">
-                                            <p class="card-text fs-5 fw-bolder text-end"><span>TWD </span>@*Html.DisplayFor(modelItem => item.price)*@6800<span class="fs-6 fw-normal">起</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <!--範例二結束(以上請刪除)-->
+                    
             </div>
             <!--製作頁數之類的東西，但沒有很懂-->
             <div class="d-flex justify-content-center bg-transparent border-0">
@@ -439,9 +302,13 @@
                 Loadcertificate();
             });
 
+            //顯示專家總數
+            //const CountExpert = document.querySelector('#CountExpert');
+            //CountExpert.textContent = CountExpert;
+
             //顯示價格
-            var rangeInput = document.getElementById('rangeOne');
-            var rangeValue = document.getElementById('rangeValue');
+            const rangeInput = document.getElementById('rangeOne');
+            const rangeValue = document.getElementById('rangeValue');
 
             rangeInput.addEventListener('input', function () {
                 var newValue = rangeInput.value; // 取得 input 的新值
@@ -513,49 +380,30 @@
             };
                                 /*Loadcertificatetype();*///使用載入證照資料
 
+        // 動態生成評價星星並顯示
+        
 
-        //星星評價=====================================
-        let score = 0;
-        let count = 0;
+        function renderStars(score, count, starId) {
+            var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+            var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
+            var starnull = '<i class="bi bi-star "></i>';
 
-        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")`)
-            .then(response => response.json())
-            .then(
-                data => {
-                    const datadiv = "";
-                    data.forEach(item => {
-                       
-                        score += item.分數;
-                        count = item.筆數;
-                        console.log(score);
-                    });
-
-
+            let arr = [];
+            for (let i = 1; i <= 5; i++) {
+                if (score >= i) {
+                    arr.push(starfill);
+                } else if (score > i - 1 && score < i) {
+                    arr.push(starhelf);
+                } else {
+                    arr.push(starnull);
                 }
-            );
-                                //評價星星顯示
-        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-        var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
-        var starnull = '<i class="bi bi-star "></i>';
-
-        let arr = [];
-        for (let i = 1; i <= 5; i++) {
-
-            if (score >= i) {
-                arr.push(starfill
-                );
-            } // 實心星星
-            else if (score > i - 1 && score < i) {
-                arr.push(starhelf);
-            }// 半實心星星
-            else {
-                arr.push(starnull); // 空心星星
             }
-        }
-        console.log(arr);
-        document.querySelector("#star").innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
 
+            document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+        }
+       
 
 
     </script>
 }
+
