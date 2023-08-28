@@ -128,11 +128,11 @@
                         <td>
                             @if (item.UnitsInStock < 10)
                             {
-                                <span class="text-danger" title="庫存低於10">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                                <span class="text-danger" title="庫存低於10"><strong>@Html.DisplayFor(modelItem => item.UnitsInStock)</strong></span>
                             }
                             else if (item.UnitsInStock < 50)
                             {
-                                <span class="text-warning" title="庫存低於50">@Html.DisplayFor(modelItem => item.UnitsInStock)</span>
+                                <span class="text-warning" title="庫存低於50"><strong>@Html.DisplayFor(modelItem => item.UnitsInStock)</strong></span>
                             }
                             else
                             {

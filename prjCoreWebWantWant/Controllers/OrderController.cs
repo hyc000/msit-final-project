@@ -1,8 +1,13 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
+using System.Drawing.Printing;
+using PagedList;
+using PagedList.Mvc;
 
 namespace prjShop.Controllers
 {
@@ -14,67 +19,62 @@ namespace prjShop.Controllers
         {
             _context = context;
         }
-        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name)
+        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name, int page = 1)
         {
             var query = _context.Orders
-          .Include(o => o.OrderDetails)
-              .ThenInclude(od => od.Product)
-          .Include(o => o.Account)
-          .Include(o => o.Category)
-          .AsQueryable();  
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.Account)
+                .Include(t => t.Category)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Resume)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Case)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                    .OrderByDescending(o => o.CreateTime);
 
-            if (categorys.HasValue)
+
+
+            // 应用筛选条件
+            if (categorys != null)
             {
-                query = query.Where(o => o.CategoryId == categorys);
+                query = (IOrderedQueryable<Order>)query.Where(o => o.CategoryId == categorys);
             }
 
-            if (startDate.HasValue)
+            if (startDate != null)
             {
-                query = query.Where(o => o.CreateTime >= startDate);
+                query = (IOrderedQueryable<Order>)query.Where(o => o.CreateTime >= startDate);
             }
 
-            if (endDate.HasValue)
+            if (endDate != null)
             {
-                query = query.Where(o => o.CreateTime <= endDate);
+                query = (IOrderedQueryable<Order>)query.Where(o => o.CreateTime <= endDate);
             }
 
-            if (orderId.HasValue)
+            if (orderId != null)
             {
-                query = query.Where(o => o.OrderId == orderId);
+                query = (IOrderedQueryable<Order>)query.Where(o => o.OrderId == orderId);
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(o => o.Account.Name.Contains(name));
+                query = (IOrderedQueryable<Order>)query.Where(o => o.Account.Name.Contains(name));
             }
 
+            int pageSize = 10;
             var filteredOrders = query.ToList();
 
-            var cases = _context.TaskLists.ToList();
-            var resumes = _context.Resumes
-    .Include(r => r.ExpertResume)
-    .ToList();
+            // 注意这里的修改
+            var pagedOrders = new PagedList<Order>(filteredOrders, page, pageSize);
 
-            foreach (var resume in resumes)
-            {
-                if (resume.ExpertResume == null)
-                {
-                    Console.WriteLine($"ExpertResume is null for ResumeId: {resume.ResumeId}");
-                }
-                else if (resume.ExpertResume.Introduction == null)
-                {
-                    Console.WriteLine($"Introduction is null for ResumeId: {resume.ResumeId}");
-                }
-            }
-
-            ViewBag.Cases = cases.ToDictionary(c => c.CaseId, c => c.TaskTitle);
-            ViewBag.Resumes = resumes.ToDictionary(r => r.ResumeId, r => r.ExpertResume?.Introduction ?? "No Introduction");
-
-            return View(filteredOrders);
+            return View(pagedOrders);
         }
-
-
-
     }
 }
+
+
+
+
+
 
