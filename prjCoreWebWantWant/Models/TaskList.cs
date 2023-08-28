@@ -75,6 +75,10 @@ public partial class TaskList
 
     public bool? IsExpert { get; set; }
 
+    public string? PhotoPath { get; set; }
+
+    public byte[]? Photo { get; set; }
+
     public virtual ICollection<ApplicationList> ApplicationLists { get; set; } = new List<ApplicationList>();
 
     public virtual ICollection<CaseSkill> CaseSkills { get; set; } = new List<CaseSkill>();

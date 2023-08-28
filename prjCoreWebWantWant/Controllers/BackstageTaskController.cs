@@ -172,7 +172,12 @@ namespace WantTask.Controllers
                 return View("TablesEditable");
 
             NewIspanProjectContext _context = new NewIspanProjectContext();
-            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+
+            TaskList task = _context.TaskLists           
+             .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();            
+            
+            //_context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+
             if (task == null)
                 return RedirectToAction("TablesEditable");
 
@@ -180,16 +185,30 @@ namespace WantTask.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(TaskList tasknew)
+        public IActionResult Edit(TaskList tasknew , int  selectedTownID, IFormFile imageFile)
         {
             NewIspanProjectContext _context = new NewIspanProjectContext();
             TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == tasknew.CaseId);
-
             if (task != null)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
+                //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string imagePath = "/backstage1/TaskPhoto/" + imageFile.FileName;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                    imageFile.CopyTo(fileStream);
+                    }
+                task.PhotoPath = imagePath;
+                }
                 task.TaskTitle = tasknew.TaskTitle;
                 task.TaskDetail = tasknew.TaskDetail;
                 task.PublishOrNot = tasknew.PublishOrNot;
+                task.PayFrom=tasknew.PayFrom;
+                task.TaskStartDate = tasknew.TaskStartDate;
+                task.TownId=selectedTownID;
 
                 _context.SaveChanges();
             }
@@ -197,28 +216,28 @@ namespace WantTask.Controllers
         }
 
         //點選已上架未上架的詳細任務畫面
-        //public IActionResult JobDetail(int? id)
-        //{
-        //    var q = _context.TaskLists
-        //        //.Include(s => s.TaskSkills)
-        //        //.ThenInclude(s=>s.Skill)
-        //        //.Include(c=>c.TaskCertificates)
-        //        //.ThenInclude(c=>c.Certficate)
-        //        //.Include(p=>p.TaskPhotos)
-        //        //.ThenInclude(p=>p.Photo)
-        //        //.Where(ss => ss.CaseId == id)
+        public IActionResult JobDetail(int? id)
+        {
+            var q = _context.TaskLists
+                //.Include(s => s.TaskSkills)
+                //.ThenInclude(s=>s.Skill)
+                //.Include(c=>c.TaskCertificates)
+                //.ThenInclude(c=>c.Certficate)
+                //.Include(p=>p.TaskPhotos)
+                //.ThenInclude(p=>p.Photo)
+                //.Where(ss => ss.CaseId == id)
 
 
-        //        //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
-        //        //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
-        //        .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+                //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
+                //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
+                .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
 
-        //    //var q = from p in _context.TaskLists
+            //var q = from p in _context.TaskLists
 
-        //    //        where p.CaseId == id
+            //        where p.CaseId == id
 
-        //    return View(q);
-        //}
+            return View(q);
+        }
 
         //public IActionResult yes()
         //{
@@ -285,61 +304,62 @@ namespace WantTask.Controllers
         //    return View(_CTaskFrontAndBack);
         //}
 
+        //用viewmodel的方法，想叫出多技能多專長但是大失敗
+        //public IActionResult JobDetail(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //任務地點
+        //    var q = _context.TaskLists
+        //     .Include(c => c.Town.City)
+        //     .FirstOrDefault(t => t.CaseId == id);
 
-        public IActionResult JobDetail(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            //任務地點
-            var q = _context.TaskLists
-             .Include(c => c.Town.City).FirstOrDefault(t => t.CaseId == id);
+        //    ////履歷
+        //    //var q2 = await _context.Resumes
+        //    // .Where(a => a.ResumeId == id)
+        //    // .FirstOrDefaultAsync();
 
-            ////履歷
-            //var q2 = await _context.Resumes
-            // .Where(a => a.ResumeId == id)
-            // .FirstOrDefaultAsync();
+        //    //_cexpertresume.resume = (q2 != null) ? q2 : _cexpertresume.resume;
 
-            //_cexpertresume.resume = (q2 != null) ? q2 : _cexpertresume.resume;
+        //    //刊登者姓名
+        //    //var qa =  _context.MemberAccounts
+        //    //    .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
+        //    // .FirstOrDefault();
 
-            //刊登者姓名
-            //var qa =  _context.MemberAccounts
-            //    .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
-            // .FirstOrDefault();
+        //    //_CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
 
-            //_CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
+        //    //證照
+        //    var qc = _context.Certificates
+        //        .Include(x => x.TaskCertificates.Where(r => r.CaseId == id))
+        //    .FirstOrDefault();
 
-            //證照
-            var qc = _context.Certificates
-                .Include(x => x.TaskCertificates.Where(r => r.CaseId == id))
-            .FirstOrDefault();
+        //    //_CTaskFrontAndBack.cer = (qc != null) ? qc : _CTaskFrontAndBack.cer;
 
-           // _CTaskFrontAndBack.certificate = (qc != null) ? qc : _CTaskFrontAndBack.certificate;
+        //    var qct = _context.CertificateTypes
+        //      .Include(x => x.Certificates)
+        //      .ThenInclude(x => x.TaskCertificates.Where(r => r.CaseId == id))
+        //  .FirstOrDefault();
 
-            var qct = _context.CertificateTypes
-              .Include(x => x.Certificates)
-              .ThenInclude(x => x.TaskCertificates.Where(r => r.CaseId == id))
-          .FirstOrDefault();
+        //   // _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
 
-           // _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
+        //    //專長
+        //    var qs = _context.Skills
+        //        .Include(x => x.TaskSkills.Where(r => r.CaseId == id))
+        //    .FirstOrDefault();
 
-            //專長
-            var qs = _context.Skills
-                .Include(x => x.TaskSkills.Where(r => r.CaseId == id))
-            .FirstOrDefault();
+        //    //_CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
 
-            //_CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
+        //    var qst =  _context.SkillTypes
+        //      .Include(x => x.Skills)
+        //      .ThenInclude(x => x.TaskSkills.Where(r => r.CaseId == id))
+        //  .FirstOrDefault();
 
-            var qst =  _context.SkillTypes
-              .Include(x => x.Skills)
-              .ThenInclude(x => x.TaskSkills.Where(r => r.CaseId == id))
-          .FirstOrDefault();
+        //  //  _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
 
-          //  _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
-
-            return View(_CTaskFrontAndBack);
-        }
+        //    return View(_CTaskFrontAndBack);
+        //}
 
         #endregion
 
@@ -580,6 +600,18 @@ namespace WantTask.Controllers
             tasklist.PaymentId = selectedPaymentId;
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
+                //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string imagePath = "/backstage1/TaskPhoto/" + imageFile.FileName;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(fileStream);
+                }
+                tasklist.PhotoPath = imagePath;
+            }
 
             _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
@@ -601,26 +633,7 @@ namespace WantTask.Controllers
             _context.SaveChanges();
 
             
-            if (imageFile != null && imageFile.Length > 0)
-            {
-                string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
-                //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
-                string imagePath = "/backstage1/TaskPhoto/" + imageFile.FileName;
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    imageFile.CopyTo(fileStream);
-                }
-
-                TaskPhoto taskPhoto = new TaskPhoto()
-                {
-                    CaseId = tasklist.CaseId,
-                    //Photo = new byte[] { selectedPhoto }
-                    PhotoPath = imagePath,
-                };
-                _context.Add(taskPhoto);
-                _context.SaveChanges();
-            }
+            
 
             
 

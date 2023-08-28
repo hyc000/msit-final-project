@@ -1005,6 +1005,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.OnTop).HasColumnType("datetime");
             entity.Property(e => e.PaymentDateId).HasColumnName("PaymentDateID");
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
+            entity.Property(e => e.PhotoPath).HasMaxLength(50);
             entity.Property(e => e.PublishEnd).HasMaxLength(50);
             entity.Property(e => e.PublishOrNot).HasMaxLength(50);
             entity.Property(e => e.PublishStart).HasMaxLength(50);

@@ -17,19 +17,19 @@ namespace WantTask.Controllers
             _context = context;
             _host = host;
         }
-        public IActionResult GetTaskPublished(CTaskDetailFrontandBackstage taskList)
-        {
-            NewIspanProjectContext _context = new NewIspanProjectContext();
-            IEnumerable<TaskList> datas = null;
+        //public IActionResult GetTaskPublished(CTaskDetailFrontandBackstage taskList)
+        //{
+        //    NewIspanProjectContext _context = new NewIspanProjectContext();
+        //    IEnumerable<TaskList> datas = null;
 
-            if ( datas !=null && taskList.PublishOrNot != null)
-            { 
-                var tasklist = _context.TaskLists.Where(t=>t.PublishOrNot == "立刻上架").ToList() ;
-                return View(tasklist);
-            }
+        //    if ( datas !=null && taskList.PublishOrNot != null)
+        //    { 
+        //        var tasklist = _context.TaskLists.Where(t=>t.PublishOrNot == "立刻上架").ToList() ;
+        //        return View(tasklist);
+        //    }
 
-            return Content("No tasks found.");
-        }
+        //    return Content("No tasks found.");
+        //}
 
         public IActionResult Approve( CApproveViewModel approve)
         {

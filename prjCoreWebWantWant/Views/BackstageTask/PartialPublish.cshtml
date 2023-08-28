@@ -33,7 +33,10 @@
             color: #fff; /* 更改滑鼠滑過的文字顏色 */
         }
 
-
+        .btn-outline-info {
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #528EAF; /* 更改滑鼠滑過的文字顏色 */
+        }
       
     </style>
 </head>
@@ -65,7 +68,7 @@
                     int maxDisplayLength = 10; // 設定要顯示的最大字數
                     string taskDetail = item.TaskDetail;
 
-                    if (taskDetail.Length > maxDisplayLength)
+                        if (taskDetail !=null && taskDetail.Length > maxDisplayLength)
                     {
                         taskDetail = taskDetail.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
                     }

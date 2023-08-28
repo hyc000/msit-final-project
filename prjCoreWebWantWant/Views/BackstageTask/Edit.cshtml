@@ -9,113 +9,523 @@
 }
 
 
-<div class="row">
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <style>
+
+        .btn-outline-info:hover {
+            background-color: #528EAF; /* 更改滑鼠滑過的背景顏色 */
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #fff; /* 更改滑鼠滑過的文字顏色 */
+        }
+
+        .btn-outline-info {           
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #528EAF; /* 更改滑鼠滑過的文字顏色 */
+        }
+
+        .badge-soft-info {
+            background-color: #528EAF;
+            color: #fff;
+        }
+          
+
+    </style>
+</head>
+
+<body>
+
+   
+    <div id="layout-wrapper">
+      
+        <div class="main-content">
+           
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="container-fluid d-flex justify-content-end">
+                    <a class="btn btn-outline-secondary" id="Back">返回上一頁</a>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="container-fluid">
+
+
+                                            <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <input type="hidden" name="CaseId" value="@Model.CaseId" />
+
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm order-2 order-sm-1">
+                                                                        <div class="flex-grow-1">
+
+                                                                            <div>
+                                                                               @* <h2 class="font-size-16 mb-1">@Model.TaskTitle</h2>*@
+                                                                                <div class="card-header">
+                                                                                    <h5 class="card-title mb-0">任務標題</h5>
+                                                                                </div>
+
+                                                                            <div class="form-group">                                                                                    
+                                                                                <label asp-for="TaskTitle" class="control-label" style="display: none;"></label>
+                                                                                <input asp-for="TaskTitle" class="form-control" />
+                                                                                 <span asp-validation-for="TaskTitle" class="text-danger"></span>                                                                                 
+                                                                            </div>
+
+                                                                            @*viewmodel的<h2 class="font-size-16 mb-1">@Html.DisplayFor(model =>model.TaskTitle)</h2>*@
+                                                                                <p></p>
+
+                                                                                <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
+                                                                               @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>*@
+
+                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">
+                                                                                    @Model.Town.City.City1 @Model.Town.Town1
+
+                                                                                    <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selCity">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectCity">請選擇縣市</label>
+                                                                                    </div>
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selTown">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectTown">請選擇區域</label>
+                                                                                    </div>
+                                                                                    @*<div class="form-group">
+                                                                                        <label asp-for="Address" class="control-label"></label>
+                                                                                        <input asp-for="Address" class="form-control" />
+                                                                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                                                                    </div>*@
+                                                                                </>
+
+
+
+                                                                               @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>*@
+                                                                               @* <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</>*@
+
+                                                                                    <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">     
+                                                                                    <div class="form-group">
+                                                                                        <label asp-for="TaskStartDate" class="control-label" style="display: none;"></label>
+                                                                                        <input asp-for="TaskStartDate" class="form-control" type="date"/>
+                                                                                        <span asp-validation-for="TaskStartDate" class="text-danger"></span>
+                                                                                    </div>
+                                                                                    </>
+
+
+
+                                                                               @* <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Html.DisplayFor(model =>model.PayFrom)</>*@
+
+
+                                                                                    <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px"> 
+                                                                                    <div class="form-group">
+                                                                                        <label asp-for="PayFrom" class="control-label" style="display: none;"></label>
+                                                                                        <input asp-for="PayFrom" class="form-control" />
+                                                                                        <span asp-validation-for="PayFrom" class="text-danger"></span>
+                                                                                    </div>
+                                                                                    </>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--任務內容開始-->
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="overview" role="tabpanel">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">任務內容</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div>
+                                                                            <div class="pb-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-xl-2">
+                                                                                        <div>
+                                                                                            <h5 class="font-size-15">【處理事項】</h5>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-xl">
+                                                                                        <div class="text-muted">
+                                                                                            <p class="mb-2">
+                                                                                         @*@Html.DisplayFor(model =>model.TaskDetail)*@
+
+                                                                                                <div class="form-group">
+                                                                                                    <label asp-for="TaskDetail" class="control-label" style="display: none;"></label>
+                                                                                                    <input asp-for="TaskDetail" class="form-control" />
+                                                                                                    <span asp-validation-for="TaskDetail" class="text-danger"></span>
+                                                                                                </div>
+
+
+                                                                                            </p>
+                                                                                            <p class="mb-0"></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        <!--技能-->
+                                                            <div class="row">    
+                                                            <div class="card col-lg-6 col-sm-12">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">技能</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                    @*<a href="#" class="badge badge-soft-primary">@Html.DisplayFor(model =>model.skill.SkillName)</a>*@
+                                                                    @* <a href="#" class="badge badge-soft-primary">@Model.skillname</a>
+                                                                    <a href="#" class="badge badge-soft-primary">@Model.skillType</a>
+                                                                    <a href="#" class="badge badge-soft-primary">@Model.skilltypename</a>
+                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>*@
+                                                                          <a href="#" class="badge badge-soft-primary"></a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+
+                                                                <!--證照-->
+                                                                    <div class="card col-lg-6 col-sm-12">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title mb-0">證照</h5>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
+                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                       
+                                                            </div>
+
+                                                            <!-- 照片 -->
+                                                       @* @{
+                                                            NewIspanProjectContext db = new NewIspanProjectContext();
+                                                            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+                                                        }
+                                                        @{
+                                                            if (q != null)
+                                                            {*@
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <div class="d-flex">
+                                                                        <div class="flex-grow-1">
+                                                                            <h5 class="card-title mb-0">任務相關照片</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-sm-6">
+                                                                           
+                                                                                
+                                                                            <img src="@Url.Content(Model.PhotoPath)" style="height:200px ; width:200px" />
+                                                                                    <input class="form-control" type="file" id="formFile" name="imageFile" asp-for="Photo">
+                                                                               
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                         @*   }
+                                                          
+                                                            }*@
+
+
+                                                            <div class="form-group" style="display: none;">
+                                                            <label asp-for="PublishOrNot" class="control-label" style="display: none;"></label>
+                                                            <input asp-for="PublishOrNot" class="form-control" style="display: none;" />
+                                                             <span asp-validation-for="PublishOrNot" class="text-danger" style="display: none;"></span>
+                                                            </div>
+
+                                                            <div class="row  justify-content-center">
+                                                                <div class="d-flex justify-content-center gap-0">
+                                                            <div class="form-group">
+                                                                <input type="submit" value="儲存" class="btn btn-outline-info"/>
+                                                            </div>
+                                                                
+                                                           
+                                                            <div>
+                                                                <a asp-action="TablesEditable" class="btn btn-outline-info">取消並返回</a>
+                                                            </div>
+                                                               
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+  
+
+    @section Scripts{
+        <script src="~/backstage1/static/js/glightbox.min.js"> </script>
+         <script src="~/backstage1/static/js/lightbox.init.js" > </script> 
+        <script>
+            const Back = document.querySelector('#Back');
+            Back.addEventListener('click',() => {
+                window.history.back();
+            })
+
+            //$(document).ready(function () {
+            //    $('#taskStartDate').datepicker({
+            //        format: 'yyyy-mm-dd',
+            //        autoclose: true
+            //    });
+            //});
+
+            //城市和鄉鎮的標籤
+            const selCity = document.querySelector('#selCity');
+            const selTown = document.querySelector('#selTown');
+            const hiddenTownIdInput = document.querySelector('#hiddenTownIdInput');
+
+            //select的城市
+            async function loadCity() {
+                const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
+                const datas = await response.json()
+                const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+                document.querySelector('#selCity').innerHTML = cities.join("");
+
+                loadDistrict();
+            }
+
+            loadCity();
+
+            //select的區域
+            async function loadDistrict() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+                const datas = await response.json()
+                const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+                selTown.innerHTML = districts.join("");
+                getTownId();
+            }
+
+
+            async function getTownId() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
+                const data = await response.json();
+                const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+                hiddenTownIdInput.value = selectedTownId;
+            }
+
+            //loadDistrict();
+
+            selCity.addEventListener('change', () => {
+                loadDistrict();
+            });
+
+            selTown.addEventListener('change', () => {
+                getTownId();
+            });
+
+
+
+        </script>
+
+    }
+
+   
+
+
+
+
+
+</body>
+</html>
+
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找人才</li>
+            <li class="breadcrumb-item " aria-current="page">發案紀錄</li>
+            <li class="breadcrumb-item " aria-current="page">任務詳細資料</li>
+        </ol>
+    </nav>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="CaseId" value="@Model.CaseId" />
+            <input type="hidden" name="CaseId" value="@Model.CaseId" />*@
 
             
            
-                    <div class="form-group">
+                  @*  <div class="form-group">
                         <label asp-for="TaskTitle" class="control-label"></label>
                         <input asp-for="TaskTitle" class="form-control" />
                         <span asp-validation-for="TaskTitle" class="text-danger"></span>
-                    </div>
-           
+                    </div>*@
 
-
-            <div class="form-group">
+         @*   <div class="form-group">
                 <label asp-for="TaskDetail" class="control-label"></label>
                 <input asp-for="TaskDetail" class="form-control" />
                 <span asp-validation-for="TaskDetail" class="text-danger"></span>
-            </div>
+            </div>*@
       
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="PayFrom" class="control-label"></label>
                 <input asp-for="PayFrom" class="form-control" />
                 <span asp-validation-for="PayFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+            @*<div class="form-group">
                 <label asp-for="PayTo" class="control-label"></label>
                 <input asp-for="PayTo" class="form-control" />
                 <span asp-validation-for="PayTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+          @*  <div class="form-group">
                 <label asp-for="PaymentId" class="control-label"></label>
                 <input asp-for="PaymentId" class="form-control" />
                 <span asp-validation-for="PaymentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+           @* <div class="form-group">
                 <label asp-for="PaymentDateId" class="control-label"></label>
                 <input asp-for="PaymentDateId" class="form-control" />
                 <span asp-validation-for="PaymentDateId" class="text-danger"></span>
-            </div>
+            </div>*@
      
-            <div class="form-group">
+           @* <div class="form-group">
                 <label asp-for="WorkPlace" class="control-label"></label>
                 <input asp-for="WorkPlace" class="form-control" />
                 <span asp-validation-for="WorkPlace" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+         @*   <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+        @*    <div class="form-group">
                 <label asp-for="RequiredNum" class="control-label"></label>
                 <input asp-for="RequiredNum" class="form-control" />
                 <span asp-validation-for="RequiredNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+          @*  <div class="form-group">
                 <label asp-for="TaskPeriod" class="control-label"></label>
                 <input asp-for="TaskPeriod" class="form-control" />
                 <span asp-validation-for="TaskPeriod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+            @*<div class="form-group">
                 <label asp-for="TaskStartHour" class="control-label"></label>
                 <input asp-for="TaskStartHour" class="form-control" />
                 <span asp-validation-for="TaskStartHour" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+           @* <div class="form-group">
                 <label asp-for="TaskEndHour" class="control-label"></label>
                 <input asp-for="TaskEndHour" class="form-control" />
                 <span asp-validation-for="TaskEndHour" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+          @*  <div class="form-group">
                 <label asp-for="TaskStartDate" class="control-label"></label>
                 <input asp-for="TaskStartDate" class="form-control" />
                 <span asp-validation-for="TaskStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+          @*  <div class="form-group">
                 <label asp-for="TaskEndDate" class="control-label"></label>
                 <input asp-for="TaskEndDate" class="form-control" />
                 <span asp-validation-for="TaskEndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+
+       @*     <div class="form-group">
                 <label asp-for="Requirement" class="control-label"></label>
                 <input asp-for="Requirement" class="form-control" />
                 <span asp-validation-for="Requirement" class="text-danger"></span>
-            </div>
+            </div>*@
        
-            <div class="form-group">
+         @*   <div class="form-group">
                 <label asp-for="LanguageRequired" class="control-label"></label>
                 <input asp-for="LanguageRequired" class="form-control" />
                 <span asp-validation-for="LanguageRequired" class="text-danger"></span>
-            </div>           
-            <div class="form-group">
+            </div>  *@ 
+            
+          @*  <div class="form-group">
                 <label asp-for="PublishOrNot" class="control-label"></label>
                 <input asp-for="PublishOrNot" class="form-control" />
                 <span asp-validation-for="PublishOrNot" class="text-danger"></span>
-            </div>
+            </div>*@
           
-            <div class="form-group">
+            @*<div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
                 
         </form>
     </div>
-</div>
+</div>*@
   
 
 
@@ -175,18 +585,16 @@
                 <label asp-for="TownId" class="control-label"></label>
                 <input asp-for="TownId" class="form-control" />
                 <span asp-validation-for="TownId" class="text-danger"></span>
-            </div>
+            </div>*@
 
 
 
 
-
-*@
-
-<div>
+@*<div>
     <a asp-action="TablesEditable">Back to List</a>
-</div>
+</div>*@
 
-@section Scripts {
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+*@
