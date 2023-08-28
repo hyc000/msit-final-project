@@ -178,8 +178,16 @@
                             @*<a href="#" class="btn">立即應徵</a>*@
                             @*  <a href="@Url.Action("Apply", new { id=Model.FId })" target="_blank">詳細資訊</a>*@
 @*                            <a href="@Url.Action("Apply", new { id = Model.FId })" target="_blank" id="myInput">立即應徵</a>*@
-                            <button data-bs-toggle="modal" data-bs-target="#myModal" id="btnApply" value="@Model.CaseId" class="btn btn-outliine-secondary" style="color:white">立即應徵</button>
-                           
+                            @if (!HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+                            {
+                                @*<button data-bs-toggle="modal" data-bs-target=""  value="@Model.CaseId" class="btn btn-outliine-secondary" >若要應徵，請先登入</button>*@
+                                <a href="@Url.Content("~/Member/Login")" class="btn btn-outliine-secondary" style="color:white">若要應徵，請先登入</a>
+                            }
+                            else
+                            {
+                                <button data-bs-toggle="modal" data-bs-target="#myModal" id="btnApply" value="@Model.CaseId" class="btn btn-outliine-secondary" style="color:white">立即應徵</button>
+                            }
+
 
                           @*  <a href="#" id="applyButton" class="btn btn-outline-primary">立即應徵</a>*@
 
@@ -193,7 +201,7 @@
                                 }
                                 else
                                 {
-                                    <a href="@Url.Content("~/Member/Login")" id="NoLogin">請登入以應徵</a>
+                                    <a href="@Url.Content("~/Member/Login")" id="NoLogin">登入以應徵</a>
                                 }
                             }*@
                         </div>                     
@@ -234,11 +242,11 @@
             int id = loggedInUser.AccountId; //抓登入者的id
 
 
-            NewIspanProjectContext db = new NewIspanProjectContext();
+            NewIspanProjectContext _context = new NewIspanProjectContext();
             var resumes = db.Resumes
             .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
     } *@
-    @*未登入會出問題 待解決*@
+    @*未登入會出問題 待解決
 
     
    
@@ -253,42 +261,59 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                    @{
+                        if (HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+                        {
+                           
+                        
 
-                 @* @foreach (var item in resumes)
-                 { *@
+                        string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                        CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                        int id = loggedInUser.AccountId; //抓登入者的id
+
+
+                        NewIspanProjectContext _context = new NewIspanProjectContext();
+                        var resumes = db.Resumes
+                        .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
+                        
+                    
+                     @foreach (var item in resumes)
+                    { 
                     @*履歷一*@
                     <div class="col">
                             <div class="card h-100">                           
-                            <div class="card-body" width="300px">
-                                @* <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> *@
+                                    <div class="card-body" width="300px">
+                                 <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
                                 <hr />
                               
-                              @*   @if (item.Autobiography.Length <= 70)
-                                {
-                                    <p class="card-text">@item.Autobiography</p>
-                                }
-                                else
-                                {
-                                    <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  秀出自傳的部分內容
-                                } *@
-                                      <div class="card-footer text-center">
-                                    <form action="@Url.Content("~/Backstage/apply")" method="post">
-                                        <!-- 使用表單元素包裹 -->
-                                        <input onclick="Alert()"
-                                               class="btn btn-primary"
-                                               style="background-color: #528EAF"
-                                               type="submit"
-                                               value="以此履歷應徵" />
-                                        @* <input type="hidden" name="resumeId" value="@item.ResumeId"> *@
-                                        <input type="hidden" id="selectedCaseId" name="caseId" />
-                                    </form>
-                                    </div>                                
+                                     @if (item.Autobiography.Length <= 70)
+                                    {
+                                        <p class="card-text">@item.Autobiography</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
+                                    } 
+                                          <div class="card-footer text-center">
+                                        <form action="@Url.Content("~/Backstage/apply")" method="post">
+                                            <!-- 使用表單元素包裹 -->
+                                            <input onclick="Alert()"
+                                                   class="btn btn-primary"
+                                                   style="background-color: #528EAF"
+                                                   type="submit"
+                                                   value="以此履歷應徵" />
+                                            <input type="hidden" name="resumeId" value="@item.ResumeId"> 
+                                            <input type="hidden" id="selectedCaseId" name="caseId" />
+                                        </form>
+                                        </div>                                
+                                 </div>
                             </div>
-                             </div>
                     </div>
                     <p></p>
-                 @* } *@
-                 
+                  }
+                        }
+               }
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消應徵</button>
                     @*<button type="button" class="btn btn-primary">立即應徵</button>*@
