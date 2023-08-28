@@ -120,13 +120,20 @@ namespace WantTask.Controllers
                         .ToList();
 
 
-            List<ForumPostComment> postReply = new List<ForumPostComment>();
+            var postReplyList = new List<List<ForumPostComment>>();//抓每個回覆的留言
             if (replies.FirstOrDefault() != null)
             {
-                postReply = _db.ForumPostComments
-                         .Include(p => p.Account)
-                         .Where(p => p.PostId == replies.FirstOrDefault().PostId)
-                         .ToList();
+                var replyPostIds = replies.Select(r => r.PostId).ToList();//從replies抓所有ID
+
+                foreach (var postId in replyPostIds)
+                {
+                    var postcomm = _db.ForumPostComments
+                        .Include(p => p.Account)
+                        .Where(p => p.PostId == postId)
+                        .ToList();
+
+                    postReplyList.Add(postcomm);
+                }
             }
 
 
@@ -160,7 +167,7 @@ namespace WantTask.Controllers
             viewModel.MainPost = post;
             viewModel.Replies = replies;
             viewModel.MainComments = postComment;
-            viewModel.SecondComments = postReply;
+            viewModel.SecondCommentsList = postReplyList;
 
             return View(viewModel);
         }

@@ -6,6 +6,8 @@
     string categoryTitle = Model.MainPost.ForumPostCategories.FirstOrDefault().Category.Title;
 }
 
+
+
 <div class="container col-9">
     <nav class="breadcrumb  mt-4">
     <ol class="breadcrumb">
@@ -15,7 +17,6 @@
 
     </ol>
     </nav>
-
 <!--回覆文章按鈕-->
     <a class="btn go-right" href="#goreply">回應此文章</a>
 
@@ -48,20 +49,20 @@
         <div class="row justify-content-end me-1 small">
         <div class="bg-light col-11">
             @{
-                int count = 0;
+                int firstCommFloorCount = 0;
                 foreach (var comment in Model.MainComments)
                 {
-                    count++;
+                            firstCommFloorCount++;
                         <div class="flex-column">
                             <span class="text-info">@comment.Account.UserName</span>
                             <span class="ml-auto">-@comment.Comment</span>
-                                
-                         <div class="small">B@(count) @comment.Created</div>
+
+                                <div class="small">B@(firstCommFloorCount) @comment.Created</div>
                             </div>
                         }
                     }
                     <!--留言-->
-                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment" aria-expanded="false" aria-controls="leaveAComment">
                         留言
                     </button>
                     <div class="end-float"></div>
@@ -80,10 +81,10 @@
 
     @*#2之後的部分*@
     @{
-        int floorCount = 0;
+        int allFloorCount = 0;
         foreach (var item in Model.Replies)
         {
-            floorCount++;
+            allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
             <br />
@@ -95,7 +96,7 @@
                         </div>
 
                         <div class="col-11 m-auto text-body d-inline-flex align-middle">
-                                <span class="badge bg-light badge-pill">@(floorCount)樓</span>
+                                <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
                                 <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
                                 <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
                             @{
@@ -116,7 +117,7 @@
             <div class="bg-body rounded-3 border mx-3 p-3">
                 <div class="p-3">
                     <div class="border-bottom row">
-                                <span class="col-8"><span class="badge bg-light badge-pill">@(floorCount)樓</span> @item.Account.UserName</span>
+                                <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
                         <span class="col-4 text-end">
                             <span class="small text-body-tertiary">@item.Created</span>
                                     <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
@@ -142,29 +143,31 @@
                             <div class="bg-light col-11">
                                 @{
                                     int count2 = 0;
-                                    foreach (var comment in Model.SecondComments)
-                                    {
-                                        count2++;
-                                        <div class="flex-column">
-                                            <span class="text-info">@comment.Account.UserName</span>
-                                            <span class="ml-auto">-@comment.Comment</span>
+                                    var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
 
-                                            <div class="small">B@(count2) @comment.Created</div>
-                                        </div>
-                                    }
-                                    <!--留言-->
-                                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(floorCount)" aria-expanded="false" aria-controls="collapseExample">
-                                        留言
-                                    </button>
-                                    <div class="end-float"></div>
-                                    <div class="collapse" id="leaveAComment@(floorCount)">
-                                        <div class="card card-body">
-                                            <textarea></textarea>
-                                            <button class="btn btn-sm">確定發出</button>
-                                        </div>
-                                    </div>
-                                    <!--留言end-->
+                                        @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
+                                        {
+                                            count2++;
+                                            <div class="flex-column">
+                                                <span class="text-info">@comment.Account.UserName</span>
+                                                <span class="ml-auto">-@comment.Comment</span>
+                                                <div class="small">B@(count2) @comment.Created</div>
+                                            </div>
+                                            }
+                                    
                                 }
+                                <!--留言-->
+                                <button class="btn float-end btn-sm collapse" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
+                                    留言
+                                </button>
+                                <div class="end-float"></div>
+                                <div class="collapse" id="leaveAComment@(allFloorCount)">
+                                    <div class="card card-body">
+                                        <textarea></textarea>
+                                        <button class="btn btn-sm">確定發出</button>
+                                    </div>
+                                </div>
+                                <!--留言end-->
                             </div>
                         </div>
 
@@ -233,7 +236,6 @@
 
 
 }
-
 <script src="~/lib/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({

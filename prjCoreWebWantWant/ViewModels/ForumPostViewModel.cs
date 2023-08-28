@@ -8,7 +8,6 @@ namespace prjCoreWantMember.ViewModels
         public ForumPost MainPost { get; set; }
         public List<ForumPost> Replies { get; set; }
         public List<ForumPostComment> MainComments { get; set; }
-        public List<ForumPostComment> SecondComments { get; set; }
-
+        public List<List<ForumPostComment>> SecondCommentsList { get; set; }
     }
 }
