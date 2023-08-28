@@ -82,19 +82,30 @@
                                            @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
 
                                            @* @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })*@
-                                            <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
+                                            
               
                                             @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
-                                            <a href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success"  data-bs-target="#ResumeModal">檢視</a>
+                                            
                                             @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
                                             @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
                                             @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
                                             @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
-                                            <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                            
                                                     
                                                     @*<a href="#"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@   @*PDF的文件圖示*@
-                                <a href="#" class="btn btn-outline-secondary" style="color:black">輸出為<i class="fa-regular fa-file-pdf fa-xl"></i>文件</a>
+                                            
+                                            
+
+                                
+                                    <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
+                                    <a href="@Url.Content("~/Backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+                                    <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                    <a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
+
+                                <span style="display: block; text-align: end;">最後修改日期：@item.DataModifyDate</span>
+                            
+  
 
                                         </div>
                                     </div>
