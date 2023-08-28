@@ -57,5 +57,20 @@ namespace prjCoreWebWantWant.Models
             return null;
         }
 
+        //發案用
+        public string TaskName(int? tasknameID)
+        {
+            if (tasknameID != null)
+            {
+                string taskName = _context.TaskNameLists
+                .Where(x => x.TaskNameId == tasknameID)
+                .Select(x => x.TaskName)
+                .FirstOrDefault();
+                return taskName;
+            }
+
+            return null;
+        }
+
     }
 }

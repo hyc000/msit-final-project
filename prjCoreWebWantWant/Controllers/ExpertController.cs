@@ -27,8 +27,12 @@ namespace prjCoreWantMember.Controllers
                         on r.AccountId equals m.AccountId
                         join er in db.ExpertResumes
                        on r.ResumeId equals er.ResumeId
+                       join rSk in db.ResumeSkills
+                       on r.ResumeId equals rSk.ResumeId
+                       join rCe in db.ResumeCertificates
+                       on r.ResumeId equals rCe.ResumeId
                         where r.IsExpertOrNot == true
-                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
+                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er, resumeskill=rSk, resumecertificate=rCe };
             }
             else
             {

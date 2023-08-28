@@ -1,5 +1,6 @@
 ﻿@*@model prjCoreWebWantWant.Models.CTaskWrap*@
-@model prjCoreWebWantWant.Models.TaskList
+@*@model prjCoreWebWantWant.Models.TaskList*@
+@model WantTask.ViewModels.CTaskDetailFrontandBackstage
 
 
 @{
@@ -68,13 +69,15 @@
                                                                         <div class="flex-grow-1">
 
                                                                             <div>
-                                                                                <h2 class="font-size-16 mb-1">@Model.TaskTitle</h2>
+                                                                                @*<h2 class="font-size-16 mb-1">@Model.TaskTitle</h2>*@
+                                                                            <h2 class="font-size-16 mb-1">@Html.DisplayFor(model =>model.TaskTitle)</h2>
                                                                                 <p></p>
 
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>
-                                                                                <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.PublishStart</h2>
-                                                                                <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Model.PayFrom</>
+                                                                                @*<img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>*@
+                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>
+                                                                                <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.PublishStart)</h2>
+                                                                                <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Html.DisplayFor(model =>model.PayFrom)</>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -102,7 +105,7 @@
                                                                                     <div class="col-xl">
                                                                                         <div class="text-muted">
                                                                                             <p class="mb-2">
-                                                                                               @Model.TaskDetail
+                                                                                            @Html.DisplayFor(model =>model.TaskDetail)
                                                                                             </p>
                                                                                             <p class="mb-0"></p>
                                                                                         </div>
@@ -140,7 +143,7 @@
                                                             </div>
 
                                                             <!--語言-->
-                                                            <div class="row">
+                                                           @* <div class="row">
                                                                 <div class="card col-lg-4 col-sm-12">
                                                                     <div class="card-header">
                                                                         <h5 class="card-title mb-0">語言</h5>
@@ -156,7 +159,7 @@
                                                                             <a href="#" class="badge badge-soft-primary"></a>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>*@
 
                                                                 <!--技能-->
                                                                 <div class="card col-lg-4 col-sm-12">
@@ -165,12 +168,12 @@
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                            <a href="#" class="badge badge-soft-primary">@Model.TaskCertificates</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
+                                                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(model =>model.skill.SkillName)</a>
+                                                                   @* <a href="#" class="badge badge-soft-primary">@Model.skillname</a>
+                                                                    <a href="#" class="badge badge-soft-primary">@Model.skillType</a>
+                                                                    <a href="#" class="badge badge-soft-primary">@Model.skilltypename</a>
+                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>*@
+                                                                          <a href="#" class="badge badge-soft-primary"></a>
                                                                             <a href="#" class="badge badge-soft-primary">Python</a>
                                                                         </div>
                                                                     </div>
@@ -227,8 +230,6 @@
                                                                                 </div>*@
                                                                         @*    }*@
 
-
-                                                                     
                                                                             <img src="@Url.Content(q)" style="height:100px ; width:100px" />
 
                                                                             @*</div>*@

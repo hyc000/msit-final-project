@@ -76,8 +76,9 @@ namespace prjCoreWebWantWant.Controllers
                 _context.Update(expertapplication);
                 _context.SaveChanges();
 
+            TempData["message"] = "請先登入";
 
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
             //}
             //return View();
 

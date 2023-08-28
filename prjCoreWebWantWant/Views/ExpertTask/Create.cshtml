@@ -22,12 +22,14 @@
                 <div class="mb-3 form-control-lg">
                     委託人:
                     <input asp-for="委託人" type="text" class="form-control list" readonly placeholder="委託人">
-                    
+                    <input asp-for="委託人ID" type="text" class="form-control list" readonly placeholder="委託人ID">
+
                 </div>
                 <div class="mb-3 form-control-lg">
                     專家:
                     <input asp-for="被委託人" type="text" class="form-control list" readonly placeholder="被委託人">
-                    
+                    <input asp-for="被委託人ID" type="text" class="form-control list" readonly placeholder="被委託人ID">
+
                 </div>
                 <hr>
                 <div class="mb-3 form-control-lg">
@@ -47,37 +49,40 @@
                         委託時間:
                     </div>
                     <div class="p-3">
-                        <div class="mb-3 form-control-lg row">
-                            <div class="col-4">
-                            <input type="button" data-bs-toggle="button" class="btn-check" id="option1" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="option1" onclick="clickdeploy(timeone,times)">指定日期前完成 +</label>
-                            </div>
-                            <div class ="col-4">
-                            <input type="button" data-bs-toggle="button" class="btn-check" id="option2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="option2" onclick="clickdeploy(times,timeone)">指定時段內完成 +</label>
-                        </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-floating col-3" id="timeone" style="display: none;">
-                                <input asp-for="委託時間起" type="date" class="form-control list" id="floatingPtimeone" placeholder="委託截止日">
-                                <label asp-for="委託時間起"></label>
-                            </div>
-                        </div>
-                        <div id="times" style="display: none;" class="row">
-                            <div class="col-md-3">
-                                <div class="form-floating">
-                                    <input asp-for="委託時間起" type="date" class="form-control list" id="floatingtimesup" placeholder="委託期限(起)">
-                                    <label asp-for="委託時間起"></label>
+                       
+                       
+                        <div id="timevalue" class="row">
+                            <div class="col-3" style="display:none">
+                                <div class="form-floating" >
+                                    <input id="tinemethod" asp-for="委託期限方式" type="text" class="form-control list" id="floatingtimeall" placeholder="委託期限方式">
+                                    <label asp-for="委託期限方式">委託期限方式</label>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                ~
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <div class="form-floating">
-                                    <input asp-for="委託時間訖" type="date" class="form-control list" id="floatingtimesdown" placeholder="委託期限(訖)">
+                                    <input asp-for="委託時間起" type="date" class="form-control list" id="floatingtimesup" placeholder="委託時間起">
+                                    <label asp-for="委託時間起">委託期限(起)</label>
+                                </div>
+                            </div>
+                            <span class="col-1">
+                                ~
+                            </span>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <input asp-for="委託時間訖" type="date" class="form-control list" id="floatingtimesdown" placeholder="委託時間訖">
                                     <label asp-for="委託時間訖">委託期限(訖)</label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-control-lg row">
+                            <div class="col-4">
+                                <input type="button" data-bs-toggle="button" class="btn-check" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="option1" id="btntime1">起訖同一天</label>
+                            </div>
+                            <div class="col-4">
+                                <input type="button" data-bs-toggle="button" class="btn-check" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="option2" id="btntime2">區間</label>
                             </div>
                         </div>
                     </div>
@@ -128,7 +133,7 @@
                     <div class="row">
 
                         <div class="form-floating col-3 mx-auto p-3">
-                            <a href="@Url.Action("Chatsingle", "Chat", new { id = ViewBag.expertaccountid })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon">跟專家聊聊</i></a>
+                            <a href="@Url.Action("Chatsingle", "Chat", new { id = @Model.被委託人ID })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon">跟專家聊聊</i></a>
                         </div>
                         <div class="form-floating col-3 mx-auto p-3">
                             <input type="submit" name="Create" value="送出委託" class="btn btn-outline-primary" id="submit">
@@ -136,7 +141,7 @@
                         </div>
                         <div class="form-floating col-3 mx-auto p-3">
 
-                            @Html.ActionLink("取消","Details","ExpertResumes",new {  id=ViewBag.expertaccountid },new{ @class="btn btn-outline-primary" })
+                            @Html.ActionLink("取消","Details","ExpertResumes",new {   id = @Model.被委託人ID },new{ @class="btn btn-outline-primary" })
                         </div>
                     </div>
                 </div>
@@ -160,6 +165,45 @@
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
         }
 @section Scripts{
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+        //按鈕
+        const timevalue = document.querySelector('#timevalue');
+            const btntime1 = document.querySelector('#btntime1');
+            const btntime2 = document.querySelector('#btntime2');
+            const tinemethod = document.querySelector('#tinemethod');
+
+        
+        btntime1.addEventListener('click', timeone);  // 正確的方式，不帶括號
+        btntime2.addEventListener('click', timetwo);  // 正確的方式，不帶括號
+            console.log("123");
+
+        function timeone() {
+                console.log("456");
+
+                tinemethod.value = 1;
+                console.log(tinemethod.value);
+            const timeStartInput = document.getElementById("floatingtimesup");
+            const timeEndInput = document.getElementById("floatingtimesdown");
+
+            // 監聽委託時間起輸入欄位的值變化事件
+            timeStartInput.addEventListener("input", function () {
+                // 將委託時間起的值設定給委託時間訖輸入欄位
+                timeEndInput.value = timeStartInput.value;
+            });
+
+        };
+        function timetwo() {
+                console.log("789")
+                tinemethod.value = 2;
+                console.log(tinemethod.value);
+          
+        };
+
+
+        });
+    </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.min.js"></script>

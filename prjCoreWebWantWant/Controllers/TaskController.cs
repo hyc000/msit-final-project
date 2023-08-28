@@ -168,7 +168,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 datas = _context.TaskLists
                         .Include(t => t.Town.City)
-                        .Where(tl => tl.PublishOrNot == "立刻上架");
+                        .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
             }
             else
             {
@@ -184,7 +184,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
-                    .Where(tl => tl.PublishOrNot == "立刻上架");
+                    .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
 
             if (Category == "所有任務")
             {

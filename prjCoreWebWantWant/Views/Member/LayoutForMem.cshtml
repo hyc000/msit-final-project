@@ -93,7 +93,7 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">會員專區</span>
+                            <span class="hide-menu">會員資料</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="~/Member/MemberAccount" aria-expanded="false">
@@ -104,6 +104,25 @@
                                 <span class="hide-menu">會員資料管理</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Content("~/Backstage/ResumeList")" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">求職履歷管理</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Content("~/Expert/ExpertMemberPage")" aria-expanded="false">
+                                <span>
+                                    @*<i class="ti ti-mood-happy"></i>*@
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">專家履歷管理</span>
+                            </a>
+                        </li>
+
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="~/Chat/Index" aria-expanded="false">
                                 <span>
@@ -116,14 +135,7 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找工作</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Content("~/Backstage/ResumeList")" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">求職履歷管理</span>
-                            </a>
-                        </li>
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/TaskCollection")" aria-expanded="false">
                                 <span>
@@ -176,15 +188,7 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找專家</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Content("~/Expert/ExpertMemberPage")" aria-expanded="false">
-                                <span>
-                                    @*<i class="ti ti-mood-happy"></i>*@
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">專家履歷管理</span>
-                            </a>
-                        </li>
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/ExpertTask/ExpertListnew")" aria-expanded="false">
                                 <span>

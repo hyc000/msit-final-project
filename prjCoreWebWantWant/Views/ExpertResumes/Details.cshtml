@@ -193,8 +193,8 @@
                 //星星評價=====================================
                  let score=0 ;
                 let count = 0;
-        
-        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")`)
+
+        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")=${resumesid=@Model.expertResume.ResumeId}`)
                     .then(response => response.json())
                     .then(
                         data => {
