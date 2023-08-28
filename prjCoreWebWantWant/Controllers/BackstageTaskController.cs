@@ -462,9 +462,8 @@ namespace WantTask.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, byte selectedPhoto, string publishornot)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile)
         {
-
             tasklist.TaskNameId = selectedTaskNameId;
             tasklist.TownId = selectedTownId;
             tasklist.PaymentId = selectedPaymentId;
@@ -490,14 +489,29 @@ namespace WantTask.Controllers
             _context.Add(taskCer);
             _context.SaveChanges();
 
-            TaskPhoto taskPhoto = new TaskPhoto()
+            
+            if (imageFile != null && imageFile.Length > 0)
             {
-                CaseId = tasklist.CaseId,
-                Photo = new byte[] { selectedPhoto }
-            };
+                string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
+                //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string imagePath = "/backstage1/TaskPhoto/" + imageFile.FileName;
 
-            _context.Add(taskPhoto);
-            _context.SaveChanges();
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(fileStream);
+                }
+
+                TaskPhoto taskPhoto = new TaskPhoto()
+                {
+                    CaseId = tasklist.CaseId,
+                    //Photo = new byte[] { selectedPhoto }
+                    PhotoPath = imagePath,
+                };
+                _context.Add(taskPhoto);
+                _context.SaveChanges();
+            }
+
+            
 
             return RedirectToAction("Create");
 

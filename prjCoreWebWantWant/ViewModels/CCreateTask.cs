@@ -10,7 +10,8 @@ namespace prjCoreWebWantWant.ViewModels
         public int? AccountId { get; set; }
 
         public int? TaskNameId { get; set; }
-
+        public string? PhotoPath { get; set; }
+        public byte[]? Photo { get; set; }
 
         //任務內容
         [Display(Name ="任務標題")]

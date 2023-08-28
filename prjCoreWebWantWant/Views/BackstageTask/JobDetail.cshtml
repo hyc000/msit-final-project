@@ -43,7 +43,7 @@
     <!-- <body data-layout="horizontal"> -->
     <!-- Begin page -->
     <div id="layout-wrapper">
-
+      
         <div class="main-content">
            
             <div class="page-content">
@@ -196,6 +196,13 @@
                                                             </div>
 
                                                             <!-- 照片 -->
+                                                        @{
+                                                            NewIspanProjectContext db = new NewIspanProjectContext();
+                                                            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+                                                        }
+                                                        @{
+                                                            if (q != null)
+                                                            {
                                                             <div class="card">
                                                                 <div class="card-header">
                                                                     <div class="d-flex">
@@ -207,33 +214,40 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-3 col-sm-6">
-                                                                            <div class="mt-4">
+                                                                         @*   <div class="mt-4">*@
                                                                               @*  <a href="/static/file/img-1.jpg" class="image-popup">
                                                                                     <img src="@Model." class="img-fluid" alt="work-thumbnail">
                                                                                 </a>*@
                                                                           @*  @if (Model.HasPhoto)
                                                                             {*@
-                                                                                <div class="mt-4">
+                                                                              @*  <div class="mt-4">
                                                                                     <a href="@Url.Action("GetImage", "backstagetask", new { CaseID = Model.CaseId })" class="image-popup">
                                                                                         <img src="@Url.Action("GetImage", "backstagetask", new { CaseID = Model.CaseId })" class="img-fluid" alt="work-thumbnail">
                                                                                     </a>
-                                                                                </div>
+                                                                                </div>*@
                                                                         @*    }*@
 
-                                                                            </div>
+
+                                                                     
+                                                                            <img src="@Url.Content(q)" style="height:100px ; width:100px" />
+
+                                                                            @*</div>*@
                                                                         </div>
 
-                                                                        <div class="col-lg-3 col-sm-6">
+                                                                     @*   <div class="col-lg-3 col-sm-6">
                                                                             <div class="mt-4">
                                                                                 <a href="/static/file/img-2.jpg" class="image-popup">
                                                                                     <img src="/Backstage1/static/file/img-2.jpg" class="img-fluid" alt="work-thumbnail">
                                                                                 </a>
                                                                             </div>
-                                                                        </div>
+                                                                        </div>*@
                                                                     </div>
                                                                 </div>
 
                                                             </div>
+                                                            }
+                                                          
+                                                            }
 
                                                         </div>
 

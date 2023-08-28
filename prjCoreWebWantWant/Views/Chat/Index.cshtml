@@ -249,7 +249,7 @@
                 const messagePreview = u.latestMessage.message.length > 10 ? `${(u.latestMessage.message).substring(0, 10)}...` : u.latestMessage.message;//預覽最新訊息
                 chatLink.innerHTML = //裡面包的html
                     `<div class="chat-list-group list-group-flush d-flex align-items-center p-3" style="height:100px" id=${chatAvaCount} onclick="toggleBackgroundColor(this)">
-                                <img src="${chatAvaterUrl[chatAvaCount]}" class="rounded-circle img-thumbnail user-image col-2 ">
+                                 <img src="${chatAvaterUrl[chatAvaCount]}" class="col-2 user-image">
                          <div class="col-10 mx-2">
                                       <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
                               </br>
@@ -425,8 +425,15 @@
 
 
         .user-image {
-            max-width: 50px; /* 最大寬度 */
-            max-height: 50px; /* 最大高度 */
+            min-width: 50px; /* 設定頭像寬度 */
+            max-width: 50px; /* 設定頭像寬度 */
+            min-height: 50px; /* 設定頭像高度 */
+            max-height: 50px; /* 設定頭像高度 */
+            margin-right: 2px; /* 設定頭像和聊天訊息之間的間距 */
+            margin-left: -2px; /* 設定頭像和聊天訊息之間的間距 */
+            border-radius: 50%; /* 設定頭像為圓形 */
+            border: var(--bs-border-width) solid var(--bs-border-color);
+            padding: 0.25rem;
         }
 
         .chat-bubble {
@@ -491,9 +498,12 @@
 
         .chat-avatar {
             width: 50px; /* 設定頭像寬度 */
+            min-width: 50px; /* 設定頭像寬度 */
             height: 50px; /* 設定頭像高度 */
+            min-height: 50px; /* 設定頭像高度 */
             margin-right: 10px; /* 設定頭像和聊天訊息之間的間距 */
-            margin-left: 10px; /* 設定頭像和聊天訊息之間的間距 */
+            margin-left: 5px; /* 設定頭像和聊天訊息之間的間距 */
+            margin-top: 25px; /* 設定頭像和聊天訊息之間的間距 */
             border-radius: 50%; /* 設定頭像為圓形 */
         }
 

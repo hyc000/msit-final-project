@@ -28,7 +28,7 @@
 <!--左上新增按鍵&右上計數顯示-->
 <div class="container">
     <p style="text-align: right">
-        <a href="@Url.Content("~/Expert/AddExpertResume")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-primary btn-sm" style="float:left" id="CreateResume">新增專家履歷+</a>
+        <a href="@Url.Content("~/ExpertResumes/Insert")?id=@Model.FirstOrDefault().memberAccount.AccountId" class="btn btn-outline-info" style="float:left" id="CreateResume">新增專家履歷+</a>
         您已使用 @ResumeCount/3 份履歷 
     </p>
 </div>

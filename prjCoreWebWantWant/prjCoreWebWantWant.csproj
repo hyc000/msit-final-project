@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Models\NewFolder\" />
+    <Folder Include="wwwroot\backstage1\TaskPhoto\" />
     <Folder Include="wwwroot\Backstage\img\" />
   </ItemGroup>
 
