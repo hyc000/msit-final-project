@@ -95,27 +95,38 @@
                             </ul>
                         </div>
 
-                        <hr style="border: 1.5px  double ;  color:#528EAF" />
 
-                        <div class="post-details2  mb-50">                          
-                            <div class="small-section-tittle">                               
-                                <h4 style="display: flex; align-items: center;">
-                                    <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
-                                    任務相關照片
-                                </h4>
-                            </div>
-                            @if (Model.TaskPhotos != null)
+                        @{
+                            NewIspanProjectContext db = new NewIspanProjectContext();
+                            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+                        }
+                        <hr style="border: 1.5px  double ;  color:#528EAF" />
+                        @{
+                            if (q != null)
                             {
+                                <div class="post-details2  mb-50">
+                                    <div class="small-section-tittle">
+                                        <h4 style="display: flex; align-items: center;">
+                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
+                                            任務相關照片
+                                        </h4>
+                                    </div>
+
+                                    <img src="@Url.Content(q)" style="height:100px ; width:100px" />
+                           
+                            
+                                
+                           
                               @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
                               @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
                             @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
                                 var imgSrc = $"data:image/png;base64,{base64Image}";
                                 <img src="@imgSrc" class="img-thumbnail" alt="照片">*@
                                @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
-                                   <img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">
-                            }
+                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
                         </div>
-
+                            }
+                        }
                         <div class="post-details2  mb-50">                     
                             <div class="small-section-tittle">                               
                                 <h4 style="display: flex; align-items: center;">

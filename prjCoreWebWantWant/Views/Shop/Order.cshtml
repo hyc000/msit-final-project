@@ -1,8 +1,9 @@
-﻿@{
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
+@{
     //ViewData["Title"] = "Order";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
-@model IEnumerable<prjCoreWebWantWant.ViewModels.COrderViewModel>
+
 @section subTitle{
 
 
@@ -17,40 +18,62 @@
 <div class="header-container">
     <h2>進行中的曝光</h2>
 </div>
+
 <div class="container mt-4">
     <table id="table" class="table table-striped mt-5">
         <thead align="center">
             <tr>
-                <td></td>
-                <td>名稱</td>
-                <td>類別</td>
-                <td>曝光類型</td>
-              
-                <td>截止日</td>
-                <td>  <i class='bx bx-time bx-tada'></i></td>
-
-
+                <th></th>
+                <th>案件名稱</th>
+                <th>曝光類型</th>
+                <th>截止日</th>
+                <th>倒數<i class='bx bx-time bx-tada'></i></th>
             </tr>
         </thead>
         <tbody align="center">
-           
-            <tr>
-                <td>
-                    <i class='bx bxs-hot bx-tada' style=" color:crimson"></i>
-                </td>
-                <td>TASKLIST或是RESUEME</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @{
+                var displayedTitles = new Dictionary<string, bool>(); // 用于存储已经显示过的标题
             }
-            </tbody>
-            </table>
 
-    </div>
+            @foreach (var order in Model)
+            {
+                foreach (var item in order.OrderDetails)
+                {
+                    string title = "";
+                    bool isCase = false;
 
-<br />
+                    if (item.CaseId != null)
+                    {
+                        title = item.Case.TaskTitle;
+                        isCase = true;
+                    }
+                    else if (item.ResumeId != null)
+                    {
+                        title = item.Resume.ResumeTitle;
+                    }
+
+                    if (!displayedTitles.ContainsKey(title))
+                    {
+                        displayedTitles.Add(title, true);
+
+                        <tr>
+                            <td><i class='bx bxs-hot bx-tada' style="color: crimson"></i></td>
+                            <td>@title</td>
+                            <td>@item.TopType</td>
+                            <td>@(isCase ? item.Case.OnTop : item.Resume.OnTop)</td>
+                            <td><span></span></td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+
+
+
+</table>
+  </div>
+
 <hr />
 <br />
 
@@ -79,35 +102,59 @@
         <thead align="center">
             <tr>
                 <td></td>
+                <td>訂單編號</td>
                 <td>日期</td>
                 <td>名稱</td>
                 <td>類別</td>
-                <td>回饋紅利</td>
-                <td>總金額</td>
+                <td>回饋紅利</td>     
+                <td>商品金額</td>
+                <td>使用紅利</td>
+                <td>訂單金額</td>
 
 
             </tr>
         </thead>
         <tbody align="center">
-            <tr>
+            @foreach (var order in Model)
+            {
+            
+                <tr>
+                    
                 <td>
-                    <a data-bs-toggle="collapse" data-bs-target="#orderDetails1" class="accordion-toggle">
+                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails_@(order.OrderId)" class="accordion-toggle">
                         <i class="bx bxs-show"></i>
                     </a>
                 </td>
-                <td></td> 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                        <td>@order.OrderId</td>
+                <td>@order.CreateTime</td> 
+                    <td>
+                        @if (order.OrderDetails.Any())
+                        {
+                            var firstOrderDetail = order.OrderDetails.First();
+                            @if (firstOrderDetail.CaseId != null)
+                            {
+                                <span>@firstOrderDetail.Case.TaskTitle</span>
+                            }
+                            else if (firstOrderDetail.ResumeId != null)
+                            {
+                                <span>@firstOrderDetail.Resume.ResumeTitle</span>
+                            }
+                        }
+                    </td>
+                        <td>@order.Category.CategoryName</td>
+                <td>@order.OrderGetPoint</td>
+                <td>@order.OrderPrice</td>
+                        <td>@order.OrderUsePoint</td>
+                        <td>@order.PaidAmount</td>
             </tr>
             <!-- 可展開/收起的內容 -->
             <tr>
-                <td colspan="6" class="hiddenRow">
-                    <div class="collapse" id="orderDetails1" data-bs-parent="#table">
-                        <!-- 在這裡填入訂單明細內容 -->
-                        <table class="table table-bordered">
-                            <thead class="table-dark">
+                        <td colspan="12" class="hiddenRow">
+                            <div class="collapse" id="orderDetails_@(order.OrderId)" data-bs-parent="#table">
+                                <!-- 在這裡填入訂單明細內容 -->
+                                <table class="table table-bordered">
+                                    <thead class="table-dark">
+                                       
                                 <tr>
                                     <th>商品名稱</th>
                                     <th>數量</th>
@@ -116,19 +163,22 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                        @foreach (var detail in order.OrderDetails)
+                                        {
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>@detail.Product.ProductName</td>
+                                    <td>@detail.Quantity</td>
+                                    <td>@detail.UnitPrice</td>
+                                    <td>@(detail.UnitPrice * detail.Quantity)</td>
                                 </tr>
-                             
+                                        }
                             </tbody>
                         </table>
                     </div>
                 </td>
             </tr>
-         
+            
+            }
         </tbody>
     </table>
 </div>
@@ -148,4 +198,9 @@
             font-size: 1.5rem;
         }
     </style>
+}
+
+@section Scripts
+{
+    
 }
