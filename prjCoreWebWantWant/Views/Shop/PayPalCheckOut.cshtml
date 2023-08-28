@@ -26,9 +26,28 @@
             {
                 tax = (int)(item.OrderPrice / 20);
                 <div>
-                    <h5><b>結帳金額</b></h5>
+                    <h5><b>商品明細</b></h5>
                 </div>
-                <hr>
+            <br />
+                <div>
+                    <div class="row">
+                <div class="col" style="padding-left: 0;">商品名稱</div>
+                <div class="col text-right">數量</div>
+                </div>
+                </div>
+                @foreach (var orderDetail in item.OrderDetails)
+                {
+                    <div class="row">
+                        <div class="col" style="padding-left: 0;">@orderDetail.Product.ProductName</div>
+                        <div class="col text-right">@orderDetail.Quantity</div>
+                    </div>
+                 
+                }
+                <hr />
+                <div>
+                    <h5><b>結帳金額</b></h5>
+                </div>    
+               
                 <div class="row">
                     <div class="col" style="padding-left: 0;">商品總計</div>
                     <div class="col text-right">@item.OrderPrice</div>
@@ -59,7 +78,22 @@
         }
         </div>
         
-    
+@{
+    var orderDetailsArray = new List<object>();
+
+    foreach (var item in Model)
+    {
+        foreach (var orderDetail in item.OrderDetails)
+        {
+            var detailInfo = new
+            {
+                name = orderDetail.Product.ProductName,
+                quantity = orderDetail.Quantity
+            };
+            orderDetailsArray.Add(detailInfo);
+        }
+    }
+}
 
 @section Styles
     {
@@ -304,6 +338,8 @@
 
 
     <script>
+      
+
         var paidAmount = document.getElementById('order-details').getAttribute('data-paid-amount');
         paypal.Buttons({
             style: {
@@ -320,7 +356,8 @@
                                 item_total: { value: paidAmount, currency_code: 'TWD' } //訂單金額
                             }
                         }
-                        //,
+                               
+                        
                         //items: [{                                              //商品項目
                         //    name: 'Hafer',
                         //    unit_amount: { value: '3', currency_code: 'TWD' },

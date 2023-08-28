@@ -4,6 +4,7 @@
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
+
 @section subTitle{
 
 
@@ -26,8 +27,8 @@
                 <th></th>
                 <th>案件名稱</th>
                 <th>曝光類型</th>
-                <th>截止日</th>
-                <th>倒數<i class='bx bx-time bx-tada'></i></th>
+                <th>曝光結束日</th>
+                <th>剩餘時間</th>
             </tr>
         </thead>
         <tbody align="center">
@@ -41,18 +42,23 @@
                 {
                     string title = "";
                     bool isCase = false;
+                    DateTime? endTime =null;
 
                     if (item.CaseId != null)
                     {
                         title = item.Case.TaskTitle;
                         isCase = true;
+                        endTime = item.Case.OnTop; // 使用DATETIME类型
                     }
                     else if (item.ResumeId != null)
                     {
                         title = item.Resume.ResumeTitle;
+                        endTime = item.Resume.OnTop;
                     }
 
-                    if (!displayedTitles.ContainsKey(title))
+                    var today = DateTime.Today;
+
+                    if (!displayedTitles.ContainsKey(title) && endTime > today)
                     {
                         displayedTitles.Add(title, true);
 
@@ -60,9 +66,27 @@
                             <td><i class='bx bxs-hot bx-tada' style="color: crimson"></i></td>
                             <td>@title</td>
                             <td>@item.TopType</td>
-                            <td>@(isCase ? item.Case.OnTop : item.Resume.OnTop)</td>
-                            <td><span></span></td>
-                            <td></td>
+
+                            <td data-endtime="@endTime">
+                                @endTime
+                            </td>
+                            <td>
+                                @if (endTime.HasValue && endTime > today)
+                                {
+                                    var remainingDays = (endTime.Value - today).Days;
+                                   
+                                    @if (remainingDays < 5)
+                                    {
+                                        <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@remainingDays 天</span>
+                                    
+                                    }
+                                }
+                              
+                            </td>
                         </tr>
                     }
                 }
@@ -200,7 +224,7 @@
     </style>
 }
 
-@section Scripts
-{
-    
-}
+
+
+
+

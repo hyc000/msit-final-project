@@ -19,8 +19,8 @@ namespace prjShop.Controllers
             _context = context;
             _host = host;
         }
-    
-     
+
+
 
         public IActionResult ExpertShop()
         {
@@ -63,6 +63,7 @@ namespace prjShop.Controllers
 
             var latestOrder = _context.Orders
        .Include(o => o.OrderDetails)
+       .ThenInclude(o => o.Product)
        .Where(o => o.AccountId == userId)
        .OrderByDescending(o => o.CreateTime)
        .FirstOrDefault();
@@ -87,16 +88,16 @@ namespace prjShop.Controllers
             var q = _context.Orders
                 .Include(t => t.Category)
                 .Include(o => o.OrderDetails)
-                .ThenInclude(od =>od.Resume)
-                .Include(o =>o.OrderDetails)
-            .ThenInclude(od =>od.Case)
-            .Include(o => o.OrderDetails)
-            .ThenInclude(od => od.Product)
-           .Where(o => o.AccountId == userId)
-         .OrderByDescending(o => o.CreateTime)  
-        .ToList();
-               
-           
+                .ThenInclude(od => od.Resume)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Case)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .Where(o => o.AccountId == userId)
+                .OrderByDescending(o => o.CreateTime)
+                .ToList();
+
+
 
             return View(q);
         }
@@ -710,8 +711,24 @@ namespace prjShop.Controllers
 
         public IActionResult OrderCompleted()
         {
+            int userId = GetAccountID();
+            ViewBag.Points = GetAccumulatedPoints(userId);
 
-            return View();
+            var latestOrder = _context.Orders
+       .Include(o => o.OrderDetails)
+       .ThenInclude(o => o.Product)
+       .Where(o => o.AccountId == userId)
+       .OrderByDescending(o => o.CreateTime)
+       .FirstOrDefault();
+
+            List<Order> ordersList = new List<Order>();
+            if (latestOrder != null)
+            {
+                ordersList.Add(latestOrder);
+            }
+
+            return View(ordersList);
+
         }
     }
 }

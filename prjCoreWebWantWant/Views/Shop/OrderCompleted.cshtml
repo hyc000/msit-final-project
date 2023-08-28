@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
 @{
     ViewData["Title"] = "Paypal";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
@@ -13,6 +13,12 @@
     </ul>
     <p>　</p>
     <img src="@Url.Content("~/img/paypel.png")" width="400" height="400" />
+    <div>
+    @foreach (var item in Model){
+    <label style="font-size:large">訂單編號:</label><p>@item.OrderId</p>
+    <label>訂單金額:</label><p>@item.PaidAmount</p>
+    }
+    </div>
 </div>
 
 @section Styles{
