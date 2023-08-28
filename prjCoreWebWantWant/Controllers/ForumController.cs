@@ -97,29 +97,30 @@ namespace WantTask.Controllers
 
 
 
-        public IActionResult PostView(int? postID)
+        public IActionResult PostView(int? id)
         {
+
             var isUserLoggedIn = HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
             ViewData["IsUserLoggedIn"] = isUserLoggedIn;
 
-            if (postID == null)
+            if (id == null)
                 return RedirectToAction("PostList");
 
             var post = _db.ForumPosts
                         .Include(p => p.ForumPostCategories).ThenInclude(pc => pc.Category)
                         .Include(p => p.Account)
                         .Where(p => p.ParentId == null && (p.Status == 1 || p.Status == 4))
-                        .FirstOrDefault(p => p.PostId == (int)postID);
+                        .FirstOrDefault(p => p.PostId == (int)id);
 
             var replies = _db.ForumPosts
                         .Include(p => p.Account)
-                        .Where(p => p.ParentId == postID)
-                        .Where(p => p.ParentId == postID && (p.Status != 2))
+                        .Where(p => p.ParentId == id)
+                        .Where(p => p.ParentId == id && (p.Status != 2))
                         .ToList();
 
             var postComment = _db.ForumPostComments
                         .Include(c => c.Account)
-                        .Where(c => c.PostId == postID && (c.Status == 1 || c.Status == 4))
+                        .Where(c => c.PostId == id && (c.Status == 1 || c.Status == 4))
                         .ToList();
 
 
@@ -142,9 +143,9 @@ namespace WantTask.Controllers
             //-----------------------觀看次數-----------------------------
             int viewCount = 0;
             //建立MemoryCache，先確定是否有某篇文章的KEY存在
-            if (_memoryCache.TryGetValue("ViewCount_" + postID, out viewCount))
+            if (_memoryCache.TryGetValue("ViewCount_" + id, out viewCount))
             {
-                viewCount = (int)_memoryCache.Get("ViewCount_" + postID);//有的話就抓key對應的value
+                viewCount = (int)_memoryCache.Get("ViewCount_" + id);//有的話就抓key對應的value
             }
             else
             {
@@ -159,7 +160,7 @@ namespace WantTask.Controllers
                 {
                     AbsoluteExpiration = DateTime.Now.AddHours(1)
                 };
-                _memoryCache.Set("ViewCount_" + postID, viewCount, cacheEntryOptions);
+                _memoryCache.Set("ViewCount_" + id, viewCount, cacheEntryOptions);
             }
 
             var viewModel = new ForumPostViewModel();

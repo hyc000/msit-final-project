@@ -72,5 +72,49 @@ namespace prjCoreWebWantWant.Models
             return null;
         }
 
+        public int? TownName(string? townname)
+        {
+            if (townname != null)
+            {
+                int townid = _context.Towns
+                .Where(x => x.Town1 == townname)
+                .Select(x => x.TownId)
+                .FirstOrDefault();
+                return townid;
+            }
+
+            return null;
+        }
+
+
+        public int? SkillName(string? skillname)
+        {
+            if (skillname != null)
+            {
+                int skillid = _context.Skills
+                .Where(x => x.SkillName== skillname)
+                .Select(x => x.SkillId)
+                .FirstOrDefault();
+                return skillid;
+            }
+
+            return null;
+        }
+
+        public int? CertificateName(string? certificatename)
+        {
+            if (certificatename != null)
+            {
+                int certificateid = _context.Certificates
+                .Where(x => x.CertificateName == certificatename)
+                .Select(x => x.CertificateId)
+                .FirstOrDefault();
+                return certificateid;
+            }
+
+            return null;
+        }
+
+
     }
 }

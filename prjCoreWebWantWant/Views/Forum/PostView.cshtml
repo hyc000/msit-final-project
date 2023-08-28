@@ -186,7 +186,11 @@
         <div class="col-md-10 m-auto">
             @if (!(bool)(ViewData["IsUserLoggedIn"] ?? false))
             {
-                <p class="alert alert-warning">請登入後才能回覆</p>
+                <p class="alert alert-warning">請登入後才能回覆
+                    <a class="btn" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })">登入</a>
+                </p>
+                
+
             }
             else
             {
