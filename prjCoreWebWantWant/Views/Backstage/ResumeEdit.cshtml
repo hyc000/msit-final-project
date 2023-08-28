@@ -190,13 +190,15 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="@Url.Content(Model.PhotoPath)" style="height: 330px; width: 280px;" />
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input id="photoInput" asp-for="Photo" class="form-control" type="file" name="imageFile" />
+                                            <span asp-validation-for="Photo" class="text-danger"></span>
+                                        </div>
+                                    </div>                                    
                                 </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                    <input id="photoInput" asp-for="Photo" class="form-control" type="file" name="imageFile" />
-                                    <span asp-validation-for="Photo" class="text-danger"></span>
-                                </div>
-                                </div>
+                               
 
                                 @*  <div class="col-md-1 vertical-divider"></div> <!-- 垂直分隔線 --> *@
 
@@ -219,11 +221,10 @@
                                                 </select>
                                                 <label for="floatingSelectCity">請選擇縣市</label>
                                             </div> *@
-                                            <div class="row">
+                                            @* <div class="row"> *@
                                                 <div class="col-md-6 d-flex align-items-center">
-                                                    <h4 class="font-size-15">城市：@Model.Town.City.City1</h4>
-                                                </div>
-                                                <div class="col-md-2">
+                                                <h4 class="font-size-15" style="margin-right:80px">城市：@Model.Town.City.City1</h4>
+                                                <div class="col-md-6">                                                    
                                                     <div class="form-floating mb-3">
                                                         <select class="form-select " id="selCity">
                                                             <!-- <option selected>請選擇縣市</option> -->
@@ -232,44 +233,47 @@
                                                         <label for="floatingSelectCity">請選擇縣市</label>
                                                     </div>
                                                 </div>
-                                            
-                                              <div class="col-md-6 d-flex align-items-center" >
-                                                    <div class="col-md-6 d-flex align-items-center">
-                                                        <h4 class="font-size-15">區域：@Model.Town.Town1</h4>
-                                                    </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-floating mb-3">
-                                                        <select class="form-select" id="selTown">
-                                                            <!-- <option selected>請選擇區域</option> -->
-                                                            <option></option>
-                                                        </select>
-                                                        <label for="floatingSelectTown">請選擇區域</label>
-                                                    </div>
                                                 </div>
-                                              </div>
-                                           </div>
+
+                                              <div class="col-md-6 d-flex align-items-center" >                                                    
+                                                    <h4 class="font-size-15" style="margin-right:80px">區域：@Model.Town.Town1</h4>                                                    
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating mb-3">
+                                                                <select class="form-select" id="selTown">
+                                                                    <!-- <option selected>請選擇區域</option> -->
+                                                                    <option></option>
+                                                                </select>
+                                                                <label for="floatingSelectTown">請選擇區域</label>
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                           @* </div> *@
 
                                             <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
 
                                             <div class="row">
                                                  <div class="col-md-6 d-flex align-items-center">
-                                            <h4 class="font-size-15">詳細地址：@(Model.Address != null ? Model.Address : "您未填寫地址")</h4>
+                                                    <h4 class="font-size-15" style="margin-right:80px">詳細地址：@(Model.Address != null ? Model.Address : "您未填寫地址")</h4>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <input asp-for="Address" class="form-control" />
+                                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+
                                             </div>
 
-                                            <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <input asp-for="Address" class="form-control" /> 
-                                                        <span asp-validation-for="Address" class="text-danger"></span>
-                                                    </div>
-                                            </div>
+                                          
 
                                         </div>
                                     </div>
-
-                                    <hr />
+                                       
+                                   
                                     <p></p>
                                     <p></p>
-                                    <p></p>
+                                        <hr />
+                              
                                     <div class="row">
                                         <div class="col-md-6">
                                            @*語言能力*@
