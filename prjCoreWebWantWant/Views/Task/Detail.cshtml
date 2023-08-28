@@ -198,10 +198,11 @@
             </div>
         </div>
 </div>
-    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @* @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     @{
-        if (HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+        if (!HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
         {
+            return;
         }
 
             string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
@@ -212,8 +213,7 @@
             NewIspanProjectContext db = new NewIspanProjectContext();
             var resumes = db.Resumes
             .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
-               
-    }
+    } *@
     @*未登入會出問題 待解決*@
 
     
@@ -230,23 +230,23 @@
                 </div>
                 <div class="modal-body">
 
-                 @foreach (var item in resumes)
-                 {
+                 @* @foreach (var item in resumes)
+                 { *@
                     @*履歷一*@
                     <div class="col">
                             <div class="card h-100">                           
                             <div class="card-body" width="300px">
-                                <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4>
+                                @* <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> *@
                                 <hr />
                               
-                                @if (item.Autobiography.Length <= 70)
+                              @*   @if (item.Autobiography.Length <= 70)
                                 {
                                     <p class="card-text">@item.Autobiography</p>
                                 }
                                 else
                                 {
-                                    <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  @*秀出自傳的部分內容*@
-                                }
+                                    <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  秀出自傳的部分內容
+                                } *@
                                       <div class="card-footer text-center">
                                     <form action="@Url.Content("~/Backstage/apply")" method="post">
                                         <!-- 使用表單元素包裹 -->
@@ -255,7 +255,7 @@
                                                style="background-color: #528EAF"
                                                type="submit"
                                                value="以此履歷應徵" />
-                                        <input type="hidden" name="resumeId" value="@item.ResumeId">
+                                        @* <input type="hidden" name="resumeId" value="@item.ResumeId"> *@
                                         <input type="hidden" id="selectedCaseId" name="caseId" />
                                     </form>
                                     </div>                                
@@ -263,8 +263,8 @@
                              </div>
                     </div>
                     <p></p>
-                 }
-                 }}
+                 @* } *@
+                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消應徵</button>
                     @*<button type="button" class="btn btn-primary">立即應徵</button>*@
@@ -272,7 +272,8 @@
             </div>
         </div>
     </div>
-               
+             
+    }}
     </div>
       
  

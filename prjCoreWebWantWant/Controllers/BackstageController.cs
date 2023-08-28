@@ -136,8 +136,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == pIn.ResumeId);
             if (resume != null)
             {
+                resume.Autobiography = pIn.Autobiography;
                 resume.Address = pIn.Address;
-                resume.AccountId = pIn.AccountId;
+                //resume.AccountId = pIn.AccountId;
                 resume.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                 _context.SaveChanges();
             }

@@ -1,0 +1,135 @@
+﻿@model prjCoreWebWantWant.Models.Resume
+@*@model prjCoreWebWantWant.ViewModels.CResumeViewModel  *@
+
+@{
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+    // Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+<body>
+ <div class="row">
+    <div class="col-md-4">
+        <form asp-action="ResumeEdit" method="post" enctype="multipart/form-data">
+                <input asp-for="ResumeId" class="form-control" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* <input type="hidden" name="ResumeId" value="@Model.ResumeId" /> *@
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm order-2 order-sm-1">
+                                <div class="d-flex align-items-start mt-3 mt-sm-0">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar-xl me-3">
+                                            <img src="~/Backstage/static/picture/avatar-2.jpg"
+                                                 alt=""
+                                                 class="img-fluid rounded-circle d-block" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div>
+                                            <h5 class="font-size-16 mb-1">
+                                                姓名：李芷帆
+                                            </h5>
+
+                                            <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
+                                                <div>性別：女</div>
+                                            </div>
+                                            <br />
+                                            <div>
+                                                <input type="file"
+                                                       class="form-control"
+                                                       id="inputProfilePicture"
+                                                       style="width: 32rem" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="nav nav-tabs-custom card-header-tabs border-top mt-4"
+                            id="pills-tab"
+                            role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-3 active"
+                                   data-bs-toggle="tab"
+                                   role="tab"
+                                   aria-selected="true">履歷總覽</a>
+                            </li>
+                            <li class="nav-item" role="presentation"></li>
+                            <li class="nav-item" role="presentation"></li>
+                        </ul>
+                    </div>
+                    <!-- end card body -->
+                </div>
+
+
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input asp-for="AccountId" class="form-control" />
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+
+         @*<div class="form-group">
+                <label asp-for="TownId" class="control-label"></label>
+                <input asp-for="TownId" class="form-control" />
+                <span asp-validation-for="TownId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+           @*  <div class="form-group">
+                <label asp-for="Autobiography" class="control-label"></label>
+                <input asp-for="Autobiography" class="form-control" />
+                <span asp-validation-for="Autobiography" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkingHoursId" class="control-label"></label>
+                <input asp-for="WorkingHoursId" class="form-control" />
+                <span asp-validation-for="WorkingHoursId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OnTop" class="control-label"></label>
+                <input asp-for="OnTop" class="form-control" />
+                <span asp-validation-for="OnTop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskNameId" class="control-label"></label>
+                <input asp-for="TaskNameId" class="form-control" />
+                <span asp-validation-for="TaskNameId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsExpertOrNot" /> @Html.DisplayNameFor(model => model.IsExpertOrNot)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CaseStatusId" class="control-label"></label>
+                <input asp-for="CaseStatusId" class="form-control" />
+                <span asp-validation-for="CaseStatusId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="修改並儲存" class="btn btn-outline-info" />
+            </div>
+        </form>
+     </div>
+</div>
+ 
+<div>
+    <a asp-action="ResumeList" class="btn btn-outline-warning">取消並返回</a>
+</div>
+
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
