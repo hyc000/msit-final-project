@@ -191,9 +191,11 @@
                                 <div class="col-md-4">
                                     <img src="@Url.Content(Model.PhotoPath)" style="height: 330px; width: 280px;" />
                                 </div>
-                                <div class="form-group">
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
                                     <input id="photoInput" asp-for="Photo" class="form-control" type="file" name="imageFile" />
                                     <span asp-validation-for="Photo" class="text-danger"></span>
+                                </div>
                                 </div>
 
                                 @*  <div class="col-md-1 vertical-divider"></div> <!-- 垂直分隔線 --> *@
