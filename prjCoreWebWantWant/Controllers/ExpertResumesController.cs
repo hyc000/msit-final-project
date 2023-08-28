@@ -188,13 +188,14 @@ namespace prjCoreWebWantWant.Controllers
                         //找流水號resumeID
                         int newResumeId = await AddResume(vm);
 
+                        //專家履歷
+                        AddExpertResume(vm, newResumeId);
                         //SKILL
                         AddSkills(vm, newResumeId);
                         //證照
                         AddCertificates(vm, newResumeId);
 
-                        //專家履歷
-                        AddExpertResume(vm, newResumeId);
+                     
 
                         //新增作品
                         DateTime dataCreateDate = DateTime.Now;//現在時間
@@ -231,6 +232,7 @@ namespace prjCoreWebWantWant.Controllers
                     return RedirectToAction("ExpertMemberPage", "Expert");
                 }
             }
+
             catch (Exception ex)
             {
                 // 处理异常，例如记录日志等
@@ -258,7 +260,7 @@ namespace prjCoreWebWantWant.Controllers
             };
 
             _context.Resumes.Add(resume);
-            await _context.SaveChangesAsync();
+          //  await _context.SaveChangesAsync();--080--
             return resume.ResumeId;
         }
 
@@ -276,15 +278,15 @@ namespace prjCoreWebWantWant.Controllers
                         ResumeId = newResumeId
                     };
                     _context.ResumeSkills.Add(resumeskill);
-                    await _context.SaveChangesAsync();
+                   // await _context.SaveChangesAsync();--080--
                 }
             }
 
             int? SkillID1 = factory.SkillName(vm.專長細項1);
             await AddSkillIfNotNull(SkillID1);
-            int? SkillID2 = factory.CertificateName(vm.專長細項2);
+            int? SkillID2 = factory.SkillName(vm.專長細項2);
             await AddSkillIfNotNull(SkillID2);
-            int? SkillID3 = factory.CertificateName(vm.專長細項3);
+            int? SkillID3 = factory.SkillName(vm.專長細項3);
             await AddSkillIfNotNull(SkillID3);
 
         }
@@ -303,7 +305,7 @@ namespace prjCoreWebWantWant.Controllers
                         ResumeId = newResumeId
                     };
                     _context.ResumeCertificates.Add(resumecertificate);
-                    await _context.SaveChangesAsync();
+                  //  await _context.SaveChangesAsync();--080--
                 }
             }
             int? CertificateID1 = factory.CertificateName(vm.證照細項1);
@@ -330,7 +332,8 @@ namespace prjCoreWebWantWant.Controllers
                 CommonPrice = vm.基本價格
             };
             _context.ExpertResumes.Add(expertresume);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();--080--
+        
         }
 
         private async Task<int> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
@@ -346,7 +349,7 @@ namespace prjCoreWebWantWant.Controllers
                     // WorkTitle =vm.作品名
                 };
                 _context.ExpertWorks.Add(expertwork);
-                await _context.SaveChangesAsync();
+              //  await _context.SaveChangesAsync();--080--
 
                 return expertwork.WorksId;
                 
@@ -362,7 +365,7 @@ namespace prjCoreWebWantWant.Controllers
                 ResumeId = newResumeId
             };
             _context.ExpertWorkLists.Add(expertworklist);
-            await _context.SaveChangesAsync();
+           // await _context.SaveChangesAsync();--080--
         }
 
     }

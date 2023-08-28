@@ -26,9 +26,21 @@
                 <span asp-validation-for="專家" class="text-danger"></span>
                 <input asp-for="taskid" class="form-control" />
             </div>
+            
             <div class="form-group">
+                <div class="rating-box">
+                    <span class="rating-value" id="ratingvalue">你要打幾分?</span>
+                    <div class="rating">
+                        
+                        <span class="fa fa-star-o"></span>
+                        <span class="fa fa-star-o"></span>
+                        <span class="fa fa-star-o"></span>
+                        <span class="fa fa-star-o"></span>
+                        <span class="fa fa-star-o"></span>
+                    </div>
+                </div>
                 <label asp-for="評論星數" class="control-label"></label>
-                <input asp-for="評論星數" class="form-control" />
+                <input hidden asp-for="評論星數" id="starscore" class="form-control" />
                 <span asp-validation-for="評論星數" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,10 +64,57 @@
         </form>
     </div>
 </div>
-
-
-
-
+@section Styles {
+    <style>
+    .rating .fa {
+    color: tomato;
+    font-size:larger;
+     }
+    </style>
+}
 @section Scripts {
+    <script>
+        const stars = document.querySelector(".rating").children;
+        const starscore = document.querySelector("#starscore");
+        const ratingvalue = document.querySelector("#ratingvalue");
+
+        let index = -1; // 初始化為-1，表示沒有選擇評分
+
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].addEventListener("mouseover", function () {
+                for (let j = 0; j < stars.length; j++) {
+                    stars[j].classList.remove("fa-star");
+                    stars[j].classList.add("fa-star-o");
+                }
+                for (let j = 0; j <= i; j++) {
+                    stars[j].classList.remove("fa-star-o");
+                    stars[j].classList.add("fa-star");
+                }
+                ratingvalue.innerHTML = "正在打分數";
+            });
+
+            stars[i].addEventListener("click", function () {
+                index = i;
+                ratingvalue.innerHTML = "你打的分數是 " + (index + 1);
+                starscore.value = index + 1;
+            });
+
+            stars[i].addEventListener("mouseout", function () {
+                for (let j = 0; j < stars.length; j++) {
+                    stars[j].classList.remove("fa-star");
+                    stars[j].classList.add("fa-star-o");
+                }
+                for (let j = 0; j <= index; j++) {
+                    stars[j].classList.remove("fa-star-o");
+                    stars[j].classList.add("fa-star");
+                }
+                if (index !== -1) {
+                    ratingvalue.innerHTML = "你打的分數是 " + (index + 1);
+                } else {
+                    ratingvalue.innerHTML = "你要打幾分?";
+                }
+            });
+        }
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

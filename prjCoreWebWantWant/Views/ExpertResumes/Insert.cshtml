@@ -18,7 +18,7 @@
                             <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
                             <div class="form-group">
                                  @*<label asp-for="Photo" class="control-label"></label>*@
-                        <input id="photoInput" asp-for="履歷照片" class="form-control" type="file" />
+                        <input id="photoInput"  class="form-control" type="file" />
                         <span asp-validation-for="履歷照片" class="text-danger"></span>
                         <span asp-validation-for="履歷照片" class="text-danger"></span> @*+*@
                                   <span id="photoError" class="text-danger"></span>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                     <input type="hidden" id="hiddenPhotoInput" name="selectedPhoto" />
+            <input type="hidden" id="hiddenPhotoInput" name="履歷照片"  asp-for="履歷照片" />
 
                     <!--任務地點-->
                     <div class="col-sm-12 col-xl-6">
@@ -244,15 +244,15 @@
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-light rounded h-100 p-4">
                     <h5 class="mb-4" style="color:#528EAF">作品照片</h5>
-                   
-                    <div class="form-group mb-3">
-                        @*<label asp-for="Photo" class="control-label"></label>*@
-                        <input id="workphoto" asp-for="作品圖片" class="form-control" type="file" multiple />
-                        <span asp-validation-for="作品圖片" class="text-danger"></span>
-                        <span asp-validation-for="作品圖片" class="text-danger"></span> @*+*@
-                        <span id="workError" class="text-danger"></span>
 
-                        <div id="workPreview"></div>
+                    <div class="form-group mb-3">
+                        <label for="workphoto" class="control-label">作品照片</label>
+                        <input id="workphoto" name="作品圖片" class="form-control" type="file" multiple />
+                        <span asp-validation-for="作品圖片" class="text-danger"></span>
+                        <span id="workError" class="text-danger"></span>
+                        <p class="text-info">你可以選擇多個圖片。</p>
+
+                        <div id="workPreview" style="border: 1px solid #ccc; padding: 10px;"></div>
                     </div>
                 </div>
             </div>
@@ -551,45 +551,61 @@
             console.log(hiddenSkillIdInput3.value);
         }
 
+        //履歷圖片:
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    resolve(event.target.result);
+                };
+
+                reader.onerror = (error) => {
+                    reject(error);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+
         const photoInput = document.getElementById('photoInput');
         const photoPreview = document.getElementById('photoPreview');
 
         // 當使用者選擇檔案時觸發事件
-        photoInput.addEventListener('change', function () {
+        photoInput.addEventListener('change', async function () { // 注意這裡加了async
             const selectedFile = photoInput.files[0];
 
             if (selectedFile) {
                 // 檢查是否是圖片類型
                 if (selectedFile.type.startsWith('image/')) {
-                    // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(selectedFile);
-                    /*  img.style.maxWidth = '100%';
-                     img.style.height = 'auto'; */
+                    try {
+                        const base64Data = await readFileAsDataURL(selectedFile);
+                        const img = document.createElement('img');
+                        img.src = base64Data;
+                        img.width = 360;
+                        img.height = 360;
+                        photoPreview.innerHTML = '';
+                        photoPreview.appendChild(img);
 
-                    img.width = 360;
-                    img.height = 360;
-                    // 清空預覽元素的內容，然後添加新的圖片
-                    photoPreview.innerHTML = '';
-                    photoPreview.appendChild(img);
+                        hiddenPhotoInput.value = base64Data;//重點
 
-                    // 清除可能的錯誤訊息
-                    const photoError = document.getElementById('photoError');
-                    photoError.textContent = '';
+                        const photoError = document.getElementById('photoError');
+                        photoError.textContent = '';
+                    } catch (error) {
+                        console.error("Error reading the file:", error);
+                    }
                 } else {
-                    // 如果選擇的檔案不是圖片，顯示錯誤訊息
                     const photoError = document.getElementById('photoError');
                     photoError.textContent = '請選擇有效的圖片檔案。';
                     photoPreview.innerHTML = '';
                 }
             } else {
-                // 如果未選擇檔案，清空預覽元素
                 photoPreview.innerHTML = '';
                 const photoError = document.getElementById('photoError');
                 photoError.textContent = '';
             }
         });
-
         //作品集
 
         // 當使用者選擇檔案時觸發事件
@@ -626,6 +642,63 @@
                 }
             } 
         });
+
+        //======================
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    resolve(event.target.result);
+                };
+
+                reader.onerror = (error) => {
+                    reject(error);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        photoInput.addEventListener('change', async function () {
+            const selectedFile = photoInput.files[0];
+
+            if (selectedFile) {
+                // 檢查是否是圖片類型
+                if (selectedFile.type.startsWith('image/')) {
+                    try {
+                        const base64Data = await readFileAsDataURL(selectedFile);
+                        // 在此，base64Data 是圖片的 Base64 編碼
+                        // 如果您需要二進位，可以直接使用此資料
+
+                        const img = document.createElement('img');
+                        img.src = base64Data;
+
+                        img.width = 360;
+                        img.height = 360;
+
+                        photoPreview.innerHTML = '';
+                        photoPreview.appendChild(img);
+
+                        const photoError = document.getElementById('photoError');
+                        photoError.textContent = '';
+                    } catch (error) {
+                        console.error("Error reading the file:", error);
+                    }
+                } else {
+                    const photoError = document.getElementById('photoError');
+                    photoError.textContent = '請選擇有效的圖片檔案。';
+                    photoPreview.innerHTML = '';
+                }
+            } else {
+                photoPreview.innerHTML = '';
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '';
+            }
+        });
+
+
+
     </script>
 
 }
