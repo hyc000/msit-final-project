@@ -46,6 +46,8 @@
                 <span asp-validation-for="AccountId" class="text-danger"></span>
             </div>  *@
 
+            <a class="btn btn-outline-secondary" id="Demo">Demo</a>
+
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
 
@@ -55,7 +57,7 @@
                             <h5 class="mb-4" style="color:#528EAF">履歷標題</h5>
                             <div class="form-group">
                                 @*<label asp-for="ResumeTitle" class="control-label"></label>*@
-                                <input asp-for="ResumeTitle" class="form-control" />
+                                <input asp-for="ResumeTitle" class="form-control" id="ResumeTitle"/>
                                 <span asp-validation-for="ResumeTitle" class="text-danger"></span>
                             </div>
                             <p></p>
@@ -97,7 +99,7 @@
 
                             <div class="form-group">
                                 <label asp-for="Address" class="control-label"></label>
-                                <input asp-for="Address" class="form-control" />
+                                <input asp-for="Address" class="form-control" id="Address"/>
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
@@ -210,7 +212,7 @@
                         <h5 class="mb-4" style="color:#528EAF">履歷自傳</h5>
                             <div class="form-group">
                                 @*<label asp-for="Autobiography" class="control-label"></label>*@
-                                <textarea asp-for="Autobiography" class="form-control" style="height:300px;resize:none"> </textarea>
+                                <textarea asp-for="Autobiography" class="form-control" style="height:300px;resize:none" id="Autobiography"> </textarea>
                                 <span asp-validation-for="Autobiography" class="text-danger"></span>
                             </div>
                         </div>
@@ -651,6 +653,36 @@
             photoError.textContent = '';
         }
     });
+
+    const Demo = document.querySelector('#Demo');
+    const Autobiography = document.querySelector('#Autobiography');
+    const ResumeTitle = document.querySelector('#ResumeTitle');
+    const Address = document.querySelector('#Address');
+
+
+    Demo.addEventListener('click', () => {
+        Autobiography.value = '我是一名充滿熱情和專業知識的金融業專業人士，熱切地追求在這個挑戰性和動態的領域中發展和貢獻。從我開始學習金融知識的那一刻起，我就深深被這個領域的複雜性和影響力所吸引，並始終保持著學習和成長的態度。我在大學主修金融學，並在學業過程中獲得了紮實的理論基礎。我的學習重點包括投資管理、財務分析和風險管理等領域，這些知識讓我深入了解了金融市場的運作和機制。我在學校內外積極參與金融相關的社團和比賽，並在模擬交易比賽中表現優異，進一步鞏固了我的金融知識和實踐技能。 畢業後，我進入了一家知名的金融公司擔任金融分析師。在這個角色中，我負責評估公司的財務狀況、分析市場趨勢並提供投資建議。我運用數據分析技能，幫助客戶做出明智的投資決策，同時也與團隊密切合作，確保我們的投資策略與市場保持同步。我的工作經驗使我更加確信，金融業是一個需要不斷學習和適應的領域。我定期關注國際金融新聞，參加行業研討會和培訓課程，以保持對市場的深刻理解和洞察力。我也意識到了風險管理的重要性，並積極參與風險管理工作，以確保投資的穩健性。我對金融業的熱情和專業知識，以及對持續學習和自我提升的承諾，使我有信心能夠為貴公司帶來價值。我渴望加入您的團隊，與優秀的同事共同努力，推動金融領域的發展。謝謝您撥冗考慮我的申請。'
+        ResumeTitle.value = '金融業';
+        Address.value = '復興南路一段390號3樓';
+        selCity.selectedIndex = 19;
+        selTown.selectedIndex = 2;
+        hiddenTownIdInput.value = 5;
+
+
+       /* SelSkillBigOne.selectedIndex = 3;
+        SelSkillSmallOne.selectedIndex = 0;
+        hiddenSkillIdInput1.value = 35;
+
+        SelSkillBigTwo.selectedIndex = 1;
+        SelSkillSmallTwo.selectedIndex = 2;
+        hiddenSkillIdInput2.value = 19;
+
+        SelSkillBigThree.selectedIndex = 1;
+        SelSkillSmallThree.selectedIndex = 3;
+        hiddenSkillIdInput3.value = 23;*/
+    })
+
+
      </script>  
      
 

@@ -161,7 +161,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView(q);
         }
 
-        public IActionResult ListNew(CKeywordViewModel vm)
+        public IActionResult ListNew(CKeywordViewModel vm /*,int page = 1, int pageSize = 10*/)
         {
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
@@ -169,6 +169,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 datas = _context.TaskLists
                         .Include(t => t.Town.City)
                         .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+                //var paginatedData = datas.Skip((page - 1) * pageSize).Take(pageSize);
+                //return View(paginatedData);
             }
             else
             {

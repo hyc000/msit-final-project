@@ -1,5 +1,8 @@
 ﻿@using System.Text.Json;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
 @model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@*@model IPagedList<TaskList>*@
 @*@model IEnumerable<prjWantWant_yh_CoreMVC.Models.CTask>     匿名型別*@
 
 @{
@@ -360,6 +363,10 @@
 
         </div>
     </div>
+
+    @*<div class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("ListNew", new { page, pageSize = Model.PageSize }))
+    </div>*@
 
 
 </body>
