@@ -4,6 +4,7 @@
     ViewData["Title"] = "PostView";
     int categoryId = Model.MainPost.ForumPostCategories.FirstOrDefault().CategoryId;
     string categoryTitle = Model.MainPost.ForumPostCategories.FirstOrDefault().Category.Title;
+
 }
 
 
@@ -183,8 +184,15 @@
         <h4 class="text-center text-body">Reply Here...</h4>
         <hr>
         <div class="col-md-10 m-auto">
-            <textarea id="tiny" name="Reply"></textarea> @* todo *@
-            <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" />
+            @if (!(bool)(ViewData["IsUserLoggedIn"] ?? false))
+            {
+                <p class="alert alert-warning">請登入後才能回覆</p>
+            }
+            else
+            {
+                <textarea id="tiny" name="Reply"></textarea> @* todo *@
+                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" />
+            }
         </div>
     </div>
 
@@ -250,3 +258,13 @@
             'bullist numlist checklist outdent indent | removeformat | code table help'
     })
 </script>
+
+@section Scripts{
+    <script>
+        var isUserLoggedIn = @((bool)(ViewData["IsUserLoggedIn"] ?? false));
+
+        if (isUserLoggedIn) {
+            document.getElementById("goreply").style.display = "block";
+        }
+    </script>
+}

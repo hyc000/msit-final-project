@@ -99,6 +99,9 @@ namespace WantTask.Controllers
 
         public IActionResult PostView(int? postID)
         {
+            var isUserLoggedIn = HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
+            ViewData["IsUserLoggedIn"] = isUserLoggedIn;
+
             if (postID == null)
                 return RedirectToAction("PostList");
 
@@ -135,10 +138,6 @@ namespace WantTask.Controllers
                     postReplyList.Add(postcomm);
                 }
             }
-
-
-
-
 
             //-----------------------觀看次數-----------------------------
             int viewCount = 0;
