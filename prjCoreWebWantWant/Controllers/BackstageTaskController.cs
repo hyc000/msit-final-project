@@ -230,16 +230,72 @@ namespace WantTask.Controllers
         //}
 
         //jobDetail
-        public async Task<IActionResult>JobDetail(int? id)
+        //public async Task<IActionResult>JobDetail(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //任務地點
+        //    var q = await _context.TaskLists
+        //     .Include(c => c.Town.City).FirstOrDefaultAsync(t => t.CaseId == id);
+
+        //    ////履歷
+        //    //var q2 = await _context.Resumes
+        //    // .Where(a => a.ResumeId == id)
+        //    // .FirstOrDefaultAsync();
+
+        //    //_cexpertresume.resume = (q2 != null) ? q2 : _cexpertresume.resume;
+
+        //    //刊登者姓名
+        //    var qa = await _context.MemberAccounts
+        //        .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
+        //     .FirstOrDefaultAsync();
+
+        //    _CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
+
+        //    //證照
+        //    var qc = await _context.Certificates
+        //        .Include(x => x.TaskCertificates.Where(r => r.CaseId == id))
+        //    .FirstOrDefaultAsync();
+
+        //    _CTaskFrontAndBack.certificate = (qc != null) ? qc : _CTaskFrontAndBack.certificate;
+
+        //    var qct = await _context.CertificateTypes
+        //      .Include(x => x.Certificates)
+        //      .ThenInclude(x => x.TaskCertificates.Where(r => r.CaseId == id))
+        //  .FirstOrDefaultAsync();
+
+        //    _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
+
+        //    //專長
+        //    var qs = await _context.Skills
+        //        .Include(x => x.TaskSkills.Where(r => r.CaseId == id))
+        //    .FirstOrDefaultAsync();
+
+        //    _CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
+
+        //    var qst = await _context.SkillTypes
+        //      .Include(x => x.Skills)
+        //      .ThenInclude(x => x.TaskSkills.Where(r => r.CaseId == id))
+        //  .FirstOrDefaultAsync();
+
+        //    _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
+
+        //    return View(_CTaskFrontAndBack);
+        //}
+
+
+        public IActionResult JobDetail(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
             //任務地點
-            var q = await _context.TaskLists
-             .Include(c => c.Town.City).FirstOrDefaultAsync(t => t.CaseId == id);
- 
+            var q = _context.TaskLists
+             .Include(c => c.Town.City).FirstOrDefault(t => t.CaseId == id);
+
             ////履歷
             //var q2 = await _context.Resumes
             // .Where(a => a.ResumeId == id)
@@ -248,44 +304,42 @@ namespace WantTask.Controllers
             //_cexpertresume.resume = (q2 != null) ? q2 : _cexpertresume.resume;
 
             //刊登者姓名
-            var qa = await _context.MemberAccounts
-                .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
-             .FirstOrDefaultAsync();
+            //var qa =  _context.MemberAccounts
+            //    .Where(x => x.AccountId == _CTaskFrontAndBack.AccountId)
+            // .FirstOrDefault();
 
-            _CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
+            //_CTaskFrontAndBack.memberAccount = (qa != null) ? qa : _CTaskFrontAndBack.memberAccount;
 
             //證照
-            var qc = await _context.Certificates
+            var qc = _context.Certificates
                 .Include(x => x.TaskCertificates.Where(r => r.CaseId == id))
-            .FirstOrDefaultAsync();
+            .FirstOrDefault();
 
-            _CTaskFrontAndBack.certificate = (qc != null) ? qc : _CTaskFrontAndBack.certificate;
+           // _CTaskFrontAndBack.certificate = (qc != null) ? qc : _CTaskFrontAndBack.certificate;
 
-            var qct = await _context.CertificateTypes
+            var qct = _context.CertificateTypes
               .Include(x => x.Certificates)
               .ThenInclude(x => x.TaskCertificates.Where(r => r.CaseId == id))
-          .FirstOrDefaultAsync();
+          .FirstOrDefault();
 
-            _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
+           // _CTaskFrontAndBack.certificateType = (qct != null) ? qct : _CTaskFrontAndBack.certificateType;
 
             //專長
-            var qs = await _context.Skills
+            var qs = _context.Skills
                 .Include(x => x.TaskSkills.Where(r => r.CaseId == id))
-            .FirstOrDefaultAsync();
+            .FirstOrDefault();
 
-            _CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
+            //_CTaskFrontAndBack.skill = (qs != null) ? qs : _CTaskFrontAndBack.skill;
 
-            var qst = await _context.SkillTypes
+            var qst =  _context.SkillTypes
               .Include(x => x.Skills)
               .ThenInclude(x => x.TaskSkills.Where(r => r.CaseId == id))
-          .FirstOrDefaultAsync();
+          .FirstOrDefault();
 
-            _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
+          //  _CTaskFrontAndBack.skillType = (qst != null) ? qst : _CTaskFrontAndBack.skillType;
 
             return View(_CTaskFrontAndBack);
         }
-
-
 
         #endregion
 
