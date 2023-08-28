@@ -11,5 +11,7 @@ public partial class TaskPhoto
 
     public byte[]? Photo { get; set; }
 
+    public string? PhotoPath { get; set; }
+
     public virtual TaskList Case { get; set; } = null!;
 }

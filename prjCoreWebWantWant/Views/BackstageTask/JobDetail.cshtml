@@ -43,6 +43,11 @@
     <!-- <body data-layout="horizontal"> -->
     <!-- Begin page -->
     <div id="layout-wrapper">
+        @{
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+        }
+        <img src="@Url.Content(q)" />
 
         <div class="main-content">
            
