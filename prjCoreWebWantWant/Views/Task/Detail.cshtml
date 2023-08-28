@@ -5,6 +5,7 @@
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout_Task.cshtml";
 }
+
 <head>
     <title> Map an Address</title>
     <script src="~/Scripts/jquery-1.6.4.min.js" type="text/javascript"> </script>
@@ -19,7 +20,7 @@
         }
 
             .enlarge-on-hover:hover {
-                transform: scale(1.5);
+                transform: scale(1.2);
             }
 
 
@@ -103,8 +104,8 @@
                                 </h4>
                             </div>
                             <ul>
-                                <li></li>
-                                <li></li>                                
+                                @*<li></li>
+                                <li></li>        *@                        
                             </ul>
                         </div>
 
@@ -125,7 +126,7 @@
                                         </h4>
                                     </div>
                                     <div class="image-container">
-                                        <img src="@Url.Content(q)" style="height:300px ; width:300px" alt="Image" class="enlarge-on-hover" />
+                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="Image" class="enlarge-on-hover" />
                                  </div>
                             
                                 
@@ -209,9 +210,9 @@
                         </div>                     
                         <p></p>
                         <ul>
-                            <li>刊登案主：<span>@Model.AccountId</span></li>
-                            <li>Web : <span> bb</span></li>
-                            <li>Email: <span>cc</span></li>
+                            <li>刊登案主：<span>@*@Model.AccountId*@ 林小姐</span></li>
+                            <li>Email：<span>want@want.com</span></li>
+                        @*    <li> <span>cc</span></li>*@
                         </ul>
                     </div>
 

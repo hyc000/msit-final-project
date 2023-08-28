@@ -31,9 +31,27 @@
             color: #fff;
         }
 
+    
+
         #Back:hover{
             background-color: #528EAF;
         }
+
+           .image-container {
+            display: inline-block;
+        }
+
+        .enlarge-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+            .enlarge-on-hover:hover {
+                transform: scale(1.2);
+            }
+
+
+
+
 
     </style>
 </head>
@@ -216,7 +234,7 @@
                                                             <!-- 照片 -->
                                                         @{
                                                             NewIspanProjectContext db = new NewIspanProjectContext();
-                                                            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+                                                            var q = db.TaskLists.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
                                                         }
                                                         @{
                                                             if (q != null)
@@ -244,9 +262,9 @@
                                                                                     </a>
                                                                                 </div>*@
                                                                         @*    }*@
-
-                                                                            <img src="@Url.Content(q)" style="height:100px ; width:100px" />
-
+                                                                          <div class="image-container">
+                                                                            <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="Image" class="enlarge-on-hover" />
+                                                                                     </div>
                                                                             @*</div>*@
                                                                         </div>
 

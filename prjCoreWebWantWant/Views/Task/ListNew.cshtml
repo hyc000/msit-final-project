@@ -231,7 +231,7 @@
             </div>
             
 
-            @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+           @* @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
             @{
                 string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
@@ -242,7 +242,7 @@
                 var q2 = from mc in _context.MemberCollections
                                 where mc.AccountId == id && mc.CaseId!=null
                                 select mc.CaseId;
-            }
+            }*@
 
 
             <!--card工作列表-->
@@ -297,8 +297,9 @@
                             <div class="card-body col-md-3 d-flex flex-column justify-content-end">
                                 @*<a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>*@
                                 <a href="@Url.Action("Detail", new { id=item.CaseId })" target="_blank" class="btn btn-outline-primary">詳細資訊</a>
-
-                                @foreach(var item1 in q2)  @*怪怪的*@
+                              
+                                @*怪怪的*@
+                               @* @foreach(var item1 in q2)  
                                 {
                                     if (item1.HasValue)
                                     {
@@ -308,7 +309,7 @@
                                     {
                                         <a href="@Url.Content("~/Backstage/AddCollection")?id=@item.CaseId" class="btn btn-outline-primary">收藏工作</a>
                                     }
-                                }
+                                }*@
                             </div>
 
                             <div class="row">
