@@ -29,14 +29,20 @@ namespace prjCoreWebWantWant.Controllers
 
         #region 歷史委託
         // GET: ExpertTask
-        public async Task<IActionResult> ExpertList() //歷史委託
-        {
-            var newIspanProjectContext = _context.TaskLists.Include(t => t.Payment).Include(t => t.PaymentDate).Include(t => t.Salary).Include(t => t.Town);
-            return View(await newIspanProjectContext.ToListAsync());
-        }
+        //public async Task<IActionResult> ExpertList() //歷史委託
+        //{
+        //    var newIspanProjectContext = _context.TaskLists.Include(t => t.Payment).Include(t => t.PaymentDate).Include(t => t.Salary).Include(t => t.Town);
+        //    return View(await newIspanProjectContext.ToListAsync());
+        //}
 
         public IActionResult ExpertListnew() //歷史委託
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             CExpertTaskListViewModel vw = new CExpertTaskListViewModel();
             CExperTaskFactory factory = new CExperTaskFactory(_context);
             
@@ -45,34 +51,46 @@ namespace prjCoreWebWantWant.Controllers
             //mytasking
             //CaseId:15=專家尚未確認，17=專家案件進行中
             var q1 = _context.TaskLists
-                .Include(b=>b.ExpertApplications)
-                .Where(x => x.IsExpert == true && (x.CaseStatusId == 15 || x.CaseStatusId == 17) && x.ExpertApplications.Any(y=>y.AccountId== _memberID))
-                .OrderBy(x=>x.TaskEndDate)
-                .ToList();
-            foreach(var item in q1)
+     .Include(b => b.ExpertApplications)
+     .Where(x => x.IsExpert == true && x.ExpertApplications.Any(y => y.AccountId == _memberID && (y.CaseStatusId == 15 || y.CaseStatusId == 17)))
+     .OrderBy(x => x.TaskEndDate)
+     .Select(x => new
+     {
+         TaskList = x,
+         ExpertApplications = x.ExpertApplications
+                              .Where(ea => ea.AccountId == _memberID && (ea.CaseStatusId == 15 || ea.CaseStatusId == 17))
+                              .Select(ea => new { ea.CaseStatusId ,ea.AccountId})
+     })
+     .ToList();
+            foreach (var item in q1)
             {
                 cexperttask = new CExpertTaskViewModel();
-                foreach (var application in item.ExpertApplications)
+                var taskList = item.TaskList;
+                foreach (var expertApplication in item.ExpertApplications)
                 {
-                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                    cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
+                    // 使用上述的變數進行其他操作
                 }
-                cexperttask.taskexpert = factory.MemberName(item.AccountId);
-                cexperttask.caseid = item.CaseId;
-                if (item.TaskDetail.Length>20) {
-                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+               
+                cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.caseid = taskList.CaseId;
+                if (taskList.TaskDetail.Length>20) {
+                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
                 }
                 else
                 {
-                    cexperttask.taskcontent = item.TaskDetail;
+                    cexperttask.taskcontent = taskList.TaskDetail;
                 }
                     
-                cexperttask.taskdatestart = item.TaskStartDate;
-                cexperttask.taskdateend = item.TaskEndDate;
-                cexperttask.taskprice = item.PayFrom;
-                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                cexperttask.taskdatestart = taskList.TaskStartDate;
+                cexperttask.taskdateend = taskList.TaskEndDate;
+                cexperttask.taskprice = taskList.PayFrom;
+                
                 list.Add(cexperttask);
             }
             vw.mytasking=list;
+            //下面要重改QQQQQQQQ
             //===============================================================
             
             List<CExpertTaskViewModel> list2 = new List<CExpertTaskViewModel>();
@@ -343,6 +361,7 @@ namespace prjCoreWebWantWant.Controllers
                 if(vm.委託工作地點 == "在家工作")
                 {
                     tasklist.WorkPlace = true;
+                    tasklist.Address = "無";
                 }
                 else if (vm.委託工作地點 == "指定地點工作")
                 {
@@ -350,30 +369,24 @@ namespace prjCoreWebWantWant.Controllers
                     tasklist.Address = vm.指定委託地點;
                 }
 
-                if (vm.委託時間訖 ==null)
-                {
-                    tasklist.TaskStartDate = vm.委託時間起;
-                    tasklist.TaskEndDate = vm.委託時間起;
-                }
-                else
-                {
+            
                     tasklist.TaskStartDate = vm.委託時間起;
                     tasklist.TaskEndDate = vm.委託時間訖;
-                }
+               
                 DateTime date= DateTime.Now;
                 tasklist.DataCreateDate = date.ToString();
                 //tasklist.CaseStatusId = 15;//
                 tasklist.IsExpert = true;
-                _context.Add(tasklist);
+                _context.TaskLists.Add(tasklist);
                 await _context.SaveChangesAsync();
                 int taskid = tasklist.CaseId;
 
                 ExpertApplication ea=new ExpertApplication();
                 ea.CaseId = taskid;
-                ea.AccountId = _memberID;
+                ea.AccountId = factory.MemberID(vm.委託人);
                 ea.CaseStatusId = 15;  //專家尚未確認
                 ea.ExpertAccountId= factory.MemberID(vm.被委託人);
-                _context.Add(ea);
+                _context.ExpertApplications.Add(ea);
                 await _context.SaveChangesAsync();
 
 
@@ -381,16 +394,15 @@ namespace prjCoreWebWantWant.Controllers
                
                 return RedirectToAction("ExpertMainPage", "Expert");
             }
-            ViewBag.Error = "";
-            foreach (var key in ModelState.Keys)
-            {
-                var errors = ModelState[key].Errors;
-                foreach (var error in errors)
-                {
-                    ViewBag.Error += error+"///";
-                }
-            }
+            var errors = ModelState.Select(x => x.Value.Errors)
+                        .Where(y => y.Count > 0)
+                        .ToList();
 
+            foreach(var item in errors)
+            {
+                vm.委託內容 += item;
+            }
+           
             return View(vm);
         }
 
@@ -472,7 +484,7 @@ namespace prjCoreWebWantWant.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(ExpertList));
+                return RedirectToAction(nameof(ExpertListnew));
             }
             ViewData["PaymentId"] = new SelectList(_context.Payments, "PaymentId", "PaymentId", taskList.PaymentId);
             ViewData["PaymentDateId"] = new SelectList(_context.PaymentDates, "PaymentDateId", "PaymentDateId", taskList.PaymentDateId);

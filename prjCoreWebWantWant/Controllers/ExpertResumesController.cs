@@ -103,6 +103,9 @@ namespace prjCoreWebWantWant.Controllers
                 .Include(x => x.ResumeSkills.Where(r => r.ResumeId == id))
             .FirstOrDefaultAsync();
 
+         
+
+
             _cexpertresume.skill = (qs != null) ? qs : _cexpertresume.skill;
 
             var qst = await _context.SkillTypes
@@ -249,7 +252,7 @@ namespace prjCoreWebWantWant.Controllers
                 ResumeTitle = vm.履歷標題
             };
 
-            _context.Add(resume);
+            _context.Resumes.Add(resume);
             await _context.SaveChangesAsync();
             return resume.ResumeId;
         }
@@ -265,7 +268,7 @@ namespace prjCoreWebWantWant.Controllers
                         SkillId = skillId.Value,
                         ResumeId = newResumeId
                     };
-                    _context.Add(resumeskill);
+                    _context.ResumeSkills.Add(resumeskill);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -286,7 +289,7 @@ namespace prjCoreWebWantWant.Controllers
                         CertificateId = certificateId.Value,
                         ResumeId = newResumeId
                     };
-                    _context.Add(resumecertificate);
+                    _context.ResumeCertificates.Add(resumecertificate);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -309,7 +312,7 @@ namespace prjCoreWebWantWant.Controllers
                 Problem = vm.常見問題,
                 CommonPrice = vm.基本價格
             };
-            _context.Add(expertresume);
+            _context.ExpertResumes.Add(expertresume);
             await _context.SaveChangesAsync();
         }
 
@@ -325,7 +328,7 @@ namespace prjCoreWebWantWant.Controllers
                     DataCreateDate = dataCreateDate,
                     // WorkTitle =vm.作品名
                 };
-                _context.Add(expertwork);
+                _context.ExpertWorks.Add(expertwork);
                 await _context.SaveChangesAsync();
 
                 return expertwork.WorksId;
@@ -341,7 +344,7 @@ namespace prjCoreWebWantWant.Controllers
                 WorksId = newexpertworkId,
                 ResumeId = newResumeId
             };
-            _context.Add(expertworklist);
+            _context.ExpertWorkLists.Add(expertworklist);
             await _context.SaveChangesAsync();
         }
 
