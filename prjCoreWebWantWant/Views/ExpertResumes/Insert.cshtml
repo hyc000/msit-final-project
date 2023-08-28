@@ -1,12 +1,21 @@
 ﻿@model prjCoreWebWantWant.ViewModels.CExpertResumesViewModel
 
 @{
-    ViewData["Title"] = "Insert";
+    ViewData["Title"] = "新增履歷";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
-<h3>新增履歷</h3>
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item">專家履歷管理</li>
 
-<hr />
+            <li class="breadcrumb-item " aria-current="page">新增專家履歷</li>
 
+        </ol>
+    </nav>
+}
 <form asp-action="Insert" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="container-fluid pt-4 px-4">

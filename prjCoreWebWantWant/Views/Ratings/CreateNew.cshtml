@@ -4,12 +4,18 @@
     ViewData["Title"] = "評價";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item">專家成案紀錄管理</li>
 
-<h1>評價</h1>
-<hr />
-
-
-
+            <li class="breadcrumb-item " aria-current="page">新增評分</li>
+           
+        </ol>
+    </nav>
+}
 
 <div class="row">
     <div class="col-md-4">

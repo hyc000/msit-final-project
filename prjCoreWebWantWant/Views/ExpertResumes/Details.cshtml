@@ -32,11 +32,13 @@
                     <div class="bg-expertdetail me-md-3 p-3 p-md-5text-center overflow-hidden">
                         <div class="m-3 p-4 ">
                              <h2 class="display-5">@Html.DisplayFor(model =>model.memberAccount.Name)
-                            <a >
+                            @*<a >
                                 <i class="fa-solid fa-comment-dots" style="color: #62779d;"></i>
-                                <span class="lead pt-3">聯繫專家</span>
-                            </a>
-                             </h2>
+                                
+                            </a>*@
+                            <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.memberAccount.AccountId })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
+                            <span class="lead pt-3">聯繫專家</span>
+                        </h2>
                       
                         
                               <p id="star"></p>
@@ -200,13 +202,14 @@
                         data => {
                         const datadiv = "";
                         data.forEach(item => {
-                        datadiv = `<div>
-                                <h3>${item.評論者名字}</h3><p >${item.分數}</p>
-                                    <p class="lead pt-3">${item.評論}</p>
-                                    </div>`;
+                       
                             score += item.分數;
                             count = item.筆數;
                              console.log(score);
+                        datadiv = `<div class="border border-primary">
+                                        <h3>${item.評論者名字}</h3><p >${item.分數}</p>
+                                            <p class="lead pt-3">${item.評論}</p>
+                                            </div>`;
                         });
 
 
