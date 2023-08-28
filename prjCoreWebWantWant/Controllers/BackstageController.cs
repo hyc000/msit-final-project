@@ -124,21 +124,39 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             if (id == null)
                 return RedirectToAction("ResumeList");
-            Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+            //Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+
+            Resume resume = _context.Resumes
+                            .Include(t => t.Town.City)
+                            .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22)
+                            .FirstOrDefault(p => p.ResumeId == id);
             if (resume == null)
                 return RedirectToAction("ResumeList");
             return View(resume);
         }
 
         [HttpPost]
-        public IActionResult ResumeEdit(Resume pIn)
+        public IActionResult ResumeEdit(Resume pIn,int selectedTownId, IFormFile imageFile)
         {
             Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == pIn.ResumeId);
             if (resume != null)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    string filePath = Path.Combine(_host.WebRootPath, "Backstage", "img", imageFile.FileName);
+                    //var imagePath = "~/Backstage/img/" + Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                    string imagePath = "/Backstage/img/" + imageFile.FileName;
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(fileStream);
+                    }
+
+                    resume.PhotoPath = imagePath;
+                }
+                resume.TownId = selectedTownId;
                 resume.Autobiography = pIn.Autobiography;
                 resume.Address = pIn.Address;
-                //resume.AccountId = pIn.AccountId;
                 resume.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                 _context.SaveChanges();
             }
