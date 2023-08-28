@@ -132,13 +132,13 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Apply(int id)
-        {
-            // 根據id執行必要的操作，獲取數據等
+        //public ActionResult Apply(int id)
+        //{
+        //    // 根據id執行必要的操作，獲取數據等
 
-            // 返回 apply.cshtml 視圖
-            return View("Apply");
-        }
+        //    // 返回 apply.cshtml 視圖
+        //    return View("Apply");
+        //}
 
 
         public IActionResult Partial(string Category,CKeywordViewModel vm)
@@ -198,6 +198,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
             return PartialView(q);
+        }
+
+        public IActionResult Apply(int? resumeId, int? caseId)
+        {
+            ApplicationList applicationList = new ApplicationList()
+            {
+                ResumeId = resumeId,        //todo 還沒抓到履歷id(多履歷的問題)
+                CaseId = caseId,
+                CaseStatusId = 21,
+                ApplicationDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+            };
+            _context.Add(applicationList);
+            _context.SaveChanges(true);
+            return RedirectToAction("ListNew");
         }
 
 
