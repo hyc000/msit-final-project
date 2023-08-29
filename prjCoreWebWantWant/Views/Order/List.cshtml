@@ -261,7 +261,12 @@
 
             // 生成当前日期时间字符串
             var currentDate = new Date();
-            var dateTimeString = currentDate.toISOString().replace(/[-T:.Z]/g, '');
+
+            // 设置时区为台湾时间
+            currentDate.setUTCHours(currentDate.getUTCHours() + 8);
+
+            var dateTimeString = currentDate.toISOString().replace(/[-T:.Z]/g, '').substring(0, 14);
+
 
             var fileName = '訂單列表_' + dateTimeString + '.xlsx';
 
