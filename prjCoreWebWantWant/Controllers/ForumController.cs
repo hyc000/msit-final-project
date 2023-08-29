@@ -212,7 +212,7 @@ namespace WantTask.Controllers
                 _db.SaveChanges();
 
                 int categoryId = 0;
-                int.TryParse(Request.Query["categoryId"], out categoryId);
+                int.TryParse(Request.Query["id"], out categoryId);
 
                 ForumPostCategory category = new ForumPostCategory();
                 category.PostId = x.PostId;
