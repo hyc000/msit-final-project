@@ -384,7 +384,7 @@
                                                 {
 
                                                     <td style="width: 100px;">
-                                                        <a href="@Url.Action("CreateNew","Ratings",  new { id = item.caseid })"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+                                                        <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
 
                                                     </td>
                                                 }
