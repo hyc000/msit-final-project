@@ -76,12 +76,7 @@
                         <p class="lead pt-3">介紹：</p>
                         <p class="lead pt-3 container-fluid">
                                 @Html.DisplayFor(model => model.expertResume.Introduction)
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
-                            瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜瓜
+                         
                         </p>
 
                                 <span class="lead me-md-3">收費方式:</span>
@@ -312,31 +307,37 @@
                 let picturebox = "";
                 for (let i = 0; i < data.length; i++) {
                     const picturename = data[i].作品名;
-                    const picturedate = data[i].作品日期;
+                    const picturedate = data[i].作品日期.substring(0,10)+"建立";
                     const imageData = data[i].作品照片;
                     const blob = new Blob([imageData], { type: 'image/jpeg' });
-                    const img = new Image();
-                    img.src = URL.createObjectURL(blob); // 使用 Blob 的 URL
-                    img.classList.add("img-fluid");
-               
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    console.log(picturename);
+                    console.log(picturedate);
+                    console.log(blobUrl);
 
                     picturebox +=
-                        `<div style="display:block; position:absolute;" class="py-2">
-                                    <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%">
-                                        <p style="position:relative;top:0px;right:1px; height:30px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
-                                                <img src="${URL.createObjectURL(blob)}" class="card-img-top px-3 m-auto" style="border-radius:10px; display:block; height:350px;width:350px" alt="...">
-                                        <div style="display:block;">
-                                            <h2 class="text-center m-4">${picturename}</h2>
-                                            <h4 class="text-center m-4">${picturedate}</h4>
-                                        </div>
-                                    </button>
-                                </div>`
+                        `
+                            <div style="display:block; position:relative;" class="py-2">
+                        <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border:none; height:100%;margin: 0px -5px;">
+                            <p style="position:relative;top:0px;right:1px; height:30px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
+                            <img src="${blobUrl}" class="card-img-top m-auto img-fluid" style="border-radius:10px; display:block; height:350px;width:320px" alt="...">
+                            <div style="display:block;">
+                                <h2 class="text-center m-4">${picturename}</h2>
+                                <h4 class="text-center m-4">${picturedate}</h4>
+                            </div>
+                        </button>
+                    </div>`;
+                                
 
-                };
-             
+                }
+
+               
 
                // worklist.innerHTML = picturebox;
-
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
             });
         //================================================作品集原本跑馬燈
         // function load() {

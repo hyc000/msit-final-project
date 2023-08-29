@@ -66,8 +66,14 @@
            
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="container-fluid d-flex justify-content-end">
+                    <div class="row">
+                  @*  <div class="container-fluid d-flex justify-content-end">*@
+                        <a class="btn btn-outline-secondary" href="@Url.Content("~/BackstageTask/Edit")?id=@Model.CaseId" id="edit">修改</a>
+              @*      </div>*@
+
+                  @*  <div class="container-fluid d-flex justify-content-end">*@
                     <a class="btn btn-outline-secondary" id="Back">返回上一頁</a>
+                  @*  </div>*@
                     </div>
                     <p></p>
                     <div class="row">
@@ -93,8 +99,10 @@
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                                                 <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>
                                                                                 @*<img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>*@
-                                                                                <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</h2>
+                                                                                <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</>
+                                                                                <img src="~/backstage1/img/clock.png" style="height:25px ;width:25px">@Model.TaskStartHour</>
                                                                                 <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Html.DisplayFor(model =>model.PayFrom)</>
+                                                                                <img src="~/backstage1/img/user.png" style="height:25px ;width:25px">@Model.RequiredNum</>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

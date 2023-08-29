@@ -7,8 +7,6 @@
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
-
-
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
@@ -51,9 +49,9 @@
 <body>
 
 @*Demo鍵*@
-   @* <div class="mb-3 px-4">
+    <div class="mb-3 px-4">
         <button class="btn btn-outline-primary" id="CreateDemo">Demo</button>
-    </div>*@
+    </div>
 
     <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -135,13 +133,13 @@
                     <div class="bg-light rounded h-100 p-4">
                         <h3 class="mb-4" style="color:#528EAF; text-align:center;">任務地點</h3>
                    
-                        <div class="form-check form-check-inline">
+                        <div class="form-check form-check-inline" style="display:none;">
                             <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioHome"
                                    value="option1">
                             <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
                         </div>
 
-                        <div class="form-check form-check-inline">
+                        <div class="form-check form-check-inline" style="display:none;">
                             <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioOtherPlace"
                                    value="option2">
                             <label class="form-check-label" for="inlineRadioOtherPlace">指定地點</label>
@@ -404,6 +402,7 @@
     </div>
     *@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 @section Scripts {    
@@ -411,7 +410,8 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");   
         }
 
-       <script>      
+       <script>     
+
         //任務類型
         const SelTaskName = document.querySelector('#SelTaskName');
         const hiddenTaskNameIdInput = document.querySelector('#hiddenTaskNameIdInput');
@@ -619,39 +619,8 @@
             getTownId();
         });
 
-
-        //在家兼職和指定地點的radio，點選指定地點才能選擇縣市地址
-        const inlineRadioHome = document.getElementById("inlineRadioHome");
-        const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const inlineRadioHome = document.getElementById("inlineRadioHome");
-            const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
-            const selCity = document.getElementById("selCity");
-            const selTown = document.getElementById("selTown");
-            const addressInput = document.getElementById("Address");
-
-            selCity.disabled = true;
-            selTown.disabled = true;
-            addressInput.disabled = true;
-
-            function updateFieldsAvailability() {
-                if (inlineRadioHome.checked) {
-                    selCity.disabled = true;
-                    selTown.disabled = true;
-                    addressInput.disabled = true;
-                } else if (inlineRadioOtherPlace.checked) {
-                    selCity.disabled = false;
-                    selTown.disabled = false;
-                    addressInput.disabled = false;
-                }
-            }
-
-            inlineRadioHome.addEventListener("change", updateFieldsAvailability);
-            inlineRadioOtherPlace.addEventListener("change", updateFieldsAvailability);
-
-            updateFieldsAvailability(); // 初始狀態
-        });
+       
+      
 
         //開始結束日期時間防呆，開始不能小於今天，結束不能小於開始
         const taskStartDateInput = document.getElementById("taskStartDate");
@@ -762,7 +731,7 @@
 
 
         //demo鍵
-    /*    const CreateDemo = document.querySelector('#CreateDemo');
+        const CreateDemo = document.querySelector('#CreateDemo');
         const txtTaskTitle = document.querySelector('#txtTaskTitle');
         const txtTaskDetail = document.querySelector('#txtTaskDetail');
         const txtRequiredNum = document.querySelector('#txtRequiredNum');
@@ -774,15 +743,16 @@
 
         CreateDemo.addEventListener('click', () => {
             txtTaskTitle.value = "雙十連假幫忙顧貓"
-            txtTaskDetail.value = "【照顧需求】： 一隻貓咪
-                        【注意事項】：每次約半小時，需要餵貓、陪貓玩、一天鏟一次貓砂，有養貓經驗、愛貓為佳（10 / 7晚上一次 + 10 / 8白天一次晚上一次 + 10 / 9白天一次共來四次）四次共400元"
+            txtTaskDetail.value = "【照顧需求】： 一隻貓咪【注意事項】：每次約半小時，需要餵貓、陪貓玩、一天鏟一次貓砂，有養貓經驗、愛貓為佳（10 / 7晚上一次 + 10 / 8白天一次晚上一次 + 10 / 9白天一次共來四次）四次共400元"
             txtRequiredNum.value = "1"
-            taskStartHour.value = "10/7晚上一次+10/8白天一次晚上一次"
+            taskStartHour.value = "10/8白天一次晚上一次"
             taskEndHour.value = "10/9白天一次共來四次"
             txtPayFrom.value = "400"
-            txtPayTo.value = ""
-            txtAddress.value = "桃園市龜山區中華街一段34巷"
-        })*/
+            txtPayTo.value = "400"
+            txtAddress.value = "中華街一段34巷"
+        })
+
+
 
     </script>
 }

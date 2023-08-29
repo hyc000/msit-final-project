@@ -224,7 +224,7 @@
                         <div class="bg-light rounded h-100 p-4">
                     <div class="bg-light rounded h-100 p-4  d-flex justify-content-center align-items-center">
                                 <div class="form-group">
-                            <input type="submit" value="送出並新增" class="btn btn-outline-success" />
+                            <input type="submit" value="送出並新增" class="btn btn-outline-success"id="New"/>
                             <a asp-action="ResumeList" class="btn btn-outline-secondary" id="Cancel">取消並返回</a>
                                 </div>
                            </div>
@@ -628,6 +628,8 @@
                 // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(selectedFile);
+                const New = document.querySelector('#New');
+                New.disabled = false;
                /*  img.style.maxWidth = '100%';
                 img.style.height = 'auto'; */
 
@@ -645,6 +647,11 @@
                 const photoError = document.getElementById('photoError');
                 photoError.textContent = '請選擇有效的圖片檔案。';
                 photoPreview.innerHTML = '';
+
+                const New = document.querySelector('#New');
+                New.disabled = true;
+                /* New.style.backgroundColor = 'red'; */
+                /* New.textContent = '請選擇正確的圖片'; */
             }
         } else {
             // 如果未選擇檔案，清空預覽元素
@@ -664,9 +671,9 @@
         Autobiography.value = '我是一名充滿熱情和專業知識的金融業專業人士，熱切地追求在這個挑戰性和動態的領域中發展和貢獻。從我開始學習金融知識的那一刻起，我就深深被這個領域的複雜性和影響力所吸引，並始終保持著學習和成長的態度。我在大學主修金融學，並在學業過程中獲得了紮實的理論基礎。我的學習重點包括投資管理、財務分析和風險管理等領域，這些知識讓我深入了解了金融市場的運作和機制。我在學校內外積極參與金融相關的社團和比賽，並在模擬交易比賽中表現優異，進一步鞏固了我的金融知識和實踐技能。 畢業後，我進入了一家知名的金融公司擔任金融分析師。在這個角色中，我負責評估公司的財務狀況、分析市場趨勢並提供投資建議。我運用數據分析技能，幫助客戶做出明智的投資決策，同時也與團隊密切合作，確保我們的投資策略與市場保持同步。我的工作經驗使我更加確信，金融業是一個需要不斷學習和適應的領域。我定期關注國際金融新聞，參加行業研討會和培訓課程，以保持對市場的深刻理解和洞察力。我也意識到了風險管理的重要性，並積極參與風險管理工作，以確保投資的穩健性。我對金融業的熱情和專業知識，以及對持續學習和自我提升的承諾，使我有信心能夠為貴公司帶來價值。我渴望加入您的團隊，與優秀的同事共同努力，推動金融領域的發展。謝謝您撥冗考慮我的申請。'
         ResumeTitle.value = '金融業';
         Address.value = '復興南路一段390號3樓';
-        selCity.selectedIndex = 19;
+       /*  selCity.selectedIndex = 19;
         selTown.selectedIndex = 2;
-        hiddenTownIdInput.value = 5;
+        hiddenTownIdInput.value = 5; */
 
 
        /* SelSkillBigOne.selectedIndex = 3;

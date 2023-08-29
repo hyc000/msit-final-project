@@ -100,29 +100,17 @@
 
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                                                @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>*@
-
+                                                                                 
                                                                                 <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">
                                                                                     @Model.Town.City.City1 @Model.Town.Town1
-
-                                                                                    <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
-                                                                                    <div class="form-floating mb-3">
-                                                                                        <select class="form-select" id="selCity">
-                                                                                            <option></option>
-                                                                                        </select>
-                                                                                        <label for="floatingSelectCity">請選擇縣市</label>
-                                                                                    </div>
-                                                                                    <div class="form-floating mb-3">
-                                                                                        <select class="form-select" id="selTown">
-                                                                                            <option></option>
-                                                                                        </select>
-                                                                                        <label for="floatingSelectTown">請選擇區域</label>
-                                                                                    </div>
+                                                                                    
+                                                                                  
                                                                                     @*<div class="form-group">
                                                                                         <label asp-for="Address" class="control-label"></label>
                                                                                         <input asp-for="Address" class="form-control" />
                                                                                         <span asp-validation-for="Address" class="text-danger"></span>
                                                                                     </div>*@
-                                                                                </>
+                                                                                    </>
 
 
 
@@ -137,7 +125,13 @@
                                                                                     </div>
                                                                                     </>
 
-
+                                                                                    <img src="~/backstage1/img/clock.png" style="height:25px ;width:25px">
+                                                                                    <div class="form-group">
+                                                                                    <label asp-for="TaskStartHour" class="control-label" style="display: none;"></label>
+                                                                                    <input asp-for="TaskStartHour" class="form-control" style="width:110px;" />
+                                                                                    <span asp-validation-for="TaskStartHour" class="text-danger"></span>
+                                                                                    </div>                                                                                    
+                                                                                    </>
 
                                                                                @* <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px">@Html.DisplayFor(model =>model.PayFrom)</>*@
 
@@ -145,11 +139,32 @@
                                                                                     <img src="~/backstage1/img/save-money.png" style="height:20px ;width:20px"> 
                                                                                     <div class="form-group">
                                                                                         <label asp-for="PayFrom" class="control-label" style="display: none;"></label>
-                                                                                        <input asp-for="PayFrom" class="form-control" />
+                                                                                        <input asp-for="PayFrom" class="form-control" style="width:100px;" />
                                                                                         <span asp-validation-for="PayFrom" class="text-danger"></span>
                                                                                     </div>
                                                                                     </>
 
+                                                                                    <img src="~/backstage1/img/user.png" style="height:25px ;width:25px">
+                                                                                    <div class="form-group">
+                                                                                    <label asp-for="RequiredNum" class="control-label" style="display: none;"></label>
+                                                                                        <input asp-for="RequiredNum" class="form-control" style="width:100px;"/>
+                                                                                    <span asp-validation-for="RequiredNum" class="text-danger"></span>
+                                                                                    </div>
+                                                                                    </>
+
+                                                                                    <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selCity">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectCity">請選擇縣市</label>
+                                                                                    </div>
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selTown">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectTown">請選擇區域</label>
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -182,7 +197,7 @@
 
                                                                                                 <div class="form-group">
                                                                                                     <label asp-for="TaskDetail" class="control-label" style="display: none;"></label>
-                                                                                                    <textarea asp-for="TaskDetail" class="form-control" style="height:100px;resize:none" />
+                                                                                                    <textarea asp-for="TaskDetail" class="form-control" style="height:100px;resize:none" ></textarea>
                                                                                                     <span asp-validation-for="TaskDetail" class="text-danger"></span>
                                                                                                 </div>
 
