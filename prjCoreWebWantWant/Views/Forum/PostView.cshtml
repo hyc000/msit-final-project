@@ -180,28 +180,31 @@
 }
 
 
-    <div class="form-group my-5" id="goreply">
+
         <h4 class="text-center text-body">Reply Here...</h4>
         <hr>
         <div class="col-md-10 m-auto">
-            @if (!(bool)(ViewData["IsUserLoggedIn"] ?? false))
+            @if ((bool)ViewData["IsUserLoggedIn"])
+            {    
+                <form enctype="multipart/form-data" class="form-group my-5" id="goreply">
+                <textarea id="tiny" name="PostContent"></textarea>
+                <input type="hidden" name="ParentId" id="ParentId" value="@Model.MainPost.PostId" />
+                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" id="submitReply"/>
+                </form>
+            }
+            else
             {
                 <p class="alert alert-primary text-center">
                     請先登入以進行回覆
                     <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
                 </p>
-                
-
-            }
-            else
-            {
-                <textarea id="tiny" name="Reply"></textarea> @* todo *@
-                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" />
             }
         </div>
-    </div>
 
 
+
+
+    
 
     <p class="text-center my-5">
     @Html.ActionLink("回上一頁", "PostList", "Forum", new { categoryId = categoryId }, null)
@@ -271,5 +274,32 @@
         if (isUserLoggedIn) {
             document.getElementById("goreply").style.display = "block";
         }
+
+            $(document).ready(function () {
+            $('#goreply').submit(function (event) {
+                    event.preventDefault(); // 阻止默認的表單提交行為
+
+                const formData = new FormData(this);
+                //formData.append('PostContent', $('#tiny').val());
+                //formData.append('ParentId', $('#ParentId').val());
+                fetch('@Url.Content("~/ForumApi/PostReply")', {
+                        method: 'POST',
+                    body: formData,
+                    })
+                        .then(response => response.json()) // 解析 JSON 響應
+                        .then(data => {
+                            if (data.success) {
+                                alert("新增成功");
+                                location.reload(); // 重新載入頁面，或執行您想要的操作
+                            } else {
+                                alert("有錯誤!!");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("發生錯誤:", error);
+                            alert("發生錯誤，請查看控制台");
+                        });
+                });
+            });
     </script>
 }

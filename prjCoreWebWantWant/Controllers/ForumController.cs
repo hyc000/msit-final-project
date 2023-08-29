@@ -99,6 +99,8 @@ namespace WantTask.Controllers
 
         public IActionResult PostView(int? id)
         {
+            
+            ViewBag.nowLogginId = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
 
             var isUserLoggedIn = HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
             ViewData["IsUserLoggedIn"] = isUserLoggedIn;
