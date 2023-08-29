@@ -183,7 +183,7 @@
                             </a>
                         </li>
                         @{
-                            NewIspanProjectContext db = new NewIspanProjectContext();
+                            NewIspanProjectContext db3 = new NewIspanProjectContext();
                             var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null);
                             var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21);                                 
                        
