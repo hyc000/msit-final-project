@@ -270,13 +270,17 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <input type="hidden" id="hiddenPhotoInput" name="selectedPhoto" />
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-4 col-sm-6">
                                                                             <div class="image-container">
                                                                                 <img src="@Url.Content(Model.PhotoPath)" style="height:200px ; width:200px" alt="目前沒有照片，趕快新增吧" class="enlarge-on-hover" />
-                                                                                    <input class="form-control" type="file" id="formFile" name="imageFile" asp-for="Photo">
-                                                                              </div>
+                                                                                <input class="form-control" type="file" id="photoInput" name="imageFile" asp-for="Photo">
+                                                                                <span id="photoError" class="text-danger"></span>
+                                                                                <div id="photoPreview"></div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -296,7 +300,7 @@
                                                             <div class="row  justify-content-center">
                                                                 <div class="d-flex justify-content-center gap-0">
                                                             <div class="form-group">
-                                                                <input type="submit" value="儲存" class="btn btn-outline-info"/>
+                                                                <input type="submit" value="儲存" class="btn btn-outline-info" id="New"/>
                                                             </div>
                                                                 
                                                            
@@ -390,6 +394,57 @@
             selTown.addEventListener('change', () => {
                 getTownId();
             });
+
+
+            const photoInput = document.getElementById('photoInput');
+            const photoPreview = document.getElementById('photoPreview');
+
+            // 當使用者選擇檔案時觸發事件
+            photoInput.addEventListener('change', function () {
+                const selectedFile = photoInput.files[0];
+
+        if (selectedFile) {
+            // 檢查是否是圖片類型
+            if (selectedFile.type.startsWith('image/')) {
+                // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(selectedFile);
+                const New = document.querySelector('#New');
+                New.disabled = false;
+               /*  img.style.maxWidth = '100%';
+                img.style.height = 'auto'; */
+
+                img.width = 360;
+                img.height = 360;
+                // 清空預覽元素的內容，然後添加新的圖片
+                photoPreview.innerHTML = '';
+                photoPreview.appendChild(img);
+
+                // 清除可能的錯誤訊息
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '';
+            } else {
+                // 如果選擇的檔案不是圖片，顯示錯誤訊息
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '你選擇的不是圖片唷，請重新選擇';
+                photoPreview.innerHTML = '';
+
+                const New = document.querySelector('#New');
+                New.disabled = true;
+                /* New.style.backgroundColor = 'red'; */
+                /* New.textContent = '請選擇正確的圖片'; */
+            }
+        } else {
+            // 如果未選擇檔案，清空預覽元素
+            photoPreview.innerHTML = '';
+            const photoError = document.getElementById('photoError');
+            photoError.textContent = '';
+        }
+    });
+
+
+
+
 
 
 
