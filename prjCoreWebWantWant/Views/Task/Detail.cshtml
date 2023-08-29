@@ -112,7 +112,7 @@
 
                         @{
                             NewIspanProjectContext db = new NewIspanProjectContext();
-                            var q = db.TaskPhotos.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
+                            var q = db.TaskLists.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
                         @{
@@ -126,10 +126,8 @@
                                         </h4>
                                     </div>
                                     <div class="image-container">
-                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="Image" class="enlarge-on-hover" />
-                                 </div>
-                            
-                                
+                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
+                                 </div>                            
                            
                               @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
                               @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
