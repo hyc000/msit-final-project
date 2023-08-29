@@ -42,6 +42,7 @@ namespace WantTask.Controllers
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 ViewBag.chatWithId = id;
+                ViewBag.chatWithName = _db.MemberAccounts.Find(id).Name;
                 ViewBag.currentLoginId = loggedInUser.AccountId;
 
                 //我的頭像

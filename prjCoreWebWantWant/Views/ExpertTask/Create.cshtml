@@ -22,13 +22,13 @@
                 <div class="mb-3 form-control-lg">
                     委託人:
                     <input asp-for="委託人" type="text" class="form-control list" readonly placeholder="委託人">
-                    <input asp-for="委託人ID" type="text" class="form-control list" readonly placeholder="委託人ID">
+                    <input asp-for="委託人ID" type="hidden" class="form-control list" readonly placeholder="委託人ID">
 
                 </div>
                 <div class="mb-3 form-control-lg">
                     專家:
                     <input asp-for="被委託人" type="text" class="form-control list" readonly placeholder="被委託人">
-                    <input asp-for="被委託人ID" type="text" class="form-control list" readonly placeholder="被委託人ID">
+                    <input asp-for="被委託人ID" type="hidden" class="form-control list" readonly placeholder="被委託人ID">
 
                 </div>
                 <hr>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 form-control-lg row">
+                        <div class="mb-3 form-control-lg row" style="display:none">
                             <div class="col-4">
                                 <input type="button" data-bs-toggle="button" class="btn-check" autocomplete="off">
                                 <label class="btn btn-outline-primary" for="option1" id="btntime1">起訖同一天</label>
@@ -94,7 +94,7 @@
                         委託預算:
                     </div>
                     <div class="mb-3 form-floating col-12 p-3">
-                        $<input asp-for="委託價格" type="text"  class="form-control list" >
+                        <input asp-for="委託價格" type="text"  class="form-control list" >
                         <label asp-for="委託價格"></label>
                         <span asp-validation-for="委託價格" class="text-danger"></span>
                     </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="form-floating col-3 mx-auto p-3">
 
-                            @Html.ActionLink("取消","Details","ExpertResumes",new {   id = @Model.被委託人ID },new{ @class="btn btn-outline-primary" })
+                            @Html.ActionLink("取消","Details","ExpertResumes",new {   id = @ViewBag.caseid },new{ @class="btn btn-outline-primary" })
                         </div>
                     </div>
                 </div>

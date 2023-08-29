@@ -97,32 +97,42 @@ namespace prjCoreWebWantWant.Controllers
             //mytasked
             //CaseId:16=專家拒絕接案，18=專家案件已完成
             var q2 = _context.TaskLists
-                .Include(b => b.ExpertApplications)
-                .Where(x => x.IsExpert == true && (x.CaseStatusId == 16|| x.CaseStatusId == 18) && x.ExpertApplications.Any(y => y.AccountId == _memberID))
-                .OrderBy(x => x.TaskEndDate)
-                .ToList();
+    .Include(b => b.ExpertApplications)
+    .Where(x => x.IsExpert == true && x.ExpertApplications.Any(y => y.AccountId == _memberID && (y.CaseStatusId == 16 || y.CaseStatusId == 18)))
+    .OrderBy(x => x.TaskEndDate)
+    .Select(x => new
+    {
+        TaskList = x,
+        ExpertApplications = x.ExpertApplications
+                             .Where(ea => ea.AccountId == _memberID && (ea.CaseStatusId == 16 || ea.CaseStatusId == 18))
+                             .Select(ea => new { ea.CaseStatusId, ea.AccountId })
+    })
+    .ToList();
+           
             foreach (var item in q2)
             {
                 cexperttask = new CExpertTaskViewModel();
-                foreach (var application in item.ExpertApplications)
+                var taskList = item.TaskList;
+                foreach (var expertApplication in item.ExpertApplications)
                 {
-                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                    cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
-                cexperttask.taskexpert = factory.MemberName(item.AccountId);
-                cexperttask.caseid = item.CaseId;
-                if (item.TaskDetail.Length > 20)
+                cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.caseid = taskList.CaseId;
+                if (taskList.TaskDetail.Length > 20)
                 {
-                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20)+"...";
+                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20)+"...";
                 }
                 else
                 {
-                    cexperttask.taskcontent = item.TaskDetail;
+                    cexperttask.taskcontent = taskList.TaskDetail;
                 }
 
-                cexperttask.taskdatestart = item.TaskStartDate;
-                cexperttask.taskdateend = item.TaskEndDate;
-                cexperttask.taskprice = item.PayFrom;
-                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                cexperttask.taskdatestart = taskList.TaskStartDate;
+                cexperttask.taskdateend = taskList.TaskEndDate;
+                cexperttask.taskprice = taskList.PayFrom;
+               
                 list2.Add(cexperttask);
             }
             vw.mytasked = list2;
@@ -131,32 +141,43 @@ namespace prjCoreWebWantWant.Controllers
             //taskfromotherno
             //CaseId:15=專家尚未確認
             var q3 = _context.TaskLists
-                .Include(b => b.ExpertApplications)
-                .Where(x => x.IsExpert == true && x.CaseStatusId == 15  && x.AccountId==_memberID)
-                .OrderBy(x => x.TaskEndDate)
-                .ToList();
+     .Include(b => b.ExpertApplications)
+     .Where(x => x.IsExpert == true &&x.AccountId== _memberID && x.ExpertApplications.Any(y => y.CaseStatusId == 15 ))
+     .OrderBy(x => x.TaskEndDate)
+     .Select(x => new
+     {
+         TaskList = x,
+         ExpertApplications = x.ExpertApplications
+                              .Where(ea => ea.CaseStatusId == 15)
+                              .Select(ea => new { ea.CaseStatusId, ea.AccountId })
+     })
+     .ToList();
+            
             foreach (var item in q3)
             {
                 cexperttask = new CExpertTaskViewModel();
-                foreach (var application in item.ExpertApplications)
+                var taskList = item.TaskList;
+
+                foreach (var expertApplication in item.ExpertApplications)
                 {
-                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                    cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
-                cexperttask.taskexpert = factory.MemberName(item.AccountId);
-                cexperttask.caseid = item.CaseId;
-                if (item.TaskDetail.Length > 20)
+                cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.caseid = taskList.CaseId;
+                if (taskList.TaskDetail.Length > 20)
                 {
-                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
                 }
                 else
                 {
-                    cexperttask.taskcontent = item.TaskDetail;
+                    cexperttask.taskcontent = taskList.TaskDetail;
                 }
 
-                cexperttask.taskdatestart = item.TaskStartDate;
-                cexperttask.taskdateend = item.TaskEndDate;
-                cexperttask.taskprice = item.PayFrom;
-                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                cexperttask.taskdatestart = taskList.TaskStartDate;
+                cexperttask.taskdateend = taskList.TaskEndDate;
+                cexperttask.taskprice = taskList.PayFrom;
+                
                 list3.Add(cexperttask);
             }
             vw.taskfromotherno = list3;
@@ -165,33 +186,47 @@ namespace prjCoreWebWantWant.Controllers
             List<CExpertTaskViewModel> list4 = new List<CExpertTaskViewModel>();
             //taskingfromother
             //CaseId:17=專家案件進行中
+           
             var q4 = _context.TaskLists
-                .Include(b => b.ExpertApplications)
-                .Where(x => x.IsExpert == true && x.CaseStatusId == 17 && x.AccountId == _memberID)
-                .OrderBy(x => x.TaskEndDate)
-                .ToList();
+    .Include(b => b.ExpertApplications)
+    .Where(x => x.IsExpert == true && x.AccountId == _memberID && x.ExpertApplications.Any(y => y.CaseStatusId == 17))
+    .OrderBy(x => x.TaskEndDate)
+    .Select(x => new
+    {
+        TaskList = x,
+        ExpertApplications = x.ExpertApplications
+                             .Where(ea => ea.CaseStatusId == 17)
+                             .Select(ea => new { ea.CaseStatusId, ea.AccountId })
+    })
+    .ToList();
+
+
+
             foreach (var item in q4)
             {
                 cexperttask = new CExpertTaskViewModel();
-                foreach (var application in item.ExpertApplications)
+                var taskList = item.TaskList;
+                foreach (var expertApplication in item.ExpertApplications)
                 {
-                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                    cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
-                cexperttask.taskexpert = factory.MemberName(item.AccountId);
-                cexperttask.caseid = item.CaseId;
-                if (item.TaskDetail.Length > 20)
+
+                cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.caseid = taskList.CaseId;
+                if (taskList.TaskDetail.Length > 20)
                 {
-                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
                 }
                 else
                 {
-                    cexperttask.taskcontent = item.TaskDetail;
+                    cexperttask.taskcontent = taskList.TaskDetail;
                 }
 
-                cexperttask.taskdatestart = item.TaskStartDate;
-                cexperttask.taskdateend = item.TaskEndDate;
-                cexperttask.taskprice = item.PayFrom;
-                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                cexperttask.taskdatestart = taskList.TaskStartDate;
+                cexperttask.taskdateend = taskList.TaskEndDate;
+                cexperttask.taskprice = taskList.PayFrom;
+               
                 list4.Add(cexperttask);
             }
             vw.taskingfromother = list4;
@@ -199,33 +234,46 @@ namespace prjCoreWebWantWant.Controllers
             List<CExpertTaskViewModel> list5 = new List<CExpertTaskViewModel>();
             //taskedfromother
             //CaseId:16=專家拒絕接案，18=專家案件已完成
+           
+
             var q5 = _context.TaskLists
-                .Include(b => b.ExpertApplications)
-                .Where(x => x.IsExpert == true && (x.CaseStatusId == 16|| x.CaseStatusId==18) && x.AccountId == _memberID)
-                .OrderBy(x => x.TaskEndDate)
-                .ToList();
+    .Include(b => b.ExpertApplications)
+    .Where(x => x.IsExpert == true && x.AccountId == _memberID && x.ExpertApplications.Any(y => y.CaseStatusId == 16|| y.CaseStatusId == 18))
+    .OrderBy(x => x.TaskEndDate)
+    .Select(x => new
+    {
+        TaskList = x,
+        ExpertApplications = x.ExpertApplications
+                             .Where(ea => ea.CaseStatusId == 16 || ea.CaseStatusId == 18)
+                             .Select(ea => new { ea.CaseStatusId, ea.AccountId })
+    })
+    .ToList();
+
             foreach (var item in q5)
             {
                 cexperttask = new CExpertTaskViewModel();
-                foreach (var application in item.ExpertApplications)
+                var taskList = item.TaskList;
+
+                foreach (var expertApplication in item.ExpertApplications)
                 {
-                    cexperttask.taskmember = factory.MemberName(application.AccountId);
+                    cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
-                cexperttask.taskexpert = factory.MemberName(item.AccountId);
-                cexperttask.caseid = item.CaseId;
-                if (item.TaskDetail.Length > 20)
+                cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.caseid = taskList.CaseId;
+                if (taskList.TaskDetail.Length > 20)
                 {
-                    cexperttask.taskcontent = item.TaskDetail.Substring(0, 20) + "...";
+                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
                 }
                 else
                 {
-                    cexperttask.taskcontent = item.TaskDetail;
+                    cexperttask.taskcontent = taskList.TaskDetail;
                 }
 
-                cexperttask.taskdatestart = item.TaskStartDate;
-                cexperttask.taskdateend = item.TaskEndDate;
-                cexperttask.taskprice = item.PayFrom;
-                cexperttask.CaseStatusname = factory.StatusName(item.CaseStatusId);
+                cexperttask.taskdatestart = taskList.TaskStartDate;
+                cexperttask.taskdateend = taskList.TaskEndDate;
+                cexperttask.taskprice = taskList.PayFrom;
+               
                 list5.Add(cexperttask);
             }
             vw.taskedfromother = list5;
@@ -339,6 +387,7 @@ namespace prjCoreWebWantWant.Controllers
             vm.被委託人 = expertname;
             vm.被委託人ID = expertaccountid;
             ViewBag.expertid = expertaccountid;
+            ViewBag.caseid = expertaccountid;
             return View(vm);
         }
 
@@ -402,7 +451,7 @@ namespace prjCoreWebWantWant.Controllers
             {
                 vm.委託內容 += item;
             }
-           
+          
             return View(vm);
         }
 

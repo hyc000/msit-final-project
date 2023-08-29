@@ -22,8 +22,9 @@
 
     <div class="d-inline-flex mb-3 ">
         <span class="btn-group  me-3 btn btn-round ">
-        <i class="bi bi-pencil-square me-2"></i>
-            @Html.ActionLink("發表文章", "CreatePost", new { id = categoryId })
+        
+            <a href="/forum/CreatePost?id=@categoryId"><i class="bi bi-pencil-square me-2"></i>發表文章</a>
+
     </span>
 
 @using (Html.BeginForm())
@@ -68,16 +69,14 @@
             <td>
                         <a href="@Url.Action("PostView", "Forum", new { id = item.PostId })">
                             <div class="h6 m-1" style="font-weight:bold">@Html.DisplayFor(modelItem => item.Title)</div>
-                            <div class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</div>
                         </a>
-
-                        <div class="chat-toggle-container">
-
+                        <span class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</span>
+                        <span class="chat-toggle-container">
                             <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.AccountId })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
-                            <div class="chat-popup">
+@*                             <div class="chat-popup">
                                 <!-- 這裡是 partial view 的容器 -->
-                            </div>
-                        </div>
+                            </div> *@
+                        </span>
             </td>
                     <td class="text-center small">
                     @{
