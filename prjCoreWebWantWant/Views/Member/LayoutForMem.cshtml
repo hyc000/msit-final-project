@@ -182,24 +182,31 @@
                                 <span class="hide-menu">發案管理</span>
                             </a>
                         </li>
+                        @{
+                            NewIspanProjectContext db = new NewIspanProjectContext();
+                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null);
+                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21);                                 
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/tableseditable")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-user-plus"></i>*@
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">發案紀錄</span>
+                                <span class="hide-menu">發案紀錄 (@nonExpertTaskCount)筆</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/Approve")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-user-plus"></i>*@
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">錄取紀錄</span>
+                                <span class="hide-menu">錄取紀錄 (@caseStatus21Count)筆</span>
                             </a>
                         </li>
+                        }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找專家</span>
