@@ -85,13 +85,30 @@
 
                         <!--選擇任務類型-->
 
-                        <div class="col-4 mb-3">
+                        @* <div class="col-4 mb-3">
                             <form class="app-search d-none d-lg-block">
                                 <select class="form-select">
                                     <option>請選擇任務類型</option>
                                     <option>跑腿</option>
                                     <option>活動支援</option>
                                     <option>其他</option>
+                                </select>
+                            </form>
+                        </div> *@
+                        <div class="col-4 mb-3" id="PublishSelect">
+                            <form class="app-search d-none d-lg-block">
+                                @{
+                                    NewIspanProjectContext _context = new NewIspanProjectContext();
+                                    var q = from p in _context.TaskNameLists
+                                            select p.TaskName;
+                                }
+
+                                <select class="form-select" id="selTaskNamePublish">
+                                    <option value="">請選擇任務類型</option>
+                                    @foreach (var item in q)
+                                    {
+                                        <option name="category">@item</option>
+                                    }
                                 </select>
                             </form>
                         </div>

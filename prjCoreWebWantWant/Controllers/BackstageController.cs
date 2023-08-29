@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using System.IO;
@@ -181,6 +182,29 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     };
 
             return View(q.ToList());
+        }
+
+        public IActionResult PartialCollection(string category, CKeywordViewModel vm)
+        {
+            var q = from mc in _context.MemberCollections
+                    join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId = tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = mc.CaseId,
+                        CollectionDate = mc.CollectionDate
+                    };
+            //if (category != null)
+            //{
+            //    q.Where(mc => mc.TaskName.TaskName == category);
+            //}
+            return PartialView(q.ToList());
         }
         public IActionResult AddCollection(MemberCollection mc , int? id)
         {
