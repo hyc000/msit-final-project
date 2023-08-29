@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" href="~/Mstyles/index.css" asp-append-version="true" />
 }
-
-<!-- main-title start -->
 <section class="main-title-section text-center py-3">
     <div class="container">
         <div class="row align-items-center">
@@ -21,19 +19,9 @@
             <div class="col-md-8">
                 <img src="@Url.Content("~/Images/main-title.jpg")" alt="My Image" class="img-width" />
             </div>
-            @*<div class="container">
-            <div class="col-md-4">
-            <a>@Html.ActionLink("找專家", "Index", "Home", new { area = "" }, new { @class = "a" })</a>
-            <a>@Html.ActionLink("找接案", "Index", "Home", new { area = "" }, new { @class = "a" })</a>
-            </div>
-            <div></div>
-            </div>*@
         </div>
     </div>
 </section>
-<!-- main-title end -->
-
-<!-- search start -->
 <section class="search-section py-3">
     <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
         <div class="container">
@@ -68,13 +56,6 @@
         </div>
     </div>
 </section>
-<!-- search end -->
-
-<!-- job-listing start  -->
-@* @foreach (var item in Model)
-{ *@
-
-
 <section class="job_listing-section py-3">
     <div class="job_listing_area">
         <div class="container">
@@ -92,8 +73,7 @@
                             <div class="jobs_left d-flex align-items-center">
                                 <div class="jobs_conetent">
                                     <a href="job_details.html">
-                                        @* <h4>Software Engineer</h4> *@
-                                        <h4>@Html.DisplayFor(model => model.taskList.TaskTitle)</h4>
+                                        <h4>Software Engineer</h4>
                                     </a>
                                     <div class="links_locat d-flex align-items-center">
                                         <div class="location">
@@ -106,10 +86,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                <div class="apply_now">                                  
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                   
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -136,9 +114,7 @@
                             </div>
                             <div class="jobs_right">
                                 <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                    
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -164,10 +140,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                <div class="apply_now">                                   
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                    
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -193,10 +167,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                <div class="apply_now">                               
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                    
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -222,10 +194,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                <div class="apply_now">                                   
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                   
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -251,10 +221,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    @* <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a> *@
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
-                                    @*<a>@Html.ActionLink("Apply Now", "Index", "Home", new { area = "" }, new { @class = "boxed-btn3" })</a>*@
+                                <div class="apply_now">                                   
+                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>                                    
                                 </div>
                                 <div class="date">
                                     <p>Date line: 31 Jan 2020</p>
@@ -266,11 +234,7 @@
             </div>
         </div>
     </div>
-    <!-- job_listing_area_end  -->
 </section>
-<!-- job-listing end  -->
-
-<!-- expert start -->
 <section class="expert-section py-3">
     <div class="container" data-aos="fade-down">
         <div class="row">
@@ -280,7 +244,6 @@
         </div>
         <div class="row">
             <div class="col-sm-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
                 <div class="team-item">
                     <div class="thumb">
                         <a href="candidate-details.html">
@@ -305,15 +268,11 @@
                         <p class="desc">
                             This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                         </p>
-                        @*         <a class="btn-theme btn-white btn-sm"
-                        href="candidate-details.html">詳細資料</a>*@
                         @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
                     </div>
                 </div>
-                <!--== End Team Item ==-->
             </div>
             <div class="col-sm-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
                 <div class="team-item">
                     <div class="thumb">
                         <a href="candidate-details.html">
@@ -338,15 +297,11 @@
                         <p class="desc">
                             This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                         </p>
-                        @*                <a class="btn-theme btn-white btn-sm"
-                        href="candidate-details.html">詳細資料</a>*@
                         @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
                     </div>
                 </div>
-                <!--== End Team Item ==-->
             </div>
             <div class="col-sm-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
                 <div class="team-item">
                     <div class="thumb">
                         <a href="candidate-details.html">
@@ -371,15 +326,11 @@
                         <p class="desc">
                             This is a longer card with supporting text below as a natural lead-in to additional content.
                         </p>
-                        @*                        <a class="btn-theme btn-white btn-sm"
-                        href="candidate-details.html">詳細資料</a>*@
                         @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
                     </div>
                 </div>
-                <!--== End Team Item ==-->
             </div>
             <div class="col-sm-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
                 <div class="team-item">
                     <div class="thumb">
                         <a href="candidate-details.html">
@@ -404,19 +355,13 @@
                         <p class="desc">
                             This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                         </p>
-                        @*         <a class="btn-theme btn-white btn-sm"
-                        href="candidate-details.html">詳細資料</a>*@
                         @Html.ActionLink("詳細資料", "", "", new { area = "" }, new { @class = "btn btn btn-outline-primary me-md-2" })
                     </div>
                 </div>
-                <!--== End Team Item ==-->
             </div>
         </div>
     </div>
 </section>
-<!-- expert end -->
-
-<!-- job-searcing-wrap start  -->
 <section class="searcing-wrap-section py-3">
     <div class="job_searcing_wrap overlay">
         <div class="container">
@@ -439,9 +384,6 @@
         </div>
     </div>
 </section>
-<!-- job-searcing-wrap end  -->
-
-<!-- customer start -->
 <section class="customer-section py-3">
     <div class="container">
         <h3>客戶怎麼說</h3>
@@ -488,9 +430,3 @@
         </div>
     </div>
 </section>
-<!-- customer end -->
-
-@*                @foreach(var item in Model){
-    <h4>@Html.DisplayFor(modelItem => item.taskList.TaskTitle)</h4>
-
-                }*@

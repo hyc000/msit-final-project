@@ -48,9 +48,6 @@
                             <th>
                                 處理狀態
                             </th>
-                            <th>
-                                回覆
-                            </th>
                         </tr>
                     </thead>
 
@@ -81,9 +78,6 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.serviceContact.ProcessStatus)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("回覆", "Edit", new { id=item.AccountId })
                                     </td>
                                 </tr>
                             }

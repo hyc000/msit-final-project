@@ -64,9 +64,6 @@
                             <th>
                                 停權原因
                             </th>
-                            <th>
-                                
-                            </th>
                         </tr>
                     </thead>
 
@@ -106,12 +103,6 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.memberStatusList.StatusChangeReason)
-                                    </td>
-
-                                    <td>
-                                        <a href="@Url.Action("", "BackstageManagement", new { id=item.AccountId })">
-                                            <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
-                                        </a>
                                     </td>
                                 </tr>
                             }
