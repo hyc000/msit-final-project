@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using System.Text.Json;
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -135,22 +136,37 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找工作</span>
                         </li>
-                       
+                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                        @{
+                            string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                            int id = loggedInUser.AccountId; //抓登入者的id
+                        }
+                        @{
+                            NewIspanProjectContext db = new NewIspanProjectContext();
+                            var q = db.MemberCollections.Where(mc => mc.AccountId == id && mc.CaseId != null);
+                        }
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/TaskCollection")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-alert-circle"></i>*@
                                     <i class="ti ti-heart"></i>
                                 </span>
-                                <span class="hide-menu">已收藏工作</span>
+                                <span class="hide-menu">已收藏工作 (@q.Count())筆</span>
                             </a>
                         </li>
+
+                        @{
+                            NewIspanProjectContext db1 = new NewIspanProjectContext();
+                            var q2 = db.ApplicationLists.Where(al => al.Resume.AccountId == id && al.Resume.ResumeId == al.ResumeId);
+                        }
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/ApplicationRecord")" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">應徵紀錄</span>
+                                <span class="hide-menu">應徵紀錄 (@q.Count())筆</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">

@@ -249,8 +249,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = from al in _context.ApplicationLists
                     join tl in _context.TaskLists on al.CaseId equals tl.CaseId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 21
-                    select new CMemberCollectionViewModel
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId /*&& al.CaseStatusId == 21*/
+                    select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
                     {
                         TaskTitle = tl.TaskTitle,
                         TaskDetail = tl.TaskDetail,
