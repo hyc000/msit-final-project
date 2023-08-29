@@ -387,6 +387,7 @@ namespace prjCoreWebWantWant.Controllers
             vm.被委託人 = expertname;
             vm.被委託人ID = expertaccountid;
             ViewBag.expertid = expertaccountid;
+            ViewBag.caseid = expertaccountid;
             return View(vm);
         }
 
@@ -450,7 +451,7 @@ namespace prjCoreWebWantWant.Controllers
             {
                 vm.委託內容 += item;
             }
-           
+          
             return View(vm);
         }
 
