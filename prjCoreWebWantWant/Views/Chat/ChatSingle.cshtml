@@ -2,7 +2,7 @@
 
 <div class="container">
         <div class="col-md-9 card" style="height:80vh;flex-grow: 100;">
-            <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
+        <div class="chat-list-header pt-3 align-middle" style="min-height:100px" id="chatWithWho"></div>
             <div class="p-3" id="chatDetail" style="height:100vh"></div><!--聊天詳細頁面是這邊-->
             <span class="input-group">
                 <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
@@ -164,10 +164,18 @@
         
                 //聊天詳細--------------------start--------------------
                 async function chatWith(){
+                    const chatWithWho = document.querySelector('#chatWithWho');//標示與誰對話中
+                    const chatWithUserName = document.createElement('div');//創一個DIV
+                    const getUserName = @Html.Raw(Json.Serialize(ViewBag.chatWithName));
+            const iconAndText = `<i class="bi bi-chat-fill gardbg"></i> ${getUserName}`;
+                    chatWithUserName.innerHTML = iconAndText;
+                    chatWithUserName.classList.add('my-h2', 'text-start', 'ms-3');//把div加樣式
+                    chatWithWho.appendChild(chatWithUserName)
+                    
+        
                     let jsPage = 1;
                     const currentLoginId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));
                     const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${receiverId}&page=${jsPage}`);
-
                     const chatDetailData = await response.json();
 
                     const chatDetailDiv = document.querySelector('#chatDetail');
@@ -404,6 +412,22 @@
 
         .font-color-grey {
             color: #b4b4b4;
+        }
+
+        .my-h2{
+            color: #000;
+            font-size:2em;
+        }
+
+        .gardbg{
+            /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#e0f0f9+0,a9d2f3+12,90bae4+21,6ba8e5+33,a2daf5+52,e3f8fc+81,c3f0f7+100 */
+            background: #e0f0f9; /* Old browsers */
+            background: -moz-linear-gradient(-45deg, #e0f0f9 0%, #a9d2f3 12%, #90bae4 21%, #6ba8e5 33%, #a2daf5 52%, #e3f8fc 81%, #c3f0f7 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(-45deg, #e0f0f9 0%,#a9d2f3 12%,#90bae4 21%,#6ba8e5 33%,#a2daf5 52%,#e3f8fc 81%,#c3f0f7 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(135deg, #e0f0f9 0%,#a9d2f3 12%,#90bae4 21%,#6ba8e5 33%,#a2daf5 52%,#e3f8fc 81%,#c3f0f7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0f0f9', endColorstr='#c3f0f7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+            -webkit-background-clip: text;
+            color: transparent;
         }
     </style>
 }
