@@ -600,6 +600,7 @@ namespace WantTask.Controllers
             tasklist.PaymentId = selectedPaymentId;
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
+            tasklist.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
             if (imageFile != null && imageFile.Length > 0)
             {
                 string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
