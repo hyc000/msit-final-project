@@ -297,7 +297,7 @@
                                         <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
                                     } 
                                           <div class="card-footer text-center">
-                                        <form action="@Url.Content("~/Task/Apply")" method="post">
+                                        <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
                                             <!-- 使用表單元素包裹 -->
                                             <input 
                                                    class="btn btn-primary"
@@ -416,6 +416,37 @@
             selectedCaseId.value = Apply.value;
             console.log(selectedCaseId.value);
         })
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const applyForm = document.querySelector('#applyForm');
+
+            applyForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // 阻止預設的表單提交行為
+
+                // 彈出 SweetAlert 提醒
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: '應徵成功'
+                });
+
+                // 延遲觸發表單提交
+                setTimeout(() => {
+                    applyForm.submit();
+                }, 2000);
+            });
+        });
        
     </script>
 

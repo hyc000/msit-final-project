@@ -100,7 +100,10 @@
                                 
                                     <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
                                     <a href="@Url.Content("~/Backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
-                                    <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
+                                    <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
+
+
                                     <a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
 
                                 <span style="display: block; text-align: end;">最後修改日期：@item.DataModifyDate</span>
@@ -133,6 +136,24 @@
         const ResumeList = document.querySelector('#ResumeList');
         ResumeList.textContent = '您尚未建立履歷，請點選左上角新增履歷表';
     }
+
+        function confirmDelete(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            Swal.fire({
+                title: '警告',
+                text: '您確定要刪除此履歷嗎',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 使用者點擊了 "確定"，可以執行刪除動作
+                    window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                }
+            });
+        }
 
   </script>
 
