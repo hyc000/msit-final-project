@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
+using System.Text.Json;
 
 namespace prjCoreWebWantWant.Controllers
 {
@@ -14,14 +15,32 @@ namespace prjCoreWebWantWant.Controllers
         {
             _context = context;
             _ratings = new List<CRatings>();
-            _memberID = 17;//登入者我自己memberID
+           // _memberID = 17;//登入者我自己memberID
+        }
+
+        private int GetMemberIDFromSession()
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                return loggedInUser.AccountId;
+            }
+            return 0;
         }
 
         public async Task<IActionResult> ForOtherdata()
         {
 
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
+
             List<CRatings> ratingsForOther = new List<CRatings>();
-            CRatings datarating = new CRatings();
+          
 
             if (_context.Ratings != null)
             {
@@ -35,6 +54,7 @@ namespace prjCoreWebWantWant.Controllers
 
                 foreach (var item in ratingdata)
                 {
+                    CRatings datarating = new CRatings();
                     datarating.ratedperson = _context.MemberAccounts
                         .Where(x => x.AccountId == item.TargetAccountId)
                         .Select(u => u.Name)
@@ -63,8 +83,16 @@ namespace prjCoreWebWantWant.Controllers
 
         public async Task<IActionResult> MyRatingsdata()
         {
+
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
+
             List<CRatings> MyRatings = new List<CRatings>();
-            CRatings datamy = new CRatings();
+           
 
             if (_context.Ratings != null)
             {
@@ -76,6 +104,7 @@ namespace prjCoreWebWantWant.Controllers
                     .ToListAsync();
                 foreach (var item in ratingdatamy)
                 {
+                    CRatings datamy = new CRatings();
                     datamy.ratedperson = "自己";
 
                     datamy.ratingforperson = _context.MemberAccounts

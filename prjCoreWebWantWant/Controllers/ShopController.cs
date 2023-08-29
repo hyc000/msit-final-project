@@ -39,19 +39,14 @@ namespace prjShop.Controllers
         }
         public IActionResult CaseShop()
         {
-
-
-
             int id = GetAccountID();
 
             ViewBag.Points = GetAccumulatedPoints(id);
 
-            int cartItemCount = GetCartItemCount();
-            ViewBag.CartItemCount = cartItemCount;
-
             var q = _context.Products
-              .Include(t => t.Category)
-              .Where(p => p.Status == "上架" && p.CategoryId == 2);
+                .Include(t => t.Category)
+                .Where(p => p.Status == "上架" && p.CategoryId == 2);
+
             return View(q);
         }
 
@@ -186,7 +181,7 @@ namespace prjShop.Controllers
             SaveCart(cart, userId); // 存購物車到指定用戶
 
 
-            return RedirectToAction("CaseShop");
+            return Json(new { success = true });
         }
 
         // 加入expert商品到購物車
@@ -330,12 +325,14 @@ namespace prjShop.Controllers
         }
 
         //case購物車數量
-        public int GetCartItemCount()
+        [HttpGet]
+        public IActionResult GetCartItemCount()
         {
             int userId = GetAccountID();
             var cart = GetCart(userId);
             int itemCount = cart.Sum(item => item.Quantity);
-            return itemCount;
+
+            return Json(new { cartItemCount = itemCount });
         }
         //expert購物車數量
         public int GetExCartItemCount()

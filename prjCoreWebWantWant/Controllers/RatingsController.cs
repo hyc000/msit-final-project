@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,7 +23,7 @@ namespace prjCoreWebWantWant.Controllers
 
             _context = context;
             _ratings = new List<CRatings>();
-            _memberID = 66;//登入者我自己memberID
+            //_memberID = 66;//登入者我自己memberID
         }
 
         // GET: Ratings
@@ -32,12 +33,37 @@ namespace prjCoreWebWantWant.Controllers
 
 
         }
+
+        private int GetMemberIDFromSession()
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+                return loggedInUser.AccountId;
+            }
+            return 0;
+        }
         public IActionResult CreateNew(int? id)//caseid
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
+
             CExperTaskFactory factory = new CExperTaskFactory(_context);
             CRatingCreatViewModel vm = new CRatingCreatViewModel();
             vm.taskid = id.GetValueOrDefault(); ;
-            vm.委託者 = factory.MemberName(_memberID);
+            int memid = _context.TaskLists
+                     .Where(x => x.CaseId == id)
+                     .SelectMany(u => u.ExpertApplications)  // 使用SelectMany將集合“展開”
+                     .Select(ea => ea.AccountId)
+                .FirstOrDefault()
+                .GetValueOrDefault();
+
+            vm.委託者 = factory.MemberName(memid);
            int expertid= _context.TaskLists
                 .Where(x => x.CaseId == id)
                 .Select(u => u.AccountId)
