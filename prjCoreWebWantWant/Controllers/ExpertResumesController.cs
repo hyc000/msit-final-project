@@ -99,7 +99,7 @@ namespace prjCoreWebWantWant.Controllers
             _cexpertresume.certificatetype = (qct != null) ? qct : _cexpertresume.certificatetype;
 
             //專家專長
-
+            //TODO
             var qs = await _context.Skills
                 .Include(x => x.ResumeSkills.Where(r => r.ResumeId == id))
             .FirstOrDefaultAsync();
@@ -118,42 +118,42 @@ namespace prjCoreWebWantWant.Controllers
 
             return View(_cexpertresume);
         }
-        //public  IActionResult GetImage()
-        //{
+        public IActionResult GetImage()
+        {
 
-        //    //履歷照片
-        //    if (_cexpertresume.resume != null&&_cexpertresume.resume.Photo != null)
+            //履歷照片
+            if (_cexpertresume.resume != null && _cexpertresume.resume.Photo != null)
 
-        //    {
-        //        byte[]? img = _cexpertresume.resume.Photo;
-        //        return File(img, "image/jpeg");
-        //    }
-        //    return File("~/Expert/images/3.jpg", "image/jpeg");
-        //}
-        //public  IActionResult WorksImage()
-        //{
-        //    List<FileResult> files = new List<FileResult>();
-        //    if (_work != null)
-        //    {
-        //        foreach(var item in _work)
-        //        {
-        //            if (item.WorksPhoto != null)
-        //            {
-        //                files.Add(File(item.WorksPhoto, "image/jpeg"));
-        //            }
+            {
+                byte[]? img = _cexpertresume.resume.Photo;
+                return File(img, "image/jpeg");
+            }
+            return File("~/Expert/images/3.jpg", "image/jpeg");
+        }
+        public IActionResult WorksImage()
+        {
+            List<FileResult> files = new List<FileResult>();
+            if (_work != null)
+            {
+                foreach (var item in _work)
+                {
+                    if (item.WorksPhoto != null)
+                    {
+                        files.Add(File(item.WorksPhoto, "image/jpeg"));
+                    }
 
-        //        }
+                }
 
-        //    }
-        //    else
-        //    {
-        //        return File("~/Expert/images/2.webp", "image/jpeg");
-        //    }
+            }
+            else
+            {
+                return File("~/Expert/images/2.webp", "image/jpeg");
+            }
 
-        //    return Json(files);
+            return Json(files);
 
 
-        //}
+        }
 
         public async Task<IActionResult> Insert() {
            

@@ -27,7 +27,7 @@
                             <h5 class="mb-4" style="color:#528EAF">履歷照片</h5>
                             <div class="form-group">
                                  @*<label asp-for="Photo" class="control-label"></label>*@
-                        <input id="photoInput"  class="form-control" type="file" />
+                        <input id="photoInput" name="履歷照片" asp-for="履歷照片" class="form-control" type="file" />
                         <span asp-validation-for="履歷照片" class="text-danger"></span>
                         <span asp-validation-for="履歷照片" class="text-danger"></span> @*+*@
                                   <span id="photoError" class="text-danger"></span>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-            <input type="hidden" id="hiddenPhotoInput" name="履歷照片"  asp-for="履歷照片" />
+            <input type="hidden" id="hiddenPhotoInput"  />
 
                     <!--任務地點-->
                     <div class="col-sm-12 col-xl-6">
@@ -598,7 +598,7 @@
                         photoPreview.appendChild(img);
 
                         hiddenPhotoInput.value = base64Data;//重點
-
+                        console.log(hiddenPhotoInput.value);
                         const photoError = document.getElementById('photoError');
                         photoError.textContent = '';
                     } catch (error) {

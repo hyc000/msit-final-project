@@ -64,7 +64,7 @@ namespace prjCoreWebWantWant.Controllers
             var qwork = _context.ExpertWorks
                 .Where(a => a.ExpertWorkLists.Any(x => x.ResumeId == resumesid))
                 .Select(y => new {   
-                    作品名=y.Workname,
+                    作品名=y.WorkTitle,
                     作品照片=y.WorksPhoto,
                     作品日期=y.DataCreateDate
                 });
