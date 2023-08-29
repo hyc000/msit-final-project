@@ -30,11 +30,12 @@
                 <label asp-for="專家" class="control-label"></label>
                 <input asp-for="專家" class="form-control" />
                 <span asp-validation-for="專家" class="text-danger"></span>
-                <input asp-for="taskid" class="form-control" />
+                <input hidden asp-for="taskid" class="form-control" />
             </div>
             
             <div class="form-group">
                 <div class="rating-box">
+                    <label asp-for="評論星數" class="control-label"></label>
                     <span class="rating-value" id="ratingvalue">你要打幾分?</span>
                     <div class="rating">
                         
@@ -45,7 +46,7 @@
                         <span class="fa fa-star-o"></span>
                     </div>
                 </div>
-                <label asp-for="評論星數" class="control-label"></label>
+                
                 <input hidden asp-for="評論星數" id="starscore" class="form-control" />
                 <span asp-validation-for="評論星數" class="text-danger"></span>
             </div>
@@ -60,12 +61,14 @@
               <span asp-validation-for="評論日期" class="text-danger"></span>
             </div>
             <input asp-for="評論日期" class="form-control " hidden />
-            <div class="form-group">
+            <div class="row">
+            <div class="form-group col-5">
                 <input type="submit" value="新增" class="btn btn-outline-primary" />
 
             </div>
-            <div>
-                <a asp-action="Index" class="btn btn-outline-primary">取消</a>
+                <div class="col-5 ">
+                    <a asp-action="ExpertListnew" asp-controller="ExpertTask" class="btn btn-outline-primary">取消</a>
+            </div>
             </div>
         </form>
     </div>
