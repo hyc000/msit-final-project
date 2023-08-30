@@ -17,8 +17,6 @@ namespace prjCoreWebWantWant.Controllers
             _db = dbContext;
         }
 
-
-
         public IActionResult PostReply(ForumPostReplyViewModel vm)
         {
             ForumPost reply = new ForumPost();
@@ -34,6 +32,23 @@ namespace prjCoreWebWantWant.Controllers
             _db.SaveChanges();
 
             return Content(reply.PostId.ToString().Trim());
+        }
+
+
+        public IActionResult PostCommit(ForumPostComment jsin)
+        {
+            ForumPostComment comment = new ForumPostComment();
+
+            comment.AccountId = jsin.AccountId;
+            comment.PostId = jsin.PostId;
+            comment.Comment = jsin.Comment;
+            comment.Created = DateTime.Now;
+            comment.Status = 1;
+
+            _db.ForumPostComments.Add(comment);
+            _db.SaveChanges();
+
+            return Content(comment.PostCommentId.ToString().Trim());
         }
     }
 }
