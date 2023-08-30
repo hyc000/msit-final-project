@@ -12,6 +12,7 @@
     <Content Remove="Views\ServiceContacts\Details.cshtml" />
     <Content Remove="Views\ServiceContacts\Edit.cshtml" />
     <Content Remove="wwwroot\backstage1\img\cross.png" />
+    <Content Remove="wwwroot\backstage1\img\group-chat.png" />
     <Content Remove="wwwroot\Mstyles\Carousel.css" />
     <Content Remove="wwwroot\Mstyles\Jstyle.css" />
   </ItemGroup>

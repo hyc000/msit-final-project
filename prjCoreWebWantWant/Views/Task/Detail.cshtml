@@ -11,8 +11,7 @@
     //string memberemail = factory.MemberEmail(Model.AccountId);
 
     string abbreviatedName = membername != null && membername.Length > 0
-        ? membername[0] + new string('x', membername.Length - 1)
-        : null;
+        ? membername[0] + "小姐" : null;
 }
 
 <head>
@@ -41,6 +40,17 @@
             float: left; /* 將地圖元素靠左浮動 */
         }
     </style>
+
+    <title>Your Website Title</title>
+    <!-- You can use Open Graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    <meta property="og:url" content="https://www.your-domain.com/your-page.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Website Title" />
+    <meta property="og:description" content="Your description" />
+    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+
+
 </head>
 
 
@@ -56,23 +66,53 @@
     </nav>
 
 
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
+    <div class="fb-share-button" data-href="https://www.facebook.com/alyson.tang.9/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Falyson.tang.9%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
+
+
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your share button code -->
+    <div class="fb-share-button"
+         data-href="https://localhost:7042/Task/Detail/35"
+         data-layout="button_count">
+    </div>
+
+
+
+
     <div class="job-post-company pt-50 pb-120">
         <div class="container">           
             <div class="row justify-content-between">
                
-               
-
-
+              
                 <div class="col-xl-7 col-lg-8">
-                    <div class="job-tittle mb-50">
+                    <div class="job-tittle mb-50">                       
                         <div class="small-section-tittle">
                             <h4 style="display: flex; align-items: center;">
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
+                                <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 40px; width: 32px;  margin-left: auto;">
                             </h4>
                         </div>
                         <p>@Model.TaskTitle</p>
                     </div>
+
+
+              
+
+
 
                     <div class="job-post-details">
                         <div class="post-details1 mb-50">                     
@@ -229,7 +269,7 @@
 
                             @if (!string.IsNullOrEmpty(abbreviatedName))
                             {
-                                <li>刊登案主：<span>@abbreviatedName 小姐</span></li>
+                                <li>刊登案主：<span>@abbreviatedName</span></li>
                             }
                             @* <li>刊登案主：<span>@membername</span></li> *@
                             <li>Email：<span>want@want.com</span></li>
@@ -465,6 +505,8 @@
         });
 
         
+
+
     </script>
 
     
