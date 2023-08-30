@@ -42,7 +42,7 @@
         @{
             if (Model.MainPost.Updated != null)
             {
-                <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
+                            <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
             }
         }
         <hr />
@@ -54,12 +54,12 @@
                 foreach (var comment in Model.MainComments)
                 {
                             firstCommFloorCount++;
-                        <div class="flex-column">
-                            <span class="text-info">@comment.Account.UserName</span>
-                            <span class="ml-auto">-@comment.Comment</span>
+                                    <div class="flex-column">
+                                        <span class="text-info">@comment.Account.UserName</span>
+                                        <span class="ml-auto">-@comment.Comment</span>
 
-                                <div class="small">B@(firstCommFloorCount) @comment.Created</div>
-                            </div>
+                                            <div class="small">B@(firstCommFloorCount) @comment.Created</div>
+                                        </div>
                         }
                     }
                     <!--留言-->
@@ -88,92 +88,92 @@
             allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
-            <br />
-                <div class="mybg-color bg-opacity-10 rounded-3">　
-                    <div class="bg-body rounded-3 border mx-3 p-3">
-                    <div class="px-3">
-                        <div class="border-bottom row">
-                            
-                        </div>
+                        <br />
+                            <div class="mybg-color bg-opacity-10 rounded-3">　
+                                <div class="bg-body rounded-3 border mx-3 p-3">
+                                <div class="px-3">
+                                    <div class="border-bottom row">
+                                        
+                                    </div>
 
-                        <div class="col-11 m-auto text-body d-inline-flex align-middle">
-                                <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
-                                <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
-                                <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
-                            @{
+                                    <div class="col-11 m-auto text-body d-inline-flex align-middle">
+                                            <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
+                                            <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
+                                            <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
+                                        @{
                                 if (item.Updated != null)
                                 {
-                                    <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
+                                                            <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
                                 }
-                            }
+                                        }
+                                    </div>
+                                </div>
+                                <hr class="m-0" />
+                            </div>　
                         </div>
-                    </div>
-                    <hr class="m-0" />
-                </div>　
-            </div>
         }
         else{//正常回文的顯示
-        <br />
-        <div class="mybg-color bg-opacity-10 rounded-3">　　
-            <div class="bg-body rounded-3 border mx-3 p-3">
-                <div class="p-3">
-                    <div class="border-bottom row">
-                                <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
-                        <span class="col-4 text-end">
-                            <span class="small text-body-tertiary">@item.Created</span>
-                                    <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
-                                </span>
-                    </div>
+                    <br />
+                    <div class="mybg-color bg-opacity-10 rounded-3">　　
+                        <div class="bg-body rounded-3 border mx-3 p-3">
+                            <div class="p-3">
+                                <div class="border-bottom row">
+                                            <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
+                                    <span class="col-4 text-end">
+                                        <span class="small text-body-tertiary">@item.Created</span>
+                                                <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
+                                            </span>
+                                </div>
 
-                    <div class="col-11 m-auto pt-3">
-                        @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
-                    </div>
+                                <div class="col-11 m-auto pt-3">
+                                    @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                                </div>
 
 
 
-                </div>
-                @{
+                            </div>
+                            @{
                     if (item.Updated != null)
                     {
-                        <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
+                                                <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
                     }
-                }
-                <hr />
-                        @*2樓以後留言*@
-                        <div class="row justify-content-end me-1 small">
-                            <div class="bg-light col-11">
-                                @{
+                            }
+                            <hr />
+                                    @*2樓以後留言*@
+                                    <div class="row justify-content-end me-1 small">
+                                        <div class="bg-light col-11">
+                                            @{
                                     int count2 = 0;
                                     var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
 
-                                        @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
+                                                                @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
                                         {
                                             count2++;
-                                            <div class="flex-column">
-                                                <span class="text-info">@comment.Account.UserName</span>
-                                                <span class="ml-auto">-@comment.Comment</span>
-                                                <div class="small">B@(count2) @comment.Created</div>
-                                            </div>
+                                                                    <div class="flex-column">
+                                                                        <span class="text-info">@comment.Account.UserName</span>
+                                                                        <span class="ml-auto">-@comment.Comment</span>
+                                                                        <div class="small">B@(count2) @comment.Created</div>
+                                                                    </div>
                                             }
                                     
-                                }
-                                <!--留言-->
-                                <button class="btn float-end btn-sm collapse" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
-                                    留言
-                                </button>
-                                <div class="end-float"></div>
-                                <div class="collapse" id="leaveAComment@(allFloorCount)">
-                                    <div class="card card-body">
-                                        <textarea></textarea>
-                                        <button class="btn btn-sm">確定發出</button>
+                                            }
+                                            <!--留言-->
+                                            <button class="btn float-end btn-sm collapse" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
+                                                留言
+                                            </button>
+                                            <div class="end-float"></div>
+                                            <div class="collapse" id="leaveAComment@(allFloorCount)">
+                                                <div class="card card-body">
+                                                    <textarea></textarea>
+                                                    <button class="btn btn-sm">確定發出</button>
+                                                </div>
+                                            </div>
+                                            <!--留言end-->
+                                        </div>
                                     </div>
-                                </div>
-                                <!--留言end-->
-                            </div>
-                        </div>
 
-            </div>　
-        </div>
+                        </div>　
+                    </div>
         }
 
     }
@@ -181,16 +181,16 @@
 
 
 
-        <h4 class="text-center text-body">Reply Here...</h4>
-        <hr>
+    <h4 class="text-center text-body  mt-5 h3">回覆此篇文章...</h4>
+    <hr>
         <div class="col-md-10 m-auto">
-            @if ((bool)ViewData["IsUserLoggedIn"])
-            {    
-                <form enctype="multipart/form-data" class="form-group my-5" id="goreply">
-                <textarea id="tiny" name="PostContent"></textarea>
+        <form class="form-group" id="goreply" name="replyForm">
+            @if (Model.Member!=null)
+            {
+                <textarea id="PostContent" name="PostContent" type="text"></textarea>
+                <input id="isLogin" type="hidden" name="AccountId" value="@Model.Member.AccountId" />
                 <input type="hidden" name="ParentId" id="ParentId" value="@Model.MainPost.PostId" />
-                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" id="submitReply"/>
-                </form>
+                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" id="submitReply" />
             }
             else
             {
@@ -199,6 +199,7 @@
                     <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
                 </p>
             }
+        </form>
         </div>
 
 
@@ -249,13 +250,40 @@
         }
 
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
 
 }
+
+@section Scripts{
+    <script>
+        var isLogin = $('#isLogin').val();//判斷@Model.Member是否有傳值進來
+        if (isLogin) 
+        {
+            const btnSubmit = document.querySelector('#submitReply')
+            const replyContent = document.querySelector('#PostContent')
+
+            btnSubmit.addEventListener('click', event => {
+                event.preventDefault();
+                tinyMCE.triggerSave();//當您使用ajax提交表單時，Tinymce不會更新隱藏文本區域輸入字段的html/內容。在使用 提交表單之前，您需要手動更新 textarea 輸入字段的 content/html tinyMCE.triggerSave()
+                const formData = new FormData(document.replyForm);
+                fetch('@Url.Content("~/ForumApi/PostReply")', {
+                    body: formData,
+                    method: "POST"
+                }).then(response=>{
+                    console.log(response)
+                    console.log(replyContent.value)
+                    alert("新增成功");
+                })
+            })
+        }
+    </script>
+}
+
 <script src="~/lib/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
-        selector: 'textarea#tiny',
+        selector: 'textarea#PostContent',
         menubar: false,
         plugins: [
             'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
@@ -266,40 +294,3 @@
             'bullist numlist checklist outdent indent | removeformat | code table help'
     })
 </script>
-
-@section Scripts{
-    <script>
-        var isUserLoggedIn = @((bool)(ViewData["IsUserLoggedIn"] ?? false));
-
-        if (isUserLoggedIn) {
-            document.getElementById("goreply").style.display = "block";
-        }
-
-            $(document).ready(function () {
-            $('#goreply').submit(function (event) {
-                    event.preventDefault(); // 阻止默認的表單提交行為
-
-                const formData = new FormData(this);
-                //formData.append('PostContent', $('#tiny').val());
-                //formData.append('ParentId', $('#ParentId').val());
-                fetch('@Url.Content("~/ForumApi/PostReply")', {
-                        method: 'POST',
-                    body: formData,
-                    })
-                        .then(response => response.json()) // 解析 JSON 響應
-                        .then(data => {
-                            if (data.success) {
-                                alert("新增成功");
-                                location.reload(); // 重新載入頁面，或執行您想要的操作
-                            } else {
-                                alert("有錯誤!!");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("發生錯誤:", error);
-                            alert("發生錯誤，請查看控制台");
-                        });
-                });
-            });
-    </script>
-}
