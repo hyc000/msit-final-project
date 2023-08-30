@@ -111,7 +111,7 @@
                                 任務名稱
 
                                 <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
-                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 40px; width: 32px;">
+                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 45px; width: 38px;">
                                </a>
                             </h4>
                         </div>
@@ -512,7 +512,12 @@
             });
         });
 
-        
+        <script>
+            var taskTitle = "@Html.Raw(Json.Serialize(Model.TaskTitle))"; // 將資料轉為 JSON 格式
+        var taskDescription = "@Html.Raw(Json.Serialize(Model.TaskTitle))"; // 同上
+        var imageUrl = "https://www.example.com/image.jpg"; // 圖片連結
+            // 在這裡使用這些變數來自訂分享內容
+    </script>
 
 
     </script>
