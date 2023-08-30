@@ -287,5 +287,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
             return Json(skillId);
         }
+
+        public IActionResult PowerBI()
+        {
+            return View();
+        }
     }
 }
