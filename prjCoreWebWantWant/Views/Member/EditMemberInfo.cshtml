@@ -4,7 +4,9 @@
     ViewData["Title"] = "EditMemberInfo";
     Layout = "LayoutForMem.cshtml";
 }
-
+@section Styles{
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+}
 <h1>編輯會員基本資料</h1>
 
 <hr />
@@ -62,7 +64,7 @@
             </div>
            
             <div class="form-group">
-                <input type="submit" value="儲存" class="btn btn-primary"/>
+                <input type="submit" value="儲存" class="btn btn-outline-info" />
             </div>
         </form>
     </div>
@@ -71,7 +73,7 @@
 <div>
     <a asp-action="MemberAccount">返回</a>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
