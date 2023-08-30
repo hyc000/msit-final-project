@@ -9,6 +9,10 @@
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
     string memberemail = factory.MemberEmail(Model.AccountId);
+
+    string abbreviatedName = membername != null && membername.Length > 0
+        ? membername[0] + new string('x', membername.Length - 1)
+        : null;
 }
 
 <head>
@@ -222,7 +226,12 @@
                         </div>                     
                         <p></p>
                         <ul>
-                            <li>刊登案主：<span>@membername</span></li>
+
+                            @if (!string.IsNullOrEmpty(abbreviatedName))
+                            {
+                                <li>刊登案主：<span>@abbreviatedName 小姐</span></li>
+                            }
+                            @* <li>刊登案主：<span>@membername</span></li> *@
                             <li>Email：<span>want@want.com</span></li>
                         @*    <li> <span>cc</span></li>*@
                         </ul>
