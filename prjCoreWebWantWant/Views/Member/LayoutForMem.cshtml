@@ -184,8 +184,8 @@
                         </li>
                         @{
                             NewIspanProjectContext db3 = new NewIspanProjectContext();
-                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null);
-                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21);                                 
+                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null && t.AccountId==id);
+                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21 && a.Resume.AccountId == id && a.Resume.ResumeId == a.ResumeId );                                 
                        
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/tableseditable")" aria-expanded="false">
@@ -206,6 +206,10 @@
                                 <span class="hide-menu">錄取紀錄 (@caseStatus21Count)筆</span>
                             </a>
                         </li>
+
+
+
+
                         }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

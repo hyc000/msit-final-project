@@ -41,6 +41,20 @@ namespace prjCoreWebWantWant.Models
             return null;
         }
 
+        public string MemberEmail(int? MemberID)
+        {
+            if (MemberID != null)
+            {
+                string memberEmail = _context.MemberAccounts
+                .Where(x => x.AccountId == MemberID)
+                .Select(x => x.Email)
+                .FirstOrDefault();
+                return memberEmail;
+            }
+
+            return null;
+        }
+
 
 
         public string StatusName(int? StatusID)
