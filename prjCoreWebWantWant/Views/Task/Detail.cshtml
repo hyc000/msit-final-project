@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json;
+@using Microsoft.AspNetCore.Http.Extensions;
 @*@model prjCoreWebWantWant.Models.CTaskWrap*@
 @model prjCoreWebWantWant.Models.TaskList
 @{
@@ -41,15 +42,16 @@
         }
     </style>
 
-    <title>Your Website Title</title>
+    @*<title>Your Website Title</title>
     <!-- You can use Open Graph tags to customize link previews.
     Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
     <meta property="og:url" content="https://www.your-domain.com/your-page.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Your Website Title" />
     <meta property="og:description" content="Your description" />
-    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />*@
 
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
 
 </head>
 
@@ -65,8 +67,12 @@
         </ol>
     </nav>
 
-
-    <div id="fb-root"></div>
+    @{
+        <div class="fb-share-button" data-href="@Html.Raw(Context.Request.GetEncodedUrl())" data-layout="button_count">
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=@Html.Raw(Context.Request.GetEncodedUrl())" class="fb-xfbml-parse-ignore">分享</a>
+        </div>
+    }
+   @* <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
     <div class="fb-share-button" data-href="https://www.facebook.com/alyson.tang.9/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Falyson.tang.9%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
 
@@ -89,7 +95,7 @@
          data-layout="button_count">
     </div>
 
-
+*@
 
 
     <div class="job-post-company pt-50 pb-120">
@@ -103,7 +109,10 @@
                             <h4 style="display: flex; align-items: center;">
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
-                                <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 40px; width: 32px;  margin-left: auto;">
+
+                                <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
+                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 40px; width: 32px;">
+                               </a>
                             </h4>
                         </div>
                         <p>@Model.TaskTitle</p>
