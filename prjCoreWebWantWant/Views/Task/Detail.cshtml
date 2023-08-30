@@ -165,8 +165,7 @@
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
                         @{
-                            if (q != null)
-                            {
+                            
                                                 <div class="post-details2  mb-50">
                                                     <div class="small-section-tittle">
                                                         <h4 style="display: flex; align-items: center;">
@@ -175,7 +174,7 @@
                                                         </h4>
                                                     </div>
                                                     <div class="image-container">
-                                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
+                                                        <img src="~/@Model.PhotoPath" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
                                                  </div>                            
                                            
                                               @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
@@ -186,7 +185,7 @@
                                                @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
                                                 @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
                                         </div>
-                            }
+                            
                         }
                         <div class="post-details2  mb-50">                     
                             <div class="small-section-tittle">                               
