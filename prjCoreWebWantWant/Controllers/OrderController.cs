@@ -36,7 +36,7 @@ namespace prjShop.Controllers
 
 
 
-            // 应用筛选条件
+            // 篩選條件
             if (categorys != null)
             {
                 query = (IOrderedQueryable<Order>)query.Where(o => o.CategoryId == categorys);
@@ -62,6 +62,7 @@ namespace prjShop.Controllers
                 query = (IOrderedQueryable<Order>)query.Where(o => o.Account.Name.Contains(name));
             }
 
+   
             int pageSize = 10;
             var filteredOrders = query.ToList();
 
