@@ -40,11 +40,113 @@ namespace prjCoreWebWantWant.Controllers
             }
             return 0;
         }
+        public async Task<IActionResult> Resume(int? id)
+        {
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
+            CExpertShowResumesViewModel vm = new CExpertShowResumesViewModel();
+            if (!id.HasValue || id.Value <= 0)
+            {
+                vm.專家姓名 = "無專家履歷";
+              return View(vm);
+            }
+            //基本
+            var qresume = _context.Resumes
+                   .Where(a => a.ResumeId == id)
+                   .FirstOrDefault();
+            vm.專家ID = qresume.AccountId;
+
+            vm.專家姓名 = factory.MemberName(qresume.AccountId);
+            vm.服務地區 = factory.TownID2Name(qresume.TownId);
+            vm.履歷標題 = qresume.ResumeTitle;
+            
+
+            //履歷照片
+            if (qresume.Photo != null)
+            {
+                vm.履歷照片 = qresume.Photo;
+                
+            }
+          
+            //專長
+            var qskill = _context.ResumeSkills
+                .Where(a => a.ResumeId == id)
+                .Select(x => x.SkillId)
+                 .ToList();
+
+            if (qskill.Count > 0 && qskill[0] != null)
+            {
+                vm.專長1 =factory.SkillIDtoName(qskill[0]);
+            }
+            if (qskill.Count > 1 && qskill[1] != null)
+            {
+                vm.專長2 = factory.SkillIDtoName(qskill[1]); 
+            }
+            if (qskill.Count > 2 && qskill[2] != null)
+            {
+                vm.專長3 = factory.SkillIDtoName(qskill[2]);
+            }
+            //證照
+            var qcertificates = _context.ResumeCertificates
+            .Where(a => a.ResumeId == id)
+            .Select(x => x.CertificateId)
+             .ToList();
+
+            if (qcertificates.Count > 0 && qcertificates[0] != null)
+            {
+                vm.證照1 = factory.CertificateDtoName(qcertificates[0]);
+            }
+            if (qcertificates.Count > 1 && qcertificates[1] != null)
+            {
+                vm.證照2 = factory.CertificateDtoName(qcertificates[1]);
+            }
+            if (qcertificates.Count > 2 && qcertificates[2] != null)
+            {
+                vm.證照3 = factory.CertificateDtoName(qcertificates[2]);
+            }
+
+            //詳細
+            var qexresume = _context.ExpertResumes
+                   .Where(a => a.ResumeId == id)
+                   .FirstOrDefault();
+            vm.專家介紹 = qexresume.Introduction;
+            
+            vm.聯絡方式 = qexresume.ContactMethod;
+
+            
+            if (qexresume.CommonPrice.HasValue)
+            {
+                vm.個人網站 = qexresume.WorksUrl;
+            }
+            else
+            {
+                vm.個人網站 = "沒有個人網站。";
+            }
+            if (qexresume.CommonPrice.HasValue)
+            {
+                vm.基本價格 = "$" + qexresume.CommonPrice.Value.ToString("N0");
+            }
+            else
+            {
+                vm.基本價格 = "$0"; // 或其他默認值
+            }
+            vm.收款方式 = qexresume.PaymentMethod;
+            vm.提供服務 = qexresume.ServiceMethod;
+            vm.常見問題 = qexresume.Problem;
+            if (qexresume.HistoricalViews!=null)
+            { vm.點閱次數 = qexresume.HistoricalViews.ToString(); }
+            else
+            {
+                vm.點閱次數 = 0+"";
+            }
+
+            return View(vm);
+        }
 
 
 
-        // GET: ExpertResumes/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+            // GET: ExpertResumes/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -130,30 +232,31 @@ namespace prjCoreWebWantWant.Controllers
             }
             return File("~/Expert/images/3.jpg", "image/jpeg");
         }
-        public IActionResult WorksImage()
-        {
-            List<FileResult> files = new List<FileResult>();
-            if (_work != null)
-            {
-                foreach (var item in _work)
-                {
-                    if (item.WorksPhoto != null)
-                    {
-                        files.Add(File(item.WorksPhoto, "image/jpeg"));
-                    }
+       
+        //public IActionResult WorksImage()
+        //{
+        //    List<FileResult> files = new List<FileResult>();
+        //    if (_work != null)
+        //    {
+        //        foreach (var item in _work)
+        //        {
+        //            if (item.WorksPhoto != null)
+        //            {
+        //                files.Add(File(item.WorksPhoto, "image/jpeg"));
+        //            }
 
-                }
+        //        }
 
-            }
-            else
-            {
-                return File("~/Expert/images/2.webp", "image/jpeg");
-            }
+        //    }
+        //    else
+        //    {
+        //        return File("~/Expert/images/2.webp", "image/jpeg");
+        //    }
 
-            return Json(files);
+        //    return Json(files);
 
 
-        }
+        //}
 
         public async Task<IActionResult> Insert() {
            
