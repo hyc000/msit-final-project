@@ -7,7 +7,12 @@
     NewIspanProjectContext context = new NewIspanProjectContext();
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
-    string membername = factory.MemberName(Model.AccountId);   
+    string membername = factory.MemberName(Model.AccountId);
+    string memberemail = factory.MemberEmail(Model.AccountId);
+
+    string abbreviatedName = membername != null && membername.Length > 0
+        ? membername[0] + new string('x', membername.Length - 1)
+        : null;
 }
 
 <head>
@@ -122,25 +127,25 @@
                         @{
                             if (q != null)
                             {
-                                <div class="post-details2  mb-50">
-                                    <div class="small-section-tittle">
-                                        <h4 style="display: flex; align-items: center;">
-                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
-                                            任務相關照片
-                                        </h4>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
-                                 </div>                            
-                           
-                              @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
-                              @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
-                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
+                                                <div class="post-details2  mb-50">
+                                                    <div class="small-section-tittle">
+                                                        <h4 style="display: flex; align-items: center;">
+                                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
+                                                            任務相關照片
+                                                        </h4>
+                                                    </div>
+                                                    <div class="image-container">
+                                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
+                                                 </div>                            
+                                           
+                                              @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
+                                              @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
+                                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
                                 var imgSrc = $"data:image/png;base64,{base64Image}";
                                 <img src="@imgSrc" class="img-thumbnail" alt="照片">*@
-                               @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
-                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
-                        </div>
+                                               @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
+                                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
+                                        </div>
                             }
                         }
                         <div class="post-details2  mb-50">                     
@@ -184,7 +189,8 @@
                             @if (!HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
                             {
                                 @*<button data-bs-toggle="modal" data-bs-target=""  value="@Model.CaseId" class="btn btn-outliine-secondary" >若要應徵，請先登入</button>*@
-                                <a href="@Url.Content("~/Member/Login")" class="btn btn-outliine-secondary" style="color:white">若要應徵，請先登入</a>
+                                @* <a href="@Url.Content("~/Member/Login")" class="btn btn-outliine-secondary" style="color:white">若要應徵，請先登入</a> *@
+                                <a class="btn btn-outliine-secondary" style="color:white" href="@Url.Action("Login", "Member", new { BackToAction = "Detail", BackToController = "Task", BackToId = Model.CaseId })">若要應徵，請先登入</a>
                             }
                             else
                             {
@@ -220,7 +226,12 @@
                         </div>                     
                         <p></p>
                         <ul>
-                            <li>刊登案主：<span>@membername</span></li>
+
+                            @if (!string.IsNullOrEmpty(abbreviatedName))
+                            {
+                                <li>刊登案主：<span>@abbreviatedName 小姐</span></li>
+                            }
+                            @* <li>刊登案主：<span>@membername</span></li> *@
                             <li>Email：<span>want@want.com</span></li>
                         @*    <li> <span>cc</span></li>*@
                         </ul>
@@ -281,39 +292,39 @@
                         .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
                         
                     
-                     @foreach (var item in resumes)
+                                     @foreach (var item in resumes)
                     { 
-                    @*履歷一*@
-                    <div class="col">
-                            <div class="card h-100">                           
-                                    <div class="card-body" width="300px">
-                                 <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
-                                <hr />
-                              
-                                     @if (item.Autobiography.Length <= 70)
+                                    @*履歷一*@
+                                    <div class="col">
+                                            <div class="card h-100">                           
+                                                    <div class="card-body" width="300px">
+                                                 <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
+                                                <hr />
+                                              
+                                                     @if (item.Autobiography.Length <= 70)
                                     {
-                                        <p class="card-text">@item.Autobiography</p>
+                                                        <p class="card-text">@item.Autobiography</p>
                                     }
                                     else
                                     {
-                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
+                                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
                                     } 
-                                          <div class="card-footer text-center">
-                                        <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
-                                            <!-- 使用表單元素包裹 -->
-                                            <input 
-                                                   class="btn btn-primary"
-                                                   style="background-color: #528EAF"
-                                                   type="submit"
-                                                   value="以此履歷應徵" />
-                                            <input type="hidden" name="resumeId" value="@item.ResumeId">
-                                                    <input type="hidden" id="selectedCaseId" name="caseId" />
-                                        </form>
-                                        </div>                                
-                                 </div>
-                            </div>
-                    </div>
-                    <p></p>
+                                                          <div class="card-footer text-center">
+                                                        <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
+                                                            <!-- 使用表單元素包裹 -->
+                                                            <input 
+                                                                   class="applybutton btn btn-primary"
+                                                                   style="background-color: #528EAF"
+                                                                   type="submit"
+                                                                   value="以此履歷應徵" />
+                                                            <input type="hidden" name="resumeId" value="@item.ResumeId">
+                                                            <input type="hidden" id="selectedCaseId" name="caseId" />
+                                                        </form>
+                                                        </div>                                
+                                                 </div>
+                                            </div>
+                                    </div>
+                                    <p></p>
                   }
                         }
                }
@@ -415,11 +426,14 @@
         const selectedCaseId = document.querySelector('#selectedCaseId');
         const Apply = document.querySelector('#btnApply');
         Apply.addEventListener('click',() => {
+            for (let i = 0, max = document.forms.length; i < max; i++) {
+                document.forms[i].caseId.value = Apply.value;
+            }
             selectedCaseId.value = Apply.value;
             console.log(selectedCaseId.value);
         })
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {                           //todo 一樣是迴圈問題 沒辦法知道第二或第三個履歷觸發事件
             const applyForm = document.querySelector('#applyForm');
 
             applyForm.addEventListener('submit', async (event) => {
@@ -449,7 +463,8 @@
                 }, 2000);
             });
         });
-       
+
+        
     </script>
 
     
