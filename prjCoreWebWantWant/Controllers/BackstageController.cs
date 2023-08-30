@@ -248,7 +248,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ApplicationRecord()   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
             var q = from al in _context.ApplicationLists
-                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId        
                     where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId /*&& al.CaseStatusId == 21*/
                     select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
                     {

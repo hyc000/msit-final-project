@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -77,10 +78,11 @@ namespace prjShop.Controllers
             return View();
         }
         //會員訂單列表
-        public IActionResult Order()
+        public IActionResult Order(string filter)
         {
+            ViewBag.OrderFilter = filter;
             int userId = GetAccountID();
-            var q = _context.Orders
+            IQueryable<Order> query = _context.Orders
                 .Include(t => t.Category)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Resume)
@@ -88,15 +90,46 @@ namespace prjShop.Controllers
                 .ThenInclude(od => od.Case)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
-                .Where(o => o.AccountId == userId)
-                .OrderByDescending(o => o.CreateTime)
-                .ToList();
+                .Where(o => o.AccountId == userId);
 
+            if (filter == "today")
+            {
+                query = query.Where(o => (o.CreateTime ?? DateTime.MinValue).Date == DateTime.Today);
+            }
+            else if (filter == "7days")
+            {
+                query = query.Where(o => o.CreateTime >= DateTime.Today.AddDays(-7));
+            }
+            else if (filter == "31days")
+            {
+                query = query.Where(o => o.CreateTime >= DateTime.Today.AddDays(-31));
+            }
+            // Add more conditions for other filters
 
-
+            var q = query.OrderByDescending(o => o.CreateTime).ToList();
             return View(q);
         }
+        //曝光中
+        public IActionResult onTop() 
+        {
 
+           
+            int userId = GetAccountID();
+            IQueryable<Order> query = _context.Orders
+                .Include(t => t.Category)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Resume)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Case)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .Where(o => o.AccountId == userId);
+
+          
+
+            var q = query.OrderByDescending(o => o.CreateTime).ToList();
+            return PartialView(q);
+        }
 
         public int GetAccountID()
         {
@@ -594,7 +627,7 @@ namespace prjShop.Controllers
             return RedirectToAction("PayPalCheckOut");
         }
 
-        //Case 結帳
+        //EX 結帳
         [HttpPost]
         public IActionResult CheckoutEx(int? ResumeId, Order newOrder, List<OrderDetail> newOrderDetails)
         {

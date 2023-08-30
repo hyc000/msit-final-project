@@ -1,0 +1,84 @@
+﻿<div class="header-container">
+    <h2>進行中的曝光</h2>
+</div>
+
+<div class="container mt-4">
+    <table id="table1" class="table" mt-5">
+        <thead align="center">
+            <tr>
+                <th></th>
+                <th>案件名稱</th>
+                <th>曝光類型</th>
+                <th>曝光結束日</th>
+                <th>剩餘時間</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @{
+                var displayedTitles = new Dictionary<string, bool>(); // 用于存储已经显示过的标题
+            }
+
+            @foreach (var order in Model)
+            {
+                foreach (var item in order.OrderDetails)
+                {
+                    string title = "";
+                    bool isCase = false;
+                    DateTime? endTime = null;
+
+                    if (item.CaseId != null)
+                    {
+                        title = item.Case.TaskTitle;
+                        isCase = true;
+                        endTime = item.Case.OnTop; // 使用DATETIME类型
+                    }
+                    else if (item.ResumeId != null)
+                    {
+                        title = item.Resume.ResumeTitle;
+                        endTime = item.Resume.OnTop;
+                    }
+
+                    var today = DateTime.Today;
+
+                    if (!displayedTitles.ContainsKey(title) && endTime > today)
+                    {
+                        displayedTitles.Add(title, true);
+
+                        <tr>
+                            <td><i class='bx bxs-hot bx-tada' style="color: crimson"></i></td>
+                            <td>@title</td>
+                            <td>@item.TopType</td>
+
+                            <td data-endtime="@endTime">
+                                @endTime
+                            </td>
+                            <td>
+                                @if (endTime.HasValue && endTime > today)
+                                {
+                                    var remainingDays = (endTime.Value - today).Days;
+
+                                    @if (remainingDays < 5)
+                                    {
+                                        <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@remainingDays 天</span>
+
+                                    }
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
+
+<br />

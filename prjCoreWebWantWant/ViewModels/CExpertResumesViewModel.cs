@@ -24,7 +24,7 @@
       //  public int 證照代碼3 { get; set; }
         public string 證照大項3 { get; set; }
         public string 證照細項3 { get; set; }
-        public byte[] 履歷照片 { get; set; }
+        public IFormFile 履歷照片 { get; set; }
         /*public int 履歷狀態 { get; set; } */ //22履歷移除//23顯示履歷
         public string 履歷標題 { get; set; } //給本人自己選的
 
@@ -36,13 +36,9 @@
         public string 常見問題 { get; set; }
         public decimal 基本價格 { get; set; }
 
-        public string 作品名 { get; set; }
-        public byte[] 作品圖片 { get; set; }
-
-
-
-
-
+       public required IFormFile[] 作品圖片 { get; set; }
+       public List<String> 作品集 { get; set; }
 
     }
+
 }

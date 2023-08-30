@@ -68,8 +68,8 @@ namespace prjCoreWantMember.Controllers
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
             string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-            MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表
-                                                                                                  // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為CLoginUser這個資料表
+                                                                                               // 现在 loggedInUser 对象包含了从会话中取出的用户信息
 
             int id = loggedInUser.AccountId; //抓登入者的id
             IEnumerable<CExpertInfoViewModel> datas = null;
@@ -78,7 +78,7 @@ namespace prjCoreWantMember.Controllers
                     on r.AccountId equals m.AccountId
                     join er in db.ExpertResumes
                    on r.ResumeId equals er.ResumeId
-                    where r.IsExpertOrNot == true && r.AccountId == id
+                    where r.IsExpertOrNot == true && r.AccountId == id &&r.CaseStatusId==23
                     select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
             if (datas.Count() == 0)
             {
@@ -113,6 +113,22 @@ namespace prjCoreWantMember.Controllers
                     where m.AccountId == id
                     select new CExpertInfoViewModel { memberAccount = m }).FirstOrDefault();
             return View(data);
+        }
+
+        public IActionResult ExpertResumeDelete(int? id)
+        {
+            if (id != null)
+            {
+                NewIspanProjectContext db = new NewIspanProjectContext();
+                Resume resume = db.Resumes.FirstOrDefault(p => p.ResumeId == id);
+                if (resume != null)
+                {
+                    resume.CaseStatusId = 22;
+                    //_context.Resumes.Remove(resume);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("ExpertMemberPage");
         }
     }
 

@@ -181,48 +181,10 @@
                             </a>
                         </li>
                         @{
-                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null);
-                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21);
-
-                            var q5 = from al in db.ApplicationLists
-                                     join tl in db.TaskLists on al.CaseId equals tl.CaseId
-                                     where al.CaseStatusId == 21 && tl.AccountId == id
-                                     select al;
-
-                            var q4 = from al in db.ApplicationLists
-                                     where al.CaseStatusId == 21 
-                                     select al;
-                            
-                            //不確定對不對
-                            var all = (from app in db.ApplicationLists
-                                       join task in db.TaskLists on app.CaseId equals task.CaseId
-                                       join resume in db.Resumes on app.ResumeId equals resume.ResumeId
-                                       join member in db.MemberAccounts on resume.AccountId equals member.AccountId
-                                       join resumeskill in db.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                                       join skill in db.Skills on resumeskill.SkillId equals skill.SkillId
-                                       join resumecer in db.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                                       join cer in db.Certificates on resumecer.CertificateId equals cer.CertificateId
-
-                                       where app.CaseStatusId == 21
-
-                                       select new CApproveViewModel
-                       {
-                           CaseId = task.CaseId,
-                           ResumeId = resume.ResumeId,
-                           TaskNameId = task.TaskNameId,
-                           CaseStatusId = app.CaseStatusId,
-                           Name = member.Name,
-                           SkillName = skill.SkillName,
-                           CertificateName = cer.CertificateName,
-                           Autobiography = resume.Autobiography,
-                           PublishStart = task.PublishStart,
-                           TaskStart = task.TaskStartDate,
-                           TaskTitle = task.TaskTitle,
-                           TaskDetail = task.TaskDetail
-
-                       }).Count();
-
-                        }
+                            NewIspanProjectContext db3 = new NewIspanProjectContext();
+                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null && t.AccountId==id);
+                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21 && a.Resume.AccountId == id && a.Resume.ResumeId == a.ResumeId );                                 
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/tableseditable")" aria-expanded="false">
                                 <span>
@@ -243,6 +205,10 @@
                                 <span class="hide-menu">錄取紀錄 (@all)筆</span>
                             </a>
                         </li>
+
+
+
+
                         }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -299,7 +265,7 @@
                                     @*<i class="ti ti-layout-dashboard"></i>*@
                                     <i class="ti ti-cash"></i>
                                 </span>
-                                <span class="hide-menu">曝光購買</span>
+                                <span class="hide-menu">曝光商城</span>
                             </a>
                         </li>
                         @*  <li class="sidebar-item">

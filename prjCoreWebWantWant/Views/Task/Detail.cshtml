@@ -4,6 +4,11 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout_Task.cshtml";
+    NewIspanProjectContext context = new NewIspanProjectContext();
+    CExperTaskFactory factory = new CExperTaskFactory(context);
+    string taskname= factory.TaskName(Model.TaskNameId);
+    string membername = factory.MemberName(Model.AccountId);
+    string memberemail = factory.MemberEmail(Model.AccountId);
 }
 
 <head>
@@ -41,7 +46,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Content("~/Task/ListNew")">找工作</a></li>      
-            @* <li class="breadcrumb-item active" aria-current="page">@Model.FTaskName</li>*@
+            <li class="breadcrumb-item active" aria-current="page">@taskname</li>
             <li class="breadcrumb-item active" aria-current="page">@Model.TaskTitle</li>
         </ol>
     </nav>
@@ -217,7 +222,7 @@
                         </div>                     
                         <p></p>
                         <ul>
-                            <li>刊登案主：<span>@*@Model.AccountId*@ 林小姐</span></li>
+                            <li>刊登案主：<span>@membername</span></li>
                             <li>Email：<span>want@want.com</span></li>
                         @*    <li> <span>cc</span></li>*@
                         </ul>

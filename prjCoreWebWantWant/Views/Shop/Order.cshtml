@@ -3,7 +3,9 @@
     //ViewData["Title"] = "Order";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
-
+@{
+    var orderFilter = ViewBag.OrderFilter as string;
+}
 
 @section subTitle{
 
@@ -16,196 +18,119 @@
         </ol>
     </nav>
 }
-<div class="header-container">
-    <h2>進行中的曝光</h2>
+<div id="pview">
+
 </div>
 
-<div class="container mt-4">
-    <table id="table" class="table" mt-5">
-        <thead align="center">
-            <tr>
-                <th></th>
-                <th>案件名稱</th>
-                <th>曝光類型</th>
-                <th>曝光結束日</th>
-                <th>剩餘時間</th>
-            </tr>
-        </thead>
-        <tbody align="center">
-            @{
-                var displayedTitles = new Dictionary<string, bool>(); // 用于存储已经显示过的标题
-            }
-
-            @foreach (var order in Model)
-            {
-                foreach (var item in order.OrderDetails)
-                {
-                    string title = "";
-                    bool isCase = false;
-                    DateTime? endTime =null;
-
-                    if (item.CaseId != null)
-                    {
-                        title = item.Case.TaskTitle;
-                        isCase = true;
-                        endTime = item.Case.OnTop; // 使用DATETIME类型
-                    }
-                    else if (item.ResumeId != null)
-                    {
-                        title = item.Resume.ResumeTitle;
-                        endTime = item.Resume.OnTop;
-                    }
-
-                    var today = DateTime.Today;
-
-                    if (!displayedTitles.ContainsKey(title) && endTime > today)
-                    {
-                        displayedTitles.Add(title, true);
-
-                        <tr>
-                            <td><i class='bx bxs-hot bx-tada' style="color: crimson"></i></td>
-                            <td>@title</td>
-                            <td>@item.TopType</td>
-
-                            <td data-endtime="@endTime">
-                                @endTime
-                            </td>
-                            <td>
-                                @if (endTime.HasValue && endTime > today)
-                                {
-                                    var remainingDays = (endTime.Value - today).Days;
-                                   
-                                    @if (remainingDays < 5)
-                                    {
-                                        <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@remainingDays 天</span>
-                                    
-                                    }
-                                }
-                              
-                            </td>
-                        </tr>
-                    }
-                }
-            }
-        </tbody>
-
-
-
-</table>
-  </div>
-
-
-<br />
 
 <div class="header-container">
-    <h2>訂單紀錄</h2>
-</div>
-<div class="container mt-4">
-    <div class="row align-items-center">
+   
+        <h2>訂單紀錄</h2>
+        </div>
+        <div class="container mt-4">
+            <div class="row align-items-center">
 
 
-        <div class="row mt-3">
-            <div class="d-flex">
-                <button type="button" class="btn btn-outline-primary">全部訂單</button>
-                <button type="button" class="btn btn-outline-primary">履歷訂單</button>
-                <button type="button" class="btn btn-outline-primary">任務訂單</button>
-                <button type="button" class="btn btn-outline-primary">今日訂單</button>
-                <button type="button" class="btn btn-outline-primary">過去7天</button>
-                <button type="button" class="btn btn-outline-primary">過去31天</button>
+                <div id="filterButtons" class="d-flex">
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Order", new { filter = "all" })'">全部訂單</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Order", new { filter = "today" })'">今日訂單</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Order", new { filter = "7days" })'">過去7天</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Order", new { filter = "31days" })'">過去31天</button>
+                </div>
+
 
             </div>
-        </div>
-
-    </div>
-   
-    <table id="table" class="table table-striped table-hover" mt-5">
-        <thead align="center">
-            <tr>
-                <td></td>
-                <td>訂單編號</td>
-                <td>日期</td>
-                <td>名稱</td>
-                <td>類別</td>
-                <td>回饋紅利</td>     
-                <td>商品金額</td>
-                <td>使用紅利</td>
-                <td>訂單金額</td>
-
-
-            </tr>
-        </thead>
-        <tbody align="center">
-            @foreach (var order in Model)
-            {
-            
+  
+        <table id="table" class="table table-striped table-hover" mt-5">
+            <thead align="center">
                 <tr>
-                    
-                <td>
-                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails_@(order.OrderId)" class="accordion-toggle">
-                        <i class="bx bxs-show"></i>
-                    </a>
-                </td>
+                    <td></td>
+                    <td>訂單編號</td>
+                    <td>日期</td>
+                    <td>名稱</td>
+                    <td>類別</td>
+                    <td>回饋紅利</td>     
+                    <td>商品金額</td>
+                    <td>使用紅利</td>
+                    <td>訂單金額</td>
+
+
+                </tr>
+            </thead>
+
+            <tbody align="center">
+                @foreach (var order in Model)
+                {
+
+                    <tr>
+
+                        <td>
+                            <a data-bs-toggle="collapse" data-bs-target="#orderDetails_@(
+                    order.OrderId
+)" class="accordion-toggle">
+                                <i class="bx bxs-show"></i>
+                            </a>
+                        </td>
                         <td>@order.OrderId</td>
-                <td>@order.CreateTime</td> 
-                    <td>
-                        @if (order.OrderDetails.Any())
-                        {
-                            var firstOrderDetail = order.OrderDetails.First();
-                            @if (firstOrderDetail.CaseId != null)
+                        <td>@order.CreateTime</td> 
+                        <td>
+                            @if (order.OrderDetails.Any())
                             {
-                                <span>@firstOrderDetail.Case.TaskTitle</span>
+                                var firstOrderDetail = order.OrderDetails.First();
+                                @if (firstOrderDetail.CaseId != null)
+                                {
+                                    <span>@firstOrderDetail.Case.TaskTitle</span>
+                                }
+                                else if (firstOrderDetail.ResumeId != null)
+                                {
+                                    <span>@firstOrderDetail.Resume.ResumeTitle</span>
+                                }
                             }
-                            else if (firstOrderDetail.ResumeId != null)
-                            {
-                                <span>@firstOrderDetail.Resume.ResumeTitle</span>
-                            }
-                        }
-                    </td>
+                        </td>
                         <td>@order.Category.CategoryName</td>
-                <td>@order.OrderGetPoint</td>
-                <td>@order.OrderPrice</td>
+                        <td>@order.OrderGetPoint</td>
+                        <td>@order.OrderPrice</td>
                         <td>@order.OrderUsePoint</td>
                         <td>@order.PaidAmount</td>
-            </tr>
-            <!-- 可展開/收起的內容 -->
-            <tr>
+                    </tr>
+                    <!-- 可展開/收起的內容 -->
+                    <tr>
                         <td colspan="12" class="hiddenRow">
                             <div class="collapse" id="orderDetails_@(order.OrderId)" data-bs-parent="#table">
                                 <!-- 在這裡填入訂單明細內容 -->
                                 <table class="table table-bordered">
                                     <thead class="table-dark">
-                                       
-                                <tr>
-                                    <th>商品名稱</th>
-                                    <th>數量</th>
-                                    <th>單價</th>
-                                    <th>小計</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+
+                                        <tr>
+                                            <th>商品名稱</th>
+                                            <th>數量</th>
+                                            <th>單價</th>
+                                            <th>小計</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         @foreach (var detail in order.OrderDetails)
                                         {
-                                <tr>
-                                    <td>@detail.Product.ProductName</td>
-                                    <td>@detail.Quantity</td>
-                                    <td>@detail.UnitPrice</td>
-                                    <td>@(detail.UnitPrice * detail.Quantity)</td>
-                                </tr>
+                                            <tr>
+                                                <td>@detail.Product.ProductName</td>
+                                                <td>@detail.Quantity</td>
+                                                <td>@detail.UnitPrice</td>
+                                                <td>@(
+                                        detail.UnitPrice * detail.Quantity
+                                    )</td>
+                                            </tr>
                                         }
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            </table>
             
-            }
-        </tbody>
-    </table>
-</div>
+        </div>
+    
 
 @section Styles {
     <!--box icons-->
@@ -224,7 +149,12 @@
     </style>
 }
 
-
-
-
+@section SCripts{
+<script>
+        $(document).ready(function () {
+            // 使用jQuery的load方法加载部分视图内容到指定的<div>容器中
+            $('#pview').load('@Url.Action("onTop", "Shop")');
+        });
+</script>
+}
 
