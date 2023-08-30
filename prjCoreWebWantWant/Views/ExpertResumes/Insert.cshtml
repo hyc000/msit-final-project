@@ -257,10 +257,9 @@
                     <div class="form-group mb-3">
                         <label for="workphoto" class="control-label">作品照片</label>
                         <input id="workphoto" name="作品圖片" class="form-control" type="file" multiple />
+                        <p class="text-info">你可以選擇多個圖片。</p>
                         <span asp-validation-for="作品圖片" class="text-danger"></span>
                         <span id="workError" class="text-danger"></span>
-                        <p class="text-info">你可以選擇多個圖片。</p>
-
                         <div id="workPreview" style="border: 1px solid #ccc; padding: 10px;"></div>
                     </div>
                 </div>
@@ -275,7 +274,7 @@
                         <div class="bg-light rounded h-100 p-4">
                     <div class="bg-light rounded h-100 p-4  d-flex justify-content-center align-items-center">
                                 <div class="form-group">
-                            <input type="submit" value="送出並新增" class="btn btn-outline-success" />
+                            <input type="submit" value="送出並新增" class="btn btn-outline-success"/>
                             <a asp-action="Expert" asp-controller="ExpertMemberPage" class="btn btn-outline-warning">取消並返回</a>
                                 </div>
                            </div>
@@ -629,9 +628,10 @@
 
             for (let i = 0; i < selectedFiles.length; i++) {
                 const selectedFile = selectedFiles[i];
+              
                 const workNameInput = document.createElement('input');
                 workNameInput.type = 'text';
-                workNameInput.name = '作品名';
+                workNameInput.name = '作品集';
                 workNameInput.placeholder = '請輸入作品名';
                 workNameInput.className = 'form-control mb-3 ';
                 // 檢查是否是圖片類型

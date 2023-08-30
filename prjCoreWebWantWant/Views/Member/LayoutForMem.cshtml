@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json;
+@using WantTask.ViewModels;
 <!doctype html>
 <html lang="en">
 
@@ -18,8 +19,6 @@
         font-size:20px;
         }
         
-        
-
 
     </style>
 
@@ -158,7 +157,6 @@
                         </li>
 
                         @{
-                            NewIspanProjectContext db1 = new NewIspanProjectContext();
                             var q2 = db.ApplicationLists.Where(al => al.Resume.AccountId == id && al.Resume.ResumeId == al.ResumeId);
                         }
                         <li class="sidebar-item">
@@ -184,8 +182,8 @@
                         </li>
                         @{
                             NewIspanProjectContext db3 = new NewIspanProjectContext();
-                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null);
-                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21);                                 
+                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null && t.AccountId==id);
+                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21 && a.Resume.AccountId == id && a.Resume.ResumeId == a.ResumeId );                                 
                        
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/tableseditable")" aria-expanded="false">
@@ -203,9 +201,13 @@
                                     @*<i class="ti ti-user-plus"></i>*@
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">錄取紀錄 (@caseStatus21Count)筆</span>
+                                 <span class="hide-menu">錄取紀錄 (@caseStatus21Count)筆</span> 
                             </a>
                         </li>
+
+
+
+
                         }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -289,6 +291,23 @@
                                 <span class="hide-menu">曝光紀錄</span>
                             </a>
                         </li>
+
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">數據庫</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Content("~/Backstage/PowerBI")" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">報表分析</span>
+                            </a>
+                        </li>
+
+
+
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">聯絡客服</span>

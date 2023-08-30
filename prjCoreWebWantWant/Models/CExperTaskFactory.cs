@@ -42,7 +42,6 @@ namespace prjCoreWebWantWant.Models
         }
 
 
-
         public string StatusName(int? StatusID)
         {
             if (StatusID != null)

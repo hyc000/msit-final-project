@@ -42,44 +42,49 @@
 
 <div class="container">
     @{
-        int count = 0;
-        @foreach (var item in Model)
+        if (Model.FirstOrDefault().resume != null)
         {
+            int count = 0;
+            @foreach (var item in Model)
+            {
 
-            count++;
+                count++;
 
-            <div class="row">
-                <div class="col">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.resume.ResumeTitle</h5>
+                <div class="row">
+                    <div class="col">
+                        <div class="card mb-4">
+                            <div class="card-body">
 
-                            @if (item.expertResume.Introduction == null)
-                            {
-                                <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
-                            }
-                            else if (item.expertResume.Introduction.Length <= 120)
-                            {
-                                <p class="card-text">@item.expertResume.Introduction</p>
-                            }
-                            else
-                            {
-                                <p class="card-text">@item.expertResume.Introduction.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
-                            }
-                            <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
-                            <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" title="檢視" class="btn btn-outline-success">檢視</a>
-                            <a href="@Url.Action("ExpertResumeDelete", "Expert", new { id = item.resume.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
-                            <a  class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
+                                <h5 class="card-title">@item.resume.ResumeTitle</h5>
 
-                            <span style="display: block; text-align: end;">最後修改日期：@item.resume.DataModifyDate</span>
+                                @if (item.expertResume.Introduction == null)
+                                {
+                                    <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
+                                }
+                                else if (item.expertResume.Introduction.Length <= 120)
+                                {
+                                    <p class="card-text">@item.expertResume.Introduction</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">@item.expertResume.Introduction.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
+                                }
+                                <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
+                                <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" title="檢視" class="btn btn-outline-success">檢視</a>
+                                <a href="@Url.Action("ExpertResumeDelete", "Expert", new { id = item.resume.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
+                                <a class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
+
+                                <span style="display: block; text-align: end;">最後修改日期：@item.resume.DataModifyDate</span>
 
 
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
+       
     }
 </div>
 
