@@ -3,7 +3,7 @@
     public class CExpertShowResumesViewModel
     {
         public int 專家ID { get; set; }
-
+        public int 專家履歷ID { get; set; }
         public string 專家姓名 { get; set; }
         public string 服務地區 { get; set; }
      

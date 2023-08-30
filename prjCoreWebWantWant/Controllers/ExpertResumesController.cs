@@ -54,7 +54,7 @@ namespace prjCoreWebWantWant.Controllers
                    .Where(a => a.ResumeId == id)
                    .FirstOrDefault();
             vm.專家ID = qresume.AccountId;
-
+            vm.專家履歷ID = id.GetValueOrDefault();
             vm.專家姓名 = factory.MemberName(qresume.AccountId);
             vm.服務地區 = factory.TownID2Name(qresume.TownId);
             vm.履歷標題 = qresume.ResumeTitle;

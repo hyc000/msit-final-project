@@ -11,13 +11,46 @@
         .bg-expertbk {
     background-color: #f8fafd;
 }
-.border-ex{
+    .border-ex{
             border-block-color: #f8fafd;
-}
+                        }
 
         .work-img {
-            flex: 0 0 calc(100% / 4);
-            max-width: calc(100% / 4);
+            flex: 25%;
+            max-width: 25%;
+            height: 170px; 
+            width: auto; 
+            
+        }
+
+        .bg-expertdetail {
+            height: 190px; /* 按鈕總高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ratecontent {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+                                  }
+
+        .workbox {
+          /*  height: 250px;
+            width: 800px;*/
+            background-color: #7F9DB7;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .worklist {
+            /*position: absolute;*/
+          /*  left: 50%;
+            top: 50%;*/
+            /*transform: translate(-50%, -50%);*/
+            display: flex;
         }
     </style>
         }
@@ -45,24 +78,19 @@
                     
                     @if (Model.履歷照片 != null)
                     {
-                        <img src="data:image/jpg;base64,@Convert.ToBase64String(Model.履歷照片)"  />
-
+                        <img src="data:image/jpg;base64,@Convert.ToBase64String(Model.履歷照片)" height="250" width="280" />
                     }
                    else{
                         <img src=@Url.Content("~/Expert/Images/Nobody頭像.jpg") height="100%" />
-
                    }
                 </div>
                 <!-- 下方作品集區 -->
                 <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
                     <h6>專家作品集</h6>
                     <div id="workbox" class="d-flex justify-content-start" style="overflow: hidden; height: 200px;">
-                        @*  @Html.Partial("_ExpertResumesWorklistPartial") *@
-                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品1" class="work-img">
-                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品2" class="work-img">
-                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品3" class="work-img">
-                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品4" class="work-img">
-                        <!-- You can add more images as you like -->
+                            <div id="worklist" class="worklist">
+                     
+                          </div>
                     </div>
                 </div>
             </div>
@@ -177,18 +205,7 @@
                     <h2>評分</h2>
                     <hr />
                 <div id="ratecontent" style="overflow-x: auto">
-                    <div class="border border-white bg-expertbk ">
-                              <div class="card-header">
-                                 ${item.評論者名字}
-                              </div>
-                          <div class="card-body">
-                                     <p>${item.分數}</p>
-                                      <p class="card-text">${item.評論}</p>
-                              </div>
-                         </div>
-                    </div>
                 </div>
-         
         </div>
 
     </div>
@@ -209,56 +226,142 @@
         //星星評價=====================================
         let score = 0;
         let count = 0;
-
-        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")=${resumesid = @Model.專家ID}`)
+            let averagescore = 0;
+            const ratecontent = document.querySelector("#ratecontent");//用來裝評論的DIV
+            //下面是星星API
+            fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumesid=${@Model.專家履歷ID}`)
         .then(response => response.json())
         .then(
             data => {
-                const datadiv = "";
-                data.forEach(item => {
+                        console.log(data);
+                let stararr=[];
+                        let datadiv = "";
+                        if (data["評分資料"].length > 0) {
+                            data["評分資料"].forEach(item => {
 
-                    score += item.分數;
-                    count = item.筆數;
-                    console.log(score);
-                        datadiv = `<div class="border border-white bg-expertbk ">
-                                      <div class="card-header">
-                                         ${item.評論者名字}
-                                      </div>
-                                       <div class="card-body">
-                                             <p>${item.分數}</p>
-                                              <p class="card-text">${item.評論}</p>
-                                      </div>
-                                 </div>`;
-                });
+                                score += Number(item.分數);
+                    count ++;
+                    let startext="";
+                                if (item.評論!=null){
+                                   startext= item.評論;
+                                }
+                                else{
+                                    startext="沒有評論";
+                                }
+                                let itemStars = generateStars(Number(item.分數));
+                        datadiv = `   <div class="border border-white bg-expertbk ">
+                                                     <div class="card-header">
+                                                                 ${item.評論者名字}
+                                                     </div>
+                                               <div class="card-body">
+                                                             <p>${itemStars}</p>
 
+                                                              <p class="card-text">${startext}</p>
+                                                               <hr>
+                                               </div>
+                                               `;
+                                stararr.push(datadiv);
+                            });
+                         averagescore = score / count;
+                            let averageStars = generateStars(averagescore);
+                            let average = averagescore.toFixed(1);
+                            document.querySelector("#star").innerHTML = `平均(${average}分)  ` + averageStars + ` --${count}筆評論  `;
+                        }
+                        document.querySelector("#ratecontent").innerHTML = stararr.join("");
+                    });
 
-                document.querySelector("#ratecontent").innerHTML = datadiv;
-                document.querySelector("#ratecontent").innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+            function generateStars(score) {
+                var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+                var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+                var starnull = '<i class="bi bi-star "></i>';
+                let arr = [];
+                for (let i = 1; i <= 5; i++) {
+                    if (score >= i) {
+                        arr.push(starfill);
+                    } else if (score > i - 1 && score < i) {
+                        arr.push(starhelf);
+                    } else {
+                        arr.push(starnull);
+                    }
+                }
+                return arr.join("");
             }
-        );
 
-    var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-    var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
-    var starnull = '<i class="bi bi-star "></i>';
+         //星星評價結束=====================================
+            //=======作品集=========================================
+            function load() {
+                const workbox = document.querySelector('#workbox');
+                const worklist = document.querySelector('#worklist');
+                const imageWidth = 458 / 4;//458是Worklist長度
+            
+      
+                let left = 0; // 初始化為 0
+                let interval = 1000;
 
-    let arr = [];
-    for (let i = 1; i <= 5; i++) {
+                let timer;
+                // 自動跑馬燈
+                function Moving(numImages) {
+                    const totalWidth = numImages * imageWidth;
 
-        if (score >= i) {
-            arr.push(starfill
-            );
-        } // 實心星星
-        else if (score > i - 1 && score < i) {
-            arr.push(starhelf);
-        }// 半實心星星
-        else {
-            arr.push(starnull); // 空心星星
-        }
-    }
-    console.log(arr);
-    document.querySelector("#star").innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+                    clearInterval(timer);
+                    timer = setInterval(() => {
+                        left -= imageWidth;
 
+                        if (left <= -(totalWidth - 4 * imageWidth)) {
+                            left = 0;
+                            worklist.style.transition = 'none';
+                        } else {
+                            worklist.style.transition = 'transform 0.2s ease-in-out';  // 恢復過渡效果
+                        }
+                        worklist.style.left = left + 'px';
 
+                    }, interval);
+                    }
+                
+
+                workbox.onmouseover = function () {
+                    clearInterval(timer);
+                };
+
+                workbox.onmouseleave = function () {
+                    worklist.style.transition = 'transform 0.2s ease-in-out';
+                    Moving(numImages);
+                };
+
+                    fetch(`@Url.Content("~/ExpertResumesApi/WorkAPI")?resumesid=${@Model.專家履歷ID}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            numImages = data.length;
+
+                            let picturebox = "";
+                            for (let i = 0; i < data.length; i++) {
+                                const picturename = data[i].作品名;
+                                const picturedate = data[i].作品日期.substring(0, 10) + "建立";
+                                const imageData = data[i].作品照片;
+                            const src = `data:image/png;base64,${imageData}`;
+
+                                console.log(picturename);
+                                console.log(picturedate);
+                            console.log(src);
+
+                                picturebox += `
+                                <div style="display:block; position:relative;" class="py-2">
+                                    <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="${picturename}" style="border:none;" >
+                                        <p style="position:relative;top:0px;right:1px; height:15px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
+                                          <img src="${src}" class="work-img" width=185 alt="作品${i}">
+                                    </button>
+                                </div>`;
+                            }
+
+                            worklist.innerHTML = picturebox;
+                            Moving();
+                        })
+                        .catch(error => {
+                            console.error("Error fetching data:", error);
+                        });
+                }
+
+                document.addEventListener('DOMContentLoaded', load);
     
     </script>
     }
