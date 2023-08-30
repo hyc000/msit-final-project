@@ -286,6 +286,26 @@ namespace prjShop.Controllers
             return View(cart);
         }
 
+        //更改Case商品數量
+   
+        [HttpPost]
+        public IActionResult updateQua(int productId, int newQuantity)
+        {
+            int userId = GetAccountID();
+            var cart = GetCart(userId);
+
+            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
+
+            if (cartItem != null)
+            {
+                cartItem.Quantity = newQuantity; // 更新商品数量
+                SaveCart(cart, userId); // 保存整个购物车，包括更新后的 cartItem
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
         //刪除Case購物車東西
         [HttpPost]
         public IActionResult RemoveFromCart(int productId)

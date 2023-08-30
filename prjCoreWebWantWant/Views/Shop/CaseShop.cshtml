@@ -385,7 +385,7 @@
             function updateCartItemCount() {
                 $.ajax({
                     type: "GET",
-                    url: "/Shop/GetCartItemCount", // 根據您的控制器和方法的實際路徑
+                    url: '@Url.Content("~/Shop/GetCartItemCount")', // 根據您的控制器和方法的實際路徑
                     success: function (data) {
                         $("#cartItemCount").text(data.cartItemCount);
                     },

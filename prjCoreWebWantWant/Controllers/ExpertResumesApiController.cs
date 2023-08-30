@@ -12,11 +12,13 @@ namespace prjCoreWebWantWant.Controllers
         private int _memberID;
         private CExpertInfoViewModel _cexpertresume;
         private List<ExpertWork> _work;
-        public ExpertResumesApiController(NewIspanProjectContext context)
+        private readonly IWebHostEnvironment _env;
+        public ExpertResumesApiController(NewIspanProjectContext context, IWebHostEnvironment env)
         {
             _context = context;
             _cexpertresume = new CExpertInfoViewModel();
             _work = new List<ExpertWork>();
+            _env = env;
 
             //Session取得
             //  _memberID = 5; //假資料要刪喔
@@ -82,24 +84,30 @@ namespace prjCoreWebWantWant.Controllers
 
         //履歷
 
-        public IActionResult ResumeAPI(int? resumesid)
-        {
-            if (!resumesid.HasValue || resumesid.Value <= 0)
-            {
-                return Json(new { Status = "Failed", Message = "無相關履歷" });
-            }
+        //public IActionResult ResumeAPI(int? resumesid)
+        //{
+        //    if (!resumesid.HasValue || resumesid.Value <= 0)
+        //    {
+        //        return Json(new { Status = "Failed", Message = "無相關履歷" });
+        //    }
 
-            var qexresume = _context.ExpertResumes
-                .Where(a => a.ResumeId == resumesid)
-                .FirstOrDefault();
-            if (qexresume == null)
-            {
-                return Json(new { Status = "Failed", Message = "無相關介紹" });
-            }
+        //    var resume = _context.Resumes
+        //        .Where(a => a.ResumeId == resumesid)
+        //        .Select(y => new
+        //        {
+        //            作品名 = y.WorkTitle,
+        //            作品照片 = y.WorksPhoto,
+        //            作品日期 = y.DataCreateDate
+        //        })
+        //        .FirstOrDefault();
+        //    if (qexresume == null)
+        //    {
+        //        return Json(new { Status = "Failed", Message = "無相關介紹" });
+        //    }
 
-            return Json(qexresume);
+        //    return Json(qexresume);
 
-        }
+        //}
 
         //===================
         //專家履歷
@@ -149,5 +157,10 @@ namespace prjCoreWebWantWant.Controllers
 
 
         }
+
+
+     
+               
+        
     }
 }

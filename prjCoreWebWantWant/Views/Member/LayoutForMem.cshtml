@@ -143,7 +143,7 @@
                         }
                         @{
                             NewIspanProjectContext db = new NewIspanProjectContext();
-                            var q = db.MemberCollections.Where(mc => mc.AccountId == id && mc.CaseId != null);
+                            var mc = db.MemberCollections.Where(mc => mc.AccountId == id && mc.CaseId != null);
                         }
 
                         <li class="sidebar-item">
@@ -152,19 +152,19 @@
                                     @*<i class="ti ti-alert-circle"></i>*@
                                     <i class="ti ti-heart"></i>
                                 </span>
-                                <span class="hide-menu">已收藏工作 (@q.Count())筆</span>
+                                <span class="hide-menu">已收藏工作 (@mc.Count())筆</span>
                             </a>
                         </li>
 
                         @{
-                            var q2 = db.ApplicationLists.Where(al => al.Resume.AccountId == id && al.Resume.ResumeId == al.ResumeId);
+                            var ar = db.ApplicationLists.Where(al => al.Resume.AccountId == id && al.Resume.ResumeId == al.ResumeId);
                         }
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/ApplicationRecord")" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">應徵紀錄 (@q.Count())筆</span>
+                                <span class="hide-menu">應徵紀錄 (@ar.Count())筆</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">

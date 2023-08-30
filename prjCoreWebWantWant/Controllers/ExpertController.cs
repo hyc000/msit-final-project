@@ -29,14 +29,21 @@ namespace prjCoreWantMember.Controllers
                 datas = from r in db.Resumes
                         join m in db.MemberAccounts
                         on r.AccountId equals m.AccountId
+
                         join er in db.ExpertResumes
-                       on r.ResumeId equals er.ResumeId
-                       join rSk in db.ResumeSkills
-                       on r.ResumeId equals rSk.ResumeId
-                       join rCe in db.ResumeCertificates
-                       on r.ResumeId equals rCe.ResumeId
-                        where r.IsExpertOrNot == true &&r.CaseStatusId==23
-                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er, resumeskill=rSk, resumecertificate=rCe };
+                        on r.ResumeId equals er.ResumeId
+
+                        join rSk in db.ResumeSkills
+                        on r.ResumeId equals rSk.ResumeId into groupRSk
+                        from rSk in groupRSk.DefaultIfEmpty()
+
+                        join rCe in db.ResumeCertificates
+                        on r.ResumeId equals rCe.ResumeId into groupRCe
+                        from rCe in groupRCe.DefaultIfEmpty()
+
+                        where r.IsExpertOrNot == true && r.CaseStatusId == 23
+                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er, resumeskill = rSk, resumecertificate = rCe };
+
             }
             else
             {

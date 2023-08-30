@@ -1,0 +1,264 @@
+﻿@model prjCoreWebWantWant.ViewModels.CExpertShowResumesViewModel
+@{
+    ViewData["Title"] = "履歷";
+    
+}
+
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <style>
+        .bg-expertbk {
+    background-color: #f8fafd;
+}
+.border-ex{
+            border-block-color: #f8fafd;
+}
+
+        .work-img {
+            flex: 0 0 calc(100% / 4);
+            max-width: calc(100% / 4);
+        }
+    </style>
+        }
+<h2 class="text-center myh2" style="font-weight:bold">
+    <span style="color:#9eb9d3">●</span>
+    <span style="color:#c0d3e6">●</span>
+    <span style="color:#e5edf6">●</span>
+    專家履歷
+    <span style="color:#e5edf6">●</span>
+    <span style="color:#c0d3e6">●</span>
+    <span style="color:#9eb9d3">●</span>
+</h2>
+<div class="p-3">
+    @* 最外圍 *@
+
+    <div>
+        <div class="container-fluid  " style="max-width: 85%; margin:auto;">
+       
+            <div class="row mx-0" style="height: 70vh;">
+            <!-- 主容器 -->
+            <!-- 左側部分 -->
+            <div class="col-4 bg-expertbk d-flex flex-column justify-content-center ps-3">
+                <!-- 上方照片區 -->
+                <div id="photo" class="d-flex align-items-center justify-content-center border border-white" style="flex: 2;">
+                    
+                    @if (Model.履歷照片 != null)
+                    {
+                        <img src="data:image/jpg;base64,@Convert.ToBase64String(Model.履歷照片)"  />
+
+                    }
+                   else{
+                        <img src=@Url.Content("~/Expert/Images/Nobody頭像.jpg") height="100%" />
+
+                   }
+                </div>
+                <!-- 下方作品集區 -->
+                <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
+                    <h6>專家作品集</h6>
+                    <div id="workbox" class="d-flex justify-content-start" style="overflow: hidden; height: 200px;">
+                        @*  @Html.Partial("_ExpertResumesWorklistPartial") *@
+                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品1" class="work-img">
+                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品2" class="work-img">
+                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品3" class="work-img">
+                        <img src=@Url.Content("~/expert/images/3.webp") alt="作品4" class="work-img">
+                        <!-- You can add more images as you like -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側部分 -->
+           <div id="title" class="col-8 p-5 bg-expertdetail d-flex flex-column position-relative">
+              <div>
+                <h2 class="display-5 ps-4 py-2">@Html.DisplayFor(model =>model.專家姓名)
+                    <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.專家ID })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
+                    <span class="lead pt-3">聯繫專家</span>
+                </h2>
+                <hr />
+               </div>
+                @* 星星 *@
+                <p id="star"></p>
+                <div>
+                <span class="lead pt-3">服務地點：</span>
+                <span class="lead me-md-3">@Html.DisplayFor(model =>model.服務地區)</span>
+                </div>
+             <div class="lead me-md-3">
+                <p class="lead pt-3">專長:</p>
+                    @if(Model.專長1 != null)
+                    {
+                       @Html.DisplayFor(model =>model.專長1)
+                    }
+                    @if (Model.專長2 != null)
+                    {
+                        @Html.DisplayFor(model =>model.專長2)
+                    }
+                    @if (Model.專長3 != null)
+                    {
+                        @Html.DisplayFor(model =>model.專長3)
+                    }
+              </div>
+              <div class="lead me-md-3">
+                <p class="lead pt-3">證照:</p>
+                    @if (Model.證照1 != null)
+                    {
+                       @*  <div class="badge bg-expertbk text-wrap text-dark" style="width: 6rem;"> *@
+                            @Model.證照1
+                       @*  </div> *@
+                    }
+                    @if (Model.證照2 != null)
+                    {
+                        @Html.DisplayFor(model =>model.證照2)
+                    }
+                    @if (Model.證照3 != null)
+                    {
+                        @Html.DisplayFor(model =>model.證照3)
+                    }
+             </div>
+             <div>
+                    <p class="lead pt-3">基本報價：</p>
+                    <span class="lead py-3">@Model.基本價格</span>
+             </div>
+             <div class="lead pt-3" style="position:absolute;bottom:0px;right:50px;">
+                    <h3> 點閱次數: @Html.DisplayFor(model => model.點閱次數)</h3>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+        @* 詳細介紹 *@
+        <div id="details" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+            
+            <div class="overflow-hidden">
+               
+                <div class="m-3 p-4 ">
+                    <h2>詳細介紹</h2> 
+                    <hr/>
+                    <h4 class="lead pt-3">◆介紹：</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.專家介紹)
+
+                    </p>
+
+                    <span class="lead me-md-3">◆預期收款方式:</span>
+                    <span class="lead">@Html.DisplayFor(model => model.收款方式)</span>
+                    <h4 class="lead pt-3">◆服務內容:</h4>
+                    <p class="lead pt-3 container-fluid">
+
+                        @Html.DisplayFor(model =>model.提供服務)
+
+                    </p>
+                    <h4 class="lead pt-3">◆希望聯絡方式:</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.聯絡方式)
+                    </p>
+                    <h4 class="lead pt-3">◆常見問題：</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.常見問題)
+                    </p>
+                    @if (Model.個人網站 != null)
+                    {
+                        <div>
+                            <h4 class="lead  pt-3">◆個人網站：</h4>
+                            <p class="lead  pt-3 container-fluid">@Html.DisplayFor(model => model.個人網站)</p>
+                        </div>
+                    }
+                   
+
+                </div>
+
+            </div>
+        </div>
+    
+        @* 評分 *@
+        <div id="ratinghere" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+           
+                <div class="m-3 p-4 ">
+                    <h2>評分</h2>
+                    <hr />
+                <div id="ratecontent" style="overflow-x: auto">
+                    <div class="border border-white bg-expertbk ">
+                              <div class="card-header">
+                                 ${item.評論者名字}
+                              </div>
+                          <div class="card-body">
+                                     <p>${item.分數}</p>
+                                      <p class="card-text">${item.評論}</p>
+                              </div>
+                         </div>
+                    </div>
+                </div>
+         
+        </div>
+
+    </div>
+
+
+</div>@* 最外圍 *@
+
+
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <script>
+
+        //星星評價=====================================
+        let score = 0;
+        let count = 0;
+
+        fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")=${resumesid = @Model.專家ID}`)
+        .then(response => response.json())
+        .then(
+            data => {
+                const datadiv = "";
+                data.forEach(item => {
+
+                    score += item.分數;
+                    count = item.筆數;
+                    console.log(score);
+                        datadiv = `<div class="border border-white bg-expertbk ">
+                                      <div class="card-header">
+                                         ${item.評論者名字}
+                                      </div>
+                                       <div class="card-body">
+                                             <p>${item.分數}</p>
+                                              <p class="card-text">${item.評論}</p>
+                                      </div>
+                                 </div>`;
+                });
+
+
+                document.querySelector("#ratecontent").innerHTML = datadiv;
+                document.querySelector("#ratecontent").innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+            }
+        );
+
+    var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+    var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+    var starnull = '<i class="bi bi-star "></i>';
+
+    let arr = [];
+    for (let i = 1; i <= 5; i++) {
+
+        if (score >= i) {
+            arr.push(starfill
+            );
+        } // 實心星星
+        else if (score > i - 1 && score < i) {
+            arr.push(starhelf);
+        }// 半實心星星
+        else {
+            arr.push(starnull); // 空心星星
+        }
+    }
+    console.log(arr);
+    document.querySelector("#star").innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+
+
+    
+    </script>
+    }
