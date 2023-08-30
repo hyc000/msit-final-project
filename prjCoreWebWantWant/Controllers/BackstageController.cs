@@ -292,5 +292,12 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult JobDetail(int? id)
+        {
+            var q = _context.TaskLists
+                    .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            return View(q);
+        }
     }
 }
