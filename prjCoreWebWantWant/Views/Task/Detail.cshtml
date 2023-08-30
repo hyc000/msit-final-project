@@ -8,7 +8,7 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    string memberemail = factory.MemberEmail(Model.AccountId);
+    //string memberemail = factory.MemberEmail(Model.AccountId);
 
     string abbreviatedName = membername != null && membername.Length > 0
         ? membername[0] + new string('x', membername.Length - 1)
