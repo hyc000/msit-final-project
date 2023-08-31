@@ -12,11 +12,11 @@
                                             <thead>
                                                 <tr>
 
-                                                <th style="width: 50px;">序號</th>
+                                                <th style="width: 30px;">序號</th>
                                                 <th style="width: 100px;">投遞任務</th>
-                                                <th style="width: 50px;">申請人名稱</th>
+                                                <th style="width: 80px;">申請人名稱</th>
                                                 <th style="width: 100px;">履歷內容</th>
-                                                <th style="width: 50px;">語言</th>
+                                                @*<th style="width: 50px;">語言</th>*@
                                                 <th style="width: 50px;">證照</th>
                                                 <th style="width: 50px;">技能</th>
                                                 <th style="width: 50px;">查看</th>
@@ -76,11 +76,11 @@
                                                     count++;
 
                                                 <tr data-id="1">
-                                                    <td data-field="id" style="width: 80px">@count</td>
+                                                    <td data-field="id">@count</td>
                                                         <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
                                                         <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
                                                         <td data-field="age">@Html.DisplayFor(modelItem => item.Autobiography)</td>
-                                                        <td data-field="gender">@*@Html.DisplayFor(modelItem => taskDetail)*@</td>
+                                                        @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                                                         <td>
                                                             <div class="d-flex gap-2">
                                                                 <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>

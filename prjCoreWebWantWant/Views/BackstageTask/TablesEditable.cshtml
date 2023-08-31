@@ -27,7 +27,7 @@
     <!-- glightbox css -->
     <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
 
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+ @*   <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />*@
 
    
     <style>
@@ -89,7 +89,7 @@
                                                     <li class="nav-item" onclick="showPublish();">
                                             <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" >
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                <span class="d-none d-sm-block" style="color:#528EAF" id="tabpublish">已上架</span>
+                                                <span class="d-none d-sm-block" style="color:white ; background-color:#528EAF ; font-size:20px;" id="tabpublish">已上架</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
@@ -186,6 +186,10 @@
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
                                             let publishKeyword = document.querySelector("#publishKeyword");
                                             let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
+                                            
+                                            //已上架未上架的tab
+                                            const tabpublish = document.querySelector('#tabpublish');
+                                            const tabNopublish = document.querySelector('#tabNopublish');
 
                                             //再對標籤做操作
                                             Publish.style.display = "block";
@@ -194,6 +198,15 @@
                                             NoPublishSelect.style.display = "none";
                                             publishKeyword.style.display = "block";
                                             NopublishKeyword.style.display = "none";
+
+                                            //已上架未上架的tab-顯示已上架
+                                            tabpublish.style.color = 'white';
+                                            tabpublish.style.backgroundColor = '#528EAF';
+                                            tabpublish.style.fontSize = '20px';
+
+                                            tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
+                                            tabNopublish.style.backgroundColor = '';
+                                            tabNopublish.style.fontSize = '16px';
                                           }
 
                                         function showNoPublish() {
@@ -205,6 +218,9 @@
                                             let publishKeyword = document.querySelector("#publishKeyword");
                                             let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
 
+                                            //已上架未上架的tab
+                                            const tabpublish = document.querySelector('#tabpublish');
+                                            const tabNopublish = document.querySelector('#tabNopublish');
 
                                             //再對標籤做操作
                                             Publish.style.display = "none";
@@ -213,6 +229,17 @@
                                             NoPublishSelect.style.display = "block";
                                             publishKeyword.style.display = "none";
                                             NopublishKeyword.style.display = "block";
+
+                                            //已上架未上架的tab-顯示未上架
+                                            tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
+                                            tabpublish.style.backgroundColor = '';
+                                            tabpublish.style.fontSize = '16px';
+
+                                            tabNopublish.style.color = 'white';
+                                            tabNopublish.style.backgroundColor = '#528EAF';
+                                            tabNopublish.style.fontSize = '20px';
+
+
 
                                         }
                                     </script>
@@ -262,24 +289,6 @@
                 NoPublish.innerHTML = xhr.responseText;
             })
         })
-
-        //點選時tab會更改顏色
-            const tabpublish = document.querySelector('#tabpublish');
-            const tabNopublish = document.querySelector('#tabNopublish');
-
-            function showtabpublish() {
-                tabpublish.style.color = 'white';
-                tabpublish.style.backgroundColor = '#528EAF';
-                tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
-                tabNopublish.style.backgroundColor = '';
-            }
-
-            function showtabNopublish() {
-                tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
-                tabpublish.style.backgroundColor = '';
-                tabNopublish.style.color = 'white';
-                tabNopublish.style.backgroundColor = '#528EAF';
-            }
 
             //已上架的keyword和search
             const txtKeywordPub = document.querySelector('#txtKeywordPub');
