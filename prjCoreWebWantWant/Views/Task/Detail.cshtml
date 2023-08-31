@@ -9,7 +9,7 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    //string skill = factory.SkillIDtoName(Model.AccountId);
+    // string skill = factory.SkillIDtoName(Model.AccountId);
 
 
     string abbreviatedName = membername != null && membername.Length > 0
@@ -19,11 +19,6 @@
 <head>
     <title> Map an Address</title>
     <script src="~/Scripts/jquery-1.6.4.min.js" type="text/javascript"> </script>
-
-    @*圖片放大的*@
-    <link rel="stylesheet" href="path_to_lightbox2/lightbox.min.css">
-
-  
     <style>
 
         .image-container {
@@ -179,28 +174,27 @@
                             var q = db.TaskLists.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
-                        @{                            
-                                <div class="post-details2  mb-50">
-                                    <div class="small-section-tittle">
-                                        <h4 style="display: flex; align-items: center;">
-                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
-                                            任務相關照片
-                                        </h4>
-                                    </div>
-                                    <div class="image-container">
-                                     <a href="~/@Model.PhotoPath" data-lightbox="image">
-                                        <img src="~/@Model.PhotoPath" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
-                                    </a>
-                                        </div>                            
+                        @{
+                            
+                                                <div class="post-details2  mb-50">
+                                                    <div class="small-section-tittle">
+                                                        <h4 style="display: flex; align-items: center;">
+                                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
+                                                            任務相關照片
+                                                        </h4>
+                                                    </div>
+                                                    <div class="image-container">
+                                                        <img src="~/@Model.PhotoPath" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
+                                                 </div>                            
                                            
-                                @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
-                                @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
-                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
-                var imgSrc = $"data:image/png;base64,{base64Image}";
-                <img src="@imgSrc" class="img-thumbnail" alt="照片">*@
-                                @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
-                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
-                            </div>
+                                              @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
+                                              @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
+                                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
+                                var imgSrc = $"data:image/png;base64,{base64Image}";
+                                <img src="@imgSrc" class="img-thumbnail" alt="照片">*@
+                                               @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
+                                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
+                                        </div>
                             
                         }
                         <div class="post-details2  mb-50">                     
@@ -366,7 +360,6 @@
                                                     {
                                                         <p class="card-text">@item.Autobiography.Substring(0,70)... </p>
                                                     }
-                                                
                                                 }
                                             }
 
@@ -416,20 +409,6 @@
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 引入 jQuery -->
-
-    @*圖片放大的*@
-    <script src="path_to_lightbox2/lightbox.min.js"></script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      lightbox.option({
-        'resizeDuration': 200,
-        'wrapAround': true
-      });
-    });
-   </script>
-
-
     <script>
 
             const myModal = document.querySelector('#myModal');

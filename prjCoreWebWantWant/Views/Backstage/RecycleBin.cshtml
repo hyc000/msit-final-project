@@ -1,4 +1,5 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.Resume>
+﻿@using System.Text.Json;
+@model IEnumerable<prjCoreWebWantWant.Models.Resume>
 @{
     ViewData["Title"] = "RecucleBin";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
@@ -60,7 +61,7 @@
             </a>*@
 
             共 @Model.Count() 個項目
-            <a href="@Url.Content("~/Backstage/DeleteAll")" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除全部</a>
+            <a href="@Url.Content("~/Backstage/DeleteAll")" class="btn btn-outline-danger" onclick="return confirmDeleteAll(event)">刪除全部</a>
         </p>
     </div>
 
@@ -72,66 +73,90 @@
     <div class="container">
         @{
             int count = 0;
-            @foreach (var item in Model)
+                @foreach (var item in Model)
             {
 
                 count++;
 
-                <div class="row">
-                    <div class="col">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.ResumeTitle</h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.ResumeTitle</h5>
 
-                                @if (item.Autobiography == null)
+                                    @if (item.Autobiography == null)
                                 {
-                                    <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
+                                        <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
                                 }
                                 else if (item.Autobiography.Length <= 120)
                                 {
-                                    <p class="card-text">@item.Autobiography</p>
+                                        <p class="card-text">@item.Autobiography</p>
                                 }
                                 else
                                 {
-                                    <p class="card-text">@item.Autobiography.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
+                                        <p class="card-text">@item.Autobiography.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
                                 }
 
-                                @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
+                                    @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
 
-                                @* @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })*@
-
-
-                                @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
+                                    @* @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })*@
 
 
-                                @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
-                                @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
-                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
-                                @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+                                    @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
 
 
-                                @*<a href="#"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@   @*PDF的文件圖示*@
+                                    @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
+                                    @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
+                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
+                                    @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+
+
+                                    @*<a href="#"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@   @*PDF的文件圖示*@
 
 
 
 
-                                @*<a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>*@
-                                <a href="@Url.Content("~/Backstage/ResumeUneditableforRecycleBin")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+                                 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                                @{
+                                    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                                    CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                                    int id = loggedInUser.AccountId;
+
+                                    NewIspanProjectContext db = new NewIspanProjectContext();
+                                    var q = db.Resumes
+                                            .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23);
+                                }
+
+
+                                    @*<a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>*@
+                                    <a href="@Url.Content("~/Backstage/ResumeUneditableforRecycleBin")?id=@item.ResumeId"  class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+
+                                @{
+                                    if(q.Count() == 3)
+                                    {
+                                        <a class="btn btn-outline-warning" onclick="return NoRecover(event)">無法復原</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Content("~/Backstage/ResumeRecover")?id=@item.ResumeId" class="btn btn-outline-warning" onclick="return confirmRecover(event)">復原</a>
+                                    }
+                                }
                                 
-                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
-                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>*@
-                                <a href="@Url.Content("~/Backstage/ResumeDeleteforRecycleBin")?id=@item.ResumeId" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
 
-                                @*<a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@
+                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
+                                    @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>*@
+                                    <a href="@Url.Content("~/Backstage/ResumeDeleteforRecycleBin")?id=@item.ResumeId" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
 
-                                <span style="display: block; text-align: end;">刪除日期：@item.RemoveDate</span>
+                                    @*<a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@
+
+                                    <span style="display: block; text-align: end;">刪除日期：@item.RemoveDate</span>
 
 
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             }
         }
     </div>
@@ -152,7 +177,7 @@
 
         if (@Model.Count() == 0) {
             const ResumeList = document.querySelector('#ResumeList');
-            ResumeList.textContent = '資源回收桶是空的';
+            ResumeList.textContent = '您的資源回收桶是空的';
         }
 
         function confirmDelete(event) {
@@ -160,19 +185,94 @@
 
             Swal.fire({
                 title: '警告',
-                text: '您確定要刪除所有項目嗎，此動作無法復原',
+                text: '您確定要刪除此履歷嗎，此動作無法復原',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '確定',
                 cancelButtonText: '取消'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // 使用者點擊了 "確定"，可以執行刪除動作
                     window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
                 }
             });
         }
 
+
+        function confirmDeleteAll(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            if (@Model.Count() == 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: '提醒',
+                    text: '您的資源回收桶是空的',
+                    confirmButtonText: '確定',
+                })
+                return;
+            }
+
+            Swal.fire({
+                title: '警告',
+                text: '您確定要刪除所有履歷嗎，此動作無法復原',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1200,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '確認刪除所有履歷'
+                    })
+
+                    setTimeout(() => {
+                        window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                    }, 1200);
+                    // 使用者點擊了 "確定"，可以執行刪除動作
+                    // window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                }
+            });
+        }
+
+        
+        function confirmRecover(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            Swal.fire({
+                title: '提醒',
+                text: '您確定要復原此履歷嗎',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                }
+            });
+        }
+
+        function NoRecover() {
+            
+            Swal.fire({
+                title: '警告',
+                text: '您的履歷已達到上限，請回到履歷管理刪除履歷',
+                icon: 'warning',
+                confirmButtonText: '確定',
+            });
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

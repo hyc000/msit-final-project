@@ -101,6 +101,21 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(q);
         }
 
+        public IActionResult ResumeRecover(int? id)
+        {
+            if (id != null)
+            {
+                Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+                if (resume != null)
+                {
+                    resume.CaseStatusId = 23;
+                    //_context.Resumes.Remove(resume);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("RecycleBin");
+        }
+
         public IActionResult ResumeList()
         {
             var q = _context.Resumes
@@ -116,6 +131,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 if (resume != null)
                 {
                     resume.CaseStatusId = 22;
+                    resume.RemoveDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
                     //_context.Resumes.Remove(resume);
                     _context.SaveChanges();
                 }
@@ -277,6 +293,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 CaseId = caseId,
                 CaseStatusId = 21,
                 ApplicationDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+                
             };
             _context.Add(applicationList);
             _context.SaveChanges(true);
