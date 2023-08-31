@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using System.Diagnostics;
@@ -50,5 +52,20 @@ namespace prjCoreWebWantWant.Controllers
 
             return Content(comment.PostCommentId.ToString().Trim());
         }
+
+        public IActionResult PostComment(int? id)
+        {
+            var vm = new ForumPostViewModel();
+            vm.MainComments = _db.ForumPostComments
+                .Include(c => c.Account)
+                .Where(c => c.PostId == id && (c.Status == 1 || c.Status == 4))
+                .ToList();
+
+            return PartialView(vm);
+        }
+
+
+
+
     }
 }
