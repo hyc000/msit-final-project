@@ -21,7 +21,7 @@
     <!-- glightbox css -->
    <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
 
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+   @* <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />*@
 
     <style>
 
@@ -101,15 +101,14 @@
                                   @*  <i class="fas fa-pencil-alt"></i>
                             </a>  舊的*@                         
                               
-                                <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">
-                                    @*<i class="fas fa-pencil-alt"></i>*@
+                                <a href="@Url.Content("~/BackstageTask/Edit")?id=@item.CaseId">                                  
                                  <img src="~/backstage1/img/edit.png" alt="修改" style="height: 25px; width: 25px;">
-                               </a>     
+                               </a>  
+                               
                         </td>
 
                             <td >
                                 <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" onclick="return confirmDelete(event)">
-                                    @*<i class="fas fa-pencil-alt"></i>*@
                                     <img src="~/backstage1/img/recycle-bin.png" alt="刪除" style="height: 23px; width: 25px;">
                                 </a>
                             </td>

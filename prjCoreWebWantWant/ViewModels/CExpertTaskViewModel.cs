@@ -11,7 +11,8 @@
         public int? taskprice { get; set; }
         public string CaseStatusname { get; set; }
 
-        
+        public string WorkPlace { get; set; }
+        public string Address { get; set; }
 
     }
 }

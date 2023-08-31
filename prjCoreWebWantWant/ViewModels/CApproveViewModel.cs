@@ -31,6 +31,9 @@ namespace WantTask.ViewModels
 
        public List<Skill>? skill { get; set; }
         public List<ResumeSkill>? resumeSkill  { get; set; }
-        
+
+        public List<string> SkillNames { get; set; }
+        public List<string> CertificateNames { get; set; }
+
     }
 }

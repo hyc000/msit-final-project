@@ -75,18 +75,25 @@ namespace prjCoreWebWantWant.Controllers
                
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
                 cexperttask.caseid = taskList.CaseId;
-                if (taskList.TaskDetail.Length>20) {
-                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
-                }
-                else
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail;
-                }
-                    
+                cexperttask.taskcontent = taskList.TaskDetail;
+
+
+
                 cexperttask.taskdatestart = taskList.TaskStartDate;
                 cexperttask.taskdateend = taskList.TaskEndDate;
                 cexperttask.taskprice = taskList.PayFrom;
-                
+                cexperttask.WorkPlace = (taskList.WorkPlace.GetValueOrDefault()?"在家工作":"指定地點工作");
+                if (!taskList.WorkPlace.GetValueOrDefault())
+                {
+                    
+                    cexperttask.Address = taskList.Address;
+                }
+                else
+                {
+                    cexperttask.Address = "無";
+                }
+
+
                 list.Add(cexperttask);
             }
             vw.mytasking=list;
@@ -120,19 +127,23 @@ namespace prjCoreWebWantWant.Controllers
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
                 cexperttask.caseid = taskList.CaseId;
-                if (taskList.TaskDetail.Length > 20)
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20)+"...";
-                }
-                else
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail;
-                }
+                cexperttask.taskcontent = taskList.TaskDetail;
+
 
                 cexperttask.taskdatestart = taskList.TaskStartDate;
                 cexperttask.taskdateend = taskList.TaskEndDate;
                 cexperttask.taskprice = taskList.PayFrom;
-               
+                cexperttask.WorkPlace = (taskList.WorkPlace.GetValueOrDefault() ? "在家工作" : "指定地點工作");
+                if (!taskList.WorkPlace.GetValueOrDefault())
+                {
+
+                    cexperttask.Address = taskList.Address;
+                }
+                else
+                {
+                    cexperttask.Address = "無";
+                }
+
                 list2.Add(cexperttask);
             }
             vw.mytasked = list2;
@@ -165,19 +176,24 @@ namespace prjCoreWebWantWant.Controllers
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
                 cexperttask.caseid = taskList.CaseId;
-                if (taskList.TaskDetail.Length > 20)
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
-                }
-                else
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail;
-                }
+                cexperttask.taskcontent = taskList.TaskDetail;
+
+
 
                 cexperttask.taskdatestart = taskList.TaskStartDate;
                 cexperttask.taskdateend = taskList.TaskEndDate;
                 cexperttask.taskprice = taskList.PayFrom;
-                
+                cexperttask.WorkPlace = (taskList.WorkPlace.GetValueOrDefault() ? "在家工作" : "指定地點工作");
+                if (!taskList.WorkPlace.GetValueOrDefault())
+                {
+
+                    cexperttask.Address = taskList.Address;
+                }
+                else
+                {
+                    cexperttask.Address = "無";
+                }
+
                 list3.Add(cexperttask);
             }
             vw.taskfromotherno = list3;
@@ -214,19 +230,23 @@ namespace prjCoreWebWantWant.Controllers
 
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
                 cexperttask.caseid = taskList.CaseId;
-                if (taskList.TaskDetail.Length > 20)
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
-                }
-                else
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail;
-                }
+                cexperttask.taskcontent = taskList.TaskDetail;
+
 
                 cexperttask.taskdatestart = taskList.TaskStartDate;
                 cexperttask.taskdateend = taskList.TaskEndDate;
                 cexperttask.taskprice = taskList.PayFrom;
-               
+                cexperttask.WorkPlace = (taskList.WorkPlace.GetValueOrDefault() ? "在家工作" : "指定地點工作");
+                if (!taskList.WorkPlace.GetValueOrDefault())
+                {
+
+                    cexperttask.Address = taskList.Address;
+                }
+                else
+                {
+                    cexperttask.Address = "無";
+                }
+
                 list4.Add(cexperttask);
             }
             vw.taskingfromother = list4;
@@ -261,19 +281,23 @@ namespace prjCoreWebWantWant.Controllers
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
                 cexperttask.caseid = taskList.CaseId;
-                if (taskList.TaskDetail.Length > 20)
-                {
-                    cexperttask.taskcontent = taskList.TaskDetail.Substring(0, 20) + "...";
-                }
-                else
-                {
                     cexperttask.taskcontent = taskList.TaskDetail;
-                }
+               
 
                 cexperttask.taskdatestart = taskList.TaskStartDate;
                 cexperttask.taskdateend = taskList.TaskEndDate;
                 cexperttask.taskprice = taskList.PayFrom;
-               
+                cexperttask.WorkPlace = (taskList.WorkPlace.GetValueOrDefault() ? "在家工作" : "指定地點工作");
+                if (!taskList.WorkPlace.GetValueOrDefault())
+                {
+
+                    cexperttask.Address = taskList.Address;
+                }
+                else
+                {
+                    cexperttask.Address = "無";
+                }
+
                 list5.Add(cexperttask);
             }
             vw.taskedfromother = list5;

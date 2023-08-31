@@ -93,8 +93,7 @@
                         <div class="col-12">
                             <div class="card">
                  @using (Html.BeginForm())
-                        {
-                       
+                        {                       
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="card-body col-6">
@@ -122,16 +121,16 @@
                                             </ul>                                      
                                             </div>
              
-                                            <!--選擇任務類型  未處理的標籤-->
-                                              <div class="col-3 mb-3" id="selAll">
-                                                <form class="app-search d-none d-lg-block">
+                                            <!--選擇任務類型  未處理的標籤-->                                  
+                                        <div class="col-3 mb-3">
+                                        <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context1 = new NewIspanProjectContext();
                                                         var q = from p in _context1.TaskNameLists
                                                                 select p.TaskName;
                                                     }
 
-                                                    <select class="form-select" id="selTaskNameAll">
+                                            <select class="form-select" id="selAll">
                                                         <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q)
                                                         {
@@ -142,15 +141,15 @@
                                             </div>
 
                                             <!--選擇任務類型  已錄取的標籤-->
-                                              <div class="col-3 mb-3" id="selAccept"  style="display:none">
-                                                <form class="app-search d-none d-lg-block">
+                                    <div class="col-3 mb-3">
+                                               <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
                                                         var q2 = from p in _context2.TaskNameLists
                                                                 select p.TaskName;
                                                     }
 
-                                                    <select class="form-select" id="selTaskNameAccept">
+                                            <select class="form-select" id="selAccept" style="display:none">
                                                         <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q2)
                                                         {
@@ -161,7 +160,7 @@
                                             </div>
 
                                              <!--選擇任務類型  已婉拒的標籤-->
-                                              <div class="col-3 mb-3" id="selRefuse" style="display:none">
+                                    <div class="col-3 mb-3" >
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context3 = new NewIspanProjectContext();
@@ -169,16 +168,16 @@
                                                                 select p.TaskName;
                                                     }
 
-                                                    <select class="form-select" id="selTaskNameRefuse">
-                                                        <option value="">請選擇任務類型</option>
+                                            <select class="form-select" id="selRefuse" style="display:none">
+                                                <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q3)
                                                         {
-                                                            <option name="category">@item</option>
+                                                    <option name="category">@item</option>
                                                         }
                                                     </select>
-                                                </form>
+                                                  </form>
                                             </div>
-
+                                  
 
                                         <!-- App Search--> 
 

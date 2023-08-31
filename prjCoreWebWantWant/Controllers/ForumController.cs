@@ -234,9 +234,11 @@ namespace WantTask.Controllers
 
 
 
-        public IActionResult ForumMS()
+        public IActionResult ForumMS(int id)
         {
-            var postlist = _db.ForumPosts.Include(p => p.StatusNavigation).ToArray();
+            var postlist = _db.ForumPosts
+                .Where(p=>p.AccountId== id)
+                .ToList();
             return View(postlist);
         }
 
