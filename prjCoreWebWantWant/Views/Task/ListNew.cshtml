@@ -598,7 +598,8 @@
                                     <a href="@Url.Action("Detail", new { id=item.CaseId })" class="btn btn-outline-primary">詳細資訊</a>
                                     <a href="@Url.Content("~/Backstage/AddCollection")?id=@item.CaseId" class="btn btn-outline-primary"><i class="fa-regular fa-heart fa-beat" style="color: #ef4006;"></i>收藏工作</a>
                                     @* <a href="@Url.Action("Chatsingle", "Chat", new { id = @item })" target="_blank" class="btn btn-outline-primary me-2" style="float:right">聯絡發案者</a> *@
-                                    <a href="#" style="float:right"> <img src="~/Backstage/img/bubble-chat (1).png"></a>
+                                    @* <a href="#" style="float:right"> <img src="~/Backstage/img/bubble-chat (1).png"></a> *@
+                                    <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.AccountId })" target="_blank"><img src="~/Backstage/img/bubble-chat (1).png"></a>
                                     
                                     @*@foreach(var item1 in q2)
                                 {

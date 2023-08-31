@@ -53,6 +53,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
                 p.PhotoPath = imagePath;
             }
+                p.CaseStatusId = 23;
                 p.TownId = selectedTownId;
                 //p.Photo = new byte[] {selectedPhoto};
                 p.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
@@ -100,7 +101,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(q);
         }
 
-
         public IActionResult ResumeList()
         {
             var q = _context.Resumes
@@ -121,6 +121,22 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
             return RedirectToAction("ResumeList");
+        }
+
+        public IActionResult DeleteAll()
+        {
+            var matchingResumes = _context.Resumes
+                                  .Where(r => r.IsExpertOrNot == false && r.CaseStatusId == 22 && r.AccountId == GetAccountID());
+
+            foreach (var resume in matchingResumes)
+            {
+                resume.CaseStatusId = 24;
+            }
+
+            // 儲存變更到資料庫
+            _context.SaveChanges();
+            
+            return RedirectToAction("RecycleBin");
         }
 
         public IActionResult ResumeDeleteforRecycleBin(int? id)
@@ -151,7 +167,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
             Resume resume = _context.Resumes
                             .Include(t => t.Town.City)
-                            .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22)
+                            .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId == 23)
                             .FirstOrDefault(p => p.ResumeId == id);
             if (resume == null)
                 return RedirectToAction("ResumeList");

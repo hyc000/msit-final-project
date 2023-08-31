@@ -342,7 +342,7 @@
 
                         NewIspanProjectContext _context = new NewIspanProjectContext();
                         var resumes = db.Resumes
-                        .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
+                        .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23).ToList();
                         
                     
                                      @foreach (var item in resumes)
@@ -353,16 +353,22 @@
                                                     <div class="card-body" width="300px">
                                                  <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
                                                 <hr />
-                                              
-                                                     @if (item.Autobiography.Length <= 70)
-                                    {
+                                              @{
+                                                @if(item.Autobiography != null)
+                                                {
+                                                    @if (item.Autobiography.Length <= 70)
+                                                    {
                                                         <p class="card-text">@item.Autobiography</p>
-                                    }
-                                    else
-                                    {
-                                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
-                                    } 
-                                                          <div class="card-footer text-center">
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>
+                                                    }
+                                                
+                                                }
+                                            }
+
+                                            <div class="card-footer text-center">
                                                         <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
                                                             <!-- 使用表單元素包裹 -->
                                                             <input 
