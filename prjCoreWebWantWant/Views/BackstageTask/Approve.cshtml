@@ -102,19 +102,19 @@
                                             <!--未處理 已錄取 未錄取 tab-->
                                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                 <li class="nav-item" onclick="showAllResume();">
-                                                    <a class="nav-link active" data-bs-toggle="tab" href="#tabAllResume" role="tab" style="color:#528EAF">
+                                                <a class="nav-link active" data-bs-toggle="tab" href="#tabAllResume" role="tab" >
                                                         @*<span class="d-block d-sm-none"><i class="fas fa-home"></i></span>*@
-                                                    <span class="d-none d-sm-block" style="color:#528EAF" id="tabAll">未處理</span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF;" id=" tabAll">未處理</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" onclick="showAccept();">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                     <span class="d-none d-sm-block" style="color:#528EAF" id="tabAccept">已錄取</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" onclick="showRefuse();">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                                     <span class="d-none d-sm-block" style="color:#528EAF" id="tabRefuse">未錄取</span>
                                                     </a>
@@ -187,7 +187,7 @@
                                             <form class="app-search d-none d-lg-block">
                                                 <div class="position-relative">
                                                 <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordAllResume">
-                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchAllResume"><i class="bx bx-search-alt align-middle"></i></button>
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF ;" id="btnSearchAllResume"><i class="bx bx-search-alt align-middle"></i></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -284,7 +284,6 @@
                                 tabRefuse.style.backgroundColor = '';
                                 tabRefuse.style.fontSize = '16px';
 
-
                                     }
 
                                     function showAccept() {
@@ -336,7 +335,6 @@
                                 tabRefuse.style.backgroundColor = '';
                                 tabRefuse.style.fontSize = '16px';
 
-
                                     }
 
                                     function showRefuse() {
@@ -387,7 +385,6 @@
                                 tabAccept.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
                                 tabAccept.style.backgroundColor = '';
                                 tabAccept.style.fontSize = '16px';
-
 
                                     }
                                 </script>
