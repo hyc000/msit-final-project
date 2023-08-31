@@ -8,7 +8,9 @@ namespace prjCoreWebWantWant.ViewModels
 
         public string Email { get; set; } = null!;
        
-        public bool? AccountStatus { get; set; }              
+        public bool? AccountStatus { get; set; }
+
+        public string Gender { get; set; }
 
         public DateTime CreateTime { get; set; }               
 
@@ -19,5 +21,7 @@ namespace prjCoreWebWantWant.ViewModels
         public MemberStatusList memberStatusList { get; set; }
 
         public LoginHistory loginHistory { get; set; }
+
+        public int CurrentPage { get; set; } = 1;
     }
 }

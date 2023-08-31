@@ -330,20 +330,17 @@
         <h1 class="title text-center mb-4">Contact US</h1>
 
         <div class="form-group position-relative">
-@*             <label for="formTitle" class="d-block">
-                <i class="icon" data-feather="title"></i>
-            </label> *@
-            <input type="text" id="formTitle" class="form-control form-control-lg thick" placeholder="標題">
+
+            <input type="text" id="formTitle" name="ComplaintTitle" class="form-control form-control-lg thick" placeholder="標題">
             @Html.DisplayFor(model=>model.ComplaintTitle)
         </div>
 
         <div class="form-group message">
-            <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="內容"></textarea>
+            <textarea id="formMessage" name="ComplaintContent" class="form-control form-control-lg" rows="7" placeholder="內容"></textarea>
             @Html.DisplayFor(model=>model.ComplaintContent)
         </div>
 
         <div class="text-center">
-            @* 			@Html.ActionLink("SaveMessage", "ServiceContacts", new {    })  *@
             <button type="submit" class="btn btn-primary" tabIndex="-1">發送訊息</button>
         </div>
     </form>

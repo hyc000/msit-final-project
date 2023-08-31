@@ -4,6 +4,8 @@ using prjCoreWebWantWant.ViewModels;
 using prjCoreWantMember.ViewModels;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using X.PagedList;
+using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.InkML;
 
 namespace prjCoreWebWantWant.Controllers
 {
@@ -16,96 +18,40 @@ namespace prjCoreWebWantWant.Controllers
             _context = context;
         }
 
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-                return RedirectToAction("List");
-
-            NewIspanProjectContext db = new NewIspanProjectContext();            
-            CBackstageManagementViewModel vm = GetViewModelById(id);
-
-            if (vm == null)
-                return RedirectToAction("List");
-
-            return View(vm);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(int id, CBackstageManagementViewModel vm)
-        {
-            if (ModelState.IsValid)
-            {
-                NewIspanProjectContext db = new NewIspanProjectContext();              
-                CBackstageManagementViewModel pDb = GetViewModelById(id);
-
-                if (pDb != null)
-                {                   
-                    pDb.Name = vm.Name;
-                    pDb.Email = vm.Email;
-                    pDb.PhoneNo = vm.PhoneNo;
-                    pDb.AccountStatus = vm.AccountStatus;
-                    pDb.memberStatusList.StatusChangeReason = vm.memberStatusList.StatusChangeReason;
-                                       
-                    db.SaveChanges();
-                }
-
-                return RedirectToAction("List");
-            }
-
-            return View(vm);
-        }
-
-        private CBackstageManagementViewModel GetViewModelById(int? id)
-        {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-           
-            CBackstageManagementViewModel vm = new CBackstageManagementViewModel
-            {
-                //memberAccount = db.MemberAccounts.FirstOrDefault(m => m.AccountId == id),
-                memberStatusList = db.MemberStatusLists.FirstOrDefault(ms => ms.AccountId == id)
-            };
-
-            return vm;
-        }
-
-        //public IActionResult List(CKeywordViewModel vm, int? page)
-        //{
-        //    NewIspanProjectContext db = new NewIspanProjectContext();
-        //    IEnumerable<CBackstageManagementViewModel> datas = null;
-
-        //    int pageSize = 8;
-        //    int pageNumber = page ?? 1;
-
-        //    var pagedData = datas.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-
-        //    ViewBag.CurrentPage = pageNumber;
-        //    ViewBag.TotalPages = (int)Math.Ceiling((double)datas.Count() / pageSize);
-
-        //    return View(pagedData);
-        //}
-
-        public IActionResult List(CKeywordViewModel vm)
+        public IActionResult Detail(int? id)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
             IEnumerable<CBackstageManagementViewModel> datas = null;
+
+            datas = from m in db.MemberAccounts
+                    join l in db.LoginHistories
+                    on m.AccountId equals l.AccountId
+
+                    join ms in db.MemberStatusLists
+                    on m.AccountId equals ms.AccountId
+
+                    select new CBackstageManagementViewModel
+                    {
+
+                    };
+
+            return View(datas);
+
+        }
+
+        public IActionResult List(CKeywordViewModel vm,int currentPage = 1)
+        {
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            IEnumerable<CBackstageManagementViewModel> datas = null;
+
+            int pageSize = 8;
+            int skipAmount = (currentPage - 1) * pageSize;
+
+            int totalCount = db.MemberAccounts.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
             if (string.IsNullOrEmpty(vm.txtKeyword))
-                //datas = (from m in db.MemberAccounts
-                //         join ms in db.MemberStatusLists on m.AccountId equals ms.AccountId
-                //         join l in db.LoginHistories on m.AccountId equals l.AccountId
-                //         let lastStatusChannge = (from ms in db.MemberStatusLists
-                //                                  where ms.AccountId == m.AccountId
-                //                                  orderby ms.StatusChangeId descending
-                //                                  select ms).FirstOrDefault()
-                //         let lastLoginTime = (from l in db.LoginHistories
-                //                              where l.AccountId == m.AccountId
-                //                              orderby l.LoginId descending
-                //                              select l).FirstOrDefault()
-                //         select new CBackstageManagementViewModel
-                //         {
-                //             memberAccount = m,
-                //             memberStatusList = ms,
-                //             loginHistory = lastLoginTime,
-                //         }).AsEnumerable().DistinctBy(vm => vm.memberAccount.AccountId);
+
                 datas = (from m in db.MemberAccounts
                          join ms in db.MemberStatusLists on m.AccountId equals ms.AccountId into msGroup
                          from ms in msGroup.DefaultIfEmpty() // 左外連接
@@ -125,11 +71,12 @@ namespace prjCoreWebWantWant.Controllers
                              Name = m.Name,
                              Email = m.Email,
                              PhoneNo = m.PhoneNo,
+                             Gender = m.Gender,
                              CreateTime = m.CreateTime,
                              AccountStatus = m.AccountStatus,
                              memberStatusList = ms,
                              loginHistory = lastLoginTime,
-                         }).AsEnumerable().DistinctBy(vm => vm.AccountId).Take(8);
+                         }).AsEnumerable().DistinctBy(vm => vm.AccountId).Skip(skipAmount).Take(pageSize);
 
             else
                 datas = from ms in db.MemberStatusLists
@@ -146,6 +93,8 @@ namespace prjCoreWebWantWant.Controllers
                             PhoneNo = m.PhoneNo
                         };
 
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
             return View(datas);
         }
 

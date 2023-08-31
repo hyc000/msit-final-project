@@ -20,25 +20,24 @@ namespace prjCoreWebWantWant.Controllers
             _context = context;
         }
 
-        public IActionResult SaveMessage()
-        {
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            IEnumerable<CServiceContactViewModel> datas = null;
- 
-            datas = from m in db.MemberAccounts
-                    join s in db.ServiceContacts
-                    on m.AccountId equals s.AccountId
-                    select new CServiceContactViewModel
-                    {
-                        serviceContact = s,
-                        AccountId = m.AccountId,
-                        Name = m.Name,
-                        Email = m.Email
-                    };
-            db.Add(datas);
-            db.SaveChanges();
-            return RedirectToAction("List");
-        }
+        //public IActionResult SaveMessage(CServiceContactViewModel vm)
+        //{
+        //    NewIspanProjectContext db = new NewIspanProjectContext();
+
+        //    int currentAccountId = 1;
+
+        //    ServiceContact newMessage = new ServiceContact
+        //    {
+        //        AccountId = currentAccountId,
+        //        ComplaintTitle = vm.serviceContact.ComplaintTitle,
+        //        ComplaintContent = vm.serviceContact.ComplaintTitle,
+        //    };
+
+        //    db.ServiceContacts.Add(newMessage);
+        //    db.SaveChanges();
+
+        //    return RedirectToAction("List");
+        //}
 
 		public IActionResult List(CKeywordViewModel vm)
 		{
