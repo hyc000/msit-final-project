@@ -35,24 +35,13 @@
             display: flex;
             flex-direction: row;
             overflow-x: auto;
-                                  }
-
-        .workbox {
-           
-            height: 200px;
-            width:380px;
-            background-color: #7F9DB7;
-            overflow: hidden;
-            position: relative;
         }
-
         .worklist {
             /*position: absolute;*/
           /*  left: 50%;
             top: 50%;*/
             /*transform: translate(-50%, -50%);*/
-            width:100%;
-            display: flex;
+           
         }
     </style>
         }
@@ -89,8 +78,9 @@
                 <!-- 下方作品集區 -->
                 <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
                     <h6>專家作品集</h6>
-                    <div id="workbox" class="d-flex justify-content-start">
-                            <div id="worklist" class="worklist">
+                    <div id="workbox" class="d-flex justify-content-start"
+                             style=" height: 200px; width:380px;overflow: hidden; position: relative;">
+                            <div id="worklist" class="worklist" style=" width:100%; display: flex;">
                      
                           </div>
                     </div>
@@ -356,7 +346,7 @@
             function load() {
                 const workbox = document.querySelector('#workbox');
                 const worklist = document.querySelector('#worklist');
-                const imageWidth = 458 / 4;//458是Worklist長度
+                const imageWidth = 10;//458是Worklist長度
               
       
                 let left = 0; // 初始化為 0
