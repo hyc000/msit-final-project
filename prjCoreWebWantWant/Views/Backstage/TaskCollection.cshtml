@@ -445,15 +445,18 @@
                                                         <div class="card-body" width="300px">
                                                             <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4>
                                                             <hr />
-
-                                                            @if (item.Autobiography.Length <= 70)
+                                                            @if (item.Autobiography != null)
                                                             {
+                                                                @if (item.Autobiography.Length <= 70)
+                                                                {
                                                                 <p class="card-text">@item.Autobiography</p>
-                                                            }
-                                                            else
-                                                            {
+                                                                }
+                                                                else
+                                                                {
                                                                 <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  @*秀出自傳的部分內容*@
+                                                                }
                                                             }
+                                                            
                                                             <div class="card-footer text-center">
                                                                 <form action="@Url.Content("~/Backstage/apply")" method="post">
                                                                     <!-- 使用表單元素包裹 -->

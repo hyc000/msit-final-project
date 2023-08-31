@@ -39,7 +39,6 @@
     <div class="container" id="ResumeEdit">
         <p style="text-align: right">
             <a href="@Url.Content("~/backstage/create")"
-               title="新增履歷表"
                class="btn btn-outline-info"
                style="float:left"
                id="CreateResume">新增履歷表 +</a>
@@ -103,7 +102,7 @@
 
                                 
                                     <a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
-                                    <a href="@Url.Content("~/Backstage/ResumeUneditable")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+                                    <a href="@Url.Content("~/Backstage/ResumeUneditable")?id=@item.ResumeId"  class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
                                     @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
                                     <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
 

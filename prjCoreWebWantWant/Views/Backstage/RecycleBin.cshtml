@@ -60,7 +60,7 @@
             </a>*@
 
             共 @Model.Count() 個項目
-            <a class="btn btn-outline-danger">刪除全部</a>
+            <a href="@Url.Content("~/Backstage/DeleteAll")" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除全部</a>
         </p>
     </div>
 
@@ -117,6 +117,7 @@
 
                                 @*<a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>*@
                                 <a href="@Url.Content("~/Backstage/ResumeUneditableforRecycleBin")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+                                
                                 @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
                                 @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>*@
                                 <a href="@Url.Content("~/Backstage/ResumeDeleteforRecycleBin")?id=@item.ResumeId" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
@@ -159,7 +160,7 @@
 
             Swal.fire({
                 title: '警告',
-                text: '您確定要刪除此履歷嗎',
+                text: '您確定要刪除所有項目嗎，此動作無法復原',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '確定',
