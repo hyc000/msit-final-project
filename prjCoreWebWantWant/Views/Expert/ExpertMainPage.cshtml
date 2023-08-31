@@ -37,6 +37,7 @@
 
       
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 }
 
 
@@ -191,125 +192,114 @@
                     @* asp-action="Product" asp-controller="Program" asp-route-id="@item.productID" *@
                     <!--=======================================================================-->
                 @{
-                    string starId = "";
+                        string starId = "";
+
                     foreach (var item in Model)
                     {
                         CountExpert += 1;
                         starId = "star" + item.resume.ResumeId;
-                                <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
-                                    <div class="row g-0">
-                                        <div class="col-md-4 pr-0 ">
-                                            <!--放圖片-->
-                                                @if (item.resume.Photo != null)
+
+                                                                    <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
+                                                                                <div class="row g-0">
+                                                                                    <div class="col-md-4 pr-0 ">
+                                                                                        <!--放圖片-->
+                                                                                            @if (item.resume.Photo != null)
                                         {
-                                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
-                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.resume.Photo)" height="250" />
-                                                </div>
+                                                                                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
+                                                                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(item.resume.Photo)" height="250" />
+                                                                                            </div>
                                     }
                                     else
                                     {
-                                                <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                                    <img src="~/Images/LOGO.png" height="250" />
-                                                </div>
+                                                                                            <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
+                                                                                                <img src="~/Images/LOGO.png" height="250" />
+                                                                                            </div>
                                     }
-                                        </div>
-                                        <div class="col-md-6 pl-0">
-                                            <div class="card-body d-flex justify-content-around row">
-                                                <div class="pl-4 pr-4">
-                                                    <span class="card-title">@item.memberAccount.Name  @item.resume.ResumeTitle</span>
-                                                    <p class="card-text  mb-2">專家介紹： @item.expertResume.Introduction </p>
-                                                    <p class="card-text">
-                                                        <small class="text-body-secondary"> @item.expertResume.PaymentMethod |</small>
-                                                        <small class="text-body-secondary">@item.expertResume.ContactMethod</small>
-                                                        <small class="text-body-secondary">
-                                                            |
-                                                            <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
-                                                        </small>
-                                                    </p>
-                                                    <p class="card-text">
-                                                        <small class="text-body-secondary" id="@starId"></small>
-                                                    </p>
-                                                    <div class="row position-absolute bottom-0">
-                                                        @*<div class="col">*@
-                                                    <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.resume.DataModifyDate.Substring(0,10)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 pl-0">
-                                            <div class="row g-0 mx-2 my-2">
-                                                <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
-                                            </div>
-                                            <div class="row g-0 mx-2 my-2">
-                                            <!--<a href="@Url.Action("Chatsingle", "Chat", new { id = @item.resume.AccountId })" target="_blank" class="btn btn-outline-primary me-2" style="float:right" id="btnChat">聯絡專家</a>-->
-                                            <a href="@Url.Content("~/Chat/Chatsingle")?id=@item.resume.AccountId" target="_blank" class="btn btn-outline-primary me-2" style="float:right" id="btnChat">聯絡專家</a>
-                                            </div>
-                                            <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
-                                                @*<div class="col">*@
-                                                <p class="card-text fs-5 fw-bolder text-end"><span>TWD @((int)item.expertResume.CommonPrice)</span><span class="fs-6 fw-normal">起</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 pl-0">
+                                                                                        <div class="card-body d-flex justify-content-around row">
+                                                                                            <div class="pl-4 pr-4">
+                                                                                                <span class="card-title">@item.memberAccount.Name  @item.resume.ResumeTitle</span>
+                                                                                                <p class="card-text  mb-2">專家介紹： @item.expertResume.Introduction </p>
+                                                                                                <p class="card-text">
+                                                                                                    <small class="text-body-secondary"> @item.expertResume.PaymentMethod |</small>
+                                                                                                    <small class="text-body-secondary">@item.expertResume.ContactMethod</small>
+                                                                                                    <small class="text-body-secondary">
+                                                                                                        |
+                                                                                                        <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
+                                                                                                    </small>
+                                                                                                </p>
+                                                                                                <p class="card-text">
+                                                                                                    <small class="text-body-secondary" id="@starId"></small>
+                                                                                                </p>
+                                                                                                <div class="row position-absolute bottom-0">
+                                                                                                    @*<div class="col">*@
+                                                                                                <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.resume.DataModifyDate.Substring(0,10)</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-2 pl-0">
+                                                                                        <div class="row g-0 mx-2 my-2">
+                                                                                            <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
+                                                                                        </div>
+                                                                                        <div class="row g-0 mx-2 my-2">
+                                            <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.resume.AccountId')">聯絡專家</a>
+                                                                                        </div>
+                                                                                        <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
+                                                                                            @*<div class="col">*@
+                                                                                            <p class="card-text fs-5 fw-bolder text-end"><span>TWD @((int)item.expertResume.CommonPrice)</span><span class="fs-6 fw-normal">起</span></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                   </div>
+                                                   
+                                                                            <script>
 
-                                <script>
-
-                                    fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumeid=@item.resume.ResumeId`)
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            let score = 0;
-                                            let count = 0;
-                                            data.forEach(item => {
-                                                score += item.分數;
-                                                count = item.筆數;
-                                            });
-                                            renderStars(score, count, "@starId");
-                                        });
-                                    // 動態生成評價星星並顯示
+                                                                                    fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumesid=@item.resume.ResumeId`)
+                                                                                    .then(response => response.json())
+                                                                                    .then(data => {
+                                                                                        let score = 0;
+                                                                                        let count = 0;
+                                                                                        data.forEach(item => {
+                                                                                            score += item.分數;
+                                                                                            count = item.筆數;
+                                                                                        });
+                                                                                        renderStars(score, count, "@starId");
+                                                                                    });
+                                                                                // 動態生成評價星星並顯示
 
 
-                                    function renderStars(score, count, starId) {
-                                        var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-                                        var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
-                                        var starnull = '<i class="bi bi-star "></i>';
+                                                                                function renderStars(score, count, starId) {
+                                                                                    var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+                                                                                    var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
+                                                                                    var starnull = '<i class="bi bi-star "></i>';
 
-                                        let arr = [];
-                                        for (let i = 1; i <= 5; i++) {
-                                            if (score >= i) {
-                                                arr.push(starfill);
-                                            } else if (score > i - 1 && score < i) {
-                                                arr.push(starhelf);
-                                            } else {
-                                                arr.push(starnull);
-                                            }
-                                        }
+                                                                                    let arr = [];
+                                                                                    for (let i = 1; i <= 5; i++) {
+                                                                                        if (score >= i) {
+                                                                                            arr.push(starfill);
+                                                                                        } else if (score > i - 1 && score < i) {
+                                                                                            arr.push(starhelf);
+                                                                                        } else {
+                                                                                            arr.push(starnull);
+                                                                                        }
+                                                                                    }
 
-                                        document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
-                                    }
-                                //製作詳細資料的sweetalert
-                                //const btnChat = document.querySelector('#btnChat');
-                                //btnChat.addEventListener('click', () => {
-                                //    fetch(`@Url.Content("~/Chat/Chatsingle")?id=@item.resume.AccountId`).then(
-                                //        Swal.fire(
-                                //            icon: 'warning',
-                                //            title: '請先登入會員',
-                                //            text: 'Thanks for coming!',
-                                //        )
-                                //    )
-                                //})
-                                </script>
+                                                                                    document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
+                                                                                }
+                                                       
+                                                                            </script>
                     }
                     
                 }
-               
-
 
                     <!--=======================================================================-->
                 
 
                     
             </div>
-            <!--製作頁數之類的東西，但沒有很懂-->
+            <!--製作頁數-->
             <div class="d-flex justify-content-center bg-transparent border-0">
                 <div class="col-7 d-flex justify-content-around">
                     @Html.PagedListPager(
@@ -378,32 +368,32 @@
                 });  //then最後一個THEN
         };
 
-        function Loadskill() {
-            const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
-          
-            console.log(skilltypeselecttext);
-            if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext == null) {
-                skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
-                return;
-            }
-            
-            fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
-                .then(response => response.json())
-                .then(datas => {
+            function Loadskill() {
+                const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
 
-                    let options = ""
-                    options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
-                    // let options = "";
-                    // options += datas.map(skill => {
+                console.log(skilltypeselecttext);
+                if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext == null) {
+                    skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
+                    return;
+                }
 
-                    //  // 從先前創建的全局變數中查找技能的計數
-                    //     let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
-                    // return `<option value="1">${skill}(${count})</option>`;
-                    // }).join('');
-                    
-                    skillselect.innerHTML = options;
-                });  //then最後一個THEN
-        };
+                fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
+                    .then(response => response.json())
+                    .then(datas => {
+
+                        let options = ""
+                        options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                        // let options = "";
+                        // options += datas.map(skill => {
+
+                        //  // 從先前創建的全局變數中查找技能的計數
+                        //     let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
+                        // return `<option value="1">${skill}(${count})</option>`;
+                        // }).join('');
+
+                        skillselect.innerHTML = options;
+                    });  //then最後一個THEN
+            };
         /*Loadskilltype();*///使用載入資料
 
             //證照大項資料來
@@ -437,42 +427,33 @@
                         certificateselect.innerHTML = options;
                     });  //then最後一個THEN
             };
+            
+        
                                 /*Loadcertificatetype();*///使用載入證照資料
 
-        //// 動態生成評價星星並顯示
-        
+       
+        // 製作專家聊聊的跳轉&sweetalert事件
+        function ChatElert(href) {
+            const isLogin = @httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER).ToString().ToLower();
 
-        //function renderStars(score, count, starId) {
-        //    var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-        //    var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
-        //    var starnull = '<i class="bi bi-star "></i>';
-
-        //    let arr = [];
-        //    for (let i = 1; i <= 5; i++) {
-        //        if (score >= i) {
-        //            arr.push(starfill);
-        //        } else if (score > i - 1 && score < i) {
-        //            arr.push(starhelf);
-        //        } else {
-        //            arr.push(starnull);
-        //        }
-        //    }
-
-        //    document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
-        //}
-
-        //製作詳細資料的sweetalert
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('btnChat')) {
-                // 你可以這裡加上你的 fetch，或者直接顯示 Swal.fire
+            if (!isLogin) {
                 Swal.fire({
                     icon: 'warning',
                     title: '請先登入會員',
-                    text: 'Thanks for coming!',
+                    showCloseButton: true,
+                    confirmButtonText: '馬上登入'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = href;  // 跳轉到新的頁面
+                    }
                 });
+            } else {
+                // 如果已經登入，直接跳轉
+                window.location.href = href;
             }
-        });
+        }
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 }
 
