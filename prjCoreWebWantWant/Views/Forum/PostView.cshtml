@@ -65,13 +65,13 @@
                                 <div class="flex-column mb-1">
                                 <span class="text-info">@comment.Account.UserName</span>
                                 <span class="ml-auto">-@comment.Comment</span>
-                                <div class="small">B@(firstCommFloorCount) @comment.Created</div>
+                                <div class="small  my-lightgrey">B@(firstCommFloorCount) @comment.Created</div>
                                 </div>
                         }
                     }
                     <!--留言框框-->
                     <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment" aria-expanded="false">
-                        留言
+                        留言 <i class="fa-solid fa-reply fa-2xs" style="color: #949494;"></i>
                     </button>
                     <div class="end-float"></div>
                     <div class="collapse" id="leaveAComment">
@@ -80,8 +80,7 @@
                             <div class="card card-body">
 
                                 <form class="form-group" name="secondFloorComment" class="end-float">
-                                    <input type="text" class="form-control" name="Comment">
-
+                                    <input type="text" class="form-control" name="Comment" autocomplete="off" id="commentInput">
                                     <input type="hidden" name="PostId" value="@Model.MainPost.PostId">
                                     <input type="hidden" name="AccountId" value="@Model.Member.AccountId">
                                     <button class="btn btn-sm float-end small" id="submitBtn">確定發出</button>
@@ -154,26 +153,26 @@
                     }
                          }
                                           <hr />
-                                        @*2樓以後留言*@
-                                                <div class="row justify-content-end me-1 small">
-                                                <div class="bg-light col-11">
-                                                @{
+                   @*2樓以後留言*@
+                           <div class="row justify-content-end me-1 small">
+                           <div class="bg-light col-11">
+                           @{
                                  int count2 = 0;
                                  var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
 
-                                         @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
+                               @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
                                 {
                                     count2++;
                                                 <div class="flex-column  mb-1">
                                             <span class="text-info">@comment.Account.UserName</span>
                                             <span class="ml-auto">-@comment.Comment</span>
-                                            <div class="small">B@(count2) @comment.Created</div>
+                                            <div class="small  my-lightgrey">B@(count2) @comment.Created</div>
                                             </div>
                                 }
                                                 }
                              <!--留言框框-->
                                     <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
-                                    留言
+                                    留言 <i class="fa-solid fa-reply fa-2xs" style="color: #949494;"></i>
                                         </button>
                                     <div class="end-float"></div>
                                     <div class="collapse" id="leaveAComment@(allFloorCount)">
@@ -220,15 +219,19 @@
                             if (response.ok) {
                                 // $('#這邊要放要更新的東西').load('@Url.Content("~/Forum/Replied")讓他重讀XXX' + '?id=' +等等要加上重讀的ID是誰)
                                 commentInput@(allFloorCount).value = "";//清空他
-                                console.log('有沒有到這啊啊啊?');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '留言成功成功',
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    timerProgressBar: true,
+                                })
                             } else {
                                 alert('新增失敗,請確認資料')
                             }
                             })
                         });
                     </script>
-
-
                 //--------------------------------------------發文底下留言結束--------------------------------------------
 
         }
@@ -306,6 +309,10 @@
             background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
         }
 
+        .my-lightgrey{
+            color: #d1d1d1;
+        }
+
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
@@ -367,7 +374,33 @@
         }
         //--------------------------------------------主文章回覆結束--------------------------------------------
 
+        //--------------------------------------------主樓底下留言開始--------------------------------------------
+            const submitBtn = document.querySelector('#submitBtn');
+            const commentInput = document.querySelector('#commentInput');
 
+            submitBtn.addEventListener('click', event => {
+            event.preventDefault();
+            const formData = new FormData(document.secondFloorComment);
+            fetch('@Url.Content("~/ForumApi/PostCommit")', {
+                body: formData,
+                method: "post"
+            }).then(response => {
+                if (response.ok) {
+                     // $('#這邊要放要更新的東西').load('@Url.Content("~/Forum/Replied")讓他重讀XXX' + '?id=' +等等要加上重讀的ID是誰)
+                    commentInput.value = "";//清空他
+                    Swal.fire({
+                        icon: 'success',
+                        title: '留言成功成功',
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                    })
+                } else {
+                    alert('新增失敗,請確認資料')
+                }
+            })
+        });
+                        //--------------------------------------------主樓底下留言結束--------------------------------------------
 
 
     </script>
