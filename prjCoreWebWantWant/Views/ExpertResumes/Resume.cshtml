@@ -1,0 +1,367 @@
+﻿@model prjCoreWebWantWant.ViewModels.CExpertShowResumesViewModel
+@{
+    ViewData["Title"] = "履歷";
+    
+}
+
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <style>
+        .bg-expertbk {
+    background-color: #f8fafd;
+}
+    .border-ex{
+            border-block-color: #f8fafd;
+                        }
+
+        .work-img {
+            flex: 25%;
+            max-width: 25%;
+            height: 170px; 
+            width: auto; 
+            
+        }
+
+        .bg-expertdetail {
+            height: 190px; /* 按鈕總高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ratecontent {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+                                  }
+
+        .workbox {
+          /*  height: 250px;
+            width: 800px;*/
+            background-color: #7F9DB7;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .worklist {
+            /*position: absolute;*/
+          /*  left: 50%;
+            top: 50%;*/
+            /*transform: translate(-50%, -50%);*/
+            display: flex;
+        }
+    </style>
+        }
+<h2 class="text-center myh2" style="font-weight:bold">
+    <span style="color:#9eb9d3">●</span>
+    <span style="color:#c0d3e6">●</span>
+    <span style="color:#e5edf6">●</span>
+    專家履歷
+    <span style="color:#e5edf6">●</span>
+    <span style="color:#c0d3e6">●</span>
+    <span style="color:#9eb9d3">●</span>
+</h2>
+<div class="p-3">
+    @* 最外圍 *@
+
+    <div>
+        <div class="container-fluid  " style="max-width: 85%; margin:auto;">
+       
+            <div class="row mx-0" style="height: 70vh;">
+            <!-- 主容器 -->
+            <!-- 左側部分 -->
+            <div class="col-4 bg-expertbk d-flex flex-column justify-content-center ps-3">
+                <!-- 上方照片區 -->
+                <div id="photo" class="d-flex align-items-center justify-content-center border border-white" style="flex: 2;">
+                    
+                    @if (Model.履歷照片 != null)
+                    {
+                        <img src="data:image/jpg;base64,@Convert.ToBase64String(Model.履歷照片)" height="250" width="280" />
+                    }
+                   else{
+                        <img src=@Url.Content("~/Expert/Images/Nobody頭像.jpg") height="100%" />
+                   }
+                </div>
+                <!-- 下方作品集區 -->
+                <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
+                    <h6>專家作品集</h6>
+                    <div id="workbox" class="d-flex justify-content-start" style="overflow: hidden; height: 200px;">
+                            <div id="worklist" class="worklist">
+                     
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側部分 -->
+           <div id="title" class="col-8 p-5 bg-expertdetail d-flex flex-column position-relative">
+              <div>
+                <h2 class="display-5 ps-4 py-2">@Html.DisplayFor(model =>model.專家姓名)
+                    <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.專家ID })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
+                    <span class="lead pt-3">聯繫專家</span>
+                </h2>
+                <hr />
+               </div>
+                @* 星星 *@
+                <p id="star"></p>
+                <div>
+                <span class="lead pt-3">服務地點：</span>
+                <span class="lead me-md-3">@Html.DisplayFor(model =>model.服務地區)</span>
+                </div>
+             <div class="lead me-md-3">
+                <p class="lead pt-3">專長:</p>
+                    @if(Model.專長1 != null)
+                    {
+                       @Html.DisplayFor(model =>model.專長1)
+                    }
+                    @if (Model.專長2 != null)
+                    {
+                        @Html.DisplayFor(model =>model.專長2)
+                    }
+                    @if (Model.專長3 != null)
+                    {
+                        @Html.DisplayFor(model =>model.專長3)
+                    }
+              </div>
+              <div class="lead me-md-3">
+                <p class="lead pt-3">證照:</p>
+                    @if (Model.證照1 != null)
+                    {
+                       @*  <div class="badge bg-expertbk text-wrap text-dark" style="width: 6rem;"> *@
+                            @Model.證照1
+                       @*  </div> *@
+                    }
+                    @if (Model.證照2 != null)
+                    {
+                        @Html.DisplayFor(model =>model.證照2)
+                    }
+                    @if (Model.證照3 != null)
+                    {
+                        @Html.DisplayFor(model =>model.證照3)
+                    }
+             </div>
+             <div>
+                    <p class="lead pt-3">基本報價：</p>
+                    <span class="lead py-3">@Model.基本價格</span>
+             </div>
+             <div class="lead pt-3" style="position:absolute;bottom:0px;right:50px;">
+                    <h3> 點閱次數: @Html.DisplayFor(model => model.點閱次數)</h3>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+        @* 詳細介紹 *@
+        <div id="details" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+            
+            <div class="overflow-hidden">
+               
+                <div class="m-3 p-4 ">
+                    <h2>詳細介紹</h2> 
+                    <hr/>
+                    <h4 class="lead pt-3">◆介紹：</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.專家介紹)
+
+                    </p>
+
+                    <span class="lead me-md-3">◆預期收款方式:</span>
+                    <span class="lead">@Html.DisplayFor(model => model.收款方式)</span>
+                    <h4 class="lead pt-3">◆服務內容:</h4>
+                    <p class="lead pt-3 container-fluid">
+
+                        @Html.DisplayFor(model =>model.提供服務)
+
+                    </p>
+                    <h4 class="lead pt-3">◆希望聯絡方式:</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.聯絡方式)
+                    </p>
+                    <h4 class="lead pt-3">◆常見問題：</h4>
+                    <p class="lead pt-3 container-fluid">
+                        @Html.DisplayFor(model => model.常見問題)
+                    </p>
+                    @if (Model.個人網站 != null)
+                    {
+                        <div>
+                            <h4 class="lead  pt-3">◆個人網站：</h4>
+                            <p class="lead  pt-3 container-fluid">@Html.DisplayFor(model => model.個人網站)</p>
+                        </div>
+                    }
+                   
+
+                </div>
+
+            </div>
+        </div>
+    
+        @* 評分 *@
+        <div id="ratinghere" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+           
+                <div class="m-3 p-4 ">
+                    <h2>評分</h2>
+                    <hr />
+                <div id="ratecontent" style="overflow-x: auto">
+                </div>
+        </div>
+
+    </div>
+
+
+</div>@* 最外圍 *@
+
+
+@section Scripts{
+    <script src="~/Expert/js/expert.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.js"></script>
+    <script src="~/Expert/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <script>
+
+        //星星評價=====================================
+        let score = 0;
+        let count = 0;
+            let averagescore = 0;
+            const ratecontent = document.querySelector("#ratecontent");//用來裝評論的DIV
+            //下面是星星API
+            fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumesid=${@Model.專家履歷ID}`)
+        .then(response => response.json())
+        .then(
+            data => {
+                        console.log(data);
+                let stararr=[];
+                        let datadiv = "";
+                        if (data["評分資料"].length > 0) {
+                            data["評分資料"].forEach(item => {
+
+                                score += Number(item.分數);
+                    count ++;
+                    let startext="";
+                                if (item.評論!=null){
+                                   startext= item.評論;
+                                }
+                                else{
+                                    startext="沒有評論";
+                                }
+                                let itemStars = generateStars(Number(item.分數));
+                        datadiv = `   <div class="border border-white bg-expertbk ">
+                                                     <div class="card-header">
+                                                                 ${item.評論者名字}
+                                                     </div>
+                                               <div class="card-body">
+                                                             <p>${itemStars}</p>
+
+                                                              <p class="card-text">${startext}</p>
+                                                               <hr>
+                                               </div>
+                                               `;
+                                stararr.push(datadiv);
+                            });
+                         averagescore = score / count;
+                            let averageStars = generateStars(averagescore);
+                            let average = averagescore.toFixed(1);
+                            document.querySelector("#star").innerHTML = `平均(${average}分)  ` + averageStars + ` --${count}筆評論  `;
+                        }
+                        document.querySelector("#ratecontent").innerHTML = stararr.join("");
+                    });
+
+            function generateStars(score) {
+                var starfill = '<i class="bi bi-star-fill lablestar"></i>';
+                var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+                var starnull = '<i class="bi bi-star "></i>';
+                let arr = [];
+                for (let i = 1; i <= 5; i++) {
+                    if (score >= i) {
+                        arr.push(starfill);
+                    } else if (score > i - 1 && score < i) {
+                        arr.push(starhelf);
+                    } else {
+                        arr.push(starnull);
+                    }
+                }
+                return arr.join("");
+            }
+
+         //星星評價結束=====================================
+            //=======作品集=========================================
+            function load() {
+                const workbox = document.querySelector('#workbox');
+                const worklist = document.querySelector('#worklist');
+                const imageWidth = 458 / 4;//458是Worklist長度
+            
+      
+                let left = 0; // 初始化為 0
+                let interval = 1000;
+
+                let timer;
+                // 自動跑馬燈
+                function Moving(numImages) {
+                    const totalWidth = numImages * imageWidth;
+
+                    clearInterval(timer);
+                    timer = setInterval(() => {
+                        left -= imageWidth;
+
+                        if (left <= -(totalWidth - 4 * imageWidth)) {
+                            left = 0;
+                            worklist.style.transition = 'none';
+                        } else {
+                            worklist.style.transition = 'transform 0.2s ease-in-out';  // 恢復過渡效果
+                        }
+                        worklist.style.left = left + 'px';
+
+                    }, interval);
+                    }
+                
+
+                workbox.onmouseover = function () {
+                    clearInterval(timer);
+                };
+
+                workbox.onmouseleave = function () {
+                    worklist.style.transition = 'transform 0.2s ease-in-out';
+                    Moving(numImages);
+                };
+
+                    fetch(`@Url.Content("~/ExpertResumesApi/WorkAPI")?resumesid=${@Model.專家履歷ID}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            numImages = data.length;
+
+                            let picturebox = "";
+                            for (let i = 0; i < data.length; i++) {
+                                const picturename = data[i].作品名;
+                                const picturedate = data[i].作品日期.substring(0, 10) + "建立";
+                                const imageData = data[i].作品照片;
+                            const src = `data:image/png;base64,${imageData}`;
+
+                                console.log(picturename);
+                                console.log(picturedate);
+                            console.log(src);
+
+                                picturebox += `
+                                <div style="display:block; position:relative;" class="py-2">
+                                    <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="${picturename}" style="border:none;" >
+                                        <p style="position:relative;top:0px;right:1px; height:15px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
+                                          <img src="${src}" class="work-img" width=185 alt="作品${i}">
+                                    </button>
+                                </div>`;
+                            }
+
+                            worklist.innerHTML = picturebox;
+                            Moving();
+                        })
+                        .catch(error => {
+                            console.error("Error fetching data:", error);
+                        });
+                }
+
+                document.addEventListener('DOMContentLoaded', load);
+    
+    </script>
+    }

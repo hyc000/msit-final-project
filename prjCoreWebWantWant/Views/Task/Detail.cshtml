@@ -1,9 +1,18 @@
 ﻿@using System.Text.Json;
+@using Microsoft.AspNetCore.Http.Extensions;
 @*@model prjCoreWebWantWant.Models.CTaskWrap*@
 @model prjCoreWebWantWant.Models.TaskList
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout_Task.cshtml";
+    NewIspanProjectContext context = new NewIspanProjectContext();
+    CExperTaskFactory factory = new CExperTaskFactory(context);
+    string taskname= factory.TaskName(Model.TaskNameId);
+    string membername = factory.MemberName(Model.AccountId);
+    //string memberemail = factory.MemberEmail(Model.AccountId);
+
+    string abbreviatedName = membername != null && membername.Length > 0
+        ? membername[0] + "小姐" : null;
 }
 
 <head>
@@ -32,6 +41,18 @@
             float: left; /* 將地圖元素靠左浮動 */
         }
     </style>
+
+    @*<title>Your Website Title</title>
+    <!-- You can use Open Graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    <meta property="og:url" content="https://www.your-domain.com/your-page.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Website Title" />
+    <meta property="og:description" content="Your description" />
+    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />*@
+
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
+
 </head>
 
 
@@ -41,29 +62,66 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Content("~/Task/ListNew")">找工作</a></li>      
-            @* <li class="breadcrumb-item active" aria-current="page">@Model.FTaskName</li>*@
+            <li class="breadcrumb-item active" aria-current="page">@taskname</li>
             <li class="breadcrumb-item active" aria-current="page">@Model.TaskTitle</li>
         </ol>
     </nav>
+
+    @{
+        <div class="fb-share-button" data-href="@Html.Raw(Context.Request.GetEncodedUrl())" data-layout="button_count">
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=@Html.Raw(Context.Request.GetEncodedUrl())" class="fb-xfbml-parse-ignore">分享</a>
+        </div>
+    }
+   @* <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
+    <div class="fb-share-button" data-href="https://www.facebook.com/alyson.tang.9/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Falyson.tang.9%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
+
+
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your share button code -->
+    <div class="fb-share-button"
+         data-href="https://localhost:7042/Task/Detail/35"
+         data-layout="button_count">
+    </div>
+
+*@
 
 
     <div class="job-post-company pt-50 pb-120">
         <div class="container">           
             <div class="row justify-content-between">
                
-               
-
-
+              
                 <div class="col-xl-7 col-lg-8">
-                    <div class="job-tittle mb-50">
+                    <div class="job-tittle mb-50">                       
                         <div class="small-section-tittle">
                             <h4 style="display: flex; align-items: center;">
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
+
+                                <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
+                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 45px; width: 38px;">
+                               </a>
                             </h4>
                         </div>
                         <p>@Model.TaskTitle</p>
                     </div>
+
+
+              
+
+
 
                     <div class="job-post-details">
                         <div class="post-details1 mb-50">                     
@@ -116,28 +174,27 @@
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
                         @{
-                            if (q != null)
-                            {
-                                <div class="post-details2  mb-50">
-                                    <div class="small-section-tittle">
-                                        <h4 style="display: flex; align-items: center;">
-                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
-                                            任務相關照片
-                                        </h4>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
-                                 </div>                            
-                           
-                              @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
-                              @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
-                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
+                            
+                                                <div class="post-details2  mb-50">
+                                                    <div class="small-section-tittle">
+                                                        <h4 style="display: flex; align-items: center;">
+                                                            <img src="~/backstage1/img/pictures.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
+                                                            任務相關照片
+                                                        </h4>
+                                                    </div>
+                                                    <div class="image-container">
+                                                        <img src="~/@Model.PhotoPath" style="height:250px ; width:250px" alt="沒有照片唷" class="enlarge-on-hover" />
+                                                 </div>                            
+                                           
+                                              @*  <img src="@Model.taskPhoto" class="img-thumbnail" alt="照片">*@
+                                              @* <img src="data:image/jpg;base64,@Convert.ToBase64String(@Model.taskPhoto.Photo)" alt="@Model.taskPhoto.Photo" width="200" height="150" />*@
+                                            @*    var base64Image = Convert.ToBase64String(Model.taskPhoto.Photo);
                                 var imgSrc = $"data:image/png;base64,{base64Image}";
                                 <img src="@imgSrc" class="img-thumbnail" alt="照片">*@
-                               @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
-                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
-                        </div>
-                            }
+                                               @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
+                                                @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
+                                        </div>
+                            
                         }
                         <div class="post-details2  mb-50">                     
                             <div class="small-section-tittle">                               
@@ -166,12 +223,12 @@
                             </h4>
                         </div>
                         <ul>
-                            <li>刊登日期：<span>@Model.PublishStart</span></li>
+                            <li>任務日期：<span>@Model.TaskStartDate</span></li>
                             <li>任務地點：<span>@Model.Address</span></li>
                             <li>需求人數<span>@Model.RequiredNum</span></li>
                             <li>任務時段：<span>@Model.TaskStartHour ~ @Model.TaskEndHour</span></li>
                             <li>任務報酬：<span>@Model.PayFrom</span></li>
-                            <li>刊登日期：<span>@Model.PublishStart</span></li>
+                         @*   <li>刊登日期：<span>@Model.PublishStart</span></li>*@
                         </ul>
                         <div class="apply-btn2" style="display: flex; justify-content: center; align-items: center; width:200px; height:35px; border-radius: 50px;background-color:#528EAF;color:white">
                             @*<a href="#" class="btn">立即應徵</a>*@
@@ -180,7 +237,8 @@
                             @if (!HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
                             {
                                 @*<button data-bs-toggle="modal" data-bs-target=""  value="@Model.CaseId" class="btn btn-outliine-secondary" >若要應徵，請先登入</button>*@
-                                <a href="@Url.Content("~/Member/Login")" class="btn btn-outliine-secondary" style="color:white">若要應徵，請先登入</a>
+                                @* <a href="@Url.Content("~/Member/Login")" class="btn btn-outliine-secondary" style="color:white">若要應徵，請先登入</a> *@
+                                <a class="btn btn-outliine-secondary" style="color:white" href="@Url.Action("Login", "Member", new { BackToAction = "Detail", BackToController = "Task", BackToId = Model.CaseId })">若要應徵，請先登入</a>
                             }
                             else
                             {
@@ -216,7 +274,12 @@
                         </div>                     
                         <p></p>
                         <ul>
-                            <li>刊登案主：<span>@*@Model.AccountId*@ 林小姐</span></li>
+
+                            @if (!string.IsNullOrEmpty(abbreviatedName))
+                            {
+                                <li>刊登案主：<span>@abbreviatedName</span></li>
+                            }
+                            @* <li>刊登案主：<span>@membername</span></li> *@
                             <li>Email：<span>want@want.com</span></li>
                         @*    <li> <span>cc</span></li>*@
                         </ul>
@@ -277,39 +340,39 @@
                         .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22).ToList();
                         
                     
-                     @foreach (var item in resumes)
+                                     @foreach (var item in resumes)
                     { 
-                    @*履歷一*@
-                    <div class="col">
-                            <div class="card h-100">                           
-                                    <div class="card-body" width="300px">
-                                 <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
-                                <hr />
-                              
-                                     @if (item.Autobiography.Length <= 70)
+                                    @*履歷一*@
+                                    <div class="col">
+                                            <div class="card h-100">                           
+                                                    <div class="card-body" width="300px">
+                                                 <h4 class="card-title text-center" style="color:#528EAF">@item.ResumeTitle</h4> 
+                                                <hr />
+                                              
+                                                     @if (item.Autobiography.Length <= 70)
                                     {
-                                        <p class="card-text">@item.Autobiography</p>
+                                                        <p class="card-text">@item.Autobiography</p>
                                     }
                                     else
                                     {
-                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
+                                                        <p class="card-text">@item.Autobiography.Substring(0,70)... </p>  
                                     } 
-                                          <div class="card-footer text-center">
-                                        <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
-                                            <!-- 使用表單元素包裹 -->
-                                            <input 
-                                                   class="btn btn-primary"
-                                                   style="background-color: #528EAF"
-                                                   type="submit"
-                                                   value="以此履歷應徵" />
-                                            <input type="hidden" name="resumeId" value="@item.ResumeId">
-                                                    <input type="hidden" id="selectedCaseId" name="caseId" />
-                                        </form>
-                                        </div>                                
-                                 </div>
-                            </div>
-                    </div>
-                    <p></p>
+                                                          <div class="card-footer text-center">
+                                                        <form id="applyForm" action="@Url.Content("~/Task/Apply")" method="post">
+                                                            <!-- 使用表單元素包裹 -->
+                                                            <input 
+                                                                   class="applybutton btn btn-primary"
+                                                                   style="background-color: #528EAF"
+                                                                   type="submit"
+                                                                   value="以此履歷應徵" />
+                                                            <input type="hidden" name="resumeId" value="@item.ResumeId">
+                                                            <input type="hidden" id="selectedCaseId" name="caseId" />
+                                                        </form>
+                                                        </div>                                
+                                                 </div>
+                                            </div>
+                                    </div>
+                                    <p></p>
                   }
                         }
                }
@@ -411,11 +474,14 @@
         const selectedCaseId = document.querySelector('#selectedCaseId');
         const Apply = document.querySelector('#btnApply');
         Apply.addEventListener('click',() => {
+            for (let i = 0, max = document.forms.length; i < max; i++) {
+                document.forms[i].caseId.value = Apply.value;
+            }
             selectedCaseId.value = Apply.value;
             console.log(selectedCaseId.value);
         })
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {                           //todo 一樣是迴圈問題 沒辦法知道第二或第三個履歷觸發事件
             const applyForm = document.querySelector('#applyForm');
 
             applyForm.addEventListener('submit', async (event) => {
@@ -445,7 +511,15 @@
                 }, 2000);
             });
         });
-       
+
+        <script>
+            var taskTitle = "@Html.Raw(Json.Serialize(Model.TaskTitle))"; // 將資料轉為 JSON 格式
+        var taskDescription = "@Html.Raw(Json.Serialize(Model.TaskTitle))"; // 同上
+        var imageUrl = "https://www.example.com/image.jpg"; // 圖片連結
+            // 在這裡使用這些變數來自訂分享內容
+    </script>
+
+
     </script>
 
     

@@ -389,9 +389,9 @@ namespace WantTask.Controllers
                            join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
                            join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
                            join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
-
-                           where app.CaseStatusId == 21
-
+                           
+                             where app.CaseStatusId == 21 /*&& task.AccountId == 66*/
+                                                                                 //林禮書的案件應該有3筆 但是加上條件後顯示0筆
                            select new CApproveViewModel
                            {
                                CaseId = task.CaseId,
@@ -600,6 +600,7 @@ namespace WantTask.Controllers
             tasklist.PaymentId = selectedPaymentId;
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
+            tasklist.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
             if (imageFile != null && imageFile.Length > 0)
             {
                 string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);

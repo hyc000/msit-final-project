@@ -4,9 +4,26 @@
 @using X.PagedList.Web.Common;
 @using prjCoreWantMember.ViewModels
 @model X.PagedList.IPagedList<CExpertInfoViewModel>
+
+@*確定有沒有登入*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using System.Text.Json;
 @{
     ViewData["Title"] = "ExpertMainPage";
     int CountExpert = 0;
+}
+@{
+    var httpContext = HttpContextAccessor.HttpContext;
+    bool isLogin;
+    if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+    {
+        isLogin = true;
+    }
+    else
+    {
+        isLogin = false;
+    }
+
 }
 @section Styles{
     <style>
@@ -23,7 +40,7 @@
 }
 
 
-
+<div class="container">
 <div class="row justify-content-center">
     <div>
         <h2 class="text-center mt-5 myh2" style="font-weight:bold">
@@ -36,6 +53,9 @@
             <span style="color:#9eb9d3">●</span>
         </h2>
     </div>
+   
+
+    
     <!--Bootstrap 樣式類：用於創建一個水平的「行」容器、於在「行」容器中使內容水平居中對齊。-->
     <div class="col-3 g-0 ps-2 pe-2 me-4">
         <!--左側搜尋(篩選)-->
@@ -182,7 +202,7 @@
                                             <!--放圖片-->
                                                 @if (item.resume.Photo != null)
                                         {
-                                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center" style="background:#408080	">
+                                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
                                                         <img src="data:image/jpg;base64,@Convert.ToBase64String(item.resume.Photo)" height="250" />
                                                 </div>
                                     }
@@ -211,7 +231,7 @@
                                                     </p>
                                                     <div class="row position-absolute bottom-0">
                                                         @*<div class="col">*@
-                                                        <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.resume.DataModifyDate</p>
+                                                    <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.resume.DataModifyDate.Substring(0,10)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -221,7 +241,8 @@
                                                 <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
                                             </div>
                                             <div class="row g-0 mx-2 my-2">
-                                                <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.resume.AccountId })" target="_blank" class="btn btn-outline-primary me-2" style="float:right">聯絡專家</a>
+                                            <!--<a href="@Url.Action("Chatsingle", "Chat", new { id = @item.resume.AccountId })" target="_blank" class="btn btn-outline-primary me-2" style="float:right" id="btnChat">聯絡專家</a>-->
+                                            <a href="@Url.Content("~/Chat/Chatsingle")?id=@item.resume.AccountId" target="_blank" class="btn btn-outline-primary me-2" style="float:right" id="btnChat">聯絡專家</a>
                                             </div>
                                             <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
                                                 @*<div class="col">*@
@@ -232,25 +253,6 @@
                                 </div>
 
                                 <script>
-
-                                    //async function fetchStarDataAndRender(starId) {
-                                    //    try {
-                                    //        const response = await fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumeid=${starId}`);
-                                    //        const data = await response.json();
-
-                                    //        let score = 0;
-                                    //        let count = 0;
-                                    //        data.forEach(item => {
-                                    //            score += item.分數;
-                                    //            count = item.筆數;
-                                    //        });
-
-                                    //        renderStars(score, count, starId);
-                                    //    } catch (error) {
-                                    //        console.error("An error occurred while fetching star data:", error);
-                                    //    }
-                                    //}
-
 
                                     fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumeid=@item.resume.ResumeId`)
                                         .then(response => response.json())
@@ -284,7 +286,17 @@
 
                                         document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
                                     }
-
+                                //製作詳細資料的sweetalert
+                                //const btnChat = document.querySelector('#btnChat');
+                                //btnChat.addEventListener('click', () => {
+                                //    fetch(`@Url.Content("~/Chat/Chatsingle")?id=@item.resume.AccountId`).then(
+                                //        Swal.fire(
+                                //            icon: 'warning',
+                                //            title: '請先登入會員',
+                                //            text: 'Thanks for coming!',
+                                //        )
+                                //    )
+                                //})
                                 </script>
                     }
                     
@@ -315,7 +327,7 @@
 
     </div>
 </div>
-
+</div>  
 @section Scripts{
     
         @*將選取價格的滑塊連在一起*@
@@ -365,8 +377,6 @@
                     skilltypeselect.innerHTML = options;
                 });  //then最後一個THEN
         };
-
-
 
         function Loadskill() {
             const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
@@ -450,8 +460,18 @@
 
         //    document.querySelector("#" + starId).innerHTML = `(${score}分)  ` + arr.join("") + ` --${count}筆評論  `;
         //}
-       
 
+        //製作詳細資料的sweetalert
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btnChat')) {
+                // 你可以這裡加上你的 fetch，或者直接顯示 Swal.fire
+                Swal.fire({
+                    icon: 'warning',
+                    title: '請先登入會員',
+                    text: 'Thanks for coming!',
+                });
+            }
+        });
 
     </script>
 }

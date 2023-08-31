@@ -40,11 +40,113 @@ namespace prjCoreWebWantWant.Controllers
             }
             return 0;
         }
+        public async Task<IActionResult> Resume(int? id)
+        {
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
+            CExpertShowResumesViewModel vm = new CExpertShowResumesViewModel();
+            if (!id.HasValue || id.Value <= 0)
+            {
+                vm.專家姓名 = "無專家履歷";
+              return View(vm);
+            }
+            //基本
+            var qresume = _context.Resumes
+                   .Where(a => a.ResumeId == id)
+                   .FirstOrDefault();
+            vm.專家ID = qresume.AccountId;
+            vm.專家履歷ID = id.GetValueOrDefault();
+            vm.專家姓名 = factory.MemberName(qresume.AccountId);
+            vm.服務地區 = factory.TownID2Name(qresume.TownId);
+            vm.履歷標題 = qresume.ResumeTitle;
+            
+
+            //履歷照片
+            if (qresume.Photo != null)
+            {
+                vm.履歷照片 = qresume.Photo;
+                
+            }
+          
+            //專長
+            var qskill = _context.ResumeSkills
+                .Where(a => a.ResumeId == id)
+                .Select(x => x.SkillId)
+                 .ToList();
+
+            if (qskill.Count > 0 && qskill[0] != null)
+            {
+                vm.專長1 =factory.SkillIDtoName(qskill[0]);
+            }
+            if (qskill.Count > 1 && qskill[1] != null)
+            {
+                vm.專長2 = factory.SkillIDtoName(qskill[1]); 
+            }
+            if (qskill.Count > 2 && qskill[2] != null)
+            {
+                vm.專長3 = factory.SkillIDtoName(qskill[2]);
+            }
+            //證照
+            var qcertificates = _context.ResumeCertificates
+            .Where(a => a.ResumeId == id)
+            .Select(x => x.CertificateId)
+             .ToList();
+
+            if (qcertificates.Count > 0 && qcertificates[0] != null)
+            {
+                vm.證照1 = factory.CertificateDtoName(qcertificates[0]);
+            }
+            if (qcertificates.Count > 1 && qcertificates[1] != null)
+            {
+                vm.證照2 = factory.CertificateDtoName(qcertificates[1]);
+            }
+            if (qcertificates.Count > 2 && qcertificates[2] != null)
+            {
+                vm.證照3 = factory.CertificateDtoName(qcertificates[2]);
+            }
+
+            //詳細
+            var qexresume = _context.ExpertResumes
+                   .Where(a => a.ResumeId == id)
+                   .FirstOrDefault();
+            vm.專家介紹 = qexresume.Introduction;
+            
+            vm.聯絡方式 = qexresume.ContactMethod;
+
+            
+            if (qexresume.CommonPrice.HasValue)
+            {
+                vm.個人網站 = qexresume.WorksUrl;
+            }
+            else
+            {
+                vm.個人網站 = "沒有個人網站。";
+            }
+            if (qexresume.CommonPrice.HasValue)
+            {
+                vm.基本價格 = "$" + qexresume.CommonPrice.Value.ToString("N0");
+            }
+            else
+            {
+                vm.基本價格 = "$0"; // 或其他默認值
+            }
+            vm.收款方式 = qexresume.PaymentMethod;
+            vm.提供服務 = qexresume.ServiceMethod;
+            vm.常見問題 = qexresume.Problem;
+            if (qexresume.HistoricalViews!=null)
+            { vm.點閱次數 = qexresume.HistoricalViews.ToString(); }
+            else
+            {
+                vm.點閱次數 = 0+"";
+            }
+
+            return View(vm);
+        }
 
 
 
-        // GET: ExpertResumes/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+            // GET: ExpertResumes/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -130,30 +232,31 @@ namespace prjCoreWebWantWant.Controllers
             }
             return File("~/Expert/images/3.jpg", "image/jpeg");
         }
-        public IActionResult WorksImage()
-        {
-            List<FileResult> files = new List<FileResult>();
-            if (_work != null)
-            {
-                foreach (var item in _work)
-                {
-                    if (item.WorksPhoto != null)
-                    {
-                        files.Add(File(item.WorksPhoto, "image/jpeg"));
-                    }
+       
+        //public IActionResult WorksImage()
+        //{
+        //    List<FileResult> files = new List<FileResult>();
+        //    if (_work != null)
+        //    {
+        //        foreach (var item in _work)
+        //        {
+        //            if (item.WorksPhoto != null)
+        //            {
+        //                files.Add(File(item.WorksPhoto, "image/jpeg"));
+        //            }
 
-                }
+        //        }
 
-            }
-            else
-            {
-                return File("~/Expert/images/2.webp", "image/jpeg");
-            }
+        //    }
+        //    else
+        //    {
+        //        return File("~/Expert/images/2.webp", "image/jpeg");
+        //    }
 
-            return Json(files);
+        //    return Json(files);
 
 
-        }
+        //}
 
         public async Task<IActionResult> Insert() {
            
@@ -175,18 +278,18 @@ namespace prjCoreWebWantWant.Controllers
                 int num = _context.Resumes
                     .Count(x => x.AccountId == _memberID && x.IsExpertOrNot == true);
 
-                if (num >= 3)//履歷數量<3
-                {
-                    TempData["message"] = "履歷份數已達上限，請刪除其他履歷才能新增";
-                    return RedirectToAction("ExpertMemberPage", "Expert");
-                }
-                else
-                {
+                //if (num >= 3)//履歷數量<3
+                //{
+                //    TempData["message"] = "履歷份數已達上限，請刪除其他履歷才能新增";
+                //    return RedirectToAction("ExpertMemberPage", "Expert");
+                //}
+                //else
+                //{
                     if (vm != null)
                     {
-                        
-                        //找流水號resumeID
-                        int newResumeId = await AddResume(vm);
+
+                    //基本履歷&找流水號resumeID
+                    int newResumeId = await AddResume(vm);
 
                         //專家履歷
                         AddExpertResume(vm, newResumeId);
@@ -199,38 +302,23 @@ namespace prjCoreWebWantWant.Controllers
 
                         //新增作品
                         DateTime dataCreateDate = DateTime.Now;//現在時間
-                        List<int> newExpertWorkIds = new List<int>();
-
-                        
-                        for (int i = 0; i < newExpertWorkIds.Count(); i++) 
-                        {
-                            int newExpertWorkId = await AddExpertWork(vm, dataCreateDate);
-                            if (newExpertWorkId != -1)
-                            {
-                                newExpertWorkIds.Add(newExpertWorkId);
-                            }
-                        }
+                       
+                            List<int> newExpertWorkId = await AddExpertWork(vm, dataCreateDate);
 
                         // 作品表單
-                        foreach (int expertWorkId in newExpertWorkIds)
-                        {
-                            await AddExpertWorkList(expertWorkId, newResumeId);
-                        }
 
-
+                            await AddExpertWorkList(newExpertWorkId, newResumeId);
 
                         TempData["message"] = "新增成功";
                         //成功回去
                       //  return RedirectToAction("ExpertMemberPage", "Expert");
-
-
 
                     }
 
                     //失敗回去
                     TempData["message"] = "新增失敗";
                     return RedirectToAction("ExpertMemberPage", "Expert");
-                }
+                //}
             }
 
             catch (Exception ex)
@@ -241,18 +329,24 @@ namespace prjCoreWebWantWant.Controllers
             }
         
         }
-
+        private async Task<byte[]> ConvertFileToBytes(IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            return memoryStream.ToArray();
+        }
         private async Task<int> AddResume(CExpertResumesViewModel vm)
         {
             DateTime date = DateTime.Now;
             CExperTaskFactory factory = new CExperTaskFactory(_context);
 
             int? townid = factory.TownName(vm.服務地區);
+            
             Resume resume = new Resume
             {
                 AccountId = _memberID,
                 TownId = townid,
-                Photo = vm.履歷照片,
+                Photo = await ConvertFileToBytes(vm.履歷照片),
                 IsExpertOrNot = true,//TRUE
                 CaseStatusId = 23,//23顯示履歷
                 ResumeTitle = vm.履歷標題,
@@ -260,7 +354,7 @@ namespace prjCoreWebWantWant.Controllers
             };
 
             _context.Resumes.Add(resume);
-          //  await _context.SaveChangesAsync();--080--
+          await _context.SaveChangesAsync();
             return resume.ResumeId;
         }
 
@@ -278,7 +372,7 @@ namespace prjCoreWebWantWant.Controllers
                         ResumeId = newResumeId
                     };
                     _context.ResumeSkills.Add(resumeskill);
-                   // await _context.SaveChangesAsync();--080--
+                   await _context.SaveChangesAsync();
                 }
             }
 
@@ -305,7 +399,7 @@ namespace prjCoreWebWantWant.Controllers
                         ResumeId = newResumeId
                     };
                     _context.ResumeCertificates.Add(resumecertificate);
-                  //  await _context.SaveChangesAsync();--080--
+                   await _context.SaveChangesAsync();
                 }
             }
             int? CertificateID1 = factory.CertificateName(vm.證照細項1);
@@ -330,42 +424,52 @@ namespace prjCoreWebWantWant.Controllers
                 PaymentMethod = vm.收款方式,
                 Problem = vm.常見問題,
                 CommonPrice = vm.基本價格
+               
             };
             _context.ExpertResumes.Add(expertresume);
-            //await _context.SaveChangesAsync();--080--
+            await _context.SaveChangesAsync();
         
         }
 
-        private async Task<int> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
+        private async Task<List<int>> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
         {
-            
-            if (vm.作品圖片 != null)
+            List<int> WorksIds = new List<int> { };
+            if (vm.作品集.Count>0)
             {
-                ExpertWork expertwork = new ExpertWork
-                {
-                    WorksPhoto = vm.作品圖片,
-                    Workname = vm.作品名 + dataCreateDate.ToString("yyyyMMddHHmmssff"),
-                    DataCreateDate = dataCreateDate,
-                    // WorkTitle =vm.作品名
-                };
-                _context.ExpertWorks.Add(expertwork);
-              //  await _context.SaveChangesAsync();--080--
-
-                return expertwork.WorksId;
                 
+                for(int i = 0; i < vm.作品集.Count; i++)
+                {
+                    ExpertWork expertwork = new ExpertWork
+                    {
+                        WorksPhoto = await ConvertFileToBytes(vm.作品圖片[i]),
+                        Workname = vm.作品集[i] + dataCreateDate.ToString("yyyyMMddHHmmssff"),
+                        DataCreateDate = dataCreateDate,
+                        WorkTitle = vm.作品集[i]
+                    };
+                    _context.ExpertWorks.Add(expertwork);
+                    await _context.SaveChangesAsync();
+                    int worlid = expertwork.WorksId;
+                    WorksIds.Add(worlid);
+                }
             }
-            return -1;
+         
+
+            return WorksIds;
         }
 
-        private async Task AddExpertWorkList(int newexpertworkId, int newResumeId)
+        private async Task AddExpertWorkList(List<int> newexpertworkId, int newResumeId)
         {
-            ExpertWorkList expertworklist = new ExpertWorkList
+            foreach(int i in newexpertworkId)
             {
-                WorksId = newexpertworkId,
-                ResumeId = newResumeId
-            };
-            _context.ExpertWorkLists.Add(expertworklist);
-           // await _context.SaveChangesAsync();--080--
+                ExpertWorkList expertworklist = new ExpertWorkList
+                {
+                    WorksId = i,
+                    ResumeId = newResumeId
+                };
+                _context.ExpertWorkLists.Add(expertworklist);
+            }
+            
+           await _context.SaveChangesAsync();
         }
 
     }

@@ -342,6 +342,7 @@
 @section Scripts {}
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    <script src = "https://cdn.jsdelivr.net/npm/sweetalert2@11" ></script>
     }
 
     <script>
@@ -645,11 +646,19 @@
             } else {
                 // 如果選擇的檔案不是圖片，顯示錯誤訊息
                 const photoError = document.getElementById('photoError');
+
                 photoError.textContent = '請選擇有效的圖片檔案。';
                 photoPreview.innerHTML = '';
 
                 const New = document.querySelector('#New');
                 New.disabled = true;
+
+                Swal.fire({
+                    icon: 'error',
+                    title: '警告',
+                    text: '您選擇的檔案不是圖片，請選擇有效的圖片檔案',
+                    confirmButtonText: '確認',
+                })
                 /* New.style.backgroundColor = 'red'; */
                 /* New.textContent = '請選擇正確的圖片'; */
             }
@@ -689,7 +698,7 @@
         hiddenSkillIdInput3.value = 23;*/
     })
 
-
+        
      </script>  
      
 

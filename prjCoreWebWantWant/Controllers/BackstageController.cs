@@ -248,9 +248,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ApplicationRecord()   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
             var q = from al in _context.ApplicationLists
-                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 21
-                    select new CMemberCollectionViewModel
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId        
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId /*&& al.CaseStatusId == 21*/
+                    select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
                     {
                         TaskTitle = tl.TaskTitle,
                         TaskDetail = tl.TaskDetail,
@@ -286,6 +286,18 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                          .Select(c => c.SkillId);
 
             return Json(skillId);
+        }
+
+        public IActionResult PowerBI()
+        {
+            return View();
+        }
+
+        public IActionResult JobDetail(int? id)
+        {
+            var q = _context.TaskLists
+                    .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            return View(q);
         }
     }
 }

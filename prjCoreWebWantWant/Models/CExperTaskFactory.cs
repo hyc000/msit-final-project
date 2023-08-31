@@ -42,7 +42,6 @@ namespace prjCoreWebWantWant.Models
         }
 
 
-
         public string StatusName(int? StatusID)
         {
             if (StatusID != null)
@@ -86,6 +85,20 @@ namespace prjCoreWebWantWant.Models
             return null;
         }
 
+        public string? TownID2Name(int? townid)
+        {
+            if (townid != null)
+            {
+                string townname = _context.Towns
+                .Where(x => x.TownId == townid)
+                .Select(x => x.Town1)
+                .FirstOrDefault();
+                return townname;
+            }
+
+            return null;
+        }
+
 
         public int? SkillName(string? skillname)
         {
@@ -96,6 +109,24 @@ namespace prjCoreWebWantWant.Models
                 .Select(x => x.SkillId)
                 .FirstOrDefault();
                 return skillid;
+            }
+
+            return null;
+        }
+
+        //專長大項名字+小項名字
+        public string? SkillIDtoName(int? skillid)
+        {
+            if (skillid != null)
+            {
+                var skillInfo = _context.Skills
+              .Where(x => x.SkillId == skillid)
+              .Select(x => new { 
+                  SkillTypeName = x.SkillType.SkillTypeName,
+                  SkillName = x.SkillName })
+              .FirstOrDefault();
+                string skill = skillInfo.SkillTypeName + " - " + skillInfo.SkillName;
+                return skill;
             }
 
             return null;
@@ -115,6 +146,23 @@ namespace prjCoreWebWantWant.Models
             return null;
         }
 
+        //專長大項名字+小項名字
+        public string? CertificateDtoName(int? skillid)
+        {
+            if (skillid != null)
+            {
+                var CertificateInfo = _context.Certificates
+              .Where(x => x.CertificateId == skillid)
+              .Select(x => new {
+                  CertificateTypeName = x.CertificateType.CertificateTypeName,
+                  CertificateName = x.CertificateName
+              })
+              .FirstOrDefault();
+                string Certificate = CertificateInfo.CertificateTypeName + " - " + CertificateInfo.CertificateName;
+                return Certificate;
+            }
 
+            return null;
+        }
     }
 }

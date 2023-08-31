@@ -400,13 +400,13 @@
                                             </div>
                                         </td>
                                          <td style="text-align: left">@item.CollectionDate</td>
-                                         <td><a href="@Url.Content("~/BackstageTask/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
+                                         <td><a href="@Url.Content("~/Backstage/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
                                         <th>
                                             <div class="btn-group"role="group"aria-label="Basic example">
-                                              <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger">取消收藏</a>
+                                              <a href="@Url.Content("~/Backstage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger">取消收藏</a>
                                               @*<a href="@Url.Content("~/BackStage/Apply")?caseId=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
                                               @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="btn btn-outline-success" >應徵</a>*@
-                                              <button data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="Apply btn btn-outline-success" value="@item.CaseId">應徵</button>
+                                              <button data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="btn btn-outline-success" value="@item.CaseId">應徵</button> @*todo 第二和三沒有正確送出*@ 
                                               @*<a href="@Url.Content("~/BackStage/Apply")?id=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
                                             </div>
                                         </th>
@@ -457,7 +457,7 @@
                                                             <div class="card-footer text-center">
                                                                 <form action="@Url.Content("~/Backstage/apply")" method="post">
                                                                     <!-- 使用表單元素包裹 -->
-                                                                    <input onclick="Alert()"
+                                                                    <input 
                                                                            class="btn btn-primary"
                                                                            style="background-color: #528EAF"
                                                                            type="submit"
@@ -555,13 +555,23 @@
         //    console.log(selectedCaseId.value)
         //})
 
-        const selectedCaseId = document.querySelector('#selectedCaseId');
-        const Apply = document.querySelectorAll('.Apply');
-        Apply.forEach(button => {
-            button.addEventListener('click', () => {
-                selectedCaseId.value = button.value;
-                //console.log(selectedCaseId.value);
-            })
+        const selectedCaseId = document.querySelector('#selectedCaseId');   //u.3
+        // const Apply = document.querySelectorAll('.Apply');
+        const Apply = document.querySelector('#Apply');
+        // Apply.forEach(button => {
+        //     button.addEventListener('click', () => {
+        //         selectedCaseId.value = button.value;
+        //         console.log(selectedCaseId.value);
+        //     })
+        // })
+
+        //todo
+        Apply.addEventListener('click', () => {   
+            for (let i = 0, max = document.forms.length; i < max; i++) {
+                document.forms[i].caseId.value = Apply.value;
+            }
+            selectedCaseId.value = Apply.value;
+            console.log(selectedCaseId.value);
         })
     </script>
 </body>

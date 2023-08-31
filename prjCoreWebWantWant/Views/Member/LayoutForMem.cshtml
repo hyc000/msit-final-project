@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@using System.Text.Json;
+@using WantTask.ViewModels;
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -17,8 +19,6 @@
         font-size:20px;
         }
         
-        
-
 
     </style>
 
@@ -135,22 +135,36 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找工作</span>
                         </li>
-                       
+                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                        @{
+                            string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                            int id = loggedInUser.AccountId; //抓登入者的id
+                        }
+                        @{
+                            NewIspanProjectContext db = new NewIspanProjectContext();
+                            var mc = db.MemberCollections.Where(mc => mc.AccountId == id && mc.CaseId != null);
+                        }
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/TaskCollection")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-alert-circle"></i>*@
                                     <i class="ti ti-heart"></i>
                                 </span>
-                                <span class="hide-menu">已收藏工作</span>
+                                <span class="hide-menu">已收藏工作 (@mc.Count())筆</span>
                             </a>
                         </li>
+
+                        @{
+                            var ar = db.ApplicationLists.Where(al => al.Resume.AccountId == id && al.Resume.ResumeId == al.ResumeId);
+                        }
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/Backstage/ApplicationRecord")" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">應徵紀錄</span>
+                                <span class="hide-menu">應徵紀錄 (@ar.Count())筆</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">
@@ -166,24 +180,35 @@
                                 <span class="hide-menu">發案管理</span>
                             </a>
                         </li>
+                        @{
+                            NewIspanProjectContext db3 = new NewIspanProjectContext();
+                            var nonExpertTaskCount = db.TaskLists.Count(t => t.IsExpert == null && t.AccountId==id);
+                            var caseStatus21Count = db.ApplicationLists.Count(a => a.CaseStatusId == 21 && a.Resume.AccountId == id && a.Resume.ResumeId == a.ResumeId );                                 
+                       
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/tableseditable")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-user-plus"></i>*@
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">發案紀錄</span>
+                                <span class="hide-menu">發案紀錄 (@nonExpertTaskCount)筆</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="@Url.Content("~/BackstageTask/Approve")" aria-expanded="false">
                                 <span>
                                     @*<i class="ti ti-user-plus"></i>*@
                                     <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">錄取紀錄</span>
+                                 <span class="hide-menu">錄取紀錄 (@caseStatus21Count)筆</span> 
                             </a>
                         </li>
+
+
+
+
+                        }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">找專家</span>
@@ -239,7 +264,7 @@
                                     @*<i class="ti ti-layout-dashboard"></i>*@
                                     <i class="ti ti-cash"></i>
                                 </span>
-                                <span class="hide-menu">曝光購買</span>
+                                <span class="hide-menu">曝光商城</span>
                             </a>
                         </li>
                         @*  <li class="sidebar-item">
@@ -266,6 +291,23 @@
                                 <span class="hide-menu">曝光紀錄</span>
                             </a>
                         </li>
+
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">數據庫</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Content("~/Backstage/PowerBI")" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">報表分析</span>
+                            </a>
+                        </li>
+
+
+
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">聯絡客服</span>

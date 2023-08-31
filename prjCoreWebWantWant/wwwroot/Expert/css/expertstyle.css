@@ -308,23 +308,11 @@ text-align: center;
    color: #ffda6a;
    
 }
-.workbox {
-    height: 250px;
-    width: 800px;
-    background-color: #7F9DB7;
-    overflow: hidden;
-    position:relative;
 
-}
-.worklist {
-    position: absolute;
-    left: 0px;
-    top: 0;
-    display: flex;
-}
 .bg-expertdetail {
     background-color: #E5EDF6;
 }
+
 
 
 /* 履歷頁面的按鈕*/

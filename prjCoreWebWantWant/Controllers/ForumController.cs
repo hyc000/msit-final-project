@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -99,10 +100,6 @@ namespace WantTask.Controllers
 
         public IActionResult PostView(int? id)
         {
-
-            var isUserLoggedIn = HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER);
-            ViewData["IsUserLoggedIn"] = isUserLoggedIn;
-
             if (id == null)
                 return RedirectToAction("PostList");
 
@@ -135,7 +132,6 @@ namespace WantTask.Controllers
                         .Include(p => p.Account)
                         .Where(p => p.PostId == postId)
                         .ToList();
-
                     postReplyList.Add(postcomm);
                 }
             }
@@ -168,6 +164,16 @@ namespace WantTask.Controllers
             viewModel.Replies = replies;
             viewModel.MainComments = postComment;
             viewModel.SecondCommentsList = postReplyList;
+            //沒登入的情況
+            viewModel.Member= null;
+            //有登入的情況
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+                int memId = loggedInUser.AccountId;
+                viewModel.Member = _db.MemberAccounts.Find(memId);
+            }
 
             return View(viewModel);
         }

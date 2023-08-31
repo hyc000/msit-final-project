@@ -53,15 +53,15 @@
                             sum += (item.UnitPrice * item.Quantity);
      
                             <tr>
-                                <td><span hidden>@item.TopDate</span></td>
+                                <td id="topdate"><span hidden>@item.TopDate</span></td>
                             <td><img src="~/shopimg/@item.ImageUrl" style="width:100px ; height:100px"></td>
                             <td>@item.ProductName</td>
                             <td>$@item.UnitPrice</td>
-                                <td>
-                                    <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
-                                </td>
+                                    <td>
+                                        <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartQuantity(@item.ProductId, this.value)" />
+                                    </td>
                               
-                            <td>$@(item.UnitPrice * item.Quantity)</td>
+                            <td id="price">$@(item.UnitPrice * item.Quantity)</td>
                                     <td>
                                         <div class="icon-container">
                                             <button type="button" class="btn-unstyled" onclick="removeCartItem(@item.ProductId)">
@@ -104,7 +104,7 @@
 
                 </div>
             </div>
-            <div class="col text-right pr-5"> 總計：$@sum</div>
+            <div id="price2" class="col text-right pr-5"> 總計：$@sum</div>
         </div>
         }
     </div>
@@ -119,18 +119,18 @@
 
     <div class="row">
         <div class="col" style="padding-left: 0;">商品總計</div>
-            <div class="col text-right">$<span name ="OrderPrice">@sum</span></div>
+            <div id="orderprice" class="col text-right">$<span name ="OrderPrice">@sum</span></div>
     </div>
     <div class="row">
         <div class="col" style="padding-left: 0;">稅額</div>
-            <div class="col text-right">$@tax </div>
+            <div id="txt" class="col text-right">$@tax </div>
     </div>
     <div class="row">
         <div class="col" style="padding-left: 0;">預估可獲得紅利</div>
-            <div class="col text-right">@getpoint 點</div>
+            <div id="getpoint1" class="col text-right">@getpoint 點</div>
     </div>
         <div class="row" style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
-            <div class="col" style="padding-left: 0;color: brown;">
+            <div id="usedprice" class="col" style="padding-left: 0;color: brown;">
                 紅利總點數: @ViewBag.Points 點 
                 <label>最高折抵，不超過訂單總價的一半</label>
             </div>      
@@ -138,17 +138,17 @@
         </div>
     <div class="row">
         <div class="col" style="padding-left: 0;">應付金額</div>
-            <div class="col text-right" style="font-size: 1.5REM;">$@total</div>
+            <div id="total" class="col text-right" style="font-size: 1.5REM;">$@total</div>
     </div>
     <div class="container">
         <div class="d-flex justify-content-end mt-4">
 
 
                 
-                    <input type="hidden" name="OrderPrice" value="@sum" />
-                    <input type="hidden" name="OrderGetPoint" value="@getpoint" />
-                    <input type="hidden" name="OrderUsePoint" value="@usepoint" />
-                    <input type="hidden" name="PaidAmount" value="@total" />
+                    <input id="realsum" type="hidden" name="OrderPrice" value="@sum" />
+                    <input id="realgetpoint" type="hidden" name="OrderGetPoint" value="@getpoint" />
+                    <input id="realusepoint" type="hidden" name="OrderUsePoint" value="@usepoint" />
+                    <input id="realtotal" type="hidden" name="PaidAmount" value="@total" />
                     <input type="submit" value="前去結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
    
         </div>
@@ -282,11 +282,40 @@
 
         // 加載任務
         loadCases();
-
+        //刪除商品
         async function removeCartItem(productId) {
             try {
                 const response = await fetch('@Url.Action("RemoveFromCart", "Shop")' + '?productId=' + productId, {
                     method: 'POST'
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                        // 自動刷新
+                        location.reload();
+                    } else {
+                        console.error("刪除失敗");
+                    }
+                } else {
+                    console.error("刪除失敗，響應狀態：", response.status);
+                }
+            } catch (error) {
+                console.error("刪除請求失敗：", error);
+            }
+        }
+
+        //更新商品數量
+        async function updateCartQuantity(productId, newQuantity) {
+            try {
+                const updateQuaUrl = '@Url.Action("updateQua", "Shop")' + `?productId=${productId}&newQuantity=${newQuantity}`;
+
+                const response = await fetch(updateQuaUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
                 });
 
                 if (response.ok) {

@@ -68,7 +68,7 @@
                 <div class="container-fluid">
                     <div class="row  justify-content-between">
                         <div class="container-fluid d-flex justify-content-end">
-                        <a class="btn btn-outline-secondary" href="@Url.Content("~/BackstageTask/Edit")?id=@Model.CaseId" id="edit">修改</a>
+                        @* <a class="btn btn-outline-secondary" href="@Url.Content("~/BackstageTask/Edit")?id=@Model.CaseId" id="edit">修改</a> *@
                         <a class="btn btn-outline-secondary" id="Back">返回上一頁</a>                    
                         </div>
                     </div>
@@ -269,7 +269,7 @@
                                                                                 </div>*@
                                                                         @*    }*@
                                                                           <div class="image-container">
-                                                                            <img src="~/@Model.PhotoPath" style="height:250px ; width:250px" alt="Image" class="enlarge-on-hover" />
+                                                                            <img src="@Url.Content(q)" style="height:250px ; width:250px" alt="Image" class="enlarge-on-hover" />
                                                                                      </div>
                                                                             @*</div>*@
                                                                         </div>

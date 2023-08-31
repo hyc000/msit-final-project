@@ -133,13 +133,13 @@
                     <div class="bg-light rounded h-100 p-4">
                         <h3 class="mb-4" style="color:#528EAF; text-align:center;">任務地點</h3>
                    
-                        <div class="form-check form-check-inline" style="display:none;">
+                        <div class="form-check form-check-inline" >
                             <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioHome"
-                                   value="option1">
+                                   value="option1"  checked>
                             <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
                         </div>
 
-                        <div class="form-check form-check-inline" style="display:none;">
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioOtherPlace"
                                    value="option2">
                             <label class="form-check-label" for="inlineRadioOtherPlace">指定地點</label>
@@ -249,7 +249,10 @@
                         <input type="hidden" id="hiddenOnePhotoInput" name="selectedPhoto" />
                         <div class="mb-3">
                             @*<label for="formFile" class="form-label">Default file input example</label>*@
-                           <input class="form-control" type="file" id="formFile" name="imageFile" asp-for="Photo">
+                            <input class="form-control" type="file" id="photoInput" name="imageFile" asp-for="Photo">
+                            <span id="photoError" class="text-danger"></span>
+
+                            <div id="photoPreview"></div>
                         </div>
 
                        @*多選照片 <div class="mb-3">
@@ -278,7 +281,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="submit" value="送出" class="btn btn-outline-info" />
+                                    <input type="submit" value="送出" class="btn btn-outline-info" id="New" />
                                     <a asp-action="Create" class="btn btn-outline-info">取消新增</a>
                                     </div>
                                  </div>
@@ -410,7 +413,9 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");   
         }
 
-       <script>     
+       <script>
+
+     
 
         //任務類型
         const SelTaskName = document.querySelector('#SelTaskName');
@@ -618,10 +623,7 @@
        selTown.addEventListener('change', () => {
             getTownId();
         });
-
-       
-      
-
+               
         //開始結束日期時間防呆，開始不能小於今天，結束不能小於開始
         const taskStartDateInput = document.getElementById("taskStartDate");
         const taskEndDateInput = document.getElementById("taskEndDate");
@@ -729,6 +731,8 @@
             }
         });*/
 
+        
+
 
         //demo鍵
         const CreateDemo = document.querySelector('#CreateDemo');
@@ -739,7 +743,7 @@
         const taskEndHour = document.querySelector('#taskEndHour');
         const txtPayFrom = document.querySelector('#txtPayFrom');
         const txtPayTo = document.querySelector('#txtPayTo');
-        const txtAddress = document.querySelector('#txtAddress');
+        //const txtAddress = document.querySelector('#txtAddress');
 
         CreateDemo.addEventListener('click', () => {
             txtTaskTitle.value = "雙十連假幫忙顧貓"
@@ -749,8 +753,93 @@
             taskEndHour.value = "10/9白天一次共來四次"
             txtPayFrom.value = "400"
             txtPayTo.value = "400"
-            txtAddress.value = "中華街一段34巷"
+            //txtAddress.value = "中華街一段34巷"
         })
+
+        //照片預覽
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        // 當使用者選擇檔案時觸發事件
+        photoInput.addEventListener('change', function () {
+            const selectedFile = photoInput.files[0];
+
+            if (selectedFile) {
+                // 檢查是否是圖片類型
+                if (selectedFile.type.startsWith('image/')) {
+                    // 創建一個圖片元素，設置其 src 屬性為選擇的圖片
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(selectedFile);
+                    const New = document.querySelector('#New');
+                    New.disabled = false;
+                    /*  img.style.maxWidth = '100%';
+                     img.style.height = 'auto'; */
+
+                    img.width = 360;
+                    img.height = 360;
+                    // 清空預覽元素的內容，然後添加新的圖片
+                    photoPreview.innerHTML = '';
+                    photoPreview.appendChild(img);
+
+                    // 清除可能的錯誤訊息
+                    const photoError = document.getElementById('photoError');
+                    photoError.textContent = '';
+                } else {
+                    // 如果選擇的檔案不是圖片，顯示錯誤訊息
+                    const photoError = document.getElementById('photoError');
+                    photoError.textContent = '你選擇的不是圖片唷，請重新選擇';
+                    photoPreview.innerHTML = '';
+
+                    const New = document.querySelector('#New');
+                    New.disabled = true;
+                    /* New.style.backgroundColor = 'red'; */
+                    /* New.textContent = '請選擇正確的圖片'; */
+                }
+            } else {
+                // 如果未選擇檔案，清空預覽元素
+                photoPreview.innerHTML = '';
+                const photoError = document.getElementById('photoError');
+                photoError.textContent = '';
+            }
+        });
+
+
+        //在家兼職和指定地點的radio，點選指定地點才能選擇縣市地址
+    /*    const inlineRadioHome = document.getElementById("inlineRadioHome");
+        const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");*/
+
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("DOMContentLoaded")
+            const inlineRadioHome = document.getElementById("inlineRadioHome");
+            const inlineRadioOtherPlace = document.getElementById("inlineRadioOtherPlace");
+            const selCity = document.getElementById("selCity");
+            const selTown = document.getElementById("selTown");
+            const addressInput = document.getElementById("txtAddress");
+
+           /* selCity.disabled = true;
+            selTown.disabled = true;
+            addressInput.disabled = true;*/
+
+            function updateFieldsAvailability() {
+                console.log('change')
+                if (inlineRadioHome.checked) {
+                    selCity.setAttribute('disabled','disabled');
+                    selTown.setAttribute('disabled', 'disabled');
+                    addressInput.setAttribute('disabled', 'disabled');
+                } else if (inlineRadioOtherPlace.checked) {
+                    selCity.removeAttribute('disabled');
+                    selTown.removeAttribute('disabled');
+                    addressInput.removeAttribute('disabled');
+                }
+            }
+
+            inlineRadioHome.addEventListener("change", updateFieldsAvailability);
+            inlineRadioOtherPlace.addEventListener("change", updateFieldsAvailability);
+
+            updateFieldsAvailability(); // 初始狀態
+        });
+
+
 
 
 

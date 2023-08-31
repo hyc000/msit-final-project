@@ -9,5 +9,6 @@ namespace prjCoreWantMember.ViewModels
         public List<ForumPost> Replies { get; set; }
         public List<ForumPostComment> MainComments { get; set; }
         public List<List<ForumPostComment>> SecondCommentsList { get; set; }
+        public MemberAccount? Member{ get; set; }
     }
 }

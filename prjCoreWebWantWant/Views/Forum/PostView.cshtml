@@ -9,13 +9,12 @@
 
 
 
-<div class="container col-9">
+<div class="container col-9 ">
     <nav class="breadcrumb  mt-4">
-    <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Content("~/Forum/CategoryList")">討論區</a></li>
         <li class="breadcrumb-item">@Html.ActionLink(@categoryTitle, "PostList", "Forum", new { categoryId = categoryId }, null)</li>
         <li class="breadcrumb-item active">@Model.MainPost.Title</ li >
-
     </ol>
     </nav>
 <!--回覆文章按鈕-->
@@ -42,7 +41,7 @@
         @{
             if (Model.MainPost.Updated != null)
             {
-                <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
+                                                    <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
             }
         }
         <hr />
@@ -54,32 +53,40 @@
                 foreach (var comment in Model.MainComments)
                 {
                             firstCommFloorCount++;
-                        <div class="flex-column">
+                            <div class="flex-column mb-1">
                             <span class="text-info">@comment.Account.UserName</span>
                             <span class="ml-auto">-@comment.Comment</span>
-
-                                <div class="small">B@(firstCommFloorCount) @comment.Created</div>
+                            <div class="small">B@(firstCommFloorCount) @comment.Created</div>
                             </div>
                         }
                     }
-                    <!--留言-->
-                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment" aria-expanded="false" aria-controls="leaveAComment">
+                    <!--留言框框-->
+
+                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment" aria-expanded="false">
                         留言
                     </button>
                     <div class="end-float"></div>
                     <div class="collapse" id="leaveAComment">
                         <div class="card card-body">
-                            <textarea></textarea>
-                            <button class="btn btn-sm">確定發出</button>
+                            <input type="text" class="form-control" name="Comment">
                         </div>
-                    </div>
-                    <!--留言end-->
+                        @if (Model.Member != null)
+                        {
+                            <button class="btn btn-sm float-end small">確定發出</button>
+                        }
+                        else
+                        {
+                            <p class="alert alert-white text-end small">
+                                登入後才能留言喔
+                                <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
+                            </p>
+                        }
+                        <!--留言end-->
                 </div>
             </div>
-
-        </div>　
+        </div>
+    </div>　
     </div>
-
     @*#2之後的部分*@
     @{
         int allFloorCount = 0;
@@ -88,120 +95,155 @@
             allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
-            <br />
-                <div class="mybg-color bg-opacity-10 rounded-3">　
-                    <div class="bg-body rounded-3 border mx-3 p-3">
-                    <div class="px-3">
-                        <div class="border-bottom row">
-                            
-                        </div>
+                                                <br />
+                                                    <div class="mybg-color bg-opacity-10 rounded-3">　
+                                                        <div class="bg-body rounded-3 border mx-3 p-3">
+                                                        <div class="px-3">
+                                                            <div class="border-bottom row">
+                                                                
+                                                            </div>
 
-                        <div class="col-11 m-auto text-body d-inline-flex align-middle">
-                                <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
-                                <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
-                                <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
-                            @{
+                                                            <div class="col-11 m-auto text-body d-inline-flex align-middle">
+                                                                    <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
+                                                                    <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
+                                                                    <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
+                                                                @{
                                 if (item.Updated != null)
                                 {
-                                    <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
+                                                                                                            <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
                                 }
-                            }
-                        </div>
-                    </div>
-                    <hr class="m-0" />
-                </div>　
-            </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <hr class="m-0" />
+                                                    </div>　
+                                                </div>
         }
         else{//正常回文的顯示
-        <br />
-        <div class="mybg-color bg-opacity-10 rounded-3">　　
-            <div class="bg-body rounded-3 border mx-3 p-3">
-                <div class="p-3">
-                    <div class="border-bottom row">
-                                <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
-                        <span class="col-4 text-end">
-                            <span class="small text-body-tertiary">@item.Created</span>
-                                    <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
-                                </span>
-                    </div>
+                                            <br />
+                                            <div class="mybg-color bg-opacity-10 rounded-3">　　
+                                                <div class="bg-body rounded-3 border mx-3 p-3">
+                                                    <div class="p-3">
+                                                        <div class="border-bottom row">
+                                                                    <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
+                                                            <span class="col-4 text-end">
+                                                                <span class="small text-body-tertiary">@item.Created</span>
+                                                                        <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
+                                                                    </span>
+                                                        </div>
 
-                    <div class="col-11 m-auto pt-3">
-                        @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
-                    </div>
+                                                        <div class="col-11 m-auto pt-3">
+                                                            @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                                                        </div>
 
 
 
-                </div>
-                @{
+                                                    </div>
+                                                    @{
                     if (item.Updated != null)
                     {
-                        <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
+                                                        <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
                     }
-                }
-                <hr />
-                        @*2樓以後留言*@
-                        <div class="row justify-content-end me-1 small">
-                            <div class="bg-light col-11">
-                                @{
-                                    int count2 = 0;
-                                    var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
+                                                    }
+                                      <hr />
+                                    @*2樓以後留言*@
+                                            <div class="row justify-content-end me-1 small">
+                                            <div class="bg-light col-11">
+                                            @{
+                                 int count2 = 0;
+                                 var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
 
-                                        @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
-                                        {
-                                            count2++;
-                                            <div class="flex-column">
-                                                <span class="text-info">@comment.Account.UserName</span>
-                                                <span class="ml-auto">-@comment.Comment</span>
-                                                <div class="small">B@(count2) @comment.Created</div>
-                                            </div>
-                                            }
-                                    
-                                }
-                                <!--留言-->
-                                <button class="btn float-end btn-sm collapse" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
-                                    留言
-                                </button>
-                                <div class="end-float"></div>
-                                <div class="collapse" id="leaveAComment@(allFloorCount)">
-                                    <div class="card card-body">
-                                        <textarea></textarea>
-                                        <button class="btn btn-sm">確定發出</button>
+                                 @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
+                                {
+                                    count2++;
+                                        <div class="flex-column  mb-1">
+                                    <span class="text-info">@comment.Account.UserName</span>
+                                    <span class="ml-auto">-@comment.Comment</span>
+                                    <div class="small">B@(count2) @comment.Created</div>
                                     </div>
-                                </div>
-                                <!--留言end-->
-                            </div>
-                        </div>
+                                }
+                                            }
+                         <!--留言框框-->
 
-            </div>　
-        </div>
+                                <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
+                                留言
+                                    </button>
+                                <div class="collapse" id="leaveAComment@(allFloorCount)">
+                                <div class="card card-body">
+                                
+
+                                    
+                                    @if (Model.Member != null)
+                                        {
+                                            <form class="form-group" name="secondFloorComment" class="end-float">
+                                                <input type="text" class="form-control" name="Comment">
+
+                                            <input type="hidden" name="PostId" value="@item.PostId">
+                                            <input type="hidden" name="AccountId" value="@Model.Member.AccountId">
+                                        <button class="btn btn-sm float-end small" id="submitBtn@(allFloorCount)">確定發出</button>
+                                            </form>
+                                    }
+                                    else
+                                    {
+                                        <p class="alert alert-white text-end small">
+                                            登入後才能留言喔
+                                            <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
+                                        </p>
+                                    }
+                                    <!--留言end-->
+                                    
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>　
+                            </div>
+                //--------------------------------------------發文底下留言開始--------------------------------------------
+                <script>
+                    const submitBtn@(allFloorCount) = document.querySelector('#submitCommentBtn@(allFloorCount)');
+                    const commentInput@(allFloorCount) = document.querySelector('#commentInput@(allFloorCount)');
+                    submitBtn@(allFloorCount).addEventListener('click', event => {
+                        event.preventDefault();
+                        const commentText = commentInput@(allFloorCount).value;
+
+                    });
+                </script>
+
+
+                //--------------------------------------------發文底下留言結束--------------------------------------------
+
         }
 
     }
 }
 
 
-    <div class="form-group my-5" id="goreply">
-        <h4 class="text-center text-body">Reply Here...</h4>
-        <hr>
+
+    <h4 class="text-center text-body  mt-5 h3" style="font-weight:bold">回覆此篇文章...</h4>
+    <hr class="hr">
         <div class="col-md-10 m-auto">
-            @if (!(bool)(ViewData["IsUserLoggedIn"] ?? false))
+        <form class="form-group" id="goreply" name="replyForm">
+            @if (Model.Member!=null)
+            {
+                <textarea id="PostContent" name="PostContent" type="text"></textarea>
+                <input id="isLogin" type="hidden" name="AccountId" value="@Model.Member.AccountId" />
+                <input type="hidden" name="ParentId" id="ParentId" value="@Model.MainPost.PostId" />
+                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" id="submitReply" />
+            }
+            else
             {
                 <p class="alert alert-primary text-center">
                     請先登入以進行回覆
                     <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
                 </p>
-                
-
             }
-            else
-            {
-                <textarea id="tiny" name="Reply"></textarea> @* todo *@
-                <input type="submit" value="確定發出" class="btn btn-primary opacity-50 go-right mt-2" />
-            }
+        </form>
         </div>
-    </div>
 
 
+
+
+    
 
     <p class="text-center my-5">
     @Html.ActionLink("回上一頁", "PostList", "Forum", new { categoryId = categoryId }, null)
@@ -239,20 +281,84 @@
             clear: both;
         }
 
-        hr {
+        .hr {
             border: 0;
             height: 1px;
             background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
         }
 
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
 
 }
+
+@section Scripts{
+    <script>
+        //--------------------------------------------這邊是主文章回覆--------------------------------------------
+        var isLogin = $('#isLogin').val();//判斷@Model.Member是否有傳值進來
+        if (isLogin) 
+        {
+            const btnSubmit = document.querySelector('#submitReply')
+            const replyContent = document.querySelector('#PostContent')
+
+            btnSubmit.addEventListener('click', event => {
+                event.preventDefault();
+                Swal.fire({
+                    title: '是否要送出回覆？',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        tinyMCE.triggerSave();//當您使用ajax提交表單時，Tinymce不會更新隱藏文本區域輸入字段的html內容。在提交表單之前，您需要手動更新 textarea輸入字段的content/html tinyMCE.triggerSave()
+                        const formData = new FormData(document.replyForm);
+                        fetch('@Url.Content("~/ForumApi/PostReply")', {
+                            body: formData,
+                            method: "POST"
+                        }).then(response => {
+                            if (response.ok) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '回覆成功',
+                                    text: '即將重新整理頁面，請稍後。',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                }).then(() => {
+                                    // 成功訊息顯示後，重新整理頁面
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '回覆失敗，請確認資料。',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                })
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        //--------------------------------------------主文章回覆結束--------------------------------------------
+
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}
+
 <script src="~/lib/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
-        selector: 'textarea#tiny',
+        selector: 'textarea#PostContent',
         menubar: false,
         plugins: [
             'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
@@ -263,13 +369,3 @@
             'bullist numlist checklist outdent indent | removeformat | code table help'
     })
 </script>
-
-@section Scripts{
-    <script>
-        var isUserLoggedIn = @((bool)(ViewData["IsUserLoggedIn"] ?? false));
-
-        if (isUserLoggedIn) {
-            document.getElementById("goreply").style.display = "block";
-        }
-    </script>
-}
