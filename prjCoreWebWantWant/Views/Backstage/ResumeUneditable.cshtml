@@ -103,9 +103,14 @@
                         <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-4">
-                                <img src="~/@Model.PhotoPath" style="height: 330px; width: 280px;" />
-
-                                    </div>
+                                @* <img src="@Url.Content(Model.PhotoPath)" style="height: 330px; width: 280px;" /> *@
+                                @{
+                                    if(Model.PhotoPath != null)
+                                    {
+                                        <img src="@Url.Content("~")@Model.PhotoPath" style="height: 330px; width: 280px;" />
+                                    }
+                                }
+                            </div>
 
                                    @*  <div class="col-md-1 vertical-divider"></div> <!-- 垂直分隔線 --> *@
 

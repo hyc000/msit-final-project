@@ -799,6 +799,7 @@ public partial class NewIspanProjectContext : DbContext
             entity.Property(e => e.DataModifyDate).HasMaxLength(50);
             entity.Property(e => e.OnTop).HasColumnType("datetime");
             entity.Property(e => e.PhotoPath).HasMaxLength(300);
+            entity.Property(e => e.RemoveDate).HasMaxLength(50);
             entity.Property(e => e.ResumeTitle).HasMaxLength(50);
             entity.Property(e => e.TaskNameId).HasColumnName("TaskNameID");
             entity.Property(e => e.TownId).HasColumnName("TownID");

@@ -1,0 +1,179 @@
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Resume>
+@{
+    ViewData["Title"] = "RecucleBin";
+    //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+@*<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+</head>*@
+
+<style>
+    .card /*:hover*/ {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+</style>
+
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找工作</li>
+            <li class="breadcrumb-item " aria-current="page">資源回收桶</li>
+        </ol>
+    </nav>
+}
+
+@section Scripts{
+    <script>
+        // const Back = document.querySelector('#Back');
+        // Back.addEventListener('click', () => {
+        //     window.history.back();
+        // })
+    </script>
+}
+
+<body>
+    <div class="container">
+        <p></p>
+    </div>
+
+    <div class="container" id="ResumeEdit">
+        <p style="text-align: left">
+            @*<a href="@Url.Content("~/backstage/create")"
+               title="新增履歷表"
+               class="btn btn-outline-info"
+               style="float:left"
+               id="CreateResume">新增履歷表 +</a>*@
+           
+            <a id="Back" class="btn btn-outline-secondary" style="float:right" href="@Url.Content("~/backstage/resumelist")" >返回求職履歷管理</a>
+            @*<a href="#">
+                     <i class="fa-solid fa-recycle fa-2xl" style="color: #4dc60c;float:left"></i> *@
+                @*<img src="~/Backstage/icon/recycle-symbol.png" style="float:left;height:32px;width:32px" />
+            </a>*@
+
+            共 @Model.Count() 個項目
+            <a class="btn btn-outline-danger">刪除全部</a>
+        </p>
+    </div>
+
+
+    <div class="container">
+        <p style="text-align: center" id="ResumeList"></p>
+    </div>
+
+    <div class="container">
+        @{
+            int count = 0;
+            @foreach (var item in Model)
+            {
+
+                count++;
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.ResumeTitle</h5>
+
+                                @if (item.Autobiography == null)
+                                {
+                                    <p class="card-text" style="color:#527eaf">您還沒有自傳內容</p>
+                                }
+                                else if (item.Autobiography.Length <= 120)
+                                {
+                                    <p class="card-text">@item.Autobiography</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">@item.Autobiography.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
+                                }
+
+                                @* <a href="@Url.Content("~/backstage/ResumeEdit")" title="編輯" class="btn btn-primary btn-sm">編輯</a>*@
+
+                                @* @Html.ActionLink("修改", "ResumeEdit", new { id=item.ResumeId }, new { @class = "btn btn-primary btn-sm" })*@
+
+
+                                @*<a href="@Url.Content("~/backstage/ResumeUneditable")" title="檢視" class="btn btn-success btn-sm">檢視</a>*@
+
+
+                                @*<a href="" title="刪除" class="btn btn-danger btn-sm">刪除</a>*@
+                                @*@Html.ActionLink("刪除", "ResumeDelete","Backstage", new {  id=item.ResumeId },new {@class = "btn btn-danger btn-sm",onclick="Delete();"})*@
+                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-danger btn-sm" onclick="return Delete();">刪除</a>*@
+                                @*<a href="@Url.Content("~/Backstage/ResumeDelete?id="  +item.ResumeId)" class="btn btn-danger btn-sm" onclick="Delete()">刪除</a>*@
+
+
+                                @*<a href="#"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@   @*PDF的文件圖示*@
+
+
+
+
+                                @*<a href="@Url.Content("~/Backstage/ResumeEdit")?id=@item.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>*@
+                                <a href="@Url.Content("~/Backstage/ResumeUneditableforRecycleBin")?id=@item.ResumeId" title="檢視" class="btn btn-outline-success" data-bs-target="#ResumeModal">檢視</a>
+                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>*@
+                                @*<a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>*@
+                                <a href="@Url.Content("~/Backstage/ResumeDeleteforRecycleBin")?id=@item.ResumeId" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
+
+                                @*<a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@
+
+                                <span style="display: block; text-align: end;">刪除日期：@item.RemoveDate</span>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+    <script>
+        if (@Model.Count()== 3) {
+            const CreateResume = document.querySelector('#CreateResume')
+            CreateResume.addEventListener('click', () => {
+                CreateResume.href = '#';
+                Swal.fire({
+                    icon: 'warning',
+                    title: '注意',
+                    text: '您的履歷數量已達上限，無法新增履歷',
+                })
+            });
+        }
+
+        if (@Model.Count() == 0) {
+            const ResumeList = document.querySelector('#ResumeList');
+            ResumeList.textContent = '資源回收桶是空的';
+        }
+
+        function confirmDelete(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            Swal.fire({
+                title: '警告',
+                text: '您確定要刪除此履歷嗎',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 使用者點擊了 "確定"，可以執行刪除動作
+                    window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                }
+            });
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"></script>
+</body>

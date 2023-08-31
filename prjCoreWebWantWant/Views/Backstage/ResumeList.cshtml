@@ -43,8 +43,12 @@
                class="btn btn-outline-info"
                style="float:left"
                id="CreateResume">新增履歷表 +</a>
-
-            您已使用 @Model.Count()/3 份履歷</p>
+            
+            <a href="@Url.Content("~/Backstage/RecycleBin")">
+                <span style="float:left" class="btn btn-outline-warning">資源回收桶<img src="~/Backstage/icon/recycle-symbol.png" style="float:left;height:24px;width:24px" /></span>
+            </a>
+            您已使用 @Model.Count()/3 份履歷
+        </p>
     </div>
 
 

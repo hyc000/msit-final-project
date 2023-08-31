@@ -33,6 +33,8 @@ public partial class Resume
 
     public string? PhotoPath { get; set; }
 
+    public string? RemoveDate { get; set; }
+
     public virtual MemberAccount Account { get; set; } = null!;
 
     public virtual ICollection<ApplicationList> ApplicationLists { get; set; } = new List<ApplicationList>();

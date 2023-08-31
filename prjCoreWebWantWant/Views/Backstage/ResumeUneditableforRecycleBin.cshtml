@@ -1,0 +1,381 @@
+﻿@using System.Text.Json;
+@*@model IEnumerable<prjCoreWebWantWant.Models.Resume>*@
+@model prjCoreWebWantWant.Models.Resume
+
+@{
+    ViewData["Title"] = "ResumeUneditableforRecycleBin";
+    // Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+
+@*抓登入者的名字*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+    MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
+    string loginUserName = loggedInUser.Name;
+}
+
+@section Scripts{
+    <script>
+        const Back = document.querySelector('#Back');
+        Back.addEventListener('click', () => {
+            window.history.back();
+        })
+    </script>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>Profile | Minia - Minimal Admin &amp; Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="Premium Multipurpose Admin &amp; Dashboard Template"
+          name="description" />
+    <meta content="Themesbrand" name="author" />
+    <style>
+
+        .badge-soft-primary {
+            background-color: #528EAF;
+            color: #fff;
+        }
+
+        #Back:hover {
+            background-color: #528EAF;
+        }
+
+        .vertical-divider {
+            border-left: 1px solid #ccc; /* 垂直分隔線樣式 */
+            height: 330px; /* 與照片相同高度 */
+            margin: auto 0; /* 垂直置中 */
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- <body data-layout="horizontal"> -->
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+        </header>
+
+
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        @* <div class="main-content"> *@
+        @* <div class="page-content"> *@
+        @*   <div class="container-fluid"> *@
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="container-fluid d-flex justify-content-end">
+                    <a id="Back" class="btn btn-outline-secondary">返回上一頁</a>
+                    <p></p>
+                </div>
+                <p></p>
+
+                @*  <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-28">履歷</h4>
+
+                <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"></li>
+                </ol>
+                </div>
+                </div> *@
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    @* <div class="card-body"> *@
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">個人資料</h5>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @* <img src="@Url.Content(Model.PhotoPath)" style="height: 330px; width: 280px;" /> *@
+                                @{
+                                    if (Model.PhotoPath != null)
+                                    {
+                                        <img src="@Url.Content("~")@Model.PhotoPath" style="height: 330px; width: 280px;" />
+                                    }
+                                }
+                            </div>
+
+                            @*  <div class="col-md-1 vertical-divider"></div> <!-- 垂直分隔線 --> *@
+
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <p></p>
+                                        <p></p>
+                                        <p></p>
+
+                                        <h4 class="font-size-15">姓名：@loginUserName</h4>
+                                        @* <h4 class="font-size-15">性別：女</h5>*@
+                                        <h4 class="font-size-15">城市：@Model.Town.City.City1</h4>
+                                        <div>
+                                            <h4 class="font-size-15">區域：@Model.Town.Town1</h4>
+                                            <h4 class="font-size-15">詳細地址：@(Model.Address != null ? Model.Address : "您未填寫地址")</h4>
+
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <p></p>
+                                    <p></p>
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @*   <div class="card">
+                                            <h5 class="card-header">
+                                            <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                            <h5 class="card-title mb-0">語言能力</h5>
+                                            </div>
+                                            </div>
+                                            </h5>
+                                            <div class="card-body">
+                                            <div>
+                                            <div class="row">
+                                            <div class="accordion-body">
+                                            <p>
+                                            外文種類： 英文 聽：中等 說：中等
+                                            讀：中等 寫：中等
+                                            </p>
+                                            </div>
+                                            <!-- end col -->
+                                            </div>
+                                            <!-- end row -->
+                                            </div>
+                                            </div>
+                                            </div> *@
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card">
+                                                    <h5 class="card-header">
+                                                        <div class="d-flex justify-content-end">
+                                                            <div class="flex-grow-1">
+                                                                <h5 class="card-title mb-0">履歷技能</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="row">
+                                                                <!-- <a href="#" class="btn btn-primary">
+                                                                                新增履歷技能 +
+                                                                              </a> -->
+                                                                <!-- end col -->
+                                                            </div>
+                                                            <!-- end row -->
+                                                        </div>
+                                                    </h5>
+                                                    <div class="card-body">
+                                                        <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                            <a class="badge badge-soft-primary">Photoshop</a>
+                                                            <a class="badge badge-soft-primary">illustrator</a>
+                                                            @*< a class="badge badge-soft-primary">HTML</a>
+                                                            <a class="badge badge-soft-primary">CSS</a>
+                                                            <a class="badge badge-soft-primary">Javascript</a>
+                                                            <a class="badge badge-soft-primary">Php</a>
+                                                            <a class="badge badge-soft-primary">Python</a> *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card">
+                                                    <h5 class="card-header">
+                                                        <div class="d-flex justify-content-end">
+                                                            <div class="flex-grow-1">
+                                                                <h5 class="card-title mb-0">履歷證照</h5>
+                                                            </div>
+                                                        </div>
+                                                    </h5>
+                                                    <div class="card-body">
+                                                        <div>
+                                                            <div class="row">
+                                                                <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                    <a class="badge badge-soft-primary">寵物照護員</a>
+                                                                    @* <a class="badge badge-soft-primary">律師</a> *@
+                                                                </div>
+                                                                <!-- <a href="#" class="btn btn-primary">
+                                                                                新增履歷證照 +
+                                                                              </a> -->
+                                                                <!-- end col -->
+                                                            </div>
+                                                            <!-- end row -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-content">
+                <div class="tab-pane active show"
+                     id="overview"
+                     role="tabpanel">
+                    @*  <div class="card">
+                    <div class="card-header">
+                    <h5 class="card-title mb-0">居住地區</h5>
+                    </div>
+                    <div class="card-body">
+                    <div>
+
+
+                    <div class="py-3">
+                    <div class="row">
+                    <div class="col-xl-1">
+                    <div>
+                    <h5 class="font-size-15" width="50px">城市:</h5>
+                    </div>
+                    </div>
+                    <div class="col-xl">
+                    <div class="text-muted">
+                    <div class="row">
+                    <div class="col-4">
+                    <p>@Model.Town.City.City1</p>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="py-3">
+                    <div class="row">
+                    <div class="col-xl-1">
+                    <div>
+                    <h5 class="font-size-15" width="50px">區域:</h5>
+                    </div>
+                    </div>
+                    <div class="col-xl">
+                    <div class="text-muted">
+                    <div class="row">
+                    <div class="col-4">
+                    <p>@Model.Town.Town1</p>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="pb-3">
+                    <div class="row">
+                    <div class="col-xl-1">
+                    <div>
+                    <h5 class="font-size-15"  width="100px">詳細地址：</h5>
+                    </div>
+                    </div>
+                    <div class="col-xl">
+                    <div class="text-muted">
+                    <p class="mb-2"></p>
+                    <p class="mb-0">@(Model.Address != null ? Model.Address : "您未填寫地址")</p>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div> *@
+
+
+
+
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title mb-0">自傳</h5>
+                                </div>
+
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <div class="row">
+                                    @* <textarea rows="10"
+                                    class="form-control"
+                                    placeholder="您好！我是李芷帆，畢業於東吳大學資工系，會c、c++、python，閒暇時會獨立接案，將客戶要求做到最好。"></textarea> *@
+                                    <textarea disabled style="resize:none;height:480px;background-color:white;border:none">@Model.Autobiography</textarea>
+                                    <!-- end col -->
+                                </div>
+                                <!-- end row -->
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end tab pane -->
+
+                <div class="tab-pane active show" id="about" role="tabpanel">
+                    <!-- end card -->
+                </div>
+                <!-- end tab pane -->
+
+                <div class="tab-pane active show" id="post" role="tabpanel">
+                    <!-- end card -->
+                </div>
+                <!-- end tab pane -->
+            </div>
+        </div>
+        <!-- end col -->
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+    @*   </div> *@
+    <!-- container-fluid -->
+    @* </div> *@
+    <!-- End Page-content -->
+    @*  </div> *@
+    <!-- end main content-->
+    </div>
+    <!-- END layout-wrapper -->
+
+</body>
+</html>
+
+@section subTitle{
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">會員資訊</li>
+            <li class="breadcrumb-item " aria-current="page">求職履歷管理</li>
+        </ol>
+    </nav>
+}
+
+

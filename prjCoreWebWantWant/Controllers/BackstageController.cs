@@ -92,13 +92,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22).FirstOrDefault();
             return View(q);
         }
+        public IActionResult ResumeUneditableforRecycleBin(int? id)
+        {
+            var q = _context.Resumes
+                    .Include(t => t.Town.City)
+                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId == 22).FirstOrDefault();
+            return View(q);
+        }
 
 
         public IActionResult ResumeList()
         {
             var q = _context.Resumes
                     .Include(t => t.Town.City)                                           
-                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId != 22);
+                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId == 23);
             return View(q);
         }
         public IActionResult ResumeDelete(int? id)
@@ -114,6 +121,21 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
             return RedirectToAction("ResumeList");
+        }
+
+        public IActionResult ResumeDeleteforRecycleBin(int? id)
+        {
+            if (id != null)
+            {
+                Resume resume = _context.Resumes.FirstOrDefault(p => p.ResumeId == id);
+                if (resume != null)
+                {
+                    resume.CaseStatusId = 24;
+                    //_context.Resumes.Remove(resume);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("RecycleBin");
         }
 
         //public IActionResult ResumeEdit()
@@ -297,6 +319,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = _context.TaskLists
                     .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            return View(q);
+        }
+
+        public IActionResult RecycleBin()
+        {
+            var q = _context.Resumes
+                    .Include(t => t.Town.City)
+                    .Where(r => r.IsExpertOrNot == false && r.AccountId == GetAccountID() && r.CaseStatusId == 22);
             return View(q);
         }
     }
