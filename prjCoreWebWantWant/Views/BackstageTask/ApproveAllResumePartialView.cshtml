@@ -45,13 +45,19 @@
                             @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                             <td>
                                 <div class="d-flex gap-2">
+                                 @foreach (var cert in item.CertificateNames)
+                                    {
                                     <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
-                                </div>
+                                    }
+                                    </div>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
+                                     @foreach (var skill in item.SkillNames)
+                                  {
                                     <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
-                                </div>
+                                    }
+                                    </div>
                             </td>
                             <td>
                                 <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">

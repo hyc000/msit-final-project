@@ -24,43 +24,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @{
-
-                                                //NewIspanProjectContext _context = new NewIspanProjectContext();
-                                                
-                                                ////var q = from app in _context.ApplicationLists.AsEnumerable()
-                                                ////        where app.CaseStatusId == 1
-                                                ////        select app;
-
-                                                //var query =( from app in _context.ApplicationLists                                                         
-
-                                                //            join task in _context.TaskLists on app.CaseId equals task.CaseId
-                                                //            join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
-                                                //            join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
-                                                //            join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                                                //            join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-                                                //            join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                                                //            join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId                                                 
-
-                                                //            where app.CaseStatusId == 1 
-                                                           
-
-                                                //            select new 
-                                                //            {
-                                                //                CaseId = task.CaseId,
-                                                //                ResumeId = resume.ResumeId,
-                                                //                TaskNameId = task.TaskNameId,
-                                                //                CaseStatusId = app.CaseStatusId,
-                                                //                Name = member.Name,
-                                                //                SkillName = skill.SkillName,
-                                                //                CertificateName = cer.CertificateName,
-                                                //                Autobiography = resume.Autobiography,
-                                                //                PublishStart = task.PublishStart,
-                                                //                TaskStart = task.TaskStartDate,
-                                                //                TaskTitle = task.TaskTitle,
-                                                //                TaskDetail = task.TaskDetail
-                                                //            }).Distinct();
-
+                                            @{                                             
                    
                                                 int count=0;
 
@@ -79,7 +43,7 @@
                                                     <td data-field="id">@count</td>
                                                         <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
                                                         <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
-                                                        <td data-field="age">@Html.DisplayFor(modelItem => item.Autobiography)</td>
+                                                       <td data-field="age">@Html.DisplayFor(modelItem =>autobiography)</td>
                                                         @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                                                         <td>
                                                             <div class="d-flex gap-2">

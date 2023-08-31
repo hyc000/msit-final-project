@@ -276,7 +276,7 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-4 col-sm-6">
                                                                             <div class="image-container">
-                                                                                <img src="~/@Model.PhotoPath" style="height:200px ; width:200px" alt="目前沒有照片，趕快新增吧" class="enlarge-on-hover" />
+                                                                                <img src="@Url.Content("~")@Model.PhotoPath" style="height:200px ; width:200px" alt="目前沒有照片，趕快新增吧" class="enlarge-on-hover" />
                                                                                 <input class="form-control" type="file" id="photoInput" name="imageFile" asp-for="Photo">
                                                                                 <span id="photoError" class="text-danger"></span>
                                                                                 <div id="photoPreview"></div>
