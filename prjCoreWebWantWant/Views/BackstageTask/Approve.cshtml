@@ -97,33 +97,33 @@
                        
                                 <div class="card-header">
                                     <div class="row">
-                                        <div class="card-body col-4">
+                                        <div class="card-body col-6">
                                         
                                             <!--未處理 已錄取 未錄取 tab-->
                                             <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                 <li class="nav-item" onclick="showAllResume();">
                                                     <a class="nav-link active" data-bs-toggle="tab" href="#tabAllResume" role="tab" style="color:#528EAF">
                                                         @*<span class="d-block d-sm-none"><i class="fas fa-home"></i></span>*@
-                                                        <span class="d-none d-sm-block" style="color:#528EAF">未處理</span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF" id="tabAll">未處理</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" onclick="showAccept();">
                                                     <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block" style="color:#528EAF">已錄取</span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF" id="tabAccept">已錄取</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" onclick="showRefuse();">
                                                     <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block" style="color:#528EAF">未錄取</span>
+                                                    <span class="d-none d-sm-block" style="color:#528EAF" id="tabRefuse">未錄取</span>
                                                     </a>
                                                 </li>
                                             </ul>                                      
                                             </div>
              
                                             <!--選擇任務類型  未處理的標籤-->
-                                              <div class="col-4 mb-3" id="selAll">
+                                              <div class="col-3 mb-3" id="selAll">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context1 = new NewIspanProjectContext();
@@ -142,7 +142,7 @@
                                             </div>
 
                                             <!--選擇任務類型  已錄取的標籤-->
-                                              <div class="col-4 mb-3" id="selAccept"  style="display:none">
+                                              <div class="col-3 mb-3" id="selAccept"  style="display:none">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
@@ -161,7 +161,7 @@
                                             </div>
 
                                              <!--選擇任務類型  已婉拒的標籤-->
-                                              <div class="col-4 mb-3" id="selRefuse" style="display:none">
+                                              <div class="col-3 mb-3" id="selRefuse" style="display:none">
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context3 = new NewIspanProjectContext();
@@ -183,7 +183,7 @@
                                         <!-- App Search--> 
 
                                         <!--未處理   關鍵字搜尋-->
-                                       <div class="col-4" id="KeywordAllResume">
+                                       <div class="col-3" id="KeywordAllResume">
                                             <form class="app-search d-none d-lg-block">
                                                 <div class="position-relative">
                                                 <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordAllResume">
@@ -193,7 +193,7 @@
                                         </div>
 
                                     <!--已錄取   關鍵字搜尋-->
-                                    <div class="col-4" id="KeywordAccept" style="display:none">
+                                    <div class="col-3" id="KeywordAccept" style="display:none">
                                         <form class="app-search d-none d-lg-block">
                                             <div class="position-relative">
                                                 <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordAccept">
@@ -203,7 +203,7 @@
                                     </div>
 
                                     <!--已婉拒   關鍵字搜尋-->
-                                    <div class="col-4" id="KeywordRefuse" style="display:none">
+                                    <div class="col-3" id="KeywordRefuse" style="display:none">
                                 <form class="app-search d-none d-lg-block">
                                     <div class="position-relative">
                                                 <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordRefuse">
@@ -243,14 +243,20 @@
                                         //先取得要操作的標籤，select
                                         let selAll=document.querySelector("#selAll");
                                         let selAccept=document.querySelector("#selAccept");
-                                        let selRefuse=document.querySelector("#selRefuse");
+                                        let selRefuse=document.querySelector("#selRefuse");                          
 
                                         //先取得要操作的標籤，txtKeyword
                                 let KeywordAllResume = document.querySelector("#KeywordAllResume");
                                 let KeywordAccept = document.querySelector("#KeywordAccept");
                                 let KeywordRefuse = document.querySelector("#KeywordRefuse");
 
-                                        //再對標籤做操作，表格
+                                //未處理、已錄取、已婉拒的tab
+                                const tabAll = document.querySelector('#tabAll');
+                                const tabAccept = document.querySelector('#tabAccept');
+                                const tabRefuse = document.querySelector('#tabRefuse');
+
+
+                                //再對標籤做操作，表格
                                         AllResume.style.display = "block";
                                         Accept.style.display = "none";
                                         Refuse.style.display = "none";
@@ -264,6 +270,20 @@
                                         KeywordAllResume.style.display = "block";
                                         KeywordAccept.style.display = "none";
                                         KeywordRefuse.style.display = "none";
+
+                                //再對標籤做操作，tab
+                                tabAll.style.color = 'white';
+                                tabAll.style.backgroundColor = '#528EAF';
+                                tabAll.style.fontSize = '20px';
+
+                                tabAccept.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabAccept.style.backgroundColor = '';
+                                tabAccept.style.fontSize = '16px';
+
+                                tabRefuse.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabRefuse.style.backgroundColor = '';
+                                tabRefuse.style.fontSize = '16px';
+
 
                                     }
 
@@ -283,6 +303,11 @@
                                 let KeywordAccept = document.querySelector("#KeywordAccept");
                                 let KeywordRefuse = document.querySelector("#KeywordRefuse");
 
+                                      //未處理、已錄取、已婉拒的tab
+                                const tabAll = document.querySelector('#tabAll');
+                                const tabAccept = document.querySelector('#tabAccept');
+                                const tabRefuse = document.querySelector('#tabRefuse');                                
+
                                         //再對標籤做操作，表格
                                         AllResume.style.display = "none";
                                         Accept.style.display = "block";
@@ -297,6 +322,20 @@
                                         KeywordAllResume.style.display = "none";
                                         KeywordAccept.style.display = "block";
                                         KeywordRefuse.style.display = "none";
+
+                                //再對標籤做操作，tab
+                                tabAccept.style.color = 'white';
+                                tabAccept.style.backgroundColor = '#528EAF';
+                                tabAccept.style.fontSize = '20px';
+
+                                tabAll.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabAll.style.backgroundColor = '';
+                                tabAll.style.fontSize = '16px';
+
+                                tabRefuse.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabRefuse.style.backgroundColor = '';
+                                tabRefuse.style.fontSize = '16px';
+
 
                                     }
 
@@ -316,7 +355,12 @@
                                 let KeywordAccept = document.querySelector("#KeywordAccept");
                                 let KeywordRefuse = document.querySelector("#KeywordRefuse");
 
-                                        //再對標籤做操作，表格
+                                //未處理、已錄取、已婉拒的tab
+                                const tabAll = document.querySelector('#tabAll');
+                                const tabAccept = document.querySelector('#tabAccept');
+                                const tabRefuse = document.querySelector('#tabRefuse');
+
+                                //再對標籤做操作，表格
                                         AllResume.style.display = "none";
                                         Accept.style.display = "none";
                                         Refuse.style.display = "block";
@@ -330,6 +374,20 @@
                                         KeywordAllResume.style.display = "none";
                                         KeywordAccept.style.display = "none";
                                         KeywordRefuse.style.display = "block";
+
+                                //再對標籤做操作，tab
+                                tabRefuse.style.color = 'white';
+                                tabRefuse.style.backgroundColor = '#528EAF';
+                                tabRefuse.style.fontSize = '20px';
+
+                                tabAll.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabAll.style.backgroundColor = '';
+                                tabAll.style.fontSize = '16px';
+
+                                tabAccept.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+                                tabAccept.style.backgroundColor = '';
+                                tabAccept.style.fontSize = '16px';
+
 
                                     }
                                 </script>

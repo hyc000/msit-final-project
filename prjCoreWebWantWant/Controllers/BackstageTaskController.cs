@@ -165,6 +165,18 @@ namespace WantTask.Controllers
             return RedirectToAction("TablesEditable");
         }
 
+        //改狀態為空值=UI的刪除
+        public IActionResult PubNull(int? id)
+        {
+            TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
+            if (id != null)
+            {
+                task.PublishOrNot = "";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("TablesEditable");
+        }
+
 
         public IActionResult Edit(int? id)
         {

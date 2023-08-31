@@ -57,6 +57,7 @@
                 <th style="width: 50px;">詳細內容</th>
                 <th style="width: 50px;">下架任務</th>
                 <th style="width: 50px;">修改</th>
+                <th style="width: 50px;">刪除</th>
             </tr>
         </thead>
 
@@ -93,7 +94,7 @@
                                 </a>
                             </td>
 
-                      <td style="width: 100px">
+                      <td>
                            @* 舊的<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="@Url.Content("~/backstagetask/Edit")" id="jobdetail">*@
                           @* @Html.ActionLink("修改","Edit",new {id = item.CaseId})*@
                                 @*<a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="#" data-bs-toggle="modal" data-bs-target="#myModal_@item.CaseId">*@
@@ -104,10 +105,14 @@
                                     @*<i class="fas fa-pencil-alt"></i>*@
                                  <img src="~/backstage1/img/edit.png" alt="修改" style="height: 25px; width: 25px;">
                                </a>     
-
-
-
                         </td>
+
+                            <td >
+                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId">
+                                    @*<i class="fas fa-pencil-alt"></i>*@
+                                    <img src="~/backstage1/img/recycle-bin.png" alt="刪除" style="height: 23px; width: 25px;">
+                                </a>
+                            </td>
                     </tr>
 
                         <div class="modal" tabindex="-1" id="myModal_@item.CaseId" style="display:none">

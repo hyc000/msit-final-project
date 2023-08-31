@@ -186,6 +186,10 @@
                                             let NoPublishSelect = document.querySelector("#NoPublishSelect");
                                             let publishKeyword = document.querySelector("#publishKeyword");
                                             let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
+                                            
+                                            //已上架未上架的tab
+                                            const tabpublish = document.querySelector('#tabpublish');
+                                            const tabNopublish = document.querySelector('#tabNopublish');
 
                                             //再對標籤做操作
                                             Publish.style.display = "block";
@@ -194,6 +198,15 @@
                                             NoPublishSelect.style.display = "none";
                                             publishKeyword.style.display = "block";
                                             NopublishKeyword.style.display = "none";
+
+                                            //已上架未上架的tab-顯示已上架
+                                            tabpublish.style.color = 'white';
+                                            tabpublish.style.backgroundColor = '#528EAF';
+                                            tabpublish.style.fontSize = '20px';
+
+                                            tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
+                                            tabNopublish.style.backgroundColor = '';
+                                            tabNopublish.style.fontSize = '16px';
                                           }
 
                                         function showNoPublish() {
@@ -205,6 +218,9 @@
                                             let publishKeyword = document.querySelector("#publishKeyword");
                                             let NopublishKeywordNoPublishSelect = document.querySelector("#NopublishKeyword");
 
+                                            //已上架未上架的tab
+                                            const tabpublish = document.querySelector('#tabpublish');
+                                            const tabNopublish = document.querySelector('#tabNopublish');
 
                                             //再對標籤做操作
                                             Publish.style.display = "none";
@@ -213,6 +229,17 @@
                                             NoPublishSelect.style.display = "block";
                                             publishKeyword.style.display = "none";
                                             NopublishKeyword.style.display = "block";
+
+                                            //已上架未上架的tab-顯示未上架
+                                            tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
+                                            tabpublish.style.backgroundColor = '';
+                                            tabpublish.style.fontSize = '16px';
+
+                                            tabNopublish.style.color = 'white';
+                                            tabNopublish.style.backgroundColor = '#528EAF';
+                                            tabNopublish.style.fontSize = '20px';
+
+
 
                                         }
                                     </script>
@@ -262,24 +289,6 @@
                 NoPublish.innerHTML = xhr.responseText;
             })
         })
-
-        //點選時tab會更改顏色
-            const tabpublish = document.querySelector('#tabpublish');
-            const tabNopublish = document.querySelector('#tabNopublish');
-
-            function showtabpublish() {
-                tabpublish.style.color = 'white';
-                tabpublish.style.backgroundColor = '#528EAF';
-                tabNopublish.style.color = '#528EAF'; // 將未上架標籤的顏色還原
-                tabNopublish.style.backgroundColor = '';
-            }
-
-            function showtabNopublish() {
-                tabpublish.style.color = '#528EAF'; // 將已上架標籤的顏色還原
-                tabpublish.style.backgroundColor = '';
-                tabNopublish.style.color = 'white';
-                tabNopublish.style.backgroundColor = '#528EAF';
-            }
 
             //已上架的keyword和search
             const txtKeywordPub = document.querySelector('#txtKeywordPub');

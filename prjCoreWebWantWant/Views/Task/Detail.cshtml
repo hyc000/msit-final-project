@@ -9,7 +9,8 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    //string memberemail = factory.MemberEmail(Model.AccountId);
+    string skill = factory.SkillIDtoName(Model.AccountId);
+
 
     string abbreviatedName = membername != null && membername.Length > 0
         ? membername[0] + "小姐" : null;
@@ -146,8 +147,8 @@
                             </div>
                             <ul>
                                 @*失敗ㄉ一段QQname結尾的都是亂碼*@
-                                @*<li>@Model.taskSkill</li>
-                                <li>@Model.skill</li>      
+                               @* <li>@skill</li>*@
+                          @*      <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       
                                 <li>@Model.skillType</li>
                                 <li>@Model.skilltypename.ToString()</li>*@
