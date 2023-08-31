@@ -645,11 +645,6 @@ namespace WantTask.Controllers
             _context.Add(taskCer);
             _context.SaveChanges();
 
-            
-            
-
-            
-
             return RedirectToAction("Create");
 
         }
