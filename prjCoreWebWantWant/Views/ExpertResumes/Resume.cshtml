@@ -17,14 +17,14 @@
 
         .work-img {
             flex: 25%;
-            max-width: 25%;
+            width: 25%;
             height: 170px; 
             width: auto; 
             
         }
 
         .bg-expertdetail {
-            height: 190px; /* 按鈕總高度 */
+            /* height: 190px; /* 按鈕總高度 */ */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -38,8 +38,9 @@
                                   }
 
         .workbox {
-          /*  height: 250px;
-            width: 800px;*/
+           
+            height: 200px;
+            width:380px;
             background-color: #7F9DB7;
             overflow: hidden;
             position: relative;
@@ -50,11 +51,12 @@
           /*  left: 50%;
             top: 50%;*/
             /*transform: translate(-50%, -50%);*/
+            width:100%;
             display: flex;
         }
     </style>
         }
-<h2 class="text-center myh2" style="font-weight:bold">
+<h2 id="toptitle" class="text-center myh2" style="font-weight:bold">
     <span style="color:#9eb9d3">●</span>
     <span style="color:#c0d3e6">●</span>
     <span style="color:#e5edf6">●</span>
@@ -67,7 +69,7 @@
     @* 最外圍 *@
 
     <div>
-        <div class="container-fluid  " style="max-width: 85%; margin:auto;">
+        <div  class="container-fluid  " style="max-width: 85%; margin:auto;">
        
             <div class="row mx-0" style="height: 70vh;">
             <!-- 主容器 -->
@@ -87,7 +89,7 @@
                 <!-- 下方作品集區 -->
                 <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
                     <h6>專家作品集</h6>
-                    <div id="workbox" class="d-flex justify-content-start" style="overflow: hidden; height: 200px;">
+                    <div id="workbox" class="d-flex justify-content-start">
                             <div id="worklist" class="worklist">
                      
                           </div>
@@ -201,18 +203,78 @@
         @* 評分 *@
         <div id="ratinghere" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
            
-                <div class="m-3 p-4 ">
-                    <h2>評分</h2>
+          <div class="m-3 p-4 ">
+                    <h2>評價</h2>
                     <hr />
                 <div id="ratecontent" style="overflow-x: auto">
                 </div>
-        </div>
-
+          </div>
     </div>
 
+        <!--按鈕-->
+        <div style="position:sticky;bottom:30px;right:0px">
 
-</div>@* 最外圍 *@
+            <div class="d-flex justify-content-evenly  h-50 expert-button-group">
+                <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#details"
+                   data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
+                <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#ratinghere"
+                   data-loading-text="Loading..."><span>評價</span></a>
+                <a href="@Url.Action("Create", "ExpertTask", new { expertaccountid = Model.專家ID })" class="btn labelResume btn-outline-primary bg-white fs-2">
+                    <i class="fa-solid fa-right-to-bracket fa-bounce" style="color: #528EAF;"></i>去委託
+                </a>
 
+                <a class="btn btnResume btn-outline-primary bg-white fs-2" style="width:180px" href="#toptitle"
+                   data-loading-text="Loading...">
+                    <span>
+                        TOP
+                        <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
+                    </span>
+                </a>
+
+            </div>
+
+
+        </div>
+
+        <!-- Modal -->
+        
+        <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button id="btnpre" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button id="btnnext" class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <div style="position:absolute;right:0px;">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div>
+                        <p id="texttitle" class="text-center" style="margin-bottom:-10px;"></p>
+                    </div>
+                    <div class="modal-header" style="justify-content:center; ">
+                        <img class="img-fluid" style="height:550px;">
+                    </div>
+                    <div>
+                        <p id="texdate" class="text-center"></p>
+                    </div>
+                    <div class="modal-footer" style="justify-content:center">
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>@* 最外圍 *@
+ </div>
 
 @section Scripts{
     <script src="~/Expert/js/expert.js"></script>
@@ -289,11 +351,13 @@
 
          //星星評價結束=====================================
             //=======作品集=========================================
+        let currentImageIndex = 0;
+        let imageDataArray = [];  // 存儲所有圖片的數據
             function load() {
                 const workbox = document.querySelector('#workbox');
                 const worklist = document.querySelector('#worklist');
                 const imageWidth = 458 / 4;//458是Worklist長度
-            
+              
       
                 let left = 0; // 初始化為 0
                 let interval = 1000;
@@ -331,7 +395,8 @@
                     fetch(`@Url.Content("~/ExpertResumesApi/WorkAPI")?resumesid=${@Model.專家履歷ID}`)
                         .then(response => response.json())
                         .then(data => {
-                            numImages = data.length;
+                    imageDataArray = data;
+                                   numImages = data.length;
 
                             let picturebox = "";
                             for (let i = 0; i < data.length; i++) {
@@ -345,16 +410,26 @@
                             console.log(src);
 
                                 picturebox += `
-                                <div style="display:block; position:relative;" class="py-2">
-                                    <button type="button" class="bg-expertdetail" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="${picturename}" style="border:none;" >
-                                        <p style="position:relative;top:0px;right:1px; height:15px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
-                                          <img src="${src}" class="work-img" width=185 alt="作品${i}">
-                                    </button>
-                                </div>`;
+                                    <div style="display:block; position:relative;" class="py-2">
+                                         <button type="button" class="bg-expertdetail"
+                                         data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop"
+                                          data-picturename="${picturename}"
+                                          data-picturedate="${picturedate}"
+                                            data-src="${src}"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="bottom"
+                                            title="${picturename}"
+                                            style="border:none;height:100%;">
+                                                     <p style="position:relative;top:0px;right:1px; height:15px">點圖放大<i class="fa-solid fa-up-right-and-down-left-from-center fa-beat-fade"></i></p>
+                                                     <img src="${src}" class="work-img" alt="作品${i}">
+                                         </button>
+                                    </div>
+                                `;
                             }
 
                             worklist.innerHTML = picturebox;
-                            Moving();
+                    Moving(data.length);
                         })
                         .catch(error => {
                             console.error("Error fetching data:", error);
@@ -362,6 +437,36 @@
                 }
 
                 document.addEventListener('DOMContentLoaded', load);
-    
+          // Modal=========================================
+        // 修改 Modal 事件
+        $('#staticBackdrop').on('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            currentImageIndex = Array.from(button.parentElement.parentElement.children).indexOf(button.parentElement);
+
+            updateModalImage();
+        });
+
+        function updateModalImage() {
+            const data = imageDataArray[currentImageIndex];
+            const picturename = data.作品名;
+            const src = `data:image/png;base64,${data.作品照片}`;
+            const picturedate = data.作品日期.substring(0, 10) + "建立";
+
+            document.getElementById('texttitle').textContent = picturename;
+            document.querySelector('.modal-header img').src = src;
+            document.getElementById('texdate').textContent = picturedate;
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // 上一張
+            document.getElementById('btnpre').addEventListener('click', function () {
+                currentImageIndex = (currentImageIndex - 1 + imageDataArray.length) % imageDataArray.length;
+                updateModalImage();
+            });
+            // 下一張
+            document.getElementById('btnnext').addEventListener('click', function () {
+                currentImageIndex = (currentImageIndex + 1) % imageDataArray.length;
+                updateModalImage();
+            });
+        });//DOMContentLoaded的夸號
     </script>
     }
