@@ -108,9 +108,8 @@
             allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
-                      <br />
-                       <div class="mybg-color bg-opacity-10 rounded-3">　
-                       <div class="bg-body rounded-3 border mx-3 p-3">
+                <div class="mybg-color bg-opacity-10 rounded-3 my-3">
+                    <div class="bg-body rounded-3 border mx-3 p-3">
                            <div class="px-3">
                       <div class="border-bottom row pb-2">
                                     </div>
@@ -131,8 +130,7 @@
         </div>
         }
         else{//正常回文的顯示
-                         <br />
-                          <div class="mybg-color bg-opacity-10 rounded-3">　　
+                          <div class="mybg-color bg-opacity-10 rounded-3 my-3">　　
                              <div class="bg-body rounded-3 border mx-3 p-3">
                              <div class="p-3">
                                     <div class="border-bottom row pb-2">
@@ -423,9 +421,9 @@
         plugins: [
             'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
             'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-            'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount', 'image'
         ],
         toolbar: 'undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify |' +
-            'bullist numlist checklist outdent indent | removeformat | code table help'
+            'bullist numlist checklist outdent indent | image | table help',
     })
 </script>

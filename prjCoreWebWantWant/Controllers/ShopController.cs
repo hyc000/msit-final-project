@@ -7,16 +7,28 @@ using Microsoft.Identity.Client;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
+using MimeKit;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Org.BouncyCastle.Crypto.Engines;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Text;
+using Org.BouncyCastle.Crypto.Macs;
 
 namespace prjShop.Controllers
 {
     public class ShopController : Controller
     {
+        private readonly IConfiguration _configuration;
         private readonly NewIspanProjectContext _context;
         private readonly IWebHostEnvironment _host = null;
 
-        public ShopController(NewIspanProjectContext context, IWebHostEnvironment host)
+
+        public ShopController(NewIspanProjectContext context, IWebHostEnvironment host, IConfiguration configuration)
         {
+            _configuration = configuration;
             _context = context;
             _host = host;
         }
@@ -641,6 +653,7 @@ namespace prjShop.Controllers
             cart.Clear();
             SaveCart(cart, userId);
 
+            Email(newOrderDetails, "andy2911131@gmail.com", "Recipient Name",newOrder);
 
             _context.SaveChanges();
 
@@ -780,5 +793,183 @@ namespace prjShop.Controllers
             return View(ordersList);
 
         }
+
+        public void Email(List<OrderDetail> newOrderDetails, string recipientEmail, string recipientName, Order newOrder)
+        {
+            try
+            {
+                var message = new MimeMessage();
+
+                message.From.Add(new MailboxAddress("WantWant", "andy26625325@gmail.com"));
+                message.To.Add(new MailboxAddress(recipientName, recipientEmail));
+                message.Subject = "WantWant 曝光加值完成";
+
+                var bodyBuilder = new BodyBuilder();
+
+                string htmlBody = @"
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffdfd;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+        }
+
+        .title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .message {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .summary {
+            background-color: #ddd;
+            padding: 20px;
+            color: #414141;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #333;
+        }
+    </style>
+
+</head>
+<body>
+    <div class=""container"">
+        <div class=""title"">訂單內容</div>
+        <div class=""message"">
+            感謝您的購買，您在【WantWant】購買的『曝光訂單』已成立，詳情可由下方按鈕查詢，並歡迎您再次選購 謝謝！<br>
+        </div>
+        <table class=""table"">
+            <thead>
+                <tr>
+                    <th>商品</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+                foreach (var orderDetail in newOrderDetails)
+                {
+                    var product = _context.Products.FirstOrDefault(p => p.ProductId == orderDetail.ProductId);
+                    if (product != null)
+                    {
+                        htmlBody += $@"
+                <tr> 
+                    <td>{product.ProductName}</td>
+                    <td>{orderDetail.UnitPrice}</td>
+                    <td>{orderDetail.Quantity}</td>
+                    <td>{orderDetail.UnitPrice * orderDetail.Quantity}</td>
+                </tr>";
+                    }
+                }
+                      htmlBody += @"
+          
+             </tbody>
+        </table>
+        <div class=""summary"">
+            <div class=""summary-row"">
+                <div>商品總計</div>
+                <div>" + newOrder.OrderPrice+ @"</div>
+            </div>  
+            <div class=""summary-row"">
+                <div>獲得紅利</div>
+                <div>" + newOrder.OrderGetPoint + @"</div>
+            </div>
+            <div class=""summary-row"" style=""color: brown;"">
+                <div>紅利折抵</div>
+                <div>" + newOrder.OrderUsePoint+ @"</div>
+            </div>
+            <div class=""summary-row"">
+                <div>訂單金額</div>
+                <div style=""font-size: 1.5rem;"">" + newOrder.PaidAmount+ @"</div>
+            </div>
+            <a href=""https://localhost:7042/"" class=""btn"">查看詳情</a>
+        </div>
+    </div>
+</body>
+</html>";
+
+                // 設置信件為HTML格式
+                bodyBuilder.HtmlBody = htmlBody;
+
+                // 將信件添加到郵件消息中
+                message.Body = bodyBuilder.ToMessageBody();
+
+                // 創建SmtpClient 對象用於發送信件
+                using (var client = new SmtpClient())
+                {
+                    // 連接到SMTP，參數為伺服器地址、端口和是否使用 SSL
+                    client.Connect("smtp.gmail.com", 587, false);
+
+                    string e = "andy26625325@gmail.com";
+                    string p = "mhsbmjzwrguxoejo";
+                    // 使用發件人信箱地址和密碼
+                    client.Authenticate(e, p);
+
+                    // 發送信件
+                    client.Send(message);
+
+                    // 斷開連結
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                // 發送失敗的處理
+                Console.WriteLine("發送信件失敗：" + ex.Message);
+            }
+        }
+
+
+
     }
 }

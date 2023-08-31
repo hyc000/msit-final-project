@@ -26,42 +26,79 @@ namespace prjCoreWantMember.Controllers
         public IActionResult ExpertMainPage(int  page=1) //CKeywordViewModel vm, 
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
+            CExperTaskFactory factory = new CExperTaskFactory(db);
 
             IEnumerable<CExpertSearchViewModel> datas = null;
             //if (string.IsNullOrEmpty(vm.txtKeyword))
             //{
-                datas = from r in db.Resumes
-                        join m in db.MemberAccounts
-                        on r.AccountId equals m.AccountId
+                //datas = from r in db.Resumes
+                //        join m in db.MemberAccounts
+                //        on r.AccountId equals m.AccountId
 
-                        join er in db.ExpertResumes
-                        on r.ResumeId equals er.ResumeId
+                //        join er in db.ExpertResumes
+                //        on r.ResumeId equals er.ResumeId
 
-                        join rSk in db.ResumeSkills
-                        on r.ResumeId equals rSk.ResumeId into groupRSk
-                        from rSk in groupRSk.DefaultIfEmpty()
+                //        join rSk in db.ResumeSkills
+                //        on r.ResumeId equals rSk.ResumeId into groupRSk
+                //        from rSk in groupRSk.DefaultIfEmpty()
 
-                        join rCe in db.ResumeCertificates
-                        on r.ResumeId equals rCe.ResumeId into groupRCe
-                        from rCe in groupRCe.DefaultIfEmpty()
+                //        join rCe in db.ResumeCertificates
+                //        on r.ResumeId equals rCe.ResumeId into groupRCe
+                //        from rCe in groupRCe.DefaultIfEmpty()
 
-                        where r.IsExpertOrNot == true && r.CaseStatusId == 23
+                //        where r.IsExpertOrNot == true && r.CaseStatusId == 23
+                //        select new CExpertSearchViewModel
+                //        {
+                //            AccountId=m.AccountId,
+                //            Name=m.Name,
+                //            ResumeId=r.ResumeId,
+                //            ResumeTitle=r.ResumeTitle,
+                //            DataModifyDate=r.DataModifyDate,
+                //            Photo = r.Photo,
+                //            TownId=r.TownId,
+                //            Introduction =er.Introduction,
+                //            ContactMethod=er.ContactMethod,
+                //            PaymentMethod=er.PaymentMethod,
+                //            CommonPrice=er.CommonPrice,
+                //            HistoricalViews=er.HistoricalViews,
+                //            resumecertificate = rCe,
+                //            resumeskill=rSk,
+                //        };
+
+             datas = from r in db.Resumes
+                        join m in db.MemberAccounts on r.AccountId equals m.AccountId
+                        join er in db.ExpertResumes on r.ResumeId equals er.ResumeId
+
+                     // Left Join with ResumeSkills and then with Skills for skill name
+                     let skills = (from rSk in db.ResumeSkills
+                                   join sk in db.Skills on rSk.SkillId equals sk.SkillId
+                                   where r.ResumeId == rSk.ResumeId
+                                   select sk.SkillName).ToList() // Convert to List
+
+                     // Left Join with ResumeCertificates and then with Certificates for certificate name
+                     let certificates = (from rCe in db.ResumeCertificates
+                                         join ce in db.Certificates on rCe.CertificateId equals ce.CertificateId
+                                         where r.ResumeId == rCe.ResumeId
+                                         select ce.CertificateName).ToList() // Convert to List
+
+                     where r.IsExpertOrNot == true && r.CaseStatusId == 23
+
                         select new CExpertSearchViewModel
                         {
-                            AccountId=m.AccountId,
-                            Name=m.Name,
-                            ResumeId=r.ResumeId,
-                            ResumeTitle=r.ResumeTitle,
-                            DataModifyDate=r.DataModifyDate,
+                            AccountId = m.AccountId,
+                            Name = m.Name,
+                            ResumeId = r.ResumeId,
+                            ResumeTitle = r.ResumeTitle,
+                            DataModifyDate = r.DataModifyDate,
                             Photo = r.Photo,
-                            TownId=r.TownId,
-                            Introduction =er.Introduction,
-                            ContactMethod=er.ContactMethod,
-                            PaymentMethod=er.PaymentMethod,
-                            CommonPrice=er.CommonPrice,
-                            HistoricalViews=er.HistoricalViews,
-                            resumecertificate = rCe,
-                            resumeskill=rSk,
+                            TownId = r.TownId,
+                            Introduction = er.Introduction,
+                            ContactMethod = er.ContactMethod,
+                            PaymentMethod = er.PaymentMethod,
+                            CommonPrice = er.CommonPrice,
+                            HistoricalViews = er.HistoricalViews,
+                            SkillNames = string.Join(",", skills),
+                            CertificateNames = string.Join(",", certificates)
                         };
 
             //}

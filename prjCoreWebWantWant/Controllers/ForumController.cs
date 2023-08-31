@@ -45,10 +45,10 @@ namespace WantTask.Controllers
 
             var posts = from p in _db.ForumPosts
                         .Include(p => p.ForumPostCategories).ThenInclude(pc => pc.Category)
-                        .Include(p=>p.InverseParent)
+                        //.Include(p => p.InverseParent)
                         .Include(p => p.Account)
-                        .Include(p => p.ForumPostComments).ThenInclude(c => c.StatusNavigation)
-                        .Include(p => p.ForumPostComments).ThenInclude(c => c.Account)
+                        //.Include(p => p.ForumPostComments).ThenInclude(c => c.StatusNavigation)
+                        //.Include(p => p.ForumPostComments).ThenInclude(c => c.Account)
                         where p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId
                         where p.Status == 1 || p.Status == 4
                         where p.Parent == null
@@ -89,7 +89,7 @@ namespace WantTask.Controllers
                                 .ToDictionary(g => g.Key ?? 0, g => g.Count());
 
             viewmodel.ReplyCounts = replyCounts;
-            viewmodel.PagedPosts = posts.ToPagedList(page, pageSize);
+            viewmodel.PagedPosts = (IPagedList<ForumPost>)posts.ToPagedList(page, pageSize);
             return View(viewmodel);
 
 
