@@ -108,7 +108,7 @@
                         </td>
 
                             <td >
-                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId">
+                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" onclick="return confirmDelete(event)">
                                     @*<i class="fas fa-pencil-alt"></i>*@
                                     <img src="~/backstage1/img/recycle-bin.png" alt="刪除" style="height: 23px; width: 25px;">
                                 </a>
@@ -208,9 +208,9 @@
 
 <!-- lightbox init -->
 <script src="~/backstage1/static/js/lightbox.init.js"></script>
-
- 
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"></script>
 
 </body>
 
@@ -224,8 +224,6 @@
     <script src="~/js/SweetAlert.js"></script>
 
       
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 
 
@@ -248,7 +246,70 @@
             Nopublish.style.backgroundColor = '#528EAF';
         }
 
+        //刪除的sweet alert
+        function confirmDelete(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            Swal.fire({
+                title: '確定要刪除嗎？',
+                text: '刪除後無法復原唷！',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定刪除',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 使用者點擊了 "確定"，可以執行刪除動作
+                    window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                }
+            });
+        }
+
+
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const deleteLinks = document.querySelectorAll('.delete-link');
+
+        //    deleteLinks.forEach((link) => {
+        //        link.addEventListener('click', function (e) {
+        //            e.preventDefault();
+
+        //            Swal.fire({
+        //                title: '確定要刪除嗎?',
+        //                text: '刪除後不能復原唷!',
+        //                icon: 'warning',
+        //                showCancelButton: true,
+        //                confirmButtonColor: '#3085d6',
+        //                cancelButtonColor: '#d33',
+        //                confirmButtonText: '確定刪除',
+        //                cancelButtonText: '取消'
+        //            }).then((result) => {
+        //                if (result.isConfirmed) {
+        //                    // 在這裡執行 PubNull 方法
+        //                    window.location.href = link.getAttribute('href'); // 跳轉到刪除的 URL
+        //                }
+        //            });
+        //        });
+        //    });
+        //});
+
+        //function confirmDelete(event) {
+        //    event.preventDefault(); // 阻止預設的連結行為
+
+        //    Swal.fire({
+        //        title: '警告',
+        //        text: '您確定要刪除此履歷嗎',
+        //        icon: 'warning',
+        //        showCancelButton: true,
+        //        confirmButtonText: '確定',
+        //        cancelButtonText: '取消'
+        //    }).then((result) => {
+        //        if (result.isConfirmed) {
+        //            // 使用者點擊了 "確定"，可以執行刪除動作
+        //            window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+        //        }
+        //    });
+        //}
 
 </script>
-
+   
 }
