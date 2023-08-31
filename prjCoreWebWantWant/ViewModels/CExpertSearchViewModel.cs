@@ -21,8 +21,8 @@ namespace prjCoreWebWantWant.ViewModels
         public decimal? CommonPrice { get; set; }
         public int? HistoricalViews { get; set; }
         //證照&專長要整張表
-        public ResumeCertificate resumecertificate { get; set; }
-        public ResumeSkill resumeskill { get; set; }
+        public string? SkillNames { get; set; }
+        public string? CertificateNames { get; set; }
 
         //方法
         public string townName
@@ -54,6 +54,6 @@ namespace prjCoreWebWantWant.ViewModels
 
             }
         }
-
+     
     }
 }
