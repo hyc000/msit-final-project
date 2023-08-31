@@ -121,8 +121,7 @@
                                             </ul>                                      
                                             </div>
              
-                                            <!--選擇任務類型  未處理的標籤-->
-                                  
+                                            <!--選擇任務類型  未處理的標籤-->                                  
                                         <div class="col-3 mb-3">
                                         <form class="app-search d-none d-lg-block">
                                                     @{
@@ -142,7 +141,7 @@
                                             </div>
 
                                             <!--選擇任務類型  已錄取的標籤-->
-                                              <div class="col-3 mb-3" >
+                                    <div class="col-3 mb-3">
                                                <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
@@ -161,7 +160,7 @@
                                             </div>
 
                                              <!--選擇任務類型  已婉拒的標籤-->
-                                    <div class="col-3 mb-3" style="display:none">
+                                    <div class="col-3 mb-3" >
                                                 <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context3 = new NewIspanProjectContext();
@@ -169,7 +168,7 @@
                                                                 select p.TaskName;
                                                     }
 
-                                            <select class="form-select" id="selRefuse" >
+                                            <select class="form-select" id="selRefuse" style="display:none">
                                                 <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q3)
                                                         {

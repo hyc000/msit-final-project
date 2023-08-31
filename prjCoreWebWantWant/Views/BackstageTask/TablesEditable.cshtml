@@ -71,13 +71,11 @@
                             </div>
                         </div>
                     
-                       <!--已上架未上架 任務類型 關鍵字-->
-         
+                       <!--已上架未上架 任務類型 關鍵字-->         
 
                          <div class="row">
                             <div class="col-12">
                                 <div class="card">
-
 
                         @using (Html.BeginForm())
                         {
@@ -127,8 +125,7 @@
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
                                                         var qq = from p in _context2.TaskNameLists
-                                                                 select p.TaskName;
-
+                                                                        select p.TaskName;
                                                     }
 
                                                     <select class="form-select" id="selTaskNameNoPublish">
@@ -140,7 +137,6 @@
                                                     </select>
                                                 </form>
                                             </div>
-
                                   
                                             <!--已上架 關鍵字搜尋-->                                           
                                                  <div class="col-4 mb-3" id="publishKeyword">
@@ -163,8 +159,7 @@
                                                     </div>
                                                 </form>
                                                 </div>                                            
-                                               </div>
-                                              
+                                               </div>                                              
                                              </div>
                             }
                             
@@ -238,13 +233,8 @@
                                             tabNopublish.style.color = 'white';
                                             tabNopublish.style.backgroundColor = '#528EAF';
                                             tabNopublish.style.fontSize = '20px';
-
-
-
                                         }
                                     </script>
-
-                                   
                                 </div>
                             </div>
                         </div>
@@ -367,8 +357,8 @@
     <!-- lightbox init -->
     <script src="~/backstage1/static/js/lightbox.init.js"></script>
 
-    <script>https://code.jquery.com/jquery-3.7.0.js</script>
-    <script>https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js</script>
+   @* <script>https://code.jquery.com/jquery-3.7.0.js</script>
+    <script>https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js</script>*@
 
 
 </body>
