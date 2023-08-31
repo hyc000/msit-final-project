@@ -7,6 +7,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using X.PagedList.Mvc.Core;
 using System.Collections.Generic;
 using X.PagedList;
+using prjCoreWebWantWant.ViewModels;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Drawing.Spreadsheet;
+using Microsoft.Identity.Client;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -19,13 +23,13 @@ namespace prjCoreWantMember.Controllers
             _logger = logger;
         }
         int pageSize = 5;
-        public IActionResult ExpertMainPage(CKeywordViewModel vm, int  page=1)
+        public IActionResult ExpertMainPage(int  page=1) //CKeywordViewModel vm, 
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
 
-            IEnumerable<CExpertInfoViewModel> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
-            {
+            IEnumerable<CExpertSearchViewModel> datas = null;
+            //if (string.IsNullOrEmpty(vm.txtKeyword))
+            //{
                 datas = from r in db.Resumes
                         join m in db.MemberAccounts
                         on r.AccountId equals m.AccountId
@@ -42,33 +46,45 @@ namespace prjCoreWantMember.Controllers
                         from rCe in groupRCe.DefaultIfEmpty()
 
                         where r.IsExpertOrNot == true && r.CaseStatusId == 23
-                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er, resumeskill = rSk, resumecertificate = rCe };
+                        select new CExpertSearchViewModel
+                        {
+                            AccountId=m.AccountId,
+                            Name=m.Name,
+                            ResumeId=r.ResumeId,
+                            ResumeTitle=r.ResumeTitle,
+                            DataModifyDate=r.DataModifyDate,
+                            Photo = r.Photo,
+                            TownId=r.TownId,
+                            Introduction =er.Introduction,
+                            ContactMethod=er.ContactMethod,
+                            PaymentMethod=er.PaymentMethod,
+                            CommonPrice=er.CommonPrice,
+                            HistoricalViews=er.HistoricalViews,
+                            resumecertificate = rCe,
+                            resumeskill=rSk,
+                        };
 
-            }
-            else
-            {
-                datas = from r in db.Resumes
-                        join m in db.MemberAccounts
-                       on r.AccountId equals m.AccountId
-                        join er in db.ExpertResumes
-                        on r.ResumeId equals er.ResumeId
-                        join rSk in db.ResumeSkills
-                      on r.ResumeId equals rSk.ResumeId
-                        join rCe in db.ResumeCertificates
-                        on r.ResumeId equals rCe.ResumeId
-                        where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&((m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) ||
-                        r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper())))
-                        select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
-            }
+            //}
+            //else
+            //{
+            //    datas = from r in db.Resumes
+            //            join m in db.MemberAccounts
+            //           on r.AccountId equals m.AccountId
+            //            join er in db.ExpertResumes
+            //            on r.ResumeId equals er.ResumeId
+            //            join rSk in db.ResumeSkills
+            //          on r.ResumeId equals rSk.ResumeId
+            //            join rCe in db.ResumeCertificates
+            //            on r.ResumeId equals rCe.ResumeId
+            //            where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&((m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) ||
+            //            r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper())))
+            //            select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
+            //}
             ViewBag.TotalCount = datas.Distinct().Count();
-            ViewBag.MaxPrice = datas.Max(p => p.expertResume.CommonPrice);
-            var skillCounts = datas.Where(d => d.skill != null && d.skill.SkillId != null)
-                       .GroupBy(d => d.skill.SkillId)
-                       .Select(group => new { SkillId = group.Key, Count = group.Count() })
-                       .ToList();
-            ViewBag.SkillCounts = skillCounts;
+            ViewBag.MaxPrice = datas.Max(p => p.CommonPrice);
+            
             int currentPage = page < 1 ? 1 : page;
-            IEnumerable<CExpertInfoViewModel> result = datas.ToPagedList(currentPage, pageSize);
+            IEnumerable<CExpertSearchViewModel> result = datas.ToPagedList(currentPage, pageSize);
             return View(result);
         }
         public IActionResult ExpertMemberPage()
