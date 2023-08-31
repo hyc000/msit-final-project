@@ -53,7 +53,7 @@
         <button class="btn btn-outline-primary" id="CreateDemo">Demo</button>
     </div>
 
-    <form asp-action="Create" enctype="multipart/form-data" method="post">
+    <form asp-action="Create" enctype="multipart/form-data" method="post" id="NewForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @*帶入真實accountID，tasklist欄位有*@
         <div class="form-group">
@@ -839,9 +839,81 @@
             updateFieldsAvailability(); // 初始狀態
         });
 
+       //create的送出sweet alert
+      /*  document.getElementById('New').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: '確定要新增任務嗎？',
+                text: '我同意WantWant刊登任務條款',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '下一步',
+                cancelButtonText: '取消',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        '恭喜新增成功了!',
+                        '',
+                        'success'
+                    );
+
+                    // 在這裡執行送出任務的相關程式碼
+                    document.getElementById('NewForm').submit();
+                }
+            });
+        });*/
 
 
+        document.getElementById('New').addEventListener('click', async function (e) {
+            e.preventDefault();
 
+            const { value: accept } = await Swal.fire({
+                title: '確定要新增任務嗎？',
+                input: 'checkbox',
+                inputValue: 1,
+                inputPlaceholder: '我同意WantWant刊登任務條款',
+                showCancelButton: true,
+                cancelButtonText: '取消',
+                cancelButtonColor: '#FF5151',
+                confirmButtonText: '下一步',
+                confirmButtonColor: '#528EAF',               
+                inputValidator: (result) => {
+                    return !result && '你需要同意條款和條件';
+                }
+            });
+
+            if (accept) {
+             /*   Swal.fire('恭喜新增成功！', '呀逼:)', 'success');
+                // 在這裡執行送出任務的相關程式碼
+                document.getElementById('NewForm').submit();*/
+
+                Swal.fire({
+                    title: '恭喜新增成功！',
+                    text: '呀逼:)',
+                    icon: 'success',
+                    showConfirmButton: true // 顯示確認按鈕
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 在這裡執行送出任務的相關程式碼
+                        document.getElementById('NewForm').submit();
+                    }
+                });
+
+
+            }
+        });
+
+      
 
     </script>
 }
