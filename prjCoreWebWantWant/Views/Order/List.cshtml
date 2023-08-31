@@ -129,9 +129,10 @@
                         <td colspan="12" class="hiddenRow">
                             <div class="collapse" id="orderDetails@(order.OrderId)" data-bs-parent="#table">
                                 <!-- 在這裡填入訂單明細內容 -->
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" id="table3">
                                     <thead class="table-dark">
                                         <tr>
+                                            <th></th>
                                             <th>商品名稱</th>
                                             <th>數量</th>
                                             <th>單價</th>
@@ -142,6 +143,7 @@
                                         @foreach (var detail in order.OrderDetails)
                                         {
                                             <tr>
+                                                <td><img src="@Url.Content("~/shopimg/")@detail.Product.CoverPhoto" width="60" height="60"/></td>
                                                 <td>@detail.Product.ProductName</td>
                                                 <td>@detail.Quantity</td>
                                                 <td>@detail.UnitPrice</td>
@@ -197,6 +199,10 @@
 
         .bx.bxs-show {
             font-size: 1.5rem;
+        }
+        #table td{
+            text-align: center;
+            vertical-align: middle
         }
     </style>
 }

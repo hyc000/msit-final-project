@@ -853,8 +853,8 @@ namespace prjShop.Controllers
             background-color: #ddd;
             padding: 20px;
             color: #414141;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
+            border-radius: 10px;
+          
         }
 
         .summary-row {
@@ -934,7 +934,12 @@ namespace prjShop.Controllers
             </div>
             <a href=""https://localhost:7042/"" class=""btn"">查看詳情</a>
         </div>
+  <div class=""message"">
+           *注意本郵件是由【WantWant】自動產出與發送，請勿直接回覆。<br>
+*如欲查詢訂單狀況請至【WantWant】首頁左上方，進入會員專區，點選【曝光紀錄】，即可查詢。
     </div>
+
+        </div>
 </body>
 </html>";
 
