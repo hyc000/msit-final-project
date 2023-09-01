@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 
 
-<head>
+@*<head>
 
     <link href="~/backstage1/static/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 
@@ -12,18 +12,18 @@
     @* <link href="~/backstage1/static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> *@
 
     <!-- Icons Css -->
-    <link href="~/backstage1/static/css/icons.min.css" rel="stylesheet" type="text/css">
+@*    <link href="~/backstage1/static/css/icons.min.css" rel="stylesheet" type="text/css">*@
 
     <!-- App Css-->
-   <link href="~/backstage1/static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+   @*<link href="~/backstage1/static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">*@
 
     <!-- JobdetailBackstage css -->
     <!-- glightbox css -->
-   <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
+   @*<link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">*@
 
    @* <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />*@
 
-    <style>
+@*  <style>
 
      .table-hover tbody tr:hover {
             background-color: #f5f5f5; /* 或者你想要的其他背景顏色 */
@@ -41,12 +41,12 @@
         }
       
     </style>
-</head>
+</head>*@
 
 
-<body>
-    <div class="table-responsive mb-4" id="publishedTasks">
-    <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;"> 
+@*<body>*@
+    <div class="table-responsive mb-4">
+    <table id="publishTable" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;"> 
         
         <thead>
             <tr>
@@ -107,8 +107,9 @@
                                
                         </td>
 
-                            <td >
-                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" class="delete-link">
+                    <td >
+                              <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" class="delete-link">
+                           
                                     <img src="~/backstage1/img/recycle-bin.png" alt="刪除" style="height: 23px; width: 25px;">
                                 </a>
                             </td>
@@ -208,12 +209,12 @@
 <!-- lightbox init -->
 <script src="~/backstage1/static/js/lightbox.init.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/SweetAlert.js"></script>
+@*    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/SweetAlert.js"></script>*@
 
  
-</body>
-
+@*</body>
+*@
 
 @section Scripts{
 
@@ -227,6 +228,7 @@
        
         const publish = document.querySelector('#publish');
         const Nopublish = document.querySelector('#Nopublish');
+       
 
         function showPublish() {
             publish.style.color = 'White';
@@ -241,6 +243,13 @@
             Nopublish.style.color = 'White';
             Nopublish.style.backgroundColor = '#528EAF';
         }
+
+        //$('#publishedTasks').DataTable({
+        //    language: {
+        //        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+        //    },
+        //});
+
 
         //刪除的sweet alert
         function confirmDelete(event) {
@@ -306,34 +315,37 @@
         //    });
         //}
 
-        <script>
+      
             // 使用 SweetAlert 顯示刪除確認視窗
-            $('.delete-link').on('click', function (e) {
-                e.preventDefault(); // 取消連結的預設點擊行為
+        //$(document).on('click','.delete-link',function(e){
+        //    alert("delete")
+        //})
+            //$('.delete-link').on('click', function (e) {
+            //    e.preventDefault(); // 取消連結的預設點擊行為
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
-                        // 如果刪除成功，顯示成功訊息
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        );
+            //    Swal.fire({
+            //        title: 'Are you sure?',
+            //        text: "You won't be able to revert this!",
+            //        icon: 'warning',
+            //        showCancelButton: true,
+            //        confirmButtonColor: '#3085d6',
+            //        cancelButtonColor: '#d33',
+            //        confirmButtonText: 'Yes, delete it!'
+            //    }).then((result) => {
+            //        if (result.isConfirmed) {
+            //            // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
+            //            // 如果刪除成功，顯示成功訊息
+            //            Swal.fire(
+            //                'Deleted!',
+            //                'Your file has been deleted.',
+            //                'success'
+            //            );
 
-                        // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
-                    }
-                });
-            });
-    </script>
+            //            // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
+            //        }
+            //    });
+            //});
+
 
 </script>
    

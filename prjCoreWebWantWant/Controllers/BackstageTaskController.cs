@@ -466,7 +466,7 @@ namespace WantTask.Controllers
             //                  && (a.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
             //                        || a.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())))
             //             .GroupBy(app => app.ResumeId)
-            //             .Select(g => g.First()); 
+            //             .Select(g => g.First());
 
             //return PartialView(query);
 

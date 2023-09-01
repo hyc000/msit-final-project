@@ -42,7 +42,7 @@
 
 <body>
 <div class="table-responsive mb-4">
-    <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+        <table id="NopublishTable" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
         <thead>
             <tr>
                 <th style="width: 30px;">序號</th>
@@ -206,6 +206,12 @@
                 Nopublish.style.backgroundColor = '#528EAF';
             }
 
+            //DataTables
+            $('#NopublishTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                },
+            });
 
             </script>
                

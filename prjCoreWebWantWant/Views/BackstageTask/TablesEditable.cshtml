@@ -107,7 +107,7 @@
                                                         NewIspanProjectContext _context = new NewIspanProjectContext();
                                                         var q = from p in _context.TaskNameLists
                                                                 select p.TaskName;
-                                                    }
+                                                           }
 
                                                     <select class="form-select" id="selTaskNamePublish">
                                                         <option value="">請選擇任務類型</option>
@@ -116,12 +116,12 @@
                                                             <option name="category">@item</option>
                                                         }
                                                     </select>
-                                                </form>
+                                               </form>
                                             </div>
 
                                           <!--未上架的select標籤-->
                                             <div class="col-4 mb-3" style="display:none" id="NoPublishSelect">
-                                                <form class="app-search d-none d-lg-block">
+                                               <form class="app-search d-none d-lg-block">
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
                                                         var qq = from p in _context2.TaskNameLists
@@ -249,7 +249,7 @@
 
 @section Scripts{
     <script>
-                     
+
            //已上架的select
            const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
 
@@ -262,6 +262,14 @@
             xhr.addEventListener('load', () => {
                 const Publish = document.querySelector('#Publish')
                 Publish.innerHTML = xhr.responseText;
+
+            //DataTables
+            $('#publishTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                },
+            });
+
             })
         })
 
@@ -277,6 +285,15 @@
             xhr.addEventListener('load', () => {
                 const NoPublish = document.querySelector('#NoPublish')
                 NoPublish.innerHTML = xhr.responseText;
+
+
+                    //DataTables
+                    $('#NopublishTable').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+
             })
         })
 
@@ -307,9 +324,49 @@
                 xhr.addEventListener('load', () => {
                     const NoPublish = document.querySelector('#NoPublish')
                     NoPublish.innerHTML = xhr.responseText;
+                   
                 })
             })
-    </script>
+
+
+
+            //找到刪除按鈕
+            $(document).on('click', '.delete-link', function (e) {
+                e.preventDefault(); // 取消連結的預設點擊行為
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
+                        const link = e.currentTarget.getAttribute("href");
+                      
+                        window.location.href =link;
+
+                        // 如果刪除成功，顯示成功訊息
+                        //Swal.fire(
+                        //    'Deleted!',
+                        //    'Your file has been deleted.',
+                        //    'success'
+                        //);
+
+                        // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
+                    }
+                    else{
+                      
+                    }
+                });
+            })
+    
+      
+                        
+                        </script>
 }
 
 

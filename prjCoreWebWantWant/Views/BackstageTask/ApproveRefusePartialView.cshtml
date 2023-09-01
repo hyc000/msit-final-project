@@ -14,7 +14,7 @@
 
 <body>
     <div class="table-responsive mb-4">
-        <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+        <table id="selRefuseTable" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
             <thead>
                 <tr>
 
@@ -121,12 +121,8 @@
 @section Scripts{
 
     <script>
-        $(document).ready(function () {
-        // 在這裡重新初始化表格功能，如重新應用 DataTables
-        $('#Refuse').DataTable();
-    });
 
-
+   
    
     </script>
 

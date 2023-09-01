@@ -121,9 +121,10 @@
                                             </ul>                                      
                                             </div>
              
-                                            <!--選擇任務類型  未處理的標籤-->                                  
-                                        <div class="col-3 mb-3">
-                                        <form class="app-search d-none d-lg-block">
+                                            <!--選擇任務類型  未處理的標籤-->
+
+                                    <div class="col-3 mb-3">
+                                        <form class="app-search d-none d-lg-block">                                        
                                                     @{
                                                         NewIspanProjectContext _context1 = new NewIspanProjectContext();
                                                         var q = from p in _context1.TaskNameLists
@@ -137,12 +138,12 @@
                                                             <option name="category">@item</option>
                                                         }
                                                     </select>
-                                                </form>
-                                            </div>
+                                           @*     </form>*@
+                                      @*      </div>*@
 
                                             <!--選擇任務類型  已錄取的標籤-->
-                                    <div class="col-3 mb-3">
-                                               <form class="app-search d-none d-lg-block">
+                               @*     <div class="col-3 mb-3">*@
+                                            @*   <form class="app-search d-none d-lg-block">*@
                                                     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
                                                         var q2 = from p in _context2.TaskNameLists
@@ -156,12 +157,12 @@
                                                             <option name="category">@item</option>
                                                         }
                                                     </select>
-                                                </form>
-                                            </div>
+                                           @*     </form>*@
+                                      @*      </div>*@
 
                                              <!--選擇任務類型  已婉拒的標籤-->
-                                    <div class="col-3 mb-3" >
-                                                <form class="app-search d-none d-lg-block">
+                        @*            <div class="col-3 mb-3" >*@
+                                              @*  <form class="app-search d-none d-lg-block">*@
                                                     @{
                                                         NewIspanProjectContext _context3 = new NewIspanProjectContext();
                                                         var q3 = from p in _context3.TaskNameLists
@@ -175,8 +176,9 @@
                                                     <option name="category">@item</option>
                                                         }
                                                     </select>
+                                       
                                                   </form>
-                                            </div>
+                                           </div>
                                   
 
                                         <!-- App Search--> 
@@ -414,6 +416,14 @@
                     data: { category: selectedCategory },  // 傳遞選擇的任務類型
                     success: function (data) {
                             $('#AllResume').html(data);  // 將部分視圖內容插入到指定容器中
+
+                            //DataTables
+                            $('#selAllTable').DataTable({
+                                language: {
+                                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                                },
+                            });
+
                     }
                 });
             });
@@ -446,6 +456,13 @@
                     data: { category: selectedCategory },  // 傳遞選擇的任務類型
                     success: function (data) {
                             $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
+
+                            //DataTables
+                            $('#selAcceptTable').DataTable({
+                                language: {
+                                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                                },
+                            });
                     }
                 });
             });
@@ -462,6 +479,14 @@
                         data: { category: selectedCategory },  // 傳遞選擇的任務類型
                         success: function (data) {
                             $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+
+                            //DataTables
+                            $('#selRefuseTable').DataTable({
+                                language: {
+                                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                                },
+                            });
+
                         }
                     });
                 });

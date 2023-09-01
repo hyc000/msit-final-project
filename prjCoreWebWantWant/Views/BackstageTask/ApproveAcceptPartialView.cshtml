@@ -7,65 +7,65 @@
 
 <body>  
 
-                            <div class="table-responsive mb-4">
-                                        <table class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                            <thead>
-                                                <tr>
+<div class="table-responsive mb-4">
+        <table id="selAcceptTable" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
 
-                                                <th style="width: 30px;">序號</th>
-                                                <th style="width: 100px;">投遞任務</th>
-                                                <th style="width: 80px;">申請人名稱</th>
-                                                <th style="width: 100px;">履歷內容</th>
-                                                @*<th style="width: 50px;">語言</th>*@
-                                                <th style="width: 50px;">證照</th>
-                                                <th style="width: 50px;">技能</th>
-                                                <th style="width: 50px;">查看</th>
+                    <th style="width: 30px;">序號</th>
+                    <th style="width: 100px;">投遞任務</th>
+                    <th style="width: 80px;">申請人名稱</th>
+                    <th style="width: 100px;">履歷內容</th>
+                    @*<th style="width: 50px;">語言</th>*@
+                    <th style="width: 50px;">證照</th>
+                    <th style="width: 50px;">技能</th>
+                    <th style="width: 50px;">查看</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @{                                             
+                    </tr>
+                </thead>
+                <tbody>
+                @{                                             
                    
-                                                int count=0;
+                    int count=0;
 
-                                                foreach (var item in Model)
-                                                {
-                                                     int maxDisplayLength = 10; // 設定要顯示的最大字數
-                                                    string autobiography = item.Autobiography;
+                    foreach (var item in Model)
+                    {
+                            int maxDisplayLength = 10; // 設定要顯示的最大字數
+                        string autobiography = item.Autobiography;
 
-                                                    if (autobiography.Length > maxDisplayLength)
-                                                    {
-                                                        autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
-                                                    }
-                                                    count++;
+                        if (autobiography.Length > maxDisplayLength)
+                        {
+                            autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
+                        }
+                        count++;
 
-                                                <tr data-id="1">
-                                                    <td data-field="id">@count</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                                                        <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
-                                                       <td data-field="age">@Html.DisplayFor(modelItem =>autobiography)</td>
-                                                        @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 100px">
-                                                          <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">
-                                                         <img src="~/backstage1/img/magnifying.png" alt="查看" style="height: 25px; width: 25px;">
-                                                           </a>
-                                                        </td>
-                                                </tr>
-                                            }
-                                            }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    <tr data-id="1">
+                        <td data-field="id">@count</td>
+                            <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
+                            <td data-field="name"> @Html.DisplayFor(modelItem => item.Name)</td>
+                            <td data-field="age">@Html.DisplayFor(modelItem =>autobiography)</td>
+                            @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
+                                </div>
+                            </td>
+                            <td style="width: 100px">
+                                <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">
+                                <img src="~/backstage1/img/magnifying.png" alt="查看" style="height: 25px; width: 25px;">
+                                </a>
+                            </td>
+                    </tr>
+                }
+                }
+                </tbody>
+            </table>
+        </div>
 </body>
 
 
