@@ -50,6 +50,7 @@ namespace prjCoreWebWantWant.Controllers
               return View(vm);
             }
             //基本
+            factory.ExpertHisCountPlus(id); //點閱次數+1
             var qresume = _context.Resumes
                    .Where(a => a.ResumeId == id)
                    .FirstOrDefault();
@@ -153,6 +154,7 @@ namespace prjCoreWebWantWant.Controllers
                 return NotFound();
             }
             //專家履歷
+           
             var q1 = await _context.ExpertResumes
                .Include(e => e.Resume)
                .FirstOrDefaultAsync(m => m.ResumeId == id);

@@ -164,5 +164,16 @@ namespace prjCoreWebWantWant.Models
 
             return null;
         }
+
+        //抓專家的履歷點閱數&幫點閱次數+1
+        public void ExpertHisCountPlus(int ? ResumeId)
+        {
+            ExpertResume ExpertResumeInfo = _context.ExpertResumes.Where(r => r.ResumeId == ResumeId).
+                Select(r => r).FirstOrDefault();
+            ExpertResumeInfo.HistoricalViews += 1;
+            //_context.ExpertResumes.Add(ExpertResumeInfo);
+            _context.SaveChanges();
+
+        }
     }
 }

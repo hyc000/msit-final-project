@@ -220,8 +220,18 @@
                                                     <span class="card-text  mb-2">專長： @item.SkillNames | </span>
                                                     <span class="card-text  mb-2">證照： @item.CertificateNames </span>
                                                                                                             </p>
+                                                <!--控管專家介紹的字數-->
                                                 
-                                                <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
+                                                @{if (item.Introduction.Count() <= 47)
+                                                {
+                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
+                                                    }
+                                                }
+                                                
                                                 
                                                                                                             <p class="card-text">
                                                                                                                 <small class="text-body-secondary">@item.PaymentMethod |</small>
@@ -248,6 +258,9 @@
                                                                                                     <div class="row g-0 mx-2 my-2">
                                                         <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.AccountId')">聯絡專家</a>
                                                                                                     </div>
+                                        <div class="row g-0 mx-2 my-2">
+                                            <p class="card-text" style="float:right">點閱數：@item.HistoricalViews</p>
+                                        </div>
                                                                                                     <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
                                                                                                         
                                                 <p class="card-text fs-5 fw-bolder text-end"><span>TWD @(item.CommonPrice.Value.ToString("N0"))</span><span class="fs-6 fw-normal">起</span></p>
@@ -425,27 +438,39 @@
                     return;
                 }
 
-                fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
-                    .then(response => response.json())
-                    .then(datas => {
+                // fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
+                //     .then(response => response.json())
+                //     .then(datas => {
 
-                        let options = ""
-                        datas.map(skill => {
-                        
-                            options += (`<option value="${skill}">${skill}</option>`).join('');
+                //     //     let options = ""
+                //     // options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                //         let options = "";
+                //         options += datas.map(skill => {
 
-                        })
-                    // options += datas.map(skill => `<option value="${skill}">${skill}</option>`).join('');
-                        // let options = "";
-                        // options += datas.map(skill => {
+                //          // 從先前創建的全局變數中查找技能的計數
+                //             let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
+                //         return `<option value="1">${skill}(${count})</option>`;
+                //         }).join('');
 
-                        //  // 從先前創建的全局變數中查找技能的計數
-                        //     let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
-                        // return `<option value="1">${skill}(${count})</option>`;
-                        // }).join('');
+                //         skillselect.innerHTML = options;
+                //     });  //then最後一個THEN
 
-                        skillselect.innerHTML = options;
-                    });  //then最後一個THEN
+            fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
+                .then(response => response.json())
+                .then(datas => {
+
+                    let options = ""
+                    options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
+                    // let options = "";
+                    // options += datas.map(skill => {
+
+                    //  // 從先前創建的全局變數中查找技能的計數
+                    //     let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
+                    // return `<option value="1">${skill}(${count})</option>`;
+                    // }).join('');
+
+                    skillselect.innerHTML = options;
+                });  //then最後一個THEN
             };
         /*Loadskilltype();*///使用載入資料
 
