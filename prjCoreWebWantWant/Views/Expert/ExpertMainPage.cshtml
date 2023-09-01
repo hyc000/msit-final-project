@@ -14,7 +14,6 @@
 
 @{
     ViewData["Title"] = "ExpertMainPage";
-    int CountExpert = 0;
     var httpContext = HttpContextAccessor.HttpContext;
 }
 
@@ -60,7 +59,8 @@
                 @* 自訂 ：應該是為了包住搜尋的標籤&搜尋框框，但好像沒套到*@
                 <label class="fs-4 pl-2 pt-2">搜尋專家</label>
                 <!-- 添加 form 元素並設定 action 屬性 -->
-        <form action="@Url.Action("ExpertMainPage", "Expert")" method="get">
+                    <form id="searchForm">
+                        <!--action="Url.Action("ExpertSearch", "Expert")" -->
                 <div class="d-flex align-items-center search_container position-relative">
                     <!--為了製作搜尋的輸入框(包含前方小圖&按鈕)-->
                     <!--Bootstrap 樣式：d-flex：啟用 Flexbox 佈局，這將使元素的子元素能夠使用 Flexbox 屬性進行排列。-->
@@ -71,7 +71,7 @@
                     <i class="fa-solid fa-magnifying-glass me-2"></i>
                     <input type="text" id="inputKeyword" name="txtKeyword" class="search-input" placeholder="搜尋專家">
                     @* 自訂 ：可能要做Form才會送出&好像沒套到*@
-                        <button type="submit" class="btn btn-outline-primary ms-2">查詢</button>
+                            <button type="submit" class="btn btn-outline-primary ms-2" onclick=" event.preventDefault(); search();">查詢</button>
                 </div>
                 </form>
             </div>
@@ -192,82 +192,81 @@
                     foreach (var item in Model)
                     {
 
-                        CountExpert += 1;
                         starId = "star" + item.ResumeId;
 
-                                                                                <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
-                                                                                            <div class="row g-0">
-                                                                                                <div class="col-md-4 pr-0 ">
-                                                                                                    <!--放圖片-->
-                                                                                                        @if (item.Photo != null)
+                                                                                    <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
+                                                                                                <div class="row g-0">
+                                                                                                    <div class="col-md-4 pr-0 ">
+                                                                                                        <!--放圖片-->
+                                                                                                            @if (item.Photo != null)
                                                                                                          {
-                                                                                                            <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
-                                                                                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="250" />
-                                                                                                        </div>
+                                                                                                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
+                                                                                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="250" />
+                                                                                                            </div>
                                                                                                              }
                                                                                                           else
                                                                                                              {
-                                                                                                        <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                                                                                            <img src="~/Images/LOGO.png" height="250" />
-                                                                                                        </div>
+                                                                                                            <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
+                                                                                                                <img src="~/Images/LOGO.png" height="250" />
+                                                                                                            </div>
                                                                                                             }
-                                                                                                </div>
-                                                                                                <div class="col-md-6 pl-0">
-                                                                                                    <div class="card-body d-flex justify-content-around row">
-                                                                                                        <div class="pl-4 pr-4">
-                                                                                                            <span class="card-title">@item.Name  @item.ResumeTitle</span>
-                                                <p class="card-text  mb-0">
-                                                    <span class="card-text  mb-2">專長： @item.SkillNames | </span>
-                                                    <span class="card-text  mb-2">證照： @item.CertificateNames </span>
-                                                                                                            </p>
-                                                <!--控管專家介紹的字數-->
-                                                
-                                                @{if (item.Introduction.Count() <= 47)
+                                                                                                    </div>
+                                                                                                    <div class="col-md-6 pl-0">
+                                                                                                        <div class="card-body d-flex justify-content-around row">
+                                                                                                            <div class="pl-4 pr-4">
+                                                                                                                <span class="card-title">@item.Name  @item.ResumeTitle</span>
+                                                    <p class="card-text  mb-0">
+                                                        <span class="card-text  mb-2">專長： @item.SkillNames | </span>
+                                                        <span class="card-text  mb-2">證照： @item.CertificateNames </span>
+                                                                                                                </p>
+                                                    <!--控管專家介紹的字數-->
+                                                    
+                                                    @{if (item.Introduction.Count() <= 47)
                                                 {
-                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
+                                                                <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
                                                     }
                                                     else
                                                     {
-                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
+                                                                <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
                                                     }
-                                                }
-                                                
-                                                
-                                                                                                            <p class="card-text">
-                                                                                                                <small class="text-body-secondary">@item.PaymentMethod |</small>
-                                                                                                                <small class="text-body-secondary">@item.ContactMethod</small>
-                                                                                                                <small class="text-body-secondary">
-                                                                                                                    |
-                                                                                                                    <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
-                                                                                                                </small>
-                                                                                                            </p>
-                                                                                                            <p class="card-text">
-                                                    <small class="text-body-secondary star-rating" data-resume-id="@item.ResumeId" id="@starId"></small>
-                                                                                                            </p>
-                                                                                                            <div class="row position-absolute bottom-0">
-                                                                                                                @*<div class="col">*@
-                                                                                                            <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
+                                                    }
+                                                    
+                                                    
+                                                                                                                <p class="card-text">
+                                                                                                                    <small class="text-body-secondary">@item.PaymentMethod |</small>
+                                                                                                                    <small class="text-body-secondary">@item.ContactMethod</small>
+                                                                                                                    <small class="text-body-secondary">
+                                                                                                                        |
+                                                                                                                        <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
+                                                                                                                    </small>
+                                                                                                                </p>
+                                                                                                                <p class="card-text">
+                                                        <small class="text-body-secondary star-rating" data-resume-id="@item.ResumeId" id="@starId"></small>
+                                                                                                                </p>
+                                                                                                                <div class="row position-absolute bottom-0">
+                                                                                                                    @*<div class="col">*@
+                                                                                                                <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
+                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
+                                                                                                    <div class="col-md-2 pl-0">
+                                                                                                        <div class="row g-0 mx-2 my-2">
+                                                    <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
+                                                                                                        </div>
+                                                                                                        <div class="row g-0 mx-2 my-2">
+                                                            <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.AccountId')">聯絡專家</a>
+                                                                                                        </div>
+                                            <div class="row g-0 mx-2 my-2">
+                                                <p class="card-text" style="float:right">點閱數：@item.HistoricalViews</p>
+                                            </div>
+                                                                                                        <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
+                                                                                                            
+                                                    <p class="card-text fs-5 fw-bolder text-end"><span>TWD @(item.CommonPrice.Value.ToString("N0"))</span><span class="fs-6 fw-normal">起</span></p>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                                <div class="col-md-2 pl-0">
-                                                                                                    <div class="row g-0 mx-2 my-2">
-                                                <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
-                                                                                                    </div>
-                                                                                                    <div class="row g-0 mx-2 my-2">
-                                                        <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.AccountId')">聯絡專家</a>
-                                                                                                    </div>
-                                        <div class="row g-0 mx-2 my-2">
-                                            <p class="card-text" style="float:right">點閱數：@item.HistoricalViews</p>
-                                        </div>
-                                                                                                    <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
-                                                                                                        
-                                                <p class="card-text fs-5 fw-bolder text-end"><span>TWD @(item.CommonPrice.Value.ToString("N0"))</span><span class="fs-6 fw-normal">起</span></p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                               </div>
+                                                                                   </div>
                     }
                     
                 }
@@ -405,6 +404,7 @@
                             });
                             let averagescore = score / count;  // 宣告 averagescore
                             let averageStars = generateStars(averagescore);
+                            console.log(averageStars);
                             let average = averagescore.toFixed(1);
                             document.querySelector("#" + element.id).innerHTML = `${average}分 ${averageStars} --${count} 筆評論`;
                         } else {
@@ -534,7 +534,7 @@
         //星星評價
         function generateStars(score) {
             var starfill = '<i class="bi bi-star-fill lablestar"></i>';
-            var starhelf = '<i class="bi bi-star-half lablestar" > </i>';
+            var starhelf = '<i class="bi bi-star-half lablestar" ></i>';
             var starnull = '<i class="bi bi-star "></i>';
             let arr = [];
             for (let i = 1; i <= 5; i++) {
@@ -548,6 +548,68 @@
             }
             return arr.join("");
         }
+
+
+        //關鍵字查詢
+        function search() {
+            var searchForm = document.getElementById("searchForm");
+            var queryData = new URLSearchParams(new FormData(searchForm)).toString();
+
+            // Create a new XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /YourController/YourAction with async = true
+            xhr.open('GET', '/Expert/ExpertSearch?' + queryData, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) { // Check if request was successful
+                    document.getElementById("filterBody").innerHTML = xhr.responseText;
+
+                    // 執行評分更新函數
+                    updateRating();
+                    //為了在每次查詢都可以更新計數
+
+                } else {
+                    console.error("Request failed. Returned status of " + xhr.status);
+                }
+            };
+
+            xhr.send();
+        }
+
+        //為了在每次的partialview呼叫評分
+            function updateRating() {
+            let ratingElements = document.querySelectorAll(".star-rating");
+
+            ratingElements.forEach(element => {
+                let score = 0;   // 初始化score
+                let count = 0;   // 初始化count
+
+                let resumeId = element.getAttribute("data-resume-id");
+                fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumesid=${resumeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data != null && data["評分資料"].length > 0) {
+                            data["評分資料"].forEach(item => {
+                                score += Number(item.分數);
+                                count++;
+                            });
+                            let averagescore = score / count;  // 宣告 averagescore
+                            let averageStars = generateStars(averagescore);
+                            console.log(averageStars);
+                            let average = averagescore.toFixed(1);
+                            document.querySelector("#" + element.id).innerHTML = `${average}分 ${averageStars} --${count} 筆評論`;
+                        } else {
+                            let averageStars = generateStars(0);
+                            document.querySelector("#" + element.id).innerHTML = `0分 ${averageStars} -- 0 筆評論`;
+                        }
+                    });
+            });
+
+            }
+
+          
+       
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
