@@ -108,7 +108,7 @@
                         </td>
 
                             <td >
-                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" onclick="return confirmDelete(event)">
+                                <a href="@Url.Content("~/BackstageTask/PubNull")?id=@item.CaseId" class="delete-link">
                                     <img src="~/backstage1/img/recycle-bin.png" alt="刪除" style="height: 23px; width: 25px;">
                                 </a>
                             </td>
@@ -211,6 +211,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/SweetAlert.js"></script>
 
+ 
 </body>
 
 
@@ -219,10 +220,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/SweetAlert.js"></script>
-
-      
 
 
 
@@ -308,6 +305,35 @@
         //        }
         //    });
         //}
+
+        <script>
+            // 使用 SweetAlert 顯示刪除確認視窗
+            $('.delete-link').on('click', function (e) {
+                e.preventDefault(); // 取消連結的預設點擊行為
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
+                        // 如果刪除成功，顯示成功訊息
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        );
+
+                        // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
+                    }
+                });
+            });
+    </script>
 
 </script>
    
