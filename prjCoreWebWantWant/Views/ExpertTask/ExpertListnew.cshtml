@@ -141,50 +141,50 @@
                                                     colorClass = "text-danger";
                                                 }
                                             }
-                                            <tr>
-                                                    <td style="width: 50px;">@countmytasking</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                    @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                    <td style="width: 200px;">
-                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                            data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                        @if (item.taskcontent.Length > 10)
+                                                <tr>
+                                                        <td style="width: 50px;">@countmytasking</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                        <td style="width: 200px;">
+                                                            <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                            @if (item.taskcontent.Length > 10)
                                                         {
-                                                            @: @item.taskcontent.Substring(0, 10) ...
+                                                                @: @item.taskcontent.Substring(0, 10) ...
                                                         }
                                                         else
                                                         {
-                                                            @item.taskcontent;                                                            ;
+                                                                @item.taskcontent;                                                            ;
 
                                                         }
-                                                     <i class="fa-solid fa-magnifying-glass">
-                                                      </i>
-                                                       </button>
-                                                    </td>
-                                                
-                                                <td style="width: 100px; " class="@colorClass">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                <td style="width: 100px;" class="@colorClass">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                     <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                    @if (item.CaseStatusname == "專家尚未確認")
-                                                {
-                                                        <td style="width: 100px;">
-                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingupdateModal"
-                                                                data-modal-type="update" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                          
-                                                            <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
-                                                        </button>
+                                                         <i class="fa-solid fa-magnifying-glass">
+                                                          </i>
+                                                           </button>
                                                         </td>
+                                                    
+                                                    <td style="width: 100px; " class="@colorClass">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                    <td style="width: 100px;" class="@colorClass">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                         <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                        @if (item.CaseStatusname == "專家尚未確認")
+                                                {
+                                                            <td style="width: 100px;">
+                                                            <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingupdateModal"
+                                                                    data-modal-type="update" data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
+                                                                    data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                              
+                                                                <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
+                                                            </button>
+                                                            </td>
                                                 }
                                                 else
                                                 {
-                                                        <td style="width: 100px;"><i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>進行中!</td>
+                                                            <td style="width: 100px;"><i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>進行中!</td>
                                                 }
 
-                                                </tr>
+                                                    </tr>
                                             
                                          }}
                                              }
@@ -222,34 +222,34 @@
                                             countmytasking++;
                                             // int maxDisplayLength = 10; // 設定要顯示的最大字數
 
-                                                <tr>
-                                                    <td style="width: 50px;">@countmytasking</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                    @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                    <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                    @if (item.CaseStatusname == "專家案件已完成")
+                                                    <tr>
+                                                        <td style="width: 50px;">@countmytasking</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                        <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                        @if (item.CaseStatusname == "專家案件已完成")
                                                 {
                                                     
-                                                        <td style="width: 100px;">
-                                                            <a href="@Url.Action("CreateNew","Ratings",  new { id = item.caseid })"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+                                                            <td style="width: 100px;">
+                                                                <a href="@Url.Action("CreateNew","Ratings",  new { id = item.caseid })"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
 
-                                                        </td>
+                                                            </td>
                                                 }
                                                 else
                                                 {
-                                                        <td style="width: 100px;">
-                                                        <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
-                                                        無法評價!
-                                                        </td>
+                                                            <td style="width: 100px;">
+                                                            <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                            無法評價!
+                                                            </td>
                                                 }
-                                                   
+                                                       
 
-                                                </tr>
+                                                    </tr>
 
                                         }
                                     }
@@ -288,27 +288,27 @@
                                         foreach (var item in Model.taskfromotherno)
                                         {
                                             countmytasking++;
-                                                <tr>
-                                                    <td style="width: 50px;">@countmytasking</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                    @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                    <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                    <td style="width: 100px;">
-                                                        <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
-                                                     
-                                                            <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
-                                                            /
-                                                            <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
-                                                        </a>
+                                                    <tr>
+                                                        <td style="width: 50px;">@countmytasking</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                        <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                        <td style="width: 100px;">
+                                                            <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
+                                                         
+                                                                <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                                /
+                                                                <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                            </a>
 
-                                                    </td>
+                                                        </td>
 
-                                                </tr>
+                                                    </tr>
 
                                         }
                                     }
@@ -345,24 +345,24 @@
                                         foreach (var item in Model.taskingfromother)
                                         {
                                             countmytasking++;
-                                                <tr>
-                                                    <td style="width: 50px;">@countmytasking</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                    @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                    <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                    <td style="width: 100px;">
-                                                        <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
-                                                            <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
-                                                        </a>
+                                                    <tr>
+                                                        <td style="width: 50px;">@countmytasking</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                        <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                        <td style="width: 100px;">
+                                                            <a href="@Url.Action(/* , */ /* new { id = item.CaseId } */)">
+                                                                <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                            </a>
 
-                                                    </td>
+                                                        </td>
 
-                                                </tr>
+                                                    </tr>
 
                                         }
                                     }
@@ -401,33 +401,33 @@
                                             countmytasking++;
                                             // int maxDisplayLength = 10; // 設定要顯示的最大字數
 
-                                                <tr>
-                                                    <td style="width: 50px;">@countmytasking</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                    @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                    <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
-                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                    @if (item.CaseStatusname == "專家案件已完成")
+                                                    <tr>
+                                                        <td style="width: 50px;">@countmytasking</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                        <td style="width: 200px;">@Html.DisplayFor(modelItem => item.taskcontent)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskprice)</td>
+                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                        @if (item.CaseStatusname == "專家案件已完成")
                                                 {
 
-                                                        <td style="width: 100px;">
-                                                            <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+                                                            <td style="width: 100px;">
+                                                                <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
 
-                                                        </td>
+                                                            </td>
                                                 }
                                                 else
                                                 {
-                                                        <td style="width: 100px;">
-                                                            <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
-                                                            無法評價!
-                                                        </td>
+                                                            <td style="width: 100px;">
+                                                                <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                                無法評價!
+                                                            </td>
                                                 }
 
-                                                </tr>
+                                                    </tr>
 
                                         }
                                     }
@@ -500,21 +500,21 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        委託時間: <input type="datetime" id="Modaltaskdatestart1">~
-                        <input type="datetime" id="Modaltaskdateend1">
+                        委託時間: <input type="date" id="Modaltaskdatestart1">~
+                        <input type="date" id="Modaltaskdateend1">
+                    </div>
+                    <div >
+                        委託內容:  <textarea style="height:300px; resize:none;" class="form-control" id="Modaltaskcontent1"> </textarea>
+                    </div>
+                    <div class="py-2">
+                        委託價格: $ <input id="Modaltaskprice1"> 元。
                     </div>
                     <div>
-                        委託內容:  <input id="Modaltaskcontent1">
-                    </div>
-                    <div>
-                        委託價格: <input id="Modaltaskprice1">
-                    </div>
-                    <div>
-                        <select id="ModalCaseWorkPlace1">
+                        <select class="form-select" id="ModalCaseWorkPlace1">
                             <option value="home">在家工作</option>
                             <option value="specific">指定地點工作</option>
                         </select>
-                       <input id="ModalCaseAddress1">
+                        <input class="form-control" id="ModalCaseAddress1">
                        
                     </div>
 
@@ -526,8 +526,8 @@
                     </div>
                     <div>
                          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">關閉</button>
-                        <button type="button" class="btn btn-outline-primary">修改並儲存</button>
-                        <button type="button" class="btn btn-outline-primary">放棄委託</button>
+                        <button type="button" class="btn btn-outline-primary " id="btn-save-changes">修改並儲存</button>
+                        <button type="button" class="btn btn-outline-primary" id="btn-no-changes">放棄委託</button>
 
                     </div>
                     
@@ -547,9 +547,7 @@
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <style>
-        // .modal-backdrop.show {
-        //     opacity: 0;
-        // }
+    
     </style>
         }
 @section Scripts{
@@ -635,6 +633,9 @@
         //         $('#ModalCaseAddress').text(Address);
         //     });
         // });
+
+
+        //===========點詳細功
         $(document).ready(function () {
             $('button[data-modal-type="update"]').click(function () {
                 var caseId = $(this).data('id');
@@ -644,35 +645,86 @@
                
                 var taskdatestart = $(this).closest('tr').find('td:nth-child(5)').text();
                 var taskdateend = $(this).closest('tr').find('td:nth-child(6)').text();
-                var taskprice = $(this).closest('tr').find('td:nth-child(7)').text();
+                var taskprice = $(this).data('taskprice');
                 var CaseStatusname = $(this).closest('tr').find('td:nth-child(8)').text();
-                var WorkPlace = $(this).data('WorkPlace');
-                console.log(WorkPlace);
-                var Address = $(this).data('Address');
-                console.log(Address);
+              
+                var WorkPlace = $(this).attr('data-WorkPlace');
+              
+                var Address = $(this).attr('data-Address');
+               
 
                 $('#mytaskingModalLabel1').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
                 $('#Modaltaskcontent1').val(taskcontent);
-                $('#Modaltaskdatestart1').text(taskdatestart);
-                $('#Modaltaskdateend1').text(taskdateend);
+           
+                $('#Modaltaskdatestart1').val(taskdatestart);
+                $('#Modaltaskdateend1').val(taskdateend);
                 $('#Modaltaskprice1').val(taskprice);
                 $('#ModalCaseStatusname1').text(CaseStatusname);
-                $('#ModalCaseWorkPlace1').val(WorkPlace);
-
+             
                 if (WorkPlace == "在家工作") {
                     $('#ModalCaseWorkPlace1').val('home');
                     $('#ModalCaseAddress1').val(Address);
+                    $('#ModalCaseAddress1').attr('readonly', true);
+                    
                 } else if (WorkPlace == "指定地點工作") {
                     $('#ModalCaseWorkPlace1').val('specific');
                     $('#ModalCaseAddress1').val(Address);
+                   
                 }
             });
         });
 
-      
+        //============修改存檔
+        $('#btn-save-changes').click(function () {
+            // 擷取修改後的資料
+            var updatedTaskContent = $('#Modaltaskcontent1').val();
+            var updatedTaskDateStart = $('#Modaltaskdatestart1').val();
+            var updatedTaskDateEnd = $('#Modaltaskdateend1').val();
+            var updatedTaskPrice = $('#Modaltaskprice1').val();
+            var updatedWorkPlace = $('#ModalCaseWorkPlace1').val();
+            var updatedAddress = $('#ModalCaseAddress1').val();
+
+            // 建立要送至伺服器的物件
+            var dataToUpdate = {
+                CaseId: caseId, // 從之前擷取
+                TaskDetail: updatedTaskContent,
+                TaskStartDate: updatedTaskDateStart,
+                TaskEndDate: updatedTaskDateEnd,
+                PayFrom: updatedTaskPrice,
+                PayTo: updatedTaskPrice,
+                WorkPlace: updatedWorkPlace,
+                Address: updatedAddress 
+            };
+
+            // 使用AJAX將資料送至伺服器
+            $.ajax({
+                url: '/your-endpoint-to-update-data', // 替換為您的伺服器端點
+                type: 'POST',
+                data: dataToUpdate,
+                success: function (response) {
+                    if (response.success) {
+                        alert('更新成功!');
+                        // 如果需要，您可以在這裡進一步更新前端介面或重新整理頁面
+                    } else {
+                        alert('更新失敗，請稍後再試。');
+                    }
+                },
+                error: function (err) {
+                    alert('發生錯誤，請稍後再試。');
+                }
+            });
+        });
 
 
-
+        //在家工作跟指定地點工作切換
+        $('#ModalCaseWorkPlace1').change(function () {
+            if ($(this).val() == "specific") {  
+                $('#ModalCaseAddress1').removeAttr('readonly');
+            } else {
+                $('#ModalCaseAddress1').attr('readonly', true);
+            }
+        });
+       
         
     </script>
     <script src="~/Expert/js/expert.js"></script>
