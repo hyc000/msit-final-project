@@ -58,7 +58,7 @@
                                     <td>@item.ProductName</td>
                                     <td>$@item.UnitPrice</td>
                                     <td>
-                                        <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartItem(this)" />
+                                        <input type="number" min="1" value="@item.Quantity" data-product-id="@item.ProductId" class="quantity-input" onchange="updateCartQuantity(@item.ProductId, this.value)" />
                                     </td>
 
                                     <td>$@(item.UnitPrice * item.Quantity)</td>
@@ -149,9 +149,7 @@
                     <input type="hidden" name="OrderGetPoint" value="@getpoint" />
                     <input type="hidden" name="OrderUsePoint" value="@usepoint" />
                     <input type="hidden" name="PaidAmount" value="@total" />
-                    <input type="submit" value="結帳" class="btn btn-primary btn-lg" id="checkoutButton" />
-
-                    <input type="submit" value="金流測試" class="btn btn-primary btn-lg" />
+                    <input type="submit" value="結帳" class="btn btn-primary btn-lg" id="checkoutButton" />         
                 </div>
             </div>
             <a href="@Url.Content("~/shop/ExpertShop")"><span><i class='bx bx-left-arrow-alt'></i>繼續購物</span></a>
@@ -268,8 +266,8 @@
                 data.forEach(ExpertItem => {
                     const option = document.createElement('option');
                     option.value = ExpertItem.resumeId;
-                    option.textContent = ExpertItem.introduction.substr(0, 15); // 不知道為甚麼小寫第一個字才給過
-                    option.title = ExpertItem.introduction;
+                    option.textContent = ExpertItem.resumeTitle.substr(0, 15); // 不知道為甚麼小寫第一個字才給過
+                    option.title = ExpertItem.resumeTitle;
                     selectElement.appendChild(option);
                 });
             } catch (error) {
@@ -284,6 +282,35 @@
             try {
                 const response = await fetch(`/Shop/RemoveExpertCart?productId=${productId}`, {
                     method: 'POST',
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
+                        // 自動刷新
+                        location.reload();
+                    } else {
+                        console.error("刪除失敗");
+                    }
+                } else {
+                    console.error("刪除失敗，響應狀態：", response.status);
+                }
+            } catch (error) {
+                console.error("刪除請求失敗：", error);
+            }
+        }
+
+        //更新商品數量
+        async function updateCartQuantity(productId, newQuantity) {
+            try {
+                const updateQuaUrl = '@Url.Action("updateQuaEX", "Shop")' + `?productId=${productId}&newQuantity=${newQuantity}`;
+
+                const response = await fetch(updateQuaUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
                 });
 
                 if (response.ok) {

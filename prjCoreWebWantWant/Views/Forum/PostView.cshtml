@@ -1,7 +1,7 @@
 ﻿@model prjCoreWantMember.ViewModels.ForumPostViewModel
 @using System.Web;
 @{
-    ViewData["Title"] = "PostView";
+    ViewData["Title"] = "討論區";
     int categoryId = Model.MainPost.ForumPostCategories.FirstOrDefault().CategoryId;
     string categoryTitle = Model.MainPost.ForumPostCategories.FirstOrDefault().Category.Title;
 
@@ -108,7 +108,7 @@
             allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
-                <div class="mybg-color bg-opacity-10 rounded-3 my-3">
+                <div class="mybg-color bg-opacity-10 rounded-3 my-3">　
                     <div class="bg-body rounded-3 border mx-3 p-3">
                            <div class="px-3">
                       <div class="border-bottom row pb-2">

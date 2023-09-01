@@ -40,7 +40,7 @@
                 <li>此加值服務，讓您的專業充滿曝光與可能！。</li>
                 <li>曝光商品後，會根據您選擇的專業履歷來進行曝光。</li>
                 <li>購買後，將立刻開始進行曝光。</li>
-                <li>置頂中的履歷仍可關閉，但置頂期限不會因中斷而延長。只要在置頂期限內再次開啟職缺，仍會照常執行。</li>
+                <li>置頂中的履歷仍可關閉，但置頂期限不會因中斷而延長。</li>
             </ul>
         </div>
 
@@ -52,7 +52,7 @@
                data-bs-target="#cartModal" class="shopping-cart-btn">
                 <i class='bx bxs-cart'></i>
             </a>
-            <span class="cart-item-count">@ViewBag.CartItemCount</span>
+            <span id="cartItemCount" class="cart-item-count">@ViewBag.CartItemCount</span>
         </div>
     </div>
 
@@ -111,23 +111,12 @@
                             </div>
                                 <h6 class="text-center">$@Html.DisplayFor(modelItem => item.UnitPrice)</h6>
                         </div>
-                        <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                                <form asp-controller="Shop" asp-action="AddToExCart" method="post">
-                                    <input type="hidden" name="productId" value="@item.ProductId" />
-                                    @if (item.UnitsInStock >= 1)
-                                    {
-                                        <button id="AddtoCart" class="addToCartButton" type="button" style="background: none; border: none; cursor: pointer;">
-                                            <i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i>
-                                        </button>
-                                    }
-                                    @if (item.UnitsInStock < 1)
-                                    {
-                                        <button id="AddtoCart" class="addToCartButton" type="button" style="background: none; border: none; cursor: pointer;" disabled>
-                                            <i class='bx bxs-shopping-bag' style="font-size: 2em; margin-left: auto;"></i>
-                                        </button>
-                                    }
-                                </form>
-                        </div>
+                            @*購物按鈕*@
+                            <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                                <i class='bx bxs-shopping-bag addToCartButton' style="font-size: 2em; cursor: pointer; color:black" data-product-id="@item.ProductId" data-units-in-stock="@item.UnitsInStock"></i>
+
+
+                            </div>
                     </div>
                 </div>
 
@@ -319,9 +308,9 @@
 
                 data.forEach(ExpertItem => {
                     const option = document.createElement('option');
-                    option.value = ExpertItem.resumeId; 
-                    option.textContent = ExpertItem.introduction.substr(0, 15); // 不知道為甚麼小寫第一個字才給過
-                    option.title = ExpertItem.introduction;
+                    option.value = ExpertItem.resumeId;
+                    option.textContent = ExpertItem.resumeTitle.substr(0, 15); // 不知道為甚麼小寫第一個字才給過
+                    option.title = ExpertItem.resumeTitle;
                     selectElement.appendChild(option);
                 });
             } catch (error) {
@@ -333,25 +322,79 @@
         loadExpert();
 
 
-        $(function () {
-            $('.addToCartButton').on('click', function () {
-                var productId = $(this).closest('form').find('input[name="productId"]').val();
 
-                // 加入購物車提示
-                Swal.fire({
-                    title: '是否要加入購物車？',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: '是的',
-                    cancelButtonText: '取消'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // 提交表單
-                        $(this).closest('form').submit();
-                    }
-                });
+        //購物車
+        $(document).ready(function () {
+            $(".addToCartButton").click(function () {
+                var productId = $(this).data("product-id");
+                var unitsInStock = $(this).data("units-in-stock");
+
+                if (unitsInStock >= 1) {
+                    Swal.fire({
+                        title: '是否要加入購物車？',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: '是的',
+                        cancelButtonText: '取消'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            addToCart(productId, unitsInStock);
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: '此商品缺貨無法加入購物車。',
+                        icon: 'error',
+                        confirmButtonText: '確定'
+                    });
+                }
             });
         });
+
+        function addToCart(productId, unitsInStock) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Content("~/Shop/AddToExCart")',
+                data: { productId: productId },
+                success: function (response) {
+                    console.log("Ajax success response:", response); // 輸出回應數據
+                    Swal.fire({
+                        title: '已成功加入購物車！',
+                        icon: 'success',
+                        confirmButtonText: '確定'
+                    }).then(() => {
+                        updateCartItemCount(); // 更新購物車數量
+                    });
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error("Ajax error:", errorThrown); // 輸出錯誤信息
+                    Swal.fire({
+                        title: '加入購物車失敗。',
+                        icon: 'error',
+                        confirmButtonText: '確定'
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // 啟動定時器，每隔5秒更新購物車項目數量
+            setInterval(updateCartItemCount, 500); // 5000毫秒 = 5秒
+        });
+
+        function updateCartItemCount() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Content("~/Shop/GetExCartItemCount")', // 根據您的控制器和方法的實際路徑
+                success: function (data) {
+                    $("#cartItemCount").text(data.cartItemCount);
+                },
+                error: function () {
+                    console.log("無法獲取購物車項目數量。");
+                }
+            });
+        }
+
   
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>

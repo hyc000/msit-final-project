@@ -111,7 +111,6 @@ namespace WantTask.Controllers
 
             var replies = _db.ForumPosts
                         .Include(p => p.Account)
-                        .Where(p => p.ParentId == id)
                         .Where(p => p.ParentId == id && (p.Status != 2))
                         .ToList();
 
@@ -130,7 +129,7 @@ namespace WantTask.Controllers
                 {
                     var postcomm = _db.ForumPostComments
                         .Include(p => p.Account)
-                        .Where(p => p.PostId == postId)
+                        .Where(p => p.PostId == postId && (p.Status == 1 || p.Status == 4))
                         .ToList();
                     postReplyList.Add(postcomm);
                 }
@@ -234,12 +233,20 @@ namespace WantTask.Controllers
 
 
 
-        public IActionResult ForumMS(int id)
+        public IActionResult ForumMS()
         {
-            var postlist = _db.ForumPosts
-                .Where(p=>p.AccountId== id)
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
+                var postlist = _db.ForumPosts
+                .Where(p => p.AccountId == loggedInUser.AccountId)
                 .ToList();
-            return View(postlist);
+                return View(postlist);
+            }
+            else
+                return RedirectToAction("Login", "Member");
         }
 
     }

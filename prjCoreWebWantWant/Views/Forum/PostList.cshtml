@@ -12,20 +12,18 @@
 
 }
 
-<div class="container" style="">
-    <nav class="breadcrumb  mt-4">
+<div class="container">
+    <nav class="breadcrumb mt-4" style="font-size:32px">
         <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Content("~/Forum/CategoryList")">討論區</a></li>
-            <li class="breadcrumb-item active">@ViewBag.CategoryTitle</ li >
+            <li class="breadcrumb-item active">@ViewBag.CategoryTitle<span>(@Model.PagedPosts.TotalItemCount)</span></ li >
     </ol>
 </nav>
-
-    <div class="d-inline-flex mb-3 ">
-        <span class="btn-group  me-3 btn btn-round ">
-        
+        <span class="btn-group  me-3 btn btn-round">
             <a href="/forum/CreatePost?id=@categoryId"><i class="fa-solid fa-pen-to-square"></i> 發表文章</a>
+        </span>
+    <div class="d-inline-flex mb-3" style="float:right">
 
-    </span>
 
 @using (Html.BeginForm())
 {
@@ -73,10 +71,10 @@
                         <span class="text-info text-opacity-75 m-1">@Html.DisplayFor(modelItem => item.Account.UserName)</span>
                         <span class="chat-toggle-container">
                             <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.AccountId })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
-@*                             <div class="chat-popup">
-                                <!-- 這裡是 partial view 的容器 -->
-                            </div> *@
                         </span>
+                        <div class="chat-popup">
+                            <!-- 這裡是 partial view 的容器 -->
+                        </div>
             </td>
                     <td class="text-center small">
                     @{

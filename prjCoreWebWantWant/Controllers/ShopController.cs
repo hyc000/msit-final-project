@@ -34,15 +34,12 @@ namespace prjShop.Controllers
         }
 
 
-
+        //專家商店
         public IActionResult ExpertShop()
         {
             int id = GetAccountID();
 
             ViewBag.Points = GetAccumulatedPoints(id);
-
-            int cartItemCount = GetExCartItemCount();
-            ViewBag.CartItemCount = cartItemCount;
 
             var q = _context.Products
                 .Include(t => t.Category)
@@ -50,6 +47,7 @@ namespace prjShop.Controllers
 
             return View(q);
         }
+        //任務商店
         public IActionResult CaseShop()
         {
             int id = GetAccountID();
@@ -63,7 +61,7 @@ namespace prjShop.Controllers
             return View(q);
         }
 
-        //Casepaypal結帳
+        //paypal結帳
         public IActionResult PayPalCheckOut()
         {
             int userId = GetAccountID();
@@ -142,7 +140,7 @@ namespace prjShop.Controllers
             var q = query.OrderByDescending(o => o.CreateTime).ToList();
             return PartialView(q);
         }
-
+        //抓會員登入
         public int GetAccountID()
         {
             string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
@@ -167,8 +165,8 @@ namespace prjShop.Controllers
             int id = GetAccountID();
             var resume = _context.Resumes
                  .Include(r => r.ExpertResume)
-                .Where(r => r.AccountId == id && r.IsExpertOrNot == true)
-                .Select(r => new { r.ResumeId, r.ExpertResume.Introduction })
+                .Where(r => r.AccountId == id && r.IsExpertOrNot == true &&r.CaseStatusId==23)
+                .Select(r => new { r.ResumeId, r.ResumeTitle})
              .ToList();
 
             return Json(resume);
@@ -265,7 +263,7 @@ namespace prjShop.Controllers
             SaveExCart(cart, userId); // 存購物車到指定用戶
 
 
-            return RedirectToAction("ExpertShop");
+            return Json(new { success = true });
         }
 
         // Case購物車頁面
@@ -312,6 +310,27 @@ namespace prjShop.Controllers
             {
                 cartItem.Quantity = newQuantity; // 更新商品数量
                 SaveCart(cart, userId); // 保存整个购物车，包括更新后的 cartItem
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
+
+        //更改EX商品數量
+
+        [HttpPost]
+        public IActionResult updateQuaEX(int productId, int newQuantity)
+        {
+            int userId = GetAccountID();
+            var cart = GetExCart(userId);
+
+            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
+
+            if (cartItem != null)
+            {
+                cartItem.Quantity = newQuantity; // 更新商品数量
+                SaveExCart(cart, userId); // 保存整个购物车，包括更新后的 cartItem
                 return Json(new { success = true });
             }
 
@@ -400,148 +419,18 @@ namespace prjShop.Controllers
             return Json(new { cartItemCount = itemCount });
         }
         //expert購物車數量
-        public int GetExCartItemCount()
+        [HttpGet]
+        public IActionResult GetExCartItemCount()
         {
             int userId = GetAccountID();
             var cart = GetExCart(userId);
             int itemCount = cart.Sum(item => item.Quantity);
-            return itemCount;
+
+            return Json(new { cartItemCount = itemCount });
         }
 
 
-        //        [HttpPost]
-        //        public IActionResult Checkout(int? CaseId, Order newOrder, List<OrderDetail> newOrderDetails)
-        //        {
-
-
-        //            int userId = GetAccountID();
-        //            var cart = GetCart(userId);
-
-        //            if (cart.Count == 0)
-        //            {
-        //                TempData["ErrorMessage"] = "購物車內沒有商品，無法進行結帳。";
-        //                return RedirectToAction("CaseCart");
-        //            }
-
-        //            TempData["SweetAlertScript"] = null;
-        //            foreach (var cartItem in cart)
-        //            {
-        //                var product = _context.Products.FirstOrDefault(p => p.ProductId == cartItem.ProductId);
-        //                if (product == null || product.UnitsInStock < cartItem.Quantity)
-        //                {
-        //                    // 使用SweetAlert2顯示提示消息
-        //                    string errorMessage = "【" + product.ProductName + "】庫存不足，無法完成結帳。";
-        //                    TempData["ErrorMessage"] = errorMessage;
-
-        //                    // 使用SweetAlert2的JavaScript代碼顯示警告框
-        //                    string sweetAlertScript = $"Swal.fire('庫存不足', '{errorMessage}', 'warning');";
-        //                    TempData["SweetAlertScript"] = sweetAlertScript;
-
-        //                    return RedirectToAction("CaseCart");
-        //                }
-        //            }
-
-        //            // 創建新的訂單
-        //            newOrder.AccountId = userId;
-        //            newOrder.PayWayId = 1;
-        //            newOrder.CategoryId = 2;
-        //            newOrder.CreateTime = DateTime.Now;
-        //            _context.Orders.Add(newOrder);
-        //            _context.SaveChanges();
-
-        //            // 將每個購物車項目關聯到訂單
-        //            foreach (var cartItem in cart)
-        //            {
-        //                var newOrderDetail = new OrderDetail
-        //                {
-        //                    OrderId = newOrder.OrderId,
-        //                    ProductId = cartItem.ProductId,
-        //                    UnitPrice = (int)cartItem.UnitPrice,
-        //                    Quantity = cartItem.Quantity,
-        //                    TopDate = cartItem.TopDate,
-        //                    TopType = "任務置頂",
-        //                    GetPoint = cartItem.GetPoint,
-        //                    CaseId = CaseId,
-
-        //                };
-        //                newOrderDetails.Add(newOrderDetail);
-        //            }
-
-        //            // 將所有新的 OrderDetail 加入 _context
-        //            _context.OrderDetails.AddRange(newOrderDetails);
-        //            _context.SaveChanges();
-
-        //            //更新庫存
-        //            foreach (var orderDetail in newOrderDetails)
-        //            {
-        //                var product = _context.Products.FirstOrDefault(p => p.ProductId == orderDetail.ProductId);
-        //                if (product != null)
-        //                {
-        //                    product.UnitsInStock -= orderDetail.Quantity;
-        //                    _context.SaveChanges();
-        //                }
-        //            }
-
-        //            // 更新會員點數
-        //            int orderGetPoint = Convert.ToInt32(Request.Form["OrderGetPoint"]);
-        //            int orderUsePoint = Convert.ToInt32(Request.Form["OrderUsePoint"]);
-
-        //            var memberAccount = _context.MemberAccounts.FirstOrDefault(p => p.AccountId == userId);
-        //            if (memberAccount != null)
-        //            {   // 保證不會扣除超過會員現有的點數
-        //                if (orderUsePoint > memberAccount.MemberTotalPoint)
-        //                {
-        //                    orderUsePoint = memberAccount.MemberTotalPoint; // 將扣除點數調整為會員現有的點數
-        //                }
-
-        //                memberAccount.MemberTotalPoint -= orderUsePoint;
-        //                memberAccount.MemberTotalPoint += orderGetPoint;
-        //                _context.SaveChanges();
-        //            }
-
-        //            // 更新top
-        //foreach (var orderDetail in newOrderDetails)
-        //            {
-        //                var product = _context.Products.FirstOrDefault(p => p.ProductId == orderDetail.ProductId);
-        //                if (product != null)
-        //                {
-        //                    if (orderDetail.TopDate != null) // 只处理不为null的TopDate
-        //                    {
-        //                        var task = _context.TaskLists.FirstOrDefault(t => t.CaseId == orderDetail.CaseId);
-        //                        if (task != null)
-        //                        {
-        //                            DateTime newOnTop;
-        //                            int day = (int)(orderDetail.TopDate * orderDetail.Quantity);
-        //                            if (task.OnTop == null || task.OnTop < DateTime.Now)
-        //                            {
-
-        //                                newOnTop = DateTime.Now.AddDays(day);
-        //                            }
-        //                            else
-        //                            {
-        //                                newOnTop = task.OnTop.Value.AddDays(day);
-        //                            }
-
-        //                            task.OnTop = newOnTop;
-
-        //                            // 更新数据库中的任务表
-        //                            _context.TaskLists.Update(task);
-        //                        }
-        //                    }
-        //                }
-        //            }
-
-        //           
-        //            _context.SaveChanges();
-
-        //            // 清空購物車
-        //            cart.Clear();
-        //            SaveCart(cart, userId);
-
-        //            return RedirectToAction("Order");
-        //        }
-
-
+  
         //Case 結帳
         [HttpPost]
         public IActionResult Checkout(int? CaseId, Order newOrder, List<OrderDetail> newOrderDetails)
@@ -769,7 +658,7 @@ namespace prjShop.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("CheckOut");
+            return RedirectToAction("PayPalCheckOut");
         }
 
         public IActionResult OrderCompleted()

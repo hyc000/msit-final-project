@@ -1,49 +1,68 @@
 ﻿@model IEnumerable<prjCoreWebWantWant.Models.ForumPost>
 
 @{
-    ViewData["Title"] = "ForumMS";
+    ViewData["Title"] = "發布文章管理";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+
 }
-<div class="container small">
-<h1>發文列表</h1>
+@section subTitle{
 
-    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">討論區</li>
+            <li class="breadcrumb-item " aria-current="page">發布文章管理</li>
+        </ol>
+    </nav>
+}        
 
-<table class="table">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header mb-3">
+                <div class="row">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified"role="tablist">
+                            <li class="nav-item" onclick="showApplied();">
+                                <a class="nav-link active " data-bs-toggle="tab" href="#Applied" role="tab">
+                                    <span class="d-block d-sm-none"><i class="bi bi-send-check"></i></span>
+                                    <span class="d-none d-sm-block" style="color: #528eaf">已發布文章</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" onclick="showAccept();">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
+                                    <span class="d-block d-sm-none"><i class="bi bi-archive"></i></span>
+                                    <span class="d-none d-sm-block" style="color:#528EAF">草稿管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+    <table class="table" id="postManagement">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PostId)
+                文章標題
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountId)
+                內文摘要
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                發文時間
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostContent)
+                最後更新時間
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Created)
+                修改/刪除
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -57,15 +76,29 @@
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
     </tbody>
 </table>
+                
+        </div>
+    </div>
 </div>
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+        }
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $('#postManagement').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+            },
+        });
+    </script>
+
+}
