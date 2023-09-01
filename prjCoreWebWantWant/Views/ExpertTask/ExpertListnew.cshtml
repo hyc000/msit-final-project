@@ -113,7 +113,7 @@
                                     <th style="width: 100px;">委託期限-訖</th>
                                     <th style="width: 100px;">委託價格</th>
                                     <th style="width: 100px;">案件狀態</th>
-                                    <th style="width: 100px;">修改</th>
+                                    <th style="width: 100px;">修改/放棄</th>
                                     
                                 </tr>
                             </thead>
@@ -147,7 +147,7 @@
                                                     <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
                                                     @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
                                                     <td style="width: 200px;">
-                                                    <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
                                                             data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
                                                             data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
                                                         @if (item.taskcontent.Length > 10)
@@ -163,10 +163,7 @@
                                                       </i>
                                                        </button>
                                                     </td>
-                                                    if(){
-
-                                                    }
-
+                                                
                                                 <td style="width: 100px; " class="@colorClass">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
                                                 <td style="width: 100px;" class="@colorClass">@Html.DisplayFor(modelItem => item.taskdateend)</td>
                                                      <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
@@ -174,7 +171,10 @@
                                                     @if (item.CaseStatusname == "專家尚未確認")
                                                 {
                                                         <td style="width: 100px;">
-                                                        <button type="button" style="border:none; background-color:transparent;"  data-bs-toggle="modal" data-bs-target="#mytaskingModal" data-modal-type="update" data-id="@item.caseid">
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingupdateModal"
+                                                                data-modal-type="update" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                          
                                                             <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
                                                         </button>
                                                         </td>
@@ -486,20 +486,51 @@
     </div>
 
     <!-- Modalupdate -->
-    <div class="modal fade" id="mytaskingModal" tabindex="-1" aria-labelledby="mytaskingupdateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mytaskingupdateModal" tabindex="-1" aria-labelledby="mytaskingupdateModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="mytaskingupdateModalLabel"></h5>
-                    <h5 class="modal-title" id="mytaskingupdateModalLabel"></h5>
+
+                    <div>
+                        <h5 class="modal-title" id="mytaskingModalLabel1"></h5>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <hr />
+
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div>
+                        委託時間: <input type="datetime" id="Modaltaskdatestart1">~
+                        <input type="datetime" id="Modaltaskdateend1">
+                    </div>
+                    <div>
+                        委託內容:  <input id="Modaltaskcontent1">
+                    </div>
+                    <div>
+                        委託價格: <input id="Modaltaskprice1">
+                    </div>
+                    <div>
+                        <select id="ModalCaseWorkPlace1">
+                            <option value="home">在家工作</option>
+                            <option value="specific">指定地點工作</option>
+                        </select>
+                       <input id="ModalCaseAddress1">
+                       
+                    </div>
+
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        狀態: <p id="ModalCaseStatusname1"></p>
+                    </div>
+                    <div>
+                         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-outline-primary">修改並儲存</button>
+                        <button type="button" class="btn btn-outline-primary">放棄委託</button>
+
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -523,7 +554,9 @@
         }
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+  
     <script>
+
 
         
         // //這是按鈕部分
@@ -578,36 +611,65 @@
 
         //===========點詳細功能:
 
+        // $(document).ready(function () {
+        //     $('button[data-modal-type="search"]').click(function () {
+        //         var caseId = $(this).data('id');
+        //         var taskMember = $(this).closest('tr').find('td:nth-child(2)').text();
+        //         var taskExpert = $(this).closest('tr').find('td:nth-child(3)').text();
+        //         var taskcontent = $(this).data('taskcontent');
+               
+        //         var taskdatestart = $(this).closest('tr').find('td:nth-child(5)').text();
+        //         var taskdateend = $(this).closest('tr').find('td:nth-child(6)').text();
+        //         var taskprice = $(this).closest('tr').find('td:nth-child(7)').text();
+        //         var CaseStatusname = $(this).closest('tr').find('td:nth-child(8)').text();
+        //         var WorkPlace = $(this).data('WorkPlace');
+        //         var Address = $(this).data('Address'); 
+
+        //         $('#mytaskingModalLabel').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
+        //         $('#Modaltaskcontent').html(taskcontent);
+        //         $('#Modaltaskdatestart').text(taskdatestart);
+        //         $('#Modaltaskdateend').text(taskdateend);
+        //         $('#Modaltaskprice').text(taskprice);
+        //         $('#ModalCaseStatusname').text(CaseStatusname);
+        //         $('#ModalCaseWorkPlace').text(WorkPlace);
+        //         $('#ModalCaseAddress').text(Address);
+        //     });
+        // });
         $(document).ready(function () {
-            $('button[data-modal-type="search"]').click(function () {
+            $('button[data-modal-type="update"]').click(function () {
                 var caseId = $(this).data('id');
                 var taskMember = $(this).closest('tr').find('td:nth-child(2)').text();
                 var taskExpert = $(this).closest('tr').find('td:nth-child(3)').text();
                 var taskcontent = $(this).data('taskcontent');
+               
                 var taskdatestart = $(this).closest('tr').find('td:nth-child(5)').text();
                 var taskdateend = $(this).closest('tr').find('td:nth-child(6)').text();
                 var taskprice = $(this).closest('tr').find('td:nth-child(7)').text();
                 var CaseStatusname = $(this).closest('tr').find('td:nth-child(8)').text();
                 var WorkPlace = $(this).data('WorkPlace');
-                var Address = $(this).data('Address'); // Fixed the missing quote here
+                console.log(WorkPlace);
+                var Address = $(this).data('Address');
+                console.log(Address);
 
-                $('#mytaskingModalLabel').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
-                $('#Modaltaskcontent').html(taskcontent);
-                $('#Modaltaskdatestart').text(taskdatestart);
-                $('#Modaltaskdateend').text(taskdateend);
-                $('#Modaltaskprice').text(taskprice);
-                $('#ModalCaseStatusname').text(CaseStatusname);
-                $('#ModalCaseWorkPlace').text(WorkPlace);
-                $('#ModalCaseAddress').text(Address);
+                $('#mytaskingModalLabel1').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
+                $('#Modaltaskcontent1').val(taskcontent);
+                $('#Modaltaskdatestart1').text(taskdatestart);
+                $('#Modaltaskdateend1').text(taskdateend);
+                $('#Modaltaskprice1').val(taskprice);
+                $('#ModalCaseStatusname1').text(CaseStatusname);
+                $('#ModalCaseWorkPlace1').val(WorkPlace);
+
+                if (WorkPlace == "在家工作") {
+                    $('#ModalCaseWorkPlace1').val('home');
+                    $('#ModalCaseAddress1').val(Address);
+                } else if (WorkPlace == "指定地點工作") {
+                    $('#ModalCaseWorkPlace1').val('specific');
+                    $('#ModalCaseAddress1').val(Address);
+                }
             });
         });
-        $(document).ready(function () {
-            $('button[data-modal-type="update"]').click(function () {
-              
-            });
-        });
 
-
+      
 
 
 
