@@ -171,7 +171,6 @@ namespace prjCoreWebWantWant.Models
             ExpertResume ExpertResumeInfo = _context.ExpertResumes.Where(r => r.ResumeId == ResumeId).
                 Select(r => r).FirstOrDefault();
             ExpertResumeInfo.HistoricalViews += 1;
-            //_context.ExpertResumes.Add(ExpertResumeInfo);
             _context.SaveChanges();
 
         }
