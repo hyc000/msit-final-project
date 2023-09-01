@@ -57,9 +57,17 @@
                                 {
                                     var remainingDays = (endTime.Value - today).Days;
 
-                                    @if (remainingDays < 5)
+                                    @if (remainingDays < 3)
                                     {
-                                        <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
+                                        @if (remainingDays < 1)
+                                        {
+                                            <span class='bx bx-time bx-tada' style="color:red">最後倒數</span>
+                                        }
+                                        else
+                                        {
+                                              <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
+                                        }
+                                      
                                     }
                                     else
                                     {

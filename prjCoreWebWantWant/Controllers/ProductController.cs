@@ -193,7 +193,7 @@ namespace prjShop.Controllers
 
             return RedirectToAction("Trash");
         }
-
+       
         // 垃圾桶-永久删除選定商品
         [HttpPost]
         public IActionResult DeleteSelected(List<int> selectedIds)
