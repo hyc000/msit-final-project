@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
 using X.PagedList;
 using CDictionary = prjCoreWebWantWant.Models.CDictionary;
@@ -243,7 +244,26 @@ namespace WantTask.Controllers
                 var postlist = _db.ForumPosts
                 .Where(p => p.AccountId == loggedInUser.AccountId)
                 .ToList();
-                return View(postlist);
+
+                List<ForumMSViewModel> articlesList = new List<ForumMSViewModel>();
+                foreach (var post in postlist)
+                {
+                    var viewModel = new ForumMSViewModel
+                    {
+                        PostId = post.PostId,
+                        Title = post.Title,
+                        AccountId = post.AccountId,
+                        ParentId = post.ParentId,
+                        PostContent = post.PostContent,
+                        Created = post.Created,
+                        Updated = post.Updated,
+                        Status = post.Status,
+                        ViewCount = post.ViewCount,
+                        LikeCount = post.LikeCount
+                    };
+                    articlesList.Add(viewModel);
+                }
+                return View(articlesList);
             }
             else
                 return RedirectToAction("Login", "Member");

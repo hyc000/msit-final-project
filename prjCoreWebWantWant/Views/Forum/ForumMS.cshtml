@@ -1,5 +1,9 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.ForumPost>
+﻿@using System.Web;
+@using HtmlAgilityPack;
+@using prjCoreWebWantWant.ViewModels
 
+
+@model List<ForumMSViewModel>
 @{
     ViewData["Title"] = "發布文章管理";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
@@ -22,7 +26,7 @@
             <div class="card-header mb-3">
                 <div class="row">
                     <div class="card-body">
-                        <ul class="nav nav-tabs nav-tabs-custom nav-justified"role="tablist">
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             <li class="nav-item" onclick="showApplied();">
                                 <a class="nav-link active " data-bs-toggle="tab" href="#Applied" role="tab">
                                     <span class="d-block d-sm-none"><i class="bi bi-send-check"></i></span>
@@ -43,20 +47,20 @@
     <table class="table" id="postManagement">
     <thead>
         <tr>
-            <th>
+            <th class="col-3">
                 文章標題
             </th>
-            <th>
-                內文摘要
+            <th class="col-6">
+                 內文摘要
             </th>
-            <th>
-                發文時間
+            <th class="col-1">
+                 發文時間
             </th>
-            <th>
-                最後更新時間
+            <th class="col-1">
+                 最後更新
             </th>
-            <th>
-                修改/刪除
+            <th class="col-1">
+                 修改/刪除
             </th>
         </tr>
     </thead>
@@ -67,8 +71,8 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PostContent)
-            </td>
+                @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Created)
             </td>
@@ -76,7 +80,9 @@
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                <a href="#" data-bs-toggle="modal" data-bs-target="#editModal-@item.PostId">
+                    <i class="fas fa-edit"></i>
+                </a>                
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
@@ -88,12 +94,63 @@
     </div>
 </div>
 
+<!-- 編輯文章的modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="editModal-@item.PostId" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <!--modal內容-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">編輯文章</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 編輯文章的表單 -->
+                    <form>
+                        <div class="form-group">
+                            <label for="title" name="Title">文章標題</label>
+                            <input type="text" class="form-control" id="title" name="title" value="@item.Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="title" name="Title">文章內容</label>
+                            <textarea type="text" class="form-control" id="PostContent" name="PostContent" value="">@item.PostContent</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary">保存變更</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 @section Styles{
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <style>
+    </style>
+
         }
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
     <script>
+
+        tinymce.init({
+            selector: 'textarea#PostContent',
+            menubar: false,
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify |' +
+                'bullist numlist checklist outdent indent | removeformat | code table help'
+        })
+
         $('#postManagement').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
