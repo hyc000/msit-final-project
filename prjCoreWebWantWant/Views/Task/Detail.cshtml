@@ -66,21 +66,25 @@
         </div>
     }*@
 
-   @* @{
-        var currentUrl = "https://www.ispan.com.tw"; //Context.Request.GetDisplayUrl();
-    }*@
+    @{
+        var currentUrl ="https://6e77-2001-b400-e2a9-8dd1-193f-e32e-37a7-5538.ngrok-free.app"; //Context.Request.GetDisplayUrl();
+    }
     
     @*<div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
     <div class="fb-share-button" data-href="https://www.facebook.com/alyson.tang.9/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Falyson.tang.9%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>*@
 
-    @*<div id="fb-root"></div>
+    <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
     <div class="fb-share-button" data-href="@currentUrl" data-layout="" data-size="">
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=@currentUrl&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a>
     </div>
 
-    <title>Your Website Title</title>
+ @*   <button >分享至Line</button>*@
+   
+
+  
+    @*<title>Your Website Title</title>
     <!-- You can use Open Graph tags to customize link previews.
     Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
     <meta property="og:url" content="@currentUrl" />
@@ -137,19 +141,7 @@
     <a id="fb-share-link" target="_blank" href="#" class="fb-xfbml-parse-ignore">分享</a>
 </div>
 
-<!-- 將以下 JavaScript 代碼放置在你的 Razor 檢視頁面中 -->
-<script>
-    // 获取当前页面的URL
-    var currentUrl = "@currentUrl";
 
-    // 编码URL
-    var encodedUrl = encodeURIComponent(currentUrl);
-
-    // 使用编码后的URL设置分享按钮的href属性
-    var fbShareLink = document.getElementById("fb-share-link");
-    fbShareLink.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl + "&src=sdkpreparse";
-    fbShareLink.textContent = "分享";
-</script>
 
 <title>Your Website Title</title>
 <meta property="og:url" content="@currentUrl" />
@@ -171,15 +163,37 @@
                             <h4 style="display: flex; align-items: center;">
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
-
                                 <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
                                     <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 45px; width: 38px;">
-                               </a>
+                                </a>
+                                <img id="lineShareButton" src="~/backstage1/img/line.png" alt="Line分享" style="height: 30px; width: 30px;">
+                                <img id="fbShareButton" src="~/backstage1/img/fb.png" alt="Facebook分享" style="height: 38px; width: 38px;">
+
                             </h4>
                         </div>
                         <p>@Model.TaskTitle</p>
                     </div>
 
+                    <script>
+                        document.getElementById('lineShareButton').addEventListener('click', function () {
+                            var urlToShare = window.location.href; // 獲取當前頁面的URL
+                            var shareText = '欸～我發現了這份任務，感覺很適合你耶！有興趣的話快來試試！';
+
+                            // 使用Line分享功能
+                            window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(urlToShare) + '&text=' + encodeURIComponent(shareText));
+                        });
+                    </script>
+
+                    <script>
+
+                        document.getElementById('fbShareButton').addEventListener('click', function () {
+                            var urlToShare = encodeURIComponent(window.location.href);// 獲取當前頁面的URL
+                            var shareText = '欸～我發現了這份任務，感覺很適合你耶！有興趣的話快來試試！';
+
+                            // 使用fb分享功能
+                            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(urlToShare), 'facebook-share-dialog', 'width=626,height=436');
+                        });
+                    </script>
 
               
 
