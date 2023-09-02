@@ -198,7 +198,12 @@
 
                             // 提示用户已复制链接
 
-                            Swal.fire('已複製連結')
+                            //Swal.fire('已複製連結')
+                            Swal.fire({
+                                title: '複製成功！',
+                                confirmButtonText: '好唷！'
+                                //icon: 'success'                                
+                            });
                             //alert("+ currentUrl " );
                         });
                     </script>
