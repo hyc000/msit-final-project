@@ -242,7 +242,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = from mc in _context.MemberCollections
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
-                    where mc.AccountId == GetAccountID() && mc.CaseId != null
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null && category == tl.TaskName.TaskName
                     select new CMemberCollectionViewModel
                     {
                         TaskTitle = tl.TaskTitle,
