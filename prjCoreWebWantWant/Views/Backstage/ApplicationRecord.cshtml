@@ -107,7 +107,7 @@
                                     <option value="">請選擇任務類型</option>
                                     @foreach (var item in q)
                                     {
-                                        <option name="category">@item</option>
+                                        <option name="category" value="@item">@item</option>
                                     }
                                 </select>
                             </form>
@@ -235,11 +235,29 @@
 
     @*Sweet Alert*@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
-        $('#applicationRecord').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-            },
-        });
+        //$('#applicationRecord').DataTable({
+        //    language: {
+        //        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+        //    },
+        //});
+
+        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
+        selTaskNamePublish.addEventListener('change' , () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`category=${selTaskNamePublish.value}`);
+            xhr.addEventListener('load', () => {
+                const applicationRecord = document.querySelector('#applicationRecord')
+                applicationRecord.innerHTML = xhr.responseText;
+                $('#applicationRecord').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                    },
+                });
+            })
+        })
     </script>
 </body>

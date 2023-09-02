@@ -320,6 +320,27 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(q.ToList());
         }
 
+        public IActionResult PartialApplicationRecord(string category)   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
+        {
+            var q = from al in _context.ApplicationLists
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category /*&& al.CaseStatusId == 21*/
+                    select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
+                    {
+                        TaskTitle = tl.TaskTitle,
+                        TaskDetail = tl.TaskDetail,
+                        RequiredNum = tl.RequiredNum,
+                        PayFrom = tl.PayFrom,
+                        TaskNameId = tl.TaskNameId,
+                        PaymentId = tl.PaymentId,
+                        CaseId = al.CaseId,
+                        ApplicationDate = al.ApplicationDate
+                    };
+
+            return PartialView(q.ToList());
+        }
+
         public IActionResult GetTownId(string City ,string District)
         {
             var townId = _context.Cities
