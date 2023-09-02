@@ -27,8 +27,6 @@
     <!-- glightbox css -->
     <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
 
- @*   <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />*@
-
    
     <style>
 
@@ -109,7 +107,7 @@
                                                                 select p.TaskName;
                                                            }
 
-                                                    <select class="form-select" id="selTaskNamePublish">
+                                            <select class="form-select col-4 mb-3" id="selTaskNamePublish">
                                                         <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q)
                                                         {
@@ -335,13 +333,14 @@
                 e.preventDefault(); // 取消連結的預設點擊行為
 
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: '確定要刪除嗎？',
+                    text: "刪除後不能復原唷！",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonColor: '#528EAF',
+                    cancelButtonColor: '#FF5151',
+                    cancelButtonText: '還是不要刪好了！',
+                    confirmButtonText: '確定要刪除！'                   
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
@@ -351,22 +350,27 @@
 
                         // 如果刪除成功，顯示成功訊息
                         //Swal.fire(
-                        //    'Deleted!',
-                        //    'Your file has been deleted.',
-                        //    'success'
+                        //    '刪除成功！',
+                        //    '趕快重新發布新任務吧！',
+                        //    'success'                           
+                          
                         //);
 
+                        Swal.fire({
+                            title: '刪除成功！',
+                            text: '趕快重新發布新任務吧！',
+                            icon: 'success',
+                            showConfirmButton: true, // 显示 "OK" 按钮
+                            confirmButtonText: '好唷！'
+                        });
+
                         // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
-                    }
-                    else{
-                      
-                    }
+                    }                    
                 });
-            })
-    
-      
-                        
-                        </script>
+            })   
+                              
+   </script>
+
 }
 
 
