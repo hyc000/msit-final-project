@@ -66,20 +66,7 @@
 }
 @section Scripts{
     <script>
-        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
-        const txtKeyword = document.querySelector('#txtKeyword');
-
-            selTaskNamePublish.addEventListener('change', () => {
-            txtKeyword.value="";
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '@Url.Content("~/Backstage/PartialCollection")');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`category=${selTaskNamePublish.value}`);
-            xhr.addEventListener('load', () => {
-                const Collect = document.querySelector('#Collect')
-                Collect.innerHTML = xhr.responseText;
-            })
-        })
+        
     </script>
 }
 
@@ -576,5 +563,54 @@
             selectedCaseId.value = Apply.value;
             console.log(selectedCaseId.value);
         })
+
+
+       
+        //$(document).ready(function () {
+        //    $('#selTaskNamePublish').change(function () {
+        //        $('#collection').DataTable({
+        //            language: {
+        //                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+        //            },
+        //        });
+        //        $('#txtKeyword').val("");
+        //        var selectedCategory = $(this).val();
+        //        $.ajax({
+        //            url: '@Url.Action("PartialCollection", "Backstage")',
+        //            type: 'POST',
+        //            data: { category: selectedCategory },
+        //            success: function (data) {
+        //                $('#Publish').html(data);
+
+        //                // DataTables
+
+
+        //            }
+        //        });
+        //    });
+        //});
+
+
+        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
+        const txtKeyword = document.querySelector('#txtKeyword');
+
+            selTaskNamePublish.addEventListener('change', () => {
+            txtKeyword.value="";
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Backstage/PartialCollection")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`category=${selTaskNamePublish.value}`);
+            xhr.addEventListener('load', () => {
+                const Collect = document.querySelector('#Collect')
+                Collect.innerHTML = xhr.responseText;
+                $('#collection').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                    },
+                });
+            })
+        })
+
+        
     </script>
 </body>
