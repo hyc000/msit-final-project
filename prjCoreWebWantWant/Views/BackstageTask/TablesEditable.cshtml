@@ -340,10 +340,7 @@
                     confirmButtonColor: '#528EAF',
                     cancelButtonColor: '#FF5151',
                     cancelButtonText: '還是不要刪好了！',
-                    confirmButtonText: '確定要刪除！',
-
-                    allowOutsideClick: false
-
+                    confirmButtonText: '確定要刪除！'                   
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
@@ -359,24 +356,12 @@
                           
                         //);
 
-                        //Swal.fire({
-                        //    title: '刪除成功！',
-                        //    text: '趕快重新發布新任務吧！',
-                        //    icon: 'success',
-                        //    showConfirmButton: true, // 显示 "OK" 按钮
-                        //    confirmButtonText: '好唷！'
-                        //});
-
                         Swal.fire({
                             title: '刪除成功！',
                             text: '趕快重新發布新任務吧！',
                             icon: 'success',
                             showConfirmButton: true, // 显示 "OK" 按钮
                             confirmButtonText: '好唷！'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                Swal.close(); // 手动关闭 Sweet Alert
-                            }
                         });
 
                         // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
