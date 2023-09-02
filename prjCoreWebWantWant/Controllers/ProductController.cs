@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using prjCoreWebWantWant.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -84,7 +86,112 @@ namespace prjShop.Controllers
 
             _context.Products.Add(p);
             _context.SaveChanges();
-            return RedirectToAction("List");
+
+            TempData["SweetAlertMessage"] = "新增成功!";
+            TempData["SweetAlertMessageType"] = "success";
+
+            return View("Create");
+        }
+        [HttpPost]
+        //批次新增
+        public IActionResult batchImport(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return Json(new { success = false, message = "" });
+            }
+
+            if (Path.GetExtension(file.FileName).ToLower() != ".xlsx")
+            {
+                return Json(new { success = false, message = "" });
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                file.CopyTo(stream);
+                stream.Position = 0;
+                using (var package = new XSSFWorkbook(stream))
+                {
+                    ISheet sheet = package.GetSheetAt(0);
+                    List<string> importErrors = new List<string>();
+
+                    if (sheet.LastRowNum <= 0)
+                    {
+                        return Json(new { success = false, message = "" });
+                    }
+
+                    for (int rowIdx = 0; rowIdx <= sheet.LastRowNum; rowIdx++)
+                    {
+                        IRow row = sheet.GetRow(rowIdx);
+                        if (row == null)
+                        {
+                            continue;
+                        }
+
+                        // 檢查每個欄位是否為空
+                        bool isRowInvalid = false;
+                        for (int cellIdx = 0; cellIdx < row.LastCellNum; cellIdx++)
+                        {
+                            ICell cell = row.GetCell(cellIdx);
+                            if (cell == null || cell.CellType == CellType.Blank)
+                            {
+                                isRowInvalid = true; // 如果任何一個欄位為空，將該列標記為無效
+                                break; // 停止檢查，因為已經確定該列無效
+                            }
+                        }
+                        if (isRowInvalid)
+                        {
+                            importErrors.Add($"");
+                            break;
+                        }
+
+                        try
+                        {
+                            Product p = new Product();
+                            if (rowIdx == 0)
+                            {
+                                continue; // 跳過標題列
+                            }
+
+                            if ("專家曝光".Equals(row.GetCell(0).StringCellValue))
+                            {
+                                p.CategoryId = 1;
+                            }
+                            else if ("任務曝光".Equals(row.GetCell(0).StringCellValue))
+                            {
+                                p.CategoryId = 2;
+                            }
+
+                            p.ProductName = row.GetCell(1).StringCellValue;
+                            p.TopType = row.GetCell(2).StringCellValue;
+                            p.TopDate = (int)row.GetCell(3).NumericCellValue;
+                            p.UnitPrice = (int)row.GetCell(4).NumericCellValue;
+                            p.UnitsInStock = (int)row.GetCell(5).NumericCellValue;
+                            p.ProductDesc = row.GetCell(6).StringCellValue;
+                            p.Status = "下架";
+                            p.PostStartDate = DateTime.Now;
+                            p.GetPoint = p.UnitPrice / 10;
+
+                            string filePath = Path.Combine(_host.WebRootPath, "shopimg", "noimage.jpg");
+                            p.CoverPhoto = "noimage.jpg";
+
+                            _context.Products.Add(p);
+                            _context.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            importErrors.Add($"");
+                        }
+                    }
+
+                    if (importErrors.Any())
+                    {
+                        return Json(new { success = false, message = string.Join("\n", importErrors) });
+                    }
+
+                    return Json(new { success = true, message = "" });
+                }
+            }
         }
         //類別載入用
         public IActionResult Category()
@@ -254,5 +361,19 @@ namespace prjShop.Controllers
 
             return Json(new { success = true });
         }
+        public IActionResult DownloadTemplate()
+        {
+            var templatePath = Path.Combine(_host.WebRootPath, "Excel", "");
+
+            if (System.IO.File.Exists(templatePath))
+            {
+                return PhysicalFile(templatePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "");
+            }
+            else
+            {
+                return NotFound(); // 如果文件不存在，返回404錯誤
+            }
+        }
+
     }
 }

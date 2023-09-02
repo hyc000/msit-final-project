@@ -49,9 +49,9 @@
                     <div class="col-md-6">
                         <label for="createdDate">創建時間：</label>
                         <div class="d-flex align-items-center">
-                            <input type="date" class="form-control" name="startDate" >
+                            <input type="date" class="form-control" name="startDate">
                             <span class="mx-2">~</span>
-                            <input type="date" class="form-control" name="endDate" >
+                            <input type="date" class="form-control" name="endDate">
                         </div>
                     </div>
                 </div>
@@ -64,11 +64,11 @@
                         <label for="priceRange">單價區間：</label>
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="minPrice" name="minPrice" >
+                                <input class="form-control" type="text" id="minPrice" name="minPrice">
                             </div>
                             <div class="mx-2">~</div>
                             <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="maxPrice" name="maxPrice" >
+                                <input class="form-control" type="text" id="maxPrice" name="maxPrice">
                             </div>
                         </div>
                     </div>
@@ -85,16 +85,43 @@
 
 
 
-
     <div class="container mt-6">
         <div class="row">
             <div class="col-md-12 d-flex justify-content-end">
 
                 <a class="btn btn-warning" id="trashButton" href="@Url.Content("~/product/trash")">垃圾桶</a>
                 <a class="btn btn-primary" id="createButton" href="@Url.Content("~/product/create")">新增商品</a>
+                @*<a class="btn btn-success" id="" href="#" type="button" data-bs-toggle="modal" data-bs-target="#">TEST</a>*@
             </div>
         </div>
+@*        <!-- 跳出視窗內容 -->
+        <div class="modal fade" id="">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>TEST</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
 
+                        <form method="post" enctype="multipart/form-data" id="importForm" action="/Product/batchImport">
+
+                            <div class="form-group">
+                                <label for="file">TEST</label>
+                                <input type="file" name="file" id="file" class="form-control" accept=".xlsx" required>
+                            </div>
+
+                            <br />
+                            <a class="btn btn-warning" asp-action="DownloadTemplate">TEST</a>
+                            <button type="button" id="importBtn" class="btn btn-primary" onclick="performImport()">TEST</button>
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
 
 
 
@@ -102,15 +129,15 @@
         <table id="table" class="table table-striped mt-5">
             <thead align="center">
                 <tr>
-                    <td></td>
-                    <td>商品</td>
-                    <td>類別</td>
-                    <td>單價</td>
-                    <td>庫存</td>
-                    <td>創建時間</td>
-                    <td>狀態</td>
-                    <td>編輯</td>
-                    <td>刪除</td>
+                    <th></th>
+                    <th>商品</th>
+                    <th>類別</th>
+                    <th>單價</th>
+                    <th>庫存</th>
+                    <th>創建時間</th>
+                    <th>狀態</th>
+                    <th>編輯</th>
+                    <th>刪除</th>
                 </tr>
             </thead>
             <tbody align="center" id="TABLE">
@@ -181,7 +208,7 @@
         </table>
     </div>
 
-    <!-- 跳出視窗內容 -->
+    <!-- 跳出修改商品視窗內容 -->
     <div class="modal" id="EditModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -285,6 +312,7 @@
         #TABLE td {
             vertical-align: middle;
         }
+
         .modal-content {
             max-height: 120vh;
             overflow-y: auto;
@@ -364,8 +392,6 @@
             });
         }
 
-
-
         // 加載修改頁數據
         function openEditModal(productId) {
             $.ajax({
@@ -385,7 +411,7 @@
 
                     $('#image-preview').attr('src', '@Url.Content("~/shopimg/")' + result.coverPhoto);
                     $('#image-preview').show();
-                  
+
                 },
                 error: function () {
                     alert('失敗。');
@@ -422,7 +448,7 @@
                                 window.location.reload();
                             }
                         });
-                      
+
                     } else {
                         alert('更新失敗。');
                     }
@@ -515,6 +541,41 @@
                 }
             });
             return false; // 阻止默認行為
+        }
+
+
+        function performImport() {
+            $.ajax({
+                url: '/Product/batchImport',
+                method: 'POST',
+                data: new FormData($('#importForm')[0]),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.success) {
+                        Swal.fire({
+                            title: '成功',
+                            text: data.message,
+                            icon: 'success',
+                        }).then(function () {
+                            window.location.href = '/Product/List';
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '失敗',
+                            text: data.message,
+                            icon: 'error',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '系統發生錯誤，請洽系統管理員！',
+                        icon: 'error',
+                    });
+                }
+            });
         }
     </script>
 

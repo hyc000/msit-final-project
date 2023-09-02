@@ -20,7 +20,7 @@
 </div>
 <div class="container mt-5">
     <!-- 新增顯示會員累積點數的標題 -->
-    <h3>您的累積紅利：<span>@ViewBag.Points 點</span></h3>
+    <h3 style="font-weight:700">您的累積紅利：<span style="color:crimson">@ViewBag.Points 點</span></h3>
     <br>
     <div class="row">
         <div class="col-md-3">
@@ -35,7 +35,7 @@
         </div>
         <div class="col-md-5 bg-light">
             <!-- 右邊說明文字在這裡 -->
-            <h4>曝光規則</h4>
+            <h3><strong>曝光規則</strong></h3>
             <ul>
                 <li>此加值服務，讓您的專業充滿曝光與可能！。</li>
                 <li>曝光商品後，會根據您選擇的專業履歷來進行曝光。</li>
@@ -60,7 +60,7 @@
     <br>
 
     @*  輪播圖片 *@
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="~/shopimg/BN1.png" class="d-block w-100" alt="Slide 1">
@@ -113,9 +113,9 @@
                         </div>
                             @*購物按鈕*@
                             <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
-                                <i class='bx bxs-shopping-bag addToCartButton' style="font-size: 2em; cursor: pointer; color:black" data-product-id="@item.ProductId" data-units-in-stock="@item.UnitsInStock"></i>
-
-
+                                <i class='bx bxs-shopping-bag addToCartButton' style="font-size: 2em; cursor: pointer; color:black"
+                                   onmouseover="this.style.color='cadetblue'" onmouseout="this.style.color='black'"
+                                   data-product-id="@item.ProductId" data-units-in-stock="@item.UnitsInStock"></i>
                             </div>
                     </div>
                 </div>

@@ -244,7 +244,7 @@
             return false;
         }
         //單一刪除的ALERT
-        function confirmDeleteSelect() {
+        function confirmRealDelete(productId) {
             Swal.fire({
                 title: '確定要刪除商品嗎?',
                 text: '刪除即無法復原。',
@@ -275,8 +275,7 @@
             return false;
         }
 
-      //全部刪除
-        //單一刪除的ALERT
+      //全部刪除   
         function confirmDeleteAll() {
             Swal.fire({
                 title: '確定要清空垃圾車嗎?',

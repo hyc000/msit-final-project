@@ -13,7 +13,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                      @*  <li class="breadcrumb-item"><a href="#">Home</a></li>*@
                      @*       <li class="breadcrumb-item active">Starter Page</li>*@
                     </ol>
                 </div><!-- /.col -->
@@ -95,7 +95,7 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <button type="submit" class="btn btn-primary">新增商品</button>
-                    <button type="button" class="btn btn-secondary" id="autoFillButton">一鍵輸入</button>
+                    <button type="button" class="btn btn-secondary" id="autoFillButton">Demo</button>
                     <button type="reset" class="btn btn-secondary" id="clearButton">清除</button>
                 </div>
             </div>
@@ -129,7 +129,6 @@
 @section Scripts
     {
     <script>
-
 
         function previewImage(event) {
             var imagePreview = document.getElementById('image-preview');
@@ -185,7 +184,24 @@
                 imagePreview.style.display = "none"; 
             });
         });
-  
 
+        //SweetAlert
+        $(document).ready(function () {
+            var sweetAlertMessage = '@Html.Raw(TempData["SweetAlertMessage"])';
+            var sweetAlertMessageType = '@Html.Raw(TempData["SweetAlertMessageType"])';
+
+            if (sweetAlertMessage) {
+                Swal.fire({
+                    icon: sweetAlertMessageType,
+                    title: sweetAlertMessage,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true, 
+                    position: 'top-end'
+                }).then(function () {
+                    window.location.href = '@Url.Content("~/Product/List")';
+                });
+            }
+        });
     </script>
-                    }
+ }
