@@ -103,7 +103,7 @@
                                             select p.TaskName;
                                 }
 
-                                <select class="form-select" id="selTaskNamePublish">
+                                <select class="form-select" id="selTaskName">
                                     <option value="">請選擇任務類型</option>
                                     @foreach (var item in q)
                                     {
@@ -137,10 +137,10 @@
                         <div class="table-responsive mb-4">
                             <table id="applicationRecord" class="table align-middle datatable dt-responsive table-check nowrap table table-hover"
                                    style="
-                  border-collapse: collapse;
-                  border-spacing: 0 8px;
-                  width: 100%;
-                ">
+                                          border-collapse: collapse;
+                                          border-spacing: 0 8px;
+                                          width: 100%;
+                                        ">
                                 <thead>
                                     <tr>
                                         <th scope="col" style="width:50px">
@@ -237,26 +237,28 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
-        //$('#applicationRecord').DataTable({
-        //    language: {
-        //        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-        //    },
-        //});
+        $('#applicationRecord').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+            },
+        });
 
-        const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
-        selTaskNamePublish.addEventListener('change' , () => {
+        const selTaskName = document.querySelector('#selTaskName');
+        selTaskName.addEventListener('change' , () => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`category=${selTaskNamePublish.value}`);
+            xhr.send(`category=${selTaskName.value}`);
             xhr.addEventListener('load', () => {
-                const applicationRecord = document.querySelector('#applicationRecord')
-                applicationRecord.innerHTML = xhr.responseText;
+                const Applied = document.querySelector('#Applied');
+                Applied.innerHTML = xhr.responseText;
+                
                 $('#applicationRecord').DataTable({
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                     },
                 });
+                
             })
         })
     </script>
