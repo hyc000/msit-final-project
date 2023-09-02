@@ -9,8 +9,8 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    // string skill = factory.SkillIDtoName(Model.AccountId);
-
+    string skill = factory.SkillIDtoName(Model.AccountId);
+    string cer = factory.CertificateDtoName(Model.AccountId);
 
     string abbreviatedName = membername != null && membername.Length > 0
         ? membername[0] + "小姐" : null;
@@ -223,7 +223,10 @@
 
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
 
-                        <div class="post-details2  mb-50">
+                        @{
+                            if (skill != null)
+                            {
+                            <div class="post-details2  mb-50">
                             <!-- Small Section Tittle -->
                             <div class="small-section-tittle">
                                 <h4 style="display: flex; align-items: center;">
@@ -233,34 +236,46 @@
                             </div>
                             <ul>
                                 @*失敗ㄉ一段QQname結尾的都是亂碼*@
-                               @* <li>@skill</li>*@
+                                <li>@skill</li>
                           @*      <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       
                                 <li>@Model.skillType</li>
                                 <li>@Model.skilltypename.ToString()</li>*@
                             </ul>
-                        </div>
-                        <div class="post-details2  mb-50">
-                            <!-- Small Section Tittle -->
-                            <div class="small-section-tittle">                            
-                                <h4 style="display: flex; align-items: center;">
-                                    <img src="~/backstage1/img/pencil.png" alt="任務圖片" style="height: 23px; width: 23px; margin-right: 5px;">
-                                    其他需求條件
-                                </h4>
-                            </div>
-                            <ul>
-                                @*<li></li>
-                                <li></li>        *@                        
-                            </ul>
-                        </div>
+                                </div>
+                            }
+                        }
 
 
                         @{
+                            if (cer != null)
+                            {
+                                <div class="post-details2  mb-50">
+                                    <!-- Small Section Tittle -->
+                                    <div class="small-section-tittle">                            
+                                        <h4 style="display: flex; align-items: center;">
+                                            <img src="~/backstage1/img/pencil.png" alt="任務圖片" style="height: 23px; width: 23px; margin-right: 5px;">
+                                            其他需求條件
+                                        </h4>
+                                    </div>
+                                    <ul>
+                                        <li>@cer</li>
+                                        @*  <li></li>   *@                     
+                                    </ul>
+                                </div>
+                            }
+                            }
+
+
+                        @{
+                            
                             NewIspanProjectContext db = new NewIspanProjectContext();
                             var q = db.TaskLists.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
-                        @{                            
+                        @{
+                            if (q != null)
+                            {
                                 <div class="post-details2  mb-50">
                                     <div class="small-section-tittle">
                                         <h4 style="display: flex; align-items: center;">
@@ -282,7 +297,7 @@
                                                @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
                                                 @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
                                         </div>
-                            
+                            }
                         }
                         <div class="post-details2  mb-50">                     
                             <div class="small-section-tittle">                               

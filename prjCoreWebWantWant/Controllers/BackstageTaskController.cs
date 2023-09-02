@@ -476,35 +476,20 @@ namespace WantTask.Controllers
                 vm.txtKeyword = "";
             }
 
-            // 聚合技能和證照
-            //var resumesWithSkillsAndCerts =
-            //    from resume in _context.Resumes
-            //    join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-            //    join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-            //    join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-            //    join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
-            //    group new { skill.SkillName, cer.CertificateName } by resume.ResumeId into grouped
-            //    select new
-            //    {
-            //        ResumeId = grouped.Key,
-            //        Skills = string.Join(", ", grouped.Select(x => x.SkillName).Distinct()),
-            //        Certificates = string.Join(", ", grouped.Select(x => x.CertificateName).Distinct())
-            //    };
-
-            var resumesWithSkillsAndCerts =
-    from resume in _context.Resumes
-    join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId into skillGroup
-    from skill in skillGroup.DefaultIfEmpty()  // Handle empty skill
-    join cer in _context.Certificates on skill != null ? skill.SkillId : (int?)null equals cer.CertificateId into certGroup
-    from cert in certGroup.DefaultIfEmpty()  // Handle empty certificate
-    group new { SkillName = skill != null ? skill.Skill : null, CertificateName = cert != null ? cert.CertificateName : null } by resume.ResumeId into grouped
-    select new
-    {
-        ResumeId = grouped.Key,
-        Skills = string.Join(", ", grouped.Select(x => x.SkillName).Where(x => x != null).Distinct()),
-        Certificates = string.Join(", ", grouped.Select(x => x.CertificateName).Where(x => x != null).Distinct())
-    };
-
+           //聚合技能和證照
+           var resumesWithSkillsAndCerts =
+               from resume in _context.Resumes
+               join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+               join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+               join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+               join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+               group new { skill.SkillName, cer.CertificateName } by resume.ResumeId into grouped
+               select new
+               {
+                   ResumeId = grouped.Key,
+                   Skills = string.Join(", ", grouped.Select(x => x.SkillName).Distinct()),
+                   Certificates = string.Join(", ", grouped.Select(x => x.CertificateName).Distinct())
+               };
 
 
             var query =
