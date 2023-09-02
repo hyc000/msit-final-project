@@ -7,6 +7,7 @@ using Microsoft.Identity.Client;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -220,20 +221,59 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult TaskCollection()
         {
+            //var q = from mc in _context.MemberCollections
+            //        join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+            //        join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+            //        where mc.AccountId == GetAccountID() && mc.CaseId != null
+            //        select new CMemberCollectionViewModel
+            //        {
+            //            TaskTitle = tl.TaskTitle,
+            //            TaskDetail = tl.TaskDetail,
+            //            RequiredNum = tl.RequiredNum,
+            //            PayFrom = tl.PayFrom,
+            //            TaskNameId =tl.TaskNameId,
+            //            PaymentId = tl.PaymentId,
+            //            CaseId = mc.CaseId,
+            //            CollectionDate = mc.CollectionDate,
+            //        };
+
             var q = from mc in _context.MemberCollections
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    join ts in _context.TaskSkills on tl.CaseId equals ts.CaseId // 添加這個 join
                     where mc.AccountId == GetAccountID() && mc.CaseId != null
+                    select new
+                    {
+                        Task = tl,
+                        Certificate = tc.Certficate.CertificateName,
+                        Member = mc
+                    }
+                    into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.Member.CollectionDate,
+                         // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
                     select new CMemberCollectionViewModel
                     {
-                        TaskTitle = tl.TaskTitle,
-                        TaskDetail = tl.TaskDetail,
-                        RequiredNum = tl.RequiredNum,
-                        PayFrom = tl.PayFrom,
-                        TaskNameId =tl.TaskNameId,
-                        PaymentId = tl.PaymentId,
-                        CaseId = mc.CaseId,
-                        CollectionDate = mc.CollectionDate
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        CollectionDate = grouped.Key.CollectionDate,
+                        Certificate = grouped.Select(g => g.Certificate).ToList()
                     };
+
 
             return View(q.ToList());
         }
@@ -242,18 +282,55 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = from mc in _context.MemberCollections
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    join ts in _context.TaskSkills on tl.CaseId equals ts.CaseId // 添加這個 join
                     where mc.AccountId == GetAccountID() && mc.CaseId != null && category == tl.TaskName.TaskName
+                    select new
+                    {
+                        Task = tl,
+                        Certificate = tc.Certficate.CertificateName,
+                        Member = mc
+                    }
+                   into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.Member.CollectionDate,
+                        // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
                     select new CMemberCollectionViewModel
                     {
-                        TaskTitle = tl.TaskTitle,
-                        TaskDetail = tl.TaskDetail,
-                        RequiredNum = tl.RequiredNum,
-                        PayFrom = tl.PayFrom,
-                        TaskNameId = tl.TaskNameId,
-                        PaymentId = tl.PaymentId,
-                        CaseId = mc.CaseId,
-                        CollectionDate = mc.CollectionDate
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        CollectionDate = grouped.Key.CollectionDate,
+                        Certificate = grouped.Select(g => g.Certificate).ToList()
                     };
+
+            //var q = from mc in _context.MemberCollections
+            //        join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
+            //        where mc.AccountId == GetAccountID() && mc.CaseId != null && category == tl.TaskName.TaskName
+            //        select new CMemberCollectionViewModel
+            //        {
+            //            TaskTitle = tl.TaskTitle,
+            //            TaskDetail = tl.TaskDetail,
+            //            RequiredNum = tl.RequiredNum,
+            //            PayFrom = tl.PayFrom,
+            //            TaskNameId = tl.TaskNameId,
+            //            PaymentId = tl.PaymentId,
+            //            CaseId = mc.CaseId,
+            //            CollectionDate = mc.CollectionDate
+            //        };
             //if (category != null)
             //{
             //    q.Where(mc => mc.TaskName.TaskName == category);
@@ -302,19 +379,58 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult ApplicationRecord()   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
+            //var q = from al in _context.ApplicationLists
+            //        join tl in _context.TaskLists on al.CaseId equals tl.CaseId 
+            //        join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
+            //        where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId /*&& al.CaseStatusId == 21*/
+            //        select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
+            //        {
+            //            TaskTitle = tl.TaskTitle,
+            //            TaskDetail = tl.TaskDetail,
+            //            RequiredNum = tl.RequiredNum,
+            //            PayFrom = tl.PayFrom,
+            //            TaskNameId = tl.TaskNameId,
+            //            PaymentId = tl.PaymentId,
+            //            CaseId = al.CaseId,
+            //            ApplicationDate = al.ApplicationDate,
+            //            Skill = ts.Skill.SkillName
+            //        };
+
             var q = from al in _context.ApplicationLists
-                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId        
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId /*&& al.CaseStatusId == 21*/
-                    select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId 
+                    join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
+                    //join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId
+                    select new
                     {
-                        TaskTitle = tl.TaskTitle,
-                        TaskDetail = tl.TaskDetail,
-                        RequiredNum = tl.RequiredNum,
-                        PayFrom = tl.PayFrom,
-                        TaskNameId = tl.TaskNameId,
-                        PaymentId = tl.PaymentId,
-                        CaseId = al.CaseId,
-                        ApplicationDate = al.ApplicationDate
+                        AppList = al,
+                        Task = tl,
+                        Skill = ts.Skill.SkillName
+                    }
+                    into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.AppList.ApplicationDate,
+                         // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        ApplicationDate = grouped.Key.ApplicationDate,
+                        Skill = grouped.Select(g => g.Skill).ToList()
                     };
 
             return View(q.ToList());
@@ -322,20 +438,57 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult PartialApplicationRecord(string category)   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
+            //var q = from al in _context.ApplicationLists
+            //        join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+            //        join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
+            //        where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category /*&& al.CaseStatusId == 21*/
+            //        select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
+            //        {
+            //            TaskTitle = tl.TaskTitle,
+            //            TaskDetail = tl.TaskDetail,
+            //            RequiredNum = tl.RequiredNum,
+            //            PayFrom = tl.PayFrom,
+            //            TaskNameId = tl.TaskNameId,
+            //            PaymentId = tl.PaymentId,
+            //            CaseId = al.CaseId,
+            //            ApplicationDate = al.ApplicationDate
+            //        };
             var q = from al in _context.ApplicationLists
                     join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
                     join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category /*&& al.CaseStatusId == 21*/
-                    select new CMemberCollectionViewModel                                            //條件錯誤 21是已投遞未處理 但此處要全部的資料
+                    //join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category
+                    select new
                     {
-                        TaskTitle = tl.TaskTitle,
-                        TaskDetail = tl.TaskDetail,
-                        RequiredNum = tl.RequiredNum,
-                        PayFrom = tl.PayFrom,
-                        TaskNameId = tl.TaskNameId,
-                        PaymentId = tl.PaymentId,
-                        CaseId = al.CaseId,
-                        ApplicationDate = al.ApplicationDate
+                        AppList = al,
+                        Task = tl,
+                        Skill = ts.Skill.SkillName
+                    }
+                   into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.AppList.ApplicationDate,
+                        // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        ApplicationDate = grouped.Key.ApplicationDate,
+                        Skill = grouped.Select(g => g.Skill).ToList()
                     };
 
             return PartialView(q.ToList());

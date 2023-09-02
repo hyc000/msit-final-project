@@ -115,5 +115,10 @@ namespace prjCoreWebWantWant.ViewModels
         public string? ApplicationDate { get; set; }
 
         public string? CollectionDate { get; set; }
+        //public List<string> Skill { get; set; } = new List<string>();
+        //public string? Skill { get; set; }
+        public List<string> Skill { get; set; }
+        public List<string> Certificate{ get; set; }
+
     }
 }
