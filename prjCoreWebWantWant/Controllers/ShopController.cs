@@ -821,7 +821,7 @@ namespace prjShop.Controllers
                 <div>訂單金額</div>
                 <div style=""font-size: 1.5rem;"">" + newOrder.PaidAmount+ @"</div>
             </div>
-            <a href=""https://localhost:7042/"" class=""btn"">查看詳情</a>
+            <a href=""https://localhost:7042/Member/Login"" class=""btn"">查看詳情</a>
         </div>
   <div class=""message"">
            *注意本郵件是由【WantWant】自動產出與發送，請勿直接回覆。<br>
