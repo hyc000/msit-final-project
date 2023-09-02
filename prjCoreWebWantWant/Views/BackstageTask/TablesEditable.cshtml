@@ -107,7 +107,7 @@
                                                                 select p.TaskName;
                                                            }
 
-                                            <select class="form-select col-4 mb-3" id="selTaskNamePublish">
+                                            <select class="form-select" id="selTaskNamePublish">
                                                         <option value="">請選擇任務類型</option>
                                                         @foreach (var item in q)
                                                         {
@@ -119,8 +119,8 @@
 
                                           <!--未上架的select標籤-->
                                             <div class="col-4 mb-3" style="display:none" id="NoPublishSelect">
-                                               <form class="app-search d-none d-lg-block">
-                                                    @{
+                                              @* <form class="app-search d-none d-lg-block">
+                                               *@     @{
                                                         NewIspanProjectContext _context2 = new NewIspanProjectContext();
                                                         var qq = from p in _context2.TaskNameLists
                                                                         select p.TaskName;
@@ -133,7 +133,7 @@
                                                             <option name="category">@item</option>
                                                         }
                                                     </select>
-                                                </form>
+                                             @*   </form>*@
                                             </div>
                                   
                                             <!--已上架 關鍵字搜尋-->                                           
@@ -363,8 +363,8 @@
                             showConfirmButton: true, // 显示 "OK" 按钮
                             confirmButtonText: '好唷！'
                         });
+                     
 
-                        // 如果需要重新載入頁面或執行其他操作，可以在這裡進行
                     }                    
                 });
             })   
