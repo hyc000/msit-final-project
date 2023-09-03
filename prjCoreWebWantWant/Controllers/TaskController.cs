@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using Azure;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,7 @@ using prjCoreWebWantWant.Models;
 
 
 using System.Text.Json;
+using X.PagedList;
 
 namespace prjWantWant_yh_CoreMVC.Controllers
 {
@@ -161,7 +164,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView(q);
         }
 
-        public IActionResult ListNew(CKeywordViewModel vm /*,int page = 1, int pageSize = 10*/)
+        public IActionResult ListNew(CKeywordViewModel vm, int page = 1)
         {
             IEnumerable<TaskList> datas = null;
             if (string.IsNullOrEmpty(vm.txtKeyword))
@@ -179,10 +182,12 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                  t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
                 );
             }
+            page = page < 1 ? 1 : page;
+            datas = datas.ToPagedList(page, 5);
             return View(datas);
         }
 
-        public IActionResult Partial1(string Category, CKeywordViewModel vm)
+        public IActionResult Partial1(string Category, CKeywordViewModel vm, int page = 1)
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -199,7 +204,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
-            return PartialView(q);
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = q.ToPagedList(page, 5);
+            return PartialView(result);
         }
 
         public IActionResult Apply(int? resumeId, int? caseId)

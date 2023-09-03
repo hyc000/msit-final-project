@@ -271,7 +271,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         CollectionDate = grouped.Key.CollectionDate,
-                        Certificate = grouped.Select(g => g.Certificate).ToList()
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList()
                     };
 
 
