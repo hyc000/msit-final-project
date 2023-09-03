@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
 
 namespace prjCoreWebWantWant.Controllers
 {
+   
     public class ExpertResumesApiController : Controller
     {
         private readonly NewIspanProjectContext _context;
@@ -20,26 +23,9 @@ namespace prjCoreWebWantWant.Controllers
             _work = new List<ExpertWork>();
             _env = env;
 
-            //Session取得
-            //  _memberID = 5; //假資料要刪喔
-
-
+        
         }
-        //private int GetMemberIDFromSession()
-        //{
-        //    if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
-        //    {
-        //        string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
-        //        MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
-        //        return loggedInUser.AccountId;
-        //    }
-        //    return 0;
-        //}
-
-
-
-
-
+      
         //星星評價API
         public IActionResult StarRatingAPI(int? resumesid)
         {
@@ -154,13 +140,8 @@ namespace prjCoreWebWantWant.Controllers
             return Json(qwork);
 
 
-
-
         }
 
-
-     
-               
-        
+    
     }
 }

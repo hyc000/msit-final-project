@@ -41,6 +41,6 @@ app.MapControllerRoute(
 //pattern: "{controller=Member}/{action=MemberAccount}/{id?}");
 
 app.MapHub<ChatHub>("/hubs/chat");
-
+app.MapHub<CExpertTask>("/cExpertTaskHub");
 
 app.Run();

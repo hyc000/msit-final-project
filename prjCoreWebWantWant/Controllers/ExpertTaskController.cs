@@ -5,7 +5,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using prjCoreWebWantWant.Hubs;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 
@@ -14,26 +16,21 @@ namespace prjCoreWebWantWant.Controllers
     public class ExpertTaskController : Controller
     {
         private readonly NewIspanProjectContext _context;
-        
+        private readonly IHubContext<CExpertTask> _hubContext;
         private int _memberID;
+        private string _memberName;
 
-        public ExpertTaskController(NewIspanProjectContext context)
+        public ExpertTaskController(NewIspanProjectContext context, IHubContext<CExpertTask> hubContext)
         {
+            _hubContext = hubContext;
             _context = context;
             
-           
-
         }
 
       
 
         #region 歷史委託
-        // GET: ExpertTask
-        //public async Task<IActionResult> ExpertList() //歷史委託
-        //{
-        //    var newIspanProjectContext = _context.TaskLists.Include(t => t.Payment).Include(t => t.PaymentDate).Include(t => t.Salary).Include(t => t.Town);
-        //    return View(await newIspanProjectContext.ToListAsync());
-        //}
+    
 
         public IActionResult ExpertListnew() //歷史委託
         {
@@ -102,16 +99,16 @@ namespace prjCoreWebWantWant.Controllers
             
             List<CExpertTaskViewModel> list2 = new List<CExpertTaskViewModel>();
             //mytasked
-            //CaseId:16=專家拒絕接案，18=專家案件已完成
+            //CaseId:16=專家拒絕接案，18=專家案件已完成 13=放棄委託//12專家案件已評價
             var q2 = _context.TaskLists
     .Include(b => b.ExpertApplications)
-    .Where(x => x.IsExpert == true && x.ExpertApplications.Any(y => y.AccountId == _memberID && (y.CaseStatusId == 16 || y.CaseStatusId == 18)))
+    .Where(x => x.IsExpert == true && x.ExpertApplications.Any(y => y.AccountId == _memberID && (y.CaseStatusId == 16 || y.CaseStatusId == 18 || y.CaseStatusId == 13 || y.CaseStatusId == 12 || y.CaseStatusId == 11)))
     .OrderBy(x => x.TaskEndDate)
     .Select(x => new
     {
         TaskList = x,
         ExpertApplications = x.ExpertApplications
-                             .Where(ea => ea.AccountId == _memberID && (ea.CaseStatusId == 16 || ea.CaseStatusId == 18))
+                             .Where(ea => ea.AccountId == _memberID && (ea.CaseStatusId == 16 || ea.CaseStatusId == 18 || ea.CaseStatusId == 13 || ea.CaseStatusId == 12 || ea.CaseStatusId == 11))
                              .Select(ea => new { ea.CaseStatusId, ea.AccountId })
     })
     .ToList();
@@ -253,18 +250,18 @@ namespace prjCoreWebWantWant.Controllers
             //===============================================================
             List<CExpertTaskViewModel> list5 = new List<CExpertTaskViewModel>();
             //taskedfromother
-            //CaseId:16=專家拒絕接案，18=專家案件已完成
-           
+            //CaseId:16=專家拒絕接案，18=專家案件已完成 13=委託人放棄委託//12專家案件已評價//11專家放棄委託
+
 
             var q5 = _context.TaskLists
     .Include(b => b.ExpertApplications)
-    .Where(x => x.IsExpert == true && x.AccountId == _memberID && x.ExpertApplications.Any(y => y.CaseStatusId == 16|| y.CaseStatusId == 18))
+    .Where(x => x.IsExpert == true && x.AccountId == _memberID && x.ExpertApplications.Any(y => y.CaseStatusId == 16|| y.CaseStatusId == 18 || y.CaseStatusId == 13 || y.CaseStatusId == 12||y.CaseStatusId == 11))
     .OrderBy(x => x.TaskEndDate)
     .Select(x => new
     {
         TaskList = x,
         ExpertApplications = x.ExpertApplications
-                             .Where(ea => ea.CaseStatusId == 16 || ea.CaseStatusId == 18)
+                             .Where(ea => ea.CaseStatusId == 16 || ea.CaseStatusId == 18 || ea.CaseStatusId == 13 || ea.CaseStatusId == 12 || ea.CaseStatusId == 11)
                              .Select(ea => new { ea.CaseStatusId, ea.AccountId })
     })
     .ToList();
@@ -567,9 +564,147 @@ namespace prjCoreWebWantWant.Controllers
         }
         #endregion
 
+        [HttpPost]
+        public IActionResult UpdateExpertTask([FromBody] CExpertTaskViewModel model)
+        {
+            try
+            {
+                var existingTask = _context.TaskLists.Find(model.caseid);
 
+                // 如果該筆資料不存在，則返回一個錯誤訊息
+                if (existingTask == null)
+                {
+                    return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
+                }
 
+                existingTask.TaskDetail = model.taskcontent;
+                existingTask.TaskStartDate = model.taskdatestart;
+                existingTask.TaskEndDate = model.taskdateend;
+                existingTask.PayFrom = model.taskprice;
+                existingTask.PayTo = model.taskprice;
 
+                if (model.WorkPlace == "在家工作")
+                {
+                    existingTask.WorkPlace = true;
+                    existingTask.Address = model.Address;
+                }
+                else
+                {
+                    existingTask.WorkPlace = false;
+                    existingTask.Address = model.Address;
+                }
+                //_context.Update(existingTask);
+                _context.SaveChanges();
+                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+
+                return Ok(new { message = "修改成功" });
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = $"更新失敗，原因：{ex.Message}" });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AbandonExpertTask([FromBody] CExpertTaskViewModel model)
+        {
+            try
+            {
+                var existingEA = _context.ExpertApplications.FirstOrDefault(x=>x.CaseId== model.caseid);
+
+                // 如果該筆資料不存在，則返回一個錯誤訊息
+                if (existingEA == null)
+                {
+                    return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
+                }
+
+                ChangeCaseStatusId(existingEA, 13);
+                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+
+                return Ok(new { message = "修改成功" });
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = $"更新失敗，原因：{ex.Message}" });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult OKExpertTask([FromBody] CExpertTaskViewModel model)
+        {
+            try
+            {
+                var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
+
+                // 如果該筆資料不存在，則返回一個錯誤訊息
+                if (existingEA == null)
+                {
+                    return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
+                }
+
+                ChangeCaseStatusId(existingEA, 17);
+
+                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+
+                return Ok(new { message = "修改成功" });
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = $"更新失敗，原因：{ex.Message}" });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult NoExpertTask([FromBody] CExpertTaskViewModel model)
+        {
+            try
+            {
+                var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
+
+                // 如果該筆資料不存在，則返回一個錯誤訊息
+                if (existingEA == null)
+                {
+                    return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
+                }
+                ChangeCaseStatusId(existingEA, 16);
+                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                return Ok(new { message = "修改成功" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = $"更新失敗，原因：{ex.Message}" });
+            }
+        }
+        [HttpPost]
+        public IActionResult DoneExpertTask([FromBody] CExpertTaskViewModel model)
+        {
+            try
+            {
+                var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
+
+                // 如果該筆資料不存在，則返回一個錯誤訊息
+                if (existingEA == null)
+                {
+                    return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
+                }
+                ChangeCaseStatusId(existingEA, 18);
+                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                return Ok(new { message = "修改成功" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Status = "Error", Message = $"更新失敗，原因：{ex.Message}" });
+            }
+        }
+        private void ChangeCaseStatusId(ExpertApplication existing, int statusId)
+        {
+            existing.CaseStatusId = statusId;
+            _context.SaveChanges();
+
+        }
 
         //-------------------------------------------------
         private bool TaskListExists(int id)
