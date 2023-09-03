@@ -107,20 +107,21 @@
                 </div>
                 <div class="modal-body">
                     <!-- 編輯文章的表單 -->
-                    <form>
+                    <form name="edit-@item.PostId">
+                        <input name="PostId" type="hidden" value="@item.PostId">
                         <div class="form-group">
                             <label for="title" name="Title">文章標題</label>
                             <input type="text" class="form-control" id="title" name="title" value="@item.Title">
                         </div>
                         <div class="form-group">
                             <label for="title" name="Title">文章內容</label>
-                            <textarea type="text" class="form-control" id="PostContent" name="PostContent" value="">@item.PostContent</textarea>
+                            <textarea type="text" class="form-control" id="PostContent" name="PostContent">@item.PostContent</textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <button type="button" class="btn btn-primary">保存變更</button>
+                    <button type="button" class="btn btn-primary" onclick="saveChanges('@item.PostId');">保存變更</button>
                 </div>
             </div>
         </div>
@@ -137,11 +138,58 @@
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script src="~/lib/tinymce/tinymce.min.js"></script>
+
     <script>
+        function saveChanges(postId) {
+            tinymce.activeEditor.save();
+            // 取得表單元素
+            const form = document.forms['edit-' + postId];
+
+            // 使用 FormData 收集表單數據
+            const formData = new FormData(form);
+
+            // 建立要提交的 URL（使用模板文字）
+            const url = `@Url.Content("~/Forum/EditPost/")${postId}`;
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '回覆成功',
+                            text: '即將重新整理頁面，請稍後。',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                        }).then(() => {
+                            // 成功訊息顯示後，重新整理頁面
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '回覆失敗，請確認資料。',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('錯誤:', error);
+                });
+        }
+
 
         tinymce.init({
             selector: 'textarea#PostContent',
             menubar: false,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            },
             plugins: [
                 'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
                 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
@@ -156,6 +204,9 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
             },
         });
+
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 }
