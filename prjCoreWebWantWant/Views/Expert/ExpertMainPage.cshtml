@@ -568,7 +568,8 @@
                     // 執行評分更新函數
                     updateRating();
                     //為了在每次查詢都可以更新計數
-
+                    // 更新TotalCount
+                    updateTotalCount(queryData);
                 } else {
                     console.error("Request failed. Returned status of " + xhr.status);
                 }
@@ -607,7 +608,24 @@
             });
 
             }
+        //為了在每次的partialview更新計數(XMLHttpRequest)
+        function updateTotalCount(queryData) {
+            var xhrTotalCount = new XMLHttpRequest();
+            var url = '/Expert/GetTotalCount?' + queryData;
 
+            xhrTotalCount.open('GET', url, true);
+
+            xhrTotalCount.onload = function () {
+                if (xhrTotalCount.status === 200) {
+                    var totalCount = JSON.parse(xhrTotalCount.responseText);
+                    document.getElementById("CountExpert").textContent = totalCount;
+                } else {
+                    console.error('Request for TotalCount failed. Returned status of ' + xhrTotalCount.status);
+                }
+            };
+
+            xhrTotalCount.send();
+        }
           
        
 

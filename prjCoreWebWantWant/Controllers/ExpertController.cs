@@ -135,10 +135,10 @@ namespace prjCoreWantMember.Controllers
             IEnumerable<CExpertSearchViewModel> result = datas.ToPagedList(currentPage, pageSize);
             return PartialView("_ResultsPartial", result);
         }
+
         public JsonResult GetTotalCount(CKeywordViewModel vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            CExperTaskFactory factory = new CExperTaskFactory(db);
 
             IEnumerable<CExpertSearchViewModel> datas = null;
             datas = from r in db.Resumes
@@ -180,7 +180,7 @@ namespace prjCoreWantMember.Controllers
             int totalCount = datas.Distinct().Count();
             return Json(totalCount);
         }
-
+       
         public IActionResult ExpertMemberPage()
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
