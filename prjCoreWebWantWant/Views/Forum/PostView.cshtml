@@ -11,7 +11,7 @@
 <!--最外層-->
 <div class="container col-9 ">
 <!--麵包屑-->
-    <nav class="breadcrumb  mt-4">
+    <nav class="breadcrumb  mt-4" style="font-size:32px">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Content("~/Forum/CategoryList")">討論區</a></li>
             <li class="breadcrumb-item">@Html.ActionLink(@categoryTitle, "PostList", "Forum", new { categoryId = categoryId }, null)</li>
