@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
+using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
 using X.PagedList;
 using CDictionary = prjCoreWebWantWant.Models.CDictionary;
@@ -243,11 +244,58 @@ namespace WantTask.Controllers
                 var postlist = _db.ForumPosts
                 .Where(p => p.AccountId == loggedInUser.AccountId)
                 .ToList();
-                return View(postlist);
+
+                List<ForumMSViewModel> articlesList = new List<ForumMSViewModel>();
+                foreach (var post in postlist)
+                {
+                    var viewModel = new ForumMSViewModel
+                    {
+                        PostId = post.PostId,
+                        Title = post.Title,
+                        AccountId = post.AccountId,
+                        ParentId = post.ParentId,
+                        PostContent = post.PostContent,
+                        Created = post.Created,
+                        Updated = post.Updated,
+                        Status = post.Status,
+                        ViewCount = post.ViewCount,
+                        LikeCount = post.LikeCount
+                    };
+                    articlesList.Add(viewModel);
+                }
+                return View(articlesList);
             }
             else
                 return RedirectToAction("Login", "Member");
         }
+
+        public async Task<IActionResult> EditPost(ForumPost editin, int id)
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
+                ForumPost post = await _db.ForumPosts.FindAsync(id);
+
+                if (post != null)
+                {
+                    // 更新文章內容及更新時間
+                    post.Title = editin.Title;
+                    post.PostContent = editin.PostContent;
+                    post.Updated = DateTime.Now;
+
+                    // 保存更改到數據庫
+                    await _db.SaveChangesAsync();
+                }
+
+                return Json(new { success = true });
+
+            }
+            else
+                return RedirectToAction("Login", "Member");
+        }
+
 
     }
 }

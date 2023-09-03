@@ -53,7 +53,7 @@ namespace prjCoreWebWantWant.Controllers
             return Content(comment.PostCommentId.ToString().Trim());
         }
 
-        public IActionResult PostComment(int? id)
+        public IActionResult PostComment(int? id)//暫時沒用到
         {
             var vm = new ForumPostViewModel();
             vm.MainComments = _db.ForumPostComments
@@ -63,6 +63,7 @@ namespace prjCoreWebWantWant.Controllers
 
             return PartialView(vm);
         }
+
 
 
 

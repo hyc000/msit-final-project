@@ -98,15 +98,16 @@ namespace prjCoreWebWantWant.Controllers
                     .Where(x=>x.CaseId==vm.taskid)
                     .FirstOrDefault();
                 expertapplication.RatingId = newratingid;
+            expertapplication.CaseStatusId = 12;//專家案件已評價
 
-                _context.Update(expertapplication);
+
+            _context.Update(expertapplication);
                 _context.SaveChanges();
 
             TempData["message"] = "請先登入";
 
-            return RedirectToAction("Index");
-            //}
-            //return View();
+            return RedirectToAction("ExpertListnew","ExpertTask");
+          
 
 
         }

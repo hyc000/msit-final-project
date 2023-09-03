@@ -9,8 +9,8 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    // string skill = factory.SkillIDtoName(Model.AccountId);
-
+    string skill = factory.SkillIDtoName(Model.AccountId);
+    string cer = factory.CertificateDtoName(Model.AccountId);
 
     string abbreviatedName = membername != null && membername.Length > 0
         ? membername[0] + "小姐" : null;
@@ -132,11 +132,11 @@
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
                                 <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
-                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 45px; width: 38px;">
+                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 49px; width: 38px;">
                                 </a>
-                                <img id="lineShareButton" src="~/backstage1/img/line.png" alt="Line分享" style="height: 30px; width: 30px;">
+                                <img id="lineShareButton" src="~/backstage1/img/line.png" alt="Line分享" style="height: 31px; width: 30px;">
                                 <img id="fbShareButton" src="~/backstage1/img/fb.png" alt="Facebook分享" style="height: 37px; width: 38px;">
-                                <img id="copy-link-button" src="~/backstage1/img/link.png" alt="複製連結" style="height: 31px; width: 31px;">
+                                <img id="copy-link-button" src="~/backstage1/img/link.png" alt="複製連結" style="height: 30px; width: 30px;">
 
                             </h4>
                         </div>
@@ -223,7 +223,8 @@
 
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
 
-                        <div class="post-details2  mb-50">
+                      
+                            <div class="post-details2  mb-50">
                             <!-- Small Section Tittle -->
                             <div class="small-section-tittle">
                                 <h4 style="display: flex; align-items: center;">
@@ -233,34 +234,43 @@
                             </div>
                             <ul>
                                 @*失敗ㄉ一段QQname結尾的都是亂碼*@
-                               @* <li>@skill</li>*@
+                                <li>@skill</li>
                           @*      <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       
                                 <li>@Model.skillType</li>
                                 <li>@Model.skilltypename.ToString()</li>*@
                             </ul>
-                        </div>
-                        <div class="post-details2  mb-50">
-                            <!-- Small Section Tittle -->
-                            <div class="small-section-tittle">                            
-                                <h4 style="display: flex; align-items: center;">
-                                    <img src="~/backstage1/img/pencil.png" alt="任務圖片" style="height: 23px; width: 23px; margin-right: 5px;">
-                                    其他需求條件
-                                </h4>
-                            </div>
-                            <ul>
-                                @*<li></li>
-                                <li></li>        *@                        
-                            </ul>
-                        </div>
+                                </div>
+                            
+                        
+
+
+                        
+                                <div class="post-details2  mb-50">
+                                    <!-- Small Section Tittle -->
+                                    <div class="small-section-tittle">                            
+                                        <h4 style="display: flex; align-items: center;">
+                                            <img src="~/backstage1/img/pencil.png" alt="任務圖片" style="height: 23px; width: 23px; margin-right: 5px;">
+                                            其他需求條件
+                                        </h4>
+                                    </div>
+                                    <ul>
+                                        <li>@cer</li>
+                                        @*  <li></li>   *@                     
+                                    </ul>
+                                </div>
+                          
 
 
                         @{
+                            
                             NewIspanProjectContext db = new NewIspanProjectContext();
                             var q = db.TaskLists.Where(t => t.CaseId == Model.CaseId).Select(t => t.PhotoPath).FirstOrDefault();
                         }
                         <hr style="border: 1.5px  double ;  color:#528EAF" />
-                        @{                            
+                        @{
+                            if (q != null)
+                            {
                                 <div class="post-details2  mb-50">
                                     <div class="small-section-tittle">
                                         <h4 style="display: flex; align-items: center;">
@@ -282,7 +292,7 @@
                                                @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.taskPhoto.Photo)" class="img-thumbnail" alt="沒有提供照片唷">*@
                                                 @*<img id="myself" src=@Url.Action("GetImage","Task")  class="img-fluid" style="height:85%; min-height:20%" alt="沒有提供照片唷">*@                            
                                         </div>
-                            
+                            }
                         }
                         <div class="post-details2  mb-50">                     
                             <div class="small-section-tittle">                               
@@ -414,19 +424,15 @@
                     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                     @{
                         if (HttpContextAccessor.HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
-                        {
-                           
+                        {                          
                         
-
                         string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                         CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
                         int id = loggedInUser.AccountId; //抓登入者的id
 
-
                         NewIspanProjectContext _context = new NewIspanProjectContext();
                         var resumes = db.Resumes
-                        .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23).ToList();
-                        
+                        .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23).ToList();                        
                     
                                      @foreach (var item in resumes)
                     { 

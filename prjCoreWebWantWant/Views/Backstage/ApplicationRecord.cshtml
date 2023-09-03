@@ -171,9 +171,13 @@
                                         <td style="text-align: center">@item.PayFrom</td>
                                         <td style="text-align: left">
                                             <div class="d-flex gap-2">
-                                                <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                <a href="#" class="badge badge-soft-primary font-size-11">Python</a>
+                                                        @foreach(var skill in item.Skill)
+                                                        {
+                                                            <a href="#" class="badge badge-soft-primary">@skill</a>
+                                                        }
+                                                       
+                                               @* <a href="#" class="badge badge-soft-primary">illustrator</a>
+                                                <a href="#" class="badge badge-soft-primary font-size-11">Python</a>*@
                                             </div>
                                         </td>
                                         <td style="text-align: left">@item.ApplicationDate</td>

@@ -34,6 +34,19 @@
         label {
             pointer-events: none;
         }
+
+        #scrollToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 }
 
@@ -98,6 +111,28 @@
         selCity.addEventListener('change', () => {
             loadDistrict();
         });
+
+        // 等待文檔完全載入後執行
+        document.addEventListener("DOMContentLoaded", function () {
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+            // 監聽卷軸事件
+            window.addEventListener("scroll", function () {
+                // 顯示或隱藏按鈕
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    scrollToTopBtn.style.display = "block";
+                } else {
+                    scrollToTopBtn.style.display = "none";
+                }
+            });
+
+            // 點選按鈕時回到頂部
+            scrollToTopBtn.addEventListener("click", function () {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            });
+        });
+
     </script>
 }
 
@@ -674,7 +709,7 @@
         @Html.PagedListPager(Model, page => Url.Action("ListNew", new { page, pageSize = Model.PageSize }))
     </div>*@
 
-
+    <button id="scrollToTopBtn">回到頂部</button>
 </body>
 
 @section subTitle{
