@@ -8,6 +8,8 @@ using prjCoreWebWantWant.ViewModels;
 using System.Drawing.Printing;
 using PagedList;
 using PagedList.Mvc;
+using DocumentFormat.OpenXml.InkML;
+using System.Globalization;
 
 namespace prjShop.Controllers
 {
@@ -70,15 +72,61 @@ namespace prjShop.Controllers
 
             return View(pagedOrders);
         }
+
+        public IActionResult ShoppingCharts()
+        {
+            /* --------------- 上架中的商品類型銷售數量---------------  */
+            var query1 = from od in _context.OrderDetails
+                        join p in _context.Products on od.ProductId equals p.ProductId
+                        where p.Status == "上架"
+                        group od by p.CategoryId into g
+                        select new 
+                        {
+                            CategoryID = g.Key,
+                            TotalQuantity = g.Sum(od => od.Quantity)
+                        };
+
+            // 將查詢結果存儲在ViewBag中
+            var chartData1 = query1.ToList();
+            ViewBag.ChartData1 = chartData1;
+
+
+
+            /* --------------- 每日總銷售數量---------------  */
+            var query2 = _context.OrderDetails
+                        .Join(_context.Orders,
+                            od => od.OrderId,
+                            o => o.OrderId,
+                            (od, o) => new { od.Quantity, o.CreateTime })
+                        .Where(x => x.CreateTime.HasValue) // 確保 CreateTime 不為空
+                        .GroupBy(x => x.CreateTime.Value.Date) // 使用 .Value.Date 將 DateTime? 轉換為 Date
+                        .Select(x => new { Date = x.Key, TotalQuantity = x.Sum(y => y.Quantity) });
+
+            // 將查詢結果存儲在ViewBag中
+            var chartData2 = query2.ToList();
+            ViewBag.ChartData2 = chartData2;
+
+
+
+            /* --------------- 前三大熱銷商品（長條圖）--------------- */
+            var query3 = from od in _context.OrderDetails
+                         group od by new
+                         {
+                             od.ProductId,
+                             od.Product.ProductName
+                         } into g
+                         select new
+                         {
+                             ProductId = g.Key.ProductId,
+                             ProductName = g.Key.ProductName,
+                             TotalQuantity = g.Sum(od => od.Quantity)
+                         };
+
+            // 將查詢結果存儲在ViewBag中
+            var chartData3 = query3.OrderByDescending(item => item.TotalQuantity).Take(3).ToList();
+            ViewBag.ChartData3 = chartData3;
+
+            return View();
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-

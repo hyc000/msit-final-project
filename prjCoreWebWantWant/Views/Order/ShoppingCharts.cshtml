@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewData["Title"] = "ShoppingCharts";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
+}
+
+
+<!-- 商品分類分佈圖表 -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 mb-3">訂單分析圖表</h1>
+                </div><!-- /.col -->
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <canvas id="productCategorySalesAnalysisChart" width="200" height="200"></canvas>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <canvas id="productSalesDailyAnalysisChart" width="200" height="200"></canvas>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <canvas id="popularProductsChart" width="200" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script>
+        /* --------------- 上架中的商品類型銷售數量（圓餅圖）--------------- */
+        var pieData = @Html.Raw(Json.Serialize(ViewBag.ChartData1));
+        // console.log(pieData);
+
+        // 注意這裡使用小寫的 categoryID、totalQuantity
+        var labels1 = pieData.map(item => {
+            if (item.categoryID === 1) {
+                return "專家曝光";
+            } else if (item.categoryID === 2) {
+                return "任務曝光";
+            }
+        });
+
+        var data1 = pieData.map(item => item.totalQuantity);
+        // console.log(labels1);
+        // console.log(data1);
+
+        var pieChartCanvas = document.getElementById("productCategorySalesAnalysisChart").getContext("2d");
+        var pieChart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: {
+                labels: labels1,
+                datasets: [{
+                    label: '銷售數量',
+                    data: data1,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '上架中的商品類型銷售數量',
+                        font: {
+                            size: 24,
+                        },
+                    },
+                },
+            },
+        });
+
+        /* --------------- 每日總銷售數量（折線圖）--------------- */
+        var lineData = @Html.Raw(Json.Serialize(ViewBag.ChartData2));
+        // console.log(lineData);
+
+        var labels2 = lineData.map(item => formatDate(item.date));
+        var data2 = lineData.map(item => item.totalQuantity);
+        // console.log(labels2);
+        // console.log(data2);
+
+        var lineChartCanvas = document.getElementById("productSalesDailyAnalysisChart").getContext("2d");
+        var lineChart = new Chart(lineChartCanvas, {
+            type: 'line',
+            data: {
+                labels: labels2,
+                datasets: [
+                    {
+                        label: '銷售數量',
+                        data: data2,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }
+                ],
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '每日總銷售數量', 
+                        font: {
+                            size: 24,
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day',
+                            tooltipFormat: 'yyyy-MM-dd',
+                            displayFormats: {
+                                day: 'yyyy-MM-dd'
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function formatDate(date) {
+            var d = new Date(date);
+            var year = d.getFullYear();
+            var month = String(d.getMonth() + 1).padStart(2, '0'); // 月份加 1，並補 0
+            var day = String(d.getDate()).padStart(2, '0'); // 補 0
+            return year + '-' + month + '-' + day;
+        }
+
+        /* --------------- 前三大熱銷商品（長條圖）--------------- */
+        var barData = @Html.Raw(Json.Serialize(ViewBag.ChartData3));
+        // console.log(barData);
+
+        var labels3 = barData.map(item => item.productName);
+        var data3 = barData.map(item => item.totalQuantity);
+        // console.log(data3);
+        var barChartCanvas = document.getElementById("popularProductsChart").getContext("2d");
+        var barChart = new Chart(barChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: labels3,
+                datasets: [{
+                    label: '銷售數量',
+                    data: data3,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '前三大熱銷商品',
+                        font: {
+                            size: 24,
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+
+    </script>
+}
+}
