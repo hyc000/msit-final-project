@@ -166,22 +166,15 @@
         }
 @section Scripts{
     <script>
-        
         document.addEventListener("DOMContentLoaded", function () {
         //按鈕
         const timevalue = document.querySelector('#timevalue');
             const btntime1 = document.querySelector('#btntime1');
             const btntime2 = document.querySelector('#btntime2');
             const tinemethod = document.querySelector('#tinemethod');
-
-        
-        btntime1.addEventListener('click', timeone);  // 正確的方式，不帶括號
-        btntime2.addEventListener('click', timetwo);  // 正確的方式，不帶括號
-            console.log("123");
-
+        btntime1.addEventListener('click', timeone); 
+        btntime2.addEventListener('click', timetwo);  
         function timeone() {
-                console.log("456");
-
                 tinemethod.value = 1;
                 console.log(tinemethod.value);
             const timeStartInput = document.getElementById("floatingtimesup");
@@ -195,14 +188,22 @@
 
         };
         function timetwo() {
-                console.log("789")
                 tinemethod.value = 2;
-                console.log(tinemethod.value);
-          
         };
-
-
         });
+
+        //SweetAlert
+        $(document).ready(function () {
+            var message = '@TempData["message1"]';
+            if (message) {
+                Swal.fire({
+                    title: '通知',
+                    text: message,
+                    icon: 'success'
+                });
+            }
+        });
+
     </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
@@ -210,6 +211,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }

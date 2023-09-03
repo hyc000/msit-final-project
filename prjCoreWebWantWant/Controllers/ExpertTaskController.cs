@@ -397,8 +397,6 @@ namespace prjCoreWebWantWant.Controllers
                 TempData["message"] = "請先登入";
                 return RedirectToAction("Login","Member");
             }
-
-
             CExperTaskFactory factory = new CExperTaskFactory(_context);
            string expertname= factory.MemberName(expertaccountid);
             string accountname = factory.MemberName(_memberID);
@@ -438,8 +436,6 @@ namespace prjCoreWebWantWant.Controllers
                     tasklist.WorkPlace =false;
                     tasklist.Address = vm.指定委託地點;
                 }
-
-            
                     tasklist.TaskStartDate = vm.委託時間起;
                     tasklist.TaskEndDate = vm.委託時間訖;
                
@@ -460,7 +456,7 @@ namespace prjCoreWebWantWant.Controllers
                 await _context.SaveChangesAsync();
 
 
-                TempData["message"] = "委託已送出!請靜候專家回覆，或使用聊天室通知專家。";
+                TempData["message1"] = "委託已送出!請靜候專家回覆，或使用聊天室通知專家。";
                
                 return RedirectToAction("ExpertMainPage", "Expert");
             }
@@ -596,7 +592,6 @@ namespace prjCoreWebWantWant.Controllers
                 //_context.Update(existingTask);
                 _context.SaveChanges();
                 var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
-
                 return Ok(new { message = "修改成功" });
             }
 

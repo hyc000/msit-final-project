@@ -112,48 +112,5 @@ namespace prjCoreWebWantWant.Controllers
 
         }
 
-
-        // GET: Ratings/Create
-        //    public IActionResult Create(int? id)
-        //{
-        //CRatingCreatViewModel vm=new CRatingCreatViewModel();
-        //vm.taskprincipal = _context.MemberAccounts
-        //    .Where(x => x.AccountId == _memberID)
-        //    .Select(u => u.Name)
-        //    .FirstOrDefault();
-        //vm.taskexperter = _context.MemberAccounts
-        //    .Where(x => x.AccountId == id)
-        //    .Select(u => u.Name)
-        //    .FirstOrDefault();
-
-
-        //return View(vm);
-        //}
-
-        // POST: Ratings/Create
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create()
-        {
-            //if (ModelState.IsValid) async
-            //{
-            //    _context.Add(rating); CRatingCreatViewModel vm
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(rating);
-            return View();
-        }
-
-
-
-        //不用了改回INDEX
-
-        //public async Task<IActionResult> RatingList()
-        //{
-        //    return View();
-        //}
-
     }
 }

@@ -656,7 +656,9 @@
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <style>
-    
+        .selected-li {
+            background-color: brown; /* 你可以選擇你想要的顏色 */
+        }
     </style>
         }
 @section Scripts{
@@ -664,9 +666,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
 
     <script>
-
-
-        
         // //這是按鈕部分
 
         var btnmytasking = document.querySelector('#btnmytasking');
@@ -681,8 +680,11 @@
             id3.style.display = 'none';
             id4.style.display = 'none';
             id5.style.display = 'none';
-            console.log(id1);
+
         };
+
+
+
 
         //開啟排序功能
 
@@ -725,7 +727,6 @@
                  var taskMember = $(this).closest('tr').find('td:nth-child(2)').text();
                  var taskExpert = $(this).closest('tr').find('td:nth-child(3)').text();
                  var taskcontent = $(this).data('taskcontent');
-               
                  var taskdatestart = $(this).closest('tr').find('td:nth-child(5)').text();
                  var taskdateend = $(this).closest('tr').find('td:nth-child(6)').text();
                  var taskprice = $(this).closest('tr').find('td:nth-child(7)').text();
@@ -752,13 +753,13 @@
             .build();
 
         connection.on("ReceiveUpdate", (message) => {
-            alert(message);  // 這裡只是一個簡單的例子，你可以根據需求來更新你的列表
+            alert(message);  
         });
 
         connection.start().catch(err => console.error(err.toString()));
        
 
-        //===========點修改功能
+        //===========打開修改功能Modal
        
         $(document).ready(function () {
             var updateurl = `@Url.Content("~/ExpertTask/UpdateExpertTask")`;
@@ -769,41 +770,34 @@
                 var taskMember = $(this).closest('tr').find('td:nth-child(2)').text();
                 var taskExpert = $(this).closest('tr').find('td:nth-child(3)').text();
                 var taskcontent = $(this).data('taskcontent');
-               
                 var taskdatestart = $(this).closest('tr').find('td:nth-child(5)').text();
                 var taskdateend = $(this).closest('tr').find('td:nth-child(6)').text();
                 var taskprice = $(this).data('taskprice');
                 var CaseStatusname = $(this).closest('tr').find('td:nth-child(8)').text();
-              
                 var WorkPlace = $(this).attr('data-WorkPlace');
-              
                 var Address = $(this).attr('data-Address');
-               
-
                 $('#mytaskingModalLabel1').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
                 $('#Modaltaskcontent1').val(taskcontent);
-           
                 $('#Modaltaskdatestart1').val(taskdatestart);
                 $('#Modaltaskdateend1').val(taskdateend);
                 $('#Modaltaskprice1').val(taskprice);
                 $('#ModalCaseStatusname1').text(CaseStatusname);
-             
                 if (WorkPlace == "在家工作") {
                     $('#ModalCaseWorkPlace1').val('home');
                     $('#ModalCaseAddress1').val(Address);
                     $('#ModalCaseAddress1').attr('readonly', true);
-                    
-                } else if (WorkPlace == "指定地點工作") {
+                } 
+                else if (WorkPlace == "指定地點工作") {
                     $('#ModalCaseWorkPlace1').val('specific');
                     $('#ModalCaseAddress1').val(Address);
-                   
                 }
             });
-        });
+       
 
-        //============修改存檔
+        //============點選Modal內修改存檔按鈕
         $('#btn-save-changes').click(function () {
             // 擷取修改後的資料
+            
             var caseId = mycaseId;
             var updatedTaskContent = $('#Modaltaskcontent1').val();
             var updatedTaskDateStart = $('#Modaltaskdatestart1').val();
@@ -833,28 +827,34 @@
                
                 success: function (response) {
                     if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        alert('更新成功!');
+                        Swal.fire({
+                            title: '成功',
+                            text: '修改成功!',
+                            icon: 'success'
+                        });
                         
                     } else {
-                        alert('更新失敗，請稍後再試。');
+                        Swal.fire({
+                            title: '失敗',
+                            text: '修改失敗，請稍後再試。',
+                            icon: 'error'
+                        });
                     }
                 },
                 error: function (err) {
-                   
-                    alert('發生錯誤，請稍後再試。');
-                    
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '發生錯誤，請稍後再試。',
+                        icon: 'error'
+                    });
                 }
-                   
             });
-                
         });
         //放棄按鈕
         $('#btn-no-changes').click(function () {
             // 擷取修改後的資料
             var caseId = mycaseId;
             var CaseStatus = $('#ModalCaseStatusname1').text();
-          
-
             // 建立要送至伺服器的物件
             var dataToUpdate = {
                 caseid: caseId, // 從之前擷取
@@ -862,34 +862,38 @@
             };
             // 使用AJAX將資料送至伺服器
             var updateurl = `@Url.Content("~/ExpertTask/AbandonExpertTask")`;
-
             $.ajax({
                 url: updateurl,
                 type: 'Post',
                 contentType: 'application/json', // 指定資料類型為JSON
                 data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
-
                 success: function (response) {
                     if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        alert('更新成功!');
+                        Swal.fire({
+                            title: '放棄',
+                            text: '放棄成功!',
+                            icon: 'success'
+                        });
 
                     } else {
-                        alert('更新失敗，請稍後再試。');
+                        Swal.fire({
+                            title: '失敗',
+                            text: '放棄失敗，請稍後再試。',
+                            icon: 'error'
+                        });
                     }
                 },
                 error: function (err) {
-
-                    alert('發生錯誤，請稍後再試。');
-
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '發生錯誤，請稍後再試。',
+                        icon: 'error'
+                    });
                 }
-
             });
-
         });
-
-
+        });
         //=======接受或拒絕
-              
         $(document).ready(function () {
             $('button[data-modal-type="updateok"]').click(function () {
                 var caseId = $(this).data('id');
@@ -919,7 +923,7 @@
                 }
             });
         });
-
+        
         //============修改存檔
         var updateurl = `@Url.Content("~/ExpertTask/OKExpertTask")`;
         let mycaseId;
@@ -931,36 +935,39 @@
             var dataToUpdate = {
                 caseid: caseId,
                 CaseStatusname: CaseStatus
-                        
             };
             // 使用AJAX將資料送至伺服器
-           
             $.ajax({
                 url: updateurl,
                 type: 'Post',
                 contentType: 'application/json', // 指定資料類型為JSON
                 data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
-               
                 success: function (response) {
                     if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        alert('更新成功!');
-                        
+                        Swal.fire({
+                            title: '接受',
+                            text: '已接受委託!',
+                            icon: 'success'
+                        });
                     } else {
-                        alert('更新失敗，請稍後再試。');
+                        Swal.fire({
+                            title: '失敗',
+                            text: '接受委託失敗，請稍後再試。',
+                            icon: 'error'
+                        });
                     }
                 },
                 error: function (err) {
-                   
-                    alert('發生錯誤，請稍後再試。');
-                    
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '發生錯誤，請稍後再試。',
+                        icon: 'error'
+                    });
                 }
-                   
             });
-                
         });
         //放棄按鈕
         $('#btn-nook-changes').click(function () {
-            // 擷取修改後的資料
             var caseId = mycaseId;
             var CaseStatus = $('#ModalCaseStatusname2').text();
             // 建立要送至伺服器的物件
@@ -976,30 +983,43 @@
                 type: 'Post',
                 contentType: 'application/json', // 指定資料類型為JSON
                 data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
-
                 success: function (response) {
                     if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        alert('更新成功!');
-
+                        Swal.fire({
+                            title: '拒絕',
+                            text: '已拒絕委託!',
+                            icon: 'success'
+                        });
                     } else {
-                        alert('更新失敗，請稍後再試。');
+                        Swal.fire({
+                            title: '失敗',
+                            text: '拒絕委託失敗，請稍後再試。',
+                            icon: 'error'
+                        });
                     }
                 },
                 error: function (err) {
-
-                    alert('發生錯誤，請稍後再試。');
-
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '發生錯誤，請稍後再試。',
+                        icon: 'error'
+                    });
                 }
-
             });
-
         });
-        //===拒絕==
+        //===完成==
         $('button[data-modal-type="updateoked"]').click(function () {
             var caseId = $(this).data('id');
             var updateurl = `@Url.Content("~/ExpertTask/DoneExpertTask")`;
-            var result = confirm("確認完成?");
-            if (result) {
+            Swal.fire({
+                title: '確認',
+                text: "確認完成?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確認',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
             $.ajax({
                 url: updateurl,
                 type: 'Post',
@@ -1008,23 +1028,30 @@
 
                 success: function (response) {
                     if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        alert('更新成功!');
-
+                            Swal.fire({
+                                title: '完成委託',
+                                text: '恭喜完成委託!',
+                                icon: 'success'
+                            });
                     } else {
-                        alert('更新失敗，請稍後再試。');
+                            Swal.fire({
+                                title: '失敗',
+                                text: '更改失敗，請稍後再試。',
+                                icon: 'error'
+                            });
                     }
                 },
                 error: function (err) {
-
-                    alert('發生錯誤，請稍後再試。');
-
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                            });
+                        }
+                    });
                 }
-
             });
-            }
-         else {}
-          });
-
+        });
 
         //在家工作跟指定地點工作切換
         $('#ModalCaseWorkPlace1').change(function () {
@@ -1043,7 +1070,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
