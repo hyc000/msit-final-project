@@ -73,17 +73,16 @@
             <td>
                 @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
                 </td>
-            <td>
+            <td class="text-center small">
                 @Html.DisplayFor(modelItem => item.Created)
             </td>
-            <td>
+            <td class="text-center small">
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
-            <td>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#editModal-@item.PostId">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a class="bi bi-trash-fill" asp-action="DeletePost" asp-route-id="@item.PostId" onclick="return postDelete(@item.PostId)">
+            <td class="text-center">
+                <a class="fa-solid fa-square-pen" href="#" data-bs-toggle="modal" data-bs-target="#editModal-@item.PostId" style="color:#255c93;font-size:1.8em">
+                </a> 
+                <a class="fa-solid fa-square-xmark ms-1" asp-action="DeletePost" asp-route-id="@item.PostId" onclick="return postDelete(@item.PostId)" style="color:#D60000;font-size:1.8em">
                 </a>
             </td>
         </tr>
