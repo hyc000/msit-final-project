@@ -573,6 +573,9 @@ namespace WantTask.Controllers
 
             return PartialView("ApproveAllResumePartialView", query.ToList());
 
+
+
+
         }
 
         //app表未處理AllResume的錄取btn
