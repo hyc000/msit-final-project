@@ -1,4 +1,7 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 
 <body>
 @foreach (var item in Model)
@@ -48,4 +51,17 @@
     <p></p>
 </div>
 }
+    <div class="d-flex justify-content-center bg-transparent border-0">
+        <div class="col-7 d-flex justify-content-around">
+            @Html.PagedListPager(
+            (IPagedList)Model,
+            page => Url.Action("Partial1", new { page }),
+            new PagedListRenderOptions {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },   // 設定頁碼的 CSS 類別
+            UlElementClasses = new string[] { "pagination" }  // 設定 ul 元素的 CSS 類別
+            }
+            )
+        </div>
+    </div>
 </body>
