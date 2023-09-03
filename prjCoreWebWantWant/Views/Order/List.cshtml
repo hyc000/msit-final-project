@@ -22,6 +22,36 @@
     <!-- /.content-header -->
     <!-- Main content -->
     <div class="container mt-4">
+
+      <div class="d-flex justify-content-center">
+    <div class="card me-3" style="width: 15rem; border-left: 4px solid #007bff;">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="avatar flex-shrink-0">
+                    <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+                </div>
+                <div class="ms-3">
+                    <h5 class="card-title">訂單數量</h5>
+                    <p class="card-text">$12,628</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 15rem; border-left: 4px solid #007bff;">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="avatar flex-shrink-0">
+                    <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+                </div>
+                <div class="ms-3">
+                    <h5 class="card-title">訂單金額</h5>
+                    <p class="card-text">$12,628</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
         <form id="searchForm" method="get" enctype="multipart/form-data">
 
             <div class="row align-items-center">
@@ -64,14 +94,8 @@
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
                     <button type="reset" class="btn btn btn-secondary">清除</button>
-                    <button type="button" class="btn btn btn-info" id="exportButton">匯出訂單</button>
-
-                </div>
-
-                <div class="row mt-3 ">
-                    <div class="d-flex">
-                        <a asp-action="ShoppingCharts" class="btn btn-primary">訂單分析圖表</a>
-                    </div>
+                    <button type="button" class="btn btn btn-warning" id="exportButton">匯出訂單</button>
+                         <a asp-action="ShoppingCharts" class="btn btn-success">訂單分析圖表</a>
 
                 </div>
 
