@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<WantTask.ViewModels.CApproveViewModel>
-
+@using WantTask.ViewModels;
+   
 <head>
 
 </head>
@@ -26,6 +27,7 @@
             <tbody>
                 @{
                     int count = 0;
+                    CApproveViewModel currentResume = null; // 用於跟蹤當前處理的履歷
 
                     foreach (var item in Model)
                     {
@@ -36,7 +38,16 @@
                         {
                             autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
                         }
-                        count++;
+                        //count++;
+
+                        // 檢查當前履歷是否與前一個相同
+                        if (currentResume == null || currentResume.ResumeId != item.ResumeId)
+                        {
+                            // 如果是不同的履歷，則顯示新的行
+                            count++;
+                            currentResume = item; // 更新當前履歷
+                        }
+
                         <tr data-id="1">
                             <td data-field="id">@count</td>
                             <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
@@ -45,19 +56,25 @@
                             @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                             <td>
                                 <div class="d-flex gap-2">
-                                 @foreach (var cert in item.CertificateNames)
+                                    @if (item.CertificateNames != null)
                                     {
-                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
+                                        foreach (var cert in item.CertificateNames.Distinct())
+                                    {
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>                                         
+                                    }
                                     }
                                     </div>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                     @foreach (var skill in item.SkillNames)
-                                  {
-                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
+                                    @if (item.SkillNames != null)
+                                    {
+                                        foreach (var skill in item.SkillNames.Distinct())
+                                    {
+                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>                                        
                                     }
-                                    </div>
+                                    }
+                                </div>
                             </td>
                             <td>
                                 <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">

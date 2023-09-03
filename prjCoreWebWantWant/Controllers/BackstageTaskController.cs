@@ -471,69 +471,107 @@ namespace WantTask.Controllers
             //return PartialView(query);
 
 
-            if (vm.txtKeyword == null)
-            {
-                vm.txtKeyword = "";
-            }
+            //if (vm.txtKeyword == null)
+            //{
+            //    vm.txtKeyword = "";
+            //}
 
-            //聚合技能和證照
-            var resumesWithSkillsAndCerts =
-                from resume in _context.Resumes
-                join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
-                join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
-                join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
-                join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
-                group new { skill.SkillName, cer.CertificateName } by resume.ResumeId into grouped
-                select new
-                {
-                    ResumeId = grouped.Key,
-                    Skills = string.Join(", ", grouped.Select(x => x.SkillName).Distinct()),
-                    Certificates = string.Join(", ", grouped.Select(x => x.CertificateName).Distinct())
-                };
+            ////聚合技能和證照
+            //var resumesWithSkillsAndCerts =
+            //    from resume in _context.Resumes
+            //    join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+            //    join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+            //    join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+            //    join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+            //    group new { skill.SkillName, cer.CertificateName } by resume.ResumeId into grouped
+            //    select new
+            //    {
+            //        ResumeId = grouped.Key,
+            //        Skills = string.Join(", ", grouped.Select(x => x.SkillName).Distinct()),
+            //        Certificates = string.Join(", ", grouped.Select(x => x.CertificateName).Distinct())
+            //    };
 
 
-            var query =
-                from app in _context.ApplicationLists
-                join task in _context.TaskLists on app.CaseId equals task.CaseId
-                join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
-                join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
-                join resumeSkillsCerts in resumesWithSkillsAndCerts on resume.ResumeId equals resumeSkillsCerts.ResumeId
-                join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
-                where app.CaseStatusId == 21
-                select new CApproveViewModel
-                {
-                    CaseId = task.CaseId,
-                    ResumeId = resume.ResumeId,
-                    TaskNameId = task.TaskNameId,
-                    CaseStatusId = app.CaseStatusId,
-                    Name = member.Name,
-                    SkillName = resumeSkillsCerts.Skills,
-                    CertificateName = resumeSkillsCerts.Certificates,
-                    Autobiography = resume.Autobiography,
-                    PublishStart = task.PublishStart,
-                    TaskStart = task.TaskStartDate,
-                    TaskTitle = task.TaskTitle,
-                    TaskDetail = task.TaskDetail,
-                    TaskName = taskname.TaskName
-                };
+            //var query =
+            //    from app in _context.ApplicationLists
+            //    join task in _context.TaskLists on app.CaseId equals task.CaseId
+            //    join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
+            //    join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
+            //    join resumeSkillsCerts in resumesWithSkillsAndCerts on resume.ResumeId equals resumeSkillsCerts.ResumeId
+            //    join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
+            //    where app.CaseStatusId == 21
+            //    select new CApproveViewModel
+            //    {
+            //        CaseId = task.CaseId,
+            //        ResumeId = resume.ResumeId,
+            //        TaskNameId = task.TaskNameId,
+            //        CaseStatusId = app.CaseStatusId,
+            //        Name = member.Name,
+            //        SkillName = resumeSkillsCerts.Skills,
+            //        CertificateName = resumeSkillsCerts.Certificates,
+            //        Autobiography = resume.Autobiography,
+            //        PublishStart = task.PublishStart,
+            //        TaskStart = task.TaskStartDate,
+            //        TaskTitle = task.TaskTitle,
+            //        TaskDetail = task.TaskDetail,
+            //        TaskName = taskname.TaskName
+            //    };
 
-            // Filter by category and keyword
-            if (category != null)
-            {
-                query = query.Where(a => a.TaskName == category
-                            && (a.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                                || a.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())))
-                             .GroupBy(app => app.ResumeId)
-                             .Select(g => g.First());
-            }
-            else
-            {
-                query = query.Where(app => app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                                    || app.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
-                             .Distinct();
-            }
+            //// Filter by category and keyword
+            //if (category != null)
+            //{
+            //    query = query.Where(a => a.TaskName == category
+            //                && (a.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //                    || a.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper())))
+            //                 .GroupBy(app => app.ResumeId)
+            //                 .Select(g => g.First());
+            //}
+            //else
+            //{
+            //    query = query.Where(app => app.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
+            //                        || app.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
+            //                 .Distinct();
+            //}
 
-            return PartialView(query);
+            //return PartialView(query);
+
+            //9/3舊
+            var query = (from app in _context.ApplicationLists
+                         join task in _context.TaskLists on app.CaseId equals task.CaseId
+                         join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
+                         join member in _context.MemberAccounts on resume.AccountId equals member.AccountId
+                         join resumeskill in _context.ResumeSkills on resume.ResumeId equals resumeskill.ResumeId
+                         join skill in _context.Skills on resumeskill.SkillId equals skill.SkillId
+                         join resumecer in _context.ResumeCertificates on resume.ResumeId equals resumecer.ResumeId
+                         join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
+                         join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
+
+                         where app.CaseStatusId == 21
+
+                         select new CApproveViewModel
+                         {
+                             CaseId = task.CaseId,
+                             ResumeId = resume.ResumeId,
+                             TaskNameId = task.TaskNameId,
+                             CaseStatusId = app.CaseStatusId,
+                             Name = member.Name,
+                             SkillName = skill.SkillName,
+                             CertificateName = cer.CertificateName,
+                             Autobiography = resume.Autobiography,
+                             PublishStart = task.PublishStart,
+                             TaskStart = task.TaskStartDate,
+                             TaskTitle = task.TaskTitle,
+                             TaskDetail = task.TaskDetail,
+                             TaskName = taskname.TaskName,
+                             CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
+                             SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
+
+                         }).AsEnumerable()
+
+                       .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
+                       .Distinct();
+
+            return PartialView("ApproveAllResumePartialView", query.ToList());
 
         }
 
