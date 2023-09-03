@@ -51,19 +51,25 @@
                         <input type="date" class="form-control" name="endDate" id="endDate">
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <label for="purchaseTime">購買時間升/降冪：</label>
+                    <select name="purchaseTime" id="purchaseTime" class="form-control">
+                        <option value="">請選擇</option>
+                        <option value="asc">升冪</option>
+                        <option value="desc">降冪</option>
+                    </select>
+                </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
-
+                    <button type="reset" class="btn btn btn-secondary">清除</button>
                     <button type="button" class="btn btn btn-info" id="exportButton">匯出訂單</button>
 
                 </div>
 
                 <div class="row mt-3 ">
                     <div class="d-flex">
-                        <button type="button" class="btn btn-outline-primary" onclick="sortTable(true)">訂單時間升冪</button>
-                        <button type="button" class="btn btn-outline-primary" onclick="sortTable(false)">訂單時間降冪</button>
                         <a asp-action="ShoppingCharts" class="btn btn-primary">訂單分析圖表</a>
                     </div>
 
@@ -120,9 +126,9 @@
                         <td>@order.CreateTime</td>
                         <td>@order.Account.Name</td>
                         <td></td>
-                        <td>@order.OrderPrice</td>
-                        <td>@order.OrderUsePoint</td>
-                        <td>@order.PaidAmount</td>
+                        <td>@order.OrderPrice 元</td>
+                        <td>@order.OrderUsePoint 點</td>
+                        <td>@order.PaidAmount 元</td>
                     </tr>
                     <!-- 可展開/收起的內容 -->
                     <tr>
@@ -220,6 +226,7 @@
                 var endDate = $('#endDate').val();
                 var orderId = $('#orderId').val();
                 var name = $('#name').val();
+                var purchaseTime = $('#purchaseTime').val(); // 获取升/降冪的值
 
                 $.ajax({
                     url: '@Url.Action("List", "Order")',
@@ -229,7 +236,8 @@
                         startDate: startDate,
                         endDate: endDate,
                         orderId: orderId,
-                        name: name
+                        name: name,
+                        purchaseTime: purchaseTime // 将排序方式传递到服务器端
                     },
                     success: function (result) {
                         $('#table tbody').html($(result).find('#table tbody').html());

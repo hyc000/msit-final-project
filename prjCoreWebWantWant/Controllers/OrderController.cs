@@ -21,7 +21,7 @@ namespace prjShop.Controllers
         {
             _context = context;
         }
-        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name, int page = 1)
+        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name, string? purchaseTime, int page = 1)
         {
             var query = _context.Orders
                 .Include(o => o.OrderDetails)
@@ -35,8 +35,7 @@ namespace prjShop.Controllers
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                     .OrderByDescending(o => o.CreateTime);
-
-
+           
 
             // 应用筛选条件
             if (categorys != null)
@@ -62,6 +61,22 @@ namespace prjShop.Controllers
             if (!string.IsNullOrEmpty(name))
             {
                 query = (IOrderedQueryable<Order>)query.Where(o => o.Account.Name.Contains(name));
+            }
+            if (!string.IsNullOrEmpty(purchaseTime))
+            {
+                if (purchaseTime == "asc")
+                {
+                    query = query.OrderBy(o => o.CreateTime);
+                }
+                else if (purchaseTime == "desc")
+                {
+                    query = query.OrderByDescending(o => o.CreateTime);
+                }
+            }
+            else
+            {
+                // 默认排序方式（可根据需求设置）
+                query = query.OrderByDescending(o => o.CreateTime);
             }
 
             int pageSize = 10;
