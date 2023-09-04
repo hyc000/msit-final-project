@@ -27,7 +27,10 @@
             <tbody>
                 @{
                     int count = 0;
-                    CApproveViewModel currentResume = null; // 用於跟蹤當前處理的履歷
+                    List<string> displayedCertificateItems = new List<string>();
+                    List<string> displayedSkillItems = new List<string>();
+
+                    //CApproveViewModel currentResume = null; // 用於跟蹤當前處理的履歷
 
                     foreach (var item in Model)
                     {
@@ -38,15 +41,15 @@
                         {
                             autobiography = autobiography.Substring(0, maxDisplayLength) + " ..."; // 截斷字串
                         }
-                        //count++;
+                        count++;
 
                         // 檢查當前履歷是否與前一個相同
-                        if (currentResume == null || currentResume.ResumeId != item.ResumeId)
-                        {
-                            // 如果是不同的履歷，則顯示新的行
-                            count++;
-                            currentResume = item; // 更新當前履歷
-                        }
+                        //if (currentResume == null || currentResume.ResumeId != item.ResumeId)
+                        //{
+                        //    // 如果是不同的履歷，則顯示新的行
+                        //    count++;
+                        //    currentResume = item; // 更新當前履歷
+                        //}
 
                         <tr data-id="1">
                             <td data-field="id">@count</td>
@@ -56,24 +59,80 @@
                             @*<td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                             <td>
                                 <div class="d-flex gap-2">
-                                    @if (item.CertificateNames != null)
+                                    @*@if (item.CertificateNames != null)
                                     {
                                         foreach (var cert in item.CertificateNames.Distinct())
                                     {
                                     <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>                                         
                                     }
+                                    }*@
+
+                                    @*9/4*@
+                                    @*@if (item.CertificateNames != null)
+                                    {
+                                        var distinctCertificates = item.CertificateNames.Distinct();
+                                        foreach (var cert in distinctCertificates)
+                                        {
+                                            <a href="#" class="badge badge-soft-primary">@cert</a>
+                                        }
+                                    }*@
+
+                                    @*@if (item.CertificateNames != null)
+                                    {
+                                        string certificateNames = string.Join(", ", item.CertificateNames.Distinct());
+                                        <a href="#" class="badge badge-soft-primary">@certificateNames</a>
+                                    }*@
+
+                                    @if (item.CertificateNames != null)
+                                    {
+                                        foreach (var certificateName in item.CertificateNames.Distinct())
+                                        {
+                                            if (!displayedCertificateItems.Contains(certificateName))
+                                            {
+                                                displayedCertificateItems.Add(certificateName);
+                                                <a href="#" class="badge badge-soft-primary">@certificateName</a>
+                                            }
+                                        }
                                     }
+
+
                                     </div>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    @if (item.SkillNames != null)
+                                    @*@if (item.SkillNames != null)
                                     {
                                         foreach (var skill in item.SkillNames.Distinct())
                                     {
                                     <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>                                        
                                     }
+                                    }*@
+
+                                   @* @if (item.SkillNames != null)
+                                    {
+                                        var distinctSkills = item.SkillNames.Distinct();
+                                        foreach (var skill in distinctSkills)
+                                        {
+                                            <a href="#" class="badge badge-soft-primary">@skill</a>
+                                        }
+                                    }*@
+                                   @* @if (item.SkillNames != null)
+                                    {
+                                        string skillNames = string.Join(", ", item.SkillNames.Distinct());
+                                        <a href="#" class="badge badge-soft-primary">@skillNames</a>
+                                    }*@
+                                    @if (item.SkillNames != null)
+                                    {
+                                        foreach (var skillName in item.SkillNames.Distinct())
+                                        {
+                                            if (!displayedSkillItems.Contains(skillName))
+                                            {
+                                                displayedSkillItems.Add(skillName);
+                                                <a href="#" class="badge badge-soft-primary">@skillName</a>
+                                            }
+                                        }
                                     }
+                                   
                                 </div>
                             </td>
                             <td>

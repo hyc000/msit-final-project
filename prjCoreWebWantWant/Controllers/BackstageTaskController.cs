@@ -535,7 +535,7 @@ namespace WantTask.Controllers
 
             //return PartialView(query);
 
-            //9/3舊
+            //9 / 3舊
             var query = (from app in _context.ApplicationLists
                          join task in _context.TaskLists on app.CaseId equals task.CaseId
                          join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
@@ -565,20 +565,16 @@ namespace WantTask.Controllers
                              TaskName = taskname.TaskName,
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
                              SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
-                         }).Where(app => app.TaskName == category)
-                           .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
-                           .Select(group => group.First()); // 選擇每個群組中的第一個項目
-                           
-            //  }).AsEnumerable()
+                            //}).Where(app => app.TaskName == category)
+                            //  .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
+                            //  .Select(group => group.First()); // 選擇每個群組中的第一個項目
 
-            //.Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
-            //.Distinct();
+                         }).AsEnumerable()
+
+                            .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
+                            .Distinct();
 
             return PartialView("ApproveAllResumePartialView", query.ToList());
-
-
-
-
         }
 
         //app表未處理AllResume的錄取btn
