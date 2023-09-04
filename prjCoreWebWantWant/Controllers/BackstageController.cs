@@ -521,6 +521,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return Json(skillId);
         }
 
+        public IActionResult GetCerId(string cerType, string cerName)
+        {
+            var cerId = _context.CertificateTypes
+                         .Where(a => a.CertificateTypeName == cerType)
+                         .SelectMany(c => c.Certificates)
+                         .Where(c => c.CertificateName == cerName)
+                         .Select(c => c.CertificateId);
+
+            return Json(cerId);
+        }
+
         public IActionResult PowerBI()
         {
             return View();
