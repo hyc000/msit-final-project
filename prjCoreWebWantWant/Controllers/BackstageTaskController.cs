@@ -565,14 +565,14 @@ namespace WantTask.Controllers
                              TaskName = taskname.TaskName,
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
                              SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
-                            //}).Where(app => app.TaskName == category)
-                            //  .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
-                            //  .Select(group => group.First()); // 選擇每個群組中的第一個項目
+                         }).Where(app => app.TaskName == category)
+                              .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
+                              .Select(group => group.First()); // 選擇每個群組中的第一個項目
 
-                         }).AsEnumerable()
+        //}).AsEnumerable()
 
-                            .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
-                            .Distinct();
+        //                    .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
+        //                    .Distinct();
 
             return PartialView("ApproveAllResumePartialView", query.ToList());
         }
