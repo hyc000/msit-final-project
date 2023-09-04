@@ -9,11 +9,19 @@
     CExperTaskFactory factory = new CExperTaskFactory(context);
     string taskname= factory.TaskName(Model.TaskNameId);
     string membername = factory.MemberName(Model.AccountId);
-    string skill = factory.SkillIDtoName(Model.AccountId);
-    string cer = factory.CertificateDtoName(Model.AccountId);
+    // string skill = factory.SkillIDtoName(Model.AccountId);
+    // string cer = factory.CertificateDtoName(Model.AccountId);
 
     string abbreviatedName = membername != null && membername.Length > 0
         ? membername[0] + "小姐" : null;
+    List<int> skillIds ;
+    List<int> certificateIds;
+   
+        skillIds = Model.TaskSkills.Select(ts => ts.SkillId).ToList();
+        certificateIds = Model.TaskCertificates.Select(tc => tc.CertficateId).ToList();
+    
+
+
 }
 
 <head>
@@ -234,7 +242,15 @@
                             </div>
                             <ul>
                                 @*失敗ㄉ一段QQname結尾的都是亂碼*@
-                                <li>@skill</li>
+                               
+                                @foreach (var item in skillIds)
+                                    {
+                                    <li>
+                                        @factory.SkillIDtoName(@item)
+                                    </li>
+                                    }
+                                
+
                           @*      <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       
                                 <li>@Model.skillType</li>
@@ -255,7 +271,7 @@
                                         </h4>
                                     </div>
                                     <ul>
-                                        <li>@cer</li>
+                                <li>@certificateIds</li>
                                         @*  <li></li>   *@                     
                                     </ul>
                                 </div>

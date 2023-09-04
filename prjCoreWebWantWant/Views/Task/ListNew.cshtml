@@ -180,7 +180,11 @@
     </div>*@
 
     <div class="container-fluid">
+<<<<<<< HEAD
+          <div class="p-3 mt-2 mb-2">
+=======
          <div class="p-3 mt-2 mb-2">
+>>>>>>> 4351f3d6dc770fe911d4dbc37a51cbd2f8a7b9c8
             <p class="fs-3 divide-line fw-bold"><i class="fa-solid fa-fire fa-beat" style="color: #e01010;"></i>  熱門任務</p>
                 <div class="row g-0 column-gap-5 justify-content-center pt-3 pb-3">
                     <div id="carouselExampleIndicators" class="carousel slide">
@@ -188,31 +192,46 @@
                             <div class="carousel-item active">
                                 <div class="d-flex row g-0 justify-content-center">
                                     <div class="topTen border rounded p-3 me-4 col-5">
+                                    
+
+                                    
                                         <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">蘭嶼自由行 三天兩夜</p>
-                                            <p>totalPrice : 10899</p>
+                                        @{
+                                            NewIspanProjectContext _context = new NewIspanProjectContext();
+                                            var TOP = _context.TaskLists.Where(t => t.OnTop > DateTime.Now);
+                                        }
+                                        @foreach (var item in TOP)
+                                        {
+                                       
+                                            <p class="fs-4 text-black">@item.TaskTitle</p>
+                                            <p>@item.PayFrom 元</p>
                                             <div class="d-flex align-items-end">
 
 
                                                 <div>
                                                     <small class="text-body-secondary d-block">
 
-                                                        <span>瑋倫</span><span> | 發文時間 : 2023/08/21</span><span> | 回覆數 : 3</span>
+                                                        <span>姓名</span><span> | 發文時間 : @item.DataModifyDate</span><span> | </span>
                                                     </small>
                                                     <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#水上活動</span>
+                                                        @*<img src="/icons/icons8-tag-16.png">*@
+                                                       @* <span>#水上活動</span>
                                                         <span>#多日遊</span>
                                                         <span>#遊船觀光</span>
-                                                        <span>#景點門票</span>
+                                                        <span>#景點門票</span>*@
 
                                                     </small>
                                                 </div>
                                             </div>
+                                        }
                                         </a>
+                                    
                                     </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
+                            
+=======
                            @*  <div class="carousel-item">
                                 <div class="d-flex row g-0 justify-content-center">
                                     <div class="topTen border rounded p-3 me-4 col-5">
@@ -407,6 +426,7 @@
                                             </div>
                                         </a>
                                     </div>
+>>>>>>> 4351f3d6dc770fe911d4dbc37a51cbd2f8a7b9c8
                                 </div>
                             </div> *@
                         </div>

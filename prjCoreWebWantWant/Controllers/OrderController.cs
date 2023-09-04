@@ -21,7 +21,7 @@ namespace prjShop.Controllers
         {
             _context = context;
         }
-        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name, string? purchaseTime, int page = 1)
+        public IActionResult List(int? categorys, DateTime? startDate, DateTime? endDate, int? orderId, string? name, string? purchaseTime)
         {
             var query = _context.Orders
                 .Include(o => o.OrderDetails)
@@ -35,9 +35,9 @@ namespace prjShop.Controllers
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                     .OrderByDescending(o => o.CreateTime);
-           
 
-            // 应用筛选条件
+
+            // 篩選條件
             if (categorys != null)
             {
                 query = (IOrderedQueryable<Order>)query.Where(o => o.CategoryId == categorys);
@@ -79,13 +79,17 @@ namespace prjShop.Controllers
                 query = query.OrderByDescending(o => o.CreateTime);
             }
 
-            int pageSize = 10;
             var filteredOrders = query.ToList();
 
-            // 注意这里的修改
-            var pagedOrders = new PagedList<Order>(filteredOrders, page, pageSize);
 
-            return View(pagedOrders);
+            // 計算訂單數量和總金額
+            int orderCount = query.Count();
+            decimal totalAmount = query.Sum(o => (int)o.PaidAmount);
+
+            ViewBag.OrderCount = orderCount;
+            ViewBag.TotalAmount = totalAmount;
+
+            return View(filteredOrders);
         }
 
         public IActionResult ShoppingCharts()
