@@ -3,90 +3,83 @@
 </div>
 
 <div class="container mt-4">
-    <table id="table1" class="table" mt-5">
-        <thead align="center">
-            <tr>
-                <th></th>
-                <th>案件名稱</th>
-                <th>曝光類型</th>
-                <th>曝光結束日</th>
-                <th>剩餘時間</th>
-            </tr>
-        </thead>
-        <tbody align="center">
-            @{
-                var displayedTitles = new Dictionary<string, bool>(); // 用于存储已经显示过的标题
-            }
+    <div class="row">
+        @{
+            var displayedTitles = new Dictionary<string, bool>(); // 用于存储已经显示过的标题
+            var hasContent = false; // 檢查是否有內容
+        }
 
-            @foreach (var order in Model)
+        @foreach (var order in Model)
+        {
+            foreach (var item in order.OrderDetails)
             {
-                foreach (var item in order.OrderDetails)
+                string title = "";
+                bool isCase = false;
+                DateTime? endTime = null;
+
+                if (item.CaseId != null)
                 {
-                    string title = "";
-                    bool isCase = false;
-                    DateTime? endTime = null;
+                    title = item.Case.TaskTitle;
+                    isCase = true;
+                    endTime = item.Case.OnTop; // 使用DATETIME类型
+                }
+                else if (item.ResumeId != null)
+                {
+                    title = item.Resume.ResumeTitle;
+                    endTime = item.Resume.OnTop;
+                }
 
-                    if (item.CaseId != null)
-                    {
-                        title = item.Case.TaskTitle;
-                        isCase = true;
-                        endTime = item.Case.OnTop; // 使用DATETIME类型
-                    }
-                    else if (item.ResumeId != null)
-                    {
-                        title = item.Resume.ResumeTitle;
-                        endTime = item.Resume.OnTop;
-                    }
+                var today = DateTime.Today;
 
-                    var today = DateTime.Today;
-
-                    if (!displayedTitles.ContainsKey(title) && endTime > today)
-                    {
-                        displayedTitles.Add(title, true);
-
-                        <tr>
-                            <td><i class='bx bxs-hot bx-tada' style="color: crimson"></i></td>
-                            <td>@title</td>
-                            <td>@item.TopType</td>
-
-                            <td data-endtime="@endTime">
-                                @endTime
-                            </td>
-                            <td>
-                                @if (endTime.HasValue && endTime > today)
-                                {
-                                    var remainingDays = (endTime.Value - today).Days;
-
-                                    @if (remainingDays < 3)
-                                    {
-                                        @if (remainingDays < 1)
+                if (!displayedTitles.ContainsKey(title) && endTime > today)
+                {
+                    displayedTitles.Add(title, true);
+                    <div class="col-md-4">
+                        <div id="card" class="card me-3 custom-card" style="border-left: 4px solid cadetblue;">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i style="font-size:30px; color:crimson" class='bx bxs-hot bx-tada'></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h5 class="card-title" style="font-weight: bold; font-size:larger">@title</h5>
+                                        <p class="card-text">曝光類型: @item.TopType</p>
+                                        <p class="card-text">曝光結束日: @endTime</p>
+                                        @if (endTime.HasValue && endTime > today)
                                         {
-                                            <span class='bx bx-time bx-tada' style="color:red">最後倒數</span>
+                                            var remainingDays = (endTime.Value - today).Days;
+                                            <p class="card-text">
+                                                倒數:
+                                                @if (remainingDays < 3)
+                                                {
+                                                    @if (remainingDays < 1)
+                                                    {
+                                                        <span class='bx bx-time bx-tada' style="color: crimson;font-weight:bold">最後倒數</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class='bx bx-time bx-tada' style="color:crimson ; font-weight:bold">@remainingDays 天</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>@remainingDays 天</span>
+                                                }
+                                            </p>
                                         }
-                                        else
-                                        {
-                                              <span class='bx bx-time bx-tada' style="color:red">@remainingDays 天</span>
-                                        }
-                                      
-                                    }
-                                    else
-                                    {
-                                        <span>@remainingDays 天</span>
-
-                                    }
-                                }
-
-                            </td>
-                        </tr>
-                    }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    hasContent = true; // 有內容
                 }
             }
-        </tbody>
+        }
 
-
-
-    </table>
+        @if (!hasContent)
+        {
+            <p style="font-weight:bold">沒有曝光中的案件</p>
+        }
+    </div>
 </div>
-
-
-<br />

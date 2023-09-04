@@ -97,7 +97,7 @@ namespace prjShop.Controllers
             /* --------------- 上架中的商品類型銷售數量---------------  */
             var query1 = from od in _context.OrderDetails
                         join p in _context.Products on od.ProductId equals p.ProductId
-                        where p.Status == "上架"
+                        //where p.Status == "上架"
                         group od by p.CategoryId into g
                         select new 
                         {

@@ -45,7 +45,7 @@
                         </div>
                         <div class="ms-3">
                             <h5 class="card-title" style="font-weight: bold;">訂單金額</h5>
-                            <p id="totalAmount" class="card-text">$@ViewBag.TotalAmount</p>
+                            <p id="totalAmount" class="card-text">$@string.Format("{0:N0}", ViewBag.TotalAmount)</p>
                         </div>
                     </div>
                 </div>
@@ -56,13 +56,14 @@
 
             <div class="row align-items-center">
 
-                <div class="col-md-2">
-                    <label for="productName">會員名稱：</label>
-                    <input class="form-control form-control-sm" type="text" id="name">
-                </div>
+            
                 <div class="col-md-2">
                     <label for="productName">訂單編號：</label>
                     <input class="form-control form-control-sm" type="text" id="orderId">
+                </div>
+                <div class="col-md-2">
+                    <label for="productName">會員名稱：</label>
+                    <input class="form-control form-control-sm" type="text" id="name">
                 </div>
                 <div class="col-md-2">
                     <label for="productName">訂單類別：</label>
@@ -82,7 +83,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <label for="purchaseTime">購買時間升/降冪：</label>
+                    <label for="purchaseTime">訂單時間升/降冪：</label>
                     <select name="purchaseTime" id="purchaseTime" class="form-control">
                         <option value="">請選擇</option>
                         <option value="asc">升冪</option>
