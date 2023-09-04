@@ -20,6 +20,7 @@
     </nav>
 }        
 
+<div class="container-fluid">
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -27,14 +28,20 @@
                 <div class="row">
                     <div class="card-body">
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
-                            <li class="nav-item" onclick="showApplied();">
-                                <a class="nav-link active " data-bs-toggle="tab" href="#Applied" role="tab">
+                            <li class="nav-item" onclick="showPostPublish();">
+                                    <a class="nav-link active " data-bs-toggle="tab" href="#tabPostPublish" role="tab" onclick="tabChange(divPostPublis,divReply,divPostDraft)">
                                     <span class="d-block d-sm-none"><i class="bi bi-send-check"></i></span>
                                     <span class="d-none d-sm-block" style="color: #528eaf">已發布文章</span>
                                 </a>
                             </li>
-                            <li class="nav-item" onclick="showAccept();">
-                                <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
+                            <li class="nav-item" onclick="showReply();">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabReply" role="tab" onclick="tabChange(divReply,divPostPublis,divPostDraft)">
+                                    <span class="d-block d-sm-none"><i class="bi bi-reply"></i></span>
+                                    <span class="d-none d-sm-block" style="color: #528eaf">我的回覆</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" onclick="showPostDraft();">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabPostDraft" role="tab" onclick="tabChange(divPostDraft,divReply,divPostPublis)">
                                     <span class="d-block d-sm-none"><i class="bi bi-archive"></i></span>
                                     <span class="d-none d-sm-block" style="color:#528EAF">草稿管理</span>
                                 </a>
@@ -43,8 +50,9 @@
                     </div>
                 </div>
             </div>
-
-    <table class="table" id="postManagement">
+<!--這裡是已發布文章-->
+<div class="card-body" id="divPostPublis">
+    <table class="table" id="tablePostPublish">
     <thead>
         <tr>
             <th class="col-3">
@@ -65,7 +73,9 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+@foreach (var item in Model.Where(p => p.Status == 1&&p.ParentId==null))
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -89,9 +99,115 @@
 }
     </tbody>
 </table>
-                
+</div>
+<!--這裡是已發布文章-->
+
+<!--這裡是已回覆-->
+                <div class="card-body" id="divReply" style="display:none">
+                    <table class="table" id="tableReply">
+                        <thead>
+                            <tr>
+                                <th class="col-3">
+                                    文章標題
+                                </th>
+                                <th class="col-6">
+                                    內文摘要
+                                </th>
+                                <th class="col-1">
+                                    發文時間
+                                </th>
+                                <th class="col-1">
+                                    最後更新
+                                </th>
+                                <th class="col-1">
+                                    修改/刪除
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.Where(p => p.Status == 1 && p.ParentId != null))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                                    </td>
+                                    <td class="text-center small">
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td class="text-center small">
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="fa-solid fa-square-pen" href="#" data-bs-toggle="modal" data-bs-target="#editModal-@item.PostId" style="color:#255c93;font-size:1.8em">
+                                        </a>
+                                        <a class="fa-solid fa-square-xmark ms-1" asp-action="DeletePost" asp-route-id="@item.PostId" onclick="return postDelete(@item.PostId)" style="color:#D60000;font-size:1.8em">
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+</div>
+<!--這裡是已回覆-->
+
+<!--這裡是草稿-->
+                <div class="card-body" id="divPostDraft" style="display:none">
+    <table class="table" id="tablePostDraft">
+                        <thead>
+                            <tr>
+                                <th class="col-3">
+                                    文章標題
+                                </th>
+                                <th class="col-6">
+                                    內文摘要
+                                </th>
+                                <th class="col-1">
+                                    發文時間
+                                </th>
+                                <th class="col-1">
+                                    最後更新
+                                </th>
+                                <th class="col-1">
+                                    修改/刪除
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.Where(p => p.Status == 2))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                                    </td>
+                                    <td class="text-center small">
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td class="text-center small">
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="fa-solid fa-square-pen" href="#" data-bs-toggle="modal" data-bs-target="#editModal-@item.PostId" style="color:#255c93;font-size:1.8em">
+                                        </a>
+                                        <a class="fa-solid fa-square-xmark ms-1" asp-action="DeletePost" asp-route-id="@item.PostId" onclick="return postDelete(@item.PostId)" style="color:#D60000;font-size:1.8em">
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+</div>
+<!--這裡是草稿-->
         </div>
     </div>
+</div>
 </div>
 
 <!-- 編輯文章的modal -->
@@ -109,12 +225,12 @@
                     <!-- 編輯文章的表單 -->
                     <form name="edit-@item.PostId">
                         <input name="PostId" type="hidden" value="@item.PostId">
-                        <div class="form-group">
-                            <label for="title" name="Title">文章標題</label>
+                        <div class="form-group" id="titleDiv-@item.PostId" style="display:block">
+                            <label for="title">文章標題</label>
                             <input type="text" class="form-control" id="title" name="title" value="@item.Title">
                         </div>
                         <div class="form-group">
-                            <label for="title" name="Title">文章內容</label>
+                            <label for="PostContent">文章內容</label>
                             <textarea type="text" class="form-control" id="PostContent" name="PostContent">@item.PostContent</textarea>
                         </div>
                     </form>
@@ -140,6 +256,25 @@
     <script src="~/lib/tinymce/tinymce.min.js"></script>
 
     <script>
+        //切換tab--------------------------------------------------------
+        function tabChange(tab1, tab2, tab3) {
+            const titleDiv = document.getElementById('titleDiv');
+
+            tab1.style.display = 'block';
+            tab2.style.display = 'none';
+            tab3.style.display = 'none';
+
+            if (tab1 == 'divPostPublis') {
+                // 顯示標題和內容
+                titleDiv.style.display = 'block';
+            } else if (tab1 == 'divReply') {
+                // 隱藏標題，只顯示內容
+                titleDiv.style.display = 'none';
+            }
+        }
+        //切換tab--------------------------------------------------------
+
+        //儲存修改的方法--------------------------------------------------
         function saveChanges(postId) {
             tinymce.activeEditor.save();
             // 取得表單元素
@@ -180,7 +315,9 @@
                     console.error('錯誤:', error);
                 });
         }
+        //儲存修改的方法--------------------------------------------------
 
+        //刪除文章-------------------------------------------------------
         function postDelete(postId) {
             Swal.fire({
                 title: '刪除文章',
@@ -220,8 +357,11 @@
             });
             return false; // 阻止默認行為
         }
+        //刪除文章-------------------------------------------------------
 
 
+        //tinyMCE-------------------------------------------------------
+        //tinymce.triggerSave放到這邊，要不然前面不知道為什麼抓不到
         tinymce.init({
             selector: 'textarea#PostContent',
             menubar: false,
@@ -238,12 +378,26 @@
             toolbar: 'undo redo | a11ycheck casechange blocks | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify |' +
                 'bullist numlist checklist outdent indent | removeformat | code table help'
         })
+        //tinyMCE-------------------------------------------------------
 
-        $('#postManagement').DataTable({
+
+        //datatables----------------------------------------------------
+        $('#tablePostPublish').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
             },
         });
+        $('#tableReply').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+            },
+        });
+        $('#tablePostDraft').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+            },
+        });
+        //datatables----------------------------------------------------
 
     </script>
 
