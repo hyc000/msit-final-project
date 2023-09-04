@@ -183,16 +183,16 @@
 
          <div class="p-3 mt-2 mb-2">
 
-            <p class="fs-3 divide-line fw-bold"><i class="fa-solid fa-fire fa-beat" style="color: #e01010;"></i>  熱門任務</p>
+             @* <p class="fs-3 divide-line fw-bold"><i class="fa-solid fa-fire fa-beat" style="color: #e01010;"></i>  熱門任務</p>  *@
                 <div class="row g-0 column-gap-5 justify-content-center pt-3 pb-3">
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-inner ">
-                        @{
+                    <div id="carouselExampleIndicators" class="carousel slide"> 
+                        @* <div class="carousel-inner "> *@
+                       @*  @{
                             NewIspanProjectContext _context = new NewIspanProjectContext();
                             var TOP = _context.TaskLists.Where(t => t.OnTop > DateTime.Now);
-                        }
+                        } *@
 
-                        @foreach (var item in TOP)
+                       @*  @foreach (var item in TOP)
                         {
                             <div class="carousel-item active">
                                 <div class="d-flex row g-0 justify-content-center">
@@ -214,11 +214,7 @@
                                                         <span>姓名</span><span> | 發文時間 : @item.DataModifyDate</span><span> | </span>
                                                     </small>
                                                     <small class="text-body-secondary d-block">
-                                                        @*<img src="/icons/icons8-tag-16.png">*@
-                                                       @* <span>#水上活動</span>
-                                                        <span>#多日遊</span>
-                                                        <span>#遊船觀光</span>
-                                                        <span>#景點門票</span>*@
+                                                      
 
                                                     </small>
                                                 </div>
@@ -228,7 +224,7 @@
                                     </div>
                                 </div>
                             </div>
-                                        }
+                                        } *@
                            @*  <div class="carousel-item">
                                 <div class="d-flex row g-0 justify-content-center">
                                     <div class="topTen border rounded p-3 me-4 col-5">
@@ -428,14 +424,14 @@
                             </div> *@
                         </div>
 
-                        <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        @* <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                             <span class="align-items-center row my-bg-primary my-img-circle  my-w50-h50"><span class="carousel-control-prev-icon col" aria-hidden="true"></span></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                             <span class="align-items-center row my-bg-primary my-img-circle  my-w50-h50"><span class="carousel-control-next-icon col" aria-hidden="true"></span></span>
                             <span class="visually-hidden">Next</span>
-                        </button>
+                        </button> *@
                     </div>
                 </div>
             </div> 
@@ -679,7 +675,16 @@
                                 </div>
 
                                 <div class="row">
-                                    <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                    @*記得改partial1*@
+                                    @if(item.WorkPlace == true)
+                                        {
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點：在家兼職</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                        }
+
                                     <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
 
                                     @{

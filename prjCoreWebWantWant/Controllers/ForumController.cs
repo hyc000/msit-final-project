@@ -242,7 +242,7 @@ namespace WantTask.Controllers
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 var postlist = _db.ForumPosts
-                .Where(p => p.AccountId == loggedInUser.AccountId)
+                .Where(p => p.AccountId == loggedInUser.AccountId && (p.Status == 1 || p.Status == 2))
                 .ToList();
 
                 List<ForumMSViewModel> articlesList = new List<ForumMSViewModel>();

@@ -24,13 +24,13 @@ namespace WantTask.ViewModels
         public List<CaseStatusList>? caseStatusList { get; set; }
         public List<MemberAccount>? memberAccount { get; set; }
 
-        public List<Resume>? resume { get; set; }
+       // public List<Resume>? resume { get; set; }
        
-        public List<Certificate>? certificate { get; set; }
-        public List<ResumeCertificate>? resumeCertificate { get; set; }
+       // public List<Certificate>? certificate { get; set; }
+       // public List<ResumeCertificate>? resumeCertificate { get; set; }
 
-       public List<Skill>? skill { get; set; }
-        public List<ResumeSkill>? resumeSkill  { get; set; }
+       //public List<Skill>? skill { get; set; }
+       // public List<ResumeSkill>? resumeSkill  { get; set; }
 
         public List<string> SkillNames { get; set; }
         public List<string> CertificateNames { get; set; }

@@ -535,7 +535,7 @@ namespace WantTask.Controllers
 
             //return PartialView(query);
 
-            //9/3舊
+            //9 / 3舊
             var query = (from app in _context.ApplicationLists
                          join task in _context.TaskLists on app.CaseId equals task.CaseId
                          join resume in _context.Resumes on app.ResumeId equals resume.ResumeId
@@ -566,19 +566,15 @@ namespace WantTask.Controllers
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
                              SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
                          }).Where(app => app.TaskName == category)
-                           .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
-                           .Select(group => group.First()); // 選擇每個群組中的第一個項目
-                           
-            //  }).AsEnumerable()
+                              .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
+                              .Select(group => group.First()); // 選擇每個群組中的第一個項目
 
-            //.Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
-            //.Distinct();
+        //}).AsEnumerable()
+
+        //                    .Where(app => app.TaskName == category)  // 此處是在客戶端進行過濾
+        //                    .Distinct();
 
             return PartialView("ApproveAllResumePartialView", query.ToList());
-
-
-
-
         }
 
         //app表未處理AllResume的錄取btn
@@ -694,7 +690,7 @@ namespace WantTask.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile, bool inlineRadioOptionsPlace)
         {
             tasklist.TaskNameId = selectedTaskNameId;
             tasklist.TownId = selectedTownId;
@@ -702,6 +698,16 @@ namespace WantTask.Controllers
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
             tasklist.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            
+            if (inlineRadioOptionsPlace)
+            {
+                tasklist.WorkPlace = true; //在家兼職
+            }
+            else
+            {
+                tasklist.WorkPlace = false;  //指定地點
+            }
+
             if (imageFile != null && imageFile.Length > 0)
             {
                 string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);
