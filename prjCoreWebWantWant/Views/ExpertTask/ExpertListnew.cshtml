@@ -656,8 +656,9 @@
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <style>
-        .selected-li {
-            background-color: brown; /* 你可以選擇你想要的顏色 */
+        .nav-item .nav-link.selected-li {
+            background-color: #b5d6e8 !important;
+           
         }
     </style>
         }
@@ -844,7 +845,11 @@
                             title: '成功',
                             text: '修改成功!',
                             icon: 'success'
-                        });
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload(); // 這行會重新載入當前頁面
+                                }
+                            });
                             connection.invoke("SendUpdateNotification", "mytasking", "1").catch(err => console.error(err));
                     } else {
                         Swal.fire({
@@ -886,7 +891,11 @@
                             title: '放棄',
                             text: '放棄成功!',
                             icon: 'success'
-                        });
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload(); // 這行會重新載入當前頁面
+                                }
+                            });
 
                     } else {
                         Swal.fire({
@@ -961,6 +970,10 @@
                             title: '接受',
                             text: '已接受委託!',
                             icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload(); // 這行會重新載入當前頁面
+                            }
                         });
                     } else {
                         Swal.fire({
@@ -1002,6 +1015,10 @@
                             title: '拒絕',
                             text: '已拒絕委託!',
                             icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload(); // 這行會重新載入當前頁面
+                            }
                         });
                     } else {
                         Swal.fire({
@@ -1045,7 +1062,11 @@
                                 title: '完成委託',
                                 text: '恭喜完成委託!',
                                 icon: 'success'
-                            });
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload(); // 這行會重新載入當前頁面
+                                    }
+                                });
                     } else {
                             Swal.fire({
                                 title: '失敗',
@@ -1074,7 +1095,21 @@
                 $('#ModalCaseAddress1').attr('readonly', true);
             }
         });
-       
+       //=========底色
+        var lis = document.querySelectorAll(".nav-link");
+        lis.forEach(function (li) {
+            li.addEventListener("click", function () {
+                // 移除所有 li 的 selected-li class
+                lis.forEach(function (innerLi) {
+                    innerLi.classList.remove("selected-li");
+                    
+                });
+
+                // 給被點擊的 li 添加 selected-li class
+                this.classList.add("selected-li");
+        
+            });
+        });
         
     </script>
     <script src="~/Expert/js/expert.js"></script>

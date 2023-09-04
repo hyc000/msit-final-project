@@ -69,13 +69,13 @@
                                 {
                                     <p class="card-text">@item.expertResume.Introduction.Substring(0,120)... </p>  @*秀出自傳的部分內容*@
                                 }
-                                <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
-                                <a href="@Url.Content("~/ExpertResumes/Details")?id=@item.resume.ResumeId" title="檢視" class="btn btn-outline-success">檢視</a>
+                                <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.resume.ResumeId" class="btn btn-outline-info" id="btnEdit">編輯</a>
+                                <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.resume.ResumeId" title="檢視" class="btn btn-outline-success">檢視</a>
                                 <a href="@Url.Action("ExpertResumeDelete", "Expert", new { id = item.resume.ResumeId })" class="btn btn-outline-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a>
                                 <a class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
                                 @if (@item.resume.DataModifyDate!=null)
                                 {
-                                    <span style="display: block; text-align: end;">最後修改日期：@item.resume.DataModifyDate.Substring(0,9)</span>
+                                    <span style="display: block; text-align: end;">最後修改日期：@item.resume.DataModifyDate.Substring(0,10)</span>
 
                                 }
 
