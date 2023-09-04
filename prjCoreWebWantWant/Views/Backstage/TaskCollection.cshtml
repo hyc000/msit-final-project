@@ -416,7 +416,7 @@
                             @{
                                 NewIspanProjectContext db = new NewIspanProjectContext();
                                 var resumes = db.Resumes
-                                .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22);
+                                .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23);
                             }
 
                             <div class="modal" tabindex="-1" id="myModal">
