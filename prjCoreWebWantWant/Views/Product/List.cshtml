@@ -94,33 +94,33 @@
                 @*<a class="btn btn-success" id="" href="#" type="button" data-bs-toggle="modal" data-bs-target="#">TEST</a>*@
             </div>
         </div>
-@*        <!-- 跳出視窗內容 -->
+        @*        <!-- 跳出視窗內容 -->
         <div class="modal fade" id="">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>TEST</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h3>TEST</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
 
-                        <form method="post" enctype="multipart/form-data" id="importForm" action="/Product/batchImport">
+        <form method="post" enctype="multipart/form-data" id="importForm" action="/Product/batchImport">
 
-                            <div class="form-group">
-                                <label for="file">TEST</label>
-                                <input type="file" name="file" id="file" class="form-control" accept=".xlsx" required>
-                            </div>
+        <div class="form-group">
+        <label for="file">TEST</label>
+        <input type="file" name="file" id="file" class="form-control" accept=".xlsx" required>
+        </div>
 
-                            <br />
-                            <a class="btn btn-warning" asp-action="DownloadTemplate">TEST</a>
-                            <button type="button" id="importBtn" class="btn btn-primary" onclick="performImport()">TEST</button>
-                        </form>
+        <br />
+        <a class="btn btn-warning" asp-action="DownloadTemplate">TEST</a>
+        <button type="button" id="importBtn" class="btn btn-primary" onclick="performImport()">TEST</button>
+        </form>
 
 
-                    </div>
-                </div>
+        </div>
+        </div>
 
-            </div>
+        </div>
         </div>*@
 
 
@@ -151,7 +151,7 @@
                         </td>
                         <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UnitPrice)元</td>
                         <td>
                             @if (item.UnitsInStock < 10)
                             {
@@ -580,4 +580,3 @@
     </script>
 
 }
-

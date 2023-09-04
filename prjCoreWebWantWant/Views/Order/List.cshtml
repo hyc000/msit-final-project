@@ -1,5 +1,5 @@
-﻿@*@model IEnumerable<prjCoreWebWantWant.Models.Order>*@
-@model PagedList.PagedList<Order>
+﻿@model IEnumerable<prjCoreWebWantWant.Models.Order>
+
 
 @{
     ViewData["Title"] = "List";
@@ -23,34 +23,34 @@
     <!-- Main content -->
     <div class="container mt-4">
 
-      <div class="d-flex justify-content-center">
-    <div class="card me-3" style="width: 15rem; border-left: 4px solid #007bff;">
-        <div class="card-body">
-            <div class="d-flex align-items-center">
-                <div class="avatar flex-shrink-0">
-                    <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+        <div class="d-flex justify-content-center">
+            <div class="card me-3" style="width: 15rem; border-left: 4px solid cadetblue;">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar flex-shrink-0">
+                            <i style="font-size:30px" class='bx bxs-shopping-bag-alt'></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5 class="card-title" style="font-weight: bold;">訂單數量</h5>
+                            <p id="orderCount" class="card-text">@ViewBag.OrderCount</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="ms-3">
-                    <h5 class="card-title">訂單數量</h5>
-                    <p class="card-text">$12,628</p>
+            </div>
+            <div class="card me-3" style="width: 15rem; border-left: 4px solid cadetblue;">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar flex-shrink-0">
+                            <i style="font-size:30px" class='bx bx-dollar'></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5 class="card-title" style="font-weight: bold;">訂單金額</h5>
+                            <p id="totalAmount" class="card-text">$@ViewBag.TotalAmount</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card" style="width: 15rem; border-left: 4px solid #007bff;">
-        <div class="card-body">
-            <div class="d-flex align-items-center">
-                <div class="avatar flex-shrink-0">
-                    <img src="../assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
-                </div>
-                <div class="ms-3">
-                    <h5 class="card-title">訂單金額</h5>
-                    <p class="card-text">$12,628</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
         <form id="searchForm" method="get" enctype="multipart/form-data">
 
@@ -95,7 +95,7 @@
                     <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
                     <button type="reset" class="btn btn btn-secondary">清除</button>
                     <button type="button" class="btn btn btn-warning" id="exportButton">匯出訂單</button>
-                         <a asp-action="ShoppingCharts" class="btn btn-success">訂單分析圖表</a>
+                    <a asp-action="ShoppingCharts" class="btn btn-success">訂單分析圖表</a>
 
                 </div>
 
@@ -121,6 +121,8 @@
                 </tr>
             </thead>
             <tbody align="center">
+
+
                 @foreach (var order in Model)
                 {
 
@@ -173,11 +175,11 @@
                                         @foreach (var detail in order.OrderDetails)
                                         {
                                             <tr>
-                                                <td><img src="@Url.Content("~/shopimg/")@detail.Product.CoverPhoto" width="60" height="60"/></td>
+                                                <td><img src="@Url.Content("~/shopimg/")@detail.Product.CoverPhoto" width="60" height="60" /></td>
                                                 <td>@detail.Product.ProductName</td>
                                                 <td>@detail.Quantity</td>
-                                                <td>@detail.UnitPrice</td>
-                                                <td>@(detail.UnitPrice * detail.Quantity)</td>
+                                                <td>@detail.UnitPrice 元</td>
+                                                <td>@(detail.UnitPrice * detail.Quantity) 元</td>
 
                                             </tr>
                                         }
@@ -188,31 +190,10 @@
                         </td>
                     </tr>
                 }
+
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                        <a class="page-link" href="@Url.Action("List", new { page = Model.PageNumber - 1 })" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    @for (int i = 1; i <= Model.PageCount; i++)
-                    {
-                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("List", new { page = i })">@i</a>
-                        </li>
-                    }
-                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                        <a class="page-link" href="@Url.Action("List", new { page = Model.PageNumber + 1 })" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
     </div>
 
 
@@ -222,7 +203,12 @@
     <!--box icons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-
+        .card.me-3:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            /* 添加陰影效果 */
+            transform: scale(1.05);
+            /* 略微放大 */
+        }
         /* 將外層容器設置為相對定位 */
         .header-container {
             position: relative;
@@ -231,16 +217,17 @@
         .bx.bxs-show {
             font-size: 1.5rem;
         }
-        #table td{
+
+        #table td {
             text-align: center;
             vertical-align: middle
         }
+
     </style>
 }
 @section Scripts
     {
     <script>
-        // 搜尋
         $(document).ready(function () {
             $('#searchForm').submit(function (e) {
                 e.preventDefault();
@@ -265,6 +252,12 @@
                     },
                     success: function (result) {
                         $('#table tbody').html($(result).find('#table tbody').html());
+
+                        // 更新訂單數量和總金額
+                        var orderCount = $(result).find('#orderCount').text();
+                        var totalAmount = $(result).find('#totalAmount').text();
+                        $('#orderCount').text(orderCount);
+                        $('#totalAmount').text(totalAmount);
                     },
                     error: function () {
                         alert('失敗。');
