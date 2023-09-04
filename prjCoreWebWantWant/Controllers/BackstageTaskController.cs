@@ -694,7 +694,7 @@ namespace WantTask.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile, bool inlineRadioOptionsPlace)
         {
             tasklist.TaskNameId = selectedTaskNameId;
             tasklist.TownId = selectedTownId;
@@ -702,6 +702,16 @@ namespace WantTask.Controllers
             tasklist.PaymentDateId = selectedPaymentDateId;
             tasklist.PublishOrNot = publishornot;
             tasklist.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            
+            if (inlineRadioOptionsPlace)
+            {
+                tasklist.WorkPlace = true; //在家兼職
+            }
+            else
+            {
+                tasklist.WorkPlace = false;  //指定地點
+            }
+
             if (imageFile != null && imageFile.Length > 0)
             {
                 string filePath = Path.Combine(_host.WebRootPath, "backstage1", "TaskPhoto", imageFile.FileName);

@@ -681,7 +681,16 @@
                                 </div>
 
                                 <div class="row">
-                                    <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                    @*記得改partial1*@
+                                    @if(item.WorkPlace == true)
+                                        {
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點：在家兼職</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                        }
+
                                     <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
 
                                     @{
