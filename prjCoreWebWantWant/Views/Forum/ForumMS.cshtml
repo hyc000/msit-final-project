@@ -34,18 +34,19 @@
                                     <span class="d-none d-sm-block" style="color: #528eaf">已發布文章</span>
                                 </a>
                             </li>
+                            <li class="nav-item" onclick="showPostDraft();">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tabPostDraft" role="tab" onclick="tabChange(divPostDraft,divReply,divPostPublis)">
+                                        <span class="d-block d-sm-none"><i class="bi bi-archive"></i></span>
+                                        <span class="d-none d-sm-block" style="color:#528EAF">草稿管理</span>
+                                    </a>
+                            </li>
                             <li class="nav-item" onclick="showReply();">
                                     <a class="nav-link" data-bs-toggle="tab" href="#tabReply" role="tab" onclick="tabChange(divReply,divPostPublis,divPostDraft)">
                                     <span class="d-block d-sm-none"><i class="bi bi-reply"></i></span>
                                     <span class="d-none d-sm-block" style="color: #528eaf">我的回覆</span>
                                 </a>
                             </li>
-                            <li class="nav-item" onclick="showPostDraft();">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tabPostDraft" role="tab" onclick="tabChange(divPostDraft,divReply,divPostPublis)">
-                                    <span class="d-block d-sm-none"><i class="bi bi-archive"></i></span>
-                                    <span class="d-none d-sm-block" style="color:#528EAF">草稿管理</span>
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -55,19 +56,19 @@
     <table class="table" id="tablePostPublish">
     <thead>
         <tr>
-            <th class="col-3">
+            <th style="width:15%">
                 文章標題
             </th>
-            <th class="col-6">
+            <th style="width:20%">
                  內文摘要
             </th>
-            <th class="col-1">
+            <th class="col-1 text-center">
                  發文時間
             </th>
-            <th class="col-1">
+            <th class="col-1 text-center">
                  最後更新
             </th>
-            <th class="col-1">
+            <th class="col-1 text-center">
                  修改/刪除
             </th>
         </tr>
@@ -107,19 +108,16 @@
                     <table class="table" id="tableReply">
                         <thead>
                             <tr>
-                                <th class="col-3">
-                                    文章標題
-                                </th>
-                                <th class="col-6">
+                                <th style="width:25%">
                                     內文摘要
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     發文時間
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     最後更新
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     修改/刪除
                                 </th>
                             </tr>
@@ -129,9 +127,6 @@
                             @foreach (var item in Model.Where(p => p.Status == 1 && p.ParentId != null))
                             {
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                    </td>
                                     <td>
                                         @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
                                     </td>
@@ -159,19 +154,19 @@
     <table class="table" id="tablePostDraft">
                         <thead>
                             <tr>
-                                <th class="col-3">
+                                <th style="width:15%">
                                     文章標題
                                 </th>
-                                <th class="col-6">
+                                <th style="width:20%">
                                     內文摘要
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     發文時間
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     最後更新
                                 </th>
-                                <th class="col-1">
+                                <th class="col-1 text-center">
                                     修改/刪除
                                 </th>
                             </tr>
@@ -225,10 +220,20 @@
                     <!-- 編輯文章的表單 -->
                     <form name="edit-@item.PostId">
                         <input name="PostId" type="hidden" value="@item.PostId">
-                        <div class="form-group" id="titleDiv-@item.PostId" style="display:block">
-                            <label for="title">文章標題</label>
-                            <input type="text" class="form-control" id="title" name="title" value="@item.Title">
-                        </div>
+                        @if ((item.Status == 1&&item.ParentId==null)||item.Status==2)
+                        {
+                            <div class="form-group" id="titleDiv-@item.PostId">
+                                <label for="title">文章標題</label>
+                                <input type="text" class="form-control" id="title" name="title" value="@item.Title">
+                            </div>
+                        }
+                        @if (item.Status == 1&&item.ParentId!=null)
+                        {
+                            <div class="form-group" id="titleDiv-@item.PostId">
+                                <input type="hidden" class="form-control" id="title" name="title" value="@item.Title">
+                            </div>
+                        }
+
                         <div class="form-group">
                             <label for="PostContent">文章內容</label>
                             <textarea type="text" class="form-control" id="PostContent" name="PostContent">@item.PostContent</textarea>
@@ -256,21 +261,25 @@
     <script src="~/lib/tinymce/tinymce.min.js"></script>
 
     <script>
+        //重新加載時讀取是否有點選過tab---------------------------------------
+        window.addEventListener('load', function () {
+            const selectedTab = sessionStorage.getItem('selectedTab');
+            if (selectedTab) {
+                // 選擇存儲的 tab
+                const tabToSelect = document.getElementById(selectedTab);
+                tabToSelect.classList.add('active');
+            }
+        });
+        //重新加載時讀取是否有點選過tab---------------------------------------
+
+
         //切換tab--------------------------------------------------------
         function tabChange(tab1, tab2, tab3) {
-            const titleDiv = document.getElementById('titleDiv');
-
             tab1.style.display = 'block';
             tab2.style.display = 'none';
             tab3.style.display = 'none';
+            sessionStorage.setItem('selectedTab', tab1.id);
 
-            if (tab1 == 'divPostPublis') {
-                // 顯示標題和內容
-                titleDiv.style.display = 'block';
-            } else if (tab1 == 'divReply') {
-                // 隱藏標題，只顯示內容
-                titleDiv.style.display = 'none';
-            }
         }
         //切換tab--------------------------------------------------------
 

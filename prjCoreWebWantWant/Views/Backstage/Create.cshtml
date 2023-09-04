@@ -155,6 +155,10 @@
                             <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2" />
                             <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3" />
 
+                            <input type="hidden" id="hiddenCerIdInput1" name="selectedCerId1" />
+                            <input type="hidden" id="hiddenCerIdInput2" name="selectedCerId2" />
+                            <input type="hidden" id="hiddenCerIdInput3" name="selectedCerId3" />
+
                         </div>
                     </div>
 
@@ -592,6 +596,10 @@
         const hiddenSkillIdInput2 = document.querySelector('#hiddenSkillIdInput2');
         const hiddenSkillIdInput3 = document.querySelector('#hiddenSkillIdInput3');
 
+        const hiddenCerIdInput1 = document.querySelector('#hiddenCerIdInput1');
+        const hiddenCerIdInput2 = document.querySelector('#hiddenCerIdInput2');
+        const hiddenCerIdInput3 = document.querySelector('#hiddenCerIdInput3');
+
         async function getSkillIdOne() {
             const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
             const data = await response.json();
@@ -610,6 +618,30 @@
 
         async function getSkillIdThree() {
             const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
+            const data = await response.json();
+            const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput3.value = selectedSkillId3;
+            console.log(hiddenSkillIdInput3.value);
+        }
+
+        async function getCerIdOne() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
+            const data = await response.json();
+            const selectedSkillId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput1.value = selectedSkillId1;
+            console.log(hiddenSkillIdInput1.value);
+        }
+
+        async function getCerIdTwo() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
+            const data = await response.json();
+            const selectedSkillId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenSkillIdInput2.value = selectedSkillId2;
+            console.log(hiddenSkillIdInput2.value);
+        }
+
+        async function getCerIdThree() {
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
             const data = await response.json();
             const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenSkillIdInput3.value = selectedSkillId3;
