@@ -23,6 +23,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _context = context;
             _host = host;
         }
+
+        public int GetAccountID()
+        {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+                int id = loggedInUser.AccountId; //抓登入者的id                                                                             
+                return id;
+        }
+
         public IActionResult List(CKeywordViewModel vm)
         {
             IEnumerable<TaskList> datas = null;
@@ -167,6 +176,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult ListNew(CKeywordViewModel vm, int page = 1)
         {
             IEnumerable<TaskList> datas = null;
+            
+
             if (string.IsNullOrEmpty(vm.txtKeyword))
             {
                 datas = _context.TaskLists
@@ -182,8 +193,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                  t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
                 );
             }
+
+            //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            //    datas.Where(t => t.AccountId != GetAccountID());
+            
+            ViewBag.TotalCount = datas.Count();
             page = page < 1 ? 1 : page;
             datas = datas.ToPagedList(page, 5);
+
+
             return View(datas);
         }
 
@@ -204,6 +222,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
+
+            //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            //    q = q.Where(t => t.AccountId != GetAccountID());
+
             page = page < 1 ? 1 : page;
             IEnumerable<TaskList> result = q.ToPagedList(page, 5);
             return PartialView(result);

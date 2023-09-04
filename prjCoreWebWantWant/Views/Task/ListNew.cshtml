@@ -5,6 +5,8 @@
 
 
 @model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@inject NewIspanProjectContext _context
+
 @*@model IPagedList<TaskList>*@
 @*@model IEnumerable<prjWantWant_yh_CoreMVC.Models.CTask>     匿名型別*@
 
@@ -432,9 +434,8 @@
                     </div>
 
                     @{
-                        NewIspanProjectContext db = new NewIspanProjectContext();
-                        var q = from tn in db.TaskNameLists
-                                join tl in db.TaskLists on tn.TaskNameId equals tl.TaskNameId
+                        var q = from tn in _context.TaskNameLists
+                                join tl in _context.TaskLists on tn.TaskNameId equals tl.TaskNameId
                                 where tl.PublishOrNot == "立刻上架"
                                 group tl by tn.TaskName into Group
                                 select new
@@ -543,9 +544,9 @@
                 
 
 
-          @*       <div class="p-2 mt-2 mb-2">
+                 <div class="p-2 mt-2 mb-2">
                     <div class="divide-line pl-3">
-                        <span id="total" class="fs-3 fw-bolder me-2">10</span><span class="fs-5 my-text-primary">
+                        <span id="total" class="fs-3 fw-bolder me-2">@ViewBag.TotalCount @ViewBag.Count</span><span class="fs-5 my-text-primary">
                             <img src="/icons/icons8-rhombus-loader.gif" class="d-none loading-icon">
                             筆任務
                         </span>
@@ -563,7 +564,7 @@
                         <span>　|　</span>
                         <a href="#" class=" fw-bolder">薪資(低到高)</a>
                     </div>
-                </div> *@
+                </div> 
 
                 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                 @{
