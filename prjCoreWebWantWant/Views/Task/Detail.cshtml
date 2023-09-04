@@ -234,11 +234,14 @@
                             </div>
                             <ul>
                                 @*失敗ㄉ一段QQname結尾的都是亂碼*@
+                                   @if (skill != null)
+                                    {
                                 <li>@skill</li>
                           @*      <li>@Model.skill</li>      
                                 <li>@Model.skillname.ToString()</li>       
                                 <li>@Model.skillType</li>
                                 <li>@Model.skilltypename.ToString()</li>*@
+                                    }
                             </ul>
                                 </div>
                             
@@ -255,8 +258,11 @@
                                         </h4>
                                     </div>
                                     <ul>
+                                           @if (cer != null)
+                                    {
                                         <li>@cer</li>
-                                        @*  <li></li>   *@                     
+                                        @*  <li></li>   *@     
+                                    }
                                     </ul>
                                 </div>
                           
