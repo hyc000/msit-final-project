@@ -752,8 +752,21 @@
             .withUrl("/cExpertTaskHub")
             .build();
 
-        connection.on("ReceiveUpdate", (message) => {
-            alert(message);  
+        connection.on("ReceiveUpdate", (divId, message) => {
+            let targetSpan;
+            if (divId === 'mytasking') {
+                targetSpan = document.querySelector('#btnmytasking .d-none.d-sm-block');
+            } else if (divId === 'mytasked') {
+                targetSpan = document.querySelector('#btnmytasked .d-none.d-sm-block');
+            }
+
+            if (targetSpan) {
+                if (divId === 'mytasking') {
+                    targetSpan.innerHTML = `送出的委託(進行中) ${message}`;
+                } else if (divId === 'mytasked') {
+                    targetSpan.innerHTML = `送出的委託(已完成) ${message}`;
+                }
+            }
         });
 
         connection.start().catch(err => console.error(err.toString()));
@@ -832,7 +845,7 @@
                             text: '修改成功!',
                             icon: 'success'
                         });
-                        
+                            connection.invoke("SendUpdateNotification", "mytasking", "1").catch(err => console.error(err));
                     } else {
                         Swal.fire({
                             title: '失敗',

@@ -109,7 +109,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public IActionResult Detail(int? id)
         {
-            var q = _context.TaskLists.Include(t => t.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            //var q = _context.TaskLists.Include(t => t.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
+            var q = _context.TaskLists
+    .Include(t => t.Town.City)
+    .Include(x => x.TaskSkills) 
+    .Include(x => x.TaskCertificates) 
+    .FirstOrDefault(t => t.CaseId == id);
+
+
 
             bool isAddressEmpty = string.IsNullOrEmpty(q.Address);
             ViewBag.IsAddressEmpty = isAddressEmpty;
