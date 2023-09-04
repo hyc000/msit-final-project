@@ -51,6 +51,17 @@
                         //    currentResume = item; // 更新當前履歷
                         //}
 
+                        //9/4
+                        //bool hasCertificates = item.CertificateNames != null && item.CertificateNames.Any();
+                        //bool hasSkills = item.SkillNames != null && item.SkillNames.Any();
+
+                        //// 如果沒有證照和技能，則跳過這個迴圈迭代
+                        //if (!hasCertificates && !hasSkills)
+                        //{
+                        //    continue;
+                        //}
+
+
                         <tr data-id="1">
                             <td data-field="id">@count</td>
                             <td data-field="name"> @Html.DisplayFor(modelItem => item.TaskTitle)</td>
@@ -68,14 +79,14 @@
                                     }*@
 
                                     @*9/4*@
-                                    @*@if (item.CertificateNames != null)
+                                    @if (item.CertificateNames != null)
                                     {
                                         var distinctCertificates = item.CertificateNames.Distinct();
                                         foreach (var cert in distinctCertificates)
                                         {
                                             <a href="#" class="badge badge-soft-primary">@cert</a>
                                         }
-                                    }*@
+                                    }
 
                                     @*@if (item.CertificateNames != null)
                                     {
@@ -83,7 +94,7 @@
                                         <a href="#" class="badge badge-soft-primary">@certificateNames</a>
                                     }*@
 
-                                    @if (item.CertificateNames != null)
+                                   @* @if (item.CertificateNames != null)
                                     {
                                         foreach (var certificateName in item.CertificateNames.Distinct())
                                         {
@@ -93,8 +104,12 @@
                                                 <a href="#" class="badge badge-soft-primary">@certificateName</a>
                                             }
                                         }
-                                    }
+                                    }*@
 
+                                   @* @if (hasCertificates)
+                                    {
+                                        <a href="#" class="badge badge-soft-primary">@string.Join(", ", item.CertificateNames.Distinct())</a>
+                                    }*@
 
                                     </div>
                             </td>
@@ -108,20 +123,20 @@
                                     }
                                     }*@
 
-                                   @* @if (item.SkillNames != null)
+                                    @if (item.SkillNames != null)
                                     {
                                         var distinctSkills = item.SkillNames.Distinct();
                                         foreach (var skill in distinctSkills)
                                         {
                                             <a href="#" class="badge badge-soft-primary">@skill</a>
                                         }
-                                    }*@
+                                    }
                                    @* @if (item.SkillNames != null)
                                     {
                                         string skillNames = string.Join(", ", item.SkillNames.Distinct());
                                         <a href="#" class="badge badge-soft-primary">@skillNames</a>
                                     }*@
-                                    @if (item.SkillNames != null)
+                                    @*@if (item.SkillNames != null)
                                     {
                                         foreach (var skillName in item.SkillNames.Distinct())
                                         {
@@ -131,8 +146,13 @@
                                                 <a href="#" class="badge badge-soft-primary">@skillName</a>
                                             }
                                         }
-                                    }
-                                   
+                                    }*@
+
+                                    @*@if (hasSkills)
+                                    {
+                                        <a href="#" class="badge badge-soft-primary">@string.Join(", ", item.SkillNames.Distinct())</a>
+                                    }*@
+
                                 </div>
                             </td>
                             <td>
