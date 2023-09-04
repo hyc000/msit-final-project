@@ -51,6 +51,7 @@
     
     <!--Bootstrap 樣式類：用於創建一個水平的「行」容器、於在「行」容器中使內容水平居中對齊。-->
     <div class="col-3 g-0 ps-2 pe-2 me-4">
+            <form id="searchForm">
         <!--左側搜尋(篩選)-->
         <!--Bootstrap：創建一個佔據父容器 25% 寬度的列，並在左側和右側添加內邊距，同時在右側添加外邊距。-->
         <div class="filter_block ">
@@ -59,7 +60,7 @@
                 @* 自訂 ：應該是為了包住搜尋的標籤&搜尋框框，但好像沒套到*@
                 <label class="fs-4 pl-2 pt-2">搜尋專家</label>
                 <!-- 添加 form 元素並設定 action 屬性 -->
-                    <form id="searchForm">
+                   
                         <!--action="Url.Action("ExpertSearch", "Expert")" -->
                 <div class="d-flex align-items-center search_container position-relative">
                     <!--為了製作搜尋的輸入框(包含前方小圖&按鈕)-->
@@ -73,38 +74,32 @@
                     @* 自訂 ：可能要做Form才會送出&好像沒套到*@
                             <button type="submit" class="btn btn-outline-primary ms-2" onclick=" event.preventDefault(); search();">查詢</button>
                 </div>
-                </form>
+                
             </div>
         </div>
         <!--左側工具列先不要管他-->
         <!--左側技能類別-->
         <div class="filter_block">
             <label class="fs-4 pl-2 pt-2">所有專長類別</label>
-            @using (Html.BeginForm())
-            {
-
-                <select name="selectCategory" id="skilltypeselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+       
+                <select  id="skilltypeselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
                 </select>
-                <select name="selectCategory" id="skillselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                        <select name="SelectedSkill" id="skillselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     <option value=''>請先選擇專長</option>
                 </select>
-            }
+            
         </div>
         <!--左側證照類別-->
         <div class="filter_block">
             <label class="fs-4 pl-2 pt-2">所有證照類別</label>
             <div class="controls-display-row category-click">
-                @using (Html.BeginForm())
-                {
-
+              
                     <select id="certificatetypeselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     </select>
-                    <select id="certificateselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                            <select name="SelectedCertificate" id="certificateselect" class="form-select form-select-lg mb-3" aria-label="Large select example">
                         <option value=''>請先選擇證照</option>
                     </select>
-                }
-
-
+                
 
             </div>
             </div>
@@ -113,16 +108,17 @@
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
             <div class="mt-4">
                 <section class="range-slider range-container pb-3 ">
-                    <input id="rangeOne" name="ranvgeOne" value="@ViewBag.MaxPrice" min="0" max="@ViewBag.MaxPrice" step="1" type="range" class="col-md-10 d-flex justify-content-center">
+                            <input id="rangeOne" name="SelectedMaxPrice" value="@ViewBag.MaxPrice" min="0" max="@ViewBag.MaxPrice" step="1" type="range" class="col-md-10 d-flex justify-content-center">
                     <span >最高價：</span> <!-- 用來顯示範圍值的元素 -->
                     <span id="rangeValue">@((int)ViewBag.MaxPrice)</span> <!-- 用來顯示範圍值的元素 -->
                     <span>元</span> <!-- 用來顯示範圍值的元素 -->
                 </section>
                 <div class="d-flex justify-content-center">
-                    <input id="btn_filter_price" class="btn btn-outline-secondary" type="button" value="搜尋" />
+                            <input id="btn_search_price" class="btn btn-outline-secondary" type="button" value="搜尋" />
                 </div>
             </div>
         </div>
+        </form>
     </div><!--左側工具列結尾-->
     <!--先來做右側工具列-->
     <div class="col-8 g-0 justify-content-end">
@@ -194,79 +190,79 @@
 
                         starId = "star" + item.ResumeId;
 
-                                                                                    <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
-                                                                                                <div class="row g-0">
-                                                                                                    <div class="col-md-4 pr-0 ">
-                                                                                                        <!--放圖片-->
-                                                                                                            @if (item.Photo != null)
+                                                                                        <div class="card mb-3 col-12 p-0" style="background:#E5EDF6	">
+                                                                                                    <div class="row g-0">
+                                                                                                        <div class="col-md-4 pr-0 ">
+                                                                                                            <!--放圖片-->
+                                                                                                                @if (item.Photo != null)
                                                                                                          {
-                                                                                                                <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
-                                                                                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="250" />
-                                                                                                            </div>
+                                                                                                                    <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
+                                                                                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="250" />
+                                                                                                                </div>
                                                                                                              }
                                                                                                           else
                                                                                                              {
-                                                                                                            <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                                                                                                <img src="~/Images/LOGO.png" height="250" />
-                                                                                                            </div>
+                                                                                                                <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
+                                                                                                                    <img src="~/Images/LOGO.png" height="250" />
+                                                                                                                </div>
                                                                                                             }
-                                                                                                    </div>
-                                                                                                    <div class="col-md-6 pl-0">
-                                                                                                        <div class="card-body d-flex justify-content-around row">
-                                                                                                            <div class="pl-4 pr-4">
-                                                                                                                <span class="card-title">@item.Name  @item.ResumeTitle</span>
-                                                    <p class="card-text  mb-0">
-                                                        <span class="card-text  mb-2">專長： @item.SkillNames | </span>
-                                                        <span class="card-text  mb-2">證照： @item.CertificateNames </span>
-                                                                                                                </p>
-                                                    <!--控管專家介紹的字數-->
-                                                    
-                                                    @{if (item.Introduction.Count() <= 47)
+                                                                                                        </div>
+                                                                                                        <div class="col-md-6 pl-0">
+                                                                                                            <div class="card-body d-flex justify-content-around row">
+                                                                                                                <div class="pl-4 pr-4">
+                                                                                                                    <span class="card-title">@item.Name  @item.ResumeTitle</span>
+                                                        <p class="card-text  mb-0">
+                                                            <span class="card-text  mb-2">專長： @item.SkillNames | </span>
+                                                            <span class="card-text  mb-2">證照： @item.CertificateNames </span>
+                                                                                                                    </p>
+                                                        <!--控管專家介紹的字數-->
+                                                        
+                                                        @{if (item.Introduction.Count() <= 47)
                                                 {
-                                                                <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
+                                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
                                                     }
                                                     else
                                                     {
-                                                                <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
+                                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
                                                     }
-                                                    }
-                                                    
-                                                    
-                                                                                                                <p class="card-text">
-                                                                                                                    <small class="text-body-secondary">@item.PaymentMethod |</small>
-                                                                                                                    <small class="text-body-secondary">@item.ContactMethod</small>
-                                                                                                                    <small class="text-body-secondary">
-                                                                                                                        |
-                                                                                                                        <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
-                                                                                                                    </small>
-                                                                                                                </p>
-                                                                                                                <p class="card-text">
-                                                        <small class="text-body-secondary star-rating" data-resume-id="@item.ResumeId" id="@starId"></small>
-                                                                                                                </p>
-                                                                                                                <div class="row position-absolute bottom-0">
-                                                                                                                    @*<div class="col">*@
-                                                                                                                <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
+                                                        }
+                                                        
+                                                        
+                                                                                                                    <p class="card-text">
+                                                                                                                        <small class="text-body-secondary">@item.PaymentMethod |</small>
+                                                                                                                        <small class="text-body-secondary">@item.ContactMethod</small>
+                                                                                                                        <small class="text-body-secondary">
+                                                                                                                            |
+                                                                                                                            <i class="fa-solid fa-location-dot"></i>@item.cityName @item.townName 
+                                                                                                                        </small>
+                                                                                                                    </p>
+                                                                                                                    <p class="card-text">
+                                                            <small class="text-body-secondary star-rating" data-resume-id="@item.ResumeId" id="@starId"></small>
+                                                                                                                    </p>
+                                                                                                                    <div class="row position-absolute bottom-0">
+                                                                                                                        @*<div class="col">*@
+                                                                                                                    <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
+                                                                                                                    </div>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                        <div class="col-md-2 pl-0">
+                                                                                                            <div class="row g-0 mx-2 my-2">
+                                                        <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
+                                                                                                            </div>
+                                                                                                            <div class="row g-0 mx-2 my-2">
+                                                                <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.AccountId')">聯絡專家</a>
+                                                                                                            </div>
+                                                <div class="row g-0 mx-2 my-2">
+                                                    <p class="card-text" style="float:right">點閱數：@item.HistoricalViews</p>
+                                                </div>
+                                                                                                            <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
+                                                                                                                
+                                                        <p class="card-text fs-5 fw-bolder text-end"><span>TWD @(item.CommonPrice.Value.ToString("N0"))</span><span class="fs-6 fw-normal">起</span></p>
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                    <div class="col-md-2 pl-0">
-                                                                                                        <div class="row g-0 mx-2 my-2">
-                                                    <a href="@Url.Content("~/ExpertResumes/Resume")?id=@item.ResumeId" class="btn btn-outline-primary me-2" id="btnEdit" style="float:right">詳細資訊</a>
-                                                                                                        </div>
-                                                                                                        <div class="row g-0 mx-2 my-2">
-                                                            <a class="btn btn-outline-primary me-2" style="float:right" onclick="ChatElert('@Url.Content("~/Chat/Chatsingle")?id=@item.AccountId')">聯絡專家</a>
-                                                                                                        </div>
-                                            <div class="row g-0 mx-2 my-2">
-                                                <p class="card-text" style="float:right">點閱數：@item.HistoricalViews</p>
-                                            </div>
-                                                                                                        <div class="row position-absolute bottom-0 end-0 mx-2 my-2">
-                                                                                                            
-                                                    <p class="card-text fs-5 fw-bolder text-end"><span>TWD @(item.CommonPrice.Value.ToString("N0"))</span><span class="fs-6 fw-normal">起</span></p>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                   </div>
+                                                                                       </div>
                     }
                     
                 }
@@ -305,60 +301,6 @@
         const certificatetypeselect = document.querySelector('#certificatetypeselect');
         const certificateselect = document.querySelector('#certificateselect');
 
-        // document.addEventListener('DOMContentLoaded', function () {
-
-        //     Loadskilltype();
-        //     Loadcertificatetype();
-
-        //     skilltypeselect.addEventListener('change', function () {
-        //         Loadskill();
-        //     });
-
-        //     certificatetypeselect.addEventListener('change', function () {
-        //         Loadcertificate();
-        //     });
-
-        //     //顯示專家總數
-        //     //const CountExpert = document.querySelector('#CountExpert');
-        //     //CountExpert.textContent = CountExpert;
-
-        //     //顯示價格
-        //     const rangeInput = document.getElementById('rangeOne');
-        //     const rangeValue = document.getElementById('rangeValue');
-
-        //     rangeInput.addEventListener('input', function () {
-        //         var newValue = rangeInput.value; // 取得 input 的新值
-        //         rangeValue.textContent = newValue; // 更新顯示範圍值的元素的內容
-        //     });
-
-        //     let ratingElements = document.querySelectorAll(".star-rating");
-
-        //     ratingElements.forEach(element => {
-        //         let score = 0;   // 初始化score
-        //         let count = 0;   // 初始化count
-
-        //         let resumeId = element.getAttribute("data-resume-id");
-        //         fetch(`@Url.Content("~/ExpertResumesApi/StarRatingAPI")?resumesid=${resumeId}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 if (data != null && data["評分資料"].length > 0) {
-        //                     data["評分資料"].forEach(item => {
-        //                         score += Number(item.分數);
-        //                         count++;
-        //                     });
-        //                     let averagescore = score / count;  // 宣告 averagescore
-        //                     let averageStars = generateStars(averagescore);
-        //                     let average = averagescore.toFixed(1);
-        //                     document.querySelector("#" + element.id).innerHTML = `${average}分 ${averageStars} --${count} 筆評論`;
-        //                 } else {
-        //                     let averageStars = generateStars(0);
-        //                     document.querySelector("#" + element.id).innerHTML = `0分 ${averageStars} -- 0 筆評論`;
-        //                 }
-        //             });
-        //     });
-
-        // });
-
         document.addEventListener('DOMContentLoaded', function () {
 
             Loadskilltype();
@@ -372,11 +314,6 @@
             certificatetypeselect.addEventListener('change', function () {
                 Loadcertificate();
             });
-
-            // 顯示專家總數
-            // If you want to enable this part, ensure the CountExpert variable is defined correctly.
-            // const CountExpert = document.querySelector('#CountExpert');
-            // CountExpert.textContent = CountExpert;
 
             // 顯示價格
             const rangeInput = document.getElementById('rangeOne');
@@ -421,7 +358,7 @@
             fetch('@Url.Content("~/ApiForExpert/SkillTyptAPI")')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     let options = "<option>請選擇專長</option>";
                     options += data.map(skilltype => `<option value="1">${skilltype}</option>`).join('');
 
@@ -432,54 +369,29 @@
             function Loadskill() {
                 const skilltypeselecttext = skilltypeselect.options[skilltypeselect.selectedIndex].text;
 
-                console.log(skilltypeselecttext);
+                // console.log(skilltypeselecttext);
                 if (skilltypeselecttext == "請選擇專長" || skilltypeselecttext == null) {
                     skillselect.innerHTML = "<option value=''>請先選擇專長</option>";
                     return;
                 }
-
-                // fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
-                //     .then(response => response.json())
-                //     .then(datas => {
-
-                //     //     let options = ""
-                //     // options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
-                //         let options = "";
-                //         options += datas.map(skill => {
-
-                //          // 從先前創建的全局變數中查找技能的計數
-                //             let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
-                //         return `<option value="1">${skill}(${count})</option>`;
-                //         }).join('');
-
-                //         skillselect.innerHTML = options;
-                //     });  //then最後一個THEN
 
             fetch(`@Url.Content("~/ApiForExpert/SkillAPI")?skilltype=${skilltypeselecttext}`)
                 .then(response => response.json())
                 .then(datas => {
 
                     let options = ""
-                    options += datas.map(skill => `<option value="1">${skill}</option>`).join('');
-                    // let options = "";
-                    // options += datas.map(skill => {
-
-                    //  // 從先前創建的全局變數中查找技能的計數
-                    //     let count = skillCounts.find(s => s.SkillName == skill).Count || 0;
-                    // return `<option value="1">${skill}(${count})</option>`;
-                    // }).join('');
+                    options += datas.map(skill => `<option value='${skill}'>${skill}</option>`).join('');
 
                     skillselect.innerHTML = options;
                 });  //then最後一個THEN
             };
-        /*Loadskilltype();*///使用載入資料
 
             //證照大項資料來
             function Loadcertificatetype() {
                 fetch('@Url.Content("~/ApiForExpert/CertificateTypeAPI")')
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        // console.log(data);
                     let options = "<option>請選擇證照</option>";
                     options += data.map(certificatetype => `<option value="1">${certificatetype}</option>`).join('');
 
@@ -487,11 +399,9 @@
                     });  //then最後一個THEN
             };
 
-
-        
             function Loadcertificate() {
                 const certificatetypeselecttext = certificatetypeselect.options[certificatetypeselect.selectedIndex].text;
-                console.log(certificatetypeselecttext);
+                // console.log(certificatetypeselecttext);
             if (certificatetypeselecttext == "請選擇證照" || certificatetypeselecttext == null) {
                 certificateselect.innerHTML = "<option value=''>請先選擇證照</option>";
                     return;
@@ -501,14 +411,10 @@
                     .then(response => response.json())
                     .then(datas => {
                         let options = ""
-                        options += datas.map(certificate => `<option value="1">${certificate}</option>`).join('');
+                    options += datas.map(certificate => `<option value='${certificate}'>${certificate}</option>`).join('');
                         certificateselect.innerHTML = options;
                     });  //then最後一個THEN
             };
-            
-        
-                                /*Loadcertificatetype();*///使用載入證照資料
-
        
         // 製作專家聊聊的跳轉&sweetalert事件
         function ChatElert(href) {
@@ -549,8 +455,15 @@
             return arr.join("");
         }
 
+        //綁定搜尋的事件(關鍵字本人綁在標籤上)
+        document.getElementById("skillselect").addEventListener("change", search);
+        document.getElementById("certificateselect").addEventListener("change", search);
+        document.getElementById("btn_search_price").addEventListener("click", function (event) {
+            event.preventDefault();
+            search();
+        });
 
-        //關鍵字查詢
+        //查詢函數
         function search() {
             var searchForm = document.getElementById("searchForm");
             var queryData = new URLSearchParams(new FormData(searchForm)).toString();
@@ -627,7 +540,6 @@
             xhrTotalCount.send();
         }
           
-       
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>

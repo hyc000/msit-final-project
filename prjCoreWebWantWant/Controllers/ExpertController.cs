@@ -11,6 +11,7 @@ using prjCoreWebWantWant.ViewModels;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Drawing.Spreadsheet;
 using Microsoft.Identity.Client;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -65,22 +66,6 @@ namespace prjCoreWantMember.Controllers
                             CertificateNames = string.Join(",", certificates)
                         };
 
-            //}
-            //else
-            //{
-            //    datas = from r in db.Resumes
-            //            join m in db.MemberAccounts
-            //           on r.AccountId equals m.AccountId
-            //            join er in db.ExpertResumes
-            //            on r.ResumeId equals er.ResumeId
-            //            join rSk in db.ResumeSkills
-            //          on r.ResumeId equals rSk.ResumeId
-            //            join rCe in db.ResumeCertificates
-            //            on r.ResumeId equals rCe.ResumeId
-            //            where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&((m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) ||
-            //            r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper())))
-            //            select new CExpertInfoViewModel { resume = r, memberAccount = m, expertResume = er };
-            //}
             ViewBag.TotalCount = datas.Distinct().Count();
             ViewBag.MaxPrice = datas.Max(p => p.CommonPrice);
             
@@ -88,12 +73,11 @@ namespace prjCoreWantMember.Controllers
             IEnumerable<CExpertSearchViewModel> result = datas.ToPagedList(currentPage, pageSize);
             return View(result);
         }
-        public IActionResult ExpertSearch(CKeywordViewModel vm, int page = 1)
+        public IActionResult ExpertSearch(CExpertKeyword vm, int page = 1)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-            CExperTaskFactory factory = new CExperTaskFactory(db);
-
             IEnumerable<CExpertSearchViewModel> datas = null;
+            //先抓到所有的datass
             datas = from r in db.Resumes
                     join m in db.MemberAccounts on r.AccountId equals m.AccountId
                     join er in db.ExpertResumes on r.ResumeId equals er.ResumeId
@@ -110,8 +94,7 @@ namespace prjCoreWantMember.Controllers
                                         where r.ResumeId == rCe.ResumeId
                                         select ce.CertificateName).ToList() // Convert to List
 
-                    where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&
-                    (m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) || r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()))
+                    where r.IsExpertOrNot == true && r.CaseStatusId == 23
 
                     select new CExpertSearchViewModel
                     {
@@ -130,17 +113,42 @@ namespace prjCoreWantMember.Controllers
                         SkillNames = string.Join(",", skills),
                         CertificateNames = string.Join(",", certificates)
                     };
-          
+
+            //如果有關鍵字的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.txtKeyword))
+            {
+                datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                    || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                //因為沒有cityName所以我不能篩選城市欸QQ
+            }
+
+            //如果有選擇證照的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.SelectedCertificate)&& !vm.SelectedCertificate.Contains("請先選擇"))
+            {
+                datas=datas.Where(m=>m.CertificateNames.ToUpper().Contains(vm.SelectedCertificate.ToUpper()));
+            }
+            //如果有選擇類別或是專長的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.SelectedSkill) && !vm.SelectedSkill.Contains("請先選擇"))
+            {
+                datas = datas.Where(m => m.SkillNames.ToUpper().Contains(vm.SelectedSkill.ToUpper()));
+            }
+            //如果有限制最高價的話，篩掉這個datas
+            if (vm.SelectedMaxPrice.HasValue)
+            {
+                datas = datas.Where(m =>m.CommonPrice<=vm.SelectedMaxPrice);
+            }
+
             int currentPage = page < 1 ? 1 : page;
             IEnumerable<CExpertSearchViewModel> result = datas.ToPagedList(currentPage, pageSize);
             return PartialView("_ResultsPartial", result);
         }
 
-        public JsonResult GetTotalCount(CKeywordViewModel vm)
+        public JsonResult GetTotalCount(CExpertKeyword vm)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
-
             IEnumerable<CExpertSearchViewModel> datas = null;
+            //先抓到所有的datass
             datas = from r in db.Resumes
                     join m in db.MemberAccounts on r.AccountId equals m.AccountId
                     join er in db.ExpertResumes on r.ResumeId equals er.ResumeId
@@ -157,8 +165,7 @@ namespace prjCoreWantMember.Controllers
                                         where r.ResumeId == rCe.ResumeId
                                         select ce.CertificateName).ToList() // Convert to List
 
-                    where (r.IsExpertOrNot == true && r.CaseStatusId == 23) &&
-                    (m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper()) || r.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()))
+                    where r.IsExpertOrNot == true && r.CaseStatusId == 23
 
                     select new CExpertSearchViewModel
                     {
@@ -177,6 +184,33 @@ namespace prjCoreWantMember.Controllers
                         SkillNames = string.Join(",", skills),
                         CertificateNames = string.Join(",", certificates)
                     };
+
+            //如果有關鍵字的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.txtKeyword))
+            {
+                datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                    || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                //因為沒有cityName所以我不能篩選城市欸QQ
+            }
+
+            //如果有選擇證照的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.SelectedCertificate) && !vm.SelectedCertificate.Contains("請先選擇"))
+            {
+                datas = datas.Where(m => m.CertificateNames.ToUpper().Contains(vm.SelectedCertificate.ToUpper()));
+            }
+            //如果有選擇類別或是專長的話篩掉這個datas
+            if (!string.IsNullOrEmpty(vm.SelectedSkill) && !vm.SelectedSkill.Contains("請先選擇"))
+            {
+                datas = datas.Where(m => m.SkillNames.ToUpper().Contains(vm.SelectedSkill.ToUpper()));
+            }   
+            //如果有限制最高價的話，篩掉這個datas
+            if (vm.SelectedMaxPrice.HasValue)
+            {
+                datas = datas.Where(m => m.CommonPrice <= vm.SelectedMaxPrice);
+            }
+
+            //真的開始計數
             int totalCount = datas.Distinct().Count();
             return Json(totalCount);
         }
