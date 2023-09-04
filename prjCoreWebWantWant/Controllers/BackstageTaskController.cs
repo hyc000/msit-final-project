@@ -230,18 +230,9 @@ namespace WantTask.Controllers
         //點選已上架未上架的詳細任務畫面
         public IActionResult JobDetail(int? id)
         {
-            var q = _context.TaskLists
-                //.Include(s => s.TaskSkills)
-                //.ThenInclude(s=>s.Skill)
-                //.Include(c=>c.TaskCertificates)
-                //.ThenInclude(c=>c.Certficate)
-                //.Include(p=>p.TaskPhotos)
-                //.ThenInclude(p=>p.Photo)
-                //.Where(ss => ss.CaseId == id)
-
-
-                //.Include(t=>t.TaskCertificates).Where(tt=>tt.CaseId==id)
-                //.Include(p=>p.TaskPhotos).Where(pp=>pp.CaseId==id)沒用的三行
+            var q = _context.TaskLists              
+                .Include(x => x.TaskSkills)
+                .Include(x => x.TaskCertificates)    
                 .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
 
             //var q = from p in _context.TaskLists
