@@ -472,6 +472,7 @@ namespace prjShop.Controllers
             newOrder.PayWayId = 1;
             newOrder.CategoryId = 2;
             newOrder.CreateTime = DateTime.Now;
+            newOrder.Status = "已付款";
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
 
@@ -585,6 +586,7 @@ namespace prjShop.Controllers
             newOrder.PayWayId = 1;
             newOrder.CategoryId = 1;
             newOrder.CreateTime = DateTime.Now;
+            newOrder.Status = "已付款";
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
 
