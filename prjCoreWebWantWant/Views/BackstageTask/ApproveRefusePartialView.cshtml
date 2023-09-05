@@ -3,7 +3,7 @@
 @{
    // ViewData["Title"] = "approve";
     // Layout = "~/Views/Shared/_BackstageLayout.cshtml";
-    Layout = "~/Views/Member/LayoutForMem.cshtml";
+    //Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
 
 
@@ -33,6 +33,9 @@
                 @{                  
 
                     int count = 0;
+                    List<string> displayedCertificateItems = new List<string>();
+                    List<string> displayedSkillItems = new List<string>();
+
 
                     foreach (var item in Model)
                     {
@@ -53,12 +56,28 @@
                            @* <td data-field="gender">@Html.DisplayFor(modelItem => taskDetail)</td>*@
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>
+                                    @*<a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.CertificateName)</a>*@
+                                    @if (item.CertificateNames != null)
+                                    {
+                                        var distinctCertificates = item.CertificateNames.Distinct();
+                                        foreach (var cert in distinctCertificates)
+                                        {
+                                            <a href="#" class="badge badge-soft-primary">@cert</a>
+                                        }
+                                    }
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>
+                                    @if (item.SkillNames != null)
+                                    {
+                                        var distinctSkills = item.SkillNames.Distinct();
+                                        foreach (var skill in distinctSkills)
+                                        {
+                                            <a href="#" class="badge badge-soft-primary">@skill</a>
+                                        }
+                                    }
+                                   @* <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>*@
                                 </div>
                             </td>
                             <td style="width: 100px">
