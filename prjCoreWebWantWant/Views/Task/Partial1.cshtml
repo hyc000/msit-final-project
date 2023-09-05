@@ -4,10 +4,29 @@
 @model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 
 <body>
-@foreach (var item in Model)
+    @{
+        // var orderedData = Model.OrderByDescending(item => item.OnTop > DateTime.Now);
+    }
+    @foreach (var item in Model)
 {
 <div class="card text-center">
-            <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px">@item.TaskTitle</div>
+            <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px;">
+                <span style="float:left;font-size:20px;color:#484891	">
+                    <img src="~/Backstage/icon/grid.png" style="width:24px;height:24px" />@item.TaskName.TaskName
+                </span>
+                @if (item.OnTop > DateTime.Now)
+                {
+                    <div style="text-align:center;color:red">
+                        <i class="fa-solid fa-fire fa-beat fa-lg" style="color: #e93407;"></i>熱門　@item.TaskTitle
+                    </div>
+                }
+                else
+                {
+                    <div style="text-align:center">
+                        @item.TaskTitle
+                    </div>
+                }
+            </div>
     <div class="row">
         <div class="card-body col-9">
             @* <h5 class="card-body">任務內容： @item.TaskDetail</h5> *@
