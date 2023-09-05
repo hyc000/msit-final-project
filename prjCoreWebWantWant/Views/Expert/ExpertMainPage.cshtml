@@ -108,7 +108,7 @@
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
             <div class="mt-4">
                 <section class="range-slider range-container pb-3 ">
-                            <input id="rangeOne" name="SelectedMaxPrice" value="@ViewBag.MaxPrice" min="0" max="@ViewBag.MaxPrice" step="1" type="range" class="col-md-10 d-flex justify-content-center">
+                            <input id="rangeOne" name="SelectedMaxPrice" value="@ViewBag.MaxPrice" min="0" max="@ViewBag.MaxPrice" step="100" type="range" class="col-md-10 d-flex justify-content-center">
                     <span >最高價：</span> <!-- 用來顯示範圍值的元素 -->
                     <span id="rangeValue">@((int)ViewBag.MaxPrice)</span> <!-- 用來顯示範圍值的元素 -->
                     <span>元</span> <!-- 用來顯示範圍值的元素 -->
@@ -161,11 +161,11 @@
                     -->
                     <span class="fw-bolder ms-2">排序 : </span>
                     <span>　</span>
-                    <a id="sortByHot" href="#" class=" fw-bolder" name="status">熱門程度</a>
+                        <a id="SortByHis" href="#" class=" fw-bolder" name="status">熱門程度</a>
                     <span>　|　</span>
-                    <a id="sortByCommet" href="#" class=" fw-bolder" name="status">修改時間(新到舊)</a>
+                        <a id="SortByDate" href="#" class=" fw-bolder" name="status">修改時間(新到舊)</a>
                     <span>　|　</span>
-                    <a id="sortByPrice" href="#" class=" fw-bolder" name="status">價格排序(低到高)</a>
+                        <a id="SortByPrice" href="#" class=" fw-bolder" name="status">價格排序(低到高)</a>
                 </div>
 
             </div>
@@ -243,7 +243,7 @@
                                                                                                                     </p>
                                                                                                                     <div class="row position-absolute bottom-0">
                                                                                                                         @*<div class="col">*@
-                                                                                                                    <p class="card-text fs-5 fw-bolder text-end"><span>最後修改日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
+                                                                                                                    <p class="card-text fs-5 fw-bolder text-end"><span>最後更新日期 ：</span>@item.DataModifyDate.Substring(0,10)</p>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
@@ -473,7 +473,99 @@
             event.preventDefault();
             search();
         });
+        //熱門程度排序函數
+        function SearchWithSortByHis() {
+            var searchForm = document.getElementById("searchForm");
+            var queryData = new URLSearchParams(new FormData(searchForm)).toString();
 
+            // Create a new XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /YourController/YourAction with async = true
+            xhr.open('GET', '/Expert/SortByHis?' + queryData, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) { // Check if request was successful
+                    document.getElementById("filterBody").innerHTML = xhr.responseText;
+
+                    // 執行評分更新函數
+                    updateRating();
+                    //為了在每次查詢都可以更新計數
+                    // 更新TotalCount
+                    updateTotalCount(queryData);
+                } else {
+                    console.error("Request failed. Returned status of " + xhr.status);
+                }
+            };
+
+            xhr.send();
+        }
+        document.getElementById("SortByHis").addEventListener("click", function (event) {
+            event.preventDefault();
+            SearchWithSortByHis();
+        });
+        //更新時間新到舊排序函數
+        function SearchWithSortByDate() {
+            var searchForm = document.getElementById("searchForm");
+            var queryData = new URLSearchParams(new FormData(searchForm)).toString();
+
+            // Create a new XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /YourController/YourAction with async = true
+            xhr.open('GET', '/Expert/SortByDate?' + queryData, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) { // Check if request was successful
+                    document.getElementById("filterBody").innerHTML = xhr.responseText;
+
+                    // 執行評分更新函數
+                    updateRating();
+                    //為了在每次查詢都可以更新計數
+                    // 更新TotalCount
+                    updateTotalCount(queryData);
+                } else {
+                    console.error("Request failed. Returned status of " + xhr.status);
+                }
+            };
+
+            xhr.send();
+        }
+        document.getElementById("SortByDate").addEventListener("click", function (event) {
+            event.preventDefault();
+            SearchWithSortByDate();
+        });
+        //價格低到高函數
+        function SearchWithSortByPrice() {
+            var searchForm = document.getElementById("searchForm");
+            var queryData = new URLSearchParams(new FormData(searchForm)).toString();
+
+            // Create a new XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /YourController/YourAction with async = true
+            xhr.open('GET', '/Expert/SortByPrice?' + queryData, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) { // Check if request was successful
+                    document.getElementById("filterBody").innerHTML = xhr.responseText;
+
+                    // 執行評分更新函數
+                    updateRating();
+                    //為了在每次查詢都可以更新計數
+                    // 更新TotalCount
+                    updateTotalCount(queryData);
+                } else {
+                    console.error("Request failed. Returned status of " + xhr.status);
+                }
+            };
+
+            xhr.send();
+        }
+        document.getElementById("SortByPrice").addEventListener("click", function (event) {
+            event.preventDefault();
+            SearchWithSortByPrice();
+        });
         //查詢函數
         function search() {
             var searchForm = document.getElementById("searchForm");
