@@ -81,7 +81,7 @@
                             <div class="card-header">                            
                                 <div class="row">
                                         <!--已上架 未上架-->
-                                @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                            @*    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                                     @{
                                         string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
                                         CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
@@ -92,7 +92,7 @@
 
                                         var count = _contexta.TaskLists.Count(p => p.PublishOrNot == "立刻上架" && p.AccountId == accountId);
                                         var count2 = _contexta.TaskLists.Count(p => p.PublishOrNot == "延後上架" && p.AccountId == accountId);
-                                        
+                                        *@
                                         <div class="card-body col-4">  
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
@@ -100,19 +100,19 @@
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
 
                                                  
-                                                        <span class="d-none d-sm-block">已上架(@count)</span>
+                                                        <span class="d-none d-sm-block">已上架@*(@count)*@</span>
                                                    
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab" style="color:#528EAF" id="tabNopublish">
                                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block">未上架(@count2)</span>
+                                                        <span class="d-none d-sm-block">未上架@*(@count2)*@</span>
                                                     </a>
                                                     </li>                                             
                                                 </ul>
                                             </div> 
-                                        }
+                                        @*}*@
                                             <!--標籤  選擇任務類型-->
 
                                             <!--已上架的select標籤-->
