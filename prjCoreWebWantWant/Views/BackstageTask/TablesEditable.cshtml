@@ -1,4 +1,5 @@
-﻿@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+﻿@using System.Text.Json;
+@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 @*@model IEnumerable<WantTask.ViewModels.CTaskListDetailItem>*@
 @*@model List<TaskList>*@
 
@@ -80,22 +81,38 @@
                             <div class="card-header">                            
                                 <div class="row">
                                         <!--已上架 未上架-->
-                                            <div class="card-body col-4">  
+                                @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                                    @{
+                                        string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                                        CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); //loggedInUser的資料型態為MemberAccount這個資料表                                                                                   // 现在 loggedInUser 对象包含了从会话中取出的用户信息
+                                        int id = loggedInUser.AccountId; //抓登入者的id                                 
+
+                                        NewIspanProjectContext _contexta = new NewIspanProjectContext();
+                                        int accountId = id; // 替換為實際的帳號ID，這裡假設帳號ID是123
+
+                                        var count = _contexta.TaskLists.Count(p => p.PublishOrNot == "立刻上架" && p.AccountId == accountId);
+                                        var count2 = _contexta.TaskLists.Count(p => p.PublishOrNot == "延後上架" && p.AccountId == accountId);
+                                        
+                                        <div class="card-body col-4">  
                                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                                     <li class="nav-item" onclick="showPublish();">
                                                 <a class="nav-link active" data-bs-toggle="tab" href="#Publish" role="tab" style="color:white ; background-color:#528EAF ; font-size:20px;" id="tabpublish">
                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                <span class="d-none d-sm-block">已上架</span>
+
+                                                 
+                                                        <span class="d-none d-sm-block">已上架(@count)</span>
+                                                   
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" onclick="showNoPublish();">
                                                 <a class="nav-link" data-bs-toggle="tab" href="#NoPublish" role="tab" style="color:#528EAF" id="tabNopublish">
                                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                <span class="d-none d-sm-block">未上架</span>
-                                                        </a>
-                                                    </li>
+                                                        <span class="d-none d-sm-block">未上架(@count2)</span>
+                                                    </a>
+                                                    </li>                                             
                                                 </ul>
-                                            </div>
+                                            </div> 
+                                        }
                                             <!--標籤  選擇任務類型-->
 
                                             <!--已上架的select標籤-->
