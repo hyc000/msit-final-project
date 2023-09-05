@@ -7,22 +7,52 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <link rel="stylesheet" href="~/Mstyles/index.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />*@
+    @*<link rel="stylesheet" href="~/Mstyles/index.css" asp-append-version="true" />*@
+
+    <style>     
+      
+    </style>
 }
+
+<head>
+    <style>
+        .boxed-btn3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* width: 200px; /* 調整按鈕的寬度，以適應您的設計需求 */
+            /*height: 40px;  /* 調整按鈕的高度，以適應您的設計需求 */
+            /*background-color: #E3eff3; /* 背景顏色 */
+            /*color: #528EAF; /* 文字顏色 */
+            text-decoration: none;
+            border: none;
+            border-radius: 5px; /* 圓角 */
+            transition: background-color 0.3s ease; /* 添加 hover 效果的過渡 */
+        }
+
+            .boxed-btn3:hover {
+                background-color: #E3eff3; /* 鼠標懸停時的背景顏色 */
+                color: #528EAF; /* 文字顏色 */
+            }
+
+
+
+    </style>
+</head>
 <section class="main-title-section text-center py-3">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-4 text-start">
-                <h1>開啟自由工作之旅，<br />你的選擇，無限可能。</h1>
-            </div>
-            <div class="col-md-8">
+        <div class="row align-items-center">            
+                <h1>開啟自由工作之旅，你的選擇，無限可能。</h1>
+            
+           @* <div class="col-md-8">
                 <img src="@Url.Content("~/Images/main-title.jpg")" alt="My Image" class="img-width" />
-            </div>
+            </div>*@
         </div>
     </div>
 </section>
-<section class="search-section py-3">
+@*<section class="search-section py-3">
     <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
         <div class="container">
             <div class="row g-2">
@@ -55,8 +85,8 @@
             </div>
         </div>
     </div>
-</section>
-<section class="job_listing-section py-3">
+</section>*@
+@*<section class="job_listing-section py-3">
     <div class="job_listing_area">
         <div class="container">
             <div class="row align-items-center">
@@ -234,8 +264,8 @@
             </div>
         </div>
     </div>
-</section>
-<section class="expert-section py-3">
+</section>*@
+@*<section class="expert-section py-3">
     <div class="container" data-aos="fade-down">
         <div class="row">
             <div class="col-12">
@@ -333,30 +363,32 @@
             </div>
         </div>
     </div>
-</section>
+</section>*@
 <section class="searcing-wrap-section py-3">
     <div class="job_searcing_wrap overlay">
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 offset-lg-1 col-md-6">
+              <div class="col-lg-5 offset-lg-1 col-md-6">           
                     <div class="searching_text">
                         <h3 class="searching_text">Looking for a Job?</h3>
                         <p>發現你的自由之旅，打造多元職涯。</p>
-                        <a class="boxed-btn3" asp-area="" asp-controller="Task" asp-action="List">找工作</a>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Task" asp-action="ListNew" style="text-align: center;">找工作</a>
                     </div>
                 </div>
-                <div class="col-lg-5 offset-lg-1 col-md-6">
+              <div class="col-lg-5 offset-lg-1 col-md-6">         
                     <div class="searching_text">
                         <h3 class="searching_text">Looking for a Expert?</h3>
                         <p>尋找專家，一同創造未來，無論何時何地。</p>
-                        <a class="boxed-btn3" asp-area="" asp-controller="Expert" asp-action="ExpertMainPage">找專家</a>
+                        <a class="boxed-btn3" asp-area="" asp-controller="Expert" asp-action="ExpertMainPage" style="text-align: center;">找專家</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="customer-section py-3">
+
+
+@*<section class="customer-section py-3">
     <div class="container">
         <h3>客戶怎麼說</h3>
         <div class="slider">
@@ -401,4 +433,4 @@
             </div>
         </div>
     </div>
-</section>
+</section>*@

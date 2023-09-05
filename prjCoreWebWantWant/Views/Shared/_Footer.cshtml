@@ -1,6 +1,6 @@
 ﻿<head>
     <!--== Icofont Icon CSS ==-->
-    <link rel="stylesheet" href="~/Mstyles/icofont.css" />
+  @*  <link rel="stylesheet" href="~/Mstyles/icofont.css" />*@
 
     <!--== CSS Styles ==-->
     <link rel="stylesheet" href="~/Mstyles/Mbootstrap.css" asp-append-version="true" />
@@ -11,68 +11,45 @@
 
 <body>
     <!--== footer start ==-->
-    <footer id="footer" class="pt-5 bg-color text-white" style="background-color:#e5edf6;">
+    <footer id="footer" class="pt-4 bg-color text-white" style="background-color:#e5edf6;">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-6 footer-list" style="align-content:center">
-                    <div><img src="~/Images/LOGO.png" class="img-fluid mb-3" alt="Logo"></div>
-                    <div><a href="mailto:service@wantwant.com" class="a-email" style="color:#528EAF;text-align:center">service@wantwant.com</a></div>
+                <div class="col-md-4 col-sm-2 footer-list" style="align-content:center">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img src="~/Images/LOGO.png" class="img-fluid mb-3" alt="Logo">
+                    </div>
+                    <div style="color:#528EAF;text-align:center ; font-size:14px;">望旺有限公司</div>
+                    <div style="display: flex; justify-content: center; align-items: center;"><a href="mailto:service@wantwant.com" class="a-email" style="color:#528EAF;">service@wantwant.com</a></div>
                 </div>
-                <div class="col-md-3 col-sm-6 footer-list">
-                    <h5 class="text-uppercase fw-bold" style="color:#528EAF">Company</h5>
+
+                <div class="col-md-4 col-sm-2 footer-list mx-auto text-center" >
+                    <h5 class="text-uppercase fw-bold" style="color:#528EAF">關於我們</h5>
                     <ul class="footer-menu py-3" style="color: #528EAF">
                         <li>
-                            @Html.ActionLink("Careers", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
+                            @Html.ActionLink("WantWant介紹", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
                         </li>
+                        @Html.ActionLink("客服專區", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
                         <li>
-                            @Html.ActionLink("About Us", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Blog", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Press", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Bonus", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
-                        </li>
+                            @Html.ActionLink("平台規範", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
+                        </li>                     
                     </ul>
                 </div>
-                <div class="col-md-3 col-sm-6 footer-list">
-                    <h5 class="text-uppercase fw-bold" style="color:#528EAF">Product</h5>
+                <div class="col-md-4 col-sm-2 footer-list mx-auto text-center" style="align-content:center">
+                    <h5 class="text-uppercase fw-bold" style="color:#528EAF">網站服務</h5>
                     <ul class="footer-menu py-3">
                         <li>
-                            @Html.ActionLink("Enterprice", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
+                            @Html.ActionLink("找工作", "ListNew", "Task", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
                         </li>
-                        <li>
-                            @Html.ActionLink("Pricing", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Security", "List", "Customer", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
+                        @Html.ActionLink("找專家", "ExpertMainPage", "Expert", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
+                       <li>
+                            @Html.ActionLink("討論區", "CategoryList", "Forum", new { area = "" }, new { @class = "footer-a-link", @style = "color: #528EAF;"  })
                         </li>
                     </ul>
-                </div>
-                <div class="col-md-3 col-sm-6 footer-list">
-                    <h5 class="text-uppercase fw-bold" style="color:#528EAF">Resource</h5>
-                    <ul class="footer-menu py-3">
-                        <li>
-                            @Html.ActionLink("Guilde", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Help Center", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("API", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Events", "List", "Customer", new { area = "" }, new { @class = "footer-a-link" , @style = "color: #528EAF;" })
-                        </li>
-                    </ul>
-                </div>
+                </div>             
             </div>
         </div>
 
-        <div class="footer-end bg-dark mt-5 py-2">
+        <div class="footer-end bg-dark mt-1 py-2">
             <p class="text-center">&copy; @DateTime.Now.Year WantWant Company Ltd. <span id="yearShow"></span></p>
         </div>
     </footer>
