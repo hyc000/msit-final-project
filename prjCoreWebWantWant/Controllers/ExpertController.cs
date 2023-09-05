@@ -12,6 +12,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Drawing.Spreadsheet;
 using Microsoft.Identity.Client;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Azure;
 
 namespace prjCoreWantMember.Controllers
 {
@@ -24,6 +25,7 @@ namespace prjCoreWantMember.Controllers
             _logger = logger;
         }
         int pageSize = 5;
+        int TopPageSize = 3;
         public IActionResult ExpertMainPage(int  page=1) //CKeywordViewModel vm, 
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
@@ -77,7 +79,7 @@ namespace prjCoreWantMember.Controllers
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
             IEnumerable<CExpertSearchViewModel> datas = null;
-            //先抓到所有的datass
+            //先抓到所有的datas
             datas = from r in db.Resumes
                     join m in db.MemberAccounts on r.AccountId equals m.AccountId
                     join er in db.ExpertResumes on r.ResumeId equals er.ResumeId
@@ -214,7 +216,52 @@ namespace prjCoreWantMember.Controllers
             int totalCount = datas.Distinct().Count();
             return Json(totalCount);
         }
-       
+
+        public IActionResult TopExpertPartial(int page=1)
+        {
+            NewIspanProjectContext db = new NewIspanProjectContext();
+            IEnumerable<CExpertSearchViewModel> datas = null;
+
+            datas = from r in db.Resumes
+                    join m in db.MemberAccounts on r.AccountId equals m.AccountId
+                    join er in db.ExpertResumes on r.ResumeId equals er.ResumeId
+
+                    // Left Join with ResumeSkills and then with Skills for skill name
+                    let skills = (from rSk in db.ResumeSkills
+                                  join sk in db.Skills on rSk.SkillId equals sk.SkillId
+                                  where r.ResumeId == rSk.ResumeId
+                                  select sk.SkillName).ToList() // Convert to List
+
+                    // Left Join with ResumeCertificates and then with Certificates for certificate name
+                    let certificates = (from rCe in db.ResumeCertificates
+                                        join ce in db.Certificates on rCe.CertificateId equals ce.CertificateId
+                                        where r.ResumeId == rCe.ResumeId
+                                        select ce.CertificateName).ToList() // Convert to List
+
+                    where r.IsExpertOrNot == true && r.CaseStatusId == 23 && r.OnTop > DateTime.Now
+
+                    select new CExpertSearchViewModel
+                    {
+                        AccountId = m.AccountId,
+                        Name = m.Name,
+                        ResumeId = r.ResumeId,
+                        ResumeTitle = r.ResumeTitle,
+                        DataModifyDate = r.DataModifyDate,
+                        Photo = r.Photo,
+                        TownId = r.TownId,
+                        Introduction = er.Introduction,
+                        ContactMethod = er.ContactMethod,
+                        PaymentMethod = er.PaymentMethod,
+                        CommonPrice = er.CommonPrice,
+                        HistoricalViews = er.HistoricalViews,
+                        SkillNames = string.Join(",", skills),
+                        CertificateNames = string.Join(",", certificates)
+                    };
+
+            int currentPage = page < 1 ? 1 : page;
+            IEnumerable<CExpertSearchViewModel> result = datas.ToPagedList(currentPage, TopPageSize);
+            return PartialView("_ExpertTopPartial", result);
+        }
         public IActionResult ExpertMemberPage()
         {
             NewIspanProjectContext db = new NewIspanProjectContext();
@@ -240,7 +287,7 @@ namespace prjCoreWantMember.Controllers
             return View(datas);
 
         }
-
+       
         public IActionResult EditExpertResume(int? id)
         {
             NewIspanProjectContext db = new NewIspanProjectContext();

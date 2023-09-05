@@ -175,6 +175,9 @@
             </div>-->
         </div>
         <!--第一區橫條結束-->
+        <div id="TopExpert">
+              
+        </div>
         <div id="filterBody">
             <div id="sortBody">
                 @*接下來開始做很多個區塊*@
@@ -211,10 +214,9 @@
                                                                                                             <div class="card-body d-flex justify-content-around row">
                                                                                                                 <div class="pl-4 pr-4">
                                                                                                                     <span class="card-title">@item.Name  @item.ResumeTitle</span>
-                                                        <p class="card-text  mb-0">
-                                                            <span class="card-text  mb-2">專長： @item.SkillNames | </span>
-                                                            <span class="card-text  mb-2">證照： @item.CertificateNames </span>
-                                                                                                                    </p>
+                                                <p class="card-text  mb-0">專長： @item.SkillNames</p>
+                                                <p class="card-text  mb-0">證照： @item.CertificateNames</p>
+                                                                                                                    
                                                         <!--控管專家介紹的字數-->
                                                         
                                                         @{if (item.Introduction.Count() <= 47)
@@ -302,6 +304,15 @@
         const certificateselect = document.querySelector('#certificateselect');
 
         document.addEventListener('DOMContentLoaded', function () {
+            fetch('/Expert/TopExpertPartial?page=1')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('TopExpert').innerHTML = data;
+                    updateRating();
+                })
+                .catch(error => {
+                    console.error('There was an error fetching the data:', error);
+                });
 
             Loadskilltype();
             Loadcertificatetype();
