@@ -15,7 +15,7 @@
                 <div class="col-4">
                     <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title">夏宇(聊天室)Demo</h5>
+                            <h5 class="card-title">A夢(專家、聊天室、求職)</h5>
                             <button class="btn btn-outline-primary" id="LoginDemo1">Demo</button>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="col-4">
                     <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title">陳昊月(會員)Demo</h5>
+                            <h5 class="card-title">小夫(專家、聊天室)</h5>
                             <button class="btn btn-outline-primary" id="LoginDemo2">Demo</button>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="col-4">
                     <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title">董思妤(客服)Demo</h5>
+                            <h5 class="card-title">胖虎(客服)</h5>
                             <button class="btn btn-outline-primary" id="LoginDemo3">Demo</button>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="col-4">
                     <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title">林愛琳(會員)Demo</h5>
+                            <h5 class="card-title">靜香(徵才)</h5>
                             <button class="btn btn-outline-primary" id="LoginDemo4">Demo</button>
                         </div>
                     </div>
@@ -80,13 +80,13 @@
                     <div class="form-group m-3">
                         帳號 (註冊時的Email)
                         <div class="col-md-10">
-                                    @Html.TextBox("txtAccount", "aaa123@abc.com", new {  @class = "form-control" , id = "txtAccount" })
+                                    @Html.TextBox("txtAccount", "", new {  @class = "form-control" , id = "txtAccount" })
                         </div>
                     </div>
                     <div class="form-group m-3">
                         密碼
                         <div class="col-md-10">
-                                    @Html.TextBox("txtPassword", "123", new { @class = "form-control", id = "txtPassword", @type = "password"} )
+                                    @Html.TextBox("txtPassword", "", new { @class = "form-control", id = "txtPassword", @type = "password"} )
                         </div>
                     </div>
                     <div class="form-group m-3">
@@ -150,7 +150,7 @@
         const txtPassword = document.querySelector('#txtPassword');
 
         LoginDemo1.addEventListener('click', () => {
-            txtAccount.value = "sora@com"
+            txtAccount.value = "sora@abc.com"
             txtPassword.value = "123"
         })
         LoginDemo2.addEventListener('click', () => {

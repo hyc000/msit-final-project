@@ -352,8 +352,8 @@ namespace prjCoreWebWantWant.Controllers
                 IsExpertOrNot = true,//TRUE
                 CaseStatusId = 23,//23顯示履歷
                 ResumeTitle = vm.履歷標題,
-                DataModifyDate= date.ToString()
-            };
+                DataModifyDate= DateTime.Now.Date.ToString("yyyy-MM-dd")
+        };
 
             _context.Resumes.Add(resume);
           await _context.SaveChangesAsync();
@@ -425,8 +425,8 @@ namespace prjCoreWebWantWant.Controllers
                 ServiceMethod = vm.提供服務,
                 PaymentMethod = vm.收款方式,
                 Problem = vm.常見問題,
-                CommonPrice = vm.基本價格
-               
+                CommonPrice = vm.基本價格,
+               HistoricalViews=0
             };
             _context.ExpertResumes.Add(expertresume);
             await _context.SaveChangesAsync();
