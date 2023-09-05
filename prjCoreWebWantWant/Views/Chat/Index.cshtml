@@ -9,7 +9,7 @@
 
 <div class="chat-row my-4" style="height:69vh">
     
-        <div class="col-md-3  card">
+        <div class="col-lg-3  card" style="flex-grow: 100;">
             <div class="chat-list-header pt-3" style="height:100px">
                 <div class="mt-3 h4 text-white">◆◆◆Want Chat◆◆◆</div>
 @*                 <span class="input-group my-2 w-75 mx-auto">
@@ -20,7 +20,7 @@
             <div id ="userList" style="max-height: 67vh; overflow-y: auto;"></div><!--聊天清單從這邊開始加的-->
             <!--100%69 125%67-->
         </div>
-        <div class="col-md-9 card" style="height:80vh;flex-grow: 100;">
+        <div class="col-lg-9 card" style="height:80vh;flex-grow: 100;">
             <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
             <div class="p-3" id="chatDetail" style="height:100vh">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
             <span class="input-group">
@@ -253,7 +253,7 @@
                     `<div class="chat-list-group list-group-flush d-flex align-items-center p-3" style="height:100px" id=${chatAvaCount} onclick="toggleBackgroundColor(this)">
                                  <img src="${chatAvaterUrl[chatAvaCount]}" class="col-2 user-image">
                          <div class="col-10 mx-2">
-                                      <span class="">${u.name}</span> <span class="small float-end">${timeDisplay}</span>
+                                      <span class="">${u.name}</span> <span class="small float-end pe-3">${timeDisplay}</span>
                               </br>
                             <span class="small">${messagePreview}</span>
                            </div>
@@ -468,7 +468,7 @@
                 top: 50%;
                 width: 0;
                 height: 0;
-                border: 10px solid transparent;
+                border: 12px solid transparent;
                 border-right-color: #e2e2e2;
                 border-left: 0;
                 border-bottom: 0;
@@ -490,7 +490,7 @@
                 width: 0;
                 height: 0;
                 float: right;
-                border: 10px solid transparent;
+                border: 12px solid transparent;
                 border-left-color: #d4ecf4;
                 border-right: 0;
                 border-bottom: 0;

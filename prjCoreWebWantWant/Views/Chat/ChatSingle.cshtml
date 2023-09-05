@@ -3,6 +3,9 @@
 
 @{
     ViewData["Title"] = "聊聊";
+    
+    NewIspanProjectContext _db = new NewIspanProjectContext();
+    CChatFactory chatFactory = new CChatFactory(_db);
 }
 
 <div class="container">
@@ -172,9 +175,18 @@
                     const chatWithWho = document.querySelector('#chatWithWho');//標示與誰對話中
                     const chatWithUserName = document.createElement('div');//創一個DIV
                     const getUserName = @Html.Raw(Json.Serialize(ViewBag.chatWithName));
-            const iconAndText = `<i class="bi bi-chat-fill gardbg"></i> ${getUserName}`;
+                    const iconAndText =
+                `<div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                        <img src="@chatFactory.UserAvatar(ViewBag.chatWithId)" class="chat-avatar m-auto">
+                 </div>
+                            <div class="align-self-center ms-3">
+                                <div class="my-h2">${getUserName}</div>
+                        <div class="small">@chatFactory.GetUserName(ViewBag.chatWithId)</div>
+                    </div>
+                </div>`
                     chatWithUserName.innerHTML = iconAndText;
-                    chatWithUserName.classList.add('my-h2', 'text-start', 'ms-3');//把div加樣式
+                    chatWithUserName.classList.add('text-start', 'ms-3');//把div加樣式
                     chatWithWho.appendChild(chatWithUserName)
                     
         
@@ -355,7 +367,7 @@
                 top: 50%;
                 width: 0;
                 height: 0;
-                border: 10px solid transparent;
+                border: 12px solid transparent;
                 border-right-color: #e2e2e2;
                 border-left: 0;
                 border-bottom: 0;
@@ -377,7 +389,7 @@
                 width: 0;
                 height: 0;
                 float: right;
-                border: 10px solid transparent;
+                border: 12px solid transparent;
                 border-left-color: #d4ecf4;
                 border-right: 0;
                 border-bottom: 0;
@@ -421,7 +433,7 @@
 
         .my-h2{
             color: #000;
-            font-size:2em;
+            font-size:1.5em;
         }
 
         .gardbg{
