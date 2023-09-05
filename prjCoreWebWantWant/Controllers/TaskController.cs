@@ -188,7 +188,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 datas = _context.TaskLists
                         .Include(t => t.Town.City)
-                        .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+                        .Include (t => t.TaskName)
+                        //.Include(x => x.TaskSkills)
+                        .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true).OrderByDescending(item => item.OnTop > DateTime.Now);
                 //var paginatedData = datas.Skip((page - 1) * pageSize).Take(pageSize);
                 //return View(paginatedData);
             }
@@ -215,6 +217,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
                     .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
 
             if (Category == "所有任務")
@@ -224,13 +227,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             }
             else
             {
-                q = q.Where(t => t.TaskName.TaskName == Category);
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
 
             //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
             //    q = q.Where(t => t.AccountId != GetAccountID());
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
 
             page = page < 1 ? 1 : page;
             IEnumerable<TaskList> result = q.ToPagedList(page, 5);

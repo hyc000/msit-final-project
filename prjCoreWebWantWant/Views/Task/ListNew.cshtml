@@ -4,7 +4,9 @@
 @using X.PagedList.Web.Common;
 
 
-@model IEnumerable<prjCoreWebWantWant.Models.TaskList>
+@model IEnumerable<prjCoreWebWantWant.Models.TaskList> 
+@* @model prjCoreWebWantWant.Models.TaskList *@
+
 @inject NewIspanProjectContext _context
 
 @*@model IPagedList<TaskList>*@
@@ -14,8 +16,10 @@
     ViewData["Title"] = "ListNew";
     Layout = "~/Views/Shared/_Layout_Task.cshtml";
     // Layout = "~/Views/Shared/_Layout_Task.cshtml";
-}
 
+CExperTaskFactory factory = new CExperTaskFactory(_context);
+    // string taskname = factory.TaskName(Model.TaskNameId);
+}
 
 @section Styles{
     <style>
@@ -605,6 +609,9 @@
                         
                     }
                 }*@
+            @{
+                // var orderedData = Model.OrderByDescending(item => item.OnTop > DateTime.Now);
+            }
                     <div class="p-3 mt-2 mb-2" id="Result">
                     @foreach (var item in Model)
                     {
@@ -646,10 +653,28 @@
                     </div>  *@
 
                         <div class="card text-center">
-                            <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px">@item.TaskTitle</div>
-                            <div class="row">
+                        <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px;">
+                            <span style="float:left;font-size:20px;color:#484891	">
+                                <img src="~/Backstage/icon/grid.png" style="width:24px;height:24px" />@item.TaskName.TaskName
+                            </span>
+                            @if(item.OnTop > DateTime.Now)
+                            {
+                                <div style="text-align:center;color:red">
+                                    <i class="fa-solid fa-fire fa-beat fa-lg" style="color: #e93407;"></i>熱門　@item.TaskTitle
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="text-align:center">
+                                    @item.TaskTitle
+                                </div>
+                            }
+                           
+                        </div>
+                        <div class="row">
                                 <div class="card-body col-9">
                                     <h5 class="card-body" style="text-align:left;padding:12px">任務內容：</h5>
+                                     
                                     <p style="text-align:left;padding:12px">@item.TaskDetail</p>
                                 </div>
 
