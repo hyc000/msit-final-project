@@ -20,17 +20,17 @@ namespace WantTask.ViewModels
         public string ? TaskDetail { get; set; }        
         public string? TaskName { get; set; }
         public List<TaskList>? taskList { get; set; }       
-        public List<ApplicationList>? applicationList { get; set; }
+        //public List<ApplicationList>? applicationList { get; set; }
         public List<CaseStatusList>? caseStatusList { get; set; }
-        public List<MemberAccount>? memberAccount { get; set; }
+        //public List<MemberAccount>? memberAccount { get; set; }
 
-       // public List<Resume>? resume { get; set; }
-       
-       // public List<Certificate>? certificate { get; set; }
-       // public List<ResumeCertificate>? resumeCertificate { get; set; }
+        public List<Resume>? resume { get; set; }
 
-       //public List<Skill>? skill { get; set; }
-       // public List<ResumeSkill>? resumeSkill  { get; set; }
+        // public List<Certificate>? certificate { get; set; }
+        // public List<ResumeCertificate>? resumeCertificate { get; set; }
+
+        //public List<Skill>? skill { get; set; }
+        // public List<ResumeSkill>? resumeSkill  { get; set; }
 
         public List<string> SkillNames { get; set; }
         public List<string> CertificateNames { get; set; }
