@@ -126,11 +126,30 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
         workAtHome.addEventListener('click', function () {
             if (workAtHome.checked) {
                 selCity.setAttribute('disabled', 'disabled');
+                // workAtHome.value = 'true';
+                // const xhr = new XMLHttpRequest();
+                // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+                // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
+                // xhr.addEventListener('load', () => {
+                //     const Result = document.querySelector('#Result');
+                //     Result.innerHTML = xhr.responseText;
+                // })
             }
             else {
                 selCity.removeAttribute('disabled');
+                // workAtHome.value = 'false';
+                // const xhr = new XMLHttpRequest();
+                // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+                // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
+                // xhr.addEventListener('load', () => {
+                //     const Result = document.querySelector('#Result');
+                //     Result.innerHTML = xhr.responseText;
+                // })
             }
         })
+
 
 
         //select的區域
@@ -172,6 +191,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                     scrollToTopBtn.style.display = "none";
                 }
             });
+
+            
 
             // 點選按鈕時回到頂部
             scrollToTopBtn.addEventListener("click", function () {
@@ -520,7 +541,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                             <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務地點</label>
 
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="workAtHome" id="workAtHome" value="在家兼職">
+                                <input class="form-check-input" type="checkbox" name="workAtHome" id="workAtHome" value="">
                                 <label class="form-check-label" for="workAtHome" style="font-size:17px">在家兼職</label>
                             </div>
 
@@ -772,15 +793,15 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                     @{
                                         if (item.PayFrom > 1500)
                                         {
-                                                    <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                                                                <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
                                         }
                                         else if (item.PayFrom > 500)
                                         {
-                                                    <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                                                                <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
                                         }
                                         else
                                         {
-                                                    <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                                                                <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
                                         }
                                     }
 

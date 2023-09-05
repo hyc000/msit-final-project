@@ -288,7 +288,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
                     join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
                     join ts in _context.TaskSkills on tl.CaseId equals ts.CaseId // 添加這個 join
-                    where mc.AccountId == GetAccountID() && mc.CaseId != null && category == tl.TaskName.TaskName
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null && (category == null ? true : category == tl.TaskName.TaskName)
+                                                                                 //三元運算式
                     select new
                     {
                         Task = tl,
@@ -381,6 +382,94 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("TaskCollection");
         }
 
+        public IActionResult AcceptPartial(string category)
+        {
+            var q = from al in _context.ApplicationLists
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
+                    join tc in _context.TaskCertificates on al.CaseId equals tc.CaseId
+                    join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 1 && tn.TaskName == category
+                    select new
+                    {
+                        AppList = al,
+                        Task = tl,
+                        Skill = ts.Skill.SkillName,
+                        Certificate = tc.Certficate.CertificateName,
+                    }
+                    into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.AppList.ApplicationDate,
+                        // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        ApplicationDate = grouped.Key.ApplicationDate,
+                        Skill = grouped.Select(g => g.Skill).ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).ToList()
+                    };
+            return PartialView(q.ToList());            
+        }
+
+        public IActionResult RefusePartial(string category)
+        {
+            var q = from al in _context.ApplicationLists
+                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId
+                    join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
+                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 2 && tn.TaskName == category
+                    select new
+                    {
+                        AppList = al,
+                        Task = tl,
+                        Skill = ts.Skill.SkillName,
+                        Certificate = tc.Certficate.CertificateName,
+                    }
+                into combined
+                    group combined by new
+                    {
+                        combined.Task.CaseId,
+                        combined.Task.TaskTitle,
+                        combined.Task.TaskDetail,
+                        combined.Task.RequiredNum,
+                        combined.Task.PayFrom,
+                        combined.Task.TaskNameId,
+                        combined.Task.PaymentId,
+                        combined.AppList.ApplicationDate,
+                        // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+                    } into grouped
+                    select new CMemberCollectionViewModel
+                    {
+                        TaskTitle = grouped.Key.TaskTitle,
+                        TaskDetail = grouped.Key.TaskDetail,
+                        RequiredNum = grouped.Key.RequiredNum,
+                        PayFrom = grouped.Key.PayFrom,
+                        TaskNameId = grouped.Key.TaskNameId,
+                        PaymentId = grouped.Key.PaymentId,
+                        CaseId = grouped.Key.CaseId,
+                        ApplicationDate = grouped.Key.ApplicationDate,
+                        Skill = grouped.Select(g => g.Skill).ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).ToList(),
+                    };
+            return PartialView(q.ToList());
+        }
+
         public IActionResult ApplicationRecord()   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
         {
             //var q = from al in _context.ApplicationLists
@@ -403,13 +492,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             var q = from al in _context.ApplicationLists
                     join tl in _context.TaskLists on al.CaseId equals tl.CaseId 
                     join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
-                    //join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId
+                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId  //列出全部應徵紀錄
+
                     select new
                     {
                         AppList = al,
                         Task = tl,
-                        Skill = ts.Skill.SkillName
+                        Skill = ts.Skill.SkillName,
+                        Certificate = tc.Certficate.CertificateName,
                     }
                     into combined
                     group combined by new
@@ -434,7 +525,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList()
+                        Skill = grouped.Select(g => g.Skill).ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).ToList(),
                     };
 
             return View(q.ToList());
@@ -461,13 +553,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join tl in _context.TaskLists on al.CaseId equals tl.CaseId
                     join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
                     join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
-                    //join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+
                     where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category
                     select new
                     {
                         AppList = al,
                         Task = tl,
-                        Skill = ts.Skill.SkillName
+                        Skill = ts.Skill.SkillName,
+                        Certificate = tc.Certficate.CertificateName,
                     }
                    into combined
                     group combined by new
@@ -492,7 +586,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList()
+                        Skill = grouped.Select(g => g.Skill).ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).ToList(),
                     };
 
             return PartialView(q.ToList());

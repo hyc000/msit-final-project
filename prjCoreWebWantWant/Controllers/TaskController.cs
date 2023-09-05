@@ -213,7 +213,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(datas);
         }
 
-        public IActionResult Partial1(string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
+        public IActionResult Partial1(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -224,7 +224,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
-
+            
             if (Category == "所有任務")
             {
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
