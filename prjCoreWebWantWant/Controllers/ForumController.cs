@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using NuGet.Versioning;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
@@ -46,11 +47,12 @@ namespace WantTask.Controllers
 
             var posts = from p in _db.ForumPosts
                         .Include(p => p.ForumPostCategories).ThenInclude(pc => pc.Category)
-                        //.Include(p => p.InverseParent)
+                        .Include(p => p.InverseParent)
                         .Include(p => p.Account)
                         //.Include(p => p.ForumPostComments).ThenInclude(c => c.StatusNavigation)
                         //.Include(p => p.ForumPostComments).ThenInclude(c => c.Account)
-                        where p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId
+                        //where p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId
+                        .Where(p=>p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId)
                         where p.Status == 1 || p.Status == 4
                         where p.Parent == null
                         select p;

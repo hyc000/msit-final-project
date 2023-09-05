@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    margin: 30px 25px;
+    margin: 30px 30px;
     display: none; 
     z-index: 9999;
 }
@@ -87,6 +87,8 @@
         border-left: 1px dotted #a7bed2;
     }
 
+
+}
 
 
 .user-image {

@@ -39,8 +39,8 @@
                 <span class="col-4 text-end">
                     <span class="small text-body-tertiary">@Model.MainPost.Created</span>
                     <span class="small small text-body-tertiary">觀看次數: @Html.DisplayFor(model => model.MainPost.ViewCount)</span>
-                        <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
-                </span>
+@*                        <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
+*@                </span>
             </div>
             <div class="col-11 m-auto pt-3">
                 @Html.Raw(HttpUtility.HtmlDecode(Model.MainPost.PostContent))
@@ -137,7 +137,6 @@
                                         <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
                              <span class="col-4 text-end">
                              <span class="small text-body-tertiary">@item.Created</span>
-                             <span class="badge rounded-pill bg-danger bg-opacity-25 bi bi-heart-fill text-danger text-opacity-75"> like</span>
                              </span>
                              </div>
                              <div class="col-11 m-auto pt-3">
