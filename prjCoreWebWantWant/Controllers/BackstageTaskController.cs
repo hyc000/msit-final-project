@@ -681,7 +681,7 @@ namespace WantTask.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile, bool inlineRadioOptionsPlace)
+        public IActionResult Create(TaskList tasklist, int selectedTaskNameId, int selectedTownId, int selectedPaymentId, int selectedPaymentDateId, int selectedSkillId, int selectedCerId, /*byte selectedPhoto,*/ string publishornot, IFormFile imageFile, bool inlineRadioOptionsPlace ,int selectedSkillId2 , int selectedSkillId3 , int selectedCerId2 , int selectedCerId3 )
         {
             tasklist.TaskNameId = selectedTaskNameId;
             tasklist.TownId = selectedTownId;
@@ -715,6 +715,7 @@ namespace WantTask.Controllers
             _context.TaskLists.Add(tasklist);
             _context.SaveChanges();
 
+            //技能1
             TaskSkill taskSkill = new TaskSkill()
             {
                 CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
@@ -723,12 +724,49 @@ namespace WantTask.Controllers
             _context.Add(taskSkill);
             _context.SaveChanges();
 
+            //技能2
+            TaskSkill taskSkill2 = new TaskSkill()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                SkillId = selectedSkillId2
+            };
+            _context.Add(taskSkill2);
+            _context.SaveChanges();
+
+            //技能3
+            TaskSkill taskSkill3 = new TaskSkill()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
+                SkillId = selectedSkillId3
+            };
+            _context.Add(taskSkill3);
+            _context.SaveChanges();
+
+            //證照1
             TaskCertificate taskCer = new TaskCertificate()
             {
                 CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
                 CertficateId = selectedCerId
             };
             _context.Add(taskCer);
+            _context.SaveChanges();
+
+            //證照2
+            TaskCertificate taskCer2 = new TaskCertificate()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                CertficateId = selectedCerId2
+            };
+            _context.Add(taskCer2);
+            _context.SaveChanges();
+
+            //證照3
+            TaskCertificate taskCer3 = new TaskCertificate()
+            {
+                CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
+                CertficateId = selectedCerId3
+            };
+            _context.Add(taskCer3);
             _context.SaveChanges();
 
             return RedirectToAction("Create");
