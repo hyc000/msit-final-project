@@ -542,7 +542,7 @@ namespace prjShop.Controllers
             cart.Clear();
             SaveCart(cart, userId);
 
-            Email(newOrderDetails, "andy2911131@gmail.com", "Recipient Name",newOrder);
+            Email(newOrderDetails, "cocopanisadog@gmail.com", "Recipient Name",newOrder);
 
             _context.SaveChanges();
 
