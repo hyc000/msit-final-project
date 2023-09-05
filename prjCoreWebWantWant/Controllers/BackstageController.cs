@@ -121,7 +121,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("RecycleBin");
         }
 
-        public IActionResult ResumeList()
+        public IActionResult ResumeList()   //todo 將技能 證照直接顯示在外面
         {
             var q = _context.Resumes
                     .Include(t => t.Town.City)                                           
@@ -245,7 +245,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join tl in _context.TaskLists on mc.CaseId equals tl.CaseId
                     join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
                     join ts in _context.TaskSkills on tl.CaseId equals ts.CaseId // 添加這個 join
-                    where mc.AccountId == GetAccountID() && mc.CaseId != null
+                    where mc.AccountId == GetAccountID() && mc.CaseId != null           //要同時有task技能和task證照才會顯示出來
                     select new
                     {
                         Task = tl,
@@ -296,7 +296,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         Certificate = tc.Certficate.CertificateName,
                         Member = mc
                     }
-                   into combined
+                    into combined
                     group combined by new
                     {
                         combined.Task.CaseId,
@@ -525,8 +525,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList(),
-                        Certificate = grouped.Select(g => g.Certificate).ToList(),
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
                     };
 
             return View(q.ToList());

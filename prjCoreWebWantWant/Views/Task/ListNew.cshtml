@@ -2,12 +2,12 @@
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
-
+@inject NewIspanProjectContext _context
 
 @model IEnumerable<prjCoreWebWantWant.Models.TaskList> 
 @* @model prjCoreWebWantWant.Models.TaskList *@
 
-@inject NewIspanProjectContext _context
+
 
 @*@model IPagedList<TaskList>*@
 @*@model IEnumerable<prjWantWant_yh_CoreMVC.Models.CTask>     匿名型別*@
@@ -50,7 +50,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             bottom: 20px;
             right: 20px;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #4f9d9d;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -757,11 +757,17 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                 </div>
 
                                 <div class="card-body col-md-3 d-flex flex-column justify-content-end">
-                                    @*<a href="#" class="btn btn-outline-primary mb-2">應徵工作</a>*@
                                     <a href="@Url.Action("Detail", new { id=item.CaseId })" class="btn btn-outline-primary">詳細資訊</a>
+                                    @* @{
+                                        var q2 = _context.MemberCollections.Where(c => c.)
+                                    }
+                                    @if()
+                                    {
+
+                                    } *@
                                     <a href="@Url.Content("~/Backstage/AddCollection")?id=@item.CaseId" class="btn btn-outline-primary"><i class="fa-regular fa-heart fa-beat" style="color: #ef4006;"></i>收藏工作</a>
-                                    @* <a href="@Url.Action("Chatsingle", "Chat", new { id = @item })" target="_blank" class="btn btn-outline-primary me-2" style="float:right">聯絡發案者</a> *@
-                                    @* <a href="#" style="float:right"> <img src="~/Backstage/img/bubble-chat (1).png"></a> *@
+
+
                                     <a href="@Url.Action("Chatsingle", "Chat", new { id = @item.AccountId })" target="_blank"><img src="~/Backstage/img/bubble-chat (1).png"></a>
                                     
                                     @*@foreach(var item1 in q2)
