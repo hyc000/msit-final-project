@@ -213,12 +213,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(datas);
         }
 
-        public IActionResult Partial1(string Category, CKeywordViewModel vm, int page = 1)
+        public IActionResult Partial1(string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
                     .Include(t => t.TaskName)
                     .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
+
+            if(city != null)
+            {
+                q = q.Where(c => c.Town.City.City1 == city);
+            }
 
             if (Category == "所有任務")
             {
@@ -231,11 +236,17 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
+            
+            //if(sortType == "")
+            //{
+
+            //}
 
             //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
             //    q = q.Where(t => t.AccountId != GetAccountID());
 
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+
 
             page = page < 1 ? 1 : page;
             IEnumerable<TaskList> result = q.ToPagedList(page, 5);

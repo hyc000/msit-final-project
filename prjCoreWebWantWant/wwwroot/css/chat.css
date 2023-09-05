@@ -1,0 +1,196 @@
+﻿.chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 30px 25px;
+    display: none; 
+    z-index: 9999;
+}
+
+.icon {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+    margin: 10px; 
+}
+
+::-webkit-scrollbar { /* 調整捲軸寬度 */
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb { /* 調整捲軸拉把部分 */
+    background: #f1f1f1;
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-track { /* 調整捲軸滑軌部分 */
+    background: #fff;
+    border-radius: 7px;
+}
+
+.chat-list-header {
+    background-color: #c5d5e2;
+    text-align: center;
+}
+
+.chat-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.chat-list-group {
+    color: #777777;
+    border-bottom: 1px solid #f1f1f1;
+    position: relative;
+    overflow: hidden;
+}
+
+    .chat-list-group::before,
+    .chat-list-group::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #a7bed2; /* 直線的顏色 */
+        transform: scaleX(0); /* 初始時不顯示，使用 scaleX(1) 來顯示 */
+        transition: transform 0.6s ease; /* 動畫過渡效果 */
+    }
+
+    .chat-list-group::before {
+        top: 0; /* 將頂部線元素定位在頂部 */
+        transform-origin: right;
+    }
+
+    .chat-list-group::after {
+        bottom: 0; /* 將底部線元素定位在底部 */
+        transform-origin: left;
+    }
+
+
+    .chat-list-group:hover::after,
+    .chat-list-group:hover::before {
+        transform: scaleX(1); /* 滑鼠懸停時顯示直線 */
+    }
+
+
+    .chat-list-group:hover {
+        background-color: #f8fbfd;
+    }
+
+    .chat-list-group.active {
+        background-color: #f6f9fc;
+        border-left: 1px dotted #a7bed2;
+    }
+
+
+
+.user-image {
+    min-width: 50px; /* 設定頭像寬度 */
+    max-width: 50px; /* 設定頭像寬度 */
+    min-height: 50px; /* 設定頭像高度 */
+    max-height: 50px; /* 設定頭像高度 */
+    margin-right: 2px; /* 設定頭像和聊天訊息之間的間距 */
+    margin-left: -2px; /* 設定頭像和聊天訊息之間的間距 */
+    border-radius: 50%; /* 設定頭像為圓形 */
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 0.25rem;
+}
+
+.chat-bubble {
+    border-radius: 5px;
+    display: inline-block;
+    padding: 10px 18px;
+    position: relative;
+    margin: 10px;
+    min-width: 400px;
+}
+
+.go-left {
+    float: left;
+}
+
+.go-right {
+    float: right;
+}
+
+.message-left {
+    background: #e2e2e2;
+    border-radius: .4em;
+    width: 200px;
+}
+
+    .message-left::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 12px solid transparent;
+        border-right-color: #e2e2e2;
+        border-left: 0;
+        border-bottom: 0;
+        margin-top: -5px;
+        margin-left: -10px;
+    }
+
+.message-right {
+    background: #d4ecf4;
+    border-radius: .4em;
+    width: 200px;
+}
+
+    .message-right::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        float: right;
+        border: 12px solid transparent;
+        border-left-color: #d4ecf4;
+        border-right: 0;
+        border-bottom: 0;
+        margin-top: -5px;
+        margin-right: -10px;
+    }
+
+.chat-avatar {
+    width: 50px; /* 設定頭像寬度 */
+    min-width: 50px; /* 設定頭像寬度 */
+    height: 50px; /* 設定頭像高度 */
+    min-height: 50px; /* 設定頭像高度 */
+    margin-right: 10px; /* 設定頭像和聊天訊息之間的間距 */
+    margin-left: 5px; /* 設定頭像和聊天訊息之間的間距 */
+    margin-top: 25px; /* 設定頭像和聊天訊息之間的間距 */
+    border-radius: 50%; /* 設定頭像為圓形 */
+}
+
+.chat-container {
+    margin-bottom: 20px; /* 設定訊息之間的間距 */
+    overflow-y: auto;
+}
+
+.chat-message {
+    max-width: 400px;
+    min-width: 250px;
+}
+
+#chatDetail {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.border-tb {
+    border: 1px solid #EEEEEE;
+}
+
+.font-color-grey {
+    color: #b4b4b4;
+}

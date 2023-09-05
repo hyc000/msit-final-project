@@ -72,7 +72,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}`);
+            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -85,7 +85,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -93,33 +93,59 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
         })
 
         const selCity = document.querySelector('#selCity');
-        const selTown = document.querySelector('#selTown');
+        // const selTown = document.querySelector('#selTown');
 
         async function loadCity() {
             const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
             const datas = await response.json()
             // datas.sort();
             const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            cities.unshift('<option value="">請選擇城市</option>');
             document.querySelector('#selCity').innerHTML = cities.join("");
 
-            loadDistrict();
+            // loadDistrict();
         }
 
         loadCity();
 
-        //select的區域
-        async function loadDistrict() {
-            const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
-            const datas = await response.json()
-            // datas.sort();
-            const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
-            selTown.innerHTML = districts.join("");
-            getTownId();
-        }
 
         selCity.addEventListener('change', () => {
-            loadDistrict();
-        });
+            txtKeyword.value = '';                                  @*切換類別時將關鍵字清空*@
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+
+        const workAtHome = document.querySelector('#workAtHome');
+        workAtHome.addEventListener('click', function () {
+            if (workAtHome.checked) {
+                selCity.setAttribute('disabled', 'disabled');
+            }
+            else {
+                selCity.removeAttribute('disabled');
+            }
+        })
+
+
+        //select的區域
+        // async function loadDistrict() {
+        //     const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
+        //     const datas = await response.json()
+        //     // datas.sort();
+        //     const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+        //     selTown.innerHTML = districts.join("");
+        //     getTownId();
+        // }
+
+        // selCity.addEventListener('change', () => {
+        //     loadDistrict();
+        // });
 
 
         // selTown.addEventListener('change', () => {
@@ -153,6 +179,22 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 document.documentElement.scrollTop = 0;
             });
         });
+
+        const updateTimeNew = document.querySelector('#updateTimeNew');
+        const updateTimeOld = document.querySelector('#updateTimeOld');
+        const salaryHigh = document.querySelector('#salaryHigh');
+        const salaryLow = document.querySelector('#salaryLow');
+
+        updateTimeNew.addEventListener('click' ,() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
 
     </script>
 }
@@ -476,20 +518,35 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
 
                         <div class="card-body">
                             <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務地點</label>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="workAtHome" id="workAtHome" value="在家兼職">
+                                <label class="form-check-label" for="workAtHome" style="font-size:17px">在家兼職</label>
+                            </div>
+
+                        @* <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioHome"
+                                   value="true" checked>
+                            <label class="form-check-label" for="inlineRadioHome">在家兼職</label>
+                        </div> *@
+
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="selCity">
                                     <!-- <option selected>請選擇縣市</option> -->
                                     <option></option>
                                 </select>
-                                <label for="floatingSelectCity">請選擇縣市</label>
+                                 <label for="floatingSelectCity">城市</label> 
                             </div>
-                            <div class="form-floating mb-3">
-                                <select class="form-select" id="selTown" @* asp-for="TownId" *@>
-                                    <!-- <option selected>請選擇區域</option> -->
+
+                        
+
+
+                           @*  <div class="form-floating mb-3">
+                                <select class="form-select" id="selTown">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectTown">請選擇區域</label>
-                            </div>
+                            </div> *@
                         </div>
 
                         @* <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
@@ -573,13 +630,13 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                     <div class="sort d-flex align-items-center fs-6 my-text-primary pl-3">
                         <span class=" fw-bolder ">排序 :  </span>
                         <span>　</span>
-                        <a href="#" class=" fw-bolder">更新時間(新到舊)</a>
+                        <a href="#" class=" fw-bolder" id="updateTimeNew" name="status">更新時間(新到舊)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder">更新時間(舊到新)</a>
+                        <a href="#" class=" fw-bolder" id="updateTimeOld" name="status">更新時間(舊到新)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder">薪資(高到低)</a>
+                        <a href="#" class=" fw-bolder" id="salaryHigh" name="status">薪資(高到低)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder">薪資(低到高)</a>
+                        <a href="#" class=" fw-bolder" id="salaryLow" name="status">薪資(低到高)</a>
                     </div>
                 </div> 
 
@@ -715,15 +772,15 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                     @{
                                         if (item.PayFrom > 1500)
                                         {
-                                            <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                                                    <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
                                         }
                                         else if (item.PayFrom > 500)
                                         {
-                                            <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                                                    <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
                                         }
                                         else
                                         {
-                                            <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                                                    <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
                                         }
                                     }
 
