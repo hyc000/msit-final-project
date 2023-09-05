@@ -17,11 +17,13 @@
     @{
         var httpContext = HttpContextAccessor.HttpContext;
         string loginUserName = "";
+        int nowLoginId = 0;
         if (httpContext != null && httpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
         {
             string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
             loginUserName = loggedInUser.Name;
+            nowLoginId = loggedInUser.AccountId;
         }
 
     }
@@ -90,6 +92,9 @@
             </div>
         </nav>
     </header>
+
+    @await Html.PartialAsync("~/Views/Chat/_ChatPartial.cshtml")
+
     <!--== header end ==-->
     <!--== Javascript ==-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
