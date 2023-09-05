@@ -19,6 +19,7 @@
     <div class="container">
         <div class="mx-auto">
             <div class="mx-auto w-70 p-5">
+                <div><button type="button" id="demo" class="btn btn-outline-primary">DEMO</button></div>
                 <div class="mb-3 form-control-lg">
                     委託人:
                     <input asp-for="委託人" type="text" class="form-control list" readonly placeholder="委託人">
@@ -39,7 +40,7 @@
                     <li>提醒您，委託內容越詳細可以減少您跟專家在委託案件中所花費的溝通時間。
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea asp-for="委託內容" class="form-control" placeholder="請輸入要委託的工作內容" style="height: 400px"></textarea>
+                    <textarea id="democontent" asp-for="委託內容" class="form-control" placeholder="請輸入要委託的工作內容" style="height: 400px"></textarea>
                     <label asp-for="委託內容">請輸入要委託的工作內容</label>
                     <span asp-validation-for="委託內容" class="text-danger"></span>
                 </div>
@@ -52,15 +53,9 @@
                        
                        
                         <div id="timevalue" class="row">
-                            <div class="col-3" style="display:none">
-                                <div class="form-floating" >
-                                    <input id="tinemethod" asp-for="委託期限方式" type="text" class="form-control list" id="floatingtimeall" placeholder="委託期限方式">
-                                    <label asp-for="委託期限方式">委託期限方式</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
+                          <div class="col-3">
                                 <div class="form-floating">
-                                    <input asp-for="委託時間起" type="date" class="form-control list" id="floatingtimesup" placeholder="委託時間起">
+                                    <input  asp-for="委託時間起" type="date" class="form-control list" id="floatingtimesup" placeholder="委託時間起">
                                     <label asp-for="委託時間起">委託期限(起)</label>
                                 </div>
                             </div>
@@ -69,22 +64,12 @@
                             </span>
                             <div class="col-3">
                                 <div class="form-floating">
-                                    <input asp-for="委託時間訖" type="date" class="form-control list" id="floatingtimesdown" placeholder="委託時間訖">
+                                    <input  asp-for="委託時間訖" type="date" class="form-control list" id="floatingtimesdown" placeholder="委託時間訖">
                                     <label asp-for="委託時間訖">委託期限(訖)</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3 form-control-lg row" style="display:none">
-                            <div class="col-4">
-                                <input type="button" data-bs-toggle="button" class="btn-check" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="option1" id="btntime1">起訖同一天</label>
-                            </div>
-                            <div class="col-4">
-                                <input type="button" data-bs-toggle="button" class="btn-check" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="option2" id="btntime2">區間</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!--委託時間結束-->
@@ -94,7 +79,7 @@
                         委託預算:
                     </div>
                     <div class="mb-3 form-floating col-12 p-3">
-                        <input asp-for="委託價格" type="text"  class="form-control list" >
+                        <input id="demoprice" asp-for="委託價格" type="text" class="form-control list">
                         <label asp-for="委託價格"></label>
                         <span asp-validation-for="委託價格" class="text-danger"></span>
                     </div>
@@ -108,7 +93,7 @@
                         </div>
                         <div class=" form-control-lg">
 
-                            <select asp-for="委託工作地點" class="form-select" onchange="clickdeployone(placeaddress)">
+                            <select id="demolocation" asp-for="委託工作地點" class="form-select" onchange="clickdeployone(placeaddress)">
 
                                 <option>在家工作</option>
                                 <option>指定地點工作</option>
@@ -166,6 +151,7 @@
         }
 @section Scripts{
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
         //按鈕
         const timevalue = document.querySelector('#timevalue');
@@ -196,12 +182,32 @@
         $(document).ready(function () {
             var message = '@TempData["message1"]';
             if (message) {
-                Swal.fire({
-                    title: '通知',
-                    text: message,
-                    icon: 'success'
+                //Swal.fire({
+                //    title: '通知',
+                //    text: message,
+                //    icon: 'success'
                 });
             }
+        });
+
+        document.querySelector("#demo").addEventListener("click", function () {
+
+            var democontent = document.querySelector("#democontent");
+            democontent.value = "您好！近日在平台上，我被您的作品所吸引，翻看每一張作品照片，都能感受到您的匠心獨運和對編織藝術的熱愛。\n\n" +
+                "您的作品不僅技巧細緻，而且富有設計感，這讓我下定決心想要找您進行特別的委託。我希望能為我母親委託製作一條獨一無二的項鍊。她是一位四十多歲的高貴女性，商界地位崇高，每一次的亮相都是焦點。\n\n" +
+                "這條項鍊我希望能夠反映她的優雅和力量，同時保持她的低調奢華風格。您的巧手和感性，我相信一定能夠呈現出我心中的完美形象。\n\n" +
+                "關於項鍊的價格，請您在報價時包含運費。鑑於某些特殊原因，我特別希望能在10月1日之前收到這條項鍊，如果需要加急，我願意支付相應的費用。\n\n" +
+                "期待您的回覆，並真心希望這次的合作能讓我們之間建立起深厚的信任。\n\n感謝您！";
+
+            var demostart = document.querySelector("#floatingtimesup");
+            demostart.value = "2023-10-01";
+            var demoend = document.querySelector("#floatingtimesdown");
+            demoend.value = "2023-10-01";
+            var demoprice = document.querySelector("#demoprice");
+            demoprice.value = "10000";
+            var demolocation = document.querySelector("#demolocation");
+            demolocation.selectedIndex = 0;
+
         });
 
     </script>

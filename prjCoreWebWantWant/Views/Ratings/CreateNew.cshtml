@@ -21,14 +21,16 @@
     <div class="col-md-4">
         <form asp-action="CreateNew" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div><button type="button" id="demo" class="btn btn-outline-primary">DEMO給專家</button></div>
+
             <div class="form-group">
                 <label asp-for="委託者" class="control-label"></label>
-                <input asp-for="委託者" class="form-control" />
+                <input readonly asp-for="委託者" class="form-control" />
                 <span asp-validation-for="委託者" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="專家" class="control-label"></label>
-                <input asp-for="專家" class="form-control" />
+                <input readonly asp-for="專家" class="form-control" />
                 <span asp-validation-for="專家" class="text-danger"></span>
                 <input hidden asp-for="taskid" class="form-control" />
             </div>
@@ -52,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="評論內容" class="control-label"></label>
-                <textarea asp-for="評論內容" class="form-control " style="height:350px;resize:none"></textarea>
+                <textarea id="democontent" asp-for="評論內容" class="form-control " style="height:350px;resize:none"></textarea>
                 <span asp-validation-for="評論內容" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
@@ -124,6 +126,14 @@
                 }
             });
         }
+        document.querySelector("#demo").addEventListener("click", function () {
+            console.log("123");
+            var democontent = document.querySelector("#democontent");
+            democontent.value = "在眾多的編織項鍊製作者中，這位師傅無疑是最傑出的一位。從我首次接觸他的作品照片和介紹開始，就深深被他的技藝和對細節的熱愛吸引。當我收到項鍊時，我被它的美麗和細緻完全震撼了。每顆珠寶的搭配都充滿了心思，完美地展現了我母親的優雅氣質。\n\n" +
+                "更為值得稱讚的是，師傅不僅僅只是完成了一個訂單，他還賦予了項鍊生命和故事。我母親非常喜歡，每次戴著它，都仿佛帶著師傅的祝福和良好的意願。\n\n" +
+                "我強烈推薦這位師傅給所有想要一件特別和有意義的珠寶的人。他不僅僅是一名優秀的工匠，更是一名真正理解客戶需求和情感的藝術家。\n\n" +
+
+        });
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
