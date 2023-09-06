@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 //固定的參數
-const getLogginId = document.getElementById('getLogginId');
-const senderId = getLogginId.getAttribute('data-login-id');
+const getChatUseInfo = document.getElementById('getChatUseInfo');
+const senderId = getChatUseInfo.getAttribute('data-login-id');
 let inChatRoom = 0;//先確定使用者是在跟哪個對象聊天
 let chatAvaterUrl = [];//存左側聊天對象們頭像用
 let chatAvatar = document.createElement('img');//左側點到誰存那個頭像網址
