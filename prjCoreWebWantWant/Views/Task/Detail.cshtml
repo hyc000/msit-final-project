@@ -332,7 +332,16 @@
                         </div>
                         <ul>
                             <li>任務日期：<span>@Model.TaskStartDate</span></li>
-                            <li>任務地點：<span>@Model.Address</span></li>
+
+                            @if (Model.WorkPlace == true)
+                            {
+                                <li>任務地點：<span>在家兼職</span></li>
+                            }
+                            else
+                            {
+                                <li>任務地點：<span>@Model.Address</span></li>
+                            }
+                            @* <li>任務地點：<span>@Model.Address</span></li> *@
                             <li>需求人數<span>@Model.RequiredNum</span></li>
                             @if (Model.TaskStartHour == null || Model.TaskEndHour == null)
                             {

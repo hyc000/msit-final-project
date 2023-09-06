@@ -35,6 +35,23 @@
             display: block;
         }
 
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5; /* 或者你想要的其他背景顏色 */
+            /* text-decoration-color: #528EAF;
+            color: #528EAF; */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #528EAF; /* 更改滑鼠滑過的背景顏色 */
+            border-color: #528EAF; /* 更改滑鼠滑過的邊框顏色 */
+            color: #fff; /* 更改滑鼠滑過的文字顏色 */
+        }
+
+        .badge-soft-primary {
+            background-color: #528EAF;
+            color: #fff;
+        }
+
     </style>
 }
 
@@ -61,24 +78,24 @@
                             <!--應徵紀錄 已錄取 未錄取-->
                             <ul class="nav nav-tabs nav-tabs-custom nav-justified"
                                 role="tablist">
-                                <li class="nav-item" onclick="showApplied();">
-                                    <a class="nav-link active " data-bs-toggle="tab" href="#Applied" role="tab">
+                                <li class="nav-item" onclick="showAllResume();">
+                                    <a class="nav-link active " data-bs-toggle="tab" href="#tabAllResume" style="color:white ; background-color:#528EAF ; font-size:20px;" role="tab" id="tabAll">
                                         <span class="d-block d-sm-none">
                                             @* <i class="far fa-user"></i> *@
                                         </span>
-                                        <span class="d-none d-sm-block" style="color: #528eaf">應徵紀錄</span>
+                                        <span class="d-none d-sm-block" @* style="color: #528eaf" *@>應徵紀錄</span>
                                     </a>
                                 </li>
                                 <li class="nav-item" onclick="showAccept();">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabAccept" role="tab" id="tabAccept" style="color:#528EAF">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block" style="color:#528EAF">已錄取</span>
+                                        <span class="d-none d-sm-block" @* style="color:#528EAF" *@>已錄取</span>
                                     </a>
                                 </li>
                                 <li class="nav-item" onclick="showRefuse();">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabRefuse" role="tab" id="tabRefuse" style="color:#528EAF">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block" style="color:#528EAF">未錄取</span>
+                                        <span class="d-none d-sm-block" @* style="color:#528EAF" *@>未錄取</span>
                                     </a>
                                 </li>
                             </ul>
@@ -446,5 +463,52 @@
             tabAccept.style.backgroundColor = '';
             tabAccept.style.fontSize = '16px';
         }
+
+
+        //已錄取
+        $(document).ready(function () {
+            $('#selAccept').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("AcceptPartial", "Backstage")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                        $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
+
+                        //DataTables
+                        $('#selAcceptTable').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                        });
+                    }
+                });
+            });
+        });
+
+        //未錄取
+        $(document).ready(function () {
+            $('#selRefuse').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("RefusePartial", "Backstage")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                        $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+
+                        //DataTables
+                        $('#selRefuseTable').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                        });
+                    }
+                });
+            });
+        });
+
+
     </script>
 </body>
