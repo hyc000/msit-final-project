@@ -696,6 +696,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult JobDetail(int? id)
         {
             var q = _context.TaskLists
+                    .Include(x => x.TaskSkills)
+                    .Include(x => x.TaskCertificates)
                     .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
             return View(q);
         }
