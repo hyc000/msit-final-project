@@ -86,17 +86,17 @@
 
                                 <thead>
                                     <tr>
-                                        <th scope="col" style="width:50px">
-                                            <div class="form-check font-size-16" style="width: auto; text-align: center">序號</div>
+                                        <th scope="col" style="width:30px">
+                                            <div class="form-check font-size-16" style="width: 30px; text-align: center">序號</div>
                                         </th>
-                                        <th scope="col" style="width: 50px; text-align: center">任務名稱</th>
-                                        <th scope="col" style="width: 50px; text-align: center">任務內容</th>
-                                        <th scope="col" style="width: 50px; text-align: center">任務報酬</th>
-                                        <th scope="col" style="width: 50px; text-align: center">證照</th>
-                                        <th scope="col" style="width: 50px; text-align: center">技能</th>
-                                        <th scope="col" style="width: 50px; text-align: center">收藏日期</th>
-                                        <th scope="col" style="width: 50px; text-align: center">詳細內容</th>
-                                        <th style="width: 50px; text-align: center">動作</th>
+                                        <th scope="col" style="width: 30px; text-align: center">任務名稱</th>
+                                        <th scope="col" style="width: 30px; text-align: center">任務內容</th>
+                                        <th scope="col" style="width: 30px; text-align: center">任務報酬</th>
+                                        <th scope="col" style="width: 30px; text-align: center">證照</th>
+                                        <th scope="col" style="width: 30px; text-align: center">技能</th>
+                                        <th scope="col" style="width: 30px; text-align: center">收藏日期</th>
+                                        <th scope="col" style="width: 30px; text-align: center">詳細內容</th>
+                                        <th style="width: 30px; text-align: center">動作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,16 +106,19 @@
                                         {
                                             count++;
                                             string TaskDetail = item.TaskDetail;
-                                            if (TaskDetail.Length > 15)
+                                            if(item.TaskDetail != null)
                                             {
-                                                TaskDetail = $"{TaskDetail.Substring(0, 15)}...";
-                                            }
+                                                if (TaskDetail.Length > 10)
+                                                {
+                                                    TaskDetail = $"{TaskDetail.Substring(0, 10)}...";
+                                                }
+                                             }
                                             <tr>
-                                                <td data-field="id" style="text-align: left">@count</td>
-                                                <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
-                                                <td style="text-align: left">@TaskDetail</td>
-                                                <td style="text-align: center">@item.PayFrom</td>
-                                                <td style="text-align: left">
+                                                <td data-field="id" style="width: 30px; text-align: center">@count</td>
+                                                <td style="width: 30px; text-align: center"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
+                                                <td style="width: 30px; text-align: center">@TaskDetail</td>
+                                                <td style="width: 30px; text-align: center">@item.PayFrom</td>
+                                                <td style="width: 30px; text-align: center">
                                                     <div class="d-flex gap-2">
                                                         @*<a href="#" class="badge badge-soft-primary font-size-11">Php</a>
                                                         <a href="#" class="badge badge-soft-primary font-size-11">Java</a>

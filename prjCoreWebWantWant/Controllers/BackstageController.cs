@@ -43,7 +43,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, IFormFile imageFile)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, IFormFile imageFile,int selectedCerId1,int selectedCerId2,int selectedCerId3)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -88,7 +88,42 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 };
                 _context.Add(resumeSkill3);
                 _context.SaveChanges();
-                return RedirectToAction("ResumeList");
+
+
+            if (selectedCerId1 != 0)
+            {
+                ResumeCertificate resumeCertificate1 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId1
+                };
+                _context.Add(resumeCertificate1);
+                _context.SaveChanges();
+            }
+
+            if (selectedCerId2 != 0)
+            {
+                ResumeCertificate resumeCertificate2 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId2
+                };
+                _context.Add(resumeCertificate2);
+                _context.SaveChanges();
+            }
+
+            if (selectedCerId3 != 0)
+            {
+                ResumeCertificate resumeCertificate3 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId3
+                };
+                _context.Add(resumeCertificate3);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("ResumeList");
         }
 
         public IActionResult ResumeUneditable(int? id)
