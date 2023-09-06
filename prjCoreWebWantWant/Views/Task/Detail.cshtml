@@ -62,9 +62,9 @@
 
 
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" style="font-size:22px;">
             <li class="breadcrumb-item"><a href="@Url.Content("~/Task/ListNew")">找工作</a></li>      
-            <li class="breadcrumb-item active" aria-current="page">@taskname</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:#FF5151;">@taskname</li>
             <li class="breadcrumb-item active" aria-current="page">@Model.TaskTitle</li>
         </ol>
     </nav>
@@ -349,25 +349,25 @@
 
                             @if (Model.WorkPlace == true)
                             {
-                                <li>任務地點：<span>在家兼職</span></li>
+                                <li>任務地點：<span style="color:#FF5151;">在家兼職</span></li>
                             }
                             else
                             {
-                                <li>任務地點：<span>@Model.Address</span></li>
+                                <li>任務地點：<span style="color:#FF5151;">@Model.Address</span></li>
                             }
                             @* <li>任務地點：<span>@Model.Address</span></li> *@
                             <li>需求人數<span>@Model.RequiredNum</span></li>
                             @if (Model.TaskStartHour == null || Model.TaskEndHour == null)
                             {
-                                <li>任務時段：<span>不指定時段</span></li>
+                                <li>任務時段：<span style="color:#FF5151;">不指定時段</span></li>
                             }
                             else if ((Model.TaskStartHour != null || Model.TaskEndHour == null))
                             {
-                                <li>任務時段：<span>@Model.TaskStartHour</span></li>
+                                <li>任務時段：<span style="color:#FF5151;">@Model.TaskStartHour</span></li>
                             }
                             else                            
                             {
-                                   <li>任務時段：<span>@Model.TaskStartHour ~ @Model.TaskEndHour</span></li>
+                                <li>任務時段：<span style="color:#FF5151;">@Model.TaskStartHour ~ @Model.TaskEndHour</span></li>
                             }                         
                             <li>任務報酬：<span>@Model.PayFrom</span></li>
                          @*   <li>刊登日期：<span>@Model.PublishStart</span></li>*@
@@ -420,12 +420,16 @@
                             @if (!string.IsNullOrEmpty(abbreviatedName))
                             {
                                 <li>刊登案主：<span>@abbreviatedName</span></li>
-                            }
-                            @* <li>刊登案主：<span>@membername</span></li> *@
-                            <li>Email：<span>want@want.com</span></li>
-                        @*    <li> <span>cc</span></li>*@
-                        </ul>
+                            }                           
+                            <li>
+                                Email：<a href="mailto:want@want.com">
+                                    want@want.com
+                                    <img src="~/backstage1/img/mail.png" alt="寄送郵件" style="height: 28px; width: 28px;">
+                                </a>
+                            </li>
+                          </ul>
                     </div>
+
 
 
 
