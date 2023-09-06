@@ -68,42 +68,37 @@
                             <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
                             <div class="form-floating mb-3">
                         <select asp-for="專長大項1" class="form-select" id="SelSkillBigOne">
-                                    <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="專長細項1" class="form-select" id="SelSkillSmallOne">
-                                    <option></option>
+
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="專長大項2" class="form-select" id="SelSkillBigTwo">
-                                    <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="專長細項2" class="form-select" id="SelSkillSmallTwo">
-                                    <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="專長大項3" class="form-select" id="SelSkillBigThree">
-                                    <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類3</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="專長細項3" class="form-select" id="SelSkillSmallThree">
-                                    <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能3</label>
                             </div>
@@ -121,42 +116,42 @@
                         <h5 class="mb-4" style="color:#528EAF">履歷證照</h5>
                             <div class="form-floating mb-3">
                         <select asp-for="證照大項1" class="form-select" id="SelCerBigOne">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照大項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="證照細項1" class="form-select" id="SelCerSmallOne">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照細項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照1</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="證照大項2" class="form-select" id="SelCerBigTwo">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照大項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="證照細項2" class="form-select" id="SelCerSmallTwo">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照細項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照2</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="證照大項3" class="form-select" id="SelCerBigThree">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照大項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類3</label>
                             </div>
 
                             <div class="form-floating mb-3">
                         <select asp-for="證照細項3" class="form-select" id="SelCerSmallThree">
-                                    <option></option>
+                            @* <option value='0'>請先選擇證照細項</option> *@
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照3</label>
                             </div>
@@ -345,8 +340,9 @@
         async function loadSelSkillBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
-            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
-            document.querySelector('#SelSkillBigOne').innerHTML = skillBig.join("");
+            let skillBig = ` <option value='0'>請先選擇專長大項</option> `
+            skillBig += datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`).join("");
+            document.querySelector('#SelSkillBigOne').innerHTML = skillBig;
 
             loadSelSkillSmallOne();
         }
@@ -357,10 +353,11 @@
         async function loadSelSkillSmallOne() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigOne.value}`);
             const datas = await response.json()
-            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
-            SelSkillSmallOne.innerHTML = skillSmall.join("");
+            let skillSmall = `<option value='0'>請先選擇專長細項</option>`;
+            skillSmall += datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`).join("");
+            SelSkillSmallOne.innerHTML = skillSmall;
             getSkillIdOne();
-        }
+        }   
 
         SelSkillBigOne.addEventListener('change', () => {
             loadSelSkillSmallOne();
@@ -378,8 +375,9 @@
         async function loadSelSkillBigTwo() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
-            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
-            document.querySelector('#SelSkillBigTwo').innerHTML = skillBig.join("");
+            let skillBig = ` <option value='0'>請先選擇專長大項</option> `
+            skillBig += datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`).join("");
+            document.querySelector('#SelSkillBigTwo').innerHTML = skillBig;
 
             loadSelSkillSmallTwo();
         }
@@ -390,8 +388,9 @@
         async function loadSelSkillSmallTwo() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigTwo.value}`);
             const datas = await response.json()
-            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
-            SelSkillSmallTwo.innerHTML = skillSmall.join("");
+            let skillSmall = `<option value='0'>請先選擇專長細項</option>`;
+            skillSmall += datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`).join("");
+            SelSkillSmallTwo.innerHTML = skillSmall;
             getSkillIdTwo();
         }
 
@@ -412,8 +411,9 @@
         async function loadSelSkillBigThree() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
-            const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
-            document.querySelector('#SelSkillBigThree').innerHTML = skillBig.join("");
+            let skillBig = ` <option value='0'>請先選擇專長大項</option> `
+            skillBig += datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`).join("");
+            document.querySelector('#SelSkillBigThree').innerHTML = skillBig;
 
             loadSelSkillSmallThree();
         }
@@ -424,8 +424,9 @@
         async function loadSelSkillSmallThree() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigThree.value}`);
             const datas = await response.json()
-            const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
-            SelSkillSmallThree.innerHTML = skillSmall.join("");
+            let skillSmall = `<option value='0'>請先選擇專長細項</option>`;
+            skillSmall += datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`).join("");
+            SelSkillSmallThree.innerHTML = skillSmall;
             getSkillIdThree();
         }
 
@@ -447,8 +448,9 @@
         async function loadSelCerBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
-            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
-            document.querySelector('#SelCerBigOne').innerHTML = CerBig.join("");
+            let CerBig = `<option value='0'>請先選擇證照大項</option>`;
+            CerBig += datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`).join("");
+            document.querySelector('#SelCerBigOne').innerHTML = CerBig;
 
             loadSelCerSmallOne();
         }
@@ -459,8 +461,9 @@
         async function loadSelCerSmallOne() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigOne.value}`);
             const datas = await response.json()
-            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
-            SelCerSmallOne.innerHTML = CerSmall.join("");
+            let CerSmall = `<option value='0'>請先選擇證照細項</option>`;
+            CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
+            SelCerSmallOne.innerHTML = CerSmall;
         }
 
         loadSelCerSmallOne();
@@ -478,8 +481,9 @@
         async function loadSelCerBigTwo() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
-            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
-            document.querySelector('#SelCerBigTwo').innerHTML = CerBig.join("");
+            let CerBig = `<option value='0'>請先選擇證照大項</option>`;
+            CerBig += datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`).join("");
+            document.querySelector('#SelCerBigTwo').innerHTML = CerBig;
 
             loadSelCerSmallTwo();
         }
@@ -490,8 +494,9 @@
         async function loadSelCerSmallTwo() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigTwo.value}`);
             const datas = await response.json()
-            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
-            SelCerSmallTwo.innerHTML = CerSmall.join("");
+            let CerSmall = `<option value='0'>請先選擇證照細項</option>`;
+            CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
+            SelCerSmallTwo.innerHTML = CerSmall;
         }
 
         loadSelCerSmallTwo();
@@ -509,9 +514,9 @@
         async function loadSelCerBigThree() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
-            const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
-            document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
-
+            let CerBig = `<option value='0'>請先選擇證照大項</option>`;
+            CerBig += datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`).join("");
+            document.querySelector('#SelCerBigThree').innerHTML = CerBig;
             loadSelCerSmallThree();
         }
 
@@ -521,8 +526,9 @@
         async function loadSelCerSmallThree() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigThree.value}`);
             const datas = await response.json()
-            const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
-            SelCerSmallThree.innerHTML = CerSmall.join("");
+            let CerSmall = `<option value='0'>請先選擇證照細項</option>`;
+            CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
+            SelCerSmallThree.innerHTML = CerSmall;
         }
 
         loadSelCerSmallThree();

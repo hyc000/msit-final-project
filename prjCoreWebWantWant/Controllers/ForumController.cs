@@ -9,6 +9,7 @@ using prjCoreWebWantWant.Models;
 using prjCoreWebWantWant.ViewModels;
 using System.Text.Json;
 using X.PagedList;
+using static prjCoreWantMember.ViewModels.ForumPostListModel;
 using CDictionary = prjCoreWebWantWant.Models.CDictionary;
 
 namespace WantTask.Controllers
@@ -52,10 +53,30 @@ namespace WantTask.Controllers
                         //.Include(p => p.ForumPostComments).ThenInclude(c => c.StatusNavigation)
                         //.Include(p => p.ForumPostComments).ThenInclude(c => c.Account)
                         //where p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId
-                        .Where(p=>p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId)
+                        .Where(p => p.ForumPostCategories.FirstOrDefault().CategoryId == categoryId)
                         where p.Status == 1 || p.Status == 4
                         where p.Parent == null
                         select p;
+
+            var latestReplies = new List<LatestReplyViewModel>();
+            foreach (var post in posts)
+            {
+                var latestReply = _db.ForumPosts.Include(p=>p.Account)
+                    .Where(p => p.ParentId == post.PostId && p.Status != 2)
+                    .OrderByDescending(p => p.Created)
+                    .FirstOrDefault();
+
+                if (latestReply != null)
+                {
+                    var latestReplyViewModel = new LatestReplyViewModel
+                    {
+                        LatestReplyTime = latestReply.Created,
+                        UserName = latestReply.Account?.UserName
+                    };
+
+                    latestReplies.Add(latestReplyViewModel);
+                }
+            }
 
 
             if (!string.IsNullOrEmpty(q))
@@ -83,6 +104,7 @@ namespace WantTask.Controllers
             ViewBag.CategoryTitle = _db.ForumCategories.FirstOrDefault(c => c.CategoryId == categoryId)?.Title;
 
             ForumPostListModel viewmodel = new ForumPostListModel();
+
             int pageSize = 10;
 
             var postIDs = posts.Select(p => p.PostId).ToList();
@@ -93,6 +115,7 @@ namespace WantTask.Controllers
 
             viewmodel.ReplyCounts = replyCounts;
             viewmodel.PagedPosts = (IPagedList<ForumPost>)posts.ToPagedList(page, pageSize);
+            viewmodel.LatestReplies=latestReplies.ToList();
             return View(viewmodel);
 
 

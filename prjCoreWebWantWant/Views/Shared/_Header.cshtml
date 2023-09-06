@@ -27,7 +27,7 @@
         }
 
     }
-    <div id="getLogginId" data-login-id="nowLoginId"></div>
+    <div id="getChatUseInfo" data-login-id="nowLoginId"></div>
     <!--== header start ==-->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -93,12 +93,12 @@
         </nav>
     </header>
 
-    @if (nowLoginId!=0)
+    @* @if (nowLoginId!=0)
     {
     @await Html.PartialAsync("~/Views/Chat/_ChatPartial.cshtml")
 
     }
-
+ *@
     <!--== header end ==-->
     <!--== Javascript ==-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
