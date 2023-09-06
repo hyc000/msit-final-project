@@ -629,7 +629,7 @@ namespace WantTask.Controllers
                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
                          join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
 
-                         where app.CaseStatusId == 1
+                         where app.CaseStatusId == 1 && (category == null ? true : category == taskname.TaskName)
 
                          select new CApproveViewModel
                          {
@@ -648,7 +648,8 @@ namespace WantTask.Controllers
                              TaskName = taskname.TaskName,
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
                              SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
-                         }).Where(app => app.TaskName == category)
+                         })
+                         //.Where(app => app.TaskName == category)
                              .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
                              .Select(group => group.First()); // 選擇每個群組中的第一個項目
 
@@ -722,7 +723,7 @@ namespace WantTask.Controllers
                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
                          join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
 
-                         where app.CaseStatusId == 2
+                         where app.CaseStatusId == 2 && (category == null ? true : category == taskname.TaskName)
 
                          select new CApproveViewModel
                          {
@@ -741,7 +742,8 @@ namespace WantTask.Controllers
                              TaskName = taskname.TaskName,
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
                              SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
-                         }).Where(app => app.TaskName == category)
+                         })
+                         //.Where(app => app.TaskName == category)
                              .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
                              .Select(group => group.First()); // 選擇每個群組中的第一個項目
 
