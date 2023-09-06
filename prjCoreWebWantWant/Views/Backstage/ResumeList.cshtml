@@ -107,7 +107,7 @@
                                     <a href="@Url.Action("ResumeDelete", "Backstage", new { id = item.ResumeId })" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
 
 
-                                    <a href="#" class="btn btn-outline-secondary" style="color:black"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
+                                @*<a href="#" class="btn btn-outline-secondary" style="color:black" id="printButton"><i class="fa-regular fa-file-pdf fa-xl"></i></a>*@
 
                                 <span style="display: block; text-align: end;">最後修改日期：@item.DataModifyDate</span>
                             
@@ -158,6 +158,9 @@
             });
         }
 
+        // document.getElementById("printButton").addEventListener("click", function () {
+        //     window.print();
+        // });
   </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

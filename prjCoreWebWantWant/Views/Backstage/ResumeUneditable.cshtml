@@ -18,10 +18,7 @@
 
 @section Scripts{
     <script>
-        const Back = document.querySelector('#Back');
-        Back.addEventListener('click',() =>{
-            window.history.back();
-        })
+        
     </script>
 }
 
@@ -53,6 +50,8 @@
         }
 
 
+      
+
     </style>
 </head>
 
@@ -76,6 +75,7 @@
                         <div class="col-12">
                             <div class="container-fluid d-flex justify-content-end">
                                 <a id="Back" class="btn btn-outline-secondary">返回上一頁</a>
+                    <a class="btn btn-outline-secondary" style="color:black;float:left" id="printButton"><i class="fa-regular fa-file-pdf fa-xl"></i></a>
                                 <p></p>
                             </div>
                 <p></p>
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    
+                   <div id="pdf-content">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -121,8 +121,10 @@
                                             <p></p>
                                             <p></p>
                                             <p></p>
-                                            
-                                        <h4 class="font-size-15">姓名：@loginUserName</h4>
+
+                                            <h4 class="font-size-15" style="display:none" id="username">@loginUserName</h4>
+
+                                            <h4 class="font-size-15">姓名：@loginUserName</h4>
                                        @* <h4 class="font-size-15">性別：女</h5>*@
                                         <h4 class="font-size-15">城市：@Model.Town.City.City1</h4>
                                         <div>
@@ -351,7 +353,8 @@
                                 <!-- end tab pane -->
                             </div>                           
                         </div>
-                        <!-- end col -->
+                    </div>
+        <!-- end col -->
                         <!-- end col -->
                     </div>
                     <!-- end row -->
@@ -363,7 +366,44 @@
         <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->
-                    
+             
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        //列印
+        // document.getElementById("printButton").addEventListener("click", function () {
+        //     window.print();
+        // });
+
+  
+
+        document.getElementById('printButton').addEventListener('click', function () {
+            // 獲取要轉換為 PDF 的 HTML 內容
+            const pdfContent = document.getElementById('pdf-content');
+            const username = document.querySelector('#username');
+
+            // 定義轉換選項（可選）
+            const options = {
+                margin: 10,
+                filename: `${username.textContent}的履歷.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // 使用 html2pdf 函數生成 PDF
+            html2pdf()
+                .from(pdfContent)
+                .set(options)
+                .save();
+        });
+
+        const Back = document.querySelector('#Back');
+        Back.addEventListener('click',() =>{
+            window.history.back();
+        })
+
+    </script>
 </body>
 </html>
 
