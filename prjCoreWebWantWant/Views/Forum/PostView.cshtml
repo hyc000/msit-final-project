@@ -50,7 +50,7 @@
         @{
             if (Model.MainPost.Updated != null)
             {
-                <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
+                            <div class="small text-body text-opacity-50 text-end">最後更新時間：@Model.MainPost.Updated</div>
             }
         }
         <hr />
@@ -62,11 +62,11 @@
                 foreach (var comment in Model.MainComments)
                 {
                             firstCommFloorCount++;
-                                    <div class="flex-column mb-1">
-                                    <span class="text-info">@comment.Account.UserName</span>
-                                    <span class="ml-auto">-@comment.Comment</span>
-                                    <div class="small  my-lightgrey">B@(firstCommFloorCount) @comment.Created</div>
-                                    </div>
+                                                <div class="flex-column mb-1">
+                                                <span class="text-info">@comment.Account.UserName</span>
+                                                <span class="ml-auto">-@comment.Comment</span>
+                                                <div class="small  my-lightgrey">B@(firstCommFloorCount) @comment.Created</div>
+                                                </div>
                         }
                     }
                     <!--留言框框-->
@@ -84,6 +84,9 @@
                                     <input type="hidden" name="PostId" value="@Model.MainPost.PostId">
                                     <input type="hidden" name="AccountId" value="@Model.Member.AccountId">
                                     <button class="btn btn-sm float-end small" id="submitBtn">確定發出</button>
+
+                                    <button type="button" class="btn btn-sm float-end small" id="DemoBtnComm">留言Demo</button>
+
                                 </form>
                             </div>
                         }
@@ -108,131 +111,131 @@
             allFloorCount++;
             if (item.Status == 3)//處理已刪除回文的顯示
         {
-                <div class="mybg-color bg-opacity-10 rounded-3 my-3">　
-                    <div class="bg-body rounded-3 border mx-3 p-3">
-                           <div class="px-3">
-                      <div class="border-bottom row pb-2">
-                                    </div>
-                        <div class="col-11 m-auto text-body d-inline-flex align-middle">
-                     <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
-                        <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
-                      <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
-            @{
+                            <div class="mybg-color bg-opacity-10 rounded-3 my-3">　
+                                <div class="bg-body rounded-3 border mx-3 p-3">
+                                       <div class="px-3">
+                                  <div class="border-bottom row pb-2">
+                                                </div>
+                                    <div class="col-11 m-auto text-body d-inline-flex align-middle">
+                                 <span class="badge bg-light badge-pill">@(allFloorCount)樓</span>
+                                    <i class="bi bi-trash-fill text-danger text-opacity-50 ms-3"></i>此文章已刪除
+                                  <span class="text-body text-opacity-50 ms-3">原作者:@item.Account.UserName</span>
+                        @{
                                 if (item.Updated != null)
                                 {
-                   <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
+                                           <span class="small text-body text-opacity-50 ms-3">刪除時間：@item.Updated</span>
                                 }
-                        }
-            </div>
-                  </div>
-                    <hr class="m-0" />
-                          </div>　
-        </div>
+                                    }
+                        </div>
+                              </div>
+                                <hr class="m-0" />
+                                      </div>　
+                    </div>
         }
         else{//正常回文的顯示
-                          <div class="mybg-color bg-opacity-10 rounded-3 my-3">　　
-                             <div class="bg-body rounded-3 border mx-3 p-3">
-                             <div class="p-3">
-                                    <div class="border-bottom row pb-2">
-                                        <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
-                             <span class="col-4 text-end">
-                             <span class="small text-body-tertiary">@item.Created</span>
-                             </span>
-                             </div>
-                             <div class="col-11 m-auto pt-3">
-                             @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
-                             </div>
-                             </div>
-                             @{
+                                      <div class="mybg-color bg-opacity-10 rounded-3 my-3">　　
+                                         <div class="bg-body rounded-3 border mx-3 p-3">
+                                         <div class="p-3">
+                                                <div class="border-bottom row pb-2">
+                                                    <span class="col-8"><span class="badge bg-light badge-pill">@(allFloorCount)樓</span> @item.Account.UserName</span>
+                                         <span class="col-4 text-end">
+                                         <span class="small text-body-tertiary">@item.Created</span>
+                                         </span>
+                                         </div>
+                                         <div class="col-11 m-auto pt-3">
+                                         @Html.Raw(HttpUtility.HtmlDecode(item.PostContent))
+                                         </div>
+                                         </div>
+                                         @{
                     if (item.Updated != null)
                     {
-                                     <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
+                                                             <div class="small text-body text-opacity-50 text-end">最後更新時間：@item.Updated</div>
                     }
-                             }
-                                              <hr />
-                       @*2樓以後留言*@
-                               <div class="row justify-content-end me-1 small">
-                               <div class="bg-light col-11">
-                               @{
+                                         }
+                                                          <hr />
+                                   @*2樓以後留言*@
+                                           <div class="row justify-content-end me-1 small">
+                                           <div class="bg-light col-11">
+                                           @{
                                  int count2 = 0;
                                  var secondCommentsList = Model.SecondCommentsList[allFloorCount-1]; // 取得對應的 SecondCommentsList
 
-                                       @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
+                                                               @foreach (var comment in secondCommentsList) // 迴圈處理單個回覆的留言
                                 {
                                     count2++;
-                                                    <div class="flex-column  mb-1">
-                                                    <span class="text-info">@comment.Account.UserName</span>
-                                                    <span class="ml-auto">-@comment.Comment</span>
-                                                    <div class="small  my-lightgrey">B@(count2) @comment.Created</div>
-                                                    </div>
+                                                                            <div class="flex-column  mb-1">
+                                                                            <span class="text-info">@comment.Account.UserName</span>
+                                                                            <span class="ml-auto">-@comment.Comment</span>
+                                                                            <div class="small  my-lightgrey">B@(count2) @comment.Created</div>
+                                                                            </div>
                                 }
-                                                    }
-                                 <!--留言框框-->
-                                        <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
-                                        留言 <i class="fa-solid fa-reply fa-2xs" style="color: #949494;"></i>
-                                            </button>
-                                        <div class="end-float"></div>
-                                        <div class="collapse" id="leaveAComment@(allFloorCount)">
-                                            @if (Model.Member != null)
+                                                                }
+                                             <!--留言框框-->
+                                                    <button class="btn float-end btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#leaveAComment@(allFloorCount)" aria-expanded="false">
+                                                    留言 <i class="fa-solid fa-reply fa-2xs" style="color: #949494;"></i>
+                                                        </button>
+                                                    <div class="end-float"></div>
+                                                    <div class="collapse" id="leaveAComment@(allFloorCount)">
+                                                        @if (Model.Member != null)
                                         {
-                                                <div class="card card-body">
+                                                            <div class="card card-body">
 
-                                                    <form class="form-group" name="secondFloorComment@(allFloorCount)" class="end-float">
-                                                    <input type="text" class="form-control" name="Comment" id="commentInput@(allFloorCount)" autocomplete="off">
+                                                                <form class="form-group" name="secondFloorComment@(allFloorCount)" class="end-float">
+                                                                <input type="text" class="form-control" name="Comment" id="commentInput@(allFloorCount)" autocomplete="off">
 
-                                                    <input type="hidden" name="PostId" value="@item.PostId">
-                                                    <input type="hidden" name="AccountId" value="@Model.Member.AccountId">
-                                                    <button class="btn btn-sm float-end small" id="submitBtn@(allFloorCount)">確定發出</button>
-                                                    </form>
-                                                </div>
+                                                                <input type="hidden" name="PostId" value="@item.PostId">
+                                                                <input type="hidden" name="AccountId" value="@Model.Member.AccountId">
+                                                                <button class="btn btn-sm float-end small" id="submitBtn@(allFloorCount)">確定發出</button>
+                                                                </form>
+                                                            </div>
                                     }
                                     else
                                     {
-                                                <p class="text-end small">
-                                                    登入後才能留言喔
-                                                    <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
-                                                </p>
+                                                            <p class="text-end small">
+                                                                登入後才能留言喔
+                                                                <a class="" href="@Url.Action("Login", "Member", new { BackToAction = "PostView", BackToController = "Forum", BackToId = Model.MainPost.PostId })"><i class="bi bi-box-arrow-in-right"></i>登入</a>
+                                                            </p>
                                     }
-                                            <!--留言end-->
+                                                        <!--留言end-->
 
-                                            
-                                        </div>
-                                    </div>
-                                    </div>
-                                    </div>　
-                                    </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </div>　
+                                                </div>
                 //--------------------------------------------發文底下留言開始--------------------------------------------
-                        <script>
-                        const submitBtn@(allFloorCount) = document.querySelector('#submitBtn@(allFloorCount)');
-                            const commentInput@(allFloorCount) = document.querySelector('#commentInput@(allFloorCount)');
+                                    <script>
+                                    const submitBtn@(allFloorCount) = document.querySelector('#submitBtn@(allFloorCount)');
+                                        const commentInput@(allFloorCount) = document.querySelector('#commentInput@(allFloorCount)');
 
-                            submitBtn@(allFloorCount).addEventListener('click', event => {
-                                event.preventDefault();
-                                const formData = new FormData(document.secondFloorComment@(allFloorCount));
-                                fetch('@Url.Content("~/ForumApi/PostCommit")', {
-                                    body: formData,
-                                    method: "post"
-                                }).then(response => {
-                                if (response.ok) {
-                                    // $('#這邊要放要更新的東西').load('@Url.Content("~/Forum/Replied")讓他重讀XXX' + '?id=' +等等要加上重讀的ID是誰)
-                                    commentInput@(allFloorCount).value = "";//清空他
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '留言成功成功',
-                                    text: '即將重新整理頁面，請稍後。',
-                                    showConfirmButton: false,
-                                    timer: 1000,
-                                    timerProgressBar: true,
-                                }).then(() => {
-                                    // $('#firstFloorComm').load('@Url.Content("~/ForumApi/PostComment")' + '?id=' + @Model.MainPost.PostId)要思考之後能不能用partialview更新
-                                    location.reload();
-                                })
-                                } else {
-                                    alert('新增失敗,請確認資料')
-                                }
-                                })
-                            });
-                        </script>
+                                        submitBtn@(allFloorCount).addEventListener('click', event => {
+                                            event.preventDefault();
+                                            const formData = new FormData(document.secondFloorComment@(allFloorCount));
+                                            fetch('@Url.Content("~/ForumApi/PostCommit")', {
+                                                body: formData,
+                                                method: "post"
+                                            }).then(response => {
+                                            if (response.ok) {
+                                                // $('#這邊要放要更新的東西').load('@Url.Content("~/Forum/Replied")讓他重讀XXX' + '?id=' +等等要加上重讀的ID是誰)
+                                                commentInput@(allFloorCount).value = "";//清空他
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: '留言成功成功',
+                                                text: '即將重新整理頁面，請稍後。',
+                                                showConfirmButton: false,
+                                                timer: 1000,
+                                                timerProgressBar: true,
+                                            }).then(() => {
+                                                // $('#firstFloorComm').load('@Url.Content("~/ForumApi/PostComment")' + '?id=' + @Model.MainPost.PostId)要思考之後能不能用partialview更新
+                                                location.reload();
+                                            })
+                                            } else {
+                                                alert('新增失敗,請確認資料')
+                                            }
+                                            })
+                                        });
+                                    </script>
                 //--------------------------------------------發文底下留言結束--------------------------------------------
 
         }
@@ -322,6 +325,16 @@
 
 @section Scripts{
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+        const DemoBtnComm = document.querySelector('#DemoBtnComm');
+        const commentInput = document.querySelector('#commentInput');
+
+        DemoBtnComm.addEventListener('click', event => {
+            event.preventDefault();
+                commentInput.value = '錫箔紙這個創意真的是太棒了，拍攝效果也很好，感謝分享';
+        });
+        });
         //--------------------------------------------這邊是主文章回覆--------------------------------------------
         var isLogin = $('#isLogin').val();//判斷@Model.Member是否有傳值進來
         if (isLogin) 

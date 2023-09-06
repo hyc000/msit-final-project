@@ -29,19 +29,19 @@
                     <div class="card-body">
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             <li class="nav-item" onclick="showPostPublish();">
-                                    <a class="nav-link active " data-bs-toggle="tab" href="#tabPostPublish" role="tab" onclick="tabChange(divPostPublis,divReply,divPostDraft)">
+                                    <a class="nav-link active " data-bs-toggle="tab" href="#tabPostPublish" role="tab" onclick="tabChange(divPostPublis,divReply)">
                                     <span class="d-block d-sm-none"><i class="bi bi-send-check"></i></span>
                                     <span class="d-none d-sm-block" style="color: #528eaf">已發布文章</span>
                                 </a>
                             </li>
-                            <li class="nav-item" onclick="showPostDraft();">
+@*                             <li class="nav-item" onclick="showPostDraft();">
                                 <a class="nav-link" data-bs-toggle="tab" href="#tabPostDraft" role="tab" onclick="tabChange(divPostDraft,divReply,divPostPublis)">
                                         <span class="d-block d-sm-none"><i class="bi bi-archive"></i></span>
                                         <span class="d-none d-sm-block" style="color:#528EAF">草稿管理</span>
                                     </a>
-                            </li>
+                            </li> *@
                             <li class="nav-item" onclick="showReply();">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#tabReply" role="tab" onclick="tabChange(divReply,divPostPublis,divPostDraft)">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#tabReply" role="tab" onclick="tabChange(divReply,divPostPublis)">
                                     <span class="d-block d-sm-none"><i class="bi bi-reply"></i></span>
                                     <span class="d-none d-sm-block" style="color: #528eaf">我的回覆</span>
                                 </a>
@@ -55,23 +55,23 @@
 <div class="card-body" id="divPostPublis">
     <table class="table" id="tablePostPublish">
     <thead>
-        <tr>
-            <th style="width:15%">
-                文章標題
-            </th>
-            <th style="width:20%">
-                 內文摘要
-            </th>
-            <th class="col-1 text-center">
-                 發文時間
-            </th>
-            <th class="col-1 text-center">
-                 最後更新
-            </th>
-            <th class="col-1 text-center">
-                 修改/刪除
-            </th>
-        </tr>
+                            <tr>
+                                <th style="width:250px">
+                                    文章標題
+                                </th>
+                                <th style="width:450px">
+                                    內文摘要
+                                </th>
+                                <th class="col-1 text-center" style="width:100px">
+                                    發文時間
+                                </th>
+                                <th class="col-1 text-center" style="width:100px">
+                                    最後更新
+                                </th>
+                                <th class="col-1 text-center" style="width:100px">
+                                    修改/刪除
+                                </th>
+                            </tr>
     </thead>
     <tbody>
 
@@ -108,16 +108,16 @@
                     <table class="table" id="tableReply">
                         <thead>
                             <tr>
-                                <th style="width:5%">
+                                <th style="width:500px">
                                     內文摘要
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:200px">
                                     發文時間
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:200px">
                                     最後更新
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:200px">
                                     修改/刪除
                                 </th>
                             </tr>
@@ -150,23 +150,23 @@
 <!--這裡是已回覆-->
 
 <!--這裡是草稿-->
-                <div class="card-body" id="divPostDraft" style="display:none">
+                @* <div class="card-body" id="divPostDraft" style="display:none">
     <table class="table" id="tablePostDraft">
                         <thead>
                             <tr>
-                                <th style="width:15%">
+                                <th style="width:250px">
                                     文章標題
                                 </th>
-                                <th style="width:20%">
+                                <th style="width:450px">
                                     內文摘要
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:100px">
                                     發文時間
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:100px">
                                     最後更新
                                 </th>
-                                <th class="col-1 text-center">
+                                <th class="col-1 text-center" style="width:100px">
                                     修改/刪除
                                 </th>
                             </tr>
@@ -198,7 +198,7 @@
                             }
                         </tbody>
                     </table>
-</div>
+</div> *@
 <!--這裡是草稿-->
         </div>
     </div>
@@ -274,10 +274,10 @@
 
 
         //切換tab--------------------------------------------------------
-        function tabChange(tab1, tab2, tab3) {
+        function tabChange(tab1, tab2) {
             tab1.style.display = 'block';
             tab2.style.display = 'none';
-            tab3.style.display = 'none';
+            // tab3.style.display = 'none';
             sessionStorage.setItem('selectedTab', tab1.id);
 
         }
@@ -302,7 +302,7 @@
                     if (response.ok) {
                         Swal.fire({
                             icon: 'success',
-                            title: '回覆成功',
+                            title: '修改成功',
                             text: '即將重新整理頁面，請稍後。',
                             showConfirmButton: false,
                             timer: 2000,
