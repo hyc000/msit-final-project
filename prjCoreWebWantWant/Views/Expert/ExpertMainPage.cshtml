@@ -103,7 +103,7 @@
 
             </div>
             </div>
-        <!--價格篩選-->@*請教亞芝姐怎麼變成同一條的，或是小C叫我用noUiSlider*@
+        <!--價格篩選-->
         <div class="filter_block">
             <label class="fs-4 pt-1 form-label" for="customRange1">篩選價格</label>
             <div class="mt-4">
@@ -114,7 +114,7 @@
                     <span>元</span> <!-- 用來顯示範圍值的元素 -->
                 </section>
                 <div class="d-flex justify-content-center">
-                            <input id="btn_search_price" class="btn btn-outline-secondary" type="button" value="搜尋" />
+                            <input id="btn_search_price" class="btn btn-outline-primary ms-2" type="button" value="搜尋" />
                 </div>
             </div>
         </div>
@@ -200,13 +200,13 @@
                                                                                                                 @if (item.Photo != null)
                                                                                                          {
                                                                                                                     <div class="overflow-hidden my-rounded-start d-flex justify-content-center">
-                                                                                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="250" />
+                                                                                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Photo)" height="260" />
                                                                                                                 </div>
                                                                                                              }
                                                                                                           else
                                                                                                              {
                                                                                                                 <div class="overflow-hidden my-rounded-start my-bg-primary d-flex justify-content-center">
-                                                                                                                    <img src="~/Images/LOGO.png" height="250" />
+                                                                                                                    <img src="~/Images/LOGO.png" height="260" />
                                                                                                                 </div>
                                                                                                             }
                                                                                                         </div>
@@ -219,13 +219,13 @@
                                                                                                                     
                                                         <!--控管專家介紹的字數-->
                                                         
-                                                        @{if (item.Introduction.Count() <= 47)
+                                                        @{if (item.Introduction.Count() <= 40)
                                                 {
                                                                         <p class="card-text  mb-2">專家介紹： @item.Introduction </p>
                                                     }
                                                     else
                                                     {
-                                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,44) ... </p>
+                                                                        <p class="card-text  mb-2">專家介紹： @item.Introduction.Substring(0,40) ... </p>
                                                     }
                                                         }
                                                         

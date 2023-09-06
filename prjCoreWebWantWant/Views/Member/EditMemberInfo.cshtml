@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="UserName" class="control-label">討論區暱稱：</label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control" id="UserName" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -65,6 +65,7 @@
            
             <div class="form-group">
                 <input type="submit" value="儲存" class="btn btn-outline-info" />
+                <input value="Demo" class="btn btn-outline-info" onclick="Demo()"/>
             </div>
         </form>
     </div>
@@ -78,4 +79,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function Demo() {
+            var UserName = document.getElementById("UserName");
+            UserName.value = "Fufufu";
+
+        }
+    </script>
 }

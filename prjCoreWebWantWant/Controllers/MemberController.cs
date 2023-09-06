@@ -180,7 +180,7 @@ namespace prjCoreWantMember.Controllers
 
 
                 db.MemberAccounts.Add(newmember);
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 if (newmember.Email.Contains("@want.com")) //客服人員都用公司email註冊
                 {
@@ -207,7 +207,7 @@ namespace prjCoreWantMember.Controllers
                     };
                     db.MemberRoleConns.Add(memRole);
                 }
-                db.SaveChanges();
+                //db.SaveChanges();
             }
 
             return RedirectToAction("Login");

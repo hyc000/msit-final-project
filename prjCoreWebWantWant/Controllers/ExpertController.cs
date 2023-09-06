@@ -121,7 +121,8 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
                     || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                    || m.ResumeTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
                 //因為沒有cityName所以我不能篩選城市欸QQ
             }
 
@@ -191,7 +192,8 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
                     || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                     || m.ResumeTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
                 //因為沒有cityName所以我不能篩選城市欸QQ
             }
 
@@ -262,7 +264,8 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
                     || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                     || m.ResumeTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
                 //因為沒有cityName所以我不能篩選城市欸QQ
             }
 
@@ -333,7 +336,8 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
                     || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                     || m.ResumeTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
                 //因為沒有cityName所以我不能篩選城市欸QQ
             }
 
@@ -404,7 +408,8 @@ namespace prjCoreWantMember.Controllers
             {
                 datas = datas.Where(m => m.Name.ToUpper().Contains(vm.txtKeyword.ToUpper())
                     || m.SkillNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
-                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper()));
+                    || m.CertificateNames.ToUpper().Contains(vm.txtKeyword.ToUpper())
+                     || m.ResumeTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()));
                 //因為沒有cityName所以我不能篩選城市欸QQ
             }
 
