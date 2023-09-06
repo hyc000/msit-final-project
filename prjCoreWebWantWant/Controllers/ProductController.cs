@@ -361,6 +361,7 @@ namespace prjShop.Controllers
 
             return Json(new { success = true });
         }
+        //匯出範例EXCEL
         public IActionResult DownloadTemplate()
         {
             var templatePath = Path.Combine(_host.WebRootPath, "Excel", "");
