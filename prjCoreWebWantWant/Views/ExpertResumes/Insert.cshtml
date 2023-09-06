@@ -31,7 +31,6 @@
                         <span asp-validation-for="履歷照片" class="text-danger"></span>
                         <span asp-validation-for="履歷照片" class="text-danger"></span> @*+*@
                                   <span id="photoError" class="text-danger"></span>
-                                  
                                  <div id="photoPreview"></div>
                             </div>
                         </div>
@@ -164,12 +163,12 @@
                     <h5 class="mb-4" style="color:#528EAF;display:inline;">履歷自傳</h5><span style="color:tomato;">      *必填</span>
                     <div class="form-group">
                         <label asp-for="履歷標題" class="control-label"></label>
-                        <input asp-for="履歷標題" class="form-control" />
+                        <input asp-for="履歷標題" class="form-control" id="ResumeTitle"/>
                         <span asp-validation-for="履歷標題" class="text-danger"></span>
                     </div>
                             <div class="form-group">
                         <label asp-for="專家介紹" class="control-label"></label>
-                        <textarea asp-for="專家介紹" class="form-control" style="height:300px;resize:none"> </textarea>
+                        <textarea asp-for="專家介紹" class="form-control" style="height:300px;resize:none"id="Introduction"> </textarea>
                         <span asp-validation-for="專家介紹" class="text-danger"></span>
                             </div>
                         </div>
@@ -182,7 +181,7 @@
                    
                     <div class="form-group mb-3">
                         <label asp-for="提供服務" class="control-label"></label>
-                        <textarea asp-for="提供服務" class="form-control" style="height:400px;resize:none"> </textarea>
+                        <textarea asp-for="提供服務" class="form-control" style="height:400px;resize:none" id="Service"> </textarea>
                         <span asp-validation-for="提供服務" class="text-danger"></span>
                     </div>
                                       
@@ -196,7 +195,7 @@
                     <div class="form-group mb-3">
                         
                             <label asp-for="常見問題" class="control-label"></label>
-                            <textarea asp-for="常見問題" class="form-control" style="height:300px;resize:none"> </textarea>
+                            <textarea asp-for="常見問題" class="form-control" style="height:300px;resize:none"id="QA"> </textarea>
                             <span asp-validation-for="常見問題" class="text-danger"></span>
                    
 
@@ -221,7 +220,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="基本價格" class="control-label"></label>
-                        <input asp-for="基本價格" class="form-control" />
+                        <input asp-for="基本價格" class="form-control" id="price"/>
                         <span asp-validation-for="基本價格" class="text-danger"></span><span>元</span>
                     </div>
                     <div class="form-group mb-3">
@@ -271,6 +270,7 @@
                                 <div class="form-group">
                             <input type="submit" value="送出並新增" class="btn btn-outline-success"/>
                             <a asp-action="ExpertMemberPage" asp-controller="Expert" class="btn btn-outline-warning">取消並返回</a>
+                            <a class="btn btn-outline-primary" onclick="Demo()">Demo</a>
                                 </div>
                            </div>
                         </div>
@@ -290,7 +290,6 @@
         const selTown = document.querySelector('#selTown');
         const hiddenTownIdInput = document.querySelector('#hiddenTownIdInput');
 
-
         //select的城市
         async function loadCity() {
             const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
@@ -301,9 +300,7 @@
 
             loadDistrict();
         }
-
         loadCity();
-
         //select的區域
         async function loadDistrict() {
             const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
@@ -313,29 +310,21 @@
             selTown.innerHTML = districts.join("");
             getTownId();
         }
-
         async function getTownId() {
             const response = await fetch(`@Url.Content("~/Backstage/GetTownId")?City=${selCity.value}&District=${selTown.value}`);
             const data = await response.json();
             const selectedTownId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
             hiddenTownIdInput.value = selectedTownId;
         }
-
-
         // loadDistrict();
-
         selCity.addEventListener('change', () => {
             loadDistrict();
         });
-
         selTown.addEventListener('change', () => {
             getTownId();
         });
-
-
         const SelSkillBigOne = document.querySelector('#SelSkillBigOne');
         const SelSkillSmallOne = document.querySelector('#SelSkillSmallOne');
-
         //select的技能分類
         async function loadSelSkillBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
@@ -346,9 +335,7 @@
 
             loadSelSkillSmallOne();
         }
-
         loadSelSkillBigOne();
-
         //select的技能小項
         async function loadSelSkillSmallOne() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigOne.value}`);
@@ -358,19 +345,14 @@
             SelSkillSmallOne.innerHTML = skillSmall;
             getSkillIdOne();
         }   
-
         SelSkillBigOne.addEventListener('change', () => {
             loadSelSkillSmallOne();
         });
-
         SelSkillSmallOne.addEventListener('change', () => {
             getSkillIdOne();
         });
-
-
         const SelSkillBigTwo = document.querySelector('#SelSkillBigTwo');
         const SelSkillSmallTwo = document.querySelector('#SelSkillSmallTwo');
-
         //select的技能分類
         async function loadSelSkillBigTwo() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
@@ -381,9 +363,7 @@
 
             loadSelSkillSmallTwo();
         }
-
         loadSelSkillBigTwo();
-
         //select的技能小項
         async function loadSelSkillSmallTwo() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigTwo.value}`);
@@ -393,20 +373,14 @@
             SelSkillSmallTwo.innerHTML = skillSmall;
             getSkillIdTwo();
         }
-
         SelSkillBigTwo.addEventListener('change', () => {
             loadSelSkillSmallTwo();
         });
-
         SelSkillSmallTwo.addEventListener('change', () => {
             getSkillIdTwo();
         });
-
-
-
         const SelSkillBigThree = document.querySelector('#SelSkillBigThree');
         const SelSkillSmallThree = document.querySelector('#SelSkillSmallThree');
-
         //select的技能分類
         async function loadSelSkillBigThree() {
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
@@ -417,9 +391,7 @@
 
             loadSelSkillSmallThree();
         }
-
         loadSelSkillBigThree();
-
         //select的技能小項
         async function loadSelSkillSmallThree() {
             const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBigThree.value}`);
@@ -429,21 +401,15 @@
             SelSkillSmallThree.innerHTML = skillSmall;
             getSkillIdThree();
         }
-
         SelSkillBigThree.addEventListener('change', () => {
             loadSelSkillSmallThree();
         });
-
         SelSkillSmallThree.addEventListener('change', () => {
             getSkillIdThree();
         });
-
-
-
         //證照的標籤
         const SelCerBigOne = document.querySelector('#SelCerBigOne');
         const SelCerSmallOne = document.querySelector('#SelCerSmallOne');
-
         //select的證照分類
         async function loadSelCerBigOne() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
@@ -454,9 +420,7 @@
 
             loadSelCerSmallOne();
         }
-
         loadSelCerBigOne();
-
         //select的證照小項
         async function loadSelCerSmallOne() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigOne.value}`);
@@ -465,18 +429,13 @@
             CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
             SelCerSmallOne.innerHTML = CerSmall;
         }
-
         loadSelCerSmallOne();
-
         SelCerBigOne.addEventListener('change', () => {
             loadSelCerSmallOne();
         });
-
-
         //證照的標籤
         const SelCerBigTwo = document.querySelector('#SelCerBigTwo');
         const SelCerSmallTwo = document.querySelector('#SelCerSmallTwo');
-
         //select的證照分類
         async function loadSelCerBigTwo() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
@@ -487,9 +446,7 @@
 
             loadSelCerSmallTwo();
         }
-
         loadSelCerBigTwo();
-
         //select的證照小項
         async function loadSelCerSmallTwo() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigTwo.value}`);
@@ -498,18 +455,13 @@
             CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
             SelCerSmallTwo.innerHTML = CerSmall;
         }
-
         loadSelCerSmallTwo();
-
         SelCerBigTwo.addEventListener('change', () => {
             loadSelCerSmallTwo();
         });
-
-
         //證照的標籤
         const SelCerBigThree = document.querySelector('#SelCerBigThree');
         const SelCerSmallThree = document.querySelector('#SelCerSmallThree');
-
         //select的證照分類
         async function loadSelCerBigThree() {
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
@@ -519,9 +471,7 @@
             document.querySelector('#SelCerBigThree').innerHTML = CerBig;
             loadSelCerSmallThree();
         }
-
         loadSelCerBigThree();
-
         //select的證照小項
         async function loadSelCerSmallThree() {
             const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBigThree.value}`);
@@ -530,17 +480,13 @@
             CerSmall += datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`).join("");
             SelCerSmallThree.innerHTML = CerSmall;
         }
-
         loadSelCerSmallThree();
-
         SelCerBigThree.addEventListener('change', () => {
             loadSelCerSmallThree();
         });
-
         const hiddenSkillIdInput1 = document.querySelector('#hiddenSkillIdInput1');
         const hiddenSkillIdInput2 = document.querySelector('#hiddenSkillIdInput2');
         const hiddenSkillIdInput3 = document.querySelector('#hiddenSkillIdInput3');
-
         async function getSkillIdOne() {
             const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
             const data = await response.json();
@@ -548,7 +494,6 @@
             hiddenSkillIdInput1.value = selectedSkillId1;
             console.log(hiddenSkillIdInput1.value);
         }
-
         async function getSkillIdTwo() {
             const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
             const data = await response.json();
@@ -556,7 +501,6 @@
             hiddenSkillIdInput2.value = selectedSkillId2;
             console.log(hiddenSkillIdInput2.value);
         }
-
         async function getSkillIdThree() {
             const response = await fetch(`@Url.Content("~/Backstage/GetSkillId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
             const data = await response.json();
@@ -564,7 +508,6 @@
             hiddenSkillIdInput3.value = selectedSkillId3;
             console.log(hiddenSkillIdInput3.value);
         }
-
         //履歷圖片:
         function readFileAsDataURL(file) {
             return new Promise((resolve, reject) => {
@@ -581,11 +524,8 @@
                 reader.readAsDataURL(file);
             });
         }
-
-
         const photoInput = document.getElementById('photoInput');
         const photoPreview = document.getElementById('photoPreview');
-
         // 當使用者選擇檔案時觸發事件
         photoInput.addEventListener('change', async function () { // 注意這裡加了async
             const selectedFile = photoInput.files[0];
@@ -626,7 +566,6 @@
         const workphoto = document.querySelector("#workphoto");
         const workPreview = document.querySelector("#workPreview");
         const workError = document.querySelector("#workError");
-
         workphoto.addEventListener('change', function () {
             workPreview.innerHTML = ''; 
             workError.textContent = '';
@@ -657,7 +596,6 @@
                 }
             } 
         });
-
         //======================
         function readFileAsDataURL(file) {
             return new Promise((resolve, reject) => {
@@ -674,7 +612,6 @@
                 reader.readAsDataURL(file);
             });
         }
-
         photoInput.addEventListener('change', async function () {
             const selectedFile = photoInput.files[0];
 
@@ -711,9 +648,32 @@
                 photoError.textContent = '';
             }
         });
-
-
-
+        //Demo按鍵
+        function Demo() {
+            var selTown = document.getElementById("selTown");
+            var selCity = document.getElementById("selCity");
+            var SelSkillBigOne = document.getElementById("SelSkillBigOne");
+            var SelSkillSmallOne = document.getElementById("SelSkillSmallOne");
+            var SelSkillBigTwo = document.getElementById("SelSkillBigTwo");
+            var SelSkillSmallTwo = document.getElementById("SelSkillSmallTwo");
+            var SelSkillBigThree = document.getElementById("SelSkillBigThree");
+            var SelSkillSmallThree = document.getElementById("SelSkillSmallThree");
+            var SelCerBigOne = document.getElementById("SelCerBigOne");
+            var SelCerSmallOne = document.getElementById("SelCerSmallOne");
+            var SelCerBigTwo = document.getElementById("SelCerBigTwo");
+            var SelCerSmallTwo = document.getElementById("SelCerSmallTwo");
+            var SelCerBigThree = document.getElementById("SelCerBigThree");
+            var SelCerSmallThree = document.getElementById("SelCerSmallThree");
+            var ResumeTitle = document.getElementById("ResumeTitle");
+            var Introduction = document.getElementById("Introduction");
+            var Service = document.getElementById("Service");
+            var QA = document.getElementById("QA");
+            var pay = document.getElementById("pay");
+            var price = document.getElementById("price");
+            var comtact = document.getElementById("comtact");
+            var Name = document.getElementById("selTown");
+            var Name = document.getElementById("selTown");
+        }
     </script>
 
 }
