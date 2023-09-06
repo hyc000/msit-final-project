@@ -43,6 +43,8 @@
             /*transform: translate(-50%, -50%);*/
            
         }
+
+      
     </style>
         }
 <h2 id="toptitle" class="text-center myh2" style="font-weight:bold">
@@ -79,7 +81,7 @@
                 <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
                     <h6>專家作品集</h6>
                     <div id="workbox" class="d-flex justify-content-start"
-                             style=" height: 200px; width:380px;overflow: hidden; position: relative;">
+                             style=" height: 200px; width:380px;overflow-x:auto; position: relative;">
                             <div id="worklist" class="worklist" style=" width:100%; display: flex;">
                      
                           </div>
@@ -88,8 +90,9 @@
             </div>
 
             <!-- 右側部分 -->
-           <div id="title" class="col-8 p-5 bg-expertdetail d-flex flex-column position-relative">
-              <div>
+                <div id="title" class="col-8 p-5 bg-expertdetail flex-column position-relative" style="text-align:left;">
+             <div >
+               <div>
                 <h2 class="display-5 ps-4 py-2">@Html.DisplayFor(model =>model.專家姓名)
                     <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.專家ID })" target="_blank"><i class="bi bi-chat-dots-fill chat-icon"></i></a>
                     <span class="lead pt-3">聯繫專家</span>
@@ -143,7 +146,7 @@
 
                 </div>
             </div>
-
+                </div>
         </div>
         </div>
         @* 詳細介紹 *@
@@ -196,7 +199,7 @@
           <div class="m-3 p-4 ">
                     <h2>評價</h2>
                     <hr />
-                <div id="ratecontent" style="overflow-x: auto">
+                <div id="ratecontent" style="overflow-x: auto;scrollbar-color: #8bafd9 #e5edf6;">
                 </div>
           </div>
     </div>
