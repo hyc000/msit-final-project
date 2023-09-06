@@ -318,32 +318,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
-        $('#applicationRecord').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-            },
-        });
-
-        const selAll = document.querySelector('#selAll');
-        selAll.addEventListener('change', () => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`category=${selAll.value}`);
-            xhr.addEventListener('load', () => {
-                const AllResume = document.querySelector('#AllResume');
-                AllResume.innerHTML = xhr.responseText;
-                
-                $('#applicationRecord').DataTable({
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-                    },
-                });
-                
-            })
-        })
-
-
         function showAllResume() {
             //先取得要操作的標籤，表格
             let AllResume = document.querySelector("#AllResume");
@@ -465,9 +439,71 @@
         }
 
 
-        //已錄取
+        // $('#applicationRecord').DataTable({
+        //     language: {
+        //         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+        //     },
+        // });
+
+        const selAll = document.querySelector('#selAll');
+        selAll.addEventListener('change', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`category=${selAll.value}`);
+            xhr.addEventListener('load', () => {
+                const AllResume = document.querySelector('#AllResume');
+                AllResume.innerHTML = xhr.responseText;
+
+                $('#applicationRecord').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                    },
+                });
+            })
+        })
+
+        //頁面載入時觸發ajax
         $(document).ready(function () {
-            $('#selAccept').change(function () {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`category=${selAll.value}`);
+            xhr.addEventListener('load', () => {
+                const AllResume = document.querySelector('#AllResume');
+                AllResume.innerHTML = xhr.responseText;
+
+                $('#applicationRecord').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                    },
+                });
+            })
+        })
+
+        //已錄取
+        $('#selAccept').change(function () {
+            var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+            $.ajax({
+                url: '@Url.Action("AcceptPartial", "Backstage")',  // 替換為你的 Controller 名稱
+                type: 'GET',
+                data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                success: function (data) {
+                    $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
+                    //Accept
+
+                    //DataTables
+                    $('#selAcceptTable').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            // $('#selAccept').change(function () {
                 var selectedCategory = $(this).val();  // 獲取選擇的任務類型
                 $.ajax({
                     url: '@Url.Action("AcceptPartial", "Backstage")',  // 替換為你的 Controller 名稱
@@ -485,12 +521,32 @@
                         });
                     }
                 });
-            });
+            // });
         });
 
         //未錄取
+        $('#selRefuse').change(function () {
+            var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+            $.ajax({
+                url: '@Url.Action("RefusePartial", "Backstage")',  // 替換為你的 Controller 名稱
+                type: 'GET',
+                data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                success: function (data) {
+                    $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+                    //Refuse
+
+                    //DataTables
+                    $('#selRefuseTable').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                }
+            });
+        });
+
         $(document).ready(function () {
-            $('#selRefuse').change(function () {
+            // $('#selRefuse').change(function () {
                 var selectedCategory = $(this).val();  // 獲取選擇的任務類型
                 $.ajax({
                     url: '@Url.Action("RefusePartial", "Backstage")',  // 替換為你的 Controller 名稱
@@ -508,9 +564,8 @@
                         });
                     }
                 });
-            });
+            // });
         });
-
 
     </script>
 </body>

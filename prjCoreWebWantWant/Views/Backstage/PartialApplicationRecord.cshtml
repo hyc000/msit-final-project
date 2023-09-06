@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<prjCoreWebWantWant.ViewModels.CMemberCollectionViewModel>
 
             <div class="row" id="Applied">
                 <div class="col">
@@ -19,6 +19,7 @@
                                     <th scope="col" style="width: 50px; text-align: center">任務報酬</th>
                                     <th scope="col" style="width: 50px; text-align: center">證照</th>
                                     <th scope="col" style="width: 50px; text-align: center">技能</th>
+                                    <th scope="col" style="width: 50px; text-align: center">狀態</th>
                                     <th scope="col" style="width: 50px; text-align: center">應徵時間</th>
                                     <th style="width: 50px; text-align: center">詳細內容</th>
                                 </tr>
@@ -35,7 +36,7 @@
                                             TaskDetail = $"{TaskDetail.Substring(0, 15)}...";
                                         }
                                         <tr>
-                                            <td data-field="id" style="text-align: left">@count</td>
+                                            <td data-field="id" style="text-align: center">@count</td>
                                             <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
                                             <td style="text-align: left">@TaskDetail</td>
                                             <td style="text-align: center">@item.PayFrom</td>
@@ -64,6 +65,20 @@
                                                         }
                                             </div>
                                         </td>
+                                            @if(item.CaseStatusId == 21)
+                                            {
+                                                <td style="text-align: center">已投遞</td>
+                                            }
+                                            else if(item.CaseStatusId == 1)
+                                            {
+                                                <td style="text-align: center;"><a class="btn btn-outline-success" style="color:white;background-color:green;border-radius: 10px;padding: 5px 10px;">錄取</a></td>
+                                            }
+                                            else if(item.CaseStatusId == 2)
+                                            {
+                                                <td style="text-align: center;"><a class="btn btn-outline-danger" style="color:white;background-color:red;border-radius: 10px;padding: 5px 10px;">拒絕</a></td>
+                                            }
+                                            
+
                                             <td style="text-align: left">@item.ApplicationDate</td>
                                             <th>
                                                 <div class="btn-group" role="group" aria-label="Basic example">

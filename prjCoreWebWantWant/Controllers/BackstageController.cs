@@ -579,6 +579,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         combined.Task.TaskNameId,
                         combined.Task.PaymentId,
                         combined.AppList.ApplicationDate,
+                        combined.AppList.CaseStatusId,
                         // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
                     } into grouped
                     select new CMemberCollectionViewModel
@@ -591,6 +592,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
+                        CaseStatusId = grouped.Key.CaseStatusId,
                         Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
                         Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
                     };

@@ -288,6 +288,27 @@
             })
         })
 
+        $(document).ready(function () { 
+        txtKeywordPub.value="";
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/BackstageTask/PartialPublish")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`category=${selTaskNamePublish.value}`);
+            xhr.addEventListener('load', () => {
+                const Publish = document.querySelector('#Publish')
+                Publish.innerHTML = xhr.responseText;
+
+            //DataTables
+            $('#publishTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                },
+            });
+
+            })
+        
+        })
+
           //未上架的select
            const selTaskNameNoPublish = document.querySelector('#selTaskNameNoPublish');
 
@@ -301,6 +322,24 @@
                 const NoPublish = document.querySelector('#NoPublish')
                 NoPublish.innerHTML = xhr.responseText;
 
+                    //DataTables
+                    $('#NopublishTable').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+            })
+        })
+
+            $(document).ready(function () {
+                txtKeywordNoPub.value = "";
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Content("~/BackstageTask/PartialNoPublish")');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(`category=${selTaskNameNoPublish.value}`);
+                xhr.addEventListener('load', () => {
+                    const NoPublish = document.querySelector('#NoPublish')
+                    NoPublish.innerHTML = xhr.responseText;
 
                     //DataTables
                     $('#NopublishTable').DataTable({
@@ -308,9 +347,8 @@
                             url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                         },
                     });
-
+                })
             })
-        })
 
             //已上架的keyword和search
             const txtKeywordPub = document.querySelector('#txtKeywordPub');

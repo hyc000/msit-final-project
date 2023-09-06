@@ -423,8 +423,27 @@
         <script>
 
             //未處理的表格
+            $('#selAll').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("ApproveAllResumePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                        $('#AllResume').html(data);  // 將部分視圖內容插入到指定容器中
+
+                        //DataTables
+                        $('#selAllTable').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function () {
-                $('#selAll').change(function () {
+                // $('#selAll').change(function () {
                 var selectedCategory = $(this).val();  // 獲取選擇的任務類型
                 $.ajax({
                    url: '@Url.Action("ApproveAllResumePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
@@ -439,10 +458,9 @@
                                     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                                 },
                             });
-
                     }
                 });
-            });
+            // });
         });
 
             //未處理的keyword和search
@@ -463,8 +481,27 @@
 
 
             //已錄取的表格
+            $('#selAccept').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("ApproveAcceptPartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                        $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
+
+                        //DataTables
+                        $('#selAcceptTable').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function () {
-             $('#selAccept').change(function () {
+             // $('#selAccept').change(function () {
                 var selectedCategory = $(this).val();  // 獲取選擇的任務類型
                 $.ajax({
                     url: '@Url.Action("ApproveAcceptPartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
@@ -481,13 +518,32 @@
                             });
                     }
                 });
-            });
+            // });
         });
 
 
             //已婉拒的表格
+            $('#selRefuse').change(function () {
+                var selectedCategory = $(this).val();  // 獲取選擇的任務類型
+                $.ajax({
+                    url: '@Url.Action("ApproveRefusePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
+                    type: 'GET',
+                    data: { category: selectedCategory },  // 傳遞選擇的任務類型
+                    success: function (data) {
+                        $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+
+                        //DataTables
+                        $('#selRefuseTable').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function () {
-                $('#selRefuse').change(function () {
+                // $('#selRefuse').change(function () {
                     var selectedCategory = $(this).val();  // 獲取選擇的任務類型
                     $.ajax({
                         url: '@Url.Action("ApproveRefusePartialView", "BackstageTask")',  // 替換為你的 Controller 名稱
@@ -502,13 +558,10 @@
                                     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                                 },
                             });
-
                         }
                     });
-                });
+                // });
             });
-
-
 
         </script>
     }
