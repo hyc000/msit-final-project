@@ -144,7 +144,7 @@
                                 <img id="fbShareButton" src="~/backstage1/img/fb.png" alt="Facebook分享" style="height: 37px; width: 38px;">
                                 <img id="copy-link-button" src="~/backstage1/img/link.png" alt="複製連結" style="height: 30px; width: 30px;">
                                 <img id="printButton" src="~/backstage1/img/printer1.png" alt="列印" style="margin-left:4px; height: 30px; width: 30px;">                             
-                                <img id="collection" src="~/backstage1/img/love.png" alt="收藏" style="margin-left:4px; height: 30px; width: 30px;" onclick="collect()">
+                                <a><img id="collection" src="~/backstage1/img/love.png" alt="收藏" style="margin-left:4px; height: 30px; width: 30px;"></a>
                                 <img id="collectionOK" src="~/backstage1/img/heart.png" alt="收藏成功" style="margin-left:4px; height: 30px; width: 30px; display:none">
 
                             </h4>
@@ -538,6 +538,7 @@
     </div>
              
     }}
+    <input type="hidden" id="CaseId" name="id" value="@Model.CaseId"/>
     </div>
       
  
@@ -560,6 +561,46 @@
     
 
     <script>
+    const collection = document.querySelector('#collection');
+    const collectionOK = document.querySelector('#collectionOK');
+
+    const CaseId = document.querySelector('#CaseId').value;
+    
+    collection.addEventListener('click', () => {
+
+        const xhr = new XMLHttpRequest();
+            xhr.open('POST', `@Url.Content("~/Backstage/AddCollectionAJAX")?id=${CaseId}`);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send();
+            xhr.addEventListener('load', () => {
+                if (xhr.status === 200) {
+                    const responseData = JSON.parse(xhr.responseText);
+                    if (responseData.success) {
+                        collection.style.display = 'none';
+                        collectionOK.style.display = 'inline';
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1800,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '收藏成功'
+                        })
+                    }
+                }
+            })
+    })
+
+
     document.addEventListener('DOMContentLoaded', function () {
       lightbox.option({
         'resizeDuration': 200,

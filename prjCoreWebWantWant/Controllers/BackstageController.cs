@@ -65,14 +65,19 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 _context.Resumes.Add(p);
                 _context.SaveChanges();
 
-                 ResumeSkill resumeSkill1 = new ResumeSkill()
+            if (selectedSkillId1 != 0)
+            {
+                ResumeSkill resumeSkill1 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
                     SkillId = selectedSkillId1
                 };
                 _context.Add(resumeSkill1);
                 _context.SaveChanges();
+            }
 
+            if (selectedSkillId2 != 0)
+            {
                 ResumeSkill resumeSkill2 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
@@ -80,7 +85,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 };
                 _context.Add(resumeSkill2);
                 _context.SaveChanges();
+            }
 
+            if (selectedSkillId3 != 0)
+            {
                 ResumeSkill resumeSkill3 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
@@ -88,6 +96,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 };
                 _context.Add(resumeSkill3);
                 _context.SaveChanges();
+            }
 
 
             if (selectedCerId1 != 0)
@@ -390,6 +399,16 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _context.SaveChanges();
             return RedirectToAction("ListNew", "Task");
             //return new EmptyResult();
+        }
+
+        public IActionResult AddCollectionAJAX(MemberCollection mc, int? id)
+        {
+            mc.CaseId = id;
+            mc.AccountId = GetAccountID();
+            mc.CollectionDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            _context.Add(mc);
+            _context.SaveChanges();
+            return Json(new { success = true });
         }
 
         public IActionResult DeleteCollection(int? id)
