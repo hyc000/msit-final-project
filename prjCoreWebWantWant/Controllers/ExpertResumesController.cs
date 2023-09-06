@@ -260,13 +260,13 @@ namespace prjCoreWebWantWant.Controllers
 
         //}
 
-        public async Task<IActionResult> Insert() {
+        public IActionResult Insert() {
            
             return View();
             
         }
         [HttpPost]
-        public async Task<IActionResult> Insert(CExpertResumesViewModel vm)
+        public IActionResult Insert(CExpertResumesViewModel vm)
         {
             _memberID= GetMemberIDFromSession();
             if (_memberID == 0)
@@ -280,18 +280,12 @@ namespace prjCoreWebWantWant.Controllers
                 int num = _context.Resumes
                     .Count(x => x.AccountId == _memberID && x.IsExpertOrNot == true);
 
-                //if (num >= 3)//履歷數量<3
-                //{
-                //    TempData["message"] = "履歷份數已達上限，請刪除其他履歷才能新增";
-                //    return RedirectToAction("ExpertMemberPage", "Expert");
-                //}
-                //else
-                //{
+              
                     if (vm != null)
                     {
 
                     //基本履歷&找流水號resumeID
-                    int newResumeId = await AddResume(vm);
+                    int newResumeId = AddResume(vm);
 
                         //專家履歷
                         AddExpertResume(vm, newResumeId);
@@ -305,11 +299,11 @@ namespace prjCoreWebWantWant.Controllers
                         //新增作品
                         DateTime dataCreateDate = DateTime.Now;//現在時間
                        
-                            List<int> newExpertWorkId = await AddExpertWork(vm, dataCreateDate);
+                            List<int> newExpertWorkId =  AddExpertWork(vm, dataCreateDate);
 
                         // 作品表單
 
-                            await AddExpertWorkList(newExpertWorkId, newResumeId);
+                             AddExpertWorkList(newExpertWorkId, newResumeId);
 
                         TempData["message"] = "新增成功";
                         //成功回去
@@ -331,13 +325,13 @@ namespace prjCoreWebWantWant.Controllers
             }
         
         }
-        private async Task<byte[]> ConvertFileToBytes(IFormFile file)
+        private  byte[]  ConvertFileToBytes(IFormFile file)
         {
             using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
+             file.CopyTo(memoryStream);
             return memoryStream.ToArray();
         }
-        private async Task<int> AddResume(CExpertResumesViewModel vm)
+        private int AddResume(CExpertResumesViewModel vm)
         {
             DateTime date = DateTime.Now;
             CExperTaskFactory factory = new CExperTaskFactory(_context);
@@ -348,7 +342,7 @@ namespace prjCoreWebWantWant.Controllers
             {
                 AccountId = _memberID,
                 TownId = townid,
-                Photo = await ConvertFileToBytes(vm.履歷照片),
+                Photo =  ConvertFileToBytes(vm.履歷照片),
                 IsExpertOrNot = true,//TRUE
                 CaseStatusId = 23,//23顯示履歷
                 ResumeTitle = vm.履歷標題,
@@ -356,15 +350,16 @@ namespace prjCoreWebWantWant.Controllers
         };
 
             _context.Resumes.Add(resume);
-          await _context.SaveChangesAsync();
+           _context.SaveChanges();
             return resume.ResumeId;
         }
 
-        private async Task AddSkills(CExpertResumesViewModel vm, int newResumeId)
+        private void AddSkills(CExpertResumesViewModel vm, int newResumeId)
         {
-            CExperTaskFactory factory = new CExperTaskFactory(_context);
+            NewIspanProjectContext context=new NewIspanProjectContext();
+            CExperTaskFactory factory = new CExperTaskFactory(context);
 
-            async Task AddSkillIfNotNull(int? skillId)
+            void AddSkillIfNotNull(int? skillId)
             {
                 if (skillId != null)
                 {
@@ -373,47 +368,73 @@ namespace prjCoreWebWantWant.Controllers
                         SkillId = skillId.Value,
                         ResumeId = newResumeId
                     };
-                    _context.ResumeSkills.Add(resumeskill);
-                   await _context.SaveChangesAsync();
+                    context.ResumeSkills.Add(resumeskill);
+                    context.SaveChanges();
                 }
+            }
+            if (vm.專長細項1!=0.ToString())
+            {
+                int? SkillID1 = factory.SkillName(vm.專長細項1);
+                AddSkillIfNotNull(SkillID1);
+            }
+            if (vm.專長細項2 != 0.ToString())
+            {
+                int? SkillID2 = factory.SkillName(vm.專長細項2);
+                AddSkillIfNotNull(SkillID2);
+            }
+            if (vm.專長細項3 != 0.ToString())
+            {
+                int? SkillID3 = factory.SkillName(vm.專長細項3);
+                AddSkillIfNotNull(SkillID3);
+            }
+           
+         
+
+        }
+
+
+        private void AddCertificates(CExpertResumesViewModel vm, int newResumeId)
+        {
+            
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
+
+            if (vm.證照細項1 != 0.ToString())
+            {
+                int? CertificateID1 = factory.CertificateName(vm.證照細項1);
+                AddCertificatesNotNull(CertificateID1, newResumeId);
+            }
+            if (vm.證照細項2 != 0.ToString())
+            {
+                int? CertificateID2 = factory.CertificateName(vm.證照細項2);
+                AddCertificatesNotNull(CertificateID2, newResumeId);
+
+            }
+            if (vm.證照細項3 != 0.ToString())
+            {
+                int? CertificateID3 = factory.CertificateName(vm.證照細項3);
+                AddCertificatesNotNull(CertificateID3, newResumeId);
             }
             
-            int? SkillID1 = factory.SkillName(vm.專長細項1);
-            await AddSkillIfNotNull(SkillID1);
-            int? SkillID2 = factory.SkillName(vm.專長細項2);
-            await AddSkillIfNotNull(SkillID2);
-            int? SkillID3 = factory.SkillName(vm.專長細項3);
-            await AddSkillIfNotNull(SkillID3);
-
-        }
-
-
-        private async Task AddCertificates(CExpertResumesViewModel vm, int newResumeId)
-        {
-            CExperTaskFactory factory = new CExperTaskFactory(_context);
-            async Task AddCertificatesNotNull(int? certificateId)
-            {
-                if (certificateId != null)
-                {
-                    ResumeCertificate resumecertificate = new ResumeCertificate
-                    {
-                        CertificateId = certificateId.Value,
-                        ResumeId = newResumeId
-                    };
-                    _context.ResumeCertificates.Add(resumecertificate);
-                   await _context.SaveChangesAsync();
-                }
-            }
-            int? CertificateID1 = factory.CertificateName(vm.證照細項1);
-            await AddCertificatesNotNull(CertificateID1);
-            int? CertificateID2 = factory.CertificateName(vm.證照細項2);
-            await AddCertificatesNotNull(CertificateID2);
-            int? CertificateID3 = factory.CertificateName(vm.證照細項3);
-            await AddCertificatesNotNull(CertificateID3);
+            
+           
           
         }
+        public void AddCertificatesNotNull(int? certificateId, int newResumeId)
+        {
+            NewIspanProjectContext context = new NewIspanProjectContext();
+            if (certificateId != null)
+            {
+                ResumeCertificate resumecertificate = new ResumeCertificate
+                {
+                    CertificateId = certificateId.Value,
+                    ResumeId = newResumeId
+                };
+                context.ResumeCertificates.Add(resumecertificate);
+                context.SaveChanges();
+            }
+        }
 
-        private async Task AddExpertResume(CExpertResumesViewModel vm, int newResumeId)
+        private void AddExpertResume(CExpertResumesViewModel vm, int newResumeId)
         {
            
             ExpertResume expertresume = new ExpertResume
@@ -429,11 +450,11 @@ namespace prjCoreWebWantWant.Controllers
                HistoricalViews=0
             };
             _context.ExpertResumes.Add(expertresume);
-            await _context.SaveChangesAsync();
-        
+            _context.SaveChanges();
+
         }
 
-        private async Task<List<int>> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
+        private List<int> AddExpertWork(CExpertResumesViewModel vm, DateTime dataCreateDate)
         {
             List<int> WorksIds = new List<int> { };
             if (vm.作品集.Count>0)
@@ -443,13 +464,13 @@ namespace prjCoreWebWantWant.Controllers
                 {
                     ExpertWork expertwork = new ExpertWork
                     {
-                        WorksPhoto = await ConvertFileToBytes(vm.作品圖片[i]),
+                        WorksPhoto =  ConvertFileToBytes(vm.作品圖片[i]),
                         Workname = vm.作品集[i] + dataCreateDate.ToString("yyyyMMddHHmmssff"),
                         DataCreateDate = dataCreateDate,
                         WorkTitle = vm.作品集[i]
                     };
                     _context.ExpertWorks.Add(expertwork);
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
                     int worlid = expertwork.WorksId;
                     WorksIds.Add(worlid);
                 }
@@ -459,7 +480,7 @@ namespace prjCoreWebWantWant.Controllers
             return WorksIds;
         }
 
-        private async Task AddExpertWorkList(List<int> newexpertworkId, int newResumeId)
+        private void AddExpertWorkList(List<int> newexpertworkId, int newResumeId)
         {
             foreach(int i in newexpertworkId)
             {
@@ -471,7 +492,7 @@ namespace prjCoreWebWantWant.Controllers
                 _context.ExpertWorkLists.Add(expertworklist);
             }
             
-           await _context.SaveChangesAsync();
+           _context.SaveChanges();
         }
 
     }
