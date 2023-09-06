@@ -57,7 +57,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="card-body col-4">
-                            <!--收藏紀錄 應徵紀錄-->
+
+                            <!--應徵紀錄 已錄取 未錄取-->
                             <ul class="nav nav-tabs nav-tabs-custom nav-justified"
                                 role="tablist">
                                 <li class="nav-item" onclick="showApplied();">
@@ -81,6 +82,7 @@
                                     </a>
                                 </li>
                             </ul>
+
                         </div>
 
                         <!--選擇任務類型-->
@@ -95,7 +97,8 @@
                                 </select>
                             </form>
                         </div> *@
-                        <div class="col-4 mb-3" id="PublishSelect">
+
+                        <div class="col-3 mb-3">
                             <form class="app-search d-none d-lg-block">
                                 @{
                                     NewIspanProjectContext _context = new NewIspanProjectContext();
@@ -103,11 +106,39 @@
                                             select p.TaskName;
                                 }
 
-                                <select class="form-select" id="selTaskName">
+                                <select class="form-select" id="selAll">
                                     <option value="">請選擇任務類型</option>
                                     @foreach (var item in q)
                                     {
                                         <option name="category" value="@item">@item</option>
+                                    }
+                                </select>
+
+                                @{
+                                    NewIspanProjectContext _context2 = new NewIspanProjectContext();
+                                    var q2 = from p in _context2.TaskNameLists
+                                             select p.TaskName;
+                                }
+
+                                <select class="form-select" id="selAccept" style="display:none">
+                                    <option value="">請選擇任務類型</option>
+                                    @foreach (var item in q2)
+                                    {
+                                        <option name="category">@item</option>
+                                    }
+                                </select>
+
+                                @{
+                                    NewIspanProjectContext _context3 = new NewIspanProjectContext();
+                                    var q3 = from p in _context3.TaskNameLists
+                                             select p.TaskName;
+                                }
+
+                                <select class="form-select" id="selRefuse" style="display:none">
+                                    <option value="">請選擇任務類型</option>
+                                    @foreach (var item in q3)
+                                    {
+                                        <option name="category">@item</option>
                                     }
                                 </select>
                             </form>
@@ -146,17 +177,18 @@
                                         <th scope="col" style="width:50px">
                                             <div class="form-check font-size-16" style="width: auto; text-align: center">序號</div>
                                         </th>
-                                        <th scope="col" style="width: auto; text-align: center">任務名稱</th>
-                                        <th scope="col" style="width: auto; text-align: center">任務內容</th>
-                                        <th scope="col" style="width: auto; text-align: center">任務報酬</th>
-                                        <th scope="col" style="width: auto; text-align: center">需求技能</th>
-                                        <th scope="col" style="width: auto; text-align: center">應徵時間</th>
-                                        <th style="width: auto; text-align: center">詳細內容</th>
+                                        <th scope="col" style="width: 50px; text-align: center">任務名稱</th>
+                                        <th scope="col" style="width: 50px; text-align: center">任務內容</th>
+                                        <th scope="col" style="width: 50px; text-align: center">任務報酬</th>
+                                        <th scope="col" style="width: 50px; text-align: center">證照</th>
+                                        <th scope="col" style="width: 50px; text-align: center">技能</th>
+                                        <th scope="col" style="width: 50px; text-align: center">應徵日期</th>
+                                        <th style="width: 50px; text-align: center">詳細內容</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{int count = 0;
-                                        @foreach (var item in Model)
+                                            @foreach (var item in Model)
                                         {
                                             count++;
                                             string TaskDetail = item.TaskDetail;
@@ -164,29 +196,43 @@
                                             {
                                                 TaskDetail = $"{TaskDetail.Substring(0, 15)}...";
                                             }
-                                            <tr>
-                                        <td data-field="id" style="text-align: left">@count</td>
-                                        <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
-                                        <td style="text-align: left">@TaskDetail</td>   
-                                        <td style="text-align: center">@item.PayFrom</td>
-                                        <td style="text-align: left">
-                                            <div class="d-flex gap-2">
-                                                        @foreach(var skill in item.Skill)
+                                                <tr>
+                                            <td data-field="id" style="text-align: left">@count</td>
+                                            <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>
+                                            <td style="text-align: left">@TaskDetail</td>   
+                                            <td style="text-align: center">@item.PayFrom</td>
+                                           <td style="text-align: left;width:50px">
+                                                <div class="d-flex gap-2;width:50px">
+                                                  @*<a href="#" class="badge badge-soft-primary font-size-11">Php</a>
+                                              <a href="#" class="badge badge-soft-primary font-size-11">Java</a>
+                                              <a href="#" class="badge badge-soft-primary font-size-11">Python</a>*@
+                                                            @if(item.Certificate != null)
                                                         {
-                                                            <a href="#" class="badge badge-soft-primary">@skill</a>
+                                                                @foreach (var certificate in item.Certificate)
+                                                            {
+                                                                    <a href="#" class="badge badge-soft-primary">@certificate</a>
+                                                            }
                                                         }
-                                                       
-                                               @* <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                <a href="#" class="badge badge-soft-primary font-size-11">Python</a>*@
-                                            </div>
-                                        </td>
-                                        <td style="text-align: left">@item.ApplicationDate</td>
-                                        <th>
-                                            <div class="btn-group"role="group" aria-label="Basic example">
-                                                <a href="@Url.Content("~/Backstage/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a>
-                                            </div>
-                                        </th>
-                                    </tr>
+                                                </div>
+                                            </td>
+                                             <td style="text-align: left;width:50px">
+                                                <div class="d-flex gap-2;width:50px">
+                                                            @if(item.Skill != null)
+                                                        {
+                                                                @foreach (var skill in item.Skill)
+                                                            {
+                                                                    <a href="#" class="badge badge-soft-primary">@skill</a>
+                                                            }
+                                                        }
+                                                </div>
+                                            </td>
+                                            <td style="text-align: left">@item.ApplicationDate</td>
+                                            <th>
+                                                <div class="btn-group"role="group" aria-label="Basic example">
+                                                    <a href="@Url.Content("~/Backstage/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a>
+                                                </div>
+                                            </th>
+                                        </tr>
                                         }
                                     }
                                 </tbody>
@@ -194,6 +240,20 @@
                             <!-- end table-->
                         </div>
                     </div>
+                </div>
+
+                <!--未處理-->
+                <div class="card-body" id="AllResume">
+                </div>
+
+
+                <!--已錄取-->
+                <div class="card-body" style="display:none" id="Accept">
+                </div>
+
+
+                <!--已婉拒-->
+                <div class="card-body" style="display:none" id="Refuse">
                 </div>
 
                 <!--點選tab切換表格-->
@@ -247,12 +307,12 @@
             },
         });
 
-        const selTaskName = document.querySelector('#selTaskName');
-        selTaskName.addEventListener('change' , () => {
+        const selAll = document.querySelector('#selAll');
+        selAll.addEventListener('change', () => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Backstage/PartialApplicationRecord")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`category=${selTaskName.value}`);
+            xhr.send(`category=${selAll.value}`);
             xhr.addEventListener('load', () => {
                 const Applied = document.querySelector('#Applied');
                 Applied.innerHTML = xhr.responseText;
@@ -265,5 +325,126 @@
                 
             })
         })
+
+
+        function showAllResume() {
+            //先取得要操作的標籤，表格
+            let AllResume = document.querySelector("#AllResume");
+            let Accept = document.querySelector("#Accept");
+            let Refuse = document.querySelector("#Refuse");
+
+            //先取得要操作的標籤，select
+            let selAll = document.querySelector("#selAll");
+            let selAccept = document.querySelector("#selAccept");
+            let selRefuse = document.querySelector("#selRefuse");
+
+            //未處理、已錄取、已婉拒的tab
+            const tabAll = document.querySelector('#tabAll');
+            const tabAccept = document.querySelector('#tabAccept');
+            const tabRefuse = document.querySelector('#tabRefuse');
+
+            //再對標籤做操作，表格
+            AllResume.style.display = "block";
+            Accept.style.display = "none";
+            Refuse.style.display = "none";
+
+            //再對標籤做操作，select
+            selAll.style.display = "block";
+            selAccept.style.display = "none";
+            selRefuse.style.display = "none";
+
+            //再對標籤做操作，tab
+            tabAll.style.color = 'white';
+            tabAll.style.backgroundColor = '#528EAF';
+            tabAll.style.fontSize = '20px';
+
+            tabAccept.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabAccept.style.backgroundColor = '';
+            tabAccept.style.fontSize = '16px';
+
+            tabRefuse.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabRefuse.style.backgroundColor = '';
+            tabRefuse.style.fontSize = '16px';
+        }
+
+        function showAccept() {
+            //先取得要操作的標籤
+            let AllResume = document.querySelector("#AllResume");
+            let Accept = document.querySelector("#Accept");
+            let Refuse = document.querySelector("#Refuse");
+
+            //先取得要操作的標籤，select
+            let selAll = document.querySelector("#selAll");
+            let selAccept = document.querySelector("#selAccept");
+            let selRefuse = document.querySelector("#selRefuse");
+
+            //未處理、已錄取、已婉拒的tab
+            const tabAll = document.querySelector('#tabAll');
+            const tabAccept = document.querySelector('#tabAccept');
+            const tabRefuse = document.querySelector('#tabRefuse');
+
+            //再對標籤做操作，表格
+            AllResume.style.display = "none";
+            Accept.style.display = "block";
+            Refuse.style.display = "none";
+
+            //再對標籤做操作，select
+            selAll.style.display = "none";
+            selAccept.style.display = "block";
+            selRefuse.style.display = "none";
+
+            //再對標籤做操作，tab
+            tabAccept.style.color = 'white';
+            tabAccept.style.backgroundColor = '#528EAF';
+            tabAccept.style.fontSize = '20px';
+
+            tabAll.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabAll.style.backgroundColor = '';
+            tabAll.style.fontSize = '16px';
+
+            tabRefuse.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabRefuse.style.backgroundColor = '';
+            tabRefuse.style.fontSize = '16px';
+        }
+
+        function showRefuse() {
+            //先取得要操作的標籤
+            let AllResume = document.querySelector("#AllResume");
+            let Accept = document.querySelector("#Accept");
+            let Refuse = document.querySelector("#Refuse");
+
+            //先取得要操作的標籤，select
+            let selAll = document.querySelector("#selAll");
+            let selAccept = document.querySelector("#selAccept");
+            let selRefuse = document.querySelector("#selRefuse");
+
+            //未處理、已錄取、已婉拒的tab
+            const tabAll = document.querySelector('#tabAll');
+            const tabAccept = document.querySelector('#tabAccept');
+            const tabRefuse = document.querySelector('#tabRefuse');
+
+            //再對標籤做操作，表格
+            AllResume.style.display = "none";
+            Accept.style.display = "none";
+            Refuse.style.display = "block";
+
+            //再對標籤做操作，select
+            selAll.style.display = "none";
+            selAccept.style.display = "none";
+            selRefuse.style.display = "block";
+
+            //再對標籤做操作，tab
+            tabRefuse.style.color = 'white';
+            tabRefuse.style.backgroundColor = '#528EAF';
+            tabRefuse.style.fontSize = '20px';
+
+            tabAll.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabAll.style.backgroundColor = '';
+            tabAll.style.fontSize = '16px';
+
+            tabAccept.style.color = '#528EAF'; // 將已錄取標籤的顏色還原
+            tabAccept.style.backgroundColor = '';
+            tabAccept.style.fontSize = '16px';
+        }
     </script>
 </body>

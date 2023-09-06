@@ -360,10 +360,11 @@
                                         <th scope="col" style="width: 50px; text-align: center">任務名稱</th>
                                         <th scope="col" style="width: 50px; text-align: center">任務內容</th>
                                         <th scope="col" style="width: 50px; text-align: center">任務報酬</th>
-                                        <th scope="col" style="width: 50px; text-align: center">需求技能</th>
-                                        <th scope="col" style="width: 50px; text-align: center">收藏時間</th>
+                                        <th scope="col" style="width: 50px; text-align: center">證照</th>
+                                        <th scope="col" style="width: 50px; text-align: center">技能</th>
+                                        <th scope="col" style="width: 50px; text-align: center">收藏日期</th>
                                         <th scope="col" style="width: 50px; text-align: center">詳細內容</th>
-                                        <th style="width: auto; text-align: center">動作</th>
+                                        <th style="width: 50px; text-align: center">動作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -386,9 +387,23 @@
                                               @*<a href="#" class="badge badge-soft-primary font-size-11">Php</a>
                                               <a href="#" class="badge badge-soft-primary font-size-11">Java</a>
                                               <a href="#" class="badge badge-soft-primary font-size-11">Python</a>*@
-                                                        @foreach (var certificate in item.Certificate)
+                                                        @if(item.Certificate != null)
                                                         {
-                                                            <a href="#" class="badge badge-soft-primary">@certificate</a>
+                                                            @foreach (var certificate in item.Certificate)
+                                                            {
+                                                                <a href="#" class="badge badge-soft-primary">@certificate</a>
+                                                            }
+                                                        }
+                                            </div>
+                                        </td>
+                                        <td style="text-align: left;width:50px">
+                                            <div class="d-flex gap-2;width:50px">
+                                                        @if(item.Skill != null)
+                                                        {
+                                                            @foreach (var skill in item.Skill)
+                                                            {
+                                                                <a href="#" class="badge badge-soft-primary">@skill</a>
+                                                            }
                                                         }
                                             </div>
                                         </td>

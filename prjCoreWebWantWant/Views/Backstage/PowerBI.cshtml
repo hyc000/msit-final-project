@@ -1,10 +1,30 @@
 ﻿@{
     ViewData["Title"] = "PowerBI";
     //Layout = "~/Views/Shared/_LayoutBackstage.cshtml";
-    Layout = "~/Views/Member/LayoutForMem.cshtml";
+    Layout = "~/Views/Shared/_LayoutForBackstage.cshtml";
 }
-<iframe title="WantWant pbi" width="1280" height="1080" src="https://app.powerbi.com/view?r=eyJrIjoiNzUzMTlhZDMtNDcyMy00MDBjLTk2NjMtMWQwOTgzOWIzMjJhIiwidCI6ImE0M2Y2Y2QzLTU0MTItNGIxZi1hMTM0LTJjMjc3MzY0Y2FmNiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
-@section subTitle{
+<head>
+    <style>
+.iframe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 調整高度，使 iframe 填滿整個可視區域 */
+}
+
+    </style>
+</head>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="iframe-container">
+                <iframe title="WantWant pbi" width="1280" height="1080" src="https://app.powerbi.com/view?r=eyJrIjoiNzUzMTlhZDMtNDcyMy00MDBjLTk2NjMtMWQwOTgzOWIzMjJhIiwidCI6ImE0M2Y2Y2QzLTU0MTItNGIxZi1hMTM0LTJjMjc3MzY0Y2FmNiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+@* @section subTitle{
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">會員專區</li>
@@ -12,4 +32,4 @@
             <li class="breadcrumb-item " aria-current="page">趨勢分析</li>
         </ol>
     </nav>
-}
+} *@

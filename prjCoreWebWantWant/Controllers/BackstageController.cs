@@ -250,7 +250,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     {
                         Task = tl,
                         Certificate = tc.Certficate.CertificateName,
-                        Member = mc
+                        Member = mc,
+                        Skill = ts.Skill.SkillName,
                     }
                     into combined
                     group combined by new
@@ -275,7 +276,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         CollectionDate = grouped.Key.CollectionDate,
-                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList()
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
                     };
 
 
@@ -294,7 +296,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     {
                         Task = tl,
                         Certificate = tc.Certficate.CertificateName,
-                        Member = mc
+                        Member = mc,
+                        Skill = ts.Skill.SkillName,
                     }
                     into combined
                     group combined by new
@@ -319,7 +322,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         CollectionDate = grouped.Key.CollectionDate,
-                        Certificate = grouped.Select(g => g.Certificate).ToList()
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
                     };
 
             //var q = from mc in _context.MemberCollections
@@ -389,7 +393,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
                     join tc in _context.TaskCertificates on al.CaseId equals tc.CaseId
                     join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 1 && tn.TaskName == category
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 1 && (category == null ? true : category == tl.TaskName.TaskName)
                     select new
                     {
                         AppList = al,
@@ -420,8 +424,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList(),
-                        Certificate = grouped.Select(g => g.Certificate).ToList()
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList()
                     };
             return PartialView(q.ToList());            
         }
@@ -433,7 +437,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
                     join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
                     join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 2 && tn.TaskName == category
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && al.CaseStatusId == 2  && (category == null ? true : category == tl.TaskName.TaskName)
                     select new
                     {
                         AppList = al,
@@ -464,8 +468,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList(),
-                        Certificate = grouped.Select(g => g.Certificate).ToList(),
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
                     };
             return PartialView(q.ToList());
         }
@@ -555,7 +559,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     join tn in _context.TaskNameLists on tl.TaskNameId equals tn.TaskNameId
                     join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
 
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && tn.TaskName == category
+                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId && (category == null ? true : category == tl.TaskName.TaskName)
                     select new
                     {
                         AppList = al,
@@ -586,8 +590,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                         PaymentId = grouped.Key.PaymentId,
                         CaseId = grouped.Key.CaseId,
                         ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).ToList(),
-                        Certificate = grouped.Select(g => g.Certificate).ToList(),
+                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
+                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
                     };
 
             return PartialView(q.ToList());
