@@ -180,7 +180,7 @@
                     </div>
                 </div>
 
-                <div class="row" id="Applied">
+               @*  <div class="row" id="Applied">
                     <div class="col">
                         <div class="table-responsive mb-4">
                             <table id="applicationRecord" class="table align-middle datatable dt-responsive table-check nowrap table table-hover"
@@ -223,7 +223,7 @@
                                                   @*<a href="#" class="badge badge-soft-primary font-size-11">Php</a>
                                               <a href="#" class="badge badge-soft-primary font-size-11">Java</a>
                                               <a href="#" class="badge badge-soft-primary font-size-11">Python</a>*@
-                                                            @if(item.Certificate != null)
+                                                           @*  @if(item.Certificate != null)
                                                         {
                                                                 @foreach (var certificate in item.Certificate)
                                                             {
@@ -253,11 +253,11 @@
                                         }
                                     }
                                 </tbody>
-                            </table>
+                            </table> *@
                             <!-- end table-->
-                        </div>
+                       @*  </div>
                     </div>
-                </div>
+                </div> *@
 
                 <!--未處理-->
                 <div class="card-body" id="AllResume">
@@ -331,8 +331,8 @@
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(`category=${selAll.value}`);
             xhr.addEventListener('load', () => {
-                const Applied = document.querySelector('#Applied');
-                Applied.innerHTML = xhr.responseText;
+                const AllResume = document.querySelector('#AllResume');
+                AllResume.innerHTML = xhr.responseText;
                 
                 $('#applicationRecord').DataTable({
                     language: {
@@ -475,6 +475,7 @@
                     data: { category: selectedCategory },  // 傳遞選擇的任務類型
                     success: function (data) {
                         $('#Accept').html(data);  // 將部分視圖內容插入到指定容器中
+                        //Accept
 
                         //DataTables
                         $('#selAcceptTable').DataTable({
@@ -497,6 +498,7 @@
                     data: { category: selectedCategory },  // 傳遞選擇的任務類型
                     success: function (data) {
                         $('#Refuse').html(data);  // 將部分視圖內容插入到指定容器中
+                        //Refuse
 
                         //DataTables
                         $('#selRefuseTable').DataTable({

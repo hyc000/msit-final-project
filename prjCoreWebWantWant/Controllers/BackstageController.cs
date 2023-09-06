@@ -493,47 +493,48 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             //            Skill = ts.Skill.SkillName
             //        };
 
-            var q = from al in _context.ApplicationLists
-                    join tl in _context.TaskLists on al.CaseId equals tl.CaseId 
-                    join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
-                    join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
-                    where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId  //列出全部應徵紀錄
+            //var q = from al in _context.ApplicationLists
+            //        join tl in _context.TaskLists on al.CaseId equals tl.CaseId 
+            //        join ts in _context.TaskSkills on al.CaseId equals ts.CaseId
+            //        join tc in _context.TaskCertificates on tl.CaseId equals tc.CaseId
+            //        where al.Resume.AccountId == GetAccountID() && al.Resume.ResumeId == al.ResumeId  //列出全部應徵紀錄
 
-                    select new
-                    {
-                        AppList = al,
-                        Task = tl,
-                        Skill = ts.Skill.SkillName,
-                        Certificate = tc.Certficate.CertificateName,
-                    }
-                    into combined
-                    group combined by new
-                    {
-                        combined.Task.CaseId,
-                        combined.Task.TaskTitle,
-                        combined.Task.TaskDetail,
-                        combined.Task.RequiredNum,
-                        combined.Task.PayFrom,
-                        combined.Task.TaskNameId,
-                        combined.Task.PaymentId,
-                        combined.AppList.ApplicationDate,
-                         // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
-                    } into grouped
-                    select new CMemberCollectionViewModel
-                    {
-                        TaskTitle = grouped.Key.TaskTitle,
-                        TaskDetail = grouped.Key.TaskDetail,
-                        RequiredNum = grouped.Key.RequiredNum,
-                        PayFrom = grouped.Key.PayFrom,
-                        TaskNameId = grouped.Key.TaskNameId,
-                        PaymentId = grouped.Key.PaymentId,
-                        CaseId = grouped.Key.CaseId,
-                        ApplicationDate = grouped.Key.ApplicationDate,
-                        Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
-                        Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
-                    };
+            //        select new
+            //        {
+            //            AppList = al,
+            //            Task = tl,
+            //            Skill = ts.Skill.SkillName,
+            //            Certificate = tc.Certficate.CertificateName,
+            //        }
+            //        into combined
+            //        group combined by new
+            //        {
+            //            combined.Task.CaseId,
+            //            combined.Task.TaskTitle,
+            //            combined.Task.TaskDetail,
+            //            combined.Task.RequiredNum,
+            //            combined.Task.PayFrom,
+            //            combined.Task.TaskNameId,
+            //            combined.Task.PaymentId,
+            //            combined.AppList.ApplicationDate,
+            //             // 如果一個工作可以有多個技能，請包括這個以確保每個工作都在結果中
+            //        } into grouped
+            //        select new CMemberCollectionViewModel
+            //        {
+            //            TaskTitle = grouped.Key.TaskTitle,
+            //            TaskDetail = grouped.Key.TaskDetail,
+            //            RequiredNum = grouped.Key.RequiredNum,
+            //            PayFrom = grouped.Key.PayFrom,
+            //            TaskNameId = grouped.Key.TaskNameId,
+            //            PaymentId = grouped.Key.PaymentId,
+            //            CaseId = grouped.Key.CaseId,
+            //            ApplicationDate = grouped.Key.ApplicationDate,
+            //            Skill = grouped.Select(g => g.Skill).Distinct().ToList(),
+            //            Certificate = grouped.Select(g => g.Certificate).Distinct().ToList(),
+            //        };
 
-            return View(q.ToList());
+            return View();
+            //return View(q.ToList());
         }
 
         public IActionResult PartialApplicationRecord(string category)   //todo 沒有正確顯示應徵紀錄 還沒抓到履歷id(多履歷的問題)
