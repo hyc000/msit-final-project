@@ -35,7 +35,7 @@
                     <div class="card-header">
 
                         <div class="row">
-                            <div class="card-body col-4">
+                            <div class="card-body col-12">
 
                                 <!--給出的評論 我收到的評價-->
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -43,14 +43,14 @@
                                         <a id="btnToShowForRatings" class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
                                             @* <button class="nav-link active" id="btnToShowForRatings">給別人的評價</button> *@
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block" style="color:#528EAF">給別人的評價</span>
+                                            <span class="d-none d-sm-block" style="color:#528EAF">我收到的評價</span>
                                         </a>
                                     </li>
                                     <li class="nav-item"  >
                                         <a class="nav-link" data-bs-toggle="tab" href="#" role="tab" id="btnToShowMyRatings">
                                             @* <button class="nav-link active" id="btnToShowMyRatings" aria-current="page" href="#">我收到的評價</button> *@
                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                            <span class="d-none d-sm-block"  style="color:#528EAF">我收到的評價</span>
+                                            <span class="d-none d-sm-block" style="color:#528EAF">給別人的評價</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -103,12 +103,12 @@
 
                     <!--已上架-->
                     <div class="card-body" id="totask">
-                        <table id="forratings" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                        <table id="forratings" class="table table-hover table align-middle datatable dt-responsive table-check " style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
                             
                             <thead>
                                 <tr>
                                     <th style="width: 50px;">被評論者</th>
-                                   @*  <th style="width: 50px;">評論者</th> *@
+                                   
                                     <th style="width: 100px;">評論星數</th>
                                     <th style="width: 300px;">評論內容</th>
                                     <th style="width: 50px;">評論日期</th>
@@ -121,10 +121,10 @@
 
                     <!--未上架-->
                     <div class="card-body" style="display:none" id="tasked">
-                        <table id="myratings" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                        <table id="myratings" class="table table-hover table align-middle datatable dt-responsive table-check " style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
                             <thead>
                                 <tr>
-                                   @*  <th style="width: 50px;">被評論者</th> *@
+                                   
                                     <th style="width: 50px;">評論者</th>
                                     <th style="width: 100px;">評論星數</th>
                                     <th style="width: 300px;">評論內容</th>
@@ -149,7 +149,18 @@
 
     <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <style>
+        .color-a {
+            background-color: #f2fbff !important;
         }
+
+        .color-b {
+            background-color: #fff9e3 !important;
+        }
+       
+    </style>
+
+}
 @section Scripts{
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
@@ -160,16 +171,35 @@
 
         var btnToShowForRatings = document.querySelector('#btnToShowForRatings');
         var btnToShowMyRatings = document.querySelector('#btnToShowMyRatings');
+        var cardheader = document.querySelector('.card-header');
+        var lis = document.querySelectorAll(".nav-link");
 
         btnToShowForRatings.addEventListener('click', function () {
             totask.style.display = 'block';
             tasked.style.display = 'none';
+            cardheader.classList.add("color-a");
+            cardheader.classList.remove("color-b");
+            toggleLiColors("color-a", "color-b");
         });
 
         btnToShowMyRatings.addEventListener('click', function () {
             totask.style.display = 'none';
             tasked.style.display = 'block';
+            cardheader.classList.add("color-b");
+            cardheader.classList.remove("color-a");
+            toggleLiColors("color-b", "color-a");
         });
+
+        //=========底色
+        
+
+       // function toggleLiColors(addColor, removeColor) {
+       //      lis.forEach(function (li) {
+       //          li.classList.add(addColor);
+       //          li.classList.remove(removeColor);
+       //      });
+       //  }
+
         //============================================
 
         //星星評價
@@ -207,10 +237,12 @@
                 datasforratings = data;
 
                 $('#forratings').DataTable({
+                    autoWidth: false,
                     data: datasforratings,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                     },
+                    
                     columns: [
                         { data: 'ratedperson', title: "被評論者" },
                         // { data: 'ratingforperson', title: "評論者" },
@@ -236,10 +268,12 @@
                 datasmyratings = data;
 
                 $('#myratings').DataTable({
+                    autoWidth: false,
                     data: datasmyratings,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                     },
+                    
                     columns: [
                         // { data: 'ratedperson', title: "被評論者" },
                         { data: 'ratingforperson', title: "評論者" },
@@ -254,6 +288,9 @@
                 console.error('API request error:', error);
             });
                              //============================================
+
+
+       
     </script>
     <script src="~/Expert/js/expert.js"></script>
     <script src="~/Expert/js/bootstrap.bundle.js"></script>
