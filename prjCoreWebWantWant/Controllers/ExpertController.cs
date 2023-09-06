@@ -64,8 +64,8 @@ namespace prjCoreWantMember.Controllers
                             PaymentMethod = er.PaymentMethod,
                             CommonPrice = er.CommonPrice,
                             HistoricalViews = er.HistoricalViews,
-                            SkillNames = string.Join(",", skills),
-                            CertificateNames = string.Join(",", certificates)
+                            SkillNames = string.Join(" | ", skills),
+                            CertificateNames = string.Join(" | ", certificates)
                         };
 
             ViewBag.TotalCount = datas.Distinct().Count();
@@ -112,8 +112,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             //如果有關鍵字的話篩掉這個datas
@@ -182,8 +182,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             //如果有關鍵字的話篩掉這個datas
@@ -253,8 +253,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             //如果有關鍵字的話篩掉這個datas
@@ -324,8 +324,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             //如果有關鍵字的話篩掉這個datas
@@ -395,8 +395,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             //如果有關鍵字的話篩掉這個datas
@@ -466,8 +466,8 @@ namespace prjCoreWantMember.Controllers
                         PaymentMethod = er.PaymentMethod,
                         CommonPrice = er.CommonPrice,
                         HistoricalViews = er.HistoricalViews,
-                        SkillNames = string.Join(",", skills),
-                        CertificateNames = string.Join(",", certificates)
+                        SkillNames = string.Join(" | ", skills),
+                        CertificateNames = string.Join(" | ", certificates)
                     };
 
             int currentPage = page < 1 ? 1 : page;
