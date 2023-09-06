@@ -13,6 +13,8 @@
     <Content Remove="Views\ServiceContacts\Edit.cshtml" />
     <Content Remove="wwwroot\backstage1\img\cross.png" />
     <Content Remove="wwwroot\backstage1\img\group-chat.png" />
+    <Content Remove="wwwroot\backstage1\img\printer.png" />
+    <Content Remove="wwwroot\backstage1\img\printer1.png" />
     <Content Remove="wwwroot\Mstyles\Carousel.css" />
     <Content Remove="wwwroot\Mstyles\Jstyle.css" />
   </ItemGroup>

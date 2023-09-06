@@ -79,11 +79,11 @@
         var currentUrl ="https://6e77-2001-b400-e2a9-8dd1-193f-e32e-37a7-5538.ngrok-free.app"; //Context.Request.GetDisplayUrl();
     }*@
 
-    @*<div id="fb-root"></div>
+   @* <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
     <div class="fb-share-button" data-href="https://www.facebook.com/alyson.tang.9/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Falyson.tang.9%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>*@
 
-    @*  <div id="fb-root"></div>
+    @*<div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v17.0" nonce="RZ5h3UQ2"></script>
     <div class="fb-share-button" data-href="@currentUrl" data-layout="" data-size="">
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=@currentUrl&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a>
@@ -138,12 +138,12 @@
                                 <img src="~/backstage1/img/task.png" alt="任務圖片" style="height: 30px; width: 30px; margin-right: 5px;">
                                 任務名稱
                                 <a href="@Url.Action("Chatsingle", "Chat", new { id = Model.AccountId })" target="_blank" style="margin-left: auto;">
-                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="height: 49px; width: 38px;">
+                                    <img src="~/backstage1/img/chat.png" alt="聊天圖片" style="margin-right:3px;height: 49px; width: 38px;">
                                 </a>
                                 <img id="lineShareButton" src="~/backstage1/img/line.png" alt="Line分享" style="height: 31px; width: 30px;">
                                 <img id="fbShareButton" src="~/backstage1/img/fb.png" alt="Facebook分享" style="height: 37px; width: 38px;">
                                 <img id="copy-link-button" src="~/backstage1/img/link.png" alt="複製連結" style="height: 30px; width: 30px;">
-
+                                <img id="printButton" src="~/backstage1/img/printer1.png" alt="列印" style="margin-left:4px; height: 30px; width: 30px;">                             
                             </h4>
                         </div>
                         <p>@Model.TaskTitle</p>
@@ -180,6 +180,7 @@
 
                     </script>
 
+                    @*分享連結*@
                     <script>
                         var copyLinkButton = document.getElementById("copy-link-button");
 
@@ -213,6 +214,19 @@
                         //alert("+ currentUrl " );
                         });
                     </script>
+
+                    @*列印、存pdf*@
+                    <script>
+                    document.getElementById("printButton").addEventListener("click", function () {
+                    window.print();
+                    });
+                     </script>
+                  
+                 
+
+
+
+
 
 
 
