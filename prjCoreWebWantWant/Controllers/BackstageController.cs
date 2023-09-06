@@ -43,7 +43,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, IFormFile imageFile)
+        public IActionResult Create(Resume p,int selectedTownId, int selectedSkillId1,int selectedSkillId2,int selectedSkillId3, IFormFile imageFile,int selectedCerId1,int selectedCerId2,int selectedCerId3)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -65,14 +65,19 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 _context.Resumes.Add(p);
                 _context.SaveChanges();
 
-                 ResumeSkill resumeSkill1 = new ResumeSkill()
+            if (selectedSkillId1 != 0)
+            {
+                ResumeSkill resumeSkill1 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
                     SkillId = selectedSkillId1
                 };
                 _context.Add(resumeSkill1);
                 _context.SaveChanges();
+            }
 
+            if (selectedSkillId2 != 0)
+            {
                 ResumeSkill resumeSkill2 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
@@ -80,7 +85,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 };
                 _context.Add(resumeSkill2);
                 _context.SaveChanges();
+            }
 
+            if (selectedSkillId3 != 0)
+            {
                 ResumeSkill resumeSkill3 = new ResumeSkill()
                 {
                     ResumeId = p.ResumeId,
@@ -88,7 +96,43 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 };
                 _context.Add(resumeSkill3);
                 _context.SaveChanges();
-                return RedirectToAction("ResumeList");
+            }
+
+
+            if (selectedCerId1 != 0)
+            {
+                ResumeCertificate resumeCertificate1 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId1
+                };
+                _context.Add(resumeCertificate1);
+                _context.SaveChanges();
+            }
+
+            if (selectedCerId2 != 0)
+            {
+                ResumeCertificate resumeCertificate2 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId2
+                };
+                _context.Add(resumeCertificate2);
+                _context.SaveChanges();
+            }
+
+            if (selectedCerId3 != 0)
+            {
+                ResumeCertificate resumeCertificate3 = new ResumeCertificate()
+                {
+                    ResumeId = p.ResumeId,
+                    CertificateId = selectedCerId3
+                };
+                _context.Add(resumeCertificate3);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("ResumeList");
         }
 
         public IActionResult ResumeUneditable(int? id)
@@ -355,6 +399,16 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _context.SaveChanges();
             return RedirectToAction("ListNew", "Task");
             //return new EmptyResult();
+        }
+
+        public IActionResult AddCollectionAJAX(MemberCollection mc, int? id)
+        {
+            mc.CaseId = id;
+            mc.AccountId = GetAccountID();
+            mc.CollectionDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            _context.Add(mc);
+            _context.SaveChanges();
+            return Json(new { success = true });
         }
 
         public IActionResult DeleteCollection(int? id)
@@ -642,6 +696,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult JobDetail(int? id)
         {
             var q = _context.TaskLists
+                    .Include(x => x.TaskSkills)
+                    .Include(x => x.TaskCertificates)
                     .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
             return View(q);
         }

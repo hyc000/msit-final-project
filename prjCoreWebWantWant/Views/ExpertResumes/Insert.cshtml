@@ -19,8 +19,9 @@
 <form asp-action="Insert" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="container-fluid pt-4 px-4">
+        <a class="btn btn-outline-primary" onclick="Demo()">Demo</a>
                 <div class="row g-4">
-
+           
                     <!--履歷照片-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
@@ -270,7 +271,7 @@
                                 <div class="form-group">
                             <input type="submit" value="送出並新增" class="btn btn-outline-success"/>
                             <a asp-action="ExpertMemberPage" asp-controller="Expert" class="btn btn-outline-warning">取消並返回</a>
-                            <a class="btn btn-outline-primary" onclick="Demo()">Demo</a>
+                            
                                 </div>
                            </div>
                         </div>
@@ -671,8 +672,24 @@
             var pay = document.getElementById("pay");
             var price = document.getElementById("price");
             var comtact = document.getElementById("comtact");
-            var Name = document.getElementById("selTown");
-            var Name = document.getElementById("selTown");
+
+            selCity.selectedIndex=16;
+            // 手動觸發 change 事件
+            if ("createEvent" in document) {
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent("change", false, true);
+                selCity.dispatchEvent(evt);
+            } else {
+                selCity.fireEvent("onchange");
+               
+            }
+            selTown.selectedIndex = 7;
+            ResumeTitle.value= "模型工坊";
+            Introduction.value = "專業模型代工，秉持誠信 熱情 專業，為喜愛模型的您完成您心愛的模型的代工服務。業務範圍：鋼彈 戰車 飛機 軍艦 騎車 機車 GK等各類模型的組裝 噴塗 舊化 或各種特殊效果。代工費用隨代工品項不同而不同可以談。";
+            Service.value = "1.素組(一般組裝、清除剪下的刺湯口、上模型貼紙等..)\n\n2.進一步素組(一般組裝、清除剪下的刺湯口、上小部分模型漆模型要上貼紙和本身模型外觀部分該有的 顏色去補色)\n\n3.全改色素組(一般組裝、清除剪下的刺湯口、把模型原本顏色噴漆成自己想要的顏色";
+            QA.value = "服務方式：人型塗裝，細節刻劃模型組裝、上色、基本地台製作\n收費方式：依零件數、細節需求、質感需求而定";
+            price.value="5000";
+
         }
     </script>
 

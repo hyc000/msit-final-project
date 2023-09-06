@@ -100,12 +100,12 @@ namespace prjShop.Controllers
         {
             if (file == null || file.Length == 0)
             {
-                return Json(new { success = false, message = "" });
+                return Json(new { success = false, message = "請選擇要上傳的檔案！" });
             }
 
             if (Path.GetExtension(file.FileName).ToLower() != ".xlsx")
             {
-                return Json(new { success = false, message = "" });
+                return Json(new { success = false, message = "限上傳xlsx檔案！" });
             }
 
             using (var stream = new MemoryStream())
@@ -119,7 +119,7 @@ namespace prjShop.Controllers
 
                     if (sheet.LastRowNum <= 0)
                     {
-                        return Json(new { success = false, message = "" });
+                        return Json(new { success = false, message = "檔案中沒有提供任何商品資料，請確認！" });
                     }
 
                     for (int rowIdx = 0; rowIdx <= sheet.LastRowNum; rowIdx++)
@@ -143,7 +143,7 @@ namespace prjShop.Controllers
                         }
                         if (isRowInvalid)
                         {
-                            importErrors.Add($"");
+                            importErrors.Add($"已完成前{rowIdx}列匯入，由於第{rowIdx + 1}列資料填寫不完整，無法繼續匯入！");
                             break;
                         }
 
@@ -182,7 +182,7 @@ namespace prjShop.Controllers
                         }
                         catch (Exception ex)
                         {
-                            importErrors.Add($"");
+                            importErrors.Add($"匯入第{rowIdx + 1}列時發生錯誤：{ex.Message}");
                         }
                     }
 
@@ -191,7 +191,7 @@ namespace prjShop.Controllers
                         return Json(new { success = false, message = string.Join("\n", importErrors) });
                     }
 
-                    return Json(new { success = true, message = "" });
+                    return Json(new { success = true, message = "商品已匯入成功！" });
                 }
             }
         }
@@ -366,11 +366,11 @@ namespace prjShop.Controllers
         //匯出範例EXCEL
         public IActionResult DownloadTemplate()
         {
-            var templatePath = Path.Combine(_host.WebRootPath, "Excel", "");
+            var templatePath = Path.Combine(_host.WebRootPath, "Excel", "匯入曝光商品範本.xlsx");
 
             if (System.IO.File.Exists(templatePath))
             {
-                return PhysicalFile(templatePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "");
+                return PhysicalFile(templatePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "匯入曝光商品範本.xlsx");
             }
             else
             {

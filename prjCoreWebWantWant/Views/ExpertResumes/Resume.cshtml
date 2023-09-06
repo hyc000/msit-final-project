@@ -44,6 +44,17 @@
            
         }
 
+        #detailscontent, #detailscontent * {
+           
+            font-size: 1em;
+            color: black;
+        }
+
+        #detailstop, #detailstop * {
+                font-size: 20px;
+                color: black;
+            }
+
       
     </style>
         }
@@ -101,6 +112,7 @@
                </div>
                 @* 星星 *@
                 <p id="star"></p>
+                        <div id="detailstop">
                 <div>
                 <span class="lead pt-3">服務地點：</span>
                 <span class="lead me-md-3">@Html.DisplayFor(model =>model.服務地區)</span>
@@ -141,22 +153,25 @@
                     <p class="lead pt-3">基本報價：</p>
                     <span class="lead py-3">@Model.基本價格</span>
              </div>
+                        </div>
              <div class="lead pt-3" style="position:absolute;bottom:0px;right:50px;">
                     <h3> 點閱次數: @Html.DisplayFor(model => model.點閱次數)</h3>
 
                 </div>
-            </div>
+            
+                    </div>
                 </div>
         </div>
         </div>
         @* 詳細介紹 *@
-        <div id="details" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+        <div id="details" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;font-weight: bold;font-size:1.5em;color:black;" >
             
             <div class="overflow-hidden">
                
                 <div class="m-3 p-4 ">
                     <h2>詳細介紹</h2> 
                     <hr/>
+                    <div id="detailscontent">
                     <h4 class="lead pt-3">◆介紹：</h4>
                     <p class="lead pt-3 container-fluid">
                         @Html.DisplayFor(model => model.專家介紹)
@@ -189,7 +204,7 @@
                    
 
                 </div>
-
+                </div>
             </div>
         </div>
     

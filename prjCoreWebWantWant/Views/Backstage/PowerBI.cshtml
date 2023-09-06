@@ -14,6 +14,7 @@
     </style>
 </head>
 
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -29,18 +30,32 @@
     </div>
     <!-- /.content-header -->
     <!-- Main content -->
-    <div class="container mt-4">
-            <div class="iframe-container p-5">
+   
 
-            <div style="height:50px;">   </div>
-                <iframe title="WantWant pbi" width="1280" height="750" src="https://app.powerbi.com/view?r=eyJrIjoiNzUzMTlhZDMtNDcyMy00MDBjLTk2NjMtMWQwOTgzOWIzMjJhIiwidCI6ImE0M2Y2Y2QzLTU0MTItNGIxZi1hMTM0LTJjMjc3MzY0Y2FmNiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="container mt-3">
+
+            <div class="iframe-container">
+                <iframe title="WantWant pbi" style="width:90vw;height:90vh"  src="https://app.powerbi.com/view?r=eyJrIjoiNzUzMTlhZDMtNDcyMy00MDBjLTk2NjMtMWQwOTgzOWIzMjJhIiwidCI6ImE0M2Y2Y2QzLTU0MTItNGIxZi1hMTM0LTJjMjc3MzY0Y2FmNiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+
             
-            </div>
+
+               
+        
         </div>
 </div>
 
     
-
+@section Styles
+{
+<style>
+        /* 將外層容器設置為相對定位 */
+        .header-container {
+            position: relative;
+        }
+</style>
+}
 
 @* @section subTitle{
     <nav aria-label="breadcrumb">

@@ -46,7 +46,8 @@
                 <span asp-validation-for="AccountId" class="text-danger"></span>
             </div>  *@
 
-            <a class="btn btn-outline-secondary" id="Demo">Demo</a>
+            @*<a class="btn btn-outline-secondary" id="Demo">Demo</a>*@
+            <a class="btn btn-outline-secondary" id="Demo2">Demo</a>
 
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
@@ -522,12 +523,17 @@
             const datas = await response.json()
             const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
             SelCerSmallOne.innerHTML = CerSmall.join("");
+            getCerIdOne()
         }
 
         loadSelCerSmallOne();
 
         SelCerBigOne.addEventListener('change', () => {
             loadSelCerSmallOne();
+        });
+
+        SelCerSmallOne.addEventListener('change', () => {
+            getCerIdOne();
         });
 
 
@@ -553,12 +559,17 @@
             const datas = await response.json()
             const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
             SelCerSmallTwo.innerHTML = CerSmall.join("");
+            getCerIdTwo();
         }
 
         loadSelCerSmallTwo();
 
         SelCerBigTwo.addEventListener('change', () => {
             loadSelCerSmallTwo();
+        });
+
+        SelCerSmallTwo.addEventListener('change', () => {
+            getCerIdTwo();
         });
 
 
@@ -572,7 +583,6 @@
             const datas = await response.json()
             const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
             document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
-
             loadSelCerSmallThree();
         }
 
@@ -584,12 +594,17 @@
             const datas = await response.json()
             const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
             SelCerSmallThree.innerHTML = CerSmall.join("");
+            getCerIdThree();
         }
 
         loadSelCerSmallThree();
 
         SelCerBigThree.addEventListener('change', () => {
             loadSelCerSmallThree();
+        });
+
+        SelCerSmallThree.addEventListener('change', () => {
+            getCerIdThree();
         });
 
         const hiddenSkillIdInput1 = document.querySelector('#hiddenSkillIdInput1');
@@ -625,27 +640,27 @@
         }
 
         async function getCerIdOne() {
-            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigOne.value}&skillName=${SelSkillSmallOne.value}`);
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?cerType=${SelCerBigOne.value}&cerName=${SelCerSmallOne.value}`);
             const data = await response.json();
-            const selectedSkillId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
-            hiddenSkillIdInput1.value = selectedSkillId1;
-            console.log(hiddenSkillIdInput1.value);
+            const selectedCerId1 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenCerIdInput1.value = selectedCerId1;
+            console.log(hiddenCerIdInput1.value);
         }
 
         async function getCerIdTwo() {
-            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigTwo.value}&skillName=${SelSkillSmallTwo.value}`);
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?cerType=${SelCerBigTwo.value}&cerName=${SelCerSmallTwo.value}`);
             const data = await response.json();
-            const selectedSkillId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
-            hiddenSkillIdInput2.value = selectedSkillId2;
-            console.log(hiddenSkillIdInput2.value);
+            const selectedCerId2 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenCerIdInput2.value = selectedCerId2;
+            console.log(hiddenCerIdInput2.value);
         }
 
         async function getCerIdThree() {
-            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?skillType=${SelSkillBigThree.value}&skillName=${SelSkillSmallThree.value}`);
+            const response = await fetch(`@Url.Content("~/Backstage/GetCerId")?cerType=${SelCerBigThree.value}&cerName=${SelCerSmallThree.value}`);
             const data = await response.json();
-            const selectedSkillId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
-            hiddenSkillIdInput3.value = selectedSkillId3;
-            console.log(hiddenSkillIdInput3.value);
+            const selectedCerId3 = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+            hiddenCerIdInput3.value = selectedCerId3;
+            console.log(hiddenCerIdInput3.value);
         }
 
     const photoInput = document.getElementById('photoInput');
@@ -707,11 +722,20 @@
     const ResumeTitle = document.querySelector('#ResumeTitle');
     const Address = document.querySelector('#Address');
 
+    const Demo2 = document.querySelector('#Demo2');
+    Demo2.addEventListener('click', () => {
+        Autobiography.value = '我是一名具有熱情和多年經驗的軟體工程師，專注於C#和其他程式語言的軟體開發。我堅信良好的程式設計是創建高品質軟體的關鍵，並一直致力於不斷提升我的技能和知識。C# 開發：我精通C#語言，並能夠設計和實現高效、可擴展的應用程式。我使用C#來開發各種應用，包括桌面應用、Web應用和服務。.NET框架：我熟練使用.NET框架，包括ASP.NET和WPF，以構建現代的Web應用和桌面應用。資料庫設計：我具有豐富的資料庫設計和管理經驗，包括SQL Server和Entity Framework。我能夠優化查詢，確保數據庫效能。前端技術：我熟悉HTML、CSS和JavaScript，能夠協助前端團隊實現互動性和優雅的用戶界面。版本控制：我使用Git來管理代碼，並熟悉常用的版本控制工作流程。單元測試：我寫單元測試來確保程式碼的穩定性和可靠性。過去的項目線上購物平台：我參與開發了一個基於ASP.NET的線上購物平台，該平台處理數百萬用戶的訂單並提供領先的用戶體驗。金融應用程式：我設計了一個C#應用程式，用於自動化金融數據分析和報告生成，提高了工作效率並降低了錯誤率。物聯網應用：我參與開發了一個基於.NET Core的物聯網應用，用於監控和控制智能設備，實現了實時數據收集和分析。 我是一名具有豐富經驗的C#和其他程式語言工程師，熱衷於創建高品質的軟體和解決複雜的技術挑戰。我積極學習新技術，並善於團隊合作。我期待著為您的項目帶來價值並實現卓越的技術解決方案。如果您對我的履歷感興趣，請隨時聯絡我以進一步討論，vu,4vu,4sup6。'
+        ResumeTitle.value = '程式相關'
+        Address.value = '復興南路一段390號3樓';
+    })
+
 
     Demo.addEventListener('click', () => {
         Autobiography.value = '我是一名充滿熱情和專業知識的金融業專業人士，熱切地追求在這個挑戰性和動態的領域中發展和貢獻。從我開始學習金融知識的那一刻起，我就深深被這個領域的複雜性和影響力所吸引，並始終保持著學習和成長的態度。我在大學主修金融學，並在學業過程中獲得了紮實的理論基礎。我的學習重點包括投資管理、財務分析和風險管理等領域，這些知識讓我深入了解了金融市場的運作和機制。我在學校內外積極參與金融相關的社團和比賽，並在模擬交易比賽中表現優異，進一步鞏固了我的金融知識和實踐技能。 畢業後，我進入了一家知名的金融公司擔任金融分析師。在這個角色中，我負責評估公司的財務狀況、分析市場趨勢並提供投資建議。我運用數據分析技能，幫助客戶做出明智的投資決策，同時也與團隊密切合作，確保我們的投資策略與市場保持同步。我的工作經驗使我更加確信，金融業是一個需要不斷學習和適應的領域。我定期關注國際金融新聞，參加行業研討會和培訓課程，以保持對市場的深刻理解和洞察力。我也意識到了風險管理的重要性，並積極參與風險管理工作，以確保投資的穩健性。我對金融業的熱情和專業知識，以及對持續學習和自我提升的承諾，使我有信心能夠為貴公司帶來價值。我渴望加入您的團隊，與優秀的同事共同努力，推動金融領域的發展。謝謝您撥冗考慮我的申請。'
         ResumeTitle.value = '金融業';
         Address.value = '復興南路一段390號3樓';
+
+       
        /*  selCity.selectedIndex = 19;
         selTown.selectedIndex = 2;
         hiddenTownIdInput.value = 5; */

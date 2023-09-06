@@ -91,37 +91,37 @@
 
                 <a class="btn btn-warning" id="trashButton" href="@Url.Content("~/product/trash")">垃圾桶</a>
                 <a class="btn btn-primary" id="createButton" href="@Url.Content("~/product/create")">新增商品</a>
-                @*<a class="btn btn-success" id="" href="#" type="button" data-bs-toggle="modal" data-bs-target="#">TEST</a>*@
+              @*  <a class="btn btn-success" id="" href="#" type="button" data-bs-toggle="modal" data-bs-target="#importExcel">批次新增</a>*@
             </div>
         </div>
-        @*        <!-- 跳出視窗內容 -->
-        <div class="modal fade" id="">
-        <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-        <h3>TEST</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <!-- 跳出批次新增視窗內容 -->
+        <div class="modal fade" id="importExcel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>批次新增</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form method="post" enctype="multipart/form-data" id="importForm" action="/Product/batchImport">
+
+                            <div class="form-group">
+                                <label for="file">選擇要匯入的檔案：</label>
+                                <input type="file" name="file" id="file" class="form-control" accept=".xlsx" required>
+                            </div>
+
+                            <br />
+                            <a class="btn btn-warning" asp-action="DownloadTemplate">下載範本</a>
+                            <button type="button" id="importBtn" class="btn btn-primary" onclick="performImport()">匯入</button>
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="modal-body">
-
-        <form method="post" enctype="multipart/form-data" id="importForm" action="/Product/batchImport">
-
-        <div class="form-group">
-        <label for="file">TEST</label>
-        <input type="file" name="file" id="file" class="form-control" accept=".xlsx" required>
-        </div>
-
-        <br />
-        <a class="btn btn-warning" asp-action="DownloadTemplate">TEST</a>
-        <button type="button" id="importBtn" class="btn btn-primary" onclick="performImport()">TEST</button>
-        </form>
-
-
-        </div>
-        </div>
-
-        </div>
-        </div>*@
 
 
 
@@ -543,8 +543,8 @@
             return false; // 阻止默認行為
         }
 
-
         function performImport() {
+            // 使用AJAX進行匯入操作
             $.ajax({
                 url: '/Product/batchImport',
                 method: 'POST',
@@ -558,6 +558,7 @@
                             text: data.message,
                             icon: 'success',
                         }).then(function () {
+                            // 導向商品列表頁面
                             window.location.href = '/Product/List';
                         });
                     } else {
