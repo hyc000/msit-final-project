@@ -17,6 +17,8 @@ public partial class ExpertApplication
 
     public int? ExpertAccountId { get; set; }
 
+    public int? FromRole { get; set; }
+
     public virtual MemberAccount? Account { get; set; }
 
     public virtual TaskList? Case { get; set; }

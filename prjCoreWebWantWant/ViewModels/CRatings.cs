@@ -6,6 +6,7 @@ namespace prjCoreWebWantWant.ViewModels
     {
        public string ratedperson { get; set; }
         public string ratingforperson { get; set; }
+        //public string ratingrole { get; set; }
         public string ratingstar { get; set; }
         public string ratingcontent { get; set; }
 

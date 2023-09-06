@@ -76,29 +76,49 @@ namespace prjCoreWebWantWant.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateNew([Bind("taskid,委託者,專家,評論星數,評論內容")] CRatingCreatViewModel vm)
         {
-            //if (ModelState.IsValid) 
-            //{
-                CExperTaskFactory factory = new CExperTaskFactory(_context);
-
+            CExperTaskFactory factory = new CExperTaskFactory(_context);
+            int sourceid = factory.MemberID(vm.專家).GetValueOrDefault();
+            int targetid = factory.MemberID(vm.委託者).GetValueOrDefault();
+            int role = 0 ;
+            if (sourceid==_memberID)
+            {
+                role = 3;
+            }
+            else if (targetid==_memberID)
+            {
+                role = 1;
+            }
                 DateTime date = DateTime.Now;
                 Rating rating = new Rating();
                 rating.RatingStar = vm.評論星數;
                 rating.RatingContent = vm.評論內容;
                 rating.RatingDate = date;
                 rating.SourceRoleId = 3;
-                rating.SourceAccountId = factory.MemberID(vm.專家);
+                rating.SourceAccountId = sourceid;
                 rating.TargetRoleId = 1;
-                rating.TargetAccountId = factory.MemberID(vm.委託者);
+                rating.TargetAccountId = targetid;
 
                 _context.Add(rating); 
                _context.SaveChanges();
                 int newratingid= rating.RatingId;
                 
+           
+
                 ExpertApplication expertapplication = _context.ExpertApplications
                     .Where(x=>x.CaseId==vm.taskid)
                     .FirstOrDefault();
+            if (_memberID == expertapplication.AccountId)//委託人
+            {
                 expertapplication.RatingId = newratingid;
+            }
+            if (_memberID == expertapplication.ExpertAccountId)//委託人
+            {
+                expertapplication.FromRole = newratingid;
+            }
             expertapplication.CaseStatusId = 12;//專家案件已評價
+            
+
+
 
 
             _context.Update(expertapplication);

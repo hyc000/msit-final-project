@@ -326,8 +326,8 @@ public partial class NewIspanProjectContext : DbContext
                 .HasColumnName("ResumeID");
             entity.Property(e => e.CommonPrice).HasColumnType("money");
             entity.Property(e => e.ContactMethod).HasMaxLength(50);
+            entity.Property(e => e.HistoricalViews).HasDefaultValueSql("((0))");
             entity.Property(e => e.PaymentMethod).HasMaxLength(50);
-            entity.Property(e => e.ServiceMethod).HasMaxLength(50);
             entity.Property(e => e.WorksUrl).HasMaxLength(50);
 
             entity.HasOne(d => d.Resume).WithOne(p => p.ExpertResume)
@@ -777,7 +777,6 @@ public partial class NewIspanProjectContext : DbContext
             entity.ToTable("Rating");
 
             entity.Property(e => e.RatingId).HasColumnName("RatingID");
-            entity.Property(e => e.RatingContent).HasMaxLength(50);
             entity.Property(e => e.RatingDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
