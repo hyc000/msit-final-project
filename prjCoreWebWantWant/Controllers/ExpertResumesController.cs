@@ -377,7 +377,7 @@ namespace prjCoreWebWantWant.Controllers
                    await _context.SaveChangesAsync();
                 }
             }
-
+            
             int? SkillID1 = factory.SkillName(vm.專長細項1);
             await AddSkillIfNotNull(SkillID1);
             int? SkillID2 = factory.SkillName(vm.專長細項2);
