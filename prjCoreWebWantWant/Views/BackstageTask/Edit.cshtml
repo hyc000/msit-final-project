@@ -6,6 +6,16 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+
+        NewIspanProjectContext context = new NewIspanProjectContext();
+    CExperTaskFactory factory = new CExperTaskFactory(context);
+
+    List<int> skillIds;
+    List<int> certificateIds;
+
+    skillIds = Model.TaskSkills.Select(ts => ts.SkillId).ToList();
+    certificateIds = Model.TaskCertificates.Select(tc => tc.CertficateId).ToList();
+
 }
 
 
@@ -216,42 +226,61 @@
                                                             </div>
 
                                                         <!--技能-->
-                                                            <div class="row">    
+                                                            <div class="row">
+
+                                                                @if (skillIds != null)
+                                                                {
                                                             <div class="card col-lg-6 col-sm-12">
                                                                     <div class="card-header">
                                                                         <h5 class="card-title mb-0">技能</h5>
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <div class="d-flex flex-wrap gap-2 font-size-16">
+                                                                                @foreach (var item in skillIds)
+                                                                                {
+                                                                                    <li>
+                                                                                        <a href="#" class="badge badge-soft-primary">@factory.SkillIDtoName(@item)</a>
+                                                                                    </li>
+                                                                                }
                                                                     @*<a href="#" class="badge badge-soft-primary">@Html.DisplayFor(model =>model.skill.SkillName)</a>*@
                                                                     @* <a href="#" class="badge badge-soft-primary">@Model.skillname</a>
                                                                     <a href="#" class="badge badge-soft-primary">@Model.skillType</a>
                                                                     <a href="#" class="badge badge-soft-primary">@Model.skilltypename</a>
-                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>*@
+                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>
                                                                           <a href="#" class="badge badge-soft-primary"></a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                }
                                                                 
 
                                                                 <!--證照-->
+                                                                @if (certificateIds != null)
+                                                                {
                                                                     <div class="card col-lg-6 col-sm-12">
                                                                     <div class="card-header">
                                                                         <h5 class="card-title mb-0">證照</h5>
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                            <a href="#" class="badge badge-soft-primary">Photoshop</a>
+                                                                                @foreach (var item in certificateIds)
+                                                                                {
+                                                                                    <li>
+                                                                                        <a href="#" class="badge badge-soft-primary">@factory.CertificateDtoName(@item)</a>
+                                                                                    </li>
+                                                                                }
+                                                                            @*<a href="#" class="badge badge-soft-primary">Photoshop</a>
                                                                             <a href="#" class="badge badge-soft-primary">illustrator</a>
                                                                             <a href="#" class="badge badge-soft-primary">HTML</a>
                                                                             <a href="#" class="badge badge-soft-primary">CSS</a>
                                                                             <a href="#" class="badge badge-soft-primary">Javascript</a>
                                                                             <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>
+                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
                                                                         </div>
                                                                     </div>
-                                                                </div>                                                       
+                                                                </div>    
+                                                                }
                                                             </div>
 
                                                             <!-- 照片 -->

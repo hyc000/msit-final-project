@@ -185,7 +185,9 @@ namespace WantTask.Controllers
 
             NewIspanProjectContext _context = new NewIspanProjectContext();
 
-            TaskList task = _context.TaskLists           
+            TaskList task = _context.TaskLists
+                 .Include(x => x.TaskSkills)
+                .Include(x => x.TaskCertificates)
              .Include(c => c.Town.City).Where(t => t.CaseId == id).FirstOrDefault();            
             
             //_context.TaskLists.FirstOrDefault(p => p.CaseId == id);
@@ -799,6 +801,9 @@ namespace WantTask.Controllers
             _context.SaveChanges();
 
             //技能1
+            if(selectedSkillId !=0)
+            {             
+           
             TaskSkill taskSkill = new TaskSkill()
             {
                 CaseId = tasklist.CaseId,   //CaseId是taskSkill的CaseId，後面是任務表的CaseId
@@ -806,7 +811,7 @@ namespace WantTask.Controllers
             };
             _context.Add(taskSkill);
             _context.SaveChanges();
-
+            }
             //技能2
             //TaskSkill taskSkill2 = new TaskSkill()
             //{
@@ -826,6 +831,9 @@ namespace WantTask.Controllers
             //_context.SaveChanges();
 
             //證照1
+            if (selectedCerId != 0)
+            { 
+            
             TaskCertificate taskCer = new TaskCertificate()
             {
                 CaseId = tasklist.CaseId,   //CaseId是taskCer的CaseId，後面是任務表的CaseId
@@ -834,6 +842,7 @@ namespace WantTask.Controllers
             _context.Add(taskCer);
             _context.SaveChanges();
 
+            }
             //證照2
             //TaskCertificate taskCer2 = new TaskCertificate()
             //{
