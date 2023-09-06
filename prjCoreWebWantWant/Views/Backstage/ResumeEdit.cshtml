@@ -65,6 +65,15 @@
     string userDataJson = HttpContextAccessor.HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
     MemberAccount loggedInUser = JsonSerializer.Deserialize<MemberAccount>(userDataJson);
     string loginUserName = loggedInUser.Name;
+
+    NewIspanProjectContext context = new NewIspanProjectContext();
+    CExperTaskFactory factory = new CExperTaskFactory(context);
+
+    List<int> skillIds;
+    List<int> certificateIds;
+
+    skillIds = Model.ResumeSkills.Select(ts => ts.SkillId).ToList();
+    certificateIds = Model.ResumeCertificates.Select(tc => tc.CertificateId).ToList();
 }
 
 @section Scripts{
@@ -297,8 +306,17 @@
                                                     </h5>
                                                     <div class="card-body">
                                                         <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                            <a class="badge badge-soft-primary">Photoshop</a>
-                                                            <a class="badge badge-soft-primary">illustrator</a>
+                                                                @if (skillIds != null)
+                                                                {
+                                                                    @foreach (var item in skillIds)
+                                                                    {
+                                                                        <li>
+                                                                            <a href="#" class="badge badge-soft-primary">@factory.SkillIDtoName(@item)</a>
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            @*<a class="badge badge-soft-primary">Photoshop</a>
+                                                            <a class="badge badge-soft-primary">illustrator</a>*@
                                                             @*< a class="badge badge-soft-primary">HTML</a>
                                                             <a class="badge badge-soft-primary">CSS</a>
                                                             <a class="badge badge-soft-primary">Javascript</a>
@@ -321,7 +339,16 @@
                                                         <div>
                                                             <div class="row">
                                                                 <div class="d-flex flex-wrap gap-2 font-size-16">
-                                                                    <a class="badge badge-soft-primary">室內設計技術士</a>
+                                                                    @if (certificateIds != null)
+                                                                    {
+                                                                        @foreach (var item in certificateIds)
+                                                                        {
+                                                                            <li>
+                                                                                <a href="#" class="badge badge-soft-primary">@factory.CertificateDtoName(@item)</a>
+                                                                            </li>
+                                                                        }
+                                                                    }
+                                                                    @*<a class="badge badge-soft-primary">室內設計技術士</a>*@
                                                                     @* <a class="badge badge-soft-primary">律師</a> *@
                                                                 </div>
                                                                

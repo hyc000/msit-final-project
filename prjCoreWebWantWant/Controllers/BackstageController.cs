@@ -139,7 +139,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         {
             var q = _context.Resumes
                     .Include(t => t.Town.City)
-                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId != 22).FirstOrDefault();
+                    .Include(x => x.ResumeSkills)
+                    .Include(x => x.ResumeCertificates)
+                    .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId == 23).FirstOrDefault();
             return View(q);
         }
         public IActionResult ResumeUneditableforRecycleBin(int? id)
@@ -232,6 +234,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
             Resume resume = _context.Resumes
                             .Include(t => t.Town.City)
+                            .Include(x => x.ResumeSkills)
+                            .Include(x => x.ResumeCertificates)
                             .Where(r => r.IsExpertOrNot == false && r.ResumeId == id && r.CaseStatusId == 23)
                             .FirstOrDefault(p => p.ResumeId == id);
             if (resume == null)

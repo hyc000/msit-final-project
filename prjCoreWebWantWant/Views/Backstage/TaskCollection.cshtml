@@ -387,16 +387,16 @@
         });
 
 
-        //const selectedCaseId = document.querySelector('#selectedCaseId');
-        //const Apply = document.querySelector('#Apply');
-        //Apply.addEventListener('click',() => {
-        //    selectedCaseId.value = Apply.value;
-        //    console.log(selectedCaseId.value)
-        //})
-
-        const selectedCaseId = document.querySelector('#selectedCaseId');   //u.3
-        // const Apply = document.querySelectorAll('.Apply');
+        const selectedCaseId = document.querySelector('#selectedCaseId');
         const Apply = document.querySelector('#Apply');
+        Apply.addEventListener('click',() => {
+            selectedCaseId.value = Apply.value;
+            console.log(selectedCaseId.value)
+        })
+
+        //const selectedCaseId = document.querySelector('#selectedCaseId');   
+        // const Apply = document.querySelectorAll('.Apply');
+        //const Apply = document.querySelector('#Apply');
         // Apply.forEach(button => {
         //     button.addEventListener('click', () => {
         //         selectedCaseId.value = button.value;
@@ -405,13 +405,13 @@
         // })
 
         //todo
-        Apply.addEventListener('click', () => {   
-            for (let i = 0, max = document.forms.length; i < max; i++) {
-                document.forms[i].caseId.value = Apply.value;
-            }
-            selectedCaseId.value = Apply.value;
-            console.log(selectedCaseId.value);
-        })
+        //Apply.addEventListener('click', () => {   
+        //    for (let i = 0, max = document.forms.length; i < max; i++) {
+        //        document.forms[i].caseId.value = Apply.value;
+        //    }
+        //    selectedCaseId.value = Apply.value;
+        //    console.log(selectedCaseId.value);
+        //})
 
 
        
