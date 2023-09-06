@@ -58,6 +58,8 @@ namespace prjShop.Controllers
             {
                 query = query.Where(p => p.UnitPrice <= maxPrice);
             }
+            // 添加降序排序
+            query = query.OrderByDescending(p => p.PostStartDate);
 
             ViewBag.Categories = _context.Categories.ToList();
             return View(query.ToList());
