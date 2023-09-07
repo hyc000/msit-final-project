@@ -24,11 +24,16 @@
             <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
             <div class="p-3" id="chatDetail" style="height:100vh">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
             <span class="input-group">
-            <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
+            <input type="text" placeholder="請輸入訊息..." id="chatMessage" class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
             <button tabindex="102" class="input-group-text" type="submit" id="btnSentMessage"><i class="bi bi-send"></i></button>
+
+
         </span>
     </div>
-</div>
+        <button type="button" class="btn btn-sm small" id="DemoBtnCommS1">聊天Demo小夫1</button>
+        <button type="button" class="btn btn-sm small" id="DemoBtnCommS2">聊天Demo小夫2</button>
+        <button type="button" class="btn btn-sm small" id="DemoBtnCommA1">聊天Demo A夢</button>
+        </div>
 
 </div>
 
@@ -38,6 +43,28 @@
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const DemoBtnCommS1 = document.querySelector('#DemoBtnCommS1');
+            const DemoBtnCommS2 = document.querySelector('#DemoBtnCommS2');
+            const DemoBtnCommA1 = document.querySelector('#DemoBtnCommA1');
+            const chatMessage = document.querySelector('#chatMessage');
+
+            DemoBtnCommS1.addEventListener('click', event => {
+                event.preventDefault();
+                chatMessage.value = '我收到了，實際成品比照片上看起來更完美!媽媽收到一定會很開心，感謝專家!';
+            });
+            DemoBtnCommA1.addEventListener('click', event => {
+                event.preventDefault();
+                chatMessage.value = '非常開心你喜歡我的作品!如果以後還有需求歡迎再次光臨喔';
+            });
+            DemoBtnCommS2.addEventListener('click', event => {
+                event.preventDefault();
+                chatMessage.value = '好的!期待下次您的作品喔';
+            });
+        });
+
+
         //固定的參數
         const senderId = @Html.Raw(Json.Serialize(ViewBag.currentLoginId));//這邊指的是登入者
         let inChatRoom=0;//先確定使用者是在跟哪個對象聊天
