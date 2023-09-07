@@ -56,7 +56,7 @@ namespace prjCoreWebWantWant.Controllers
                 .Include(y => y.ExpertApplications)
                 .ToListAsync();
                 ratingdata = ratingdata
-                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null))
+                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null&&ea.FromRole!=0))
                                 .ToList();
                 //給別人的評價-我是委託者
                 //var ratingdata2 = await _context.Ratings
@@ -69,7 +69,7 @@ namespace prjCoreWebWantWant.Controllers
                .Include(y => y.ExpertApplications)
                .ToListAsync();
                 ratingdata2 = ratingdata2
-                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null))
+                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null && ea.RatingId != 0))
                                 .ToList();
                 CExperTaskFactory factory = new CExperTaskFactory(_context);
                 CRatings datarating;
@@ -137,7 +137,7 @@ namespace prjCoreWebWantWant.Controllers
               .Include(y => y.ExpertApplications)
               .ToListAsync();
                 ratingdatamy = ratingdatamy
-                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null))
+                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null && ea.FromRole != 0))
                                 .ToList();
                 //var ratingdatamy2 = await _context.Ratings
                 //   .Where(x => x.SourceAccountId == _memberID)
@@ -149,7 +149,7 @@ namespace prjCoreWebWantWant.Controllers
             .Include(y => y.ExpertApplications)
             .ToListAsync();
                 ratingdatamy2 = ratingdatamy2
-                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null))
+                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null && ea.RatingId != 0))
                                 .ToList();
 
                 CExperTaskFactory factory = new CExperTaskFactory(_context);

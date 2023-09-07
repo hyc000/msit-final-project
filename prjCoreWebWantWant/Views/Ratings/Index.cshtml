@@ -43,14 +43,14 @@
                                         <a id="btnToShowForRatings" class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
                                             @* <button class="nav-link active" id="btnToShowForRatings">給別人的評價</button> *@
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block" style="color:#528EAF">我收到的評價</span>
+                                            <span class="d-none d-sm-block" style="color:#528EAF">給別人的評價</span>
                                         </a>
                                     </li>
                                     <li class="nav-item"  >
                                         <a class="nav-link" data-bs-toggle="tab" href="#" role="tab" id="btnToShowMyRatings">
                                             @* <button class="nav-link active" id="btnToShowMyRatings" aria-current="page" href="#">我收到的評價</button> *@
                                             <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                            <span class="d-none d-sm-block" style="color:#528EAF">給別人的評價</span>
+                                            <span class="d-none d-sm-block" style="color:#528EAF">我收到的評價</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -244,8 +244,8 @@
                     },
                     
                     columns: [
-                        { data: 'ratedperson', title: "被評論者" },
-                        //{ data: 'ratingforperson', title: "評論者" },
+                        { data: 'ratingforperson', title: "被評論者" },
+                        //{ data: 'ratedperson', title: "評論者" },
                         { data: 'ratingstar', title: "評論星數", render: renderStars },
                         { data: 'ratingcontent', title: "評論內容" },
                         { data: 'ratingdate', title: "評論日期" }
