@@ -4,7 +4,7 @@
 @model IEnumerable<prjCoreWebWantWant.Models.TaskList>
 
 
-<body>
+
     @{
         // var orderedData = Model.OrderByDescending(item => item.OnTop > DateTime.Now);
     }
@@ -82,7 +82,7 @@
         <div class="col-7 d-flex justify-content-around">
             @Html.PagedListPager(
             (IPagedList)Model,
-            page => Url.Action("Partial1", new { page }),
+            page => Url.Action("Partial1", new { ViewBag.Category,page }),
             new PagedListRenderOptions {
             LiElementClasses = new string[] { "page-item" },
             PageClasses = new string[] { "page-link" },   // 設定頁碼的 CSS 類別
@@ -91,4 +91,3 @@
             )
         </div>
     </div>
-</body>

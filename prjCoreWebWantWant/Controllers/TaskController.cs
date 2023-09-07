@@ -207,7 +207,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             
             ViewBag.TotalCount = datas.Count();
             page = page < 1 ? 1 : page;
-            datas = datas.ToPagedList(page, 5);
+            datas = datas.ToPagedList(page, 6);
 
 
             return View(datas);
@@ -220,7 +220,8 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Include(t => t.TaskName)
                     .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
 
-            if(city != null)
+            ViewBag.Category = Category;
+            if (city != null)
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
@@ -249,7 +250,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
 
             page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 5);
+            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
             return PartialView(result);
         }
 

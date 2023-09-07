@@ -44,18 +44,35 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             pointer-events: none;
         }
 
-        #scrollToTopBtn {
+        .scroll-to-top-btn {
             display: none;
             position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 10px;
-            background-color: #4f9d9d;
+            background-color: #528eaf;
             color: #fff;
-            border: none;
-            border-radius: 5px;
+            width: 50px;
+            height: 50px;
+            border: none; /* 移除外框線 */
+            border-radius: 50%;
+            font-size: 32px; /* 增加箭頭大小 */
+            text-align: center;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
+
+        /* 調整箭頭的位置 */
+        .arrow-up {
+            display: inline-block;
+            margin-top: 10px;
+            line-height: 0; /* 移除多餘的行高 */
+        }
+
+        .scroll-to-top-btn:hover {
+            background-color: #528eaf;
+        }
+
+
     </style>
 }
 
@@ -67,17 +84,35 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
     <script>
         const selCategory = document.querySelector('#selectCategory');
 
-        selCategory.addEventListener('change', () => {
-            txtKeyword.value = '';                                  @*切換類別時將關鍵字清空*@
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
-            xhr.addEventListener('load', () => {
-                const Result = document.querySelector('#Result');
-                Result.innerHTML = xhr.responseText;
-            })
+        selCategory.addEventListener('change', () => category())
+
+        function category() {
+                txtKeyword.value = ''; @*切換類別時將關鍵字清空*@
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
+                xhr.addEventListener('load', () => {
+                    const Result = document.querySelector('#Result');
+                    Result.innerHTML = xhr.responseText;
+                })
+        }
+
+        $(document).on('click', '.page-link', function (e) {
+            console.log('123');
+            category();
         })
+
+        // $(document).ready(function () {
+        //     const pageLinks = document.querySelectorAll('.page-link');
+        //     pageLinks.forEach(button => {
+        //         button.addEventListener('click', () => {
+        //             console.log('123');
+        //         })
+        //     })
+        // });
+        
+
 
         const txtKeyword = document.querySelector('#txtKeyword');
 
@@ -508,7 +543,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 <div class="card" id="list">
 
                     <div class="card-body">
-                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">關鍵字搜尋</label>
+                        
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d"><img src="~/Backstage/icon/search.png" style="height:20px;width:20px"/>關鍵字搜尋</label>
                         <input type="text" id="txtKeyword" name="txtKeyword" style="width:266px" />
                         @* <i class="fa-solid fa-magnifying-glass"></i> *@
                     </div>
@@ -526,7 +562,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                     }
 
                     <div class="card-body">
-                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務類型</label>
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d"><img src="~/Backstage/icon/grid.png" style="width:20px;height:20px" />任務類型</label>
                         <select class="custom-select" multiple id="selectCategory" name="selectCategory" style="height:300px;overflow-y: hidden;">
                             <option selected>所有任務</option>
                            
@@ -538,7 +574,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                         </select>
 
                         <div class="card-body">
-                            <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">任務地點</label>
+                            
+                        <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">@* <img src="~/Backstage/icon/placeholder.png" style="width:24px;height:24px">*@ <i class="fa-solid fa-location-dot"></i> 任務地點</label>
 
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" name="workAtHome" id="workAtHome" value="">
@@ -737,8 +774,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                             </span>
                             @if(item.OnTop > DateTime.Now)
                             {
-                                <div style="text-align:center;color:red">
-                                    <i class="fa-solid fa-fire fa-beat fa-lg" style="color: #e93407;"></i>熱門　@item.TaskTitle
+                                <div>
+                                    @* <i class="fa-solid fa-fire fa-beat" style="color: #f74002;"></i> *@<img src="~/Backstage/icon/fire.png" style="height:24px;width:24px">　<span style="text-align:center;">@item.TaskTitle</span>
                                 </div>
                             }
                             else
@@ -750,13 +787,16 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                            
                         </div>
                         <div class="row">
-                                <div class="card-body col-9">
-                                    <h5 class="card-body" style="text-align:left;padding:12px">任務內容：</h5>
-                                     
-                                    <p style="text-align:left;padding:12px">@item.TaskDetail</p>
-                                </div>
+                            <div class="card-body col-9">
+                                <h5 class="card-body" style="text-align: left; padding: 12px">任務內容：</h5>
+
+                                <p style="text-align: left; padding: 12px; margin-top: 10px;">@item.TaskDetail</p>
+                            </div>
+
+
 
                                 <div class="card-body col-md-3 d-flex flex-column justify-content-end">
+
                                     <a href="@Url.Action("Detail", new { id=item.CaseId })" class="btn btn-outline-primary">詳細資訊</a>
                                     @* @{
                                         var q2 = _context.MemberCollections.Where(c => c.)
@@ -787,37 +827,39 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                     @*記得改partial1*@
                                     @if(item.WorkPlace == true)
                                         {
-                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點：在家兼職</p>
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> @* <img src="~/Backstage/icon/home.png" style="width:24px;height:24px"> *@ 地點：在家兼職</p>
                                         }
                                         else
                                         {
-                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
+                                            <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> @* <img src="~/Backstage/icon/placeholder.png" style="width:24px;height:24px"> *@ 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
                                         }
 
-                                    <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
+                                    <p class="card-text col-3"><img src="~/Backstage/icon/user2.png" style="width:20px;height:20px">需求人數： @item.RequiredNum 人</p>
 
                                     @{
                                         if (item.PayFrom > 1500)
                                         {
-                                                                <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
                                         }
                                         else if (item.PayFrom > 500)
                                         {
-                                                                <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
                                         }
                                         else
                                         {
-                                                                <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span>@item.PayFrom</span> 元</p>
                                         }
                                     }
+
+                                    <p class="card-text col-3"><img src="~/Backstage/icon/calendar.png" style="width:20px;height:20px">更新日： @item.DataModifyDate</p>
 
                                     @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
                                 </div>
 
                             </div>
-                            <div class="card-footer text-muted">
-                                最後修改日期： @item.DataModifyDate
-                            </div>
+                           @*  <div class="card-footer text-muted"> *@
+                                
+                            @* </div> *@
                         </div>
 
                         <div>
@@ -866,7 +908,10 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
         @Html.PagedListPager(Model, page => Url.Action("ListNew", new { page, pageSize = Model.PageSize }))
     </div>*@
 
-    <button id="scrollToTopBtn">回到頂部</button>
+    <button id="scrollToTopBtn" class="scroll-to-top-btn">
+        <span>&#8593;</span> <!-- 向上箭頭符號 -->
+    </button>
+
 </body>
 
 @section subTitle{
