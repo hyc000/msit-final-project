@@ -48,6 +48,7 @@
            
             font-size: 1em;
             color: black;
+            line-height:1em;
         }
 
         #detailstop, #detailstop * {
@@ -76,7 +77,7 @@
             <div class="row mx-0" style="height: 70vh;">
             <!-- 主容器 -->
             <!-- 左側部分 -->
-            <div class="col-4 bg-expertbk d-flex flex-column justify-content-center ps-3">
+                <div class="col-4 bshadow-sm p-3 mb-5 bg-body-tertiary rounded d-flex flex-column justify-content-center ps-3">
                 <!-- 上方照片區 -->
                 <div id="photo" class="d-flex align-items-center justify-content-center border border-white" style="flex: 2;">
                     
@@ -101,7 +102,7 @@
             </div>
 
             <!-- 右側部分 -->
-                <div id="title" class="col-8 p-5 bg-expertdetail flex-column position-relative" style="text-align:left;">
+                <div id="title" class="col-8 p-5 shadow-sm p-3 mb-5 bg-body-tertiary rounded flex-column position-relative" style="text-align:left;">
              <div >
                <div>
                 <h2 class="display-5 ps-4 py-2">@Html.DisplayFor(model =>model.專家姓名)
@@ -114,44 +115,56 @@
                 <p id="star"></p>
                         <div id="detailstop">
                 <div>
-                <span class="lead pt-3">服務地點：</span>
-                <span class="lead me-md-3">@Html.DisplayFor(model =>model.服務地區)</span>
+                  <p class="lead pt-3 my-1" style="font-size:28px; font-weight:700;">服務地點： @Html.DisplayFor(model =>model.服務地區)</p>
+               
                 </div>
-             <div class="lead me-md-3">
-                <p class="lead pt-3">專長:</p>
+             <div class="lead me-md-3 ">
+                                <p class="lead pt-3 my-1" style="font-size:28px; font-weight:700;">專長:</p>
                     @if(Model.專長1 != null)
                     {
+                        <div class="badge bg-secondary" style="color:white">
                        @Html.DisplayFor(model =>model.專長1)
+                       </div>
                     }
                     @if (Model.專長2 != null)
                     {
-                        @Html.DisplayFor(model =>model.專長2)
+                       @:| <div class="badge bg-secondary" style="color:white">
+                         @Html.DisplayFor(model =>model.專長2)
+                       @:  </div>
                     }
                     @if (Model.專長3 != null)
                     {
-                        @Html.DisplayFor(model =>model.專長3)
+                       @:|<div class="badge bg-secondary" style="color:white">
+                       @Html.DisplayFor(model =>model.專長3)
+                       @:</div>
                     }
               </div>
-              <div class="lead me-md-3">
-                <p class="lead pt-3">證照:</p>
+              <div class="lead me-md-3 ">
+                  <p class="lead pt-3 my-1" style="font-size:28px; font-weight:700;">證照:</p>
                     @if (Model.證照1 != null)
                     {
-                       @*  <div class="badge bg-expertbk text-wrap text-dark" style="width: 6rem;"> *@
-                            @Model.證照1
-                       @*  </div> *@
+                                    <div class="badge bg-secondary" style="color:white">
+                                        @Model.證照1
+                         </div> 
                     }
                     @if (Model.證照2 != null)
                     {
-                        @Html.DisplayFor(model =>model.證照2)
+                                    @:|<div class="badge bg-secondary" style="color:white">
+                                    @Html.DisplayFor(model =>model.證照2)
+                                   @: </div>
                     }
                     @if (Model.證照3 != null)
                     {
-                        @Html.DisplayFor(model =>model.證照3)
+                                    @:|<div class="badge bg-secondary" style="color:white">
+                                        @Html.DisplayFor(model =>model.證照3)
+                                          @: </div>
                     }
              </div>
              <div>
-                    <p class="lead pt-3">基本報價：</p>
-                    <span class="lead py-3">@Model.基本價格</span>
+                <span class="lead pt-3 my-1" style="font-size:28px; font-weight:700;">基本報價：
+
+                </span>
+                    <span class="lead py-3 " style="font-size:28px; font-weight:700; color:#a11525">@Model.基本價格</span>
              </div>
                         </div>
              <div class="lead pt-3" style="position:absolute;bottom:0px;right:50px;">
@@ -231,10 +244,10 @@
                     <i class="fa-solid fa-right-to-bracket fa-bounce" style="color: #528EAF;"></i>去委託
                 </a>
 
-                <a class="btn btnResume btn-outline-primary bg-white fs-2" style="width:180px" href="#toptitle"
+                <a class="btn labelResume btn-outline-primary bg-white fs-2" href="#toptitle"
                    data-loading-text="Loading...">
                     <span>
-                        TOP
+                        
                         <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
                     </span>
                 </a>
