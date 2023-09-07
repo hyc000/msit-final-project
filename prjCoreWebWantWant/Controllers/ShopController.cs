@@ -156,6 +156,7 @@ namespace prjShop.Controllers
             var cases = _context.TaskLists
                 .Where(t => t.AccountId == id && t.PublishOrNot == "立刻上架")
                 .Select(t => new { t.CaseId, t.TaskTitle })
+                .OrderByDescending(t =>t.CaseId)
                 .ToList();
             return Json(new { success = true, tasks = cases });
         }
