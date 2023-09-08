@@ -11,14 +11,14 @@
     @foreach (var item in Model)
 {
 <div class="card text-center">
-            <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px;">
-                <span style="float:left;font-size:20px;color:#484891	">
-                    <img src="~/Backstage/icon/grid.png" style="width:24px;height:24px" />@item.TaskName.TaskName
+        <div class="card-header" style="background-color:	#ECF5FF;color:#005ab5;font-size:24px;">
+                <span style="float:right;font-size:18px;color:#484891	">
+                    <img src="~/Backstage/icon/grid.png" style="width:18px;height:18px" />@item.TaskName.TaskName
                 </span>
                 @if (item.OnTop > DateTime.Now)
                 {
-                    <div style="text-align:center;color:red">
-                        <i class="fa-solid fa-fire fa-beat fa-lg" style="color: #e93407;"></i>熱門　@item.TaskTitle
+                    <div>
+                    <img src="~/Backstage/icon/fire.png" style="height:24px;width:24px;float:left">　<span style="text-align:center;">@item.TaskTitle</span>
                     </div>
                 }
                 else
@@ -50,28 +50,29 @@
                     {
                         <p class="card-text col-3"><i class="fa-solid fa-location-dot"></i> 地點： @Html.DisplayFor(modelItem => item.Town.City.City1) @Html.DisplayFor(modelItem => item.Town.Town1)</p>
                     }
-            <p class="card-text col-3">需求人數： @item.RequiredNum 人</p>
+                <p class="card-text col-3"><img src="~/Backstage/icon/user2.png" style="width:20px;height:20px">需求人數： @item.RequiredNum 人</p>
                 @{
                     if (item.PayFrom > 1500)
                     {
-                        <p class="card-text col-3">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
                     }
                     else if (item.PayFrom > 500)
                     {
-                            <p class="card-text col-3">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
                     }
                     else
                     {
-                        <p class="card-text col-3">任務金額：<span>@item.PayFrom</span> 元</p>
+                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span>@item.PayFrom</span> 元</p>
                     }
                 }
+                <p class="card-text col-3"><img src="~/Backstage/icon/calendar_1.png" style="width:20px;height:20px">更新日： @item.DataModifyDate</p>
             @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
         </div>
 
     </div>
-    <div class="card-footer text-muted">
-                最後修改日期： @item.DataModifyDate
-    </div>
+    
+          
+ 
 </div>
 
 <div>

@@ -255,7 +255,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
     </script>
 }
 
-<body>
+<body style="background-color:#FDFCFD">
     <div>
     <h2 class="text-center mt-5 myh2" style="font-weight:bold">
         <span style="color:#9eb9d3">●</span>
@@ -540,7 +540,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
         <div class="row">
             <!--select任務類型-->
             <div class="col-xl-3 col-lg-3 col-md-4">
-                <div class="card" id="list">
+            <div class="card" id="list" style="background-color:	#FCF7FC">
 
                     <div class="card-body">
                         
@@ -673,15 +673,15 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
 
 
         <div class="col-8 forum-block">
-                
 
 
-                 <div class="p-2 mt-2 mb-2">
+
+            <div class="p-2 mt-2 mb-2" style="background-color:	#FFFFFF;border-radius: 10px;border-style:solid;border-width: 0.5px; border-color: #CCCCCC;">
                     <div class="divide-line pl-3">
-                        @*<span id="total" class="fs-3 fw-bolder me-2">@ViewBag.TotalCount @ViewBag.Count</span><span class="fs-5 my-text-primary">
+                        <span id="total" class="fs-3 fw-bolder me-2">@ViewBag.TotalCount @ViewBag.Count</span><span class="fs-5 my-text-primary">
                             <img src="/icons/icons8-rhombus-loader.gif" class="d-none loading-icon">
                             筆任務
-                        </span>*@
+                        </span>
                         <div id="selected-checkboxes"><input type="button" class="btn btn-secondary d-none cleanAll mr-1" value="清除全部" onclick="clearAllFiltered()"></div>
 
                     </div>
@@ -768,14 +768,14 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                     </div>  *@
 
                         <div class="card text-center">
-                        <div class="card-header" style="background-color:#e5edf6;color:#005ab5;font-size:24px;">
-                            <span style="float:left;font-size:20px;color:#484891	">
-                                <img src="~/Backstage/icon/grid.png" style="width:24px;height:24px" />@item.TaskName.TaskName
+                        <div class="card-header" style="background-color:	#ECF5FF;color:#005ab5;font-size:24px;">
+                            <span style="float:right;font-size:18px;color:#484891	">
+                                <img src="~/Backstage/icon/grid.png" style="width:18px;height:18px" />@item.TaskName.TaskName
                             </span>
                             @if(item.OnTop > DateTime.Now)
                             {
                                 <div>
-                                    @* <i class="fa-solid fa-fire fa-beat" style="color: #f74002;"></i> *@<img src="~/Backstage/icon/fire.png" style="height:24px;width:24px">　<span style="text-align:center;">@item.TaskTitle</span>
+                                    @* <i class="fa-solid fa-fire fa-beat" style="color: #f74002;"></i> *@<img src="~/Backstage/icon/fire.png" style="height:24px;width:24px;float:left">　<span style="text-align:center;">@item.TaskTitle</span>
                                 </div>
                             }
                             else
@@ -851,7 +851,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                         }
                                     }
 
-                                    <p class="card-text col-3"><img src="~/Backstage/icon/calendar.png" style="width:20px;height:20px">更新日： @item.DataModifyDate</p>
+                                    <p class="card-text col-3"><img src="~/Backstage/icon/calendar_1.png" style="width:20px;height:20px">更新日： @item.DataModifyDate</p>
 
                                     @*<p class="card-text col-3">收藏任務的愛心放這</p>*@
                                 </div>
