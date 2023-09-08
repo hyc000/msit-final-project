@@ -36,13 +36,7 @@
             flex-direction: row;
             overflow-x: auto;
         }
-        .worklist {
-            /*position: absolute;*/
-          /*  left: 50%;
-            top: 50%;*/
-            /*transform: translate(-50%, -50%);*/
-           
-        }
+      
 
         #detailscontent, #detailscontent * {
            
@@ -77,9 +71,9 @@
             <div class="row mx-0" style="height: 70vh;">
             <!-- 主容器 -->
             <!-- 左側部分 -->
-                <div class="col-4 bshadow-sm p-3 mb-5 bg-body-tertiary rounded d-flex flex-column justify-content-center ps-3">
+                <div class="col-4 shadow p-3 mb-5 bg-body rounded d-flex flex-column justify-content-center ps-3">
                 <!-- 上方照片區 -->
-                <div id="photo" class="d-flex align-items-center justify-content-center border border-white" style="flex: 2;">
+                <div id="photo" class="d-flex align-items-center justify-content-center " style="flex: 2;">
                     
                     @if (Model.履歷照片 != null)
                     {
@@ -90,7 +84,7 @@
                    }
                 </div>
                 <!-- 下方作品集區 -->
-                <div id="work" class="d-flex flex-column align-items-center justify-content-center border border-white" style="flex: 1;">
+                <div id="work" class="d-flex flex-column align-items-center justify-content-center " style="flex: 1;">
                     <h6>專家作品集</h6>
                     <div id="workbox" class="d-flex justify-content-start"
                              style=" height: 200px; width:380px; position: relative;">
@@ -102,7 +96,7 @@
             </div>
 
             <!-- 右側部分 -->
-                <div id="title" class="col-8 p-5 shadow-sm p-3 mb-5 bg-body-tertiary rounded flex-column position-relative" style="text-align:left;">
+                <div id="title" class="col-8 p-5 shadow p-3 mb-5 bg-body rounded flex-column position-relative" style="text-align:left;">
              <div >
                <div>
                 <h2 class="display-5 ps-4 py-2">@Html.DisplayFor(model =>model.專家姓名)
@@ -160,7 +154,7 @@
                                           @: </div>
                     }
              </div>
-             <div>
+             <div  class="lead me-md-3 pt-3 my-1 ">
                 <span class="lead pt-3 my-1" style="font-size:28px; font-weight:700;">基本報價：
 
                 </span>
@@ -177,7 +171,7 @@
         </div>
         </div>
         @* 詳細介紹 *@
-        <div id="details" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;font-weight: bold;font-size:1.5em;color:black;" >
+        <div id="details" class="d-md-flex flex-md-equal ps-md-3  shadow p-3 mb-5 bg-body rounded" style="max-width: 83%; margin: 30px auto;font-weight: bold;font-size:1.5em;color:black;" >
             
             <div class="overflow-hidden">
                
@@ -222,7 +216,7 @@
         </div>
     
         @* 評分 *@
-        <div id="ratinghere" class="d-md-flex flex-md-equal ps-md-3  bg-expertdetail" style="max-width: 83%; margin: 30px auto;">
+        <div id="ratinghere" class="d-md-flex flex-md-equal ps-md-3  shadow p-3 mb-5 bg-body rounded" style="max-width: 83%;max-height: 90vh; margin: 30px auto; overflow-y:auto;">
            
           <div class="m-3 p-4 ">
                     <h2>評價</h2>
@@ -236,19 +230,19 @@
         <div style="position:fixed;;bottom:30px;right:0px;width:30%">
 
             <div class="d-flex justify-content-evenly h-50 expert-button-group" >
-                <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#details"
+                <a class="btn btnResume btn-outline-primary bg-white fs-5" href="#details"
                    data-loading-text="Loading..." id="A"><span>詳細介紹</span></a>
-                <a class="btn btnResume btn-outline-primary bg-white fs-2" href="#ratinghere"
-                   data-loading-text="Loading..."><span>評價</span></a>
-                <a href="@Url.Action("Create", "ExpertTask", new { expertaccountid = Model.專家ID })" class="btn labelResume btn-outline-primary bg-white fs-2">
+                <a class="btn btnResume btn-outline-primary bg-white fs-5" href="#ratinghere"
+                   style="padding:20px 0px 20px 0px"><span>評價</span></a>
+                <a href="@Url.Action("Create", "ExpertTask", new { expertaccountid = Model.專家ID })" class="btn btnResume btn-outline-primary bg-white fs-5">
                     <i class="fa-solid fa-right-to-bracket fa-bounce" style="color: #528EAF;"></i>去委託
                 </a>
 
-                <a class="btn labelResume btn-outline-primary bg-white fs-2" href="#toptitle"
-                   data-loading-text="Loading...">
+                <a class="btn btnResume btn-outline-primary bg-white fs-5" href="#toptitle"
+                   style="padding:20px 0px 20px 0px">
                     <span>
                         
-                        <i class="fa-solid fa-up-long" style="color: #528EAF;"></i>
+                        <i class="fa-solid fa-up-long fa-2xl" style="color: #528EAF;"></i>
                     </span>
                 </a>
 
@@ -292,9 +286,6 @@
         </div>
 
 
-
-
-
     </div>@* 最外圍 *@
  </div>
 
@@ -305,6 +296,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
+        
+            <script src="~/Expert/js/blowup.js"></script>
     <script>
 
         //星星評價=====================================
@@ -378,62 +371,24 @@
             function load() {
                 const workbox = document.querySelector('#workbox');
                 const worklist = document.querySelector('#worklist');
-                const imageWidth = 10;//458是Worklist長度
-              
-      
-                let left = 0; // 初始化為 0
-                let interval = 1000;
-
-                let timer;
-                // 自動跑馬燈
-                function Moving(numImages) {
-                    const totalWidth = numImages * imageWidth;
-
-                    clearInterval(timer);
-                    timer = setInterval(() => {
-                        left -= imageWidth;
-
-                        if (left <= -(totalWidth - 4 * imageWidth)) {
-                            left = 0;
-                            worklist.style.transition = 'none';
-                        } else {
-                            worklist.style.transition = 'transform 0.2s ease-in-out';  // 恢復過渡效果
-                        }
-                        worklist.style.left = left + 'px';
-
-                    }, interval);
-                    }
-                
-
-                workbox.onmouseover = function () {
-                    clearInterval(timer);
-                };
-
-                workbox.onmouseleave = function () {
-                    worklist.style.transition = 'transform 0.2s ease-in-out';
-                    Moving(numImages);
-                };
+           
 
                     fetch(`@Url.Content("~/ExpertResumesApi/WorkAPI")?resumesid=${@Model.專家履歷ID}`)
                         .then(response => response.json())
                         .then(data => {
                     imageDataArray = data;
                                    numImages = data.length;
-
                             let picturebox = "";
                             for (let i = 0; i < data.length; i++) {
                                 const picturename = data[i].作品名;
                                 const picturedate = data[i].作品日期.substring(0, 10) + "建立";
                                 const imageData = data[i].作品照片;
                             const src = `data:image/png;base64,${imageData}`;
-
                                 console.log(picturename);
                                 console.log(picturedate);
-                            console.log(src);
-
                                 picturebox += `
                                     <div style="display:block; position:relative;" class="py-2">
-                                         <button type="button" class="bg-expertdetail"
+                                         <button type="button" class="border border-secondary"
                                          data-bs-toggle="modal"
                                             data-bs-target="#staticBackdrop"
                                           data-picturename="${picturename}"
@@ -451,7 +406,7 @@
                             }
 
                             worklist.innerHTML = picturebox;
-                    Moving(data.length);
+                    //Moving(data.length);
                         })
                         .catch(error => {
                             console.error("Error fetching data:", error);
@@ -475,8 +430,22 @@
             const picturedate = data.作品日期.substring(0, 10) + "建立";
 
             document.getElementById('texttitle').textContent = picturename;
-            document.querySelector('.modal-header img').src = src;
+            const modalImg = document.querySelector('.modal-header img');
+            modalImg.src = src;
             document.getElementById('texdate').textContent = picturedate;
+             //放大鏡:
+             $(modalImg).blowup({
+        round: true,
+        width: 200,
+        height: 200,
+        background: "#FFF",
+        shadow: "0 8px 17px 0 rgba(0, 0, 0, 0.2)",
+        border: "6px solid #FFF",
+        cursor: true,
+        zIndex: 999999,
+        scale: 1,
+        customClasses: ""
+    });
         }
         document.addEventListener('DOMContentLoaded', function () {
             // 上一張
@@ -490,5 +459,8 @@
                 updateModalImage();
             });
         });//DOMContentLoaded的夸號
+
+       
+      
     </script>
     }

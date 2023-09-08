@@ -68,34 +68,7 @@ namespace prjCoreWebWantWant.Controllers
 
         }
 
-        //履歷
-
-        //public IActionResult ResumeAPI(int? resumesid)
-        //{
-        //    if (!resumesid.HasValue || resumesid.Value <= 0)
-        //    {
-        //        return Json(new { Status = "Failed", Message = "無相關履歷" });
-        //    }
-
-        //    var resume = _context.Resumes
-        //        .Where(a => a.ResumeId == resumesid)
-        //        .Select(y => new
-        //        {
-        //            作品名 = y.WorkTitle,
-        //            作品照片 = y.WorksPhoto,
-        //            作品日期 = y.DataCreateDate
-        //        })
-        //        .FirstOrDefault();
-        //    if (qexresume == null)
-        //    {
-        //        return Json(new { Status = "Failed", Message = "無相關介紹" });
-        //    }
-
-        //    return Json(qexresume);
-
-        //}
-
-        //===================
+        
         //專家履歷
 
         public IActionResult ExresumeAPI(int? resumesid)

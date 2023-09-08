@@ -44,38 +44,16 @@ namespace prjCoreWebWantWant.Controllers
 
             if (_context.Ratings != null)
             {
-                //給別人的評價-我是專家
-                //var ratingdata = await _context.Ratings
-                //    .Where(x => x.SourceAccountId == _memberID)
-                //    .Include(y=>y.ExpertApplications.Where(a=>a.FromRole != null))
-                //    .Select(u => u)
-                //    .ToListAsync();
-                //急救
-                var ratingdata = await _context.Ratings
-                .Where(x => x.SourceAccountId == _memberID)
-                .Include(y => y.ExpertApplications)
-                .ToListAsync();
-                ratingdata = ratingdata
-                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null&&ea.FromRole!=0))
-                                .ToList();
-                //給別人的評價-我是委託者
-                //var ratingdata2 = await _context.Ratings
-                //    .Where(x => x.TargetAccountId == _memberID)
-                //    .Include(y => y.ExpertApplications.Where(a => a.RatingId != null))
-                //    .Select(u => u)
-                //    .ToListAsync();
-                var ratingdata2 = await _context.Ratings
-               .Where(x => x.TargetAccountId == _memberID)
-               .Include(y => y.ExpertApplications)
+                //給別人的評價-我是委託人
+                var ratingdata = await _context.ExpertApplications
+               .Where(x => x.AccountId == _memberID && x.Rating != null)
+               .Select(y=>y.Rating)
                .ToListAsync();
-                ratingdata2 = ratingdata2
-                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null && ea.RatingId != 0))
-                                .ToList();
+         
                 CExperTaskFactory factory = new CExperTaskFactory(_context);
                 CRatings datarating;
                 foreach (var item in ratingdata)
                 {
-
                     datarating = new CRatings();
                     datarating.ratedperson = factory.MemberName(item.TargetAccountId);
                     datarating.ratingforperson = factory.MemberName(item.SourceAccountId);
@@ -83,20 +61,8 @@ namespace prjCoreWebWantWant.Controllers
                     datarating.ratingcontent = item.RatingContent;
                     datarating.ratingdate = item.RatingDate;
                     ratingsForOther.Add(datarating);
-
                 };
-                foreach (var item in ratingdata2)
-                {
-
-                    datarating = new CRatings();
-                    datarating.ratedperson = factory.MemberName(item.TargetAccountId);
-                    datarating.ratingforperson = factory.MemberName(item.SourceAccountId);
-                    datarating.ratingstar = item.RatingStar;
-                    datarating.ratingcontent = item.RatingContent;
-                    datarating.ratingdate = item.RatingDate;
-                    ratingsForOther.Add(datarating);
-
-                };
+        
                 var data = ratingsForOther;
                 return Json(data);
 
@@ -125,32 +91,13 @@ namespace prjCoreWebWantWant.Controllers
 
             if (_context.Ratings != null)
             {
-               
+
                 //自己收到評論
-                //var ratingdatamy = await _context.Ratings
-                //    .Where(x => x.TargetAccountId == _memberID)
-                //    .Include(y => y.ExpertApplications.Where(a => a.FromRole != null))
-                //    .Select(u => u)
-                //    .ToListAsync();
-                var ratingdatamy = await _context.Ratings
-              .Where(x => x.TargetAccountId == _memberID)
-              .Include(y => y.ExpertApplications)
-              .ToListAsync();
-                ratingdatamy = ratingdatamy
-                                .Where(r => r.ExpertApplications.Any(ea => ea.FromRole != null && ea.FromRole != 0))
-                                .ToList();
-                //var ratingdatamy2 = await _context.Ratings
-                //   .Where(x => x.SourceAccountId == _memberID)
-                //   .Include(y => y.ExpertApplications.Where(a => a.RatingId != null))
-                //   .Select(u => u)
-                //   .ToListAsync();
-                var ratingdatamy2 = await _context.Ratings
-            .Where(x => x.SourceAccountId == _memberID)
-            .Include(y => y.ExpertApplications)
-            .ToListAsync();
-                ratingdatamy2 = ratingdatamy2
-                                .Where(r => r.ExpertApplications.Any(ea => ea.RatingId != null && ea.RatingId != 0))
-                                .ToList();
+                var ratingdatamy = await _context.ExpertApplications
+               .Where(x => x.ExpertAccountId == _memberID && x.Rating != null)
+               .Select(y => y.Rating)
+               .ToListAsync();
+             
 
                 CExperTaskFactory factory = new CExperTaskFactory(_context);
                 CRatings datamy;
@@ -165,24 +112,11 @@ namespace prjCoreWebWantWant.Controllers
                     datamy.ratingdate = item.RatingDate;
                     MyRatings.Add(datamy);
                 };
-                foreach (var item in ratingdatamy2)
-                {
-                    datamy = new CRatings();
-                    datamy.ratedperson = factory.MemberName(item.TargetAccountId);
-
-                    datamy.ratingforperson = factory.MemberName(item.SourceAccountId);
-                    datamy.ratingstar = item.RatingStar;
-                    datamy.ratingcontent = item.RatingContent;
-                    datamy.ratingdate = item.RatingDate;
-                    MyRatings.Add(datamy);
-                };
+               
 
                 var data = MyRatings;
 
                 return Json(data);
-
-               
-
 
             }
             else

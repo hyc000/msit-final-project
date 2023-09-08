@@ -79,15 +79,7 @@ namespace prjCoreWebWantWant.Controllers
             CExperTaskFactory factory = new CExperTaskFactory(_context);
             int sourceid = factory.MemberID(vm.專家).GetValueOrDefault();
             int targetid = factory.MemberID(vm.委託者).GetValueOrDefault();
-            int role = 0 ;
-            if (sourceid==_memberID)
-            {
-                role = 3;
-            }
-            else if (targetid==_memberID)
-            {
-                role = 1;
-            }
+           
                 DateTime date = DateTime.Now;
                 Rating rating = new Rating();
                 rating.RatingStar = vm.評論星數;
@@ -102,29 +94,15 @@ namespace prjCoreWebWantWant.Controllers
                _context.SaveChanges();
                 int newratingid= rating.RatingId;
                 
-           
-
+           //EA表
                 ExpertApplication expertapplication = _context.ExpertApplications
                     .Where(x=>x.CaseId==vm.taskid)
                     .FirstOrDefault();
-            if (_memberID == expertapplication.AccountId)//委託人
-            {
-                expertapplication.RatingId = newratingid;
-            }
-            if (_memberID == expertapplication.ExpertAccountId)//委託人
-            {
-                expertapplication.FromRole = newratingid;
-            }
+
+            expertapplication.RatingId = newratingid;
             expertapplication.CaseStatusId = 12;//專家案件已評價
-            
-
-
-
-
             _context.Update(expertapplication);
-                _context.SaveChanges();
-
-            TempData["message"] = "請先登入";
+            _context.SaveChanges();
 
             return RedirectToAction("ExpertListnew","ExpertTask");
           

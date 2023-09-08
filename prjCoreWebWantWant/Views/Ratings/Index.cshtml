@@ -152,10 +152,14 @@
     <style>
         .color-a {
             background-color: #f2fbff !important;
+            font-size: x-large;
+            font-weight: 700;
         }
 
         .color-b {
             background-color: #fff9e3 !important;
+            font-size:x-large;
+            font-weight:700;
         }
        
     </style>
@@ -189,17 +193,7 @@
             cardheader.classList.remove("color-a");
             toggleLiColors("color-b", "color-a");
         });
-
-        //=========底色
-        
-
-       // function toggleLiColors(addColor, removeColor) {
-       //      lis.forEach(function (li) {
-       //          li.classList.add(addColor);
-       //          li.classList.remove(removeColor);
-       //      });
-       //  }
-
+              
         //============================================
 
         //星星評價
@@ -229,20 +223,19 @@
         //============================================
         //這是跑評論內容部分--給別人
         var datasforratings = null;
+        function FetchForOtherdata(){
         fetch('@Url.Content("~/RatingsAPI/ForOtherdata")')
             .then(response => response.json())
             .then(data => {
-                // 在這裡處理從 API 取得的 JSON 資料
-
-                datasforratings = data;
-
+               datasforratings = data;
+                   
+                    if (!fn.DataTable.isDatatable('#forratings')){
                 $('#forratings').DataTable({
                     autoWidth: false,
                     data: datasforratings,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
                     },
-                    
                     columns: [
                         { data: 'ratingforperson', title: "被評論者" },
                         //{ data: 'ratedperson', title: "評論者" },
@@ -251,42 +244,61 @@
                         { data: 'ratingdate', title: "評論日期" }
                     ]
                 });
+                }else{
+                        var table = $('#forratings').DataTable();
+                        table.clear().rows.add(datasforratings).draw();
+                }
+                  
             })
             .catch(error => {
                 // 處理錯誤情況
                 console.error('API request error:', error);
             });
+            }
         //============================================
 
         //這是跑評論內容部分--自己收到
         var datasmyratings = null;
-        fetch('@Url.Content("~/RatingsAPI/MyRatingsdata")')
-            .then(response => response.json())
-            .then(data => {
-                // 在這裡處理從 API 取得的 JSON 資料
+        function fetchMyRatingsdata() {
+            fetch('@Url.Content("~/RatingsAPI/MyRatingsdata")')
+                .then(response => response.json())
+                .then(data => {
+                    datasmyratings = data;
 
-                datasmyratings = data;
+                    if (!$.fn.DataTable.isDataTable('#myratings')) {
 
-                $('#myratings').DataTable({
-                    autoWidth: false,
-                    data: datasmyratings,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-                    },
-                    
-                    columns: [
-                        // { data: 'ratingforperson', title: "被評論者" },
-                        { data: 'ratedperson', title: "評論者" },
-                        { data: 'ratingstar', title: "評論星數", render: renderStars },
-                        { data: 'ratingcontent', title: "評論內容" },
-                        { data: 'ratingdate', title: "評論日期" }
-                    ]
+                        $('#myratings').DataTable({
+                            autoWidth: false,
+                            data: datasmyratings,
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                            columns: [
+                                // { data: 'ratingforperson', title: "被評論者" },
+                                { data: 'ratedperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
+                                { data: 'ratingcontent', title: "評論內容" },
+                                { data: 'ratingdate', title: "評論日期" }
+                            ]
+                        });
+                    } else {
+                        var table = $('#myratings').DataTable();
+                        table.clear().rows.add(datasmyratings).draw();
+                    }
+                })
+                .catch(error => {
+                    // 處理錯誤情況
+                    console.error('API request error:', error);
                 });
-            })
-            .catch(error => {
-                // 處理錯誤情況
-                console.error('API request error:', error);
-            });
+        }
+        //更新
+        fetchMyRatingsdata();
+        FetchForOtherdata();
+        setInterval(()=>
+        {
+            fetchMyRatingsdata();
+            FetchForOtherdata();
+        }, 10000);
                              //============================================
 
 
