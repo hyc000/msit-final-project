@@ -3,7 +3,6 @@
     bottom: 0;
     right: 0;
     margin: 30px 30px;
-    display: none; 
     z-index: 9999;
 }
 
@@ -15,16 +14,16 @@
     margin: 10px; 
 }
 
-::-webkit-scrollbar { /* 調整捲軸寬度 */
+.my-scrollbar::-webkit-scrollbar { /* 調整捲軸寬度 */
     width: 7px;
 }
 
-::-webkit-scrollbar-thumb { /* 調整捲軸拉把部分 */
+.my-scrollbar::-webkit-scrollbar-thumb { /* 調整捲軸拉把部分 */
     background: #f1f1f1;
     border-radius: 7px;
 }
 
-::-webkit-scrollbar-track { /* 調整捲軸滑軌部分 */
+.my-scrollbar::-webkit-scrollbar-track { /* 調整捲軸滑軌部分 */
     background: #fff;
     border-radius: 7px;
 }
@@ -87,8 +86,17 @@
         border-left: 1px dotted #a7bed2;
     }
 
-
+.my-shadow {
+    box-shadow: 0 2px 6px 0 rgba(233,233,239,.5);
 }
+
+.my-chat-title {
+    font-size: 1.6em;
+    color: white;
+    font-family: Noto Sans TC, sans-serif;
+    font-weight:bold;
+}
+
 
 
 .user-image {
