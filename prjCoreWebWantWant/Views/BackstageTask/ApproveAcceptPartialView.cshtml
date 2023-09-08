@@ -18,7 +18,7 @@
                     <th style="width: 100px;">履歷內容</th>
                     @*<th style="width: 50px;">語言</th>*@
                     <th style="width: 50px;">證照</th>
-                    <th style="width: 50px;">技能</th>
+                    <th style="width: 50px;">技能</th>                   
                     <th style="width: 50px;">查看</th>
 
                     </tr>
@@ -60,6 +60,7 @@
                                     }
                                 </div>
                             </td>
+
                             <td>
                                 <div class="d-flex gap-2">
                                     @*<a href="#" class="badge badge-soft-primary">@Html.DisplayFor(modelItem => item.SkillName)</a>*@
@@ -73,6 +74,9 @@
                                     }
                                 </div>
                             </td>
+
+                        
+
                             <td style="width: 100px">
                                 <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">
                                 <img src="~/backstage1/img/magnifying.png" alt="查看" style="height: 25px; width: 25px;">

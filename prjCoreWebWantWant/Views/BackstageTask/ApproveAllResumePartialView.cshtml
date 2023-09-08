@@ -20,7 +20,8 @@
                    @* <th style="width: 50px;">語言</th>*@
                     <th style="width: 50px;">證照</th>
                     <th style="width: 50px;">技能</th>
-                    <th style="width: 50px;">查看</th>
+                    <th style="width: 50px;">吻合度</th>
+                    <th style="width: 50px;">查看</th>                    
                     <th style="width: 50px;">是否錄取</th>
 
                 </tr>
@@ -156,6 +157,10 @@
 
                                 </div>
                             </td>
+                           
+                            <td style="width: 50px;">@item.MatchingScorePercentage</td>
+                            
+
                             <td>
 
                                 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
@@ -165,27 +170,19 @@
                                     int id = loggedInUser.AccountId; //抓登入者的id
 }
                                 <a title="Edit" href="@Url.Content("~/backstage/ResumeUneditable")?id=@item.ResumeId">
-                                    @*<i class="fas fa-pencil-alt"></i>*@
+                                   
                                     <img src="~/backstage1/img/magnifying.png" alt="查看" style="height: 25px; width: 25px;">
                                 </a>
-                            </td>
-                            
-                                @*<div class="d-flex flex-wrap gap-3 my-3">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        @*<button type="button" class="btn btn-outline-secondary" id="yes">錄取</button>
-                                <button type="button" class="btn btn-outline-secondary" id="no">婉拒</button>*@
-                                       @* @Html.ActionLink("錄取", "Accept","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
-                                        @Html.ActionLink("婉拒", "Refuse","BackstageTask", new {id=item.CaseId}, new { @class = "btn btn-outline-secondary" ,style="color:#528EAF"})
-                                    </div>
-                                </div>*@
+                            </td>                            
+                              
                             <td>
                                 <a href="@Url.Content("~/BackstageTask/Accept")?id=@item.CaseId">
-                                        @*<i class="fas fa-pencil-alt"></i>*@
+                                     
                                     <img src="~/backstage1/img/check.png" alt="錄取" style="height: 25px; width: 25px;">
                                 </a>
 
                                 <a href="@Url.Content("~/BackstageTask/Refuse")?id=@item.CaseId">
-                                    @*<i class="fas fa-pencil-alt"></i>*@
+                                    
                                     <img src="~/backstage1/img/close.png" alt="婉拒" style="height: 23px; width: 23px;">
                                 </a>
                             </td>                           

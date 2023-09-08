@@ -377,7 +377,7 @@ namespace WantTask.Controllers
         }
 
         //app表的未處理tab AllResume+選擇任務類型+keyword
-        public IActionResult ApproveAllResumePartialView(string category, CKeywordViewModel vm)
+        public IActionResult ApproveAllResumePartialView(string category, CKeywordViewModel vm , CApproveViewModel appVM )
         {
             //if (vm.txtKeyword == null)
             //{
@@ -557,7 +557,11 @@ namespace WantTask.Controllers
                              TaskDetail = task.TaskDetail,
                              TaskName = taskname.TaskName,
                              CertificateNames = resume.ResumeCertificates.Select(rc => rc.Certificate.CertificateName).Distinct().ToList(),  //9/3
-                             SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList()  //9/3
+                            SkillNames = resume.ResumeSkills.Select(rs => rs.Skill.SkillName).Distinct().ToList(),  //9/3
+                            RequiredSkills=task.TaskSkills.Select(ts=>ts.Skill.SkillName).Distinct().ToList(),
+                            RequiredCertificates=task.TaskCertificates.Select(tc=>tc.Certficate.CertificateName).Distinct().ToList(),
+                            MatchingScore = CalculateMatchingScore(appVM)
+
                          })
                          //.Where(app => app.TaskName == category)
                               .GroupBy(app => app.ResumeId) // 根據 ResumeId 分組
@@ -570,6 +574,96 @@ namespace WantTask.Controllers
 
             return PartialView("ApproveAllResumePartialView", query.ToList());
         }
+
+        //app表裡的吻合度
+        public double CalculateMatchingScore(CApproveViewModel appVM)
+        {
+            // 技能匹配分數
+            double skillMatchScore = CalculateSkillMatchScore(appVM.SkillNames, appVM.RequiredSkills);
+
+            // 證書匹配分數
+            double certificateMatchScore = CalculateCertificateMatchScore(appVM.CertificateNames, appVM.RequiredCertificates);
+
+            // 最終吻合度分數，您可以自行定義權重
+            double certificateWeight = 0.5; // 假設權重為0.5
+            double skillWeight = 0.5;      // 假設權重為0.5
+            double matchingScore = (skillMatchScore * skillWeight) + (certificateMatchScore * certificateWeight);
+
+            return matchingScore;
+        }
+
+        
+        // 計算技能匹配分數的示例方法
+        public double CalculateSkillMatchScore(List<string> SkillNames, List<string> RequiredSkills)
+        {
+            if (SkillNames == null || RequiredSkills == null)
+            {
+                // 如果任何一个列表为 null，技能匹配分数为 0
+                return 0.0;
+            }
+
+            // 计算匹配的技能数量
+            int matchedSkills = SkillNames.Intersect(RequiredSkills).Count();
+
+            // 根据匹配数量计算吻合度百分比，根据匹配数量来确定吻合度
+            double skillMatchScore = 0.0;
+
+            if (matchedSkills >= 4)
+            {
+                skillMatchScore = 100.0;
+            }
+            else if (matchedSkills == 3)
+            {
+                skillMatchScore = 75.0;
+            }
+            else if (matchedSkills == 2)
+            {
+                skillMatchScore = 50.0;
+            }
+            else if (matchedSkills == 1)
+            {
+                skillMatchScore = 25.0;
+            }
+
+            return skillMatchScore;
+        }
+
+        // 計算證書匹配分數的示例方法
+        public double CalculateCertificateMatchScore(List<string> CertificateNames, List<string> RequiredCertificates)
+        {
+            if (CertificateNames == null || RequiredCertificates == null)
+            {
+                // 如果任何一个列表为 null，证书匹配分数为 0
+                return 0.0;
+            }
+
+            // 计算匹配的证书数量
+            int matchedCertificates = CertificateNames.Intersect(RequiredCertificates).Count();
+
+            // 根据匹配数量计算吻合度百分比，根据匹配数量来确定吻合度
+            double certificateMatchScore = 0.0;
+
+            if (matchedCertificates >= 4)
+            {
+                certificateMatchScore = 100.0;
+            }
+            else if (matchedCertificates == 3)
+            {
+                certificateMatchScore = 75.0;
+            }
+            else if (matchedCertificates == 2)
+            {
+                certificateMatchScore = 50.0;
+            }
+            else if (matchedCertificates == 1)
+            {
+                certificateMatchScore = 25.0;
+            }
+
+            return certificateMatchScore;
+
+        }
+
 
         //app表未處理AllResume的錄取btn
         public IActionResult Accept(int? id)

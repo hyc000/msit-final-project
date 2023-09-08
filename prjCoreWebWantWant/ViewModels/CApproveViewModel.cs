@@ -32,8 +32,21 @@ namespace WantTask.ViewModels
         //public List<Skill>? skill { get; set; }
         // public List<ResumeSkill>? resumeSkill  { get; set; }
 
+        //該履歷擁有的技能和證照
         public List<string> SkillNames { get; set; }
         public List<string> CertificateNames { get; set; }
+
+        //我發案的工作所需的技能和證照
+        public List<string> RequiredSkills { get; set; } // 工作所需的技能
+        public List<string> RequiredCertificates { get; set; } // 工作所需的證書
+
+
+        // 吻合度:使用 double 來表示百分比（0.0 到 1.0）
+        public double MatchingScore { get; set; }
+
+        // 吻合度:添加一個只讀屬性來表示百分比的字串
+        public string MatchingScorePercentage => (MatchingScore * 100).ToString("0.00") + "%";
+
 
     }
 }
