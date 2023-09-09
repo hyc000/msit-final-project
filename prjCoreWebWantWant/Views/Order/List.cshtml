@@ -92,10 +92,11 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <button type="submit" class="btn btn-primary" id="searchButton">查詢</button>
                     <button type="reset" class="btn btn btn-secondary">清除</button>
-                    <button type="button" class="btn btn btn-warning" id="exportButton">匯出訂單</button>
+                    <button type="button" class="btn btn btn-danger" id="exportButton">匯出訂單</button>
+                    <button type="button" class="btn btn btn-warning" id="exportDetails">匯出訂單明細</button>
                     <a asp-action="ShoppingCharts" class="btn btn-success">訂單分析圖表</a>
 
                 </div>
@@ -321,6 +322,28 @@
 
             XLSX.utils.book_append_sheet(wb, ws, 'Orders');
             XLSX.writeFile(wb, fileName);
+        });
+
+        // 匯出訂單明細
+        $('#exportDetails').click(function () {
+            // 1. 抓畫面上篩選條件的值
+            var categorys = $('#category').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var orderId = $('#orderId').val();
+            var name = $('#name').val();
+            var purchaseTime = $('#purchaseTime').val();
+
+            // 2. 這些值作為參數傳遞到後端
+            var url = '@Url.Action("exportExcel", "Order")' +
+                '?categorys=' + categorys +
+                '&startDate=' + startDate +
+                '&endDate=' + endDate +
+                '&orderId=' + orderId +
+                '&name=' + name +
+                '&purchaseTime=' + purchaseTime;
+
+            window.location.href = url;
         });
 
     </script>
