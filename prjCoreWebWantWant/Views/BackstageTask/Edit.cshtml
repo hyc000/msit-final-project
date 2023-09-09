@@ -108,25 +108,40 @@
                                                                             @*viewmodel的<h2 class="font-size-16 mb-1">@Html.DisplayFor(model =>model.TaskTitle)</h2>*@
                                                                                 <p></p>
 
+                                                                                
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                                                @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>*@
                                                                                  
                                                                                 <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">
-                                                                                    @Model.Town.City.City1 @Model.Town.Town1
-                                                                                    
+                                                                                    @Model.Town.City.City1 @Model.Town.Town1                                                                                   
                                                                                   
-                                                                                    @*<div class="form-group">
-                                                                                        <label asp-for="Address" class="control-label"></label>
+                                                                                    <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selCity">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectCity">請選擇縣市</label>
+                                                                                    </div>
+                                                                                    <div class="form-floating mb-3">
+                                                                                        <select class="form-select" id="selTown">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                        <label for="floatingSelectTown">請選擇區域</label>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <label asp-for="Address" class="control-label" style="display: none;"></label>
                                                                                         <input asp-for="Address" class="form-control" />
                                                                                         <span asp-validation-for="Address" class="text-danger"></span>
-                                                                                    </div>*@
+                                                                                    </div>
                                                                                     </>
 
-
+                                                                              
 
                                                                                @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>*@
                                                                                @* <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</>*@
 
+                                                                                 
                                                                                     <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">     
                                                                                     <div class="form-group">
                                                                                         <label asp-for="TaskStartDate" class="control-label" style="display: none;"></label>
@@ -161,20 +176,8 @@
                                                                                     <span asp-validation-for="RequiredNum" class="text-danger"></span>
                                                                                     </div>
                                                                                     </>
-
-                                                                                    <input type="hidden" id="hiddenTownIdInput" name="selectedTownId" />
-                                                                                    <div class="form-floating mb-3">
-                                                                                        <select class="form-select" id="selCity">
-                                                                                            <option></option>
-                                                                                        </select>
-                                                                                        <label for="floatingSelectCity">請選擇縣市</label>
-                                                                                    </div>
-                                                                                    <div class="form-floating mb-3">
-                                                                                        <select class="form-select" id="selTown">
-                                                                                            <option></option>
-                                                                                        </select>
-                                                                                        <label for="floatingSelectTown">請選擇區域</label>
-                                                                                    </div>
+                                                                                
+                                                                       
 
                                                                                 </div>
                                                                             </div>
