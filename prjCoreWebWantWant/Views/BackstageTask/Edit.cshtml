@@ -245,17 +245,31 @@
                                                                                         <a href="#" class="badge badge-soft-primary">@factory.SkillIDtoName(@item)</a>
                                                                                     </li>
                                                                                 }
-                                                                    @*<a href="#" class="badge badge-soft-primary">@Html.DisplayFor(model =>model.skill.SkillName)</a>*@
-                                                                    @* <a href="#" class="badge badge-soft-primary">@Model.skillname</a>
-                                                                    <a href="#" class="badge badge-soft-primary">@Model.skillType</a>
-                                                                    <a href="#" class="badge badge-soft-primary">@Model.skilltypename</a>
-                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>
-                                                                          <a href="#" class="badge badge-soft-primary"></a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
-                                                                        </div>
+                                                                               @* <br/>*@
+                                                                                @*技能select*@
+                                                                               @* <input type="hidden" id="hiddenSkillIdInput" name="selectedSkillId" />
+                                                                            <div class="form-floating mb-3">
+                                                                                <select class="form-select" id="SelSkillBig">
+                                                                                    <option></option>
+                                                                                </select>
+                                                                                <label for="floatingSelectCity">請選擇技能分類</label>
+                                                                            </div>
+
+                                                                            <div class="form-floating mb-3">
+                                                                                <select class="form-select" id="SelSkillSmall">
+                                                                                    <option></option>
+                                                                                </select>
+                                                                                <label for="floatingSelectCity">請選擇技能</label>
+                                                                            </div>*@
+
+                                                                               
+                                                                        </div>                                                                            
                                                                     </div>
                                                                 </div>
-                                                                }
+
+                                                                 
+                                                            
+                                                            }
                                                                 
 
                                                                 <!--證照-->
@@ -273,17 +287,33 @@
                                                                                         <a href="#" class="badge badge-soft-primary">@factory.CertificateDtoName(@item)</a>
                                                                                     </li>
                                                                                 }
-                                                                            @*<a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
+                                                                                @*<br/>*@
+                                                                                @*證照select*@
+                                                                            @*    <input type="hidden" id="hiddenCerIdInput" name="selectedCerId" />
+                                                                                <div class="form-floating mb-3">
+                                                                                    <select class="form-select" id="SelCerBig">
+                                                                                        <option></option>
+                                                                                    </select>
+                                                                                    <label for="floatingSelectCity">請選擇證照分類</label>
+                                                                                </div>
+
+                                                                                <div class="form-floating mb-3">
+                                                                                    <select class="form-select" id="SelCerSmall">
+                                                                                        <option></option>
+                                                                                    </select>
+                                                                                    <label for="floatingSelectCity">請選擇證照</label>
+                                                                                </div>*@
+                                                                             
+
+
                                                                         </div>
+
+                                                                           
                                                                     </div>
-                                                                </div>    
-                                                                }
+                                                                </div>
+
+                                                               
+                                                            }
                                                             </div>
 
                                                             <!-- 照片 -->
@@ -475,9 +505,91 @@
     });
 
 
+            //技能大小項
+            const SelSkillBig = document.querySelector('#SelSkillBig');
+            const SelSkillSmall = document.querySelector('#SelSkillSmall');
+            const hiddenSkillIdInput = document.querySelector('#hiddenSkillIdInput');
 
+            //select的技能分類
+            async function loadSelSkillBig() {
+                const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
+                const datas = await response.json()
+                const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+                document.querySelector('#SelSkillBig').innerHTML = skillBig.join("");
 
+                loadSelSkillSmall();
+            }
 
+            loadSelSkillBig();
+
+            //select的技能小項
+            async function loadSelSkillSmall() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/SkillSmall")?SkillBig=${SelSkillBig.value}`);
+                const datas = await response.json()
+                const skillSmall = datas.map(SkillName => `<option value='${SkillName}'>${SkillName}</option>`);
+                SelSkillSmall.innerHTML = skillSmall.join("");
+                getSkillId();
+            }
+
+            async function getSkillId() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/GetSkillId")?skillBig=${SelSkillBig.value}&skillSmall=${SelSkillSmall.value}`);
+                const data = await response.json();
+                const selectedSkillId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+                hiddenSkillIdInput.value = selectedSkillId;
+            }
+
+            //loadSelSkillSmall();
+
+            SelSkillBig.addEventListener('change', () => {
+                loadSelSkillSmall();
+            });
+
+            SelSkillSmall.addEventListener('change', () => {
+                getSkillId();
+            });
+
+            //證照的標籤
+            const SelCerBig = document.querySelector('#SelCerBig');
+            const SelCerSmall = document.querySelector('#SelCerSmall');
+            const hiddenCerIdInput = document.querySelector('#hiddenCerIdInput');
+
+            //select的證照分類
+            async function loadSelCerBig() {
+                const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
+                const datas = await response.json()
+                const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+                document.querySelector('#SelCerBig').innerHTML = CerBig.join("");
+
+                loadSelCerSmall();
+            }
+
+            loadSelCerBig();
+
+            //select的證照小項
+            async function loadSelCerSmall() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/CerSmall")?CerBig=${SelCerBig.value}`);
+                const datas = await response.json()
+                const CerSmall = datas.map(CertificateName => `<option value='${CertificateName}'>${CertificateName}</option>`);
+                SelCerSmall.innerHTML = CerSmall.join("");
+                getCerId()
+            }
+
+            loadSelCerSmall();
+
+            async function getCerId() {
+                const response = await fetch(`@Url.Content("~/BackstageTask/GetCerId")?cerBig=${SelCerBig.value}&cerSmall=${SelCerSmall.value}`);
+                const data = await response.json();
+                const selectedCerId = data[0]; // 由於後端程式碼回傳的是 IEnumerable<TownId>，這裡選取第一個元素
+                hiddenCerIdInput.value = selectedCerId;
+            }
+
+            SelCerBig.addEventListener('change', () => {
+                loadSelCerSmall();
+            });
+
+            SelCerSmall.addEventListener('change', () => {
+                getCerId();
+            });
 
 
         </script>

@@ -165,7 +165,7 @@
                             @if (item.SkillNames.Intersect(item.RequiredSkills).Any() && item.CertificateNames.Intersect(item.RequiredCertificates).Any())
                                 /*if (item2.SkillNames.SequenceEqual(item2.RequiredSkills) && item2.CertificateNames.SequenceEqual(item2.RequiredCertificates))*/
                                 {
-                                    <td style="width: 50px;">100%</td>
+                                <td style="width: 50px; color:#ff7575">100%</td>
                                 }
                             else if (item.SkillNames.Intersect(item.RequiredSkills).Any() || item.CertificateNames.Intersect(item.RequiredCertificates).Any())
                                 {
@@ -179,10 +179,19 @@
                                 //{
                                 //    <td style="width: 50px;">20%</td>
                                 //}
-                                else
-                                {
-                                    <td style="width: 50px;">20%</td>
-                                }
+                                //else
+                                //{
+                                //    <td style="width: 50px;">20%</td>
+                                //}
+
+                            else if (item.SkillNames.Any() && item.CertificateNames.Any())
+                            {
+                                <td style="width: 50px;">25%</td>
+                            }
+                            else
+                            {
+                                <td style="width: 50px;">0%</td>
+                            }
                         @*/}*@
                     
 
