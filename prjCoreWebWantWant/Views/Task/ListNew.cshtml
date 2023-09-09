@@ -236,14 +236,31 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             });
         });
 
-        const updateTimeNew = document.querySelector('#updateTimeNew');
-        const updateTimeOld = document.querySelector('#updateTimeOld');
-        const salaryHigh = document.querySelector('#salaryHigh');
-        const salaryLow = document.querySelector('#salaryLow');
+        //const updateTimeNew = document.querySelector('#updateTimeNew');
+        //const updateTimeOld = document.querySelector('#updateTimeOld');
+        //const salaryHigh = document.querySelector('#salaryHigh');
+        //const salaryLow = document.querySelector('#salaryLow');
 
-        updateTimeNew.addEventListener('click' ,() => {
+        //updateTimeNew.addEventListener('click' ,() => {
+        //    const xhr = new XMLHttpRequest();
+        //    xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+        //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //    xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+        //    xhr.addEventListener('load', () => {
+        //        const Result = document.querySelector('#Result');
+        //        Result.innerHTML = xhr.responseText;
+        //    })
+        //})
+
+        const SortByUpdateTimeNew = document.querySelector('#SortByUpdateTimeNew'); //新到舊
+        const SortByUpdateTimeOld = document.querySelector('#SortByUpdateTimeOld'); //舊到新
+        const SortBySalaryHigh = document.querySelector('#SortBySalaryHigh');       //高到低
+        const SortBySalaryLow = document.querySelector('#SortBySalaryLow');         //低到高
+
+        SortByUpdateTimeNew.addEventListener('click', (event) => {
+            event.preventDefault();
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeNew")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
             xhr.addEventListener('load', () => {
@@ -252,6 +269,41 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             })
         })
 
+        SortByUpdateTimeOld.addEventListener('click', (event) => {
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeOld")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+        SortBySalaryHigh.addEventListener('click', (event) => {
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/SortBySalaryHigh")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+        SortBySalaryLow.addEventListener('click', (event) => {
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/SortBySalaryLow")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
     </script>
 }
 
@@ -688,13 +740,13 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                     <div class="sort d-flex align-items-center fs-6 my-text-primary pl-3">
                         <span class=" fw-bolder ">排序 :  </span>
                         <span>　</span>
-                        <a href="#" class=" fw-bolder" id="updateTimeNew" name="status">更新時間(新到舊)</a>
+                        <a href="#" class=" fw-bolder" id="SortByUpdateTimeNew" name="status">更新時間(新到舊)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder" id="updateTimeOld" name="status">更新時間(舊到新)</a>
+                        <a href="#" class=" fw-bolder" id="SortByUpdateTimeOld" name="status">更新時間(舊到新)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder" id="salaryHigh" name="status">薪資(高到低)</a>
+                        <a href="#" class=" fw-bolder" id="SortBySalaryHigh" name="status">薪資(高到低)</a>
                         <span>　|　</span>
-                        <a href="#" class=" fw-bolder" id="salaryLow" name="status">薪資(低到高)</a>
+                        <a href="#" class=" fw-bolder" id="SortBySalaryLow" name="status">薪資(低到高)</a>
                     </div>
                 </div> 
 

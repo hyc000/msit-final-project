@@ -1,7 +1,9 @@
 ﻿using Azure;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using prjCoreWantMember.ViewModels;
@@ -148,6 +150,139 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         public IActionResult Sort()
         {
             return RedirectToAction("List");
+        }
+
+        public IActionResult SortByUpdateTimeNew(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //新到舊
+        {
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
+                    .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+
+            ViewBag.Category = Category;
+            if (city != null)
+            {
+                q = q.Where(c => c.Town.City.City1 == city);
+            }
+
+            if (Category == "所有任務")
+            {
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }        
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+            q = q.OrderByDescending(t => t.DataModifyDate);
+
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            return PartialView("Partial1", result); ;
+        }
+
+        public IActionResult SortByUpdateTimeOld(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //舊到新
+        {
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
+                    .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+
+            ViewBag.Category = Category;
+            if (city != null)
+            {
+                q = q.Where(c => c.Town.City.City1 == city);
+            }
+
+            if (Category == "所有任務")
+            {
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+
+            q = q.OrderBy(t => t.DataModifyDate);
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            return PartialView("Partial1", result);
+        }
+
+        public IActionResult SortBySalaryHigh(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //高到低
+        {
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
+                    .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+
+            ViewBag.Category = Category;
+            if (city != null)
+            {
+                q = q.Where(c => c.Town.City.City1 == city);
+            }
+
+            if (Category == "所有任務")
+            {
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+            q = q.OrderByDescending(s => s.PayFrom);
+
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            return PartialView("Partial1", result);
+        }
+
+        public IActionResult SortBySalaryLow(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //低到高
+        {
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
+                    .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+
+            ViewBag.Category = Category;
+            if (city != null)
+            {
+                q = q.Where(c => c.Town.City.City1 == city);
+            }
+
+            if (Category == "所有任務")
+            {
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+            q = q.OrderBy(s => s.PayFrom);
+
+
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            return PartialView("Partial1", result);
         }
 
         //public ActionResult Apply(int id)
