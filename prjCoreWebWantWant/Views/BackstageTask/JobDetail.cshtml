@@ -100,7 +100,20 @@
                                                                                 <p></p>
 
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1 @Model.Address</>
+
+                                                                                @if (Model.TownId == 44 && Model.Address == null)
+                                                                                {
+                                                                                    <div>
+                                                                                        <img src="~/backstage1/img/location.png" style="height:25px ;width:25px" />
+                                                                                        在家兼職
+                                                                                    </div>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                      <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1 @Model.Address                                     
+                                                                                 }
+                                                                              
+                                                                                
                                                                                 @*<img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>*@
                                                                                 <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</>
                                                                                 <img src="~/backstage1/img/clock.png" style="height:25px ;width:25px">@Model.TaskStartHour</>

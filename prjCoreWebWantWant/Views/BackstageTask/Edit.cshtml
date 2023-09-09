@@ -112,10 +112,12 @@
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                                                                                @* <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>*@
                                                                                  
-                                                                                    @if(Model.TownId==44&&Model.Address==null)
+                                                                                    @if (Model.TownId==44&&Model.Address==null)
                                                                                     {
-                                                                                        <img src="~/backstage1/img/location.png" style="height:25px ;width:25px" 在家兼職/>
-                                                                                     
+                                                                                        <div>
+                                                                                        <img src="~/backstage1/img/location.png" style="height:25px ;width:25px" />
+                                                                                            在家兼職                                                                                        
+                                                                                        </div>
                                                                                     }
                                                                                     else
                                                                                     {
