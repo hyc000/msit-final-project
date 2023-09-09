@@ -27,7 +27,10 @@
         }
 
     }
-    <div id="getChatUseInfo" data-login-id="nowLoginId"></div>
+    <div id="getChatUseInfo" 
+        data-login-id="@nowLoginId" 
+        data-userList-api="@Url.Content("~/ChatApi/UserList/")"
+        data-chatdetail-api="@Url.Content("~/ChatApi/ChatDetail")"></div>
     <!--== header start ==-->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">

@@ -18,7 +18,9 @@
 
 //固定的參數
 const getChatUserInfo = document.getElementById('getChatUseInfo');
-const senderIdPart = getChatUserInfo.getAttribute('data-login-id');
+const senderIdPart = parseInt(getChatUserInfo.getAttribute('data-login-id'), 10); // 抓登入者ID，使用10進位轉換
+const userApiUrl = getChatUserInfo.getAttribute('data-userList-api');//抓聊天對象apiURL
+const chatDetailApiUrl = getChatUserInfo.getAttribute('data-chatdetail-api');//抓聊天詳細apiURL
 let inChatRoomPart = 0;//先確定使用者是在跟哪個對象聊天
 let chatAvaterUrlListPart = [];//存左側聊天對象們頭像用
 let chatAvatarPart = document.createElement('img');//左側點到誰存那個頭像網址
@@ -31,10 +33,10 @@ const connectionPart = new signalR.HubConnectionBuilder()
     .build();
 
 connectionPart.start().then(() => {
-    const connectionId = connectionPart.connectionId;
-    console.log("SignalR Connected. Connection ID: " + connectionId);
+    const connectionIdPart = connectionPart.connectionId;
+    console.log("SignalR Connected. Connection ID: " + connectionIdPart);
     // 呼叫後端的 UpdateUserInfo 方法，傳遞 accountId 和 connectionId
-    connectionPart.invoke('UpdateUserInfo', senderIdPart, connectionId);
+    connectionPart.invoke('UpdateUserInfo', senderIdPart, connectionIdPart);
 }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
 connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, message, messageTimestamp) {
@@ -56,7 +58,7 @@ connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, mess
 
 });
 
-connectionPart.on("UpdateUserInfo", function (accountId, connectionId) {
+connectionPart.on("UpdateUserInfo", function (accountId, connectionIdPart) {
     console.log("這裡是UpdateUserInfo，更新使用者清單時會看到我喔");
 });
 
@@ -168,7 +170,7 @@ function ImSender(senderIdPart, receiverIdPart, message, messageTimestamp) {
     chatContainerDiv.appendChild(addChatAvatar);//加入頭像
     chatContainerDiv.appendChild(chatMessage);//加入對話
 
-    chatDetailPart.append(chatContainerDiv);
+    chatDetailPart.appendChild(chatContainerDiv);
 }
 
 //即時加入訊息到HTML-----------傳訊結束-----------------------------------------
@@ -187,7 +189,7 @@ function keepDown() {
 const userListPart = document.querySelector('#userListPart');
 async function loadUser() {
     userListPart.innerHTML = '';
-    const response = await fetch('@Url.Content("~/ChatApi/UserList/")');
+    const response = await fetch(userApiUrl);
     const data = await response.json();
     let chatAvaCount = 0;
 
@@ -253,8 +255,8 @@ async function loadUser() {
 
 
             const jsPage = chatLinkPart.getAttribute('inPage');
-            const currentLoginId = nowLoginId;
-            const response = await fetch(`@Url.Content("~/ChatApi/ChatDetail")?chatWithId=${jsChatWithId}&page=${jsPage}`);
+            const currentLoginId = senderIdPart;
+            const response = await fetch(`${chatDetailApiUrl}?chatWithId=${jsChatWithId}&page=${jsPage}`);
 
             const chatDetailData = await response.json();
 
