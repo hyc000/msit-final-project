@@ -100,7 +100,7 @@
                                                                                 <p></p>
 
                                                                                 <div class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1</>
+                                                                                <img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Model.Town.City.City1 @Model.Town.Town1 @Model.Address</>
                                                                                 @*<img src="~/backstage1/img/location.png" style="height:25px ;width:25px">@Html.DisplayFor(model =>model.cityName) @Html.DisplayFor(model =>model.townName)</>*@
                                                                                 <img src="~/backstage1/img/calendar.png" style="height:25px ;width:25px">@Model.TaskStartDate</>
                                                                                 <img src="~/backstage1/img/clock.png" style="height:25px ;width:25px">@Model.TaskStartHour</>
@@ -203,14 +203,7 @@
                                                                                 <li>
                                                                                     <a href="#" class="badge badge-soft-primary">@factory.SkillIDtoName(@item)</a>
                                                                                 </li>
-                                                                            }
-                                                                           @* <a href="#" class="badge badge-soft-primary">@Html.DisplayFor(model =>model.skill.SkillName)</a>
-                                                                            <a href="#" class="badge badge-soft-primary">@Model.skillname</a>
-                                                                    <a href="#" class="badge badge-soft-primary">@Model.skillType</a>
-                                                                    <a href="#" class="badge badge-soft-primary">@Model.skilltypename</a>
-                                                                            <a href="#" class="badge badge-soft-primary">@Model.taskSkill</a>
-                                                                            <a href="#" class="badge badge-soft-primary"></a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
+                                                                            }                                                                          
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -231,14 +224,7 @@
                                                                                 <li>
                                                                                     <a href="#" class="badge badge-soft-primary">@factory.CertificateDtoName(@item)</a>
                                                                                 </li>
-                                                                            }
-                                                                           @* <a href="#" class="badge badge-soft-primary">Photoshop</a>
-                                                                            <a href="#" class="badge badge-soft-primary">illustrator</a>
-                                                                            <a href="#" class="badge badge-soft-primary">HTML</a>
-                                                                            <a href="#" class="badge badge-soft-primary">CSS</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Javascript</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Php</a>
-                                                                            <a href="#" class="badge badge-soft-primary">Python</a>*@
+                                                                            }                                                                           
                                                                         </div>
                                                                     </div>
                                                                 </div>
