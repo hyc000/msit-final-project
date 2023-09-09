@@ -133,7 +133,7 @@
                                             <a href="#" class="badge badge-soft-primary">@skill</a>
                                         }
                                     }
-                                   @* @if (item.SkillNames != null)
+                                    @* @if (item.SkillNames != null)
                                     {
                                         string skillNames = string.Join(", ", item.SkillNames.Distinct());
                                         <a href="#" class="badge badge-soft-primary">@skillNames</a>
@@ -157,9 +157,19 @@
 
                                 </div>
                             </td>
-                           
-                            <td style="width: 50px;">@item.MatchingScorePercentage</td>
+
+                            @*<td style="width: 50px;">@item.MatchingScorePercentage</td>*@
+
+                            @{
+                                if (item.SkillNames == item.RequiredSkills && item.CertificateNames==item.RequiredCertificates)
+                                {
+                                    <td style="width: 50px;">100%</td>                                
+                                }
+
+                                    
                             
+                            }
+                    
 
                             <td>
 
