@@ -169,11 +169,12 @@
                         </li>
 
                                     var qq = from al in db.ApplicationLists
-                                    where al.CaseStatusId == 1
+                                    where al.CaseStatusId == 1 && al.Resume.AccountId == id
                                     select al;
 
-                                    var qq2 = from al in db.ApplicationLists                                    
-                                    select al.ResumeId;
+                                    var qq2 = from al in db.ApplicationLists
+                                      where al.Resume.AccountId == id
+                                    select al.ResumeId ;
 
                                     double 錄取數q = qq.Count();
 
