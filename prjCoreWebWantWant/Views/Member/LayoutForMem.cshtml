@@ -243,24 +243,27 @@
 
 
                             var q = from al in db.ApplicationLists
-                                    where al.CaseStatusId == 1 
+                                    join tl in db.TaskLists on al.CaseId equals tl.CaseId
+                                    where al.CaseStatusId == 1 && tl.AccountId == id
                                     select al;
                                     
                             var q2 = from al in db.ApplicationLists
+                                     join tl in db.TaskLists on al.CaseId equals tl.CaseId
+                                     where tl.AccountId == id
                                      select al;
 
                             double 錄取數 = q.Count();
 
-                            double 投遞數 = q2.Count();
+                            double 發案數 = q2.Count();
 
-                            double Result = (錄取數/投遞數);
+                            double Result = (錄取數 / 發案數);
                             string 錄取率 = Result.ToString("P1");
 
                           <li class="sidebar-item">
                             <a class="sidebar-link"  aria-expanded="false" style="display: flex; flex-direction: column; align-items: center;">
                                     <span>
                                         @*<i class="ti ti-aperture"></i>*@
-                                        <i class="ti ti-heart-handshake" style="color:#ff5151"></i>　<span class="hide-menu" style="display: block; text-align: center;color:#ff5151">錄取率 @被錄取率</span>
+                                        <i class="ti ti-heart-handshake" style="color:#ff5151"></i>　<span class="hide-menu" style="display: block; text-align: center;color:#ff5151">錄取率 @錄取率</span>
                                     </span>
                                    
                             </a>
