@@ -133,7 +133,7 @@
                                             <a href="#" class="badge badge-soft-primary">@skill</a>
                                         }
                                     }
-                                   @* @if (item.SkillNames != null)
+                                    @* @if (item.SkillNames != null)
                                     {
                                         string skillNames = string.Join(", ", item.SkillNames.Distinct());
                                         <a href="#" class="badge badge-soft-primary">@skillNames</a>
@@ -157,9 +157,34 @@
 
                                 </div>
                             </td>
-                           
-                            <td style="width: 50px;">@item.MatchingScorePercentage</td>
-                            
+
+                            @*<td style="width: 50px;">@item.MatchingScorePercentage</td>*@
+
+                            @*@foreach (var item2 in Model)*@
+                            @*{*@
+                            @if (item.SkillNames.Intersect(item.RequiredSkills).Any() && item.CertificateNames.Intersect(item.RequiredCertificates).Any())
+                                /*if (item2.SkillNames.SequenceEqual(item2.RequiredSkills) && item2.CertificateNames.SequenceEqual(item2.RequiredCertificates))*/
+                                {
+                                    <td style="width: 50px;">100%</td>
+                                }
+                            else if (item.SkillNames.Intersect(item.RequiredSkills).Any() || item.CertificateNames.Intersect(item.RequiredCertificates).Any())
+                                {
+                                    <td style="width: 50px;">75%</td>
+                                }
+                                //else if (item.SkillNames != item.RequiredSkills && item.CertificateNames== item.RequiredCertificates)
+                                //{
+                                //    <td style="width: 50px;">75%</td>
+                                //}
+                                //else if (item.SkillNames != item.RequiredSkills && item.CertificateNames != item.RequiredCertificates)
+                                //{
+                                //    <td style="width: 50px;">20%</td>
+                                //}
+                                else
+                                {
+                                    <td style="width: 50px;">20%</td>
+                                }
+                        @*/}*@
+                    
 
                             <td>
 
