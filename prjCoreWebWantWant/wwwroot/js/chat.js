@@ -30,7 +30,7 @@ let addAvaUrlPart;
 let loginUserAvatarUrl;
 
 //抓登入者頭像網址
-fetch(unreadCountApiUrl)
+fetch(chatLoginAvaApiUrl)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
