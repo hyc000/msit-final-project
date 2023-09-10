@@ -38,8 +38,8 @@
                         <div class="card-body d-flex justify-content-around row">
                             <div class="pl-4 pr-4">
                                 <span class="card-title">@item.Name  @item.ResumeTitle</span>
-                                <p class="card-text  mb-0">專長： @item.SkillNames</p>
-                                <p class="card-text  mb-0">證照： @item.CertificateNames</p>
+                                <p class="card-text  mb-0"style="color:black;font-weight:bold;">專長： @item.SkillNames</p>
+                                            <p class="card-text  mb-0"style="color:black;font-weight:bold;">證照： @item.CertificateNames</p>
                                 <!--控管專家介紹的字數-->
                                 @{
                                     if (item.Introduction.Count() <= 47)
