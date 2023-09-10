@@ -22,6 +22,7 @@ const senderIdPart = parseInt(getChatUserInfo.getAttribute('data-login-id'), 10)
 const userApiUrl = getChatUserInfo.getAttribute('data-userList-api');//抓聊天對象apiURL
 const chatDetailApiUrl = getChatUserInfo.getAttribute('data-chatdetail-api');//抓聊天詳細apiURL
 const chatLoginAvaApiUrl = getChatUserInfo.getAttribute('data-loginUserAva-api');//抓登入者頭像apiURL
+const unreadCountApiUrl = getChatUserInfo.getAttribute('data-chatUnreadCount-api');//未讀數
 let inChatRoomPart = 0;//先確定使用者是在跟哪個對象聊天
 let chatAvaterUrlListPart = [];//存左側聊天對象們頭像用
 let chatAvatarPart = document.createElement('img');//左側點到誰存那個頭像網址
@@ -29,7 +30,7 @@ let addAvaUrlPart;
 let loginUserAvatarUrl;
 
 //抓登入者頭像網址
-fetch(chatLoginAvaApiUrl)
+fetch(unreadCountApiUrl)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -46,6 +47,24 @@ fetch(chatLoginAvaApiUrl)
         console.error('There was a problem with the fetch operation:', error);
     });
 
+ //未讀訊息數量
+function unRead() {
+    fetch(unreadCountApiUrl)
+        .then(response => response.text())
+            .then(data => {
+                // 更新未讀訊息數量
+                const unreadBadge = document.querySelector('.unread-badge');
+                unreadBadge.textContent = data;
+                if (data === 0) {
+                    unreadBadge.style.display = 'none'; // 如果沒有未讀訊息，隱藏徽章
+                } else {
+                    unreadBadge.style.display = 'block'; // 如果有未讀訊息，顯示徽章
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching unread message count:', error);
+            });
+}
 
 
 
@@ -339,6 +358,7 @@ async function loadUser() {
 //點下聊天對象監聽器(到右邊聊天詳細)--------------------end--------------------
 
 loadUser();
+unRead();
 
 //點選作用中事件
 function toggleBackgroundColor(element) {

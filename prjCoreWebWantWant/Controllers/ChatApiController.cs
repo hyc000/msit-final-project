@@ -73,7 +73,7 @@ namespace WantTask.Controllers
                 CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
 
                 double countTotal = _db.ChatMessages.Where(p => p.SenderId == chatWithId || p.ReceiverId == chatWithId).Count();
-                int perpage = 15;//每頁筆數
+                int perpage = 20;//每頁筆數
                 int totalPage = (int)Math.Floor(countTotal / perpage) + 1;
 
                 var chatInfo = _db.ChatMessages
@@ -99,6 +99,23 @@ namespace WantTask.Controllers
         //    string userAvatarUrl = $"data:image/jpeg;base64,{userAvatarBase64}";
         //    return userAvatarUrl;
         //}
+
+        public int IsReadCount()
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER)) //判斷是否有登入
+            {
+                string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+                CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+
+                var count = _db.ChatMessages
+                    .Where(m => m.ReceiverId == loggedInUser.AccountId && !m.IsRead)
+                    .Count();
+
+                return count;
+            }
+            else
+                return 0;
+        }
 
     }
 }
