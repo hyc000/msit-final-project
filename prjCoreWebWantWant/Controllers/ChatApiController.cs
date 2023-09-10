@@ -91,7 +91,14 @@ namespace WantTask.Controllers
                 return RedirectToAction("Login", "Member");
         }
 
-
+        public string UserAvatar(int id)
+        {
+            var ava = _db.MemberAccounts.Where(p => p.AccountId == id).Select(p => p.MemberPhoto).FirstOrDefault();
+            byte[] userAvatarBytes = ava;
+            string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);
+            string userAvatarUrl = $"data:image/jpeg;base64,{userAvatarBase64}";
+            return userAvatarUrl;
+        }
 
     }
 }

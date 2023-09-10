@@ -210,7 +210,6 @@
             const brElement = document.createElement('br');
 
             const addChatAvatar = document.createElement('img');//這個給接收訊息時的對方頭像用
-            addChatAvatar.src = addAvaUrl;
 
             addChatAvatar.src = @Html.Raw(Json.Serialize(ViewBag.currentLoginAvatarUrl));
             addChatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
