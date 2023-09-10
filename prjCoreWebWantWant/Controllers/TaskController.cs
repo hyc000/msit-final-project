@@ -152,7 +152,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult SortByUpdateTimeNew(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //新到舊
+        public IActionResult SortByUpdateTimeNew(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //新到舊
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -167,6 +167,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             else if (city == "在家兼職")
             {
                 q = q.Where(c => c.WorkPlace == true);
+            }
+            if (StartDate != null)
+            {
+                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
             }
 
 
@@ -190,7 +198,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView("Partial1", result); ;
         }
 
-        public IActionResult SortByUpdateTimeOld(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //舊到新
+        public IActionResult SortByUpdateTimeOld(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //舊到新
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -205,6 +213,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             else if (city == "在家兼職")
             {
                 q = q.Where(c => c.WorkPlace == true);
+            }
+            if (StartDate != null)
+            {
+                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
             }
 
 
@@ -228,7 +244,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView("Partial1", result);
         }
 
-        public IActionResult SortBySalaryHigh(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //高到低
+        public IActionResult SortBySalaryHigh(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //高到低
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -243,6 +259,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             else if (city == "在家兼職")
             {
                 q = q.Where(c => c.WorkPlace == true);
+            }
+            if (StartDate != null)
+            {
+                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
             }
 
 
@@ -266,7 +290,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return PartialView("Partial1", result);
         }
 
-        public IActionResult SortBySalaryLow(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //低到高
+        public IActionResult SortBySalaryLow(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //低到高
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
@@ -282,7 +306,14 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.WorkPlace == true);
             }
-
+            if (StartDate != null)
+            {
+                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
             if (Category == "所有任務")
             {
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
@@ -372,12 +403,12 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
                     .Include(t => t.TaskName)
-                    .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true).AsEnumerable();
+                    .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
 
             ViewBag.Category = Category;
             if (city != "請選擇地點" && city != "在家兼職")
             {
-                q = q.Where(c => c.Town.City.City1 == city);
+                q = q.Where(c => c.Town.City.City1 == city);  //TODO 會有例外狀況
             }
             else if(city == "在家兼職")
             {
@@ -387,6 +418,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             if (StartDate != null)
             {
                 q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if(EndDate != null)
+                {
+                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
             }
 
             if (Category == "所有任務")
@@ -410,7 +445,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             //    q = q.Where(t => t.AccountId != GetAccountID());
 
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
-
+            
 
             page = page < 1 ? 1 : page;
             IEnumerable<TaskList> result = q.ToPagedList(page, 6);

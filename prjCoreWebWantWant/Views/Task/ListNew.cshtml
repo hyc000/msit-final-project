@@ -271,7 +271,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeNew")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -283,7 +283,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeOld")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -295,7 +295,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortBySalaryHigh")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -307,7 +307,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortBySalaryLow")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -321,7 +321,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -332,7 +332,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&EndDate=${taskEndDate.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
