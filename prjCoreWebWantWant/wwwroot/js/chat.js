@@ -21,10 +21,32 @@ const getChatUserInfo = document.getElementById('getChatUseInfo');
 const senderIdPart = parseInt(getChatUserInfo.getAttribute('data-login-id'), 10); // 抓登入者ID，使用10進位轉換
 const userApiUrl = getChatUserInfo.getAttribute('data-userList-api');//抓聊天對象apiURL
 const chatDetailApiUrl = getChatUserInfo.getAttribute('data-chatdetail-api');//抓聊天詳細apiURL
+const chatLoginAvaApiUrl = getChatUserInfo.getAttribute('data-loginUserAva-api');//抓登入者頭像apiURL
 let inChatRoomPart = 0;//先確定使用者是在跟哪個對象聊天
 let chatAvaterUrlListPart = [];//存左側聊天對象們頭像用
 let chatAvatarPart = document.createElement('img');//左側點到誰存那個頭像網址
 let addAvaUrlPart;
+let loginUserAvatarUrl;
+
+//抓登入者頭像網址
+fetch(chatLoginAvaApiUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text(); 
+    })
+    .then(data => {
+        // 在這裡處理從 API 返回的數據（data）
+        loginUserAvatarUrl = data;
+        console.log(loginUserAvatarUrl);
+    })
+    .catch(error => {
+        // 處理錯誤
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+
 
 
 //建立signalR連線
@@ -158,10 +180,9 @@ function ImSender(senderIdPart, receiverIdPart, message, messageTimestamp) {
 
     const brElement = document.createElement('br');
 
-    const addChatAvatar = document.createElement('img');//這個給接收訊息時的對方頭像用
-    addChatAvatar.src = addAvaUrlPart;
+    const addChatAvatar = document.createElement('img');//這邊是自己的頭像
 
-    addChatAvatar.src =0;
+    addChatAvatar.src = loginUserAvatarUrl;
     addChatAvatar.classList.add('chat-avatar', 'chat-avatar', 'go-right');
     chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
     messageTimeEle.classList.add('message-time', 'small', 'go-right');
@@ -188,6 +209,8 @@ function keepDown() {
 //這邊是左方聊天對象--------------------start--------------------
 const userListPart = document.querySelector('#userListPart');
 async function loadUser() {
+    chatAvaterUrlListPart = [];
+
     userListPart.innerHTML = '';
     const response = await fetch(userApiUrl);
     const data = await response.json();
@@ -222,6 +245,8 @@ async function loadUser() {
 
 
         chatAvaterUrlListPart.push(`data:image/jpeg;base64,${u.memberPhoto}`);//存路徑
+        console.log(chatAvaterUrlListPart)
+
         const chatLinkPart = document.createElement('a');//自動生成的a標籤
         chatLinkPart.href = '#';
         chatLinkPart.classList.add('chatLink', 'link-underline', 'link-underline-opacity-0');
@@ -253,7 +278,6 @@ async function loadUser() {
             inChatRoomPart = chatLinkPart.getAttribute('inChatWithIdPart')//這邊都是指對象
             console.log(receiverIdPart)
 
-
             const jsPage = chatLinkPart.getAttribute('inPage');
             const currentLoginId = senderIdPart;
             const response = await fetch(`${chatDetailApiUrl}?chatWithId=${jsChatWithId}&page=${jsPage}`);
@@ -283,7 +307,8 @@ async function loadUser() {
 
                 const brElement = document.createElement('br');
 
-                if (chat.receiverIdPart === currentLoginId) {
+
+                if (chat.receiverId === currentLoginId) {
                     chatMessage.classList.add('message-left', 'chat-bubble', 'go-left');//訊息樣式
                     chatAvatarPart.classList.add('chat-avatar', 'chat-avatar', 'go-left');
                     messageTimeEle.classList.add('message-time', 'small', 'go-left');
@@ -293,7 +318,7 @@ async function loadUser() {
                     chatContainerDiv.appendChild(chatMessage);//加入對話
 
                 } else {
-                    chatAvatarPart.src = 0;
+                    chatAvatarPart.src = loginUserAvatarUrl;//這裡是自己的
                     chatAvatarPart.classList.add('chat-avatar', 'chat-avatar', 'go-right');
                     chatMessage.classList.add('message-right', 'chat-bubble', 'go-right');
                     messageTimeEle.classList.add('message-time', 'small', 'go-right');

@@ -4,9 +4,11 @@
 }
 <div class="icon" id="showChatList">
     <i class="bi bi-chat-fill"></i>
+    <span class="unread-badge">3</span>
+
 </div>
 
-<div class="chat-containerfloat my-scrollbar" id="chatContainerPart" style="width:50%;height:60%;display:none">
+<div class="chat-containerfloat my-scrollbar" id="chatContainerPart" style="display:none">
 
     <div class="chat-row" style="height:100%">
 
@@ -23,7 +25,7 @@
             </div>
         <div class="col-lg-9 col-md-8 card" style="max-height:100%;flex-grow:100;">
                 <div class="chat-list-header pt-3 opacity-50" style="min-height:100px"></div>
-            <div class="p-3" id="chatDetailPart" style="height:100vh;max-height:100vh;overflow-y: auto;">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
+            <div class="p-3  my-scrollbar" id="chatDetailPart" style="height:100vh;max-height:100vh;overflow-y: auto;">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
                 <span class="input-group">
                     <input type="text" placeholder="Input some words..." class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
                     <button tabindex="102" class="input-group-text" type="submit" id="btnSentMessagePart"><i class="bi bi-send"></i></button>

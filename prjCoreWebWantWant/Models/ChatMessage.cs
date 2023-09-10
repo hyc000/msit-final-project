@@ -15,6 +15,8 @@ public partial class ChatMessage
 
     public DateTime Created { get; set; }
 
+    public bool IsRead { get; set; }
+
     public virtual MemberAccount Receiver { get; set; } = null!;
 
     public virtual MemberAccount Sender { get; set; } = null!;
