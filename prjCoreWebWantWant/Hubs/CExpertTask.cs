@@ -14,10 +14,10 @@ namespace prjCoreWebWantWant.Hubs
         {
             _db = dbContext;
         }
-        public async Task SendUpdateNotification(string divId,string message)
-        {
-            await Clients.All.SendAsync("ReceiveUpdate", divId, message);
-        }
+        //public async Task SendUpdateNotification(string divId,string message)
+        //{
+        //    await Clients.All.SendAsync("ReceiveUpdate", divId, message);
+        //}
         public async Task SetClientInfo(string userId)
         {
             var currentId = Context.ConnectionId;
@@ -44,16 +44,16 @@ namespace prjCoreWebWantWant.Hubs
         }
 
 
-        public async Task NotifyUserBAboutChange(string userBId, string divId, string message)
-        {
-            // 從之前保存的資料結構中獲取 userB 的 connectionId
-            string targetConnectionId = ConnectionManager.GetConnectionId(userBId);
+        //public async Task NotifyUserBAboutChange(string userBId, string divId, string message)
+        //{
+        //    // 從之前保存的資料結構中獲取 userB 的 connectionId
+        //    string targetConnectionId = ConnectionManager.GetConnectionId(userBId);
 
-            if (!string.IsNullOrEmpty(targetConnectionId))
-            {
-                await Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", divId, message);
-            }
-        }
+        //    if (!string.IsNullOrEmpty(targetConnectionId))
+        //    {
+        //        await Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", divId, message);
+        //    }
+        //}
 
     }
 }

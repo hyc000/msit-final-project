@@ -509,10 +509,14 @@ namespace prjCoreWebWantWant.Controllers
                 {
                     _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", "taskfromotherno", "1");
                 }
+                Console.WriteLine("Start of UpdateExpertTask at " + DateTime.Now.ToString());
                 if (!string.IsNullOrEmpty(myConnectionId))
                 {
+                    Console.WriteLine("Before SignalR message send at " + DateTime.Now.ToString());
                     _hubContext.Clients.Client(myConnectionId).SendAsync("ReceiveUpdateme", "mytasking", "1");
+                    Console.WriteLine("After SignalR message send at " + DateTime.Now.ToString());
                 }
+                Console.WriteLine("End of UpdateExpertTask at " + DateTime.Now.ToString());
                 return Ok(new { message = "修改成功" });
             }
 

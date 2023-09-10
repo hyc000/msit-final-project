@@ -446,13 +446,7 @@
 
     <script>
         //通知
-        let unreadCounts = {
-            "mytasking": 0,
-            "mytasked": 0,
-            "taskfromotherno": 0,
-            "taskingfromother": 0,
-            "taskedfromother": 0
-        };
+      
         //我的大標題切換
     $(function(){
     var $li = $('ul.tab-title li');
@@ -516,6 +510,25 @@
                 $(this).addClass('active-tab');
             });
         });
+       
+    </script>
+    @* sigarnR *@
+    <script>
+        let unreadCounts = {
+            "mytasking": 0,
+            "mytasked": 0,
+            "taskfromotherno": 0,
+            "taskingfromother": 0,
+            "taskedfromother": 0
+        };
+        const divIdMap = {
+            "mytasking": "one1",
+            "mytasked": "one2",
+            "taskfromotherno": "two1",
+            "taskingfromother": "two2",
+            "taskedfromother": "two3"
+        };
+        
         //通知的部分
         function updateBadgeSum(badgeId, ...idsToUpdate) {
             let sum = 0;
@@ -534,14 +547,17 @@
         document.getElementById('btnmytasking').addEventListener('click', function () {
             let badge = document.getElementById('one1');
             badge.textContent = '0';
+            unreadCounts.mytasking=0;
             badge.style.display = 'none';
             updateBadgeSum('one', 'one1', 'one2');
             datamytasking();
+            console.log(unreadCounts);
         });
 
         document.getElementById('btnmytasked').addEventListener('click', function () {
             let badge = document.getElementById('one2');
             badge.textContent = '0';
+            unreadCounts.mytasked = 0;
             badge.style.display = 'none';
             updateBadgeSum('one', 'one1', 'one2');
             datamytasked();
@@ -550,14 +566,18 @@
         document.getElementById('btntaskfromotherno').addEventListener('click', function () {
             let badge = document.getElementById('two1');
             badge.textContent = '0';
+            unreadCounts.taskfromotherno = 0;
+
             badge.style.display = 'none';
-            updateBadgeSum('two', 'two1', 'two2','two3');
+            updateBadgeSum('two', 'two1', 'two2', 'two3');
             datataskfromotherno();
         });
 
         document.getElementById('btntaskingfromother').addEventListener('click', function () {
             let badge = document.getElementById('two2');
             badge.textContent = '0';
+            unreadCounts.taskingfromother = 0;
+
             badge.style.display = 'none';
             updateBadgeSum('two', 'two1', 'two2', 'two3');
             datataskingfromother();
@@ -565,19 +585,19 @@
         document.getElementById('btntaskedfromother').addEventListener('click', function () {
             let badge = document.getElementById('two3');
             badge.textContent = '0';
+            unreadCounts.taskedfromother = 0;
+
             badge.style.display = 'none';
             updateBadgeSum('two', 'two1', 'two2', 'two3');
             datataskedfromother();
         });
 
-       
+
         window.onload = function () {
             updateBadgeSum('one', 'one1', 'one2');
             updateBadgeSum('two', 'two1', 'two2', 'two3');
         }
-    </script>
-    @* sigarnR *@
-    <script>
+
         //sigarnR
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/cExpertTaskHub")
@@ -589,16 +609,16 @@
             if (divId === 'mytasking') {
                 // 為 USERB 更新
                 let spanToUpdate = document.getElementById("one1");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+                unreadCounts.mytasking = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (unreadCounts.mytasking + 1).toString();
                 spanToUpdate.style.display = 'block';
                 updateBadgeSum('one', 'one1', 'one2');
            
             } 
             else if (divId === 'mytasked') {
                 let spanToUpdate = document.getElementById("one2");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+                unreadCounts.mytasked = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (unreadCounts.mytasked + 1).toString();
                 spanToUpdate.style.display = 'block';
                 updateBadgeSum('one', 'one1', 'one2');
 
@@ -606,70 +626,50 @@
             else if (divId === 'taskfromotherno') {
                 console.log("131354535");
                 let spanToUpdate = document.getElementById("two1");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+                unreadCounts.taskfromotherno = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (unreadCounts.taskfromotherno + 1).toString();
                 spanToUpdate.style.display = 'block';
                 updateBadgeSum('two', 'two1', 'two2', 'two3');
             } 
             else if (divId === 'taskingfromother') {
                 let spanToUpdate = document.getElementById("two2");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+                unreadCounts.taskingfromother = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (unreadCounts.taskingfromother + 1).toString();
+                
                 spanToUpdate.style.display = 'block';
                 updateBadgeSum('two', 'two1', 'two2', 'two3');
 
             } 
             else if (divId === 'taskedfromother') {
                 let spanToUpdate = document.getElementById("two3");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+                unreadCounts.taskedfromother = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (unreadCounts.taskedfromother + 1).toString();
                 spanToUpdate.style.display = 'block';
                 updateBadgeSum('two', 'two1', 'two2', 'two3');
 
             }
         });
-
+        connection.off("ReceiveUpdateme");
         connection.on("ReceiveUpdateme", (divId, message) => {
-            if (divId === 'mytasking') {
-                // 為 USERA 更新 one1 和 one 的值
-                let spanToUpdate = document.getElementById("one1");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
+            if (divId in unreadCounts) { // 檢查divId是否是unreadCounts的屬性
+                unreadCounts[divId] += 1; // 直接更新unreadCounts的值
+                console.log(unreadCounts);
+                // 更新對應的DOM元素
+                let spanToUpdate = document.getElementById(divIdMap[divId]);
+                spanToUpdate.textContent = unreadCounts[divId].toString();
                 spanToUpdate.style.display = 'block';
-                updateBadgeSum('one', 'one1', 'one2');
-
+                console.log(unreadCounts);
+                // 根據不同的divId，呼叫updateBadgeSum
+                if (['mytasking', 'mytasked'].includes(divId)) {
+                    updateBadgeSum('one', 'one1', 'one2');
+                    console.log(unreadCounts);
+                } else {
+                    updateBadgeSum('two', 'two1', 'two2', 'two3');
+                    console.log(unreadCounts);
+                    console.log(unreadCounts);
+                }
             }
-            else if (divId === 'mytasked') {
-                let spanToUpdate = document.getElementById("one2");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
-                spanToUpdate.style.display = 'block';
-                updateBadgeSum('one', 'one1', 'one2');
-            }
-            else if (divId === 'taskfromotherno') {
-                let spanToUpdate = document.getElementById("two1");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
-                spanToUpdate.style.display = 'block';
-                updateBadgeSum('two', 'two1', 'two2', 'two3');
-
-            }
-            else if (divId === 'taskingfromother') {
-                let spanToUpdate = document.getElementById("two2");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
-                spanToUpdate.style.display = 'block';
-                updateBadgeSum('two', 'two1', 'two2', 'two3');
-
-            }
-            else if (divId === 'taskedfromother') {
-                let spanToUpdate = document.getElementById("two3");
-                let currentVal = parseInt(spanToUpdate.textContent || "0");
-                spanToUpdate.textContent = (currentVal + 1).toString();
-                spanToUpdate.style.display = 'block';
-                updateBadgeSum('two', 'two1', 'two2', 'two3');
-
-            }
+            console.log(unreadCounts);
         });
         // 啟動連接
         connection.start({
