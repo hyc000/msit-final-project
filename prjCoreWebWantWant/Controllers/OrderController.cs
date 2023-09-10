@@ -89,6 +89,39 @@ namespace prjShop.Controllers
 
         public IActionResult Card() 
         {
+            var order = _context.Orders;
+            int orderCount = order.Count();
+            decimal totalAmount = order.Sum(o => (int)o.PaidAmount);
+
+            ViewBag.OrderCount = orderCount;
+            ViewBag.TotalAmount = totalAmount;
+
+            var member = _context.MemberAccounts;
+            int memberCount = member.Count();
+
+            ViewBag.MemberCount = memberCount;
+
+            var task = _context.TaskLists
+                .Where(t =>t.PublishOrNot=="立刻上架");
+            int taskCount = task.Count();
+            ViewBag.TaskCount = taskCount;
+
+            var expert = _context.Resumes    
+                .Where(r => r.IsExpertOrNot == true &&r.CaseStatusId==23);
+            int expertCount = expert.Count();
+            ViewBag.ExpertCount = expertCount;
+
+            var product = _context.Products
+                .Where(p => p.Status == "上架");
+            int productCount = product.Count();
+            ViewBag.ProductCount = productCount;
+
+            var forumposts = _context.ForumPosts
+                .Where(f => f.Status == 1 || f.Status == 4 &&f.ParentId==null);
+
+            int forumCount =forumposts.Count(); 
+            ViewBag.ForumCount = forumCount;
+
             return View();
         }
 

@@ -132,7 +132,7 @@ namespace prjCoreWantMember.Controllers
                 db.SaveChanges();
                 if (user.UserRole==2)
                     //客服人員
-                    return RedirectToAction("PowerBI","Backstage");
+                    return RedirectToAction("Card","Order");
                 else if(user.UserRole==1&& BackToAction.IsNullOrEmpty())
                     return RedirectToAction("MemberAccount");
                 else
