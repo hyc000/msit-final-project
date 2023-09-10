@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.Formula.Functions;
 using prjCoreWantMember.ViewModels;
 using prjCoreWebWantWant.Models;
 using System.Runtime.ConstrainedExecution;
+using System.Text.Json;
 using WantTask.ViewModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -23,6 +25,20 @@ namespace WantTask.Controllers
         {
             _context = context;
             _host = host;
+        }
+
+
+        //抓登入者id
+        public int GetAccountID()
+        {
+            //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
+            //{
+
+            //}
+            string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
+            CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson);
+            int id = loggedInUser.AccountId; //抓登入者的id                                                                             
+            return id;
         }
 
         #region TableEditable表
@@ -81,6 +97,7 @@ namespace WantTask.Controllers
             {
                 var all = _context.TaskLists.
                 Where(t => t.PublishOrNot == "立刻上架"
+                && t.AccountId== GetAccountID()
                 && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                   || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
@@ -90,6 +107,7 @@ namespace WantTask.Controllers
             var taskName = _context.TaskLists.
                 Where(t => t.TaskName.TaskName == category
                 && t.PublishOrNot == "立刻上架"
+                && t.AccountId == GetAccountID()
                 && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                 || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
@@ -108,6 +126,7 @@ namespace WantTask.Controllers
             {
                 var all = _context.TaskLists.
                 Where(t => t.PublishOrNot == "延後上架"
+                 && t.AccountId == GetAccountID()
                 && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                   || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
@@ -117,6 +136,7 @@ namespace WantTask.Controllers
             var taskName = _context.TaskLists.
                 Where(t => t.TaskName.TaskName == category
                 && t.PublishOrNot == "延後上架"
+                 && t.AccountId == GetAccountID()
                 && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                 || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
@@ -130,13 +150,13 @@ namespace WantTask.Controllers
             if (string.IsNullOrEmpty(vm.txtKeyword))
             {
                 datas = _context.TaskLists
-                        .Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架");
+                        .Where(t => t.TaskName.TaskName == category && t.PublishOrNot == "立刻上架" && t.AccountId == GetAccountID());
             }
             else
             {
-                datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
-                t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" ||
-                t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架"
+                datas = _context.TaskLists.Where(t => t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" && t.AccountId == GetAccountID() ||
+                t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" && t.AccountId == GetAccountID() ||
+                t.Address.ToUpper().Contains(vm.txtKeyword.ToUpper()) && t.PublishOrNot == "立刻上架" && t.AccountId == GetAccountID()
                );
             }
             return View(datas);
@@ -539,7 +559,7 @@ namespace WantTask.Controllers
                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
                          join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
 
-                         where app.CaseStatusId == 21 && (category == null ? true : category == taskname.TaskName)
+                         where app.CaseStatusId == 21 && (category == null ? true : category == taskname.TaskName) && task.AccountId == GetAccountID()
 
                          select new CApproveViewModel
                          {
@@ -727,7 +747,7 @@ namespace WantTask.Controllers
                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
                          join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
 
-                         where app.CaseStatusId == 1 && (category == null ? true : category == taskname.TaskName)
+                         where app.CaseStatusId == 1 && (category == null ? true : category == taskname.TaskName) && task.AccountId == GetAccountID()
 
                          select new CApproveViewModel
                          {
@@ -821,7 +841,7 @@ namespace WantTask.Controllers
                          join cer in _context.Certificates on resumecer.CertificateId equals cer.CertificateId
                          join taskname in _context.TaskNameLists on task.TaskNameId equals taskname.TaskNameId
 
-                         where app.CaseStatusId == 2 && (category == null ? true : category == taskname.TaskName)
+                         where app.CaseStatusId == 2 && (category == null ? true : category == taskname.TaskName) && task.AccountId == GetAccountID()
 
                          select new CApproveViewModel
                          {
