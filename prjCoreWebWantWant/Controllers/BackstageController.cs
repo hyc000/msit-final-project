@@ -27,10 +27,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
         public int GetAccountID()
         {
-            //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
-            //{
-
-            //}
             string userDataJson = HttpContext.Session.GetString(CDictionary.SK_LOGINED_USER);
             CLoginUser loggedInUser = JsonSerializer.Deserialize<CLoginUser>(userDataJson); 
             int id = loggedInUser.AccountId; //抓登入者的id                                                                             

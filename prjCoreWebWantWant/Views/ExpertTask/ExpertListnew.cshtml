@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "成案紀錄管理";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
+
     
-  
+
 }
 @section subTitle{
    
@@ -141,49 +142,49 @@
                                                     colorClass = "text-danger";
                                                 }
                                             }
-                                                <tr>
-                                                        <td style="width: 50px;">@countmytasking</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                        <td style="width: 200px;">
-                                                            <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                                data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                            @if (item.taskcontent.Length > 10)
+                                                    <tr>
+                                                            <td style="width: 50px;">@countmytasking</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                            @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                            <td style="width: 200px;">
+                                                                <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                    data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                    data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                                @if (item.taskcontent.Length > 10)
                                                         {
-                                                                @: @item.taskcontent.Substring(0, 10) ...
+                                                                    @: @item.taskcontent.Substring(0, 10) ...
                                                         }
                                                         else
                                                         {
-                                                                @item.taskcontent;                                                         
+                                                                    @item.taskcontent;                                                         
                                                         }
-                                                         <i class="fa-solid fa-magnifying-glass">
-                                                          </i>
-                                                           </button>
-                                                        </td>
-                                                    
-                                                    <td style="width: 100px; " class="@colorClass">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                    <td style="width: 100px;" class="@colorClass">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                         <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                        @if (item.CaseStatusname == "專家尚未確認")
-                                                {
-                                                            <td style="width: 100px;">
-                                                            <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingupdateModal"
-                                                                    data-modal-type="update" data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
-                                                                    data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                              
-                                                                <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
-                                                            </button>
+                                                             <i class="fa-solid fa-magnifying-glass">
+                                                              </i>
+                                                               </button>
                                                             </td>
+                                                        
+                                                        <td style="width: 100px; " class="@colorClass">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                        <td style="width: 100px;" class="@colorClass">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                             <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                            @if (item.CaseStatusname == "專家尚未確認")
+                                                {
+                                                                <td style="width: 100px;">
+                                                                <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingupdateModal"
+                                                                        data-modal-type="update" data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
+                                                                        data-WorkPlace="@item.WorkPlace" data-Address="@item.Address" data-userB="@item.taskexpertid">
+                                                                  
+                                                                    <i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i>
+                                                                </button>
+                                                                </td>
                                                 }
                                                 else
                                                 {
-                                                            <td style="width: 100px;"><i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>進行中!</td>
+                                                                <td style="width: 100px;"><i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>進行中!</td>
                                                 }
 
-                                                    </tr>
+                                                        </tr>
                                             
                                          }}
                                              }
@@ -219,48 +220,48 @@
                                         foreach (var item in Model.mytasked)
                                         {
                                             countmytasking++;
-                                                    <tr>
-                                                        <td style="width: 50px;">@countmytasking</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                        <td style="width: 200px;">
-                                                                   <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                                   data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                                           data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                                   @if (item.taskcontent.Length > 10)
+                                                        <tr>
+                                                            <td style="width: 50px;">@countmytasking</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                            @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                            <td style="width: 200px;">
+                                                                       <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                       data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                               data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                                       @if (item.taskcontent.Length > 10)
                                                                   {
-                                                                           @: @item.taskcontent.Substring(0, 10) ...
+                                                                               @: @item.taskcontent.Substring(0, 10) ...
                                                                             }
                                                         else
                                                         {
-                                                            @item.taskcontent ;
+                                                                @item.taskcontent ;
                                                         }
-                                                        <i class="fa-solid fa-magnifying-glass">
-                                                        </i>
-                                                    </button>
-                                                </td>
-                                                <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                        @if (item.CaseStatusname == "專家案件已完成")
+                                                            <i class="fa-solid fa-magnifying-glass">
+                                                            </i>
+                                                        </button>
+                                                    </td>
+                                                    <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                    <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                            @if (item.CaseStatusname == "專家案件已完成")
                                                 {
-                                                            <td style="width: 100px;">
-                                                        <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
-                                                            </td>
+                                                                <td style="width: 100px;">
+                                                            <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+                                                                </td>
                                                 }
 
                                                 else
                                                 {
-                                                            <td style="width: 100px;">
-                                                            <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
-                                                            無法評價!
-                                                            </td>
+                                                                <td style="width: 100px;">
+                                                                <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                                無法評價!
+                                                                </td>
                                                 }
-                                                       
+                                                           
 
-                                                    </tr>
+                                                        </tr>
 
                                         }
                                     }
@@ -299,48 +300,48 @@
                                         foreach (var item in Model.taskfromotherno)
                                         {
                                             countmytasking++;
-                                                    <tr>
-                                                        <td style="width: 50px;">@countmytasking</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                <td style="width: 200px;">
-                                                    <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                            data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                        @if (item.taskcontent.Length > 10)
+                                                        <tr>
+                                                            <td style="width: 50px;">@countmytasking</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                            @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                    <td style="width: 200px;">
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                            @if (item.taskcontent.Length > 10)
                                                         {
-                                                            @: @item.taskcontent.Substring(0, 10) ...
+                                                                @: @item.taskcontent.Substring(0, 10) ...
                                                         }
                                                         else
                                                         {
-                                                            @item.taskcontent
+                                                                @item.taskcontent
                                                             ;
                                                         }
-                                                        <i class="fa-solid fa-magnifying-glass">
-                                                        </i>
-                                                    </button>
-                                                </td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                        <td style="width: 100px;">
-                                                           
-                                                           
-                                                    <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskothernoModal"
-                                                            data-modal-type="updateok" data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                               接受 <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
-                                                                /
-                                                                拒絕
-                                                                <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                            <i class="fa-solid fa-magnifying-glass">
+                                                            </i>
+                                                        </button>
+                                                    </td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                    <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                            <td style="width: 100px;">
+                                                               
+                                                               
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskothernoModal"
+                                                                data-modal-type="updateok" data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                                   接受 <i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                                    /
+                                                                    拒絕
+                                                                    <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
 
-                                                                 </button>
+                                                                     </button>
 
-                                                        </td>
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
 
                                         }
                                     }
@@ -377,42 +378,42 @@
                                         foreach (var item in Model.taskingfromother)
                                         {
                                             countmytasking++;
-                                                    <tr>
-                                                        <td style="width: 50px;">@countmytasking</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                <td style="width: 200px;">
-                                                    <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                            data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                        @if (item.taskcontent.Length > 10)
+                                                        <tr>
+                                                            <td style="width: 50px;">@countmytasking</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                            @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                    <td style="width: 200px;">
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                            @if (item.taskcontent.Length > 10)
                                                         {
-                                                            @: @item.taskcontent.Substring(0, 10) ...
+                                                                @: @item.taskcontent.Substring(0, 10) ...
                                                         }
                                                         else
                                                         {
-                                                            @item.taskcontent
+                                                                @item.taskcontent
                                                             ;
                                                         }
-                                                        <i class="fa-solid fa-magnifying-glass">
-                                                        </i>
-                                                    </button>
-                                                </td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                        <td style="width: 100px;">
-                                                    <button type="button" style="border:none; background-color:transparent;" data-modal-type="updateoked"
-                                                          data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                                完成<i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
-                                                    </button>
+                                                            <i class="fa-solid fa-magnifying-glass">
+                                                            </i>
+                                                        </button>
+                                                    </td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                    <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                            <td style="width: 100px;">
+                                                        <button type="button" style="border:none; background-color:transparent;" data-modal-type="updateoked"
+                                                              data-id="@item.caseid" data-taskprice="@item.taskprice" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                                    完成<i class="fa-solid fa-square-check" style="color: #518eaf;"></i>
+                                                        </button>
 
-                                                        </td>
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
 
                                         }
                                     }
@@ -449,49 +450,49 @@
                                         foreach (var item in Model.taskedfromother)
                                         {
                                             countmytasking++;
-                                                    <tr>
-                                                        <td style="width: 50px;">@countmytasking</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
-                                                        @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
-                                                <td style="width: 200px;">
-                                                    <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
-                                                            data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
-                                                            data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
-                                                        @if (item.taskcontent.Length > 10)
+                                                        <tr>
+                                                            <td style="width: 50px;">@countmytasking</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskmember)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskexpert)</td>
+                                                            @*  <td style="width: 50px;">@Html.DisplayFor(modelItem => item.caseid)</td> *@
+                                                    <td style="width: 200px;">
+                                                        <button type="button" style="border:none; background-color:transparent;" data-bs-toggle="modal" data-bs-target="#mytaskingModal"
+                                                                data-modal-type="search" data-id="@item.caseid" data-taskcontent="@item.taskcontent"
+                                                                data-WorkPlace="@item.WorkPlace" data-Address="@item.Address">
+                                                            @if (item.taskcontent.Length > 10)
                                                         {
-                                                            @: @item.taskcontent.Substring(0, 10) ...
+                                                                @: @item.taskcontent.Substring(0, 10) ...
                                                         }
                                                         else
                                                         {
-                                                            @item.taskcontent
+                                                                @item.taskcontent
                                                             ;
                                                         }
-                                                        <i class="fa-solid fa-magnifying-glass">
-                                                        </i>
-                                                    </button>
-                                                </td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
-                                                <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
-                                                        <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
-                                                        @if (item.CaseStatusname == "專家案件已完成")
+                                                            <i class="fa-solid fa-magnifying-glass">
+                                                            </i>
+                                                        </button>
+                                                    </td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdatestart)</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.taskdateend)</td>
+                                                    <td style="width: 100px;">$ @item.taskprice.GetValueOrDefault().ToString("#,##0") 元</td>
+                                                            <td style="width: 100px;">@Html.DisplayFor(modelItem => item.CaseStatusname)</td>
+                                                            @if (item.CaseStatusname == "專家案件已完成")
                                                 {
 
-                                                            <td style="width: 100px;">
-                                                                <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
+                                                                <td style="width: 100px;">
+                                                                    <a href="@Url.Content("~/Ratings/CreateNew")?id=@item.caseid"><i class="fa-solid fa-pen-to-square" style="color: #518eaf;"></i> </a>
 
-                                                            </td>
+                                                                </td>
                                                 }
                                                 else
                                                 {
-                                                            <td style="width: 100px;">
-                                                                <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
-                                                                無法評價!
-                                                            </td>
+                                                                <td style="width: 100px;">
+                                                                    <i class="fa-solid fa-rectangle-xmark" style="color: #518eaf;"></i>
+                                                                    無法評價!
+                                                                </td>
                                                 }
 
-                                                    </tr>
+                                                        </tr>
 
                                         }
                                     }
@@ -557,6 +558,7 @@
 
                     <div>
                         <h5 class="modal-title" id="mytaskingModalLabel1"></h5>
+                        <p hidden id="Modaluserb"></p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <hr />
@@ -745,34 +747,41 @@
                  $('#ModalCaseAddress').text(Address);
              });
          });
+      
+         //sigarnR
+         const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/cExpertTaskHub")
+    .build();
 
+// 定義 "ReceiveUpdate" 的處理函數
+connection.on("ReceiveUpdate", (divId, message) => {
+    let targetSpan;
+    if (divId === 'mytasking') {
+        targetSpan = document.querySelector('#btnmytasking .d-none.d-sm-block');
+        targetSpan.innerHTML = `送出的委託(進行中) ${message}`;
+        console.log("1");
+    } else if (divId === 'btntaskfromotherno') {
+        targetSpan = document.querySelector('#btntaskfromotherno .d-none.d-sm-block');
+                console.log("2");
+    }
 
-        //===========signalR
+    if (targetSpan) {
+        targetSpan.innerHTML += ` ${message}`; // 添加"1"
+                console.log("3");
+    }
+});
 
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/cExpertTaskHub")
-            .build();
-
-        connection.on("ReceiveUpdate", (divId, message) => {
-            let targetSpan;
-            if (divId === 'mytasking') {
-                targetSpan = document.querySelector('#btnmytasking .d-none.d-sm-block');
-            } else if (divId === 'mytasked') {
-                targetSpan = document.querySelector('#btnmytasked .d-none.d-sm-block');
-            }
-
-            if (targetSpan) {
-                if (divId === 'mytasking') {
-                    targetSpan.innerHTML = `送出的委託(進行中) ${message}`;
-                } else if (divId === 'mytasked') {
-                    targetSpan.innerHTML = `送出的委託(已完成) ${message}`;
-                }
-            }
-        });
-
-        connection.start().catch(err => console.error(err.toString()));
-       
-
+// 啟動連接
+connection.start({
+    transport: ['webSockets', 'longPolling'],
+    jsonp: true
+}).then(function () {
+    let mymemberid = `${@ViewBag.UserA}`;
+    connection.invoke("SetClientInfo", mymemberid);
+}).catch(function (error) {
+    console.error(`SignalR connection error: ${error}`);
+});
+        
         //===========打開修改功能Modal
        
         $(document).ready(function () {
@@ -790,12 +799,15 @@
                 var CaseStatusname = $(this).closest('tr').find('td:nth-child(8)').text();
                 var WorkPlace = $(this).attr('data-WorkPlace');
                 var Address = $(this).attr('data-Address');
+                var UserB = $(this).attr('data-userB');
                 $('#mytaskingModalLabel1').html('委託人: ' + taskMember + '<br>專家: ' + taskExpert);
                 $('#Modaltaskcontent1').val(taskcontent);
                 $('#Modaltaskdatestart1').val(taskdatestart);
                 $('#Modaltaskdateend1').val(taskdateend);
                 $('#Modaltaskprice1').val(taskprice);
                 $('#ModalCaseStatusname1').text(CaseStatusname);
+                $('#Modaluserb').text(UserB);
+
                 if (WorkPlace == "在家工作") {
                     $('#ModalCaseWorkPlace1').val('home');
                     $('#ModalCaseAddress1').val(Address);
@@ -810,8 +822,6 @@
 
         //============點選Modal內修改存檔按鈕
         $('#btn-save-changes').click(function () {
-            // 擷取修改後的資料
-            
             var caseId = mycaseId;
             var updatedTaskContent = $('#Modaltaskcontent1').val();
             var updatedTaskDateStart = $('#Modaltaskdatestart1').val();
@@ -819,7 +829,8 @@
             var updatedTaskPrice = $('#Modaltaskprice1').val();
             var updatedWorkPlace = $('#ModalCaseWorkPlace1').val();
             var updatedAddress = $('#ModalCaseAddress1').val();
-            
+                var UserB = $('#Modaluserb').text();
+                var divId = "btnmytasking";
             // 建立要送至伺服器的物件
             var dataToUpdate = {
                 caseid: caseId, // 從之前擷取
@@ -828,45 +839,46 @@
                 taskdateend: updatedTaskDateEnd,
                 taskprice: updatedTaskPrice,
                 WorkPlace: updatedWorkPlace,
-                Address: updatedAddress
+                Address: updatedAddress,
+                                UserB: UserB,
+                    divId: divId
                         
             };
             // 使用AJAX將資料送至伺服器
-           
-            $.ajax({
-                url: updateurl,
-                type: 'Post',
-                contentType: 'application/json', // 指定資料類型為JSON
-                data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
-               
-                success: function (response) {
-                    if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
-                        Swal.fire({
-                            title: '成功',
-                            text: '修改成功!',
-                            icon: 'success'
+
+                $.ajax({
+                    url: updateurl,
+                    type: 'Post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataToUpdate),
+                    success: function (response) {
+                        if (response.message === '修改成功') {
+                            Swal.fire({
+                                title: '成功',
+                                text: '修改成功!',
+                                icon: 'success'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    location.reload(); // 這行會重新載入當前頁面
+                                    location.reload();
                                 }
                             });
-                            connection.invoke("SendUpdateNotification", "mytasking", "1").catch(err => console.error(err));
-                    } else {
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '修改失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
                         Swal.fire({
-                            title: '失敗',
-                            text: '修改失敗，請稍後再試。',
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
                             icon: 'error'
                         });
                     }
-                },
-                error: function (err) {
-                    Swal.fire({
-                        title: '錯誤',
-                        text: '發生錯誤，請稍後再試。',
-                        icon: 'error'
-                    });
-                }
-            });
+                });
         });
         //放棄按鈕
         $('#btn-no-changes').click(function () {

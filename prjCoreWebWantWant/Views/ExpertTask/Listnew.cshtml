@@ -1,0 +1,1768 @@
+﻿
+@{
+    ViewData["Title"] = "專家成案紀錄";
+    Layout = "~/Views/Member/LayoutForMem.cshtml";
+}
+@section subTitle{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">會員專區</li>
+            <li class="breadcrumb-item">找專家</li>
+            <li class="breadcrumb-item " aria-current="page">專家成案紀錄管理</li>
+        </ol>
+    </nav>
+}
+@section Styles{
+
+    <link type="text/css" rel="stylesheet" href="~/Expert/css/expertstyle.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <style>
+        
+            
+        
+
+        #tab-demo {
+            width: 100%;
+            
+        }
+
+            #tab-demo > ul {
+                display: block;
+                margin: 0;
+                list-style: none;
+               
+            }
+
+        .tab-title {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            
+        }
+
+     /*   #tab-demo > ul.tab-title {
+            display: flex;
+            align-items: center;
+         
+        }*/
+
+        #tab-demo > ul > li {
+            display: inline-block;
+            vertical-align: top;
+            font-family: '微軟正黑體';
+            margin: 0 -1px -1px 0;
+            border: 1px solid #e8e8e8;
+            height: 90px;
+            width:280px;
+            line-height: 50px;
+            background: #FFF;
+            padding: 0 15px;
+            list-style: none;
+            box-sizing: border-box;
+            padding: 10px 8px 15px 8px;
+        
+        }
+
+            #tab-demo > ul > li a {
+                color: #000;
+                text-decoration: none;
+                
+            }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            border-color: transparent !important;
+        }
+
+            #tab-demo > ul > li.active {
+                border-bottom: 1px solid #fff;
+                background: #D1E5EB;
+            }
+
+        #tab-demo > .tab-inner {
+            clear: both;
+            /*color: #000;
+            border: 1px #e8e8e8 solid;*/
+        }
+
+        .tab-inner {
+            padding: 15px;
+            /* height: 50px; */
+        }
+
+        .display-7{
+           font-size: 2em;
+        }
+
+        .bg-tab {
+            background-color: #D1E5EB !important;
+        }
+
+        .nav-tabs .nav-item a[data-show][data-hide] {
+            background-color: transparent;
+            font-weight: 700;
+            font-size:22px;
+        }
+
+        .nav-tabs .nav-item a[data-show2][data-hide2][data-hide22] {
+                background-color: transparent;
+                font-weight: 700;
+                font-size: 22px;
+            }
+
+        .active-tab {
+            background-color: #FFF !important;
+            height: 90px;
+        }
+
+        #taskingfromother, #taskedfromother, #mytasked {
+            display: none;
+        }
+
+        #formytasking_wrapper, #formytasked_wrapper, #fortaskfromotherno_wrapper, #fortaskingfromother_wrapper, #fortaskedfromother_wrapper {
+            background-color: white !important;
+        }
+    </style>
+}
+@* head *@
+<div id="tab-demo">
+    <ul class="tab-title">
+        <li>
+            <a data-target="#tab01">
+                <span class="display-7 fw-bolder" style="color:#528EAF">
+                    委託者管理
+                </span>
+                <span id="one" class="badge bg-info text-center" style="display:contents"></span>
+            </a>
+        </li>
+        <li >
+            <a data-target="#tab02">
+                <span class=" display-7 fw-bolder" style="color:#528EAF">
+                    接案者管理
+                </span>
+                <span id="two" class="badge bg-info text-end"></span>
+            </a>
+        </li>
+    </ul>
+    <div id="tab01" class="tab-inner bg-tab">
+        <div class="card-header ">
+            <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                <li class="nav-item">
+                    <a id="btnmytasking" data-show="#mytasking" data-hide="#mytasked" class="nav-link active" data-bs-toggle="tab" role="tab">
+                        <span class="d-none d-sm-block" style="color:#528EAF">進行中的委託</span>
+                        <span id="one1" class="badge bg-info text-end"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="btnmytasked"  data-show="#mytasked" data-hide="#mytasking" class="nav-link active" data-bs-toggle="tab" role="tab">
+                        <span class="d-none d-sm-block" style="color:#528EAF">已結束的委託</span>
+                        <span id="one2" class="badge bg-info text-end"></span>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="mytasking" class="card-body">
+            <table id="formytasking" class="table table-hover table align-middle datatable dt-responsive table-check" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">序號</th>
+                        <th style="width: 100px;">委託人</th>
+                        <th style="width: 100px;">專家</th>
+                        @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                        <th style="width: 200px;">委託內容</th>
+                        <th style="width: 100px;">委託期限-起</th>
+                        <th style="width: 100px;">委託期限-訖</th>
+                        <th style="width: 100px;">委託價格</th>
+                        <th style="width: 100px;">案件狀態</th>
+                        <th style="width: 100px;">修改/放棄</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+            </table>
+
+        </div>
+        <div id="mytasked"  class="card-body">
+            <table id="formytasked" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">序號</th>
+                        <th style="width: 100px;">委託人</th>
+                        <th style="width: 100px;">專家</th>
+                        @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                        <th style="width: 200px;">委託內容</th>
+                        <th style="width: 100px;">委託期限-起</th>
+                        <th style="width: 100px;">委託期限-訖</th>
+                        <th style="width: 100px;">委託價格</th>
+                        <th style="width: 100px;">案件狀態</th>
+                        <th style="width: 100px;">去評價</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+            </table>
+
+
+        </div>
+    </div> @* tab01 *@
+    <div id="tab02" class="tab-inner bg-tab">
+        <div class="card-header">
+            <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                <li class="nav-item">
+                    
+                    <a id="btntaskfromotherno" data-show2="#taskfromotherno" data-hide2="#taskingfromother" data-hide22="#taskedfromother"
+                       class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                        <span class="d-none d-sm-block" style="color:#528EAF">待回應的委託</span>
+                        <span id="two1" class="badge bg-info text-end"></span>
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="btntaskingfromother" data-show2="#taskingfromother" data-hide2="#taskfromotherno" data-hide22="#taskedfromother"
+                       class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                        <span class="d-none d-sm-block" style="color:#528EAF">未完成的委託</span>
+                        <span id="two2" class="badge bg-info text-end"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="btntaskedfromother" data-show2="#taskedfromother" data-hide2="#taskingfromother" data-hide22="#taskfromotherno"
+                       class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
+                        <span class="d-none d-sm-block" style="color:#528EAF">已結束的接案</span>
+                        <span id="two3" class="badge bg-info text-end"></span>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body"  id="taskfromotherno">
+            <table id="fortaskfromotherno" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">序號</th>
+                        <th style="width: 100px;">委託人</th>
+                        <th style="width: 100px;">專家</th>
+                        @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                        <th style="width: 200px;">委託內容</th>
+                        <th style="width: 100px;">委託期限-起</th>
+                        <th style="width: 100px;">委託期限-訖</th>
+                        <th style="width: 100px;">委託價格</th>
+                        <th style="width: 100px;">案件狀態</th>
+                        <th style="width: 100px;">接受/拒絕</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-body"  id="taskingfromother">
+            <table id="fortaskingfromother" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">序號</th>
+                        <th style="width: 100px;">委託人</th>
+                        <th style="width: 100px;">專家</th>
+                        @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                        <th style="width: 200px;">委託內容</th>
+                        <th style="width: 100px;">委託期限-起</th>
+                        <th style="width: 100px;">委託期限-訖</th>
+                        <th style="width: 100px;">委託價格</th>
+                        <th style="width: 100px;">案件狀態</th>
+                        <th style="width: 100px;">完成</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-body"  id="taskedfromother">
+            <table id="fortaskedfromother" class="table table-hover table align-middle datatable dt-responsive table-check nowrap" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">序號</th>
+                        <th style="width: 100px;">委託人</th>
+                        <th style="width: 100px;">專家</th>
+                        @*  <th style="width: 50px;">案件編號(隱藏)</th> *@
+                        <th style="width: 200px;">委託內容</th>
+                        <th style="width: 100px;">委託期限-起</th>
+                        <th style="width: 100px;">委託期限-訖</th>
+                        <th style="width: 100px;">委託價格</th>
+                        <th style="width: 100px;">案件狀態</th>
+                        <th style="width: 100px;">完成</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div> @* tab02 *@
+   
+
+</div>
+<!-- Modal -->
+<div>
+   
+    <!-- Modalsearch -->
+    <div class="modal fade" id="mytaskingModal" tabindex="-1" aria-labelledby="mytaskingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="mytaskingModalLabel"></h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <hr />
+                </div>
+                <div class="modal-body">
+                    <div>
+                        委託時間: <span id="Modaltaskdatestart"></span>~
+                        <span id="Modaltaskdateend"></span>
+                    </div>
+                    <div>
+                        委託內容:  <p id="Modaltaskcontent"></p>
+                    </div>
+                    <div>
+                        委託價格: <span id="Modaltaskprice"></span>
+                    </div>
+                    <div>
+                        <span id="ModalCaseWorkPlace"></span>
+                        <span id="ModalCaseAddress"></span>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        狀態: <p id="ModalcaseStatusname"></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modalupdate -->
+    <div class="modal fade" id="mytaskingupdateModal" tabindex="-1" aria-labelledby="mytaskingupdateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="mytaskingModalLabel1"></h5>
+                        <p hidden id="Modaluserb"></p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <hr />
+                </div>
+                <div class="modal-body">
+                    <div>
+                        委託時間: <input type="date" id="Modaltaskdatestart1">~
+                        <input type="date" id="Modaltaskdateend1">
+                    </div>
+                    <div>
+                        委託內容:  <textarea style="height:300px; resize:none;" class="form-control" id="Modaltaskcontent1"> </textarea>
+                    </div>
+                    <div class="py-2">
+                        委託價格: $ <input id="Modaltaskprice1"> 元。
+                    </div>
+                    <div>
+                        <select class="form-select" id="ModalCaseWorkPlace1">
+                            <option value="home">在家工作</option>
+                            <option value="specific">指定地點工作</option>
+                        </select>
+                        <input class="form-control" id="ModalCaseAddress1">
+                    </div>
+                    @*<lable style="display:none" id="Modaltaskid1"></lable>
+                    <lable style="display:none" id="Modaluserbid1"></lable>*@
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        狀態: <p id="ModalcaseStatusname1"></p>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-outline-primary " id="btn-save-changes">修改並儲存</button>
+                        <button type="button" class="btn btn-outline-primary" id="btn-no-changes">放棄委託</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ModalOK -->
+    <div class="modal fade" id="mytaskothernoModal" tabindex="-1" aria-labelledby="mytaskothernoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="mytaskothernoModalLabel1"></h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <hr />
+                </div>
+                <div class="modal-body">
+                    <div>
+                        委託時間: <input readonly type="date" id="Modaltaskdatestart2">~
+                        <input readonly type="date" id="Modaltaskdateend2">
+                    </div>
+                    <div>
+                        委託內容:  <textarea readonly style="height:300px; resize:none;" class="form-control" id="Modaltaskcontent2"> </textarea>
+                    </div>
+                    <div class="py-2">
+                        委託價格: $ <input readonly id="Modaltaskprice2"> 元。
+                    </div>
+                    <div>
+                        <select readonly class="form-select" id="ModalCaseWorkPlace2">
+                            <option value="home">在家工作</option>
+                            <option value="specific">指定地點工作</option>
+                        </select>
+                        <input readonly class="form-control" id="ModalCaseAddress2">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div>
+                        狀態: <p id="ModalcaseStatusname2"></p>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-outline-primary " id="btn-ok-changes">接受委託</button>
+                        <button type="button" class="btn btn-outline-primary" id="btn-nook-changes">拒絕委託</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.10/signalr.min.js"></script>
+
+    <script>
+        //通知
+        let unreadCounts = {
+            "mytasking": 0,
+            "mytasked": 0,
+            "taskfromotherno": 0,
+            "taskingfromother": 0,
+            "taskedfromother": 0
+        };
+        //我的大標題切換
+    $(function(){
+    var $li = $('ul.tab-title li');
+            $($li.eq(0).addClass('active').find('a').data('target')).show().siblings('.tab-inner').hide();
+
+        $li.click(function(){
+                $($(this).find('a').data('target')).show().siblings('.tab-inner').hide();
+                // $($(this).find('a').data('target')).show().attr()
+            $(this).addClass('active'). siblings ('.active').removeClass('active');
+        });
+    });
+        //我的tab01小標題切換
+        $(function () {
+
+            // 當網頁加載時給第一個 <a> 標籤添加 'active-tab' class
+            $('a[data-show][data-hide]:first').addClass('active-tab');
+
+            $('a[data-show][data-hide]').click(function (e) {
+                // 阻止 <a> 標籤的默認行為
+                e.preventDefault();
+
+                // 從 <a> 標籤的 data 屬性中獲取要顯示和隱藏的元素的選擇器
+                var showSelector = $(this).data('show');
+                var hideSelector = $(this).data('hide');
+
+                // 使用 jQuery 來顯示和隱藏元素
+                $(showSelector).show();
+                $(hideSelector).hide();
+
+                // 移除所有 <a> 標籤的 'active-tab' class
+                $('a[data-show][data-hide]').removeClass('active-tab');
+
+                // 給被點擊的 <a> 標籤添加 'active-tab' class
+                $(this).addClass('active-tab');
+            });
+        });
+        //我的tab021小標題切換
+        $(function () {
+
+            // 當網頁加載時給第一個 <a> 標籤添加 'active-tab' class
+            $('a[data-show2][data-hide2][data-hide22]:first').addClass('active-tab');
+
+            $('a[data-show2][data-hide2][data-hide22]').click(function (e) {
+                // 阻止 <a> 標籤的默認行為
+                e.preventDefault();
+
+                // 從 <a> 標籤的 data 屬性中獲取要顯示和隱藏的元素的選擇器
+                var showSelector = $(this).data('show2');
+                var hideSelector = $(this).data('hide2');
+                var hideSelector2 = $(this).data('hide22');
+
+                // 使用 jQuery 來顯示和隱藏元素
+                $(showSelector).show();
+                $(hideSelector).hide();
+                $(hideSelector2).hide();
+
+                // 移除所有 <a> 標籤的 'active-tab' class
+                $('a[data-show2][data-hide2][data-hide22]').removeClass('active-tab');
+
+                // 給被點擊的 <a> 標籤添加 'active-tab' class
+                $(this).addClass('active-tab');
+            });
+        });
+        //通知的部分
+        function updateBadgeSum(badgeId, ...idsToUpdate) {
+            let sum = 0;
+
+            idsToUpdate.forEach(id => {
+                let badge = document.getElementById(id);
+                let val = parseInt(badge.textContent || "0");
+                sum += val;
+            });
+
+            let sumBadge = document.getElementById(badgeId);
+            sumBadge.textContent = sum;
+            sumBadge.style.display = sum === 0 ? 'none' : 'block';
+        }
+
+        document.getElementById('btnmytasking').addEventListener('click', function () {
+            let badge = document.getElementById('one1');
+            badge.textContent = '0';
+            badge.style.display = 'none';
+            updateBadgeSum('one', 'one1', 'one2');
+            datamytasking();
+        });
+
+        document.getElementById('btnmytasked').addEventListener('click', function () {
+            let badge = document.getElementById('one2');
+            badge.textContent = '0';
+            badge.style.display = 'none';
+            updateBadgeSum('one', 'one1', 'one2');
+            datamytasked();
+        });
+        //
+        document.getElementById('btntaskfromotherno').addEventListener('click', function () {
+            let badge = document.getElementById('two1');
+            badge.textContent = '0';
+            badge.style.display = 'none';
+            updateBadgeSum('two', 'two1', 'two2','two3');
+            datataskfromotherno();
+        });
+
+        document.getElementById('btntaskingfromother').addEventListener('click', function () {
+            let badge = document.getElementById('two2');
+            badge.textContent = '0';
+            badge.style.display = 'none';
+            updateBadgeSum('two', 'two1', 'two2', 'two3');
+            datataskingfromother();
+        });
+        document.getElementById('btntaskedfromother').addEventListener('click', function () {
+            let badge = document.getElementById('two3');
+            badge.textContent = '0';
+            badge.style.display = 'none';
+            updateBadgeSum('two', 'two1', 'two2', 'two3');
+            datataskedfromother();
+        });
+
+       
+        window.onload = function () {
+            updateBadgeSum('one', 'one1', 'one2');
+            updateBadgeSum('two', 'two1', 'two2', 'two3');
+        }
+    </script>
+    @* sigarnR *@
+    <script>
+        //sigarnR
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/cExpertTaskHub")
+            .build();
+
+        // 定義 "ReceiveUpdate" 的處理函數
+        connection.on("ReceiveUpdate", (divId, message) => {
+
+            if (divId === 'mytasking') {
+                // 為 USERB 更新
+                let spanToUpdate = document.getElementById("one1");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('one', 'one1', 'one2');
+           
+            } 
+            else if (divId === 'mytasked') {
+                let spanToUpdate = document.getElementById("one2");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('one', 'one1', 'one2');
+
+            } 
+            else if (divId === 'taskfromotherno') {
+                console.log("131354535");
+                let spanToUpdate = document.getElementById("two1");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+            } 
+            else if (divId === 'taskingfromother') {
+                let spanToUpdate = document.getElementById("two2");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+
+            } 
+            else if (divId === 'taskedfromother') {
+                let spanToUpdate = document.getElementById("two3");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+
+            }
+        });
+
+        connection.on("ReceiveUpdateme", (divId, message) => {
+            if (divId === 'mytasking') {
+                // 為 USERA 更新 one1 和 one 的值
+                let spanToUpdate = document.getElementById("one1");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('one', 'one1', 'one2');
+
+            }
+            else if (divId === 'mytasked') {
+                let spanToUpdate = document.getElementById("one2");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('one', 'one1', 'one2');
+            }
+            else if (divId === 'taskfromotherno') {
+                let spanToUpdate = document.getElementById("two1");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+
+            }
+            else if (divId === 'taskingfromother') {
+                let spanToUpdate = document.getElementById("two2");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+
+            }
+            else if (divId === 'taskedfromother') {
+                let spanToUpdate = document.getElementById("two3");
+                let currentVal = parseInt(spanToUpdate.textContent || "0");
+                spanToUpdate.textContent = (currentVal + 1).toString();
+                spanToUpdate.style.display = 'block';
+                updateBadgeSum('two', 'two1', 'two2', 'two3');
+
+            }
+        });
+        // 啟動連接
+        connection.start({
+            transport: ['webSockets', 'longPolling'],
+            jsonp: true
+        }).then(function () {
+            let mymemberid = `${@ViewBag.UserA}`;
+            connection.invoke("SetClientInfo", mymemberid);
+        }).catch(function (error) {
+            console.error(`SignalR connection error: ${error}`);
+        });
+
+    </script>
+    @* 抓資料 *@
+    <script>
+
+
+        window.addEventListener('DOMContentLoaded',()=>{ 
+            datamytasking(),
+                datamytasked(),
+                datataskfromotherno(),
+                datataskingfromother(),
+                datataskedfromother()
+
+        });
+        //datamytasking
+        function datamytasking(){
+            $('#formytasking').DataTable().destroy();
+            fetch('@Url.Content("~/ExpertTaskApi/Mytasking")')
+            .then(response => response.json())
+            .then(data => {
+                let tbody = document.querySelector('#formytasking tbody');
+                    // 清空tbody
+                tbody.innerHTML = ''; 
+                
+                data.forEach((item, index) => {
+                   let tr = document.createElement('tr');
+                   //序號
+                        let td1 = document.createElement('td');
+                        td1.textContent = index + 1;
+                        tr.appendChild(td1);
+                        //委託人
+                        let td2 = document.createElement('td');
+                        td2.textContent = item.taskmember;
+                        tr.appendChild(td2);
+                       
+                        // 專家
+                        let td3 = document.createElement('td');
+                        td3.textContent = item.taskexpert;
+                        tr.appendChild(td3);
+                        // 委託內容
+                        let td4 = document.createElement('td');
+                        let btndetail = document.createElement('button');
+                        btndetail.setAttribute('type', 'button');
+                        btndetail.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndetail.setAttribute('data-bs-toggle', 'modal');
+                        btndetail.setAttribute('data-bs-target', '#mytaskingModal');
+                        btndetail.setAttribute('data-modal-type', 'search');
+                        btndetail.setAttribute('data-id', item.caseid);
+                        btndetail.setAttribute('data-taskmember', item.taskmember);
+                        btndetail.setAttribute('data-useraid', item.taskmemberid);
+                        btndetail.setAttribute('data-taskexpert', item.taskexpert);
+                        btndetail.setAttribute('data-userbid', item.taskexpertid);
+                        btndetail.setAttribute('data-taskcontent', item.taskcontent);
+                        btndetail.setAttribute('data-taskprice', item.taskprice);
+                        btndetail.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndetail.setAttribute('data-taskdateend', item.taskdateend);
+                        btndetail.setAttribute('data-WorkPlace',item.workPlace);
+                        btndetail.setAttribute('data-Address', item.address);
+                        btndetail.setAttribute('data-caseStatusname', item.caseStatusname);
+                        
+                        if(item.taskcontent.length>10){
+                            btndetail.textContent = item.taskcontent.substring(0, 10) + "... ";
+                        }
+                        else{
+                            btndetail.textContent = item.taskcontent;
+                        }
+                        let detailicon = document.createElement('i');
+                        detailicon.className = 'fa-solid fa-magnifying-glass';
+                        btndetail.appendChild(detailicon);
+                        
+                        btndetail.addEventListener('click', btndetailClick);
+                        td4.appendChild(btndetail);
+                        tr.appendChild(td4);
+                        //時間起迄
+                        let td5 = document.createElement('td');
+                        td5.textContent = item.taskdatestart;
+                        tr.appendChild(td5);
+                        let td6 = document.createElement('td');
+                        td6.textContent = item.taskdateend;
+                        tr.appendChild(td6);
+                        //價格
+                        let td7 = document.createElement('td');
+                        let priceValue = item.taskprice || 0;
+                        let price = "$" + priceValue.toLocaleString() + "元";
+                        td7.textContent = price;
+                        tr.appendChild(td7);
+                        //狀態
+                        let td8 = document.createElement('td');
+                        td8.textContent = item.caseStatusname;
+                        tr.appendChild(td8);
+                        //修改按鈕
+                        let td9 = document.createElement('td');
+                        if (item.caseStatusname == "專家尚未確認") {
+                            let btnupdate = document.createElement('button');
+                            btnupdate.setAttribute('type', 'button');
+                            btnupdate.setAttribute('style', 'border:none; background-color:transparent;');
+                            btnupdate.setAttribute('data-bs-toggle', 'modal');
+                            btnupdate.setAttribute('data-bs-target', '#mytaskingupdateModal');
+                            btnupdate.setAttribute('data-modal-type', 'update');
+                            btnupdate.setAttribute('data-id', item.caseid);
+                            btnupdate.setAttribute('data-taskmember', item.taskmember);
+                            btnupdate.setAttribute('data-useraid', item.taskmemberid);
+                            btnupdate.setAttribute('data-taskexpert', item.taskexpert);
+                            btnupdate.setAttribute('data-userbid', item.taskexpertid);
+                            console.log(item.taskexpertid);
+                            btnupdate.setAttribute('data-taskcontent', item.taskcontent);
+                            btnupdate.setAttribute('data-taskprice', item.taskprice);
+                            btnupdate.setAttribute('data-taskdatestart', item.taskdatestart);
+                            btnupdate.setAttribute('data-taskdateend', item.taskdateend);
+                            btnupdate.setAttribute('data-WorkPlace', item.workPlace);
+                            btnupdate.setAttribute('data-Address', item.address);
+                            btnupdate.setAttribute('data-caseStatusname', item.caseStatusname);
+                            btnupdate.setAttribute('data-userB', item.taskexpertid);
+                 
+
+                            let updateicon=document.createElement('i');
+                            updateicon.className = 'fa-solid fa-pen-to-square';
+                            updateicon.setAttribute('style', 'color: #518eaf;');
+                            btnupdate.appendChild(updateicon);
+                            btnupdate.addEventListener('click', btnupdateClick);
+                            td9.appendChild(btnupdate);
+                            tr.appendChild(td9);
+                        }
+                        else{
+                            td9.textContent = "進行中!";
+                            let updateicon = document.createElement('i');
+                            updateicon.className = 'fa-solid fa-rectangle-xmark';
+                            updateicon.setAttribute('style', 'color: #518eaf;');
+                            td9.appendChild(updateicon);
+                            tr.appendChild(td9);
+                        }
+                      
+                    tbody.appendChild(tr);
+                   
+                });
+                    $('#formytasking').DataTable({
+                        "order": [],
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }; /*function datamytasking*/
+
+        //datamytasked
+        function datamytasked() {
+            $('#formytasked').DataTable().destroy();
+            fetch('@Url.Content("~/ExpertTaskApi/Mytasked")')
+                .then(response => response.json())
+                .then(data => {
+                    let tbody = document.querySelector('#formytasked tbody');
+                    // 清空tbody
+                    tbody.innerHTML = '';
+
+                    data.forEach((item, index) => {
+                        let tr = document.createElement('tr');
+                        //序號
+                        let td1 = document.createElement('td');
+                        td1.textContent = index + 1;
+                        tr.appendChild(td1);
+                        //委託人
+                        let td2 = document.createElement('td');
+                        td2.textContent = item.taskmember;
+                        tr.appendChild(td2);
+
+                        // 專家
+                        let td3 = document.createElement('td');
+                        td3.textContent = item.taskexpert;
+                        tr.appendChild(td3);
+                        // 委託內容
+                        let td4 = document.createElement('td');
+                        let btndetail = document.createElement('button');
+                        btndetail.setAttribute('type', 'button');
+                        btndetail.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndetail.setAttribute('data-bs-toggle', 'modal');
+                        btndetail.setAttribute('data-bs-target', '#mytaskingModal');
+                        btndetail.setAttribute('data-modal-type', 'search');
+                        btndetail.setAttribute('data-id', item.caseid);
+                        btndetail.setAttribute('data-taskmember', item.taskmember);
+                        btndetail.setAttribute('data-useraid', item.taskmemberid);
+                        btndetail.setAttribute('data-taskexpert', item.taskexpert);
+                        btndetail.setAttribute('data-userbid', item.taskexpertid);
+                        btndetail.setAttribute('data-taskcontent', item.taskcontent);
+                        btndetail.setAttribute('data-taskprice', item.taskprice);
+                        btndetail.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndetail.setAttribute('data-taskdateend', item.taskdateend);
+                        btndetail.setAttribute('data-WorkPlace', item.workPlace);
+                        btndetail.setAttribute('data-Address', item.address);
+                        btndetail.setAttribute('data-caseStatusname', item.caseStatusname);
+
+                        if (item.taskcontent.length > 10) {
+                            btndetail.textContent = item.taskcontent.substring(0, 10) + "... ";
+                        }
+                        else {
+                            btndetail.textContent = item.taskcontent;
+                        }
+                        let detailicon = document.createElement('i');
+                        detailicon.className = 'fa-solid fa-magnifying-glass';
+                        btndetail.appendChild(detailicon);
+
+                        btndetail.addEventListener('click', btndetailClick);
+                        td4.appendChild(btndetail);
+                        tr.appendChild(td4);
+                        //時間起迄
+                        let td5 = document.createElement('td');
+                        td5.textContent = item.taskdatestart;
+                        tr.appendChild(td5);
+                        let td6 = document.createElement('td');
+                        td6.textContent = item.taskdateend;
+                        tr.appendChild(td6);
+                        //價格
+                        let td7 = document.createElement('td');
+                        let priceValue = item.taskprice || 0;
+                        let price = "$" + priceValue.toLocaleString() + "元";
+                        td7.textContent = price;
+                        tr.appendChild(td7);
+                        //狀態
+                        let td8 = document.createElement('td');
+                        td8.textContent = item.caseStatusname;
+                        tr.appendChild(td8);
+                        //修改按鈕
+                        let td9 = document.createElement('td');
+                        if (item.caseStatusname == "專家案件已完成") {
+                            let btnFinish = document.createElement('a');
+                            btnFinish.setAttribute('href', `@Url.Content("~/Ratings/CreateNew")?id=${item.caseid}`);
+                            let finishicon = document.createElement('i');
+                            finishicon.className = 'fa-solid fa-pen-to-square';
+                            finishicon.setAttribute('style', 'color: #518eaf;');
+                            btnFinish.appendChild(finishicon);
+                            btnFinish.addEventListener('click', btndetailClick);
+                            td9.appendChild(btnFinish);
+                            tr.appendChild(td9);
+                        }
+                        else {
+                            td9.textContent = "無法評價!";
+                            let updateicon = document.createElement('i');
+                            updateicon.className = 'fa-solid fa-rectangle-xmark';
+                            updateicon.setAttribute('style', 'color: #518eaf;');
+                            td9.appendChild(updateicon);
+                            tr.appendChild(td9);
+                        }
+
+                        tbody.appendChild(tr);
+                      
+                    });
+                    $('#formytasked').DataTable({
+                        "order": [],
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }; /*function datamytasked*/
+
+        //datataskfromotherno
+        function datataskfromotherno() {
+            $('#fortaskfromotherno').DataTable().destroy();
+            fetch('@Url.Content("~/ExpertTaskApi/Taskfromotherno")')
+                .then(response => response.json())
+                .then(data => {
+                    let tbody = document.querySelector('#fortaskfromotherno tbody');
+                    // 清空tbody
+                    tbody.innerHTML = '';
+
+                    data.forEach((item, index) => {
+                        let tr = document.createElement('tr');
+                        //序號
+                        let td1 = document.createElement('td');
+                        td1.textContent = index + 1;
+                        tr.appendChild(td1);
+                        //委託人
+                        let td2 = document.createElement('td');
+                        td2.textContent = item.taskmember;
+                        tr.appendChild(td2);
+
+                        // 專家
+                        let td3 = document.createElement('td');
+                        td3.textContent = item.taskexpert;
+                        tr.appendChild(td3);
+                        // 委託內容
+                        let td4 = document.createElement('td');
+                        let btndetail = document.createElement('button');
+                        btndetail.setAttribute('type', 'button');
+                      
+                        btndetail.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndetail.setAttribute('data-bs-toggle', 'modal');
+                        btndetail.setAttribute('data-bs-target', '#mytaskingModal');
+                        btndetail.setAttribute('data-modal-type', 'search');
+                        btndetail.setAttribute('data-id', item.caseid);
+                        btndetail.setAttribute('data-taskmember', item.taskmember);
+                        btndetail.setAttribute('data-useraid', item.taskmemberid);
+                        btndetail.setAttribute('data-taskexpert', item.taskexpert);
+                        btndetail.setAttribute('data-userbid', item.taskexpertid);
+                        btndetail.setAttribute('data-taskcontent', item.taskcontent);
+                        btndetail.setAttribute('data-taskprice', item.taskprice);
+                        btndetail.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndetail.setAttribute('data-taskdateend', item.taskdateend);
+                        btndetail.setAttribute('data-WorkPlace', item.workPlace);
+                        btndetail.setAttribute('data-Address', item.address);
+                        btndetail.setAttribute('data-caseStatusname', item.caseStatusname);
+
+                        if (item.taskcontent.length > 10) {
+                            btndetail.textContent = item.taskcontent.substring(0, 10) + "... ";
+                        }
+                        else {
+                            btndetail.textContent = item.taskcontent;
+                        }
+                        let detailicon = document.createElement('i');
+                        detailicon.className = 'fa-solid fa-magnifying-glass';
+                        btndetail.appendChild(detailicon);
+
+                        btndetail.addEventListener('click', btndetailClick);
+                        td4.appendChild(btndetail);
+                        tr.appendChild(td4);
+                        //時間起迄
+                        let td5 = document.createElement('td');
+                        td5.textContent = item.taskdatestart;
+                        tr.appendChild(td5);
+                        let td6 = document.createElement('td');
+                        td6.textContent = item.taskdateend;
+                        tr.appendChild(td6);
+                        //價格
+                        let td7 = document.createElement('td');
+                        let priceValue = item.taskprice || 0;
+                        let price = "$" + priceValue.toLocaleString() + "元";
+                        td7.textContent = price;
+                        tr.appendChild(td7);
+                        //狀態
+                        let td8 = document.createElement('td');
+                        td8.textContent = item.caseStatusname;
+                        tr.appendChild(td8);
+                        //接受或拒絕
+                        let td9 = document.createElement('td');
+                      
+                            let btnyesorno = document.createElement('button');
+                            btnyesorno.setAttribute('type', 'button');
+                            btnyesorno.setAttribute('style', 'border:none; background-color:transparent;');
+                            btnyesorno.setAttribute('data-bs-toggle', 'modal');
+                        btnyesorno.setAttribute('data-bs-target', '#mytaskothernoModal');
+                        btnyesorno.setAttribute('data-modal-type', 'updateok');
+                            btnyesorno.setAttribute('data-id', item.caseid);
+                            btnyesorno.setAttribute('data-taskmember', item.taskmember);
+                            btnyesorno.setAttribute('data-useraid', item.taskmemberid);
+                            btnyesorno.setAttribute('data-taskexpert', item.taskexpert);
+                            btnyesorno.setAttribute('data-userbid', item.taskexpertid);
+                            console.log(item.taskexpertid);
+                            btnyesorno.setAttribute('data-taskcontent', item.taskcontent);
+                            btnyesorno.setAttribute('data-taskprice', item.taskprice);
+                            btnyesorno.setAttribute('data-taskdatestart', item.taskdatestart);
+                            btnyesorno.setAttribute('data-taskdateend', item.taskdateend);
+                            btnyesorno.setAttribute('data-WorkPlace', item.workPlace);
+                            btnyesorno.setAttribute('data-Address', item.address);
+                            btnyesorno.setAttribute('data-caseStatusname', item.caseStatusname);
+                        btnyesorno.setAttribute('data-userB', item.taskmemberid);
+
+                        let acceptText = document.createTextNode('接受 ');
+                        btnyesorno.appendChild(acceptText);
+                        let yesicon = document.createElement('i');
+                        yesicon.className = 'fa-solid fa-square-check';
+                        yesicon.setAttribute('style', 'color: #518eaf;');
+                        btnyesorno.appendChild(yesicon);
+                        let dividerText = document.createTextNode(' / 拒絕 ');
+                        btnyesorno.appendChild(dividerText);
+                        let noicon = document.createElement('i');
+                        noicon.className = 'fa-solid fa-rectangle-xmark';
+                        noicon.setAttribute('style', 'color: #518eaf;');
+                        btnyesorno.appendChild(noicon);
+                        btnyesorno.addEventListener('click', btnokClick);
+                        td9.appendChild(btnyesorno);
+                        tr.appendChild(td9);
+                        tbody.appendChild(tr);
+
+                    });
+                    $('#fortaskfromotherno').DataTable({
+                        "order": [],
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+        //datataskfromothernoEND
+        //datataskingfromother
+        function datataskingfromother() {
+            $('#fortaskingfromother').DataTable().destroy();
+            fetch('@Url.Content("~/ExpertTaskApi/Taskingfromother")')
+                .then(response => response.json())
+                .then(data => {
+                    let tbody = document.querySelector('#fortaskingfromother tbody');
+                    // 清空tbody
+                    tbody.innerHTML = '';
+
+                    data.forEach((item, index) => {
+                        let tr = document.createElement('tr');
+                        //序號
+                        let td1 = document.createElement('td');
+                        td1.textContent = index + 1;
+                        tr.appendChild(td1);
+                        //委託人
+                        let td2 = document.createElement('td');
+                        td2.textContent = item.taskmember;
+                        tr.appendChild(td2);
+
+                        // 專家
+                        let td3 = document.createElement('td');
+                        td3.textContent = item.taskexpert;
+                        tr.appendChild(td3);
+                        // 委託內容
+                        let td4 = document.createElement('td');
+                        let btndetail = document.createElement('button');
+                        btndetail.setAttribute('type', 'button');
+
+                        btndetail.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndetail.setAttribute('data-bs-toggle', 'modal');
+                        btndetail.setAttribute('data-bs-target', '#mytaskingModal');
+                        btndetail.setAttribute('data-modal-type', 'search');
+                        btndetail.setAttribute('data-id', item.caseid);
+                        btndetail.setAttribute('data-taskmember', item.taskmember);
+                        btndetail.setAttribute('data-useraid', item.taskmemberid);
+                        btndetail.setAttribute('data-taskexpert', item.taskexpert);
+                        btndetail.setAttribute('data-userbid', item.taskexpertid);
+                        btndetail.setAttribute('data-taskcontent', item.taskcontent);
+                        btndetail.setAttribute('data-taskprice', item.taskprice);
+                        btndetail.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndetail.setAttribute('data-taskdateend', item.taskdateend);
+                        btndetail.setAttribute('data-WorkPlace', item.workPlace);
+                        btndetail.setAttribute('data-Address', item.address);
+                        btndetail.setAttribute('data-caseStatusname', item.caseStatusname);
+
+                        if (item.taskcontent.length > 10) {
+                            btndetail.textContent = item.taskcontent.substring(0, 10) + "... ";
+                        }
+                        else {
+                            btndetail.textContent = item.taskcontent;
+                        }
+                        let detailicon = document.createElement('i');
+                        detailicon.className = 'fa-solid fa-magnifying-glass';
+                        btndetail.appendChild(detailicon);
+
+                        btndetail.addEventListener('click', btndetailClick);
+                        td4.appendChild(btndetail);
+                        tr.appendChild(td4);
+                        //時間起迄
+                        let td5 = document.createElement('td');
+                        td5.textContent = item.taskdatestart;
+                        tr.appendChild(td5);
+                        let td6 = document.createElement('td');
+                        td6.textContent = item.taskdateend;
+                        tr.appendChild(td6);
+                        //價格
+                        let td7 = document.createElement('td');
+                        let priceValue = item.taskprice || 0;
+                        let price = "$" + priceValue.toLocaleString() + "元";
+                        td7.textContent = price;
+                        tr.appendChild(td7);
+                        //狀態
+                        let td8 = document.createElement('td');
+                        td8.textContent = item.caseStatusname;
+                        tr.appendChild(td8);
+                        //接受或拒絕
+                        let td9 = document.createElement('td');
+
+                        let btndone = document.createElement('button');
+                        btndone.setAttribute('type', 'button');
+                        btndone.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndone.setAttribute('data-modal-type', 'updateoked');
+                        btndone.setAttribute('data-id', item.caseid);
+                        btndone.setAttribute('data-taskmember', item.taskmember);
+                        btndone.setAttribute('data-useraid', item.taskmemberid);
+                        btndone.setAttribute('data-taskexpert', item.taskexpert);
+                        
+                        console.log(item.taskexpertid);
+                        btndone.setAttribute('data-taskcontent', item.taskcontent);
+                        btndone.setAttribute('data-taskprice', item.taskprice);
+                        btndone.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndone.setAttribute('data-taskdateend', item.taskdateend);
+                        btndone.setAttribute('data-WorkPlace', item.workPlace);
+                        btndone.setAttribute('data-Address', item.address);
+                        btndone.setAttribute('data-caseStatusname', item.caseStatusname);
+                        btndone.setAttribute('data-userB', item.taskmemberid);
+
+                        let doneText = document.createTextNode('完成 ');
+                        btndone.appendChild(doneText);
+                        let doneicon = document.createElement('i');
+                        doneicon.className = 'fa-solid fa-square-check';
+                        doneicon.setAttribute('style', 'color: #518eaf;');
+                        btndone.appendChild(doneicon);
+                        btndone.addEventListener('click', btdoneClick);
+                        td9.appendChild(btndone);
+                        tr.appendChild(td9);
+                        tbody.appendChild(tr);
+
+                    }); 
+                    $('#fortaskingfromother').DataTable({
+                        "order": [],
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+        //datataskingfromotherEND
+
+        //datataskedfromother
+        function datataskedfromother() {
+            $('#fortaskedfromother').DataTable().destroy();
+            fetch('@Url.Content("~/ExpertTaskApi/Taskedfromother")')
+                .then(response => response.json())
+                .then(data => {
+                    let tbody = document.querySelector('#fortaskedfromother tbody');
+                    // 清空tbody
+                    tbody.innerHTML = '';
+
+                    data.forEach((item, index) => {
+                        let tr = document.createElement('tr');
+                        //序號
+                        let td1 = document.createElement('td');
+                        td1.textContent = index + 1;
+                        tr.appendChild(td1);
+                        //委託人
+                        let td2 = document.createElement('td');
+                        td2.textContent = item.taskmember;
+                        tr.appendChild(td2);
+
+                        // 專家
+                        let td3 = document.createElement('td');
+                        td3.textContent = item.taskexpert;
+                        tr.appendChild(td3);
+                        // 委託內容
+                        let td4 = document.createElement('td');
+                        let btndetail = document.createElement('button');
+                        btndetail.setAttribute('type', 'button');
+
+                        btndetail.setAttribute('style', 'border:none; background-color:transparent;');
+                        btndetail.setAttribute('data-bs-toggle', 'modal');
+                        btndetail.setAttribute('data-bs-target', '#mytaskingModal');
+                        btndetail.setAttribute('data-modal-type', 'search');
+                        btndetail.setAttribute('data-id', item.caseid);
+                        btndetail.setAttribute('data-taskmember', item.taskmember);
+                        btndetail.setAttribute('data-useraid', item.taskmemberid);
+                        btndetail.setAttribute('data-taskexpert', item.taskexpert);
+                        btndetail.setAttribute('data-userbid', item.taskexpertid);
+                        btndetail.setAttribute('data-taskcontent', item.taskcontent);
+                        btndetail.setAttribute('data-taskprice', item.taskprice);
+                        btndetail.setAttribute('data-taskdatestart', item.taskdatestart);
+                        btndetail.setAttribute('data-taskdateend', item.taskdateend);
+                        btndetail.setAttribute('data-WorkPlace', item.workPlace);
+                        btndetail.setAttribute('data-Address', item.address);
+                        btndetail.setAttribute('data-caseStatusname', item.caseStatusname);
+
+                        if (item.taskcontent.length > 10) {
+                            btndetail.textContent = item.taskcontent.substring(0, 10) + "... ";
+                        }
+                        else {
+                            btndetail.textContent = item.taskcontent;
+                        }
+                        let detailicon = document.createElement('i');
+                        detailicon.className = 'fa-solid fa-magnifying-glass';
+                        btndetail.appendChild(detailicon);
+
+                        btndetail.addEventListener('click', btndetailClick);
+                        td4.appendChild(btndetail);
+                        tr.appendChild(td4);
+                        //時間起迄
+                        let td5 = document.createElement('td');
+                        td5.textContent = item.taskdatestart;
+                        tr.appendChild(td5);
+                        let td6 = document.createElement('td');
+                        td6.textContent = item.taskdateend;
+                        tr.appendChild(td6);
+                        //價格
+                        let td7 = document.createElement('td');
+                        let priceValue = item.taskprice || 0;
+                        let price = "$" + priceValue.toLocaleString() + "元";
+                        td7.textContent = price;
+                        tr.appendChild(td7);
+                        //狀態
+                        let td8 = document.createElement('td');
+                        td8.textContent = item.caseStatusname;
+                        tr.appendChild(td8);
+                        //接受或拒絕
+                        let td9 = document.createElement('td');
+                        let spandone = document.createElement('span');
+                        let doneText = document.createTextNode('已完成');
+                        spandone.appendChild(doneText);
+                        td9.appendChild(spandone);
+                        tr.appendChild(td9);
+                        tbody.appendChild(tr);
+
+                    });
+                    $('#fortaskedfromother').DataTable({
+                        "order": [],
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                        },
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+        //datataskedfromotherEND
+
+
+        //ModalSearch
+        function btndetailClick() {
+            // 根據按鈕上的data-*屬性獲取資料
+            let name = document.createElement('span');
+            let br = document.createElement('br');
+            name.textContent = '';
+            
+            name.textContent = '委託人:  ' + this.getAttribute('data-taskmember');
+            name.appendChild(br);
+            name.appendChild(document.createTextNode('專家:  ' + this.getAttribute('data-taskexpert')));
+
+            let taskdatestart = this.getAttribute('data-taskdatestart');
+            let taskdateend = this.getAttribute('data-taskdateend');
+            let taskcontent = this.getAttribute('data-taskcontent');
+            let priceValue = Number(this.getAttribute('data-taskprice'));
+            let taskprice = "$" + priceValue.toLocaleString() + "元";
+            let workPlace = this.getAttribute('data-WorkPlace');
+            let address = this.getAttribute('data-Address');
+            let caseStatusname = this.getAttribute('data-caseStatusname');
+            console.log(caseStatusname); 
+            // 將資料填入模態框的相應位置
+            document.getElementById('mytaskingModalLabel').innerHTML = '';
+            document.getElementById('mytaskingModalLabel').appendChild(name);
+            document.getElementById('Modaltaskdatestart').textContent = taskdatestart;
+            document.getElementById('Modaltaskdateend').textContent = taskdateend;
+            document.getElementById('Modaltaskcontent').textContent = taskcontent;
+            document.getElementById('Modaltaskprice').textContent = taskprice;
+            document.getElementById('ModalCaseWorkPlace').textContent = workPlace;
+            if (address!="無"){
+                document.getElementById('ModalCaseAddress').textContent = address;
+            }
+            document.getElementById('ModalcaseStatusname').textContent = caseStatusname;
+        };
+
+        //Modalupdate
+        function btnupdateClick() {
+            let currentElement = this;  // 這裡的 this 指的是當前被點擊的按鈕
+            let validIds = ["mytasking", "mytasked", "taskfromotherno", "taskingfromother", "taskedfromother"];
+            let dividname = "";
+            while (currentElement) {
+                if (validIds.includes(currentElement.id)) {
+                    // 這裡你已經找到了你的DIV
+                    console.log("Found the DIV with id:", currentElement.id);
+                    dividname = currentElement.id;
+                    break; // 跳出循環
+                }
+                currentElement = currentElement.parentElement;
+              
+            }
+            // 根據按鈕上的data-*屬性獲取資料
+            let name = document.createElement('span');
+            let br = document.createElement('br');
+            name.textContent = '';
+
+            name.textContent = '委託人:  ' + this.getAttribute('data-taskmember');
+            name.appendChild(br);
+            name.appendChild(document.createTextNode('專家:  ' + this.getAttribute('data-taskexpert')));
+
+            let taskdatestart = this.getAttribute('data-taskdatestart');
+            let taskdateend = this.getAttribute('data-taskdateend');
+            let taskcontent = this.getAttribute('data-taskcontent');
+            let taskprice = this.getAttribute('data-taskprice');
+            let workPlace = this.getAttribute('data-WorkPlace');
+            let address = this.getAttribute('data-Address');
+            let caseStatusname = this.getAttribute('data-caseStatusname');
+            let taskid = this.getAttribute('data-id');
+            let userbid = this.getAttribute('data-userbid');
+            console.log(userbid);
+            // 將資料填入模態框的相應位置
+            document.getElementById('mytaskingModalLabel1').innerHTML = '';
+            document.getElementById('mytaskingModalLabel1').appendChild(name);
+            document.getElementById('Modaltaskdatestart1').value = taskdatestart;
+            document.getElementById('Modaltaskdateend1').value = taskdateend;
+            document.getElementById('Modaltaskcontent1').value = taskcontent;
+            document.getElementById('Modaltaskprice1').value = taskprice;
+            if (workPlace == "在家工作") {
+                document.getElementById('ModalCaseWorkPlace1').value = "home";
+                document.getElementById('ModalCaseAddress1').value = "無";
+            }
+            else if (workPlace == "指定地點工作") {
+                document.getElementById('ModalCaseWorkPlace1').value = "specific";
+                document.getElementById('ModalCaseAddress1').value = address;
+            }
+            document.getElementById('ModalcaseStatusname1').textContent = caseStatusname;
+            console.log("1");
+            //這裡是修改按鈕區域
+            $('#btn-save-changes').click(function () {
+                var caseId = taskid;
+                var updatedTaskContent = $('#Modaltaskcontent1').val();
+                var updatedTaskDateStart = $('#Modaltaskdatestart1').val();
+                var updatedTaskDateEnd = $('#Modaltaskdateend1').val();
+                var updatedTaskPrice = $('#Modaltaskprice1').val();
+                var updatedWorkPlace = $('#ModalCaseWorkPlace1').val();
+                var updatedAddress = $('#ModalCaseAddress1').val();
+                console.log(userbid);
+                var UserB = userbid;
+                var divId = dividname;
+                // 建立要送至伺服器的物件
+                var dataToUpdate = {
+                    caseid: caseId, // 從之前擷取
+                    taskcontent: updatedTaskContent,
+                    taskdatestart: updatedTaskDateStart,
+                    taskdateend: updatedTaskDateEnd,
+                    taskprice: updatedTaskPrice,
+                    WorkPlace: updatedWorkPlace,
+                    Address: updatedAddress,
+                    UserB: UserB,
+                    divId: divId
+
+                };
+                console.log(dataToUpdate);
+                // 使用AJAX將資料送至伺服器
+                var updateurl = `@Url.Content("~/ExpertTask/UpdateExpertTask")`;
+                $.ajax({
+                    url: updateurl,
+                    type: 'Post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataToUpdate),
+                    success: function (response) {
+                        if (response.message === '修改成功') {
+                            Swal.fire({
+                                title: '成功',
+                                text: '修改成功!',
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    datamytasking();
+                                    $('#mytaskingupdateModal').modal('hide');
+                                }
+                            });
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '修改失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+            //放棄按鈕
+            $('#btn-no-changes').click(function () {
+                // 擷取修改後的資料
+                var caseId = taskid;
+                var CaseStatus = $('#ModalcaseStatusname1').text();
+                // 建立要送至伺服器的物件
+                var dataToUpdate = {
+                    caseid: caseId, // 從之前擷取
+                    CaseStatusname: CaseStatus
+                };
+                // 使用AJAX將資料送至伺服器
+                var updateurlno = `@Url.Content("~/ExpertTask/AbandonExpertTask")`;
+                $.ajax({
+                    url: updateurlno,
+                    type: 'Post',
+                    contentType: 'application/json', // 指定資料類型為JSON
+                    data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
+                    success: function (response) {
+                        if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
+                            Swal.fire({
+                                title: '放棄',
+                                text: '放棄成功!',
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    datamytasking();
+                                    $('#mytaskingupdateModal').modal('hide');
+                                
+                                }
+                            });
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '放棄失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+
+            //這裡是修改按鈕區域結束
+        };
+
+        //ModalOK
+        function btnokClick() {
+            let currentElement = this;  // 這裡的 this 指的是當前被點擊的按鈕
+            let validIds = ["mytasking", "mytasked", "taskfromotherno", "taskingfromother", "taskedfromother"];
+            let dividname = "";
+            while (currentElement) {
+                if (validIds.includes(currentElement.id)) {
+                    // 這裡你已經找到了你的DIV
+                    console.log("Found the DIV with id:", currentElement.id);
+                    dividname = currentElement.id;
+                    break; // 跳出循環
+                }
+                currentElement = currentElement.parentElement;
+
+            }
+            // 根據按鈕上的data-*屬性獲取資料
+            let name = document.createElement('span');
+            let br = document.createElement('br');
+            name.textContent = '';
+
+            name.textContent = '委託人:  ' + this.getAttribute('data-taskmember');
+            name.appendChild(br);
+            name.appendChild(document.createTextNode('專家:  ' + this.getAttribute('data-taskexpert')));
+
+            let taskdatestart = this.getAttribute('data-taskdatestart');
+            let taskdateend = this.getAttribute('data-taskdateend');
+            let taskcontent = this.getAttribute('data-taskcontent');
+            let taskprice = this.getAttribute('data-taskprice');
+            let workPlace = this.getAttribute('data-WorkPlace');
+            let address = this.getAttribute('data-Address');
+            let caseStatusname = this.getAttribute('data-caseStatusname');
+            let taskid = this.getAttribute('data-id');
+            let userbid = this.getAttribute('data-userB');
+            console.log(userbid);
+            // 將資料填入模態框的相應位置
+            document.getElementById('mytaskothernoModalLabel1').innerHTML = '';
+            document.getElementById('mytaskothernoModalLabel1').appendChild(name);
+            document.getElementById('Modaltaskdatestart2').value = taskdatestart;
+            document.getElementById('Modaltaskdateend2').value = taskdateend;
+            document.getElementById('Modaltaskcontent2').value = taskcontent;
+            document.getElementById('Modaltaskprice2').value = taskprice;
+            if (workPlace == "在家工作") {
+                document.getElementById('ModalCaseWorkPlace2').value = "home";
+                document.getElementById('ModalCaseAddress2').value = "無";
+            }
+            else if (workPlace == "指定地點工作") {
+                document.getElementById('ModalCaseWorkPlace2').value = "specific";
+                document.getElementById('ModalCaseAddress2').value = address;
+            }
+            document.getElementById('ModalcaseStatusname2').textContent = caseStatusname;
+            console.log("1");
+            //這裡是接受按鈕區域
+            $('#btn-ok-changes').click(function () {
+                var caseId = taskid;
+                var CaseStatus = $('#ModalcaseStatusname2').val();
+                console.log(userbid);
+                var UserB2 = userbid;
+                var divId = dividname;
+                
+
+                // 建立要送至伺服器的物件
+                var dataTook = {
+                    caseid: caseId, // 從之前擷取
+                    CaseStatusname: CaseStatus,
+                    UserB: UserB2,
+                    divId: divId
+                };
+                console.log(dataTook);
+                console.log("3");
+                // 使用AJAX將資料送至伺服器
+                var updateurl3 = `@Url.Content("~/ExpertTask/OKExpertTask")`;
+                $.ajax({
+                    url: updateurl3,
+                    type: 'Post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataTook),
+                    success: function (response) {
+                        if (response.message === '修改成功') {
+                            Swal.fire({
+                                title: '成功',
+                                text: '接受成功!',
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    datataskfromotherno();
+                                    $('#mytaskothernoModal').modal('hide');
+                                }
+                            });
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '修改失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+            //按鈕
+            $('#btn-nook-changes').click(function () {
+                var caseId = taskid;
+                var CaseStatus = $('#ModalcaseStatusname2').val();
+                console.log(userbid);
+                var UserB = userbid;
+                var divId = dividname;
+                // 建立要送至伺服器的物件
+                var dataToUpdate = {
+                    caseid: caseId, // 從之前擷取
+                    CaseStatusname: CaseStatus,
+                            UserB: UserB,
+                    divId: divId
+                };
+                // 使用AJAX將資料送至伺服器
+                var updateurlno = `@Url.Content("~/ExpertTask/NoExpertTask")`;
+                $.ajax({
+                    url: updateurlno,
+                    type: 'Post',
+                    contentType: 'application/json', // 指定資料類型為JSON
+                    data: JSON.stringify(dataToUpdate), // 轉換JavaScript物件為JSON格式的字串
+                    success: function (response) {
+                        if (response.message === '修改成功') { // 請根據伺服器回傳的結構進行調整
+                            Swal.fire({
+                                title: '放棄',
+                                text: '放棄成功!',
+                                icon: 'success'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    datataskfromotherno();
+                                    $('#mytaskothernoModal').modal('hide');
+                                }
+                            });
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '放棄失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+
+            //這裡是接收按鈕區域結束
+        };
+        //專家完成
+        function btdoneClick() {
+            let currentElement = this;  // 這裡的 this 指的是當前被點擊的按鈕
+            let validIds = ["mytasking", "mytasked", "taskfromotherno", "taskingfromother", "taskedfromother"];
+            let dividname = "";
+            while (currentElement) {
+                if (validIds.includes(currentElement.id)) {
+                    // 這裡你已經找到了你的DIV
+                    console.log("Found the DIV with id:", currentElement.id);
+                    dividname = currentElement.id;
+                    break; // 跳出循環
+                }
+                currentElement = currentElement.parentElement;
+
+            }
+
+            // 根據按鈕上的data-*屬性獲取資料
+            let caseStatusname = this.getAttribute('data-caseStatusname');
+            let taskid = this.getAttribute('data-id');
+            let userbid = this.getAttribute('data-userB');
+            console.log(userbid);
+            console.log("111");
+            //這裡是接受按鈕區域
+                var caseId = taskid;
+                var CaseStatus = caseStatusname;
+                console.log(userbid);
+                var UserB2 = userbid;
+                var divId = dividname;
+
+                var datadone = {
+                    caseid: caseId, // 從之前擷取
+                    CaseStatusname: CaseStatus,
+                    UserB: UserB2,
+                    divId: divId
+                };
+                console.log(datadone);
+                console.log("3333");
+                // 使用AJAX將資料送至伺服器
+                var updateurl3 = `@Url.Content("~/ExpertTask/DoneExpertTask")`;
+            Swal.fire({
+                title: '確認',
+                text: "確認完成?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確認',
+                cancelButtonText: '取消'
+            }).
+            then((result) =>{
+                if (result.isConfirmed) {
+            $.ajax({
+                    url: updateurl3,
+                    type: 'Post',
+                    contentType: 'application/json',
+                        data: JSON.stringify(datadone),
+                    success: function (response) {
+                        if (response.message === '修改成功') {
+                                Swal.fire({
+                                    title: '完成委託',
+                                    text: '恭喜完成委託!',
+                                    icon: 'success'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                        datataskingfromother();
+                                            datataskedfromother();
+
+                                        }
+                            }
+                                );
+
+                        } else {
+                            Swal.fire({
+                                title: '失敗',
+                                text: '修改失敗，請稍後再試。',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: '錯誤',
+                            text: '發生錯誤，請稍後再試。',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+            });
+          
+        };
+
+
+
+    </script>
+     <script>
+
+       
+            //在家工作跟指定地點工作切換
+            $('#ModalCaseWorkPlace1').change(function () {
+                if ($(this).val() == "specific") {
+                    $('#ModalCaseAddress1').removeAttr('readonly');
+                } else {
+                    $('#ModalCaseAddress1').attr('readonly', true);
+                }
+            });
+    </script>
+
+}
+
+

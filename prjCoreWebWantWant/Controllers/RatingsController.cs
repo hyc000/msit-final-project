@@ -104,7 +104,7 @@ namespace prjCoreWebWantWant.Controllers
             _context.Update(expertapplication);
             _context.SaveChanges();
 
-            return RedirectToAction("ExpertListnew","ExpertTask");
+            return RedirectToAction("Listnew","ExpertTask");
           
 
 

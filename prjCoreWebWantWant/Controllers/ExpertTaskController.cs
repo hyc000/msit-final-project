@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
@@ -66,11 +67,14 @@ namespace prjCoreWebWantWant.Controllers
                 foreach (var expertApplication in item.ExpertApplications)
                 {
                     cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.taskmemberid = expertApplication.AccountId.GetValueOrDefault();
+
                     cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                     // 使用上述的變數進行其他操作
                 }
                
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.taskexpertid = taskList.AccountId.GetValueOrDefault();
                 cexperttask.caseid = taskList.CaseId;
                 cexperttask.taskcontent = taskList.TaskDetail;
 
@@ -120,9 +124,11 @@ namespace prjCoreWebWantWant.Controllers
                 foreach (var expertApplication in item.ExpertApplications)
                 {
                     cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.taskmemberid = expertApplication.AccountId.GetValueOrDefault();
                     cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.taskexpertid = taskList.AccountId.GetValueOrDefault();
                 cexperttask.caseid = taskList.CaseId;
                 cexperttask.taskcontent = taskList.TaskDetail;
 
@@ -169,9 +175,11 @@ namespace prjCoreWebWantWant.Controllers
                 foreach (var expertApplication in item.ExpertApplications)
                 {
                     cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.taskmemberid = expertApplication.AccountId.GetValueOrDefault();
                     cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.taskexpertid = taskList.AccountId.GetValueOrDefault();
                 cexperttask.caseid = taskList.CaseId;
                 cexperttask.taskcontent = taskList.TaskDetail;
 
@@ -222,10 +230,12 @@ namespace prjCoreWebWantWant.Controllers
                 foreach (var expertApplication in item.ExpertApplications)
                 {
                     cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.taskmemberid = expertApplication.AccountId.GetValueOrDefault();
                     cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
 
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.taskexpertid = taskList.AccountId.GetValueOrDefault();
                 cexperttask.caseid = taskList.CaseId;
                 cexperttask.taskcontent = taskList.TaskDetail;
 
@@ -274,9 +284,11 @@ namespace prjCoreWebWantWant.Controllers
                 foreach (var expertApplication in item.ExpertApplications)
                 {
                     cexperttask.taskmember = factory.MemberName(expertApplication.AccountId);
+                    cexperttask.taskmemberid = expertApplication.AccountId.GetValueOrDefault();
                     cexperttask.CaseStatusname = factory.StatusName(expertApplication.CaseStatusId);
                 }
                 cexperttask.taskexpert = factory.MemberName(taskList.AccountId);
+                cexperttask.taskexpertid = taskList.AccountId.GetValueOrDefault();
                 cexperttask.caseid = taskList.CaseId;
                     cexperttask.taskcontent = taskList.TaskDetail;
                
@@ -298,33 +310,12 @@ namespace prjCoreWebWantWant.Controllers
                 list5.Add(cexperttask);
             }
             vw.taskedfromother = list5;
+            ViewBag.UserA = _memberID;
             return View(vw);
             
         }
 
         #endregion
-
-        // GET: ExpertTask/Details/5
-        public async Task<IActionResult> DetailsReceive(int? id)
-        {
-            if (id == null || _context.TaskLists == null)
-            {
-                //return NotFound();
-                return View();            }
-
-            var taskList = await _context.TaskLists
-                .Include(t => t.Payment)
-                .Include(t => t.PaymentDate)
-                .Include(t => t.Salary)
-                .Include(t => t.Town)
-                .FirstOrDefaultAsync(m => m.CaseId == id);
-            if (taskList == null)
-            {
-                //return NotFound();
-                return View();            }
-
-            return View(taskList);
-        }
 
 # region 收到委託
         public async Task<IActionResult> DetailsResponse(int? id) //收到委託
@@ -473,96 +464,17 @@ namespace prjCoreWebWantWant.Controllers
         }
 
         #endregion
-        #region 修改委託單
-        // GET: ExpertTask/Edit/5
-        public async Task<IActionResult> Edit(int? id) //修改委託單
-        {
-            if (id == null || _context.TaskLists == null)
-            {
-                return NotFound();
-                
-            }
-
-            var taskList = await _context.TaskLists.FindAsync(id);
-            if (taskList == null)
-            {
-                return NotFound();
-                
-            }
-            CExperTaskFactory factory = new CExperTaskFactory(_context);
-            CExpertTaskInsertViewModel vm = new CExpertTaskInsertViewModel();
-            ExpertApplication ea = _context.ExpertApplications
-                .Where(x=>x.CaseId==id)
-                .FirstOrDefault();
-            vm.委託人 = factory.MemberName(ea.AccountId);
-            vm.委託人ID = ea.AccountId.GetValueOrDefault();
-            vm.被委託人 = factory.MemberName(taskList.AccountId);
-            vm.被委託人ID = taskList.AccountId.GetValueOrDefault();
-            vm.委託內容 = taskList.TaskDetail;
-            vm.委託時間起 = taskList.TaskStartDate;
-            vm.委託時間訖 = taskList.TaskEndDate;
-            vm.委託價格 = taskList.PayFrom.GetValueOrDefault();
-            
-            if (taskList.WorkPlace == true)
-            {
-                vm.委託工作地點 = "在家工作";
-                
-            }
-            else if (taskList.WorkPlace == false)
-            {
-                vm.委託工作地點 = "指定地點工作";
-                vm.指定委託地點 = taskList.Address;
-            }
-
-
-            return View(taskList);
-        }
-
-        // POST: ExpertTask/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]  //修改委託單
-        public async Task<IActionResult> Edit(int id, [Bind("CaseId,AccountId,TaskNameId,TaskTitle,TaskDetail,WorkingHoursId,PayFrom,PayTo,PaymentId,PaymentDateId,SalaryId,TaskPlace,TownId,WorkPlace,Address,RequiredNum,TaskPeriod,TaskStartHour,TaskEndHour,TaskStartDate,TaskEndDate,Requirement,HumanList,LanguageRequired,ServiceStatus,StatusChangeReasonId,PublishOrNot,PublishStart,PublishEnd,CaseStatusId,OnTop,DataCreateDate,DataModifyDate,DataModifyPerson,IsExpert")] TaskList taskList)
-        {
-            if (id != taskList.CaseId)
-            {
-                return NotFound();
-               
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(taskList);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaskListExists(taskList.CaseId))
-                    {
-                        //return NotFound();
-                        return View();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(ExpertListnew));
-            }
-            ViewData["PaymentId"] = new SelectList(_context.Payments, "PaymentId", "PaymentId", taskList.PaymentId);
-            ViewData["PaymentDateId"] = new SelectList(_context.PaymentDates, "PaymentDateId", "PaymentDateId", taskList.PaymentDateId);
-            ViewData["SalaryId"] = new SelectList(_context.Salaries, "SalaryId", "SalaryId", taskList.SalaryId);
-            ViewData["TownId"] = new SelectList(_context.Towns, "TownId", "TownId", taskList.TownId);
-            return View(taskList);
-        }
-        #endregion
+       
 
         [HttpPost]
-        public IActionResult UpdateExpertTask([FromBody] CExpertTaskViewModel model)
+        public IActionResult UpdateExpertTask([FromBody] CExpertTaskeViewModelHub model)
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             try
             {
                 var existingTask = _context.TaskLists.Find(model.caseid);
@@ -579,7 +491,7 @@ namespace prjCoreWebWantWant.Controllers
                 existingTask.PayFrom = model.taskprice;
                 existingTask.PayTo = model.taskprice;
 
-                if (model.WorkPlace == "在家工作")
+                if (model.WorkPlace == "home")
                 {
                     existingTask.WorkPlace = true;
                     existingTask.Address = model.Address;
@@ -591,7 +503,16 @@ namespace prjCoreWebWantWant.Controllers
                 }
                 //_context.Update(existingTask);
                 _context.SaveChanges();
-                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                string targetConnectionId = ConnectionManager.GetConnectionId(model.UserB);
+                string myConnectionId = ConnectionManager.GetConnectionId(_memberID.ToString());
+                if (!string.IsNullOrEmpty(targetConnectionId))
+                {
+                    _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", "taskfromotherno", "1");
+                }
+                if (!string.IsNullOrEmpty(myConnectionId))
+                {
+                    _hubContext.Clients.Client(myConnectionId).SendAsync("ReceiveUpdateme", "mytasking", "1");
+                }
                 return Ok(new { message = "修改成功" });
             }
 
@@ -602,8 +523,14 @@ namespace prjCoreWebWantWant.Controllers
         }
 
         [HttpPost]
-        public IActionResult AbandonExpertTask([FromBody] CExpertTaskViewModel model)
+        public IActionResult AbandonExpertTask([FromBody] CExpertTaskeViewModelHub model)
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             try
             {
                 var existingEA = _context.ExpertApplications.FirstOrDefault(x=>x.CaseId== model.caseid);
@@ -615,7 +542,9 @@ namespace prjCoreWebWantWant.Controllers
                 }
 
                 ChangeCaseStatusId(existingEA, 13);
-                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                string targetConnectionId = ConnectionManager.GetConnectionId(model.UserB);
+                string myConnectionId = ConnectionManager.GetConnectionId(_memberID.ToString());
+               
 
                 return Ok(new { message = "修改成功" });
             }
@@ -627,8 +556,14 @@ namespace prjCoreWebWantWant.Controllers
         }
 
         [HttpPost]
-        public IActionResult OKExpertTask([FromBody] CExpertTaskViewModel model)
+        public IActionResult OKExpertTask([FromBody] CExpertTaskeViewModelHub model)
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             try
             {
                 var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
@@ -641,7 +576,16 @@ namespace prjCoreWebWantWant.Controllers
 
                 ChangeCaseStatusId(existingEA, 17);
 
-                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                string targetConnectionId = ConnectionManager.GetConnectionId(model.UserB);
+                string myConnectionId = ConnectionManager.GetConnectionId(_memberID.ToString());
+                if (!string.IsNullOrEmpty(targetConnectionId))
+                {
+                    _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", "mytasking", "1");
+                }
+                if (!string.IsNullOrEmpty(myConnectionId))
+                {
+                    _hubContext.Clients.Client(myConnectionId).SendAsync("ReceiveUpdateme", "taskingfromother", "1");
+                }
 
                 return Ok(new { message = "修改成功" });
             }
@@ -653,8 +597,14 @@ namespace prjCoreWebWantWant.Controllers
         }
 
         [HttpPost]
-        public IActionResult NoExpertTask([FromBody] CExpertTaskViewModel model)
+        public IActionResult NoExpertTask([FromBody] CExpertTaskeViewModelHub model)
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             try
             {
                 var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
@@ -665,7 +615,16 @@ namespace prjCoreWebWantWant.Controllers
                     return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
                 }
                 ChangeCaseStatusId(existingEA, 16);
-                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                string targetConnectionId = ConnectionManager.GetConnectionId(model.UserB);
+                string myConnectionId = ConnectionManager.GetConnectionId(_memberID.ToString());
+                if (!string.IsNullOrEmpty(targetConnectionId))
+                {
+                    _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", "mytasked", "1");
+                }
+                if (!string.IsNullOrEmpty(myConnectionId))
+                {
+                    _hubContext.Clients.Client(myConnectionId).SendAsync("ReceiveUpdateme", "taskedfromother", "1");
+                }
                 return Ok(new { message = "修改成功" });
             }
             catch (Exception ex)
@@ -674,8 +633,14 @@ namespace prjCoreWebWantWant.Controllers
             }
         }
         [HttpPost]
-        public IActionResult DoneExpertTask([FromBody] CExpertTaskViewModel model)
+        public IActionResult DoneExpertTask([FromBody] CExpertTaskeViewModelHub model)
         {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
             try
             {
                 var existingEA = _context.ExpertApplications.FirstOrDefault(x => x.CaseId == model.caseid);
@@ -686,7 +651,16 @@ namespace prjCoreWebWantWant.Controllers
                     return NotFound(new { Status = "Failed", Message = "找不到相關的任務" });
                 }
                 ChangeCaseStatusId(existingEA, 18);
-                var hubContext = _hubContext.Clients.All.SendAsync("ReceiveUpdate", "一個新的任務已經更新");
+                string targetConnectionId = ConnectionManager.GetConnectionId(model.UserB);
+                string myConnectionId = ConnectionManager.GetConnectionId(_memberID.ToString());
+                if (!string.IsNullOrEmpty(targetConnectionId))
+                {
+                    _hubContext.Clients.Client(targetConnectionId).SendAsync("ReceiveUpdate", "mytasked", "1");
+                }
+                if (!string.IsNullOrEmpty(myConnectionId))
+                {
+                    _hubContext.Clients.Client(myConnectionId).SendAsync("ReceiveUpdateme", "taskedfromother", "1");
+                }
                 return Ok(new { message = "修改成功" });
             }
             catch (Exception ex)
@@ -698,6 +672,19 @@ namespace prjCoreWebWantWant.Controllers
         {
             existing.CaseStatusId = statusId;
             _context.SaveChanges();
+
+        }
+        //--------------------------------------------測試00700
+        public IActionResult Listnew() //歷史委託
+        {
+            _memberID = GetMemberIDFromSession();//登入者我自己memberID
+            if (_memberID == 0)
+            {
+                TempData["message"] = "請先登入";
+                return RedirectToAction("Login", "Member");
+            }
+            ViewBag.UserA = _memberID;
+            return View();
 
         }
 
