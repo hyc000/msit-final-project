@@ -72,6 +72,14 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             background-color: #528eaf;
         }
 
+        .form-group {
+            display: flex;
+            align-items: center;
+        }
+
+            .form-group label {
+                margin-right: 10px;
+            }
 
     </style>
 }
@@ -135,7 +143,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const datas = await response.json()
             // datas.sort();
             const cities = datas.map(City => `<option value="${City}">${City}</option>`);
-            cities.unshift('<option value="">請選擇城市</option>');
+            cities.unshift('<option value="請選擇地點">請選擇地點</option>');
+            cities.splice(1, 0, '<option value="在家兼職">在家兼職</option>');
             document.querySelector('#selCity').innerHTML = cities.join("");
 
             // loadDistrict();
@@ -157,33 +166,33 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
         })
 
 
-        const workAtHome = document.querySelector('#workAtHome');
-        workAtHome.addEventListener('click', function () {
-            if (workAtHome.checked) {
-                selCity.setAttribute('disabled', 'disabled');
-                // workAtHome.value = 'true';
-                // const xhr = new XMLHttpRequest();
-                // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-                // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
-                // xhr.addEventListener('load', () => {
-                //     const Result = document.querySelector('#Result');
-                //     Result.innerHTML = xhr.responseText;
-                // })
-            }
-            else {
-                selCity.removeAttribute('disabled');
-                // workAtHome.value = 'false';
-                // const xhr = new XMLHttpRequest();
-                // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-                // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
-                // xhr.addEventListener('load', () => {
-                //     const Result = document.querySelector('#Result');
-                //     Result.innerHTML = xhr.responseText;
-                // })
-            }
-        })
+        //const workAtHome = document.querySelector('#workAtHome');
+        //workAtHome.addEventListener('click', function () {
+        //    if (workAtHome.checked) {
+        //        selCity.setAttribute('disabled', 'disabled');
+        //        // workAtHome.value = 'true';
+        //        // const xhr = new XMLHttpRequest();
+        //        // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+        //        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //        // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
+        //        // xhr.addEventListener('load', () => {
+        //        //     const Result = document.querySelector('#Result');
+        //        //     Result.innerHTML = xhr.responseText;
+        //        // })
+        //    }
+        //    else {
+        //        selCity.removeAttribute('disabled');
+        //        // workAtHome.value = 'false';
+        //        // const xhr = new XMLHttpRequest();
+        //        // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+        //        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //        // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
+        //        // xhr.addEventListener('load', () => {
+        //        //     const Result = document.querySelector('#Result');
+        //        //     Result.innerHTML = xhr.responseText;
+        //        // })
+        //    }
+        //})
 
 
 
@@ -262,7 +271,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeNew")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -274,7 +283,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortByUpdateTimeOld")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -286,7 +295,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortBySalaryHigh")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -298,7 +307,32 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/SortBySalaryLow")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+        const taskStartDate = document.querySelector('#taskStartDate');
+        const taskEndDate = document.querySelector('#taskEndDate');
+
+        taskStartDate.addEventListener('change',() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+            })
+        })
+
+        taskEndDate.addEventListener('change', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
@@ -335,260 +369,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
 
     <div class="container-fluid">
 
-         <div class="p-3 mt-2 mb-2">
-
-             @* <p class="fs-3 divide-line fw-bold"><i class="fa-solid fa-fire fa-beat" style="color: #e01010;"></i>  熱門任務</p>  *@
-                <div class="row g-0 column-gap-5 justify-content-center pt-3 pb-3">
-                    <div id="carouselExampleIndicators" class="carousel slide"> 
-                        @* <div class="carousel-inner "> *@
-                       @*  @{
-                            NewIspanProjectContext _context = new NewIspanProjectContext();
-                            var TOP = _context.TaskLists.Where(t => t.OnTop > DateTime.Now);
-                        } *@
-
-                       @*  @foreach (var item in TOP)
-                        {
-                            <div class="carousel-item active">
-                                <div class="d-flex row g-0 justify-content-center">
-                                    <div class="topTen border rounded p-3 me-4 col-5">
-                                    
-
-                                    
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                       
-                                       
-                                            <p class="fs-4 text-black">@item.TaskTitle</p>
-                                            <p>@item.PayFrom 元</p>
-                                            <div class="d-flex align-items-end">
-
-
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>姓名</span><span> | 發文時間 : @item.DataModifyDate</span><span> | </span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                      
-
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                                        } *@
-                           @*  <div class="carousel-item">
-                                <div class="d-flex row g-0 justify-content-center">
-                                    <div class="topTen border rounded p-3 me-4 col-5">
-                                        
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="topTen border rounded p-3 col-5">
-
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                基隆登島找旅伴
-                                            </p>
-                                            <p>totalPrice : 4700</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-female-100.png" width="64" height="64">
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>羽葳</span><span> | 發文時間 : 2023/09/25</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#水上活動</span>
-                                                        <span>#多日遊</span>
-                                                        <span>#遊船觀光</span>
-                                                        <span>#景點門票</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex row g-0 justify-content-center">
-                                    <div class="topTen border rounded p-3 me-4 col-5">
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                我們去澎湖潛水吧
-                                            </p>
-                                            <p>totalPrice : 4600</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-100.png" width="64" height="64">
-
-
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>彥豪</span><span> | 發文時間 : 2023/08/24</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#多日遊</span>
-                                                        <span>#遠足&amp;登山</span>
-                                                        <span>#飯店</span>
-
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div> 
-                                    <div class="topTen border rounded p-3 col-5">
-
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                找旅伴 太平山兩日一夜
-                                            </p>
-                                            <p>totalPrice : 4600</p>
-                                            <div class="d-flex align-items-end">
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>瑋倫</span><span> | 發文時間 : 2023/08/21</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#多日遊</span>
-                                                        <span>#遠足&amp;登山</span>
-                                                        <span>#飯店</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex row g-0 justify-content-center">
-                                    <div class="topTen border rounded p-3 me-4 col-5">
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                拉拉山一日遊 找旅友
-                                            </p>
-                                            <p>totalPrice : 4600</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-female-100.png" width="64" height="64">
-
-
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>家玟</span><span> | 發文時間 : 2023/08/28</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#多日遊</span>
-                                                        <span>#遠足&amp;登山</span>
-                                                        <span>#飯店</span>
-
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="topTen border rounded p-3 col-5">
-
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                一起去霧峰林家宮保第園區
-                                            </p>
-                                            <p>totalPrice : 4500</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-100.png" width="64" height="64">
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>宗佑</span><span> | 發文時間 : 2023/09/04</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#多日遊</span>
-                                                        <span>#遠足&amp;登山</span>
-                                                        <span>#飯店</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-flex row g-0 justify-content-center">
-                                    <div class="topTen border rounded p-3 me-4 col-5">
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                雪霸國家公園輕旅行
-                                            </p>
-                                            <p>totalPrice : 4500</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-female-100.png" width="64" height="64">
-
-
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>家玟</span><span> | 發文時間 : 2023/08/28</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#多日遊</span>
-                                                        <span>#遠足&amp;登山</span>
-                                                        <span>#飯店</span>
-
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="topTen border rounded p-3 col-5">
-
-                                        <a class="text-secondary" href="/Forum/ArticleView">
-                                            <p class="fs-4 text-black">
-                                                深澳鐵道自行車 體驗遊
-                                            </p>
-                                            <p>totalPrice : 4500</p>
-                                            <div class="d-flex align-items-end">
-                                                <img src="/icons/icons8-person-female-100.png" width="64" height="64">
-                                                <div>
-                                                    <small class="text-body-secondary d-block">
-
-                                                        <span>于婷</span><span> | 發文時間 : 2023/09/27</span><span> | 回覆數 : 1</span>
-                                                    </small>
-                                                    <small class="text-body-secondary d-block">
-                                                        <img src="/icons/icons8-tag-16.png">
-                                                        <span>#水上活動</span>
-                                                        <span>#多日遊</span>
-                                                        <span>#遊船觀光</span>
-                                                        <span>#景點門票</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div> *@
-                        </div>
-
-                        @* <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="align-items-center row my-bg-primary my-img-circle  my-w50-h50"><span class="carousel-control-prev-icon col" aria-hidden="true"></span></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="align-items-center row my-bg-primary my-img-circle  my-w50-h50"><span class="carousel-control-next-icon col" aria-hidden="true"></span></span>
-                            <span class="visually-hidden">Next</span>
-                        </button> *@
-                    </div>
-                </div>
-            </div> 
+       
         <div class="row">
             <!--select任務類型-->
             <div class="col-xl-3 col-lg-3 col-md-4">
@@ -629,10 +410,10 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                             
                         <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d">@* <img src="~/Backstage/icon/placeholder.png" style="width:24px;height:24px">*@ <i class="fa-solid fa-location-dot"></i> 任務地點</label>
 
-                            <div class="form-check mb-3">
+                            @*<div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" name="workAtHome" id="workAtHome" value="">
                                 <label class="form-check-label" for="workAtHome" style="font-size:17px">在家兼職</label>
-                            </div>
+                            </div>*@
 
                         @* <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptionsPlace" id="inlineRadioHome"
@@ -645,9 +426,18 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                     <!-- <option selected>請選擇縣市</option> -->
                                     <option></option>
                                 </select>
-                                 <label for="floatingSelectCity">城市</label> 
+                                 <label for="floatingSelectCity">地點</label> 
                             </div>
 
+                            <label style="text-align: center; display: block;font-size:20px;color:#4f9d9d"><img src="~/Backstage/icon/calendar_1.png" style="width:20px;height:20px" />任務時間</label>
+                            <div class="form-group">
+                                <label for="taskStartDate">起</label>
+                                <input id="taskStartDate" class="form-control" type="date" />
+                            </div>
+                            <div class="form-group">
+                                <label for="taskStartDate">迄</label>
+                                <input  id="taskEndDate" class="form-control" type="date" />
+                            </div>
                         
 
 

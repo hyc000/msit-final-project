@@ -160,10 +160,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
 
             ViewBag.Category = Category;
-            if (city != null)
+            if (city != "請選擇地點" && city != "在家兼職")
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
+            else if (city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
+            }
+
 
             if (Category == "所有任務")
             {
@@ -193,10 +198,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
 
             ViewBag.Category = Category;
-            if (city != null)
+            if (city != "請選擇地點" && city != "在家兼職")
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
+            else if (city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
+            }
+
 
             if (Category == "所有任務")
             {
@@ -226,10 +236,15 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
 
             ViewBag.Category = Category;
-            if (city != null)
+            if (city != "請選擇地點" && city != "在家兼職")
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
+            else if (city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
+            }
+
 
             if (Category == "所有任務")
             {
@@ -259,9 +274,13 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                     .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
 
             ViewBag.Category = Category;
-            if (city != null)
+            if (city != "請選擇地點" && city != "在家兼職")
             {
                 q = q.Where(c => c.Town.City.City1 == city);
+            }
+            else if (city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
             }
 
             if (Category == "所有任務")
@@ -348,19 +367,28 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(datas);
         }
 
-        public IActionResult Partial1(bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
+        public IActionResult Partial1(string StartDate, string EndDate, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
         {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
                     .Include(t => t.TaskName)
-                    .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true);
+                    .Where(tl => tl.PublishOrNot == "立刻上架"&& tl.IsExpert != true).AsEnumerable();
 
             ViewBag.Category = Category;
-            if (city != null)
+            if (city != "請選擇地點" && city != "在家兼職")
             {
                 q = q.Where(c => c.Town.City.City1 == city);
             }
-            
+            else if(city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
+            }
+
+            if (StartDate != null)
+            {
+                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+            }
+
             if (Category == "所有任務")
             {
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
