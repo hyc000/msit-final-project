@@ -1,4 +1,26 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
+
+    const DemoBtnCommS1 = document.querySelector('#DemoBtnCommS1');
+    const DemoBtnCommS2 = document.querySelector('#DemoBtnCommS2');
+    const DemoBtnCommA1 = document.querySelector('#DemoBtnCommA1');
+    const chatMessage = document.querySelector('#chatMessagePart');
+
+    DemoBtnCommS1.addEventListener('click', event => {
+        event.preventDefault();
+        chatMessage.value = '我收到了，實際成品比照片上看起來更完美!媽媽收到一定會很開心，感謝專家!';
+    });
+    DemoBtnCommA1.addEventListener('click', event => {
+        event.preventDefault();
+        chatMessage.value = '非常開心你喜歡我的作品!如果以後還有需求歡迎再次光臨喔';
+    });
+    DemoBtnCommS2.addEventListener('click', event => {
+        event.preventDefault();
+        chatMessage.value = '好的!期待下次您的作品喔';
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
 
         //抓聊天小圖示跟放聊天室的地方
         const showChatList = document.getElementById('showChatList');
