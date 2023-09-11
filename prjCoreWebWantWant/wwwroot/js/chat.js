@@ -328,6 +328,16 @@ async function loadUser() {
             const chatDetailPart = document.querySelector('#chatDetailPart');
             chatDetailPart.innerHTML = ''; // 清空原內容
             chatDetailData.map(chat => {
+                const messageId = chat.id;//記錄每則訊息編號
+                if (!chat.IsRead) {
+                    // 如果消息未讀，則執行標記為已讀的操作，並把這個更新到資料庫
+                    chat.IsRead = true;
+
+                    // 向伺服器報告該訊息已讀
+                    // 使用 AJAX 或 fetch 將消息 ID 發送到伺服器端
+                    
+                }
+                unRead();
 
                 const chatContainerDiv = document.createElement('div');
                 chatContainerDiv.classList.add('chat-container', 'flex', 'flex-row-reverse');
