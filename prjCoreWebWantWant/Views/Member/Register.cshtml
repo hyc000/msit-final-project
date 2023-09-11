@@ -63,8 +63,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="註冊" class="btn btn-outline-primary my-2" />
-                    <input value="Demo" class="btn btn-outline-primary my-2" onclick="Demo()"/>
+                    <input type="submit" value="註冊" class="btn btn-outline-primary my-2" id="signup" onclick="signupSucceed()" />
+                    <a class="btn btn-outline-primary my-2" onclick="Demo()">Demo</a>
                 </div>
             </form>
         </div>
@@ -73,6 +73,9 @@
 </div>
 
                     @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
                         <script>
                             function Demo() {
             var Name = document.getElementById("Name");
@@ -94,6 +97,36 @@
             PhoneNo.value = "0917253739";
 
                             }
+        $(document).ready(function () {
+            $("form").on("submit", function (e) {
+                e.preventDefault(); // 阻止表單的默認提交行為
 
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr("action"), // 從表單獲取 action 屬性
+                    data: $(this).serialize(), // 序列化表單數據
+                    success: function (response) {
+                        // 檢查 response，如果註冊成功，顯示 Sweet Alert
+                        Swal.fire({
+                            title: '註冊成功',
+                            text: response.message, // 假設你的後端返回了一個有 message 屬性的 JSON 對象
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.close();
+                            }
+                        });
+
+                        // 如果需要，你可以在這裡添加重導向邏輯
+                        // window.location.href = "/Member/login";
+                    },
+                    error: function (error) {
+                        // 處理錯誤
+                        console.error("Error during form submission", error);
+                    }
+                });
+            });
+        });
                         </script>
+
                     }

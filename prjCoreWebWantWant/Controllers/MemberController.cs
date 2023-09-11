@@ -163,54 +163,60 @@ namespace prjCoreWantMember.Controllers
         [HttpPost]
         public IActionResult Register(MemberAccount member)
         {
-
-            NewIspanProjectContext db = new NewIspanProjectContext();
-            MemberAccount newmember = new MemberAccount();
-
-            if (newmember != null)
+            try
             {
-                newmember.AccountId = 0;
-                newmember.Name = member.Name;
-                newmember.Email = member.Email;
-                newmember.Password = member.Password;
-                newmember.IdcardNo = member.IdcardNo;
-                newmember.Gender = member.Gender;
-                newmember.UserName = member.UserName;
-                newmember.BitrhDay = member.BitrhDay;
+                NewIspanProjectContext db = new NewIspanProjectContext();
+                MemberAccount newmember = new MemberAccount();
 
-
-                db.MemberAccounts.Add(newmember);
-                //db.SaveChanges();
-
-                if (newmember.Email.Contains("@want.com")) //客服人員都用公司email註冊
+                if (newmember != null)
                 {
-                    int memID = (from m in db.MemberAccounts
-                                 where m.Email == newmember.Email
-                                 select m.AccountId).FirstOrDefault();
-                    MemberRoleConn memRole = new MemberRoleConn
-                    {
-                        AccountId = memID,
-                        RoleId = 2 //客服人員
-                    };
-                    db.MemberRoleConns.Add(memRole);
+                    newmember.AccountId = 0;
+                    newmember.Name = member.Name;
+                    newmember.Email = member.Email;
+                    newmember.Password = member.Password;
+                    newmember.IdcardNo = member.IdcardNo;
+                    newmember.Gender = member.Gender;
+                    newmember.UserName = member.UserName;
+                    newmember.BitrhDay = member.BitrhDay;
 
-                }
-                else //不是客服的都會獲得基本會員身分
-                {
-                    int memID = (from m in db.MemberAccounts
-                                 where m.Email == newmember.Email
-                                 select m.AccountId).FirstOrDefault();
-                    MemberRoleConn memRole = new MemberRoleConn
+
+                    db.MemberAccounts.Add(newmember);
+                    //db.SaveChanges();
+                   
+                    if (newmember.Email.Count()>0&&newmember.Email.Contains("@want.com")) //客服人員都用公司email註冊
                     {
-                        AccountId = memID,
-                        RoleId = 1 //會員
-                    };
-                    db.MemberRoleConns.Add(memRole);
+                        int memID = (from m in db.MemberAccounts
+                                     where m.Email == newmember.Email
+                                     select m.AccountId).FirstOrDefault();
+                        MemberRoleConn memRole = new MemberRoleConn
+                        {
+                            AccountId = memID,
+                            RoleId = 2 //客服人員
+                        };
+                        db.MemberRoleConns.Add(memRole);
+
+                    }
+                    else if(newmember.Email.Count() > 0) //不是客服的都會獲得基本會員身分
+                    {
+                        int memID = (from m in db.MemberAccounts
+                                     where m.Email == newmember.Email
+                                     select m.AccountId).FirstOrDefault();
+                        MemberRoleConn memRole = new MemberRoleConn
+                        {
+                            AccountId = memID,
+                            RoleId = 1 //會員
+                        };
+                        db.MemberRoleConns.Add(memRole);
+                    }
+                    //db.SaveChanges();
                 }
-                //db.SaveChanges();
+                TempData["message"] = "註冊成功";
+                return RedirectToAction("Login");
             }
-
-            return RedirectToAction("Login");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public IActionResult Logout()
