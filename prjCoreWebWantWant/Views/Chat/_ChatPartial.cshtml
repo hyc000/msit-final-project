@@ -3,7 +3,7 @@
     Layout = null; // 使用這個 partial view 時不需要佈局
 }
 <div class="icon" id="showChatList">
-    <i class="bi bi-chat-fill"></i>
+    <i class="bi bi-chat-fill" style="font-size:1.8em"></i>
     <span class="unread-badge" style="display:none;"></span>
 
 </div>
@@ -12,7 +12,7 @@
 
     <div class="chat-row" style="height:100%">
 
-        <div class="col-lg-3 col-md-4  card" style="flex-grow:100;">
+        <div class="col-lg-4 col-md-4  card" style="flex-grow:100;">
             <div class="chat-list-header pt-3" style="height:100px;min-width:40%">
                     <div class="mt-3 my-chat-title">◆Want Chat◆</div>
                     @*                 <span class="input-group my-2 w-75 mx-auto">
@@ -20,10 +20,10 @@
                     <button tabindex="102" class="input-group-text" type="submit" value=""><i class="bi bi-search-heart"></i></button>
                     </span> *@
                 </div>
-                <div id="userListPart" style="max-height: 100%; overflow-y: auto;"></div><!--聊天清單從這邊開始加的-->
+            <div id="userListPart" class="my-scrollbar" style="height:55vh;max-height: 69vh;overflow-y:auto;align-items: stretch;"></div><!--聊天清單從這邊開始加的-->
                 <!--100%69 125%67-->
             </div>
-        <div class="col-lg-9 col-md-8 card" style="max-height:100%;flex-grow:100;">
+        <div class="col-lg-8 col-md-8 card" style="max-height:100%;flex-grow:100;">
                 <div class="chat-list-header pt-3 opacity-50" style="min-height:100px">
                 <button type="button" class="btn btn-sm small" id="DemoBtnCommS1">聊天Demo小夫1</button>
                 <button type="button" class="btn btn-sm small" id="DemoBtnCommS2">聊天Demo小夫2</button>
@@ -31,7 +31,7 @@
                 </div>
             <div class="p-3  my-scrollbar" id="chatDetailPart" style="height:100vh;max-height:100vh;overflow-y: auto;">請選擇聊天對象以開始對話</div><!--聊天詳細頁面是這邊-->
                 <span class="input-group">
-                <input type="text" placeholder="請輸入訊息..." id="chatMessagePart" class="form-control" autocomplete="off" name="jsSendMessage" tabindex="101" value="">
+                <input type="text" placeholder="請輸入訊息..." id="chatMessagePart" class="form-control" autocomplete="off" name="jsSendMessagePart" tabindex="101" value="">
                     <button tabindex="102" class="input-group-text" type="submit" id="btnSentMessagePart"><i class="bi bi-send"></i></button>
                 </span>
             </div>

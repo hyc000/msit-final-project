@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 30px;
     right: 0;
-    margin: 0px 30px;
+    margin: 5px 38px;
     z-index: 9999;
     max-height: 100%;
     width: 55%;
@@ -28,12 +28,12 @@
     color: white;
     border-radius: 50%;
     position: absolute;
-    top: -4px;
-    right: -8px;
-    font-size: 6px;
-    width: 16px;
-    height: 16px;
-    line-height: 16px; /* 設定與高度相同的 line-height */
+    top: 0px;
+    right: -5px;
+    font-size: 10px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px; /* 設定與高度相同的 line-height */
     text-align: center; /* 水平置中對齊文本 */
 }
 

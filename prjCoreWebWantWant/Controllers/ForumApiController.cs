@@ -106,7 +106,7 @@ namespace prjCoreWebWantWant.Controllers
                     post.Updated = DateTime.Now;
 
                     // 保存更改到數據庫
-                    _db.SaveChangesAsync();
+                    _db.SaveChanges();
                 }
 
                 return Json(new { success = true });

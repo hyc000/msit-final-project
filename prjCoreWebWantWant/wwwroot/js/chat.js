@@ -96,6 +96,7 @@ function unRead() {
             });
 }
 
+//看能不能點下聊天圖示打開聊天的div並與對方對話&傳送訊息
 
 
 //建立signalR連線
@@ -151,7 +152,7 @@ connectionPart.on("UpdateUserInfo", function (accountId, connectionIdPart) {
 
 //聊天發出功能--------------------start--------------------
 const btnSentMessagePart = document.getElementById("btnSentMessagePart");
-const messageInputPart = document.querySelector("input[name='jsSendMessage']");
+const messageInputPart = document.querySelector("input[name='jsSendMessagePart']");
 let receiverIdPart = 0;
 
 btnSentMessagePart.addEventListener('click', () => {//按下畫面上按鈕的事件
