@@ -25,11 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
         //抓聊天小圖示跟放聊天室的地方
         const showChatList = document.getElementById('showChatList');
         const chatContainerPart = document.getElementById('chatContainerPart');
-
+    const chatMessage = document.querySelector('#chatMessagePart');
+    const chatDetailPart = document.querySelector('#chatDetailPart');
         //展開關閉聊天室div
         showChatList.addEventListener('click', function () {
             console.log("Click event fired");
             inChatRoomPart = 0;
+            chatMessage.value = "";
+            chatDetailPart.innerHTML = ''; // 清空原內容
+            chatDetailPart.textContent = '請選擇聊天對象以開始對話';
+
             if (chatContainerPart.style.display === 'none') {
                 chatContainerPart.style.display = 'block';
             } else {
@@ -80,7 +85,7 @@ function unRead() {
                 // 更新未讀訊息數量
                 const unreadBadge = document.querySelector('.unread-badge');
                 unreadBadge.textContent = data;
-                if (data === 0) {
+                if (data === '0') {
                     unreadBadge.style.display = 'none'; // 如果沒有未讀訊息，隱藏徽章
                 } else {
                     unreadBadge.style.display = 'block'; // 如果有未讀訊息，顯示徽章
