@@ -139,7 +139,7 @@
                 <span class=" display-7 fw-bolder" style="color:#528EAF">
                     接案者管理
                 </span>
-                <span id="two" class="badge bg-info text-end"></span>
+                <span id="two" class="badge bg-info text-center"></span>
             </a>
         </li>
     </ul>
@@ -149,13 +149,13 @@
                 <li class="nav-item">
                     <a id="btnmytasking" data-show="#mytasking" data-hide="#mytasked" class="nav-link active" data-bs-toggle="tab" role="tab">
                         <span class="d-none d-sm-block" style="color:#528EAF">進行中的委託</span>
-                        <span id="one1" class="badge bg-info text-end"></span>
+                        <span id="one1" class="badge bg-info text-center"></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="btnmytasked"  data-show="#mytasked" data-hide="#mytasking" class="nav-link active" data-bs-toggle="tab" role="tab">
                         <span class="d-none d-sm-block" style="color:#528EAF">已結束的委託</span>
-                        <span id="one2" class="badge bg-info text-end"></span>
+                        <span id="one2" class="badge bg-info text-center"></span>
 
                     </a>
                 </li>
@@ -215,7 +215,7 @@
                     <a id="btntaskfromotherno" data-show2="#taskfromotherno" data-hide2="#taskingfromother" data-hide22="#taskedfromother"
                        class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
                         <span class="d-none d-sm-block" style="color:#528EAF">待回應的委託</span>
-                        <span id="two1" class="badge bg-info text-end"></span>
+                        <span id="two1" class="badge bg-info text-center"></span>
 
                     </a>
                 </li>
@@ -223,14 +223,14 @@
                     <a id="btntaskingfromother" data-show2="#taskingfromother" data-hide2="#taskfromotherno" data-hide22="#taskedfromother"
                        class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
                         <span class="d-none d-sm-block" style="color:#528EAF">未完成的委託</span>
-                        <span id="two2" class="badge bg-info text-end"></span>
+                        <span id="two2" class="badge bg-info text-center"></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="btntaskedfromother" data-show2="#taskedfromother" data-hide2="#taskingfromother" data-hide22="#taskfromotherno"
                        class="nav-link active" data-bs-toggle="tab" href="#" role="tab">
                         <span class="d-none d-sm-block" style="color:#528EAF">已結束的接案</span>
-                        <span id="two3" class="badge bg-info text-end"></span>
+                        <span id="two3" class="badge bg-info text-center"></span>
 
                     </a>
                 </li>
@@ -801,6 +801,7 @@
                             updateicon.setAttribute('style', 'color: #518eaf;');
                             btnupdate.appendChild(updateicon);
                             btnupdate.addEventListener('click', btnupdateClick);
+                            console.log("這裡生成了按鈕喔");
                             td9.appendChild(btnupdate);
                             tr.appendChild(td9);
                         }
@@ -1383,7 +1384,7 @@
             document.getElementById('ModalcaseStatusname1').textContent = caseStatusname;
             console.log("1");
             //這裡是修改按鈕區域
-            $('#btn-save-changes').click(function () {
+            $('#btn-save-changes').off('click').click(function () {
                 var caseId = taskid;
                 var updatedTaskContent = $('#Modaltaskcontent1').val();
                 var updatedTaskDateStart = $('#Modaltaskdatestart1').val();
@@ -1410,6 +1411,7 @@
                 console.log(dataToUpdate);
                 // 使用AJAX將資料送至伺服器
                 var updateurl = `@Url.Content("~/ExpertTask/UpdateExpertTask")`;
+                console.log("我要去CALL方法了喔");
                 $.ajax({
                     url: updateurl,
                     type: 'Post',
@@ -1423,6 +1425,7 @@
                                 icon: 'success'
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    console.log("我要去CALL方法了喔2");
                                     datamytasking();
                                     $('#mytaskingupdateModal').modal('hide');
                                 }
@@ -1446,7 +1449,7 @@
                 });
             });
             //放棄按鈕
-            $('#btn-no-changes').click(function () {
+            $('#btn-no-changes').off('click').click(function () {
                 // 擷取修改後的資料
                 var caseId = taskid;
                 var CaseStatus = $('#ModalcaseStatusname1').text();
@@ -1549,7 +1552,7 @@
             document.getElementById('ModalcaseStatusname2').textContent = caseStatusname;
             console.log("1");
             //這裡是接受按鈕區域
-            $('#btn-ok-changes').click(function () {
+            $('#btn-ok-changes').off('click').click(function () {
                 var caseId = taskid;
                 var CaseStatus = $('#ModalcaseStatusname2').val();
                 console.log(userbid);
@@ -1604,7 +1607,7 @@
                 });
             });
             //按鈕
-            $('#btn-nook-changes').click(function () {
+            $('#btn-nook-changes').off('click').click(function () {
                 var caseId = taskid;
                 var CaseStatus = $('#ModalcaseStatusname2').val();
                 console.log(userbid);
