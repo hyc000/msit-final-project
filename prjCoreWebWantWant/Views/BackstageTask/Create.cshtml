@@ -825,6 +825,7 @@
         const txtPayFrom = document.querySelector('#txtPayFrom');
         const txtPayTo = document.querySelector('#txtPayTo');
         //const txtAddress = document.querySelector('#txtAddress');
+       
 
         CreateDemo.addEventListener('click', () => {
             txtTaskTitle.value = "模型設計及製作"
@@ -835,15 +836,20 @@
             txtPayFrom.value = "1000"
             txtPayTo.value = "1000"
             //txtAddress.value = ""
+            /* SelTaskName.selectedIndex=1*/
+           /*  SelPayment.selectedIndex=2*/
+            /*SelPaymentDate.selectedIndex = 2*/
+           /* hiddenPaymentDateIdInput.value =1;*/
+
         })
 
 
-        //同上btn
+        //同上checkbox
         const samePayToCheckbox = document.querySelector('#samePayToCheckbox');
         const taskEndHourCheckbox = document.querySelector('#taskEndHourCheckbox');
         const sametaskStartHourCheckbox = document.querySelector('#sametaskStartHourCheckbox');
 
-
+        //價格同上checkbox
         samePayToCheckbox.addEventListener('click', function () {
             // 复选框状态改变时的处理
             if (samePayToCheckbox.checked) {
@@ -853,6 +859,7 @@
             }
         });
 
+        //時間同上checkbox
         sametaskEndHourCheckbox.addEventListener('click', function () {
             // 复选框状态改变时的处理
             if (sametaskEndHourCheckbox.checked) {
@@ -862,6 +869,7 @@
             }
         });
 
+        //不指定時段checkbox
         sametaskStartHourCheckbox.addEventListener('click', function () {
             // 复选框状态改变时的处理
             if (sametaskStartHourCheckbox.checked) {
@@ -870,7 +878,6 @@
                 taskStartHour.value = '';
             }
         });
-
 
 
 
