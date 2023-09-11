@@ -121,10 +121,19 @@
                         <span asp-validation-for="TaskStartHour" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TaskEndHour" class="control-label"></label>
-                        <input asp-for="TaskEndHour" id="taskEndHour" class="form-control" />
-                        <span asp-validation-for="TaskEndHour" class="text-danger"></span>
-                    </div>
+                            <label asp-for="TaskEndHour" class="control-label">
+                                結束時間，請輸入時段，例如：中班：13：00~17：00，若無則免填
+                                <label class="control-label" id="sametaskEndHour"><input type="checkbox" id="sametaskEndHour" />同上</label>
+
+
+                            </label>
+                           
+                            <input asp-for="TaskEndHour" id="taskEndHour" class="form-control" />                            
+                            <span asp-validation-for="TaskEndHour" class="text-danger"></span>
+                        </div>
+
+                     
+
                 </div>
                 </div>
 
@@ -180,7 +189,9 @@
                         <span asp-validation-for="PayFrom" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="PayTo" class="control-label"></label>
+                            <label asp-for="PayTo" class="control-label">
+                                <label class="control-label" id="samePayTo">最高金額　　<input type="checkbox" id="samePayToCheckbox" />同上</label>
+                            </label>
                         <input asp-for="PayTo" class="form-control" id="txtPayTo" />
                         <span asp-validation-for="PayTo" class="text-danger"></span>
                     </div>
@@ -824,6 +835,28 @@
             txtPayTo.value = "1000"
             //txtAddress.value = ""
         })
+
+
+        //同上btn
+        var samePayToCheckbox = document.getElementById('samePayToCheckbox');
+        var txtPayFrom = document.getElementById('txtPayFrom');
+        var txtPayTo = document.getElementById('txtPayTo');
+
+        sametaskEndHour.Checkbox.addEventListener('click', function () {
+            taskEndHour.value = taskStartHour.value
+            //checkbox.checked = !checkbox.checked; // 切换复选框的状态
+        });
+
+        samePayToCheckbox.addEventListener('chang', function () {
+            if (samePayToCheckbox.checked) {
+                // 复选框被选中时，将PayTo的值设置为PayFrom的值
+                txtPayTo.value = txtPayFrom.value;
+            } else {
+                // 复选框未选中时，清空PayTo的值
+                txtPayTo.value = '';
+            }
+        });
+
 
         //照片預覽
         const photoInput = document.getElementById('photoInput');
