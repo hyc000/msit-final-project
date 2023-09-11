@@ -1,4 +1,5 @@
-﻿@model prjCoreWebWantWant.ViewModels.CExpertShowResumesViewModel
+﻿@using System.Web;
+@model prjCoreWebWantWant.ViewModels.CExpertShowResumesViewModel
 @{
     ViewData["Title"] = "履歷";
     
@@ -199,7 +200,7 @@
                     </p>
                     <h4 class="lead pt-3">◆常見問題：</h4>
                     <p class="lead pt-3 container-fluid">
-                        @Html.DisplayFor(model => model.常見問題)
+                        @Html.Raw(HttpUtility.HtmlDecode(Model.常見問題))
                     </p>
                     @if (Model.個人網站 != null)
                     {
