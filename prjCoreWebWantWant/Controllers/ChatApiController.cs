@@ -94,10 +94,14 @@ namespace WantTask.Controllers
         public string UserAvatar(int id)
         {
             var ava = _db.MemberAccounts.Where(p => p.AccountId == id).Select(p => p.MemberPhoto).FirstOrDefault();
-            byte[] userAvatarBytes = ava;
-            string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);
-            string userAvatarUrl = $"data:image/jpeg;base64,{userAvatarBase64}";
-            return userAvatarUrl;
+            if (ava != null)
+            {
+                byte[] userAvatarBytes = ava;
+                string userAvatarBase64 = Convert.ToBase64String(userAvatarBytes);
+                string userAvatarUrl = $"data:image/jpeg;base64,{userAvatarBase64}";
+                return userAvatarUrl;
+            }
+            else return null;
         }
 
         public int IsReadCount()
@@ -117,7 +121,20 @@ namespace WantTask.Controllers
                 return 0;
         }
 
+        public void MarkMessageAsRead(int messageId)
+        {
+            // 根據 messageId 查找訊息
+            var message = _db.ChatMessages.FirstOrDefault(m => m.ChatMessageId == messageId);
 
+            if (message != null)
+            {
+                // 更新 IsRead 狀態為已讀
+                message.IsRead = true;
+
+                // 保存更改到資料庫
+                _db.SaveChanges();
+            }
+        }
 
     }
 }
