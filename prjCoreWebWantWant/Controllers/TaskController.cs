@@ -142,9 +142,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
-            return PartialView("Partial1", result);
+            //page = page < 1 ? 1 : page;
+            //IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1", enumerableQ);
         }
 
         public IActionResult SortByUpdateTimeOld(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //舊到新
@@ -191,9 +191,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
-            return PartialView("Partial1", result);
+            //page = page < 1 ? 1 : page;
+            //IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1", enumerableQ);
         }
 
         public IActionResult SortBySalaryHigh(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //高到低
@@ -239,9 +239,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
-            return PartialView("Partial1", result);
+            //page = page < 1 ? 1 : page;
+            //IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1", enumerableQ);
         }
 
         public IActionResult SortBySalaryLow(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //低到高
@@ -288,9 +288,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
-            return PartialView("Partial1",result);
+            //page = page < 1 ? 1 : page;
+            //IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1", enumerableQ);
         }
 
         public IActionResult ListNew(CKeywordViewModel vm, int page = 1)
