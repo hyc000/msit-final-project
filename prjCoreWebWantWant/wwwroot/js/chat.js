@@ -41,10 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
 //固定的參數
 const getChatUserInfo = document.getElementById('getChatUseInfo');
 const senderIdPart = parseInt(getChatUserInfo.getAttribute('data-login-id'), 10); // 抓登入者ID，使用10進位轉換
+const nowLoginId = parseInt(getChatUserInfo.getAttribute('data-login-id'), 10); // 抓登入者ID，使用10進位轉換
 const userApiUrl = getChatUserInfo.getAttribute('data-userList-api');//抓聊天對象apiURL
 const chatDetailApiUrl = getChatUserInfo.getAttribute('data-chatdetail-api');//抓聊天詳細apiURL
 const chatLoginAvaApiUrl = getChatUserInfo.getAttribute('data-loginUserAva-api');//抓登入者頭像apiURL
 const unreadCountApiUrl = getChatUserInfo.getAttribute('data-chatUnreadCount-api');//未讀數
+const markMessageAsRead = getChatUserInfo.getAttribute('data-MarkMessageAsRead-api');//未讀數
 let inChatRoomPart = 0;//先確定使用者是在跟哪個對象聊天
 let chatAvaterUrlListPart = [];//存左側聊天對象們頭像用
 let chatAvatarPart = document.createElement('img');//左側點到誰存那個頭像網址
@@ -62,7 +64,7 @@ fetch(chatLoginAvaApiUrl)
     .then(data => {
         // 在這裡處理從 API 返回的數據（data）
         loginUserAvatarUrl = data;
-        console.log(loginUserAvatarUrl);
+        //console.log(loginUserAvatarUrl);
     })
     .catch(error => {
         // 處理錯誤
@@ -115,8 +117,9 @@ connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, mess
         console.log("雖然前面是傳全域的訊息，但現在我要限定囉" + message);
         ImReciver(senderIdPart, receiverIdPart, message, messageTimestamp);
         keepDown();
-    }
-    loadUser();
+        }
+        unRead();
+        loadUser();
 
 
 });
@@ -197,7 +200,7 @@ function ImReciver(senderIdPart, receiverIdPart, message, messageTimestamp) {
     chatMessage.appendChild(messageTimeEle);//加入對話時間
     chatContainerDiv.appendChild(addChatAvatar);//加入頭像
     chatContainerDiv.appendChild(chatMessage);//加入對話
-    console.log(addChatAvatar)
+    //console.log(addChatAvatar)
 
     chatDetailPart.append(chatContainerDiv);
 }
@@ -286,7 +289,7 @@ async function loadUser() {
 
 
         chatAvaterUrlListPart.push(`data:image/jpeg;base64,${u.memberPhoto}`);//存路徑
-        console.log(chatAvaterUrlListPart)
+        //console.log(chatAvaterUrlListPart)
 
         const chatLinkPart = document.createElement('a');//自動生成的a標籤
         chatLinkPart.href = '#';
@@ -328,13 +331,20 @@ async function loadUser() {
             const chatDetailPart = document.querySelector('#chatDetailPart');
             chatDetailPart.innerHTML = ''; // 清空原內容
             chatDetailData.map(chat => {
-                const messageId = chat.id;//記錄每則訊息編號
-                if (!chat.IsRead) {
-                    // 如果消息未讀，則執行標記為已讀的操作，並把這個更新到資料庫
-                    chat.IsRead = true;
+                const messageId = chat.chatMessageId;//記錄每則訊息編號
+                var id = {
+                    messageId: chat.chatMessageId
+                };
+                console.log('看一下id' + id)
 
-                    // 向伺服器報告該訊息已讀
-                    // 使用 AJAX 或 fetch 將消息 ID 發送到伺服器端
+                if (!chat.IsRead && chat.receiverId === senderIdPart) {
+                    // 如果消息未讀，則執行標記為已讀的操作，並把這個更新到資料庫
+                    const url = `${markMessageAsRead}?id=${messageId}`
+                    $.ajax({
+                        url: url,
+                        type: 'Post',
+                        data: id
+                    });
                     
                 }
                 unRead();
