@@ -32,11 +32,12 @@ namespace prjCoreWebWantWant.Hubs
 
             // 將訊息傳送給特定的使用者
             string connectionId = getUserConnId(receiverId);
+            int chatMessageId = chatMessage.ChatMessageId;
 
             // 如果接收者的 connectionId 不為 null，則傳送訊息
             if (!string.IsNullOrEmpty(connectionId))
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderId, receiverId, message, chatMessage.Created);
+                await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderId, receiverId, message, chatMessage.Created, chatMessageId);
             }
             else
             {

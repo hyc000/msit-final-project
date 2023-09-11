@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //展開關閉聊天室div
         showChatList.addEventListener('click', function () {
             console.log("Click event fired");
+            inChatRoomPart = 0;
             if (chatContainerPart.style.display === 'none') {
                 chatContainerPart.style.display = 'block';
             } else {
@@ -104,7 +105,7 @@ connectionPart.start().then(() => {
     connectionPart.invoke('UpdateUserInfo', senderIdPart, connectionIdPart);
 }).catch(err => { console.error(err); setTimeout(start, 5000); });
 
-connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, message, messageTimestamp) {
+connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, message, messageTimestamp,chatMessageId) {
     console.log("這裡是ReceiveMessage，你接收到訊息會在下面印出:");
     console.log("訊息" + message);
     console.log("receiverIdPart" + receiverIdPart);
@@ -117,6 +118,21 @@ connectionPart.on("ReceiveMessage", function (senderIdPart, receiverIdPart, mess
         console.log("雖然前面是傳全域的訊息，但現在我要限定囉" + message);
         ImReciver(senderIdPart, receiverIdPart, message, messageTimestamp);
         keepDown();
+
+        var id = {
+            messageId: chatMessageId
+        };
+        const url = `${markMessageAsRead}?id=${chatMessageId}`
+        $.ajax({
+            url: url,
+            type: 'Post',
+            data: id
+        }).then(() => {
+            unRead();
+
+        }) ;
+
+
         }
         unRead();
         loadUser();
