@@ -1,12 +1,12 @@
 ﻿.chat-containerfloat {
     position: fixed;
-    bottom: 0;
+    bottom: 30px;
     right: 0;
-    margin: 30px 30px;
+    margin: 0px 30px;
     z-index: 9999;
     max-height: 100%;
-    width: 50%;
-    height: 60%;
+    width: 55%;
+    height: 70%;
 }
 
 @media screen and (max-width: 1440px) {
