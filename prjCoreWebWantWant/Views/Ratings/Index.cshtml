@@ -228,22 +228,30 @@
             .then(response => response.json())
             .then(data => {
                datasforratings = data;
-                   
-                    if (!fn.DataTable.isDatatable('#forratings')){
-                $('#forratings').DataTable({
-                    autoWidth: false,
-                    data: datasforratings,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
-                    },
-                    columns: [
-                        { data: 'ratingforperson', title: "被評論者" },
-                        //{ data: 'ratedperson', title: "評論者" },
-                        { data: 'ratingstar', title: "評論星數", render: renderStars },
-                        { data: 'ratingcontent', title: "評論內容" },
-                        { data: 'ratingdate', title: "評論日期" }
-                    ]
-                });
+
+                    if (!$.fn.dataTable.isDataTable('#forratings')) {
+                        $('#forratings').DataTable({
+                            autoWidth: false,
+                            data: datasforratings,
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json',
+                            },
+                            columns: [
+                                { data: 'ratingforperson', title: "被評論者" },
+                                //{ data: 'ratedperson', title: "評論者" },
+                                { data: 'ratingstar', title: "評論星數", render: renderStars },
+                                { data: 'ratingcontent', title: "評論內容" },
+                                {
+                                    data: 'ratingdate', title: "評論日期", render: function (data, type, row) {
+                                        if (data) {
+                                            return data.split('T')[0];  // 將字串依據 'T' 分割，並返回第一部分
+                                        }
+                                        return data;  // 如果資料為空或未定義，直接返回
+                                    }
+                                }
+                            ]
+                        }
+                               );
                 }else{
                         var table = $('#forratings').DataTable();
                         table.clear().rows.add(datasforratings).draw();
@@ -265,7 +273,7 @@
                 .then(data => {
                     datasmyratings = data;
 
-                    if (!$.fn.DataTable.isDataTable('#myratings')) {
+                    if (!$.fn.dataTable.isDataTable('#myratings')) {
 
                         $('#myratings').DataTable({
                             autoWidth: false,
@@ -278,7 +286,14 @@
                                 { data: 'ratedperson', title: "評論者" },
                                 { data: 'ratingstar', title: "評論星數", render: renderStars },
                                 { data: 'ratingcontent', title: "評論內容" },
-                                { data: 'ratingdate', title: "評論日期" }
+                                {
+                                    data: 'ratingdate', title: "評論日期", render: function (data, type, row) {
+                                        if (data) {
+                                            return data.split('T')[0];  // 將字串依據 'T' 分割，並返回第一部分
+                                        }
+                                        return data;  // 如果資料為空或未定義，直接返回
+                                    }
+                                }
                             ]
                         });
                     } else {
@@ -292,6 +307,7 @@
                 });
         }
         //更新
+        console.log("是我啦這邊用方法");
         fetchMyRatingsdata();
         FetchForOtherdata();
         setInterval(()=>

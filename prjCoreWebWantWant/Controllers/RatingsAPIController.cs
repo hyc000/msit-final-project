@@ -45,9 +45,8 @@ namespace prjCoreWebWantWant.Controllers
             if (_context.Ratings != null)
             {
                 //給別人的評價-我是委託人
-                var ratingdata = await _context.ExpertApplications
-               .Where(x => x.AccountId == _memberID && x.Rating != null)
-               .Select(y=>y.Rating)
+                var ratingdata = await _context.Ratings
+               .Where(x => x.TargetAccountId == _memberID)
                .ToListAsync();
          
                 CExperTaskFactory factory = new CExperTaskFactory(_context);
