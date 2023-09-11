@@ -79,45 +79,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             #endregion
         }
 
-        //public IActionResult Detail(int? id)
-        //{
-        //    if (id == null)
-        //        return RedirectToAction("ListNew");
-        //    TaskList task = _context.TaskLists.FirstOrDefault(p => p.CaseId == id);
-        //    if (task == null)
-        //        return RedirectToAction("ListNew");
-        //    CTaskWrap taskWrap = new CTaskWrap();
-        //    taskWrap.task = task;
-
-        //    //檢查地址是否為空值
-        //    bool isAddressEmpty = string.IsNullOrEmpty(task.Address);
-        //    ViewBag.IsAddressEmpty = isAddressEmpty;
-
-        //    if (!isAddressEmpty)
-        //    {
-        //        ViewBag.MapAddress = task.Address;
-        //    }
-
-        //    TaskPhoto photo = _context.TaskPhotos.FirstOrDefault(p => p.CaseId == id);
-        //    taskWrap.taskPhoto = photo;
-
-        //    return View(taskWrap);
-        //}
-        //[HttpPost]
-        //public ActionResult Detail(CTaskWrap pIn)
-        //{
-        //    TaskList pDb = _context.TaskLists.FirstOrDefault(p => p.CaseId == pIn.FId);
-        //    if (pDb != null)
-        //    {
-        //        pDb.CaseId = pIn.FId;
-        //        pDb.TaskTitle = pIn.FTitle;
-        //        pDb.TaskDetail = pIn.FDetail;
-        //        pDb.PayFrom = pIn.FPayFrom;
-        //        //db.SaveChanges();
-        //    }
-        //    return RedirectToAction("List");
-        //}
-
         public IActionResult Detail(int? id)
         {
             //var q = _context.TaskLists.Include(t => t.Town.City).Where(t => t.CaseId == id).FirstOrDefault();
@@ -138,20 +99,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             return View(q);
         }
 
-        //取照片
-        //public IActionResult GetImage(int ?id )
-        //{
-        //        //用find方法，不要用where.firstordefault，find會直接找pk
-        //        TaskPhoto ? taskPhoto = _context.TaskPhotos.Find(id);
-        //        byte[]? img = taskPhoto.Photo;
-        //        return File(img, "image/jpeg");  //file裡面的參數也有別的可選ex.text
-        //}
-
-        public IActionResult Sort()
-        {
-            return RedirectToAction("List");
-        }
-
         public IActionResult SortByUpdateTimeNew(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //新到舊
         {
             var q = _context.TaskLists
@@ -168,15 +115,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.WorkPlace == true);
             }
-            if (StartDate != null)
-            {
-                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
-                if (EndDate != null)
-                {
-                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
-                }
-            }
-
 
             if (Category == "所有任務")
             {
@@ -193,9 +131,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
             q = q.OrderByDescending(t => t.DataModifyDate);
 
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
+            if (StartDate != null)
+            {
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
+
             page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
-            return PartialView("Partial1", result); ;
+            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1", result);
         }
 
         public IActionResult SortByUpdateTimeOld(string StartDate, string EndDate, bool workAtHome, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1) //舊到新
@@ -214,15 +163,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.WorkPlace == true);
             }
-            if (StartDate != null)
-            {
-                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
-                if (EndDate != null)
-                {
-                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
-                }
-            }
-
 
             if (Category == "所有任務")
             {
@@ -239,8 +179,20 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
 
             q = q.OrderBy(t => t.DataModifyDate);
+
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
+            if (StartDate != null)
+            {
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
+
             page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
             return PartialView("Partial1", result);
         }
 
@@ -260,15 +212,6 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.WorkPlace == true);
             }
-            if (StartDate != null)
-            {
-                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
-                if (EndDate != null)
-                {
-                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
-                }
-            }
-
 
             if (Category == "所有任務")
             {
@@ -285,8 +228,19 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
             q = q.OrderByDescending(s => s.PayFrom);
 
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
+            if (StartDate != null)
+            {
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
+
             page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
+            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
             return PartialView("Partial1", result);
         }
 
@@ -306,14 +260,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             {
                 q = q.Where(c => c.WorkPlace == true);
             }
-            if (StartDate != null)
-            {
-                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
-                if (EndDate != null)
-                {
-                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
-                }
-            }
+          
             if (Category == "所有任務")
             {
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
@@ -327,41 +274,23 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             }
 
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+
             q = q.OrderBy(s => s.PayFrom);
 
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
+            if (StartDate != null)
+            {
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
 
             page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
-            return PartialView("Partial1", result);
-        }
-
-        //public ActionResult Apply(int id)
-        //{
-        //    // 根據id執行必要的操作，獲取數據等
-
-        //    // 返回 apply.cshtml 視圖
-        //    return View("Apply");
-        //}
-
-
-        public IActionResult Partial(string Category,CKeywordViewModel vm)
-        {
-            var q = _context.TaskLists
-                    .Include(t => t.Town.City)
-                    .Where(tl => tl.PublishOrNot == "立刻上架");
-
-            if (Category == "所有任務類型")
-            {
-                if(!string.IsNullOrEmpty(vm.txtKeyword))
-                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
-            }
-            else
-            {
-                q = q.Where(t => t.TaskName.TaskName == Category);
-                if (!string.IsNullOrEmpty(vm.txtKeyword))
-                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword));
-            }
-            return PartialView(q);
+            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView("Partial1",result);
         }
 
         public IActionResult ListNew(CKeywordViewModel vm, int page = 1)
@@ -415,13 +344,51 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 q = q.Where(c => c.WorkPlace == true);
             }
 
+            if (Category == "所有任務")
+            {
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+            else
+            {
+                q = q.Where(t => t.TaskName.TaskName == Category).OrderByDescending(item => item.OnTop > DateTime.Now);
+                if (!string.IsNullOrEmpty(vm.txtKeyword))
+                    q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
+            }
+
+            q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
+
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
             if (StartDate != null)
             {
-                q = q.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
-                if(EndDate != null)
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
                 {
-                    q = q.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
                 }
+            }
+
+            page = page < 1 ? 1 : page;
+            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView(result);
+        }
+
+        public IActionResult Count(string StartDate, string EndDate, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
+        {
+            var q = _context.TaskLists
+                    .Include(t => t.Town.City)
+                    .Include(t => t.TaskName)
+                    .Where(tl => tl.PublishOrNot == "立刻上架" && tl.IsExpert != true);
+
+            ViewBag.Category = Category;
+            if (city != "請選擇地點" && city != "在家兼職")
+            {
+                q = q.Where(c => c.Town.City.City1 == city);  //TODO 會有例外狀況
+            }
+            else if (city == "在家兼職")
+            {
+                q = q.Where(c => c.WorkPlace == true);
             }
 
             if (Category == "所有任務")
@@ -435,21 +402,22 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 if (!string.IsNullOrEmpty(vm.txtKeyword))
                     q = q.Where(t => t.TaskTitle.Contains(vm.txtKeyword) || t.TaskDetail.Contains(vm.txtKeyword));
             }
-            
-            //if(sortType == "")
-            //{
-
-            //}
-
-            //if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
-            //    q = q.Where(t => t.AccountId != GetAccountID());
 
             q = q.OrderByDescending(item => item.OnTop > DateTime.Now);
-            
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = q.ToPagedList(page, 6);
-            return PartialView(result);
+            IEnumerable<TaskList> enumerableQ = q.AsEnumerable();
+
+            if (StartDate != null)
+            {
+                enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) >= DateTime.Parse(StartDate));
+                if (EndDate != null)
+                {
+                    enumerableQ = enumerableQ.Where(c => DateTime.Parse(c.DataModifyDate) <= DateTime.Parse(EndDate));
+                }
+            }
+
+            int Count = enumerableQ.Distinct().Count();
+            return Json(Count);
         }
 
         public IActionResult Apply(int? resumeId, int? caseId)
@@ -465,14 +433,5 @@ namespace prjWantWant_yh_CoreMVC.Controllers
             _context.SaveChanges(true);
             return RedirectToAction("ListNew");
         }
-
-
-        //判斷是否有登入
-        //public IActionResult IsUserLoggedIn()
-        //{
-        //    //bool isLoggedIn = // 在這裡檢查使用者是否已登入，使用你的驗證機制
-        //    //   return Json(isLoggedIn);
-        //}
-
     }
 }

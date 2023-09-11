@@ -81,6 +81,10 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 margin-right: 10px;
             }
 
+            #clear:hover{
+                background-color: transparent;
+            }
+
     </style>
 }
 
@@ -99,10 +103,12 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '@Url.Content("~/Task/Partial1")');
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
+                xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
                 xhr.addEventListener('load', () => {
                     const Result = document.querySelector('#Result');
                     Result.innerHTML = xhr.responseText;
+                    GetCount();
+                    ClearColor();
                 })
         }
 
@@ -128,10 +134,12 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}`);
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
             })
         })
 
@@ -158,43 +166,14 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Content("~/Task/Partial1")');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}`);
+            xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
             })
         })
-
-
-        //const workAtHome = document.querySelector('#workAtHome');
-        //workAtHome.addEventListener('click', function () {
-        //    if (workAtHome.checked) {
-        //        selCity.setAttribute('disabled', 'disabled');
-        //        // workAtHome.value = 'true';
-        //        // const xhr = new XMLHttpRequest();
-        //        // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-        //        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        //        // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
-        //        // xhr.addEventListener('load', () => {
-        //        //     const Result = document.querySelector('#Result');
-        //        //     Result.innerHTML = xhr.responseText;
-        //        // })
-        //    }
-        //    else {
-        //        selCity.removeAttribute('disabled');
-        //        // workAtHome.value = 'false';
-        //        // const xhr = new XMLHttpRequest();
-        //        // xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-        //        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        //        // xhr.send(`Category=${selCategory.value}&txtKeyword=${txtKeyword.value}&${workAtHome.value}`);
-        //        // xhr.addEventListener('load', () => {
-        //        //     const Result = document.querySelector('#Result');
-        //        //     Result.innerHTML = xhr.responseText;
-        //        // })
-        //    }
-        //})
-
-
 
         //select的區域
         // async function loadDistrict() {
@@ -236,8 +215,6 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 }
             });
 
-            
-
             // 點選按鈕時回到頂部
             scrollToTopBtn.addEventListener("click", function () {
                 document.body.scrollTop = 0;
@@ -245,21 +222,23 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             });
         });
 
-        //const updateTimeNew = document.querySelector('#updateTimeNew');
-        //const updateTimeOld = document.querySelector('#updateTimeOld');
-        //const salaryHigh = document.querySelector('#salaryHigh');
-        //const salaryLow = document.querySelector('#salaryLow');
+        function ClearColor(){
+            SortByUpdateTimeNew.style.color = '';
+            SortByUpdateTimeOld.style.color = '';
+            SortBySalaryHigh.style.color = '';
+            SortBySalaryLow.style.color = '';
+        }
 
-        //updateTimeNew.addEventListener('click' ,() => {
-        //    const xhr = new XMLHttpRequest();
-        //    xhr.open('POST', '@Url.Content("~/Task/Partial1")');
-        //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        //    xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}`);
-        //    xhr.addEventListener('load', () => {
-        //        const Result = document.querySelector('#Result');
-        //        Result.innerHTML = xhr.responseText;
-        //    })
-        //})
+        function GetCount() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Count")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
+            xhr.addEventListener('load', () => {
+                const Count = document.querySelector('#Count');
+                Count.textContent = JSON.parse(xhr.responseText);
+            })
+        }
 
         const SortByUpdateTimeNew = document.querySelector('#SortByUpdateTimeNew'); //新到舊
         const SortByUpdateTimeOld = document.querySelector('#SortByUpdateTimeOld'); //舊到新
@@ -275,6 +254,11 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                SortByUpdateTimeNew.style.color = 'red';
+                SortByUpdateTimeOld.style.color = '';
+                SortBySalaryHigh.style.color = '';
+                SortBySalaryLow.style.color = '';
             })
         })
 
@@ -287,6 +271,11 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                SortByUpdateTimeNew.style.color = '';
+                SortByUpdateTimeOld.style.color = 'red';
+                SortBySalaryHigh.style.color = '';
+                SortBySalaryLow.style.color = '';
             })
         })
 
@@ -299,6 +288,11 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                SortByUpdateTimeNew.style.color = '';
+                SortByUpdateTimeOld.style.color = '';
+                SortBySalaryHigh.style.color = 'red';
+                SortBySalaryLow.style.color = '';
             })
         })
 
@@ -311,6 +305,11 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                SortByUpdateTimeNew.style.color = '';
+                SortByUpdateTimeOld.style.color = '';
+                SortBySalaryHigh.style.color = '';
+                SortBySalaryLow.style.color = 'red';
             })
         })
 
@@ -325,6 +324,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
             })
         })
 
@@ -336,8 +337,30 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
             xhr.addEventListener('load', () => {
                 const Result = document.querySelector('#Result');
                 Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
             })
         })
+
+        const clear = document.querySelector('#clear');
+        clear.addEventListener('click',() => {
+            txtKeyword.value = '';
+            selCategory.selectedIndex = 0;
+            selCity.selectedIndex = 0;
+            taskStartDate.value = '';
+            taskEndDate.value = '';
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
+            })
+        })
+
     </script>
 }
 
@@ -438,7 +461,13 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                 <label for="taskStartDate">迄</label>
                                 <input  id="taskEndDate" class="form-control" type="date" />
                             </div>
-                        
+
+                            <div style="text-align: center;">
+                                <button style="display: block; font-size: 14px; margin: 0 auto;" class="btn btn-outline-primary" id="clear">
+                                    <img src="~/Backstage/icon/arrow.png" style="width: 16px; height: 16px" /> 清除搜尋條件
+                                </button>
+                            </div>
+
 
 
                            @*  <div class="form-floating mb-3">
@@ -520,7 +549,7 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
 
             <div class="p-2 mt-2 mb-2" style="background-color:	#FFFFFF;border-radius: 10px;border-style:solid;border-width: 0.5px; border-color: #CCCCCC;">
                     <div class="divide-line pl-3">
-                        <span id="total" class="fs-3 fw-bolder me-2">@ViewBag.TotalCount @ViewBag.Count</span><span class="fs-5 my-text-primary">
+                        <span id="Count" class="fs-3 fw-bolder me-2">@ViewBag.TotalCount</span><span class="fs-5 my-text-primary">
                             <img src="/icons/icons8-rhombus-loader.gif" class="d-none loading-icon">
                             筆任務
                         </span>
@@ -681,15 +710,15 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                                     @{
                                         if (item.PayFrom > 1500)
                                         {
-                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
+                                                <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<strong style="color:#ff7575">@item.PayFrom</strong> 元</p>
                                         }
                                         else if (item.PayFrom > 500)
                                         {
-                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
+                                                <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span style="color:#c07ab8">@item.PayFrom</span> 元</p>
                                         }
                                         else
                                         {
-                                        <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span>@item.PayFrom</span> 元</p>
+                                                <p class="card-text col-3"><img src="~/Backstage/icon/dollar.png" style="width:20px;height:20px">任務金額：<span>@item.PayFrom</span> 元</p>
                                         }
                                     }
 
