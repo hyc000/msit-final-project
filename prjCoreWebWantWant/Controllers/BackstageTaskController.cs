@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Irony.Parsing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Data.SqlClient;
@@ -97,7 +98,7 @@ namespace WantTask.Controllers
             {
                 var all = _context.TaskLists.
                 Where(t => t.PublishOrNot == "立刻上架"
-                && t.AccountId== GetAccountID()
+                && t.AccountId == GetAccountID()
                 && (t.TaskTitle.ToUpper().Contains(vm.txtKeyword.ToUpper())
                   || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
@@ -112,6 +113,9 @@ namespace WantTask.Controllers
                 || t.TaskDetail.ToUpper().Contains(vm.txtKeyword.ToUpper()))
                 );
             return PartialView(taskName);
+
+
+
         }
 
         //選擇任務類別+keyword+未上架

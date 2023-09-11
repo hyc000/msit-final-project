@@ -28,7 +28,9 @@
     <!-- glightbox css -->
     <link rel="stylesheet" href="~/backstage1/static/css/glightbox.min.css">
 
-   
+
+  
+  
     <style>
 
         .table-hover tbody tr:hover {
@@ -153,27 +155,46 @@
                                              @*   </form>*@
                                             </div>
                                   
-                                            <!--已上架 關鍵字搜尋-->                                           
-                                                 <div class="col-4 mb-3" id="publishKeyword">
+                                            <!--已上架 關鍵字搜尋--改成日期搜尋-->                                           
+                                              @*   <div class="col-4 mb-3" id="publishKeyword">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordPub">
-                                                        @*<button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>*@
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordPub">                                                        
                                                 <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchPub"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
-                                                </div>
-                                            
-                                            <!--未上架 關鍵字搜尋-->                                            
-                                                 <div class="col-4 mb-3"  id="NopublishKeyword" style="display:none">
+                                                </div>*@
+
+                                    <div class="col-4 mb-3" id="publishKeyword">
+                                        <form class="app-search d-none d-lg-block">
+                                            <div class="position-relative">
+                                                <input type="date" class="form-control" placeholder="請輸入日期" name="txtKeyword" id="txtKeywordPub">
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchPub"><i class="bx bx-search-alt align-middle"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!--未上架 關鍵字搜尋--改成日期搜尋-->
+                                    @* <div class="col-4 mb-3"  id="NopublishKeyword" style="display:none">
                                                 <form class="app-search d-none d-lg-block">
                                                     <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordNoPub">@*Html.TextBox("txtKeyword")*@
-                                                @*<button class="btn btn-primary" type="submit" style="background-color:#528EAF"><i class="bx bx-search-alt align-middle"></i></button>*@
+                                                <input type="text" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordNoPub">                                        
                                                 <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchNoPub"><i class="bx bx-search-alt align-middle"></i></button>
                                                     </div>
                                                 </form>
-                                                </div>                                            
+                                                </div>   *@
+
+                                    <div class="col-4 mb-3" id="NopublishKeyword" style="display:none">
+                                        <form class="app-search d-none d-lg-block">
+                                            <div class="position-relative">
+                                                <input type="date" class="form-control" placeholder="請輸入關鍵字" name="txtKeyword" id="txtKeywordNoPub">
+                                                <button class="btn btn-primary" type="button" style="background-color:#528EAF" id="btnSearchNoPub"><i class="bx bx-search-alt align-middle"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                                
+
+
                                                </div>                                              
                                              </div>
                             }
@@ -259,13 +280,15 @@
             @* </div> *@
             
         </div>
-     
 
+  
 
 @section Scripts{
     <script>
 
-           //已上架的select
+            
+
+        //已上架的select
            const selTaskNamePublish = document.querySelector('#selTaskNamePublish');
 
             selTaskNamePublish.addEventListener('change', () => {
@@ -422,8 +445,13 @@
 
                     }                    
                 });
-            })   
-                              
+            })
+
+
+
+
+   
+
    </script>
 
 }
