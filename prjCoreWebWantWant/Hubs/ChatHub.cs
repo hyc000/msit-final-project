@@ -32,6 +32,7 @@ namespace prjCoreWebWantWant.Hubs
 
             // 將訊息傳送給特定的使用者
             string connectionId = getUserConnId(receiverId);
+
             // 如果接收者的 connectionId 不為 null，則傳送訊息
             if (!string.IsNullOrEmpty(connectionId))
             {

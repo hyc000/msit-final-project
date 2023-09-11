@@ -31,9 +31,9 @@
     top: -4px;
     right: -8px;
     font-size: 6px;
-    width: 14px;
-    height: 14px;
-    line-height: 14px; /* 設定與高度相同的 line-height */
+    width: 16px;
+    height: 16px;
+    line-height: 16px; /* 設定與高度相同的 line-height */
     text-align: center; /* 水平置中對齊文本 */
 }
 
