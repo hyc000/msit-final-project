@@ -369,9 +369,9 @@ namespace prjWantWant_yh_CoreMVC.Controllers
                 }
             }
 
-            page = page < 1 ? 1 : page;
-            IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
-            return PartialView(result);
+            //page = page < 1 ? 1 : page;
+            //IEnumerable<TaskList> result = enumerableQ.ToPagedList(page, 6);
+            return PartialView(enumerableQ);
         }
 
         public IActionResult Count(string StartDate, string EndDate, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
