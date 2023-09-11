@@ -358,6 +358,22 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                 Result.innerHTML = xhr.responseText;
                 GetCount();
                 ClearColor();
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            })
+        })
+
+        const SortClear = document.querySelector('#SortClear');
+        SortClear.addEventListener('click',() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Content("~/Task/Partial1")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtKeyword=${txtKeyword.value}&Category=${selCategory.options[selCategory.selectedIndex].value}&city=${selCity.value}&StartDate=${taskStartDate.value}&EndDate=${taskEndDate.value}`);
+            xhr.addEventListener('load', () => {
+                const Result = document.querySelector('#Result');
+                Result.innerHTML = xhr.responseText;
+                GetCount();
+                ClearColor();
             })
         })
 
@@ -566,6 +582,8 @@ CExperTaskFactory factory = new CExperTaskFactory(_context);
                         <a href="#" class=" fw-bolder" id="SortBySalaryHigh" name="status">薪資(高到低)</a>
                         <span>　|　</span>
                         <a href="#" class=" fw-bolder" id="SortBySalaryLow" name="status">薪資(低到高)</a>
+                        <span>　|　</span>
+                        <a href="#" class=" fw-bolder" id="SortClear" name="status" style="color:#4f9d9d">清除排序</a>
                     </div>
                 </div> 
 
