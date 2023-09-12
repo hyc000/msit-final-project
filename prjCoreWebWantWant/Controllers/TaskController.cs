@@ -375,7 +375,7 @@ namespace prjWantWant_yh_CoreMVC.Controllers
         }
 
         public IActionResult Count(string StartDate, string EndDate, string sortType, string city, string Category, CKeywordViewModel vm, int page = 1)
-        {
+       {
             var q = _context.TaskLists
                     .Include(t => t.Town.City)
                     .Include(t => t.TaskName)
