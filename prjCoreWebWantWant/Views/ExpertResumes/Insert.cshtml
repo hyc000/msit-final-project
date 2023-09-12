@@ -4,6 +4,20 @@
     ViewData["Title"] = "新增履歷";
     Layout = "~/Views/Member/LayoutForMem.cshtml";
 }
+
+@section Styles{
+    <style>
+        .filter_block {
+            /* background-color: #E5EDF6; */
+            background-color: #ffffff;
+            border: 1px solid #00000026;
+            border-radius: 0.375rem;
+            padding: 5px;
+            margin: 10px;
+        }
+
+    </style>
+}
 @section subTitle{
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -66,43 +80,53 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
                             <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長大項1" class="form-select" id="SelSkillBigOne">
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能分類1</label>
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第一項專長</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長大項1" class="form-select" id="SelSkillBigOne">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能分類1</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長細項1" class="form-select" id="SelSkillSmallOne">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能1</label>
+                        </div>
                             </div>
 
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長細項1" class="form-select" id="SelSkillSmallOne">
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第二項專長</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長大項2" class="form-select" id="SelSkillBigTwo">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能分類2</label>
+                        </div>
 
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能1</label>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長細項2" class="form-select" id="SelSkillSmallTwo">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能2</label>
+                        </div>
+                    </div>
+                           
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第三項專長</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長大項3" class="form-select" id="SelSkillBigThree">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能分類3</label>
+                        </div>
 
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長大項2" class="form-select" id="SelSkillBigTwo">
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能分類2</label>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <select asp-for="專長細項3" class="form-select" id="SelSkillSmallThree">
+                            </select>
+                            <label for="floatingSelectCity">請選擇技能3</label>
+                        </div>
 
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長細項2" class="form-select" id="SelSkillSmallTwo">
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能2</label>
-                            </div>
+                    </div>
 
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長大項3" class="form-select" id="SelSkillBigThree">
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能分類3</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="專長細項3" class="form-select" id="SelSkillSmallThree">
-                                </select>
-                                <label for="floatingSelectCity">請選擇技能3</label>
-                            </div>
-
+                            
                     <input type="hidden" id="hiddenSkillIdInput1" name="selectedSkillId1"  />
                     <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2"  />
                     <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3"  />
@@ -114,48 +138,59 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
                         <h5 class="mb-4" style="color:#528EAF">履歷證照</h5>
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照大項1" class="form-select" id="SelCerBigOne">
-                            @* <option value='0'>請先選擇證照大項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照分類1</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照細項1" class="form-select" id="SelCerSmallOne">
-                            @* <option value='0'>請先選擇證照細項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照1</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照大項2" class="form-select" id="SelCerBigTwo">
-                            @* <option value='0'>請先選擇證照大項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照分類2</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照細項2" class="form-select" id="SelCerSmallTwo">
-                            @* <option value='0'>請先選擇證照細項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照2</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照大項3" class="form-select" id="SelCerBigThree">
-                            @* <option value='0'>請先選擇證照大項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照分類3</label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                        <select asp-for="證照細項3" class="form-select" id="SelCerSmallThree">
-                            @* <option value='0'>請先選擇證照細項</option> *@
-                                </select>
-                                <label for="floatingSelectCity">請選擇證照3</label>
-                            </div>
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第一項證照</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照大項1" class="form-select" id="SelCerBigOne">
+                                @* <option value='0'>請先選擇證照大項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照分類1</label>
                         </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照細項1" class="form-select" id="SelCerSmallOne">
+                                @* <option value='0'>請先選擇證照細項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照1</label>
+                        </div>
+                        </div>
+
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第二項證照</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照大項2" class="form-select" id="SelCerBigTwo">
+                                @* <option value='0'>請先選擇證照大項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照分類2</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照細項2" class="form-select" id="SelCerSmallTwo">
+                                @* <option value='0'>請先選擇證照細項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照2</label>
+                        </div>
+                    </div>
+
+                            
+                    <div class="filter_block">
+                        <h6 style="color:#7e7e7e">第三項證照</h6>
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照大項3" class="form-select" id="SelCerBigThree">
+                                @* <option value='0'>請先選擇證照大項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照分類3</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="證照細項3" class="form-select" id="SelCerSmallThree">
+                                @* <option value='0'>請先選擇證照細項</option> *@
+                            </select>
+                            <label for="floatingSelectCity">請選擇證照3</label>
+                        </div>
+                    </div>
+                    </div>
+                            
                     </div>
 
                     <!--自傳-->
