@@ -91,6 +91,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/Cities")')
             const datas = await response.json()
             const cities = datas.map(City => `<option value="${City}">${City}</option>`);
+            cities.unshift('<option value="0">請選擇城市</option>');
             document.querySelector('#selCity').innerHTML = cities.join("");
 
             loadDistrict();
@@ -103,6 +104,7 @@
             const response = await fetch(`@Url.Content("~/BackstageTask/Districts")?City=${selCity.value}`);
             const datas = await response.json()
             const districts = datas.map(Town => `<option value='${Town}'>${Town}</option>`);
+            districts.unshift('<option value="0">請選擇地區</option>');
             selTown.innerHTML = districts.join("");
             getTownId();
         }

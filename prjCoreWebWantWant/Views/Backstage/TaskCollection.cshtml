@@ -3,6 +3,7 @@
 @* @model IEnumerable<WantTask.ViewModels.CApproveViewModel> *@
 @* @model IEnumerable<prjCoreWebWantWant.Models.MemberCollection> *@
 @model IEnumerable<prjCoreWebWantWant.ViewModels.CMemberCollectionViewModel>
+@inject NewIspanProjectContext _context
 
 
 
@@ -201,9 +202,12 @@
                                     {
                                             count++;
                                             string TaskDetail = item.TaskDetail;
-                                            if(TaskDetail.Length > 10)
+                                            if(TaskDetail != null)
                                             {
-                                                TaskDetail = $"{TaskDetail.Substring(0, 10)}...";
+                                                if (TaskDetail.Length > 10)
+                                                {
+                                                    TaskDetail = $"{TaskDetail.Substring(0, 10)}...";
+                                                }
                                             }
                                     <tr>
                                         <td data-field="id" style="text-align: center;width:30px">@count</td>
@@ -259,8 +263,7 @@
                                 int id = loggedInUser.AccountId; //抓登入者的id
                             }
                             @{
-                                NewIspanProjectContext db = new NewIspanProjectContext();
-                                var resumes = db.Resumes
+                                var resumes = _context.Resumes
                                 .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23);
                             }
 
@@ -273,6 +276,13 @@
                                         </div>
                                         <div class="modal-body">
 
+                                            @{
+                                                var newCase = _context.TaskLists
+                                                              .Where(t => t.PublishOrNot == "立刻上架" && t.IsExpert != true)
+                                                              .OrderByDescending(t => t.CaseId)
+                                                              .FirstOrDefault()
+                                                              .CaseId;
+                                            }
                                             @foreach (var item in resumes)
                                             {
                                                 @*履歷一*@
@@ -302,7 +312,8 @@
                                                                            type="submit"
                                                                            value="以此履歷應徵" />
                                                                     <input type="hidden" name="resumeId" value="@item.ResumeId">
-                                                                    <input type="hidden" id="selectedCaseId" name="caseId" value="843"/>
+                                                                    @*<input type="hidden" id="selectedCaseId" name="caseId" value="843"/>*@
+                                                                    <input type="hidden" id="selectedCaseId" name="caseId" value="@newCase" />
 
                                                                 </form>
                                                             </div>
@@ -473,7 +484,17 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // 使用者點擊了 "確定"，可以執行刪除動作
-                    window.location.href = event.target.getAttribute('href'); // 前往刪除連結的 URL
+                     // 前往刪除連結的 URL
+                    Swal.fire({
+                        title: '刪除成功！',
+                        icon: 'success',
+                        showConfirmButton: true, // 显示 "OK" 按钮
+                        confirmButtonText: '確定'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = event.target.getAttribute('href');
+                        }
+                    })
                 }
             });
         }

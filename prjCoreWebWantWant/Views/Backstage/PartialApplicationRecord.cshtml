@@ -31,10 +31,13 @@
                                     {
                                         count++;
                                         string TaskDetail = item.TaskDetail;
+                                    if (TaskDetail != null)
+                                    {
                                         if (TaskDetail.Length > 15)
                                         {
                                             TaskDetail = $"{TaskDetail.Substring(0, 15)}...";
                                         }
+                                    }
                                         <tr>
                                             <td data-field="id" style="text-align: center">@count</td>
                                             <td style="text-align: left"> <a href="#" class="text-body">@item.TaskTitle</a> </td>

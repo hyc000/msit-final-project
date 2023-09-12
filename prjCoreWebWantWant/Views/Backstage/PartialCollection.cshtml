@@ -1,6 +1,6 @@
 ﻿@using System.Text.Json;
 @model IEnumerable<prjCoreWebWantWant.ViewModels.CMemberCollectionViewModel>
-
+@inject NewIspanProjectContext _context
 
 
 
@@ -145,7 +145,7 @@
                                                 <td><a href="@Url.Content("~/Backstage/JobDetail")?id=@item.CaseId" class="btn btn-outline-secondary" style="color:#528EAF">查看</a></td>
                                                 <th>
                                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger">取消收藏</a>
+                                                        <a href="@Url.Content("~/BackStage/DeleteCollection")?id=@item.CaseId" class="btn btn-outline-danger" onclick="return confirmDelete(event)">刪除</a>
                                                         @*<a href="@Url.Content("~/BackStage/Apply")?caseId=@item.CaseId" class="btn btn-outline-success">應徵</a>*@
                                                         @*<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="btn btn-outline-success" >應徵</a>*@
                                                         <button data-bs-toggle="modal" data-bs-target="#myModal" id="Apply" class="Apply btn btn-outline-success" value="@item.CaseId">應徵</button>
@@ -165,9 +165,8 @@
                                 int id = loggedInUser.AccountId; //抓登入者的id
                             }
                             @{
-                                NewIspanProjectContext db = new NewIspanProjectContext();
-                                var resumes = db.Resumes
-                                .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId != 22);
+                                var resumes = _context.Resumes
+                                .Where(r => r.IsExpertOrNot == false && r.AccountId == id && r.CaseStatusId == 23);
                             }
 
                             <div class="modal" tabindex="-1" id="myModal">
@@ -179,6 +178,13 @@
                                         </div>
                                         <div class="modal-body">
 
+                                            @{
+                                                var newCase = _context.TaskLists
+                                                              .Where(t => t.PublishOrNot == "立刻上架" && t.IsExpert != true)
+                                                              .OrderByDescending(t => t.CaseId)
+                                                              .FirstOrDefault()
+                                                              .CaseId;
+                                            }
                                             @foreach (var item in resumes)
                                             {
                                                 @*履歷一*@
@@ -208,7 +214,8 @@
                                                                            type="submit"
                                                                            value="以此履歷應徵" />
                                                                     <input type="hidden" name="resumeId" value="@item.ResumeId">
-                                                                    <input type="hidden" id="selectedCaseId" name="caseId" value="843"/>
+                                                                    @*<input type="hidden" id="selectedCaseId" name="caseId" value="843"/>*@
+                                                                    <input type="hidden" id="selectedCaseId" name="caseId" value="@newCase" />
 
                                                                 </form>
                                                             </div>
@@ -267,6 +274,34 @@
             selectedCaseId.value = Apply.value;
             console.log(selectedCaseId.value)
         })
+
+        function confirmDelete(event) {
+            event.preventDefault(); // 阻止預設的連結行為
+
+            Swal.fire({
+                title: '警告',
+                text: '您確定要刪除此收藏嗎',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 使用者點擊了 "確定"，可以執行刪除動作
+                    // 前往刪除連結的 URL
+                    Swal.fire({
+                        title: '刪除成功！',
+                        icon: 'success',
+                        showConfirmButton: true, // 显示 "OK" 按钮
+                        confirmButtonText: '確定'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = event.target.getAttribute('href');
+                        }
+                    })
+                }
+            });
+        }
 
         //const selectedCaseId = document.querySelector('#selectedCaseId');
         //const Apply = document.querySelectorAll('.Apply');

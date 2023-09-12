@@ -29,9 +29,24 @@
         <link rel="stylesheet" href="~/backstage1/css/price_rangs.css" >
 
         
+       
+
+    
     </style>
 
 </head>
+@section Styles{
+    <style>
+        .filter_block {
+            /* background-color: #E5EDF6; */
+            /*background-color: #ffffff;*/
+            border: 1px solid #00000026;
+            border-radius: 0.375rem;
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+}
 
 <h3>新增履歷</h3>
 
@@ -111,20 +126,24 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
                             <h5 class="mb-4" style="color:#528EAF">履歷技能</h5>
-                            <div class="form-floating mb-3">
-                                <select class="form-select" id="SelSkillBigOne">
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">技能1</h5>
+                            <div class="form-floating mb-3" >
+                                <select class="form-select" id="SelSkillBigOne" >
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能分類1</label>
                             </div>
 
-                            <div class="form-floating mb-3">
+                        <div class="form-floating mb-3" style="display:none" id="skillone">
                                 <select class="form-select" id="SelSkillSmallOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能1</label>
                             </div>
-
+                    </div>
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">技能2</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillBigTwo">
                                     <option></option>
@@ -132,13 +151,15 @@
                                 <label for="floatingSelectCity">請選擇技能分類2</label>
                             </div>
 
-                            <div class="form-floating mb-3">
+                    <div class="form-floating mb-3" style="display:none" id="skilltwo">
                                 <select class="form-select" id="SelSkillSmallTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能2</label>
                             </div>
-
+                    </div>
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">技能3</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelSkillBigThree">
                                     <option></option>
@@ -146,13 +167,13 @@
                                 <label for="floatingSelectCity">請選擇技能分類3</label>
                             </div>
 
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-3" style="display:none" id="skillthree">
                                 <select class="form-select" id="SelSkillSmallThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇技能3</label>
                             </div>
-
+                    </div>
                             <input type="hidden" id="hiddenSkillIdInput1" name="selectedSkillId1" />
                             <input type="hidden" id="hiddenSkillIdInput2" name="selectedSkillId2" />
                             <input type="hidden" id="hiddenSkillIdInput3" name="selectedSkillId3" />
@@ -167,48 +188,55 @@
                     <!--證照-->
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
-                        <h5 class="mb-4" style="color:#528EAF">履歷專長</h5>
+                        <h5 class="mb-4" style="color:#528EAF">履歷證照</h5>
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">證照1</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類1</label>
                             </div>
-
-                            <div class="form-floating mb-3">
+                    
+                        
+                            <div class="form-floating mb-3" style="display:none" id="cerone">
                                 <select class="form-select" id="SelCerSmallOne">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照1</label>
                             </div>
-
+                    </div>
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">證照2</h5>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類2</label>
                             </div>
-
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-3" style="display:none" id="certwo">
                                 <select class="form-select" id="SelCerSmallTwo">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照2</label>
                             </div>
-
-                            <div class="form-floating mb-3">
+                    </div>
+                    <div class="filter_block">
+                        <h5 style="color:#7e7e7e">證照3</h5>
+                        <div class="form-floating mb-3">
                                 <select class="form-select" id="SelCerBigThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照分類3</label>
                             </div>
 
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-3"  style="display:none" id="certhree">
                                 <select class="form-select" id="SelCerSmallThree">
                                     <option></option>
                                 </select>
                                 <label for="floatingSelectCity">請選擇證照3</label>
                             </div>
+                    </div>
                         </div>
                     </div>
 
@@ -409,6 +437,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
             const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            skillBig.unshift('<option value="0">請選擇技能大項1</option>');
             document.querySelector('#SelSkillBigOne').innerHTML = skillBig.join("");
 
             loadSelSkillSmallOne();
@@ -427,6 +456,8 @@
 
         SelSkillBigOne.addEventListener('change', () => {
             loadSelSkillSmallOne();
+            const skillone = document.querySelector('#skillone');
+            skillone.style.display = 'block';
         });
 
         SelSkillSmallOne.addEventListener('change', () => {
@@ -442,6 +473,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
             const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            skillBig.unshift('<option value="0">請選擇技能大項2</option>');
             document.querySelector('#SelSkillBigTwo').innerHTML = skillBig.join("");
 
             loadSelSkillSmallTwo();
@@ -460,6 +492,8 @@
 
         SelSkillBigTwo.addEventListener('change', () => {
             loadSelSkillSmallTwo();
+            const skilltwo = document.querySelector('#skilltwo');
+            skilltwo.style.display = 'block';
         });
 
         SelSkillSmallTwo.addEventListener('change', () => {
@@ -476,6 +510,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/SkillBig")')
             const datas = await response.json()
             const skillBig = datas.map(SkillTypeName => `<option value="${SkillTypeName}">${SkillTypeName}</option>`);
+            skillBig.unshift('<option value="0">請選擇技能大項3</option>');
             document.querySelector('#SelSkillBigThree').innerHTML = skillBig.join("");
 
             loadSelSkillSmallThree();
@@ -494,6 +529,8 @@
 
         SelSkillBigThree.addEventListener('change', () => {
             loadSelSkillSmallThree();
+            const skillthree = document.querySelector('#skillthree');
+            skillthree.style.display = 'block';
         });
 
         SelSkillSmallThree.addEventListener('change', () => {
@@ -511,6 +548,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
             const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            CerBig.unshift('<option value="0">請選擇證照大項1</option>');
             document.querySelector('#SelCerBigOne').innerHTML = CerBig.join("");
 
             loadSelCerSmallOne();
@@ -531,6 +569,8 @@
 
         SelCerBigOne.addEventListener('change', () => {
             loadSelCerSmallOne();
+            const cerone = document.querySelector('#cerone');
+            cerone.style.display = 'block';
         });
 
         SelCerSmallOne.addEventListener('change', () => {
@@ -547,6 +587,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
             const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            CerBig.unshift('<option value="0">請選擇證照大項2</option>');
             document.querySelector('#SelCerBigTwo').innerHTML = CerBig.join("");
 
             loadSelCerSmallTwo();
@@ -567,6 +608,8 @@
 
         SelCerBigTwo.addEventListener('change', () => {
             loadSelCerSmallTwo();
+            const certwo = document.querySelector('#certwo');
+            certwo.style.display = 'block';
         });
 
         SelCerSmallTwo.addEventListener('change', () => {
@@ -583,6 +626,7 @@
             const response = await fetch('@Url.Content("~/BackstageTask/CerBig")')
             const datas = await response.json()
             const CerBig = datas.map(CertificateTypeName => `<option value="${CertificateTypeName}">${CertificateTypeName}</option>`);
+            CerBig.unshift('<option value="0">請選擇證照大項3</option>');
             document.querySelector('#SelCerBigThree').innerHTML = CerBig.join("");
             loadSelCerSmallThree();
         }
@@ -602,6 +646,8 @@
 
         SelCerBigThree.addEventListener('change', () => {
             loadSelCerSmallThree();
+            const certhree = document.querySelector('#certhree');
+            certhree.style.display = 'block';
         });
 
         SelCerSmallThree.addEventListener('change', () => {

@@ -258,7 +258,10 @@ namespace prjWantWant_yh_CoreMVC.Controllers
 
                     resume.PhotoPath = imagePath;
                 }
-                resume.TownId = selectedTownId;
+                if(selectedTownId != 0)
+                {
+                    resume.TownId = selectedTownId;
+                }
                 resume.Autobiography = pIn.Autobiography;
                 resume.Address = pIn.Address;
                 resume.DataModifyDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
