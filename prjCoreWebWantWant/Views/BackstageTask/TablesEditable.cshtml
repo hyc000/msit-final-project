@@ -422,9 +422,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // 在這裡執行刪除操作，例如使用 AJAX 或其他方式
-                        const link = e.currentTarget.getAttribute("href");
-                      
-                        window.location.href =link;
+                        
 
                         // 如果刪除成功，顯示成功訊息
                         //Swal.fire(
@@ -439,7 +437,14 @@
                             text: '趕快重新發布新任務吧！',
                             icon: 'success',
                             showConfirmButton: true, // 显示 "OK" 按钮
-                            confirmButtonText: '好唷！'
+                            confirmButtonText: '好唷！',
+                            confirmButtonColor: '#528EAF',
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const link = e.currentTarget.getAttribute("href");
+                                window.location.href = link;
+                            }
                         });
                      
 

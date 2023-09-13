@@ -489,7 +489,8 @@
                         title: '刪除成功！',
                         icon: 'success',
                         showConfirmButton: true, // 显示 "OK" 按钮
-                        confirmButtonText: '確定'
+                        confirmButtonText: '確定',
+                        allowOutsideClick: false,
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = event.target.getAttribute('href');
