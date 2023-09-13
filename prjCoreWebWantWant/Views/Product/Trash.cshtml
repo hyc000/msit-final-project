@@ -263,8 +263,7 @@
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
-                    }).then(() => {
-                        // 在用户确认后执行页面跳转操作
+                    }).then(() => {                   
                         const RealDelete = '@Url.Content("~/product/RealDelete/")' + productId;
                         window.location.href = RealDelete;
                     });
@@ -278,7 +277,7 @@
       //全部刪除   
         function confirmDeleteAll() {
             Swal.fire({
-                title: '確定要清空垃圾車嗎?',
+                title: '確定要清空垃圾桶嗎?',
                 text: '刪除即無法復原。',
                 icon: 'warning',
                 showCancelButton: true,
