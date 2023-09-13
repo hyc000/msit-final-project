@@ -1028,7 +1028,8 @@
                     icon: 'success',
                     confirmButtonColor: '#528EAF',
                     confirmButtonText: '好唷！',
-                    showConfirmButton: true // 顯示確認按鈕
+                    showConfirmButton: true,  // 顯示確認按鈕
+                    allowOutsideClick: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // 在這裡執行送出任務的相關程式碼
