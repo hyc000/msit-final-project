@@ -18,11 +18,12 @@ namespace prjCoreWebWantWant.Models
         {
             if (MemberID != null)
             {
-                string memberName = _context.MemberAccounts
-                .Where(x => x.AccountId == MemberID)
-                .Select(x => x.Name)
-                .FirstOrDefault();
-                return memberName;
+                //string memberName = _context.MemberAccounts
+                //.Where(x => x.AccountId == MemberID)
+                //.Select(x => x.Name)
+                //.FirstOrDefault();
+                //return memberName;
+                return "AAA";
             }
 
             return null;
