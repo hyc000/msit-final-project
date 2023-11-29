@@ -1,5 +1,7 @@
 # 說明
 ```csharp
+資料庫下載連結：https://drive.google.com/file/d/1WGgPY5Qduv_Fsb2s3WTTFRYvsN5BTwgj/view?usp=sharing
+
 Header：@Html.Partial("_Header")
 Footer：@Html.Partial("_Footer")
 
